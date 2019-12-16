@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataNameMapper" >
+  <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="data_name" property="data_name" jdbcType="VARCHAR" />
+    <result column="display_name" property="display_name" jdbcType="VARCHAR" />
+    <result column="data_source_id" property="data_source_id" jdbcType="BIGINT" />
+    <result column="timestamp_field" property="timestamp_field" jdbcType="VARCHAR" />
+    <result column="properties" property="properties" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modify_at" property="modify_at" jdbcType="TIMESTAMP" />
+    <result column="datasource_type" property="datasource_type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, data_name, display_name, data_source_id, timestamp_field, properties, creator, 
+    create_at, modifier, modify_at, datasource_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from data_name
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from data_name
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into data_name (data_name, display_name, data_source_id, 
+      timestamp_field, properties, creator, 
+      create_at, modifier, modify_at, 
+      datasource_type)
+    values (#{data_name,jdbcType=VARCHAR}, #{display_name,jdbcType=VARCHAR}, #{data_source_id,jdbcType=BIGINT}, 
+      #{timestamp_field,jdbcType=VARCHAR}, #{properties,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{create_at,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, #{modify_at,jdbcType=TIMESTAMP}, 
+      #{datasource_type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into data_name
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="data_name != null" >
+        data_name,
+      </if>
+      <if test="display_name != null" >
+        display_name,
+      </if>
+      <if test="data_source_id != null" >
+        data_source_id,
+      </if>
+      <if test="timestamp_field != null" >
+        timestamp_field,
+      </if>
+      <if test="properties != null" >
+        properties,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="create_at != null" >
+        create_at,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modify_at != null" >
+        modify_at,
+      </if>
+      <if test="datasource_type != null" >
+        datasource_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="data_name != null" >
+        #{data_name,jdbcType=VARCHAR},
+      </if>
+      <if test="display_name != null" >
+        #{display_name,jdbcType=VARCHAR},
+      </if>
+      <if test="data_source_id != null" >
+        #{data_source_id,jdbcType=BIGINT},
+      </if>
+      <if test="timestamp_field != null" >
+        #{timestamp_field,jdbcType=VARCHAR},
+      </if>
+      <if test="properties != null" >
+        #{properties,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modify_at != null" >
+        #{modify_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datasource_type != null" >
+        #{datasource_type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName" >
+    update data_name
+    <set >
+      <if test="data_name != null" >
+        data_name = #{data_name,jdbcType=VARCHAR},
+      </if>
+      <if test="display_name != null" >
+        display_name = #{display_name,jdbcType=VARCHAR},
+      </if>
+      <if test="data_source_id != null" >
+        data_source_id = #{data_source_id,jdbcType=BIGINT},
+      </if>
+      <if test="timestamp_field != null" >
+        timestamp_field = #{timestamp_field,jdbcType=VARCHAR},
+      </if>
+      <if test="properties != null" >
+        properties = #{properties,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        create_at = #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modify_at != null" >
+        modify_at = #{modify_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datasource_type != null" >
+        datasource_type = #{datasource_type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName" >
+    update data_name
+    set data_name = #{data_name,jdbcType=VARCHAR},
+      display_name = #{display_name,jdbcType=VARCHAR},
+      data_source_id = #{data_source_id,jdbcType=BIGINT},
+      timestamp_field = #{timestamp_field,jdbcType=VARCHAR},
+      properties = #{properties,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_at = #{create_at,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modify_at = #{modify_at,jdbcType=TIMESTAMP},
+      datasource_type = #{datasource_type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

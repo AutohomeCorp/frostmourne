@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RecipientMapper" >
+  <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Recipient" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="alarm_id" property="alarm_id" jdbcType="BIGINT" />
+    <result column="alert_id" property="alert_id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, alarm_id, alert_id, account, create_at
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from recipient
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from recipient
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Recipient" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into recipient (alarm_id, alert_id, account, 
+      create_at)
+    values (#{alarm_id,jdbcType=BIGINT}, #{alert_id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, 
+      #{create_at,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Recipient" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into recipient
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="alarm_id != null" >
+        alarm_id,
+      </if>
+      <if test="alert_id != null" >
+        alert_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="create_at != null" >
+        create_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="alarm_id != null" >
+        #{alarm_id,jdbcType=BIGINT},
+      </if>
+      <if test="alert_id != null" >
+        #{alert_id,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        #{create_at,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Recipient" >
+    update recipient
+    <set >
+      <if test="alarm_id != null" >
+        alarm_id = #{alarm_id,jdbcType=BIGINT},
+      </if>
+      <if test="alert_id != null" >
+        alert_id = #{alert_id,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        create_at = #{create_at,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Recipient" >
+    update recipient
+    set alarm_id = #{alarm_id,jdbcType=BIGINT},
+      alert_id = #{alert_id,jdbcType=BIGINT},
+      account = #{account,jdbcType=VARCHAR},
+      create_at = #{create_at,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

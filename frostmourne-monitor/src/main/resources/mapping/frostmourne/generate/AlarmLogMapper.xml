@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogMapper" >
+  <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="alarm_id" property="alarm_id" jdbcType="BIGINT" />
+    <result column="exe_start" property="exe_start" jdbcType="TIMESTAMP" />
+    <result column="exe_end" property="exe_end" jdbcType="TIMESTAMP" />
+    <result column="cost" property="cost" jdbcType="INTEGER" />
+    <result column="execute_result" property="execute_result" jdbcType="VARCHAR" />
+    <result column="verify_result" property="verify_result" jdbcType="VARCHAR" />
+    <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog" extends="BaseResultMap" >
+    <result column="message" property="message" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, alarm_id, exe_start, exe_end, cost, execute_result, verify_result, create_at
+  </sql>
+  <sql id="Blob_Column_List" >
+    message
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from alarm_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from alarm_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alarm_log (alarm_id, exe_start, exe_end, 
+      cost, execute_result, verify_result, 
+      create_at, message)
+    values (#{alarm_id,jdbcType=BIGINT}, #{exe_start,jdbcType=TIMESTAMP}, #{exe_end,jdbcType=TIMESTAMP}, 
+      #{cost,jdbcType=INTEGER}, #{execute_result,jdbcType=VARCHAR}, #{verify_result,jdbcType=VARCHAR}, 
+      #{create_at,jdbcType=TIMESTAMP}, #{message,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alarm_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="alarm_id != null" >
+        alarm_id,
+      </if>
+      <if test="exe_start != null" >
+        exe_start,
+      </if>
+      <if test="exe_end != null" >
+        exe_end,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="execute_result != null" >
+        execute_result,
+      </if>
+      <if test="verify_result != null" >
+        verify_result,
+      </if>
+      <if test="create_at != null" >
+        create_at,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="alarm_id != null" >
+        #{alarm_id,jdbcType=BIGINT},
+      </if>
+      <if test="exe_start != null" >
+        #{exe_start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exe_end != null" >
+        #{exe_end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=INTEGER},
+      </if>
+      <if test="execute_result != null" >
+        #{execute_result,jdbcType=VARCHAR},
+      </if>
+      <if test="verify_result != null" >
+        #{verify_result,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog" >
+    update alarm_log
+    <set >
+      <if test="alarm_id != null" >
+        alarm_id = #{alarm_id,jdbcType=BIGINT},
+      </if>
+      <if test="exe_start != null" >
+        exe_start = #{exe_start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exe_end != null" >
+        exe_end = #{exe_end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=INTEGER},
+      </if>
+      <if test="execute_result != null" >
+        execute_result = #{execute_result,jdbcType=VARCHAR},
+      </if>
+      <if test="verify_result != null" >
+        verify_result = #{verify_result,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        create_at = #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="message != null" >
+        message = #{message,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog" >
+    update alarm_log
+    set alarm_id = #{alarm_id,jdbcType=BIGINT},
+      exe_start = #{exe_start,jdbcType=TIMESTAMP},
+      exe_end = #{exe_end,jdbcType=TIMESTAMP},
+      cost = #{cost,jdbcType=INTEGER},
+      execute_result = #{execute_result,jdbcType=VARCHAR},
+      verify_result = #{verify_result,jdbcType=VARCHAR},
+      create_at = #{create_at,jdbcType=TIMESTAMP},
+      message = #{message,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog" >
+    update alarm_log
+    set alarm_id = #{alarm_id,jdbcType=BIGINT},
+      exe_start = #{exe_start,jdbcType=TIMESTAMP},
+      exe_end = #{exe_end,jdbcType=TIMESTAMP},
+      cost = #{cost,jdbcType=INTEGER},
+      execute_result = #{execute_result,jdbcType=VARCHAR},
+      verify_result = #{verify_result,jdbcType=VARCHAR},
+      create_at = #{create_at,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

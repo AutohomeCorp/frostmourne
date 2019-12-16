@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogMapper" >
+  <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="alarm_id" property="alarm_id" jdbcType="BIGINT" />
+    <result column="execute_id" property="execute_id" jdbcType="BIGINT" />
+    <result column="way" property="way" jdbcType="VARCHAR" />
+    <result column="recipient" property="recipient" jdbcType="VARCHAR" />
+    <result column="in_silence" property="in_silence" jdbcType="VARCHAR" />
+    <result column="send_status" property="send_status" jdbcType="VARCHAR" />
+    <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
+    <result column="alert_type" property="alert_type" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, alarm_id, execute_id, way, recipient, in_silence, send_status, create_at, alert_type
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from alert_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from alert_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alert_log (alarm_id, execute_id, way, 
+      recipient, in_silence, send_status, 
+      create_at, alert_type, content
+      )
+    values (#{alarm_id,jdbcType=BIGINT}, #{execute_id,jdbcType=BIGINT}, #{way,jdbcType=VARCHAR}, 
+      #{recipient,jdbcType=VARCHAR}, #{in_silence,jdbcType=VARCHAR}, #{send_status,jdbcType=VARCHAR}, 
+      #{create_at,jdbcType=TIMESTAMP}, #{alert_type,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alert_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="alarm_id != null" >
+        alarm_id,
+      </if>
+      <if test="execute_id != null" >
+        execute_id,
+      </if>
+      <if test="way != null" >
+        way,
+      </if>
+      <if test="recipient != null" >
+        recipient,
+      </if>
+      <if test="in_silence != null" >
+        in_silence,
+      </if>
+      <if test="send_status != null" >
+        send_status,
+      </if>
+      <if test="create_at != null" >
+        create_at,
+      </if>
+      <if test="alert_type != null" >
+        alert_type,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="alarm_id != null" >
+        #{alarm_id,jdbcType=BIGINT},
+      </if>
+      <if test="execute_id != null" >
+        #{execute_id,jdbcType=BIGINT},
+      </if>
+      <if test="way != null" >
+        #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="recipient != null" >
+        #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="in_silence != null" >
+        #{in_silence,jdbcType=VARCHAR},
+      </if>
+      <if test="send_status != null" >
+        #{send_status,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alert_type != null" >
+        #{alert_type,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog" >
+    update alert_log
+    <set >
+      <if test="alarm_id != null" >
+        alarm_id = #{alarm_id,jdbcType=BIGINT},
+      </if>
+      <if test="execute_id != null" >
+        execute_id = #{execute_id,jdbcType=BIGINT},
+      </if>
+      <if test="way != null" >
+        way = #{way,jdbcType=VARCHAR},
+      </if>
+      <if test="recipient != null" >
+        recipient = #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="in_silence != null" >
+        in_silence = #{in_silence,jdbcType=VARCHAR},
+      </if>
+      <if test="send_status != null" >
+        send_status = #{send_status,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        create_at = #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alert_type != null" >
+        alert_type = #{alert_type,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog" >
+    update alert_log
+    set alarm_id = #{alarm_id,jdbcType=BIGINT},
+      execute_id = #{execute_id,jdbcType=BIGINT},
+      way = #{way,jdbcType=VARCHAR},
+      recipient = #{recipient,jdbcType=VARCHAR},
+      in_silence = #{in_silence,jdbcType=VARCHAR},
+      send_status = #{send_status,jdbcType=VARCHAR},
+      create_at = #{create_at,jdbcType=TIMESTAMP},
+      alert_type = #{alert_type,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog" >
+    update alert_log
+    set alarm_id = #{alarm_id,jdbcType=BIGINT},
+      execute_id = #{execute_id,jdbcType=BIGINT},
+      way = #{way,jdbcType=VARCHAR},
+      recipient = #{recipient,jdbcType=VARCHAR},
+      in_silence = #{in_silence,jdbcType=VARCHAR},
+      send_status = #{send_status,jdbcType=VARCHAR},
+      create_at = #{create_at,jdbcType=TIMESTAMP},
+      alert_type = #{alert_type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
