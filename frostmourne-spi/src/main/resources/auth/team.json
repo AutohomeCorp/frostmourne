@@ -1,0 +1,12 @@
+[
+  {
+    "name": "dealer.arch",
+    "fullName": "经销商技术架构组",
+    "department": "dealer"
+  },
+  {
+    "name": "usercenter.info",
+    "fullName": "用户产品中心信息系统组",
+    "department": "usercenter"
+  }
+]

@@ -1,0 +1,61 @@
+{
+  "typescript.validate.enable": false,
+  "javascript.validate.enable": false,
+  "vetur.validation.script": false,
+  "emmet.syntaxProfiles": {
+    "vue-html": "html",
+    "vue": "html"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "html",
+    {
+      "language": "vue",
+      "autoFix": true
+    }
+  ],
+  "beautify.language": {
+    "html": [
+      "htm",
+      "html",
+      // "vue"
+    ]
+  },
+  //保存自动格式化
+  "editor.formatOnSave": true, //设置成true会导致Windows平台下 vscode JS文件的函数注释重复缩进. 参考 issue: https://github.com/Microsoft/vscode-eslint/issues/380
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  //保存自动格式化
+  "eslint.autoFixOnSave": true,
+  "vetur.format.defaultFormatter.js": "vscode-typescript",
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatterOptions": {
+    "js-beautify-html": {
+      "wrap_attributes": "auto"
+    },
+    "prettyhtml": {
+      "printWidth": 100,
+      "singleQuote": false,
+      "wrapAttributes": false,
+      "sortAttributes": false
+    }
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "node_modules": true
+  },
+  "files.watcherExclude": {
+    "**/.git/**": true,
+    "**/node_modules/**": true,
+    "dist/**": true,
+    "vendor/**": true
+  },
+  "files.eol": "\n",
+  "editor.tabSize": 2
+}

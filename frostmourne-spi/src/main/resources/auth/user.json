@@ -1,0 +1,34 @@
+[
+  {
+    "account": "admin",
+    "fullName": "管理员",
+    "teamName":"dealer.arch",
+    "mobile": "15010990501",
+    "email": "kechangqing@autohome.com.cn",
+    "roles": ["admin"]
+  },
+  {
+    "account": "kechangqing",
+    "fullName": "柯长青",
+    "teamName":"usercenter.info",
+    "mobile": "15010990501",
+    "email": "kechangqing@autohome.com.cn",
+    "roles": ["admin"]
+  },
+  {
+    "account": "liuxuepeng",
+    "fullName": "刘学鹏",
+    "teamName":"dealer.arch",
+    "mobile": "18612038030",
+    "email": "liuxuepeng@autohome.com.cn",
+    "roles": ["admin"]
+  },
+  {
+    "account": "chenyahua",
+    "fullName": "陈亚华",
+    "teamName":"dealer.arch",
+    "mobile": "13683092276",
+    "email": "chenyahua@autohome.com.cn",
+    "roles": ["admin"]
+  }
+]

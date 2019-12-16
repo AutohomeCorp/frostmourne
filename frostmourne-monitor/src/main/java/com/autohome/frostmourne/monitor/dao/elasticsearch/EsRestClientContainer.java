@@ -1,0 +1,139 @@
+package com.autohome.frostmourne.monitor.dao.elasticsearch;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.google.common.base.Splitter;
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.Response;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.sniff.Sniffer;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class EsRestClientContainer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EsRestClientContainer.class);
+
+    private RestHighLevelClient restHighLevelClient;
+
+    private RestClient restLowLevelClient;
+
+    private List<String> esHosts;
+
+    private boolean sniff;
+
+    private Sniffer sniffer;
+
+    private String name;
+
+    public EsRestClientContainer(String esHostList, boolean sniff) {
+        esHosts = Splitter.on(",").splitToList(esHostList);
+        this.sniff = sniff;
+    }
+
+    public void init() {
+        RestClientBuilder restClientBuilder = RestClient.builder(parseHttpHost(esHosts)
+                .toArray(new HttpHost[0]));
+        restHighLevelClient = new RestHighLevelClient(restClientBuilder);
+        this.restLowLevelClient = restHighLevelClient.getLowLevelClient();
+        if (sniff) {
+            sniffer = Sniffer.builder(restLowLevelClient).setSniffIntervalMillis(5 * 60 * 1000).build();
+        }
+    }
+
+    public void close() {
+        if (this.sniffer != null) {
+            try {
+                this.sniffer.close();
+            } catch (IOException ex) {
+                LOGGER.error("error when close elasticsearch sniffer", ex);
+            }
+        }
+
+        if (this.restHighLevelClient != null) {
+            try {
+                this.restHighLevelClient.close();
+            } catch (IOException ex) {
+                LOGGER.error("error when close elasticsearch rest client", ex);
+            }
+        }
+    }
+
+    public RestHighLevelClient fetchHighLevelClient() {
+        return this.restHighLevelClient;
+    }
+
+    public boolean checkIndexOpenExists(String index) {
+        return checkIndexExists(index)
+                && checkIndexOpen(index);
+    }
+
+    public boolean checkIndexExists(String index) {
+        try {
+            Response response = this.restLowLevelClient.performRequest("HEAD", index);
+            return response.getStatusLine().getStatusCode() == 200;
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public boolean checkIndexOpen(String index) {
+        try {
+            Response response = this.restLowLevelClient.performRequest("GET", String.format("/_cat/indices/%s?v", index));
+            response.getEntity().getContent();
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8))) {
+                List<String> lines = bufferedReader.lines().collect(Collectors.toList());
+                if (lines.size() <= 1) {
+                    return false;
+                }
+                List<String> list = Splitter.on(" ").splitToList(lines.get(1));
+                return list.contains("open");
+            }
+
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public String[] buildIndices(DateTime from, DateTime to, String prefix, String datePattern) {
+        DateTime now = DateTime.now();
+        if (now.getMillis() < to.getMillis()) {
+            to = now;
+        }
+        List<String> indiceList = new ArrayList<>();
+        DateTime cursor = DateTime.parse(from.minusDays(1).toString("yyyy-MM-dd"));
+
+        while (cursor.getMillis() < to.getMillis()) {
+            String index = prefix + cursor.toString(datePattern);
+            if (prefix.contains("*")) {
+                if (!indiceList.contains(index)) {
+                    indiceList.add(index);
+                }
+            } else if (checkIndexOpenExists(index)) {
+                if (!indiceList.contains(index)) {
+                    indiceList.add(index);
+                }
+            }
+            cursor = cursor.minusDays(-1);
+        }
+        return indiceList.toArray(new String[0]);
+    }
+
+    private List<HttpHost> parseHttpHost(List<String> esHosts) {
+        List<HttpHost> hostList = new ArrayList<>();
+        for (String hostString : esHosts) {
+            List<String> hostAndPort = Splitter.on(":").trimResults().splitToList(hostString);
+            hostList.add(new HttpHost(hostAndPort.get(0), Integer.parseInt(hostAndPort.get(1)), "http"));
+        }
+        return hostList;
+    }
+}

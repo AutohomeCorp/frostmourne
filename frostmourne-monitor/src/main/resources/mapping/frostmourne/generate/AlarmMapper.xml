@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmMapper" >
+  <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="alarm_name" property="alarm_name" jdbcType="VARCHAR" />
+    <result column="alarm_type" property="alarm_type" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="owner_key" property="owner_key" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="execute_result" property="execute_result" jdbcType="VARCHAR" />
+    <result column="execute_at" property="execute_at" jdbcType="TIMESTAMP" />
+    <result column="job_id" property="job_id" jdbcType="BIGINT" />
+    <result column="cron" property="cron" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modify_at" property="modify_at" jdbcType="TIMESTAMP" />
+    <result column="team_name" property="team_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, alarm_name, alarm_type, description, owner_key, status, execute_result, execute_at, 
+    job_id, cron, creator, create_at, modifier, modify_at, team_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from alarm
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from alarm
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alarm (alarm_name, alarm_type, description, 
+      owner_key, status, execute_result, 
+      execute_at, job_id, cron, 
+      creator, create_at, modifier, 
+      modify_at, team_name)
+    values (#{alarm_name,jdbcType=VARCHAR}, #{alarm_type,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{owner_key,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{execute_result,jdbcType=VARCHAR}, 
+      #{execute_at,jdbcType=TIMESTAMP}, #{job_id,jdbcType=BIGINT}, #{cron,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{create_at,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
+      #{modify_at,jdbcType=TIMESTAMP}, #{team_name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alarm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="alarm_name != null" >
+        alarm_name,
+      </if>
+      <if test="alarm_type != null" >
+        alarm_type,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="owner_key != null" >
+        owner_key,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="execute_result != null" >
+        execute_result,
+      </if>
+      <if test="execute_at != null" >
+        execute_at,
+      </if>
+      <if test="job_id != null" >
+        job_id,
+      </if>
+      <if test="cron != null" >
+        cron,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="create_at != null" >
+        create_at,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modify_at != null" >
+        modify_at,
+      </if>
+      <if test="team_name != null" >
+        team_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="alarm_name != null" >
+        #{alarm_name,jdbcType=VARCHAR},
+      </if>
+      <if test="alarm_type != null" >
+        #{alarm_type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="owner_key != null" >
+        #{owner_key,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="execute_result != null" >
+        #{execute_result,jdbcType=VARCHAR},
+      </if>
+      <if test="execute_at != null" >
+        #{execute_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="job_id != null" >
+        #{job_id,jdbcType=BIGINT},
+      </if>
+      <if test="cron != null" >
+        #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modify_at != null" >
+        #{modify_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="team_name != null" >
+        #{team_name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm" >
+    update alarm
+    <set >
+      <if test="alarm_name != null" >
+        alarm_name = #{alarm_name,jdbcType=VARCHAR},
+      </if>
+      <if test="alarm_type != null" >
+        alarm_type = #{alarm_type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="owner_key != null" >
+        owner_key = #{owner_key,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="execute_result != null" >
+        execute_result = #{execute_result,jdbcType=VARCHAR},
+      </if>
+      <if test="execute_at != null" >
+        execute_at = #{execute_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="job_id != null" >
+        job_id = #{job_id,jdbcType=BIGINT},
+      </if>
+      <if test="cron != null" >
+        cron = #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        create_at = #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modify_at != null" >
+        modify_at = #{modify_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="team_name != null" >
+        team_name = #{team_name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm" >
+    update alarm
+    set alarm_name = #{alarm_name,jdbcType=VARCHAR},
+      alarm_type = #{alarm_type,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      owner_key = #{owner_key,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      execute_result = #{execute_result,jdbcType=VARCHAR},
+      execute_at = #{execute_at,jdbcType=TIMESTAMP},
+      job_id = #{job_id,jdbcType=BIGINT},
+      cron = #{cron,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_at = #{create_at,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modify_at = #{modify_at,jdbcType=TIMESTAMP},
+      team_name = #{team_name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

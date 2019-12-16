@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogMapper" >
+  <select id="find" resultMap="ResultMapWithBLOBs">
+    SELECT <include refid="Base_Column_List" /> , <include refid="Blob_Column_List" />
+    FROM alert_log
+    WHERE 1 = 1
+    <if test="startTime != null and endTime != null">
+      AND create_at BETWEEN #{startTime} AND #{endTime}
+    </if>
+    <if test="executeId != null and executeId > 0">
+      AND execute_id=#{executeId}
+    </if>
+    <if test="alarmId != null and alarmId > 0">
+      AND alarm_id=#{alarmId}
+    </if>
+    <if test="recipient != null and recipient != ''">
+      AND recipient=#{recipient}
+    </if>
+    <if test="way != null and way != ''">
+      AND way=#{way}
+    </if>
+    <if test="sendStatus != null and sendStatus != ''">
+      AND send_status=#{sendStatus}
+    </if>
+    <if test="inSilence != null and inSilence != ''">
+      AND in_silence=#{inSilence}
+    </if>
+    <if test="alertType != null and alertType != ''">
+      AND alert_type=#{alertType}
+    </if>
+    ORDER BY create_at DESC
+  </select>
+
+  <select id="selectLatest" resultMap="ResultMapWithBLOBs">
+    SELECT <include refid="Base_Column_List" /> , <include refid="Blob_Column_List" />
+    FROM alert_log
+    WHERE alarm_id=#{alarmId} AND alert_type=#{alertType} AND in_silence=#{inSilence}
+    ORDER BY create_at DESC
+    LIMIT 1
+  </select>
+
+</mapper>

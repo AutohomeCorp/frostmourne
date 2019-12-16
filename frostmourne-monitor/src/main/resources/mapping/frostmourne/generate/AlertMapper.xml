@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertMapper" >
+  <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alert" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="alarm_id" property="alarm_id" jdbcType="BIGINT" />
+    <result column="ways" property="ways" jdbcType="VARCHAR" />
+    <result column="silence" property="silence" jdbcType="BIGINT" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
+    <result column="allow_sms_from" property="allow_sms_from" jdbcType="INTEGER" />
+    <result column="allow_sms_to" property="allow_sms_to" jdbcType="INTEGER" />
+    <result column="ding_robot_hook" property="ding_robot_hook" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, alarm_id, ways, silence, creator, create_at, allow_sms_from, allow_sms_to, ding_robot_hook
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from alert
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from alert
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alert" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alert (alarm_id, ways, silence, 
+      creator, create_at, allow_sms_from, 
+      allow_sms_to, ding_robot_hook)
+    values (#{alarm_id,jdbcType=BIGINT}, #{ways,jdbcType=VARCHAR}, #{silence,jdbcType=BIGINT}, 
+      #{creator,jdbcType=VARCHAR}, #{create_at,jdbcType=TIMESTAMP}, #{allow_sms_from,jdbcType=INTEGER}, 
+      #{allow_sms_to,jdbcType=INTEGER}, #{ding_robot_hook,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alert" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alert
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="alarm_id != null" >
+        alarm_id,
+      </if>
+      <if test="ways != null" >
+        ways,
+      </if>
+      <if test="silence != null" >
+        silence,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="create_at != null" >
+        create_at,
+      </if>
+      <if test="allow_sms_from != null" >
+        allow_sms_from,
+      </if>
+      <if test="allow_sms_to != null" >
+        allow_sms_to,
+      </if>
+      <if test="ding_robot_hook != null" >
+        ding_robot_hook,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="alarm_id != null" >
+        #{alarm_id,jdbcType=BIGINT},
+      </if>
+      <if test="ways != null" >
+        #{ways,jdbcType=VARCHAR},
+      </if>
+      <if test="silence != null" >
+        #{silence,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="allow_sms_from != null" >
+        #{allow_sms_from,jdbcType=INTEGER},
+      </if>
+      <if test="allow_sms_to != null" >
+        #{allow_sms_to,jdbcType=INTEGER},
+      </if>
+      <if test="ding_robot_hook != null" >
+        #{ding_robot_hook,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alert" >
+    update alert
+    <set >
+      <if test="alarm_id != null" >
+        alarm_id = #{alarm_id,jdbcType=BIGINT},
+      </if>
+      <if test="ways != null" >
+        ways = #{ways,jdbcType=VARCHAR},
+      </if>
+      <if test="silence != null" >
+        silence = #{silence,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        create_at = #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="allow_sms_from != null" >
+        allow_sms_from = #{allow_sms_from,jdbcType=INTEGER},
+      </if>
+      <if test="allow_sms_to != null" >
+        allow_sms_to = #{allow_sms_to,jdbcType=INTEGER},
+      </if>
+      <if test="ding_robot_hook != null" >
+        ding_robot_hook = #{ding_robot_hook,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alert" >
+    update alert
+    set alarm_id = #{alarm_id,jdbcType=BIGINT},
+      ways = #{ways,jdbcType=VARCHAR},
+      silence = #{silence,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_at = #{create_at,jdbcType=TIMESTAMP},
+      allow_sms_from = #{allow_sms_from,jdbcType=INTEGER},
+      allow_sms_to = #{allow_sms_to,jdbcType=INTEGER},
+      ding_robot_hook = #{ding_robot_hook,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

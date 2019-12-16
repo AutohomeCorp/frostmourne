@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "frostmourne.spi.service-addr",
+      "type": "java.lang.String",
+      "description": "spi service address",
+      "defaultValue": "http://localhost:8080/"
+    }
+  ]
+}

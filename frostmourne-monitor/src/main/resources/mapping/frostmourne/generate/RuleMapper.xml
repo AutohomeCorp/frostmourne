@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RuleMapper" >
+  <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="rule_type" property="rule_type" jdbcType="VARCHAR" />
+    <result column="alarm_id" property="alarm_id" jdbcType="BIGINT" />
+    <result column="alert_template" property="alert_template" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rule_type, alarm_id, alert_template, creator, create_at
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from rule
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from rule
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rule (rule_type, alarm_id, alert_template, 
+      creator, create_at)
+    values (#{rule_type,jdbcType=VARCHAR}, #{alarm_id,jdbcType=BIGINT}, #{alert_template,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{create_at,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rule_type != null" >
+        rule_type,
+      </if>
+      <if test="alarm_id != null" >
+        alarm_id,
+      </if>
+      <if test="alert_template != null" >
+        alert_template,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="create_at != null" >
+        create_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rule_type != null" >
+        #{rule_type,jdbcType=VARCHAR},
+      </if>
+      <if test="alarm_id != null" >
+        #{alarm_id,jdbcType=BIGINT},
+      </if>
+      <if test="alert_template != null" >
+        #{alert_template,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        #{create_at,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule" >
+    update rule
+    <set >
+      <if test="rule_type != null" >
+        rule_type = #{rule_type,jdbcType=VARCHAR},
+      </if>
+      <if test="alarm_id != null" >
+        alarm_id = #{alarm_id,jdbcType=BIGINT},
+      </if>
+      <if test="alert_template != null" >
+        alert_template = #{alert_template,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        create_at = #{create_at,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule" >
+    update rule
+    set rule_type = #{rule_type,jdbcType=VARCHAR},
+      alarm_id = #{alarm_id,jdbcType=BIGINT},
+      alert_template = #{alert_template,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_at = #{create_at,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
