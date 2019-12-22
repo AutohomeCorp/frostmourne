@@ -2,6 +2,7 @@
 
 frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助开发监控应用日志，现主要用于监控Elasticsearch数据。
 关于内部系统的设计实现感兴趣的话，请移步之家技术公众号文章: [https://mp.weixin.qq.com/s/rvmS9kE3FP5mrpiulPo5eA] 可以认为frostmoure是监控部分的实现。
+如果你现在使用Elastic stack(ELK)建立起了日志系统，却苦恼于没有一个配套日志监控系统，也许它能帮到你。
 
 ## 主要功能
 
@@ -32,9 +33,10 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 调试环境要求
 
 * JDK 1.8
-* xxl-job
+* xxl-job 2.1.0
 * nodejs
 * mysql
+* elasticsearch 6.3.2+
 
 ## 主要项目结构
 
@@ -269,6 +271,7 @@ frostmourne.spi.service-addr=http://[frostmourne-spi-address]/
 * 增加influxdb数据监控(数据同比，环比监控)
 * 加强登录安全(集成ldap, CAS单点登录)
 * 增加单元测试
+* 国际化
 
 ## 主要技术栈
 

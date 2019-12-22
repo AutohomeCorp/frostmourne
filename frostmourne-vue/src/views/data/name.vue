@@ -226,3 +226,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.filter-container {
+  padding-bottom: 10px;
+}
+</style>

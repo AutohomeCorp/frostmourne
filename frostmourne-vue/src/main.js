@@ -15,6 +15,7 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import moment from 'moment'
 //import moment from 'moment'
 
 /**
@@ -35,7 +36,7 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
-//Vue.prototype.$moment = moment
+Object.defineProperty(Vue.prototype, '$moment', { value: moment })
 
 new Vue({
   el: '#app',
