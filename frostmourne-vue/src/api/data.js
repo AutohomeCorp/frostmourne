@@ -32,6 +32,10 @@ const dataApi = {
     return query.get(baseUrl + '/findDataName', { pageIndex: pageIndex, pageSize: pageSize, datasourceType: datasourceType, datasourceId: datasourceId })
   },
 
+  findDataNameByType(datasourceType) {
+    return query.get(baseUrl + '/findDataNameByType', { datasourceType:  datasourceType })
+  },
+
   dataOptions() {
     return query.get(baseUrl + '/dataOptions');
   }

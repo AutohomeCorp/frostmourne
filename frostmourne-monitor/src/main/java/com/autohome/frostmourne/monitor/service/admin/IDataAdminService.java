@@ -30,4 +30,6 @@ public interface IDataAdminService {
     List<DataOption> dataOptions();
 
     DataNameContract findDataNameByName(String name);
+
+    List<DataNameContract> findDataNameByType(String datasourceType);
 }
