@@ -86,6 +86,12 @@ public class DataNameController {
         return new Protocol<>(pagerContract);
     }
 
+    @RequestMapping(value = "/findDataNameByType", method = RequestMethod.GET)
+    public Protocol<List<DataNameContract>> findDataNameByType(@RequestParam(value = "_appId", required = true) String _appId,
+                                                               @RequestParam(value = "datasourceType", required = true) String datasourceType) {
+        return new Protocol<>(dataAdminService.findDataNameByType(datasourceType));
+    }
+
     @RequestMapping(value = "/dataOptions", method = RequestMethod.GET)
     public Protocol<List<DataOption>> dataOptions(@RequestParam(value = "_appId", required = true) String _appId) {
         return new Protocol<>(this.dataAdminService.dataOptions());

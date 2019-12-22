@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-select v-model="form.dataName" placeholder="选择数据名" @change="dataNameChangeHandler" clearable style="width: 150px" class="filter-item">
-        <el-option label="程序日志" value="dealer.program.log"></el-option>
+        <el-option v-for="item in dataNameList" :key="item.data_name" :label="item.display_name" :value="item.data_name" />
       </el-select>
       <el-select v-model="form.sortOrder" placeholder="选择排序" clearable style="width: 120px" class="filter-item">
         <el-option label="时间倒序" value="desc"></el-option>
@@ -56,6 +56,7 @@
 
 <script>
 import dataQueryApi from '@/api/data-query.js'
+import dataApi from '@/api/data.js'
 import { formatJsonDate } from '@/utils/datetime.js'
 import moment from 'moment'
 
@@ -132,7 +133,8 @@ export default {
         sortOrder: 'desc',
         intervalInSeconds: "0"
       },
-      datePickValue: []
+      datePickValue: [],
+      dataNameList: []
     }
   },
   created() {
@@ -142,6 +144,9 @@ export default {
     this.datePickValue[1] = endMoment.toDate()
     this.form.startTime = startMoment.toDate()
     this.form.endTime = endMoment.toDate()
+    dataApi.findDataNameByType('elasticsearch').then(response => {
+      this.dataNameList = response.result
+    })
   },
   methods: {
     dateChangeHandler(value) {

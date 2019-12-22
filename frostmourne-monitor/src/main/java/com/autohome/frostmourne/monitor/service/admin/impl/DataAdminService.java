@@ -145,6 +145,11 @@ public class DataAdminService implements IDataAdminService {
                 page.getPageSize(), page.getPageNum(), (int) page.getTotal());
     }
 
+    public List<DataNameContract> findDataNameByType(String datasourceType) {
+        List<DataName> list = this.dataNameMapper.find(datasourceType, null);
+        return list.stream().map(DataAdminService::toDataNameContract).collect(Collectors.toList());
+    }
+
     public DataNameContract findDataNameByName(String name) {
         DataName dataName = dataNameMapper.findByName(name);
         return DataNameTransformer.model2Contract(dataName);
