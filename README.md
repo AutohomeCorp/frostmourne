@@ -42,7 +42,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 * frostmourne-vue
 
-UI项目，使用vue-element-template实现，打包时会打到frostmourne-monistor下
+UI项目，使用vue-element-template实现，打包时会打到frostmourne-monitor下
 
 * frostmourne-monitor
 
