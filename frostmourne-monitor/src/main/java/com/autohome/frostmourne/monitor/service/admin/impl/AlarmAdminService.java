@@ -36,6 +36,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RuleMappe
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RulePropertyMapper;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
+import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
 import com.autohome.frostmourne.monitor.transform.DataSourceTransformer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.pagehelper.Page;
@@ -192,14 +193,8 @@ public class AlarmAdminService implements IAlarmAdminService {
         }
 
         if (metric.getData_name_id() != null && metric.getData_name_id() > 0) {
-            DataNameContract dataNameContract = new DataNameContract();
             DataName dataName = dataNameMapper.selectByPrimaryKey(metric.getData_name_id());
-            dataNameContract.setData_name(dataName.getData_name());
-            dataNameContract.setData_source_id(dataName.getData_source_id());
-            dataNameContract.setDisplay_name(dataName.getDisplay_name());
-            dataNameContract.setSettings(JacksonUtil.deSerialize(dataName.getProperties(), new TypeReference<Map<String, String>>() {
-            }));
-            dataNameContract.setTimestamp_field(dataName.getTimestamp_field());
+            DataNameContract dataNameContract = DataNameTransformer.model2Contract(dataName);
             metricContract.setDataNameContract(dataNameContract);
         }
 

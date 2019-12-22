@@ -21,6 +21,8 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataNameM
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataSourceMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.MetricMapper;
 import com.autohome.frostmourne.monitor.service.admin.IDataAdminService;
+import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
+import com.autohome.frostmourne.monitor.transform.DataSourceTransformer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -37,6 +39,11 @@ public class DataAdminService implements IDataAdminService {
 
     @Resource
     private MetricMapper metricMapper;
+
+    public DataSourceContract findDatasourceById(Long id) {
+        DataSource dataSource = dataSourceMapper.selectByPrimaryKey(id);
+        return DataSourceTransformer.model2Contract(dataSource);
+    }
 
     public boolean saveDataSource(String account, DataSourceContract dataSourceContract) {
         DataSource dataSource = new DataSource();
@@ -134,11 +141,13 @@ public class DataAdminService implements IDataAdminService {
     public PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, String datasourceType, Long datasourceId) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<DataName> list = this.dataNameMapper.find(datasourceType, datasourceId);
-        /*List<Long> sourceIdList = list.stream().map(DataName::getData_source_id).distinct().collect(Collectors.toList());
-        List<DataSource> dataSourceList = this.dataSourceMapper.findByIdList(sourceIdList);
-        Map<Long, DataSource> dataSourceMap = dataSourceList.stream().collect(Collectors.toMap(DataSource::getId, dataSource -> dataSource));*/
         return new PagerContract<>(list.stream().map(DataAdminService::toDataNameContract).collect(Collectors.toList()),
                 page.getPageSize(), page.getPageNum(), (int) page.getTotal());
+    }
+
+    public DataNameContract findDataNameByName(String name) {
+        DataName dataName = dataNameMapper.findByName(name);
+        return DataNameTransformer.model2Contract(dataName);
     }
 
     public static DataNameContract toDataNameContract(DataName dataName) {

@@ -90,6 +90,26 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/query',
+    component: Layout,
+    name: 'query',
+    meta: { title: '数据查询', icon: 'example' },
+    children: [
+      {
+        path: 'elasticsearch.view',
+        name: 'elasticsearch',
+        component: () => import('@/views/query/elasticsearch.vue'),
+        meta: { title: 'elasticsearch查询', icon: 'table' }
+      },
+      {
+        path: 'elasticsearch1.view',
+        name: 'elasticsearch1',
+        component: () => import('@/views/query/elasticsearch.vue'),
+        meta: { title: 'elasticsearch查询', icon: 'table' }
+      }
+    ]
+  },
+  {
     path: '/data',
     component: Layout,
     redirect: '/data/source.view',
@@ -211,7 +231,7 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://github.com/AutohomeCorp/dbtree',
+        path: 'https://github.com/AutohomeCorp/frostmourne',
         meta: { title: 'github', icon: 'link' }
       }
     ]

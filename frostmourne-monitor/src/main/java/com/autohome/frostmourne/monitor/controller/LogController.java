@@ -27,9 +27,9 @@ public class LogController {
                                                           @RequestParam(value = "pageIndex", required = true) int pageIndex,
                                                           @RequestParam(value = "pageSize", required = true) int pageSize,
                                                           @RequestParam(value = "startTime", required = false)
-                                                              @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
+                                                          @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
                                                           @RequestParam(value = "endTime", required = false)
-                                                              @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
+                                                          @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
                                                           @RequestParam(value = "alarmId", required = false) Long alarmId,
                                                           @RequestParam(value = "verifyResult", required = false) String verifyResult,
                                                           @RequestParam(value = "executeResult", required = false) String executeResult) {
@@ -42,9 +42,9 @@ public class LogController {
                                                           @RequestParam(value = "pageIndex", required = true) int pageIndex,
                                                           @RequestParam(value = "pageSize", required = true) int pageSize,
                                                           @RequestParam(value = "startTime", required = true)
-                                                              @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
+                                                          @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
                                                           @RequestParam(value = "endTime", required = true)
-                                                              @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
+                                                          @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
                                                           @RequestParam(value = "executeId", required = false) Long executeId,
                                                           @RequestParam(value = "alarmId", required = false) Long alarmId,
                                                           @RequestParam(value = "way", required = false) String way,
