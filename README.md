@@ -35,6 +35,12 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 <img src="./doc/img/es.png" />
 
+## 项目初衷
+
+在用ELK建立起日志系统之后，我们发现应用日志监控这块除了ElastAlert之外，没有其他方案。我们初期使用ElastAlert来解决日志监控的问题，
+但是随着配置的增加，管理成本，使用成本较高和，配置文件多了之后，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
+来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
+
 ## 调试环境要求
 
 * JDK 1.8
@@ -307,6 +313,10 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * mybatis
 * freemarker
 * elasticsearch
+
+## Contribution
+
+[@chenyahua](https://github.com/menong-chen)
 
 ## 致谢
 - [springboot](https://github.com/spring-projects/spring-boot)
