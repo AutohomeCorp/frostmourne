@@ -70,22 +70,22 @@ export const constantRoutes = [
         meta: { title: '监控列表', icon: 'table' }
       },
       {
-          path: 'edit.view',
-          name:'alarm-edit',
-          component: () => import('@/views/alarm/edit.vue'),
-          meta: { title: '监控编辑', icon:'form'}
+        path: 'edit.view',
+        name: 'alarm-edit',
+        component: () => import('@/views/alarm/edit.vue'),
+        meta: { title: '监控编辑', icon: 'form' }
       },
       {
         path: 'alarm-log.view',
-        name:'alarm-log',
+        name: 'alarm-log',
         component: () => import('@/views/alarm/alarm-log.vue'),
-        meta: { title: '执行日志', icon:'form'}
+        meta: { title: '执行日志', icon: 'form' }
       },
       {
         path: 'alert-log.view',
-        name:'alert-log',
+        name: 'alert-log',
         component: () => import('@/views/alarm/alert-log.vue'),
-        meta: { title: '我的消息', icon:'form'}
+        meta: { title: '我的消息', icon: 'form' }
       }
     ]
   },

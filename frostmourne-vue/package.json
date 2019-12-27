@@ -18,6 +18,7 @@
     "axios": "0.18.1",
     "connect-cas2": "^1.2.5",
     "cookie-parser": "^1.4.4",
+    "echarts": "^4.5.0",
     "eslint-friendly-formatter": "^4.0.1",
     "js-cookie": "2.2.0",
     "moment": "^2.24.0",
@@ -29,6 +30,7 @@
     "shelljs": "^0.8.3",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue": "2.6.10",
+    "vue-echarts": "^4.1.0",
     "vue-router": "3.0.6",
     "vuex": "3.1.0",
     "webpack-require-http": "^0.4.3"

@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-select v-model="form.datasource_type" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item">
-        <el-option label="elasticsearch" value="elasticsearch"></el-option>
+        <el-option label="elasticsearch" value="elasticsearch" />
       </el-select>
       <!-- <el-input v-model="form.datasource_name" placeholder="名称" style="width: 300px;" class="filter-item" /> -->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">
@@ -20,7 +20,7 @@
       <el-table-column prop="service_address" label="服务地址" align="center" />
       <el-table-column prop="modify_at" label="最近修改时间" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.modify_at|timeFormat }}</span>
+          <span>{{ scope.row.modify_at | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="creator" label="创建人" align="center" />
@@ -44,15 +44,15 @@
     <el-dialog title="保存数据源" :visible.sync="dialogFormVisible" width="30%">
       <el-form :model="editData">
         <el-form-item label="名称" :label-width="formLabelWidth">
-          <el-input v-model="editData.datasource_name" autocomplete="off"></el-input>
+          <el-input v-model="editData.datasource_name" autocomplete="off" />
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
-          <el-select :disabled="this.disableTypeSelect" v-model="editData.datasource_type" placeholder="数据源类型">
-            <el-option label="elasticsearch" value="elasticsearch"></el-option>
+          <el-select v-model="editData.datasource_type" :disabled="disableTypeSelect" placeholder="数据源类型">
+            <el-option label="elasticsearch" value="elasticsearch" />
           </el-select>
         </el-form-item>
         <el-form-item label="服务地址" :label-width="formLabelWidth">
-          <el-input v-model="editData.service_address" autocomplete="off"></el-input>
+          <el-input v-model="editData.service_address" autocomplete="off" />
           <el-tooltip content="地址更新后，下次重启后才生效" placement="bottom">
             <i class="el-icon-question" />
           </el-tooltip>
@@ -64,7 +64,6 @@
       </div>
     </el-dialog>
   </div>
-
 </template>
 
 <script>
@@ -105,7 +104,12 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      dataApi.findDataSource(this.form.pageIndex, this.form.pageSize, this.form.datasource_type)
+      dataApi
+        .findDataSource(
+          this.form.pageIndex,
+          this.form.pageSize,
+          this.form.datasource_type
+        )
         .then(response => {
           this.list = response.result.list || []
           this.rowcount = response.result.rowcount
@@ -140,7 +144,7 @@ export default {
       this.dialogFormVisible = true
     },
     search() {
-      //console.log(this.form)
+      // console.log(this.form)
       this.form.pageIndex = 1
       this.fetchData()
     },
@@ -155,7 +159,7 @@ export default {
         this.$message({
           type: 'success',
           message: '删除成功！',
-          duration: 1500,
+          duration: 1500
         })
         this.fetchData()
       })

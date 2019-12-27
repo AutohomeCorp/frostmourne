@@ -28,4 +28,8 @@ public interface IFrostmourneSpiApi {
     @RequestLine("POST /message/send?_appId={_appId}")
     @Headers("Content-Type: application/json")
     Protocol<List<MessageResult>> send(AlarmMessage alarmMessage, @Param("_appId") String _appId);
+
+    @RequestLine("GET /shorten/link?_appId={_appId}&longUrl={longUrl}")
+    @Headers("Content-Type: application/json")
+    Protocol<String> shortenLink(@Param("_appId") String _appId, @Param("longUrl") String longUrl);
 }

@@ -5,6 +5,7 @@ import com.autohome.frostmourne.monitor.contract.enums.ExecuteStatus;
 import com.autohome.frostmourne.monitor.service.core.alert.IAlertService;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.rule.IRule;
+import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +22,16 @@ public class AlarmExecutor {
 
     private IAlertService alertService;
 
+    private IGenerateShortLinkService generateShortLinkService;
+
     private AlarmProcessLogger alarmProcessLogger;
 
-    public AlarmExecutor(AlarmContract alarmContract, IRule rule, IMetric metric, IAlertService alertService) {
+    public AlarmExecutor(AlarmContract alarmContract, IRule rule, IMetric metric, IAlertService alertService, IGenerateShortLinkService generateShortLinkService) {
         this.alarmContract = alarmContract;
         this.rule = rule;
         this.metric = metric;
         this.alertService = alertService;
+        this.generateShortLinkService = generateShortLinkService;
         this.alarmProcessLogger = new AlarmProcessLogger();
     }
 
@@ -50,7 +54,14 @@ public class AlarmExecutor {
             if (isAlert) {
                 String alertMessage = this.rule.alertMessage(alarmContract.getRuleContract(), this.alarmProcessLogger.getContext());
                 String timeString = DateTime.now().toString("yyyy-MM-dd hh:mm:ss");
-                alarmProcessLogger.setAlertMessage(String.format("[%s]\n%s", timeString, alertMessage));
+                String shortLink = generateShortLinkService.generate(alarmProcessLogger);
+                String completeMessage = null;
+                if(Strings.isNullOrEmpty(shortLink)) {
+                    completeMessage = String.format("[%s]\n%s", timeString, alertMessage);
+                } else {
+                    completeMessage = String.format("[%s]\n%s\n\n详细请看: %s", timeString, alertMessage, shortLink);
+                }
+                alarmProcessLogger.setAlertMessage(completeMessage);
             }
             return ExecuteStatus.SUCCESS;
         } catch (Exception ex) {

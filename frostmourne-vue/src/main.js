@@ -16,7 +16,6 @@ import '@/icons' // icon
 import '@/permission' // permission control
 
 import moment from 'moment'
-//import moment from 'moment'
 
 /**
  * If you don't want to use mock-server
@@ -26,9 +25,8 @@ import moment from 'moment'
  * Currently MockJs will be used in the production environment,
  * please remove it before going online! ! !
  */
-import { mockXHR } from '../mock'
 if (process.env.NODE_ENV === 'production') {
-  //mockXHR()
+  // mockXHR()
 }
 
 // set ElementUI lang to EN

@@ -10,8 +10,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="执行时间:">
-              <el-date-picker v-model="datePickValue" type="datetimerange" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right" @change="dateChangeHandler" :default-time="['00:00:00', '23:59:59']">
-              </el-date-picker>
+              <el-date-picker v-model="datePickValue" type="datetimerange" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right" :default-time="['00:00:00', '23:59:59']" @change="dateChangeHandler" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -95,47 +94,47 @@ export default {
           onClick(picker) {
             const startMoment = moment().startOf('day')
             const endMoment = moment().endOf('day')
-            picker.$emit('pick', [startMoment.toDate(), endMoment.toDate()]);
+            picker.$emit('pick', [startMoment.toDate(), endMoment.toDate()])
           }
         },
         {
           text: '昨天',
           onClick(picker) {
-            const end = moment().startOf('day').toDate();
-            const start = moment().startOf('day').subtract(1, 'day').toDate();
-            picker.$emit('pick', [start, end]);
+            const end = moment().startOf('day').toDate()
+            const start = moment().startOf('day').subtract(1, 'day').toDate()
+            picker.$emit('pick', [start, end])
           }
         },
         {
           text: '前天',
           onClick(picker) {
-            const end = moment().startOf('day').subtract(1, 'day').toDate();
-            const start = moment().startOf('day').subtract(2, 'day').toDate();
-            picker.$emit('pick', [start, end]);
+            const end = moment().startOf('day').subtract(1, 'day').toDate()
+            const start = moment().startOf('day').subtract(2, 'day').toDate()
+            picker.$emit('pick', [start, end])
           }
         },
         {
           text: '最近三天',
           onClick(picker) {
-            const end = moment().endOf('day').toDate();
-            const start = moment().startOf('day').subtract(3, 'day').toDate();
-            picker.$emit('pick', [start, end]);
+            const end = moment().endOf('day').toDate()
+            const start = moment().startOf('day').subtract(3, 'day').toDate()
+            picker.$emit('pick', [start, end])
           }
         },
         {
           text: '最近一周',
           onClick(picker) {
-            const end = moment().endOf('day').toDate();
-            const start = moment().startOf('day').subtract(7, 'day').toDate();
-            picker.$emit('pick', [start, end]);
+            const end = moment().endOf('day').toDate()
+            const start = moment().startOf('day').subtract(7, 'day').toDate()
+            picker.$emit('pick', [start, end])
           }
         },
         {
           text: '最近一月',
           onClick(picker) {
-            const end = moment().endOf('day').toDate();
-            const start = moment().startOf('day').subtract(30, 'day').toDate();
-            picker.$emit('pick', [start, end]);
+            const end = moment().endOf('day').toDate()
+            const start = moment().startOf('day').subtract(30, 'day').toDate()
+            picker.$emit('pick', [start, end])
           }
         }]
       },

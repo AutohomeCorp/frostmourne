@@ -30,6 +30,9 @@ public class AlarmService implements IAlarmService {
     @Resource
     private IAlertService alertService;
 
+    @Resource
+    private IGenerateShortLinkService generateShortLinkService;
+
     public AlarmProcessLogger run(String account, Long alarmId, boolean test) {
         AlarmContract alarmContract = this.alarmAdminService.findById(alarmId);
         return run(alarmContract, test);
@@ -49,7 +52,7 @@ public class AlarmService implements IAlarmService {
             dataSourceType = alarmContract.getMetricContract().getData_name();
         }
         IMetric metric = this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetric_type());
-        AlarmExecutor alarmExecutor = new AlarmExecutor(alarmContract, rule, metric, alertService);
+        AlarmExecutor alarmExecutor = new AlarmExecutor(alarmContract, rule, metric, alertService, generateShortLinkService);
         AlarmProcessLogger alarmProcessLogger = alarmExecutor.execute();
         if (!test) {
             updateAlarmLastExeuteInfo(alarmContract.getId(), alarmProcessLogger.getStart().toDate(), alarmProcessLogger.getExecuteStatus());
