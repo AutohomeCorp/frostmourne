@@ -14,6 +14,8 @@ public class DataNameTransformer {
         dataNameContract.setData_name(dataName.getData_name());
         dataNameContract.setData_source_id(dataName.getData_source_id());
         dataNameContract.setDisplay_name(dataName.getDisplay_name());
+        dataNameContract.setDatasource_type(dataName.getDatasource_type());
+        dataNameContract.setCreator(dataName.getCreator());
         dataNameContract.setSettings(JacksonUtil.deSerialize(dataName.getProperties(), new TypeReference<Map<String, String>>() {
         }));
         dataNameContract.setTimestamp_field(dataName.getTimestamp_field());

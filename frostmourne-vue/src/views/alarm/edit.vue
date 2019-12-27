@@ -6,7 +6,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="监控名称:" prop="alarm_name">
-                <el-input v-model="form.alarm_name"></el-input>
+                <el-input v-model="form.alarm_name" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -19,7 +19,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="所属对象:">
-                <el-input v-model="form.owner_key" placeholder="表示这个监控的归属对象关系"></el-input>
+                <el-input v-model="form.owner_key" placeholder="表示这个监控的归属对象关系" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -34,7 +34,7 @@
           <el-row>
             <el-col :span="24">
               <el-form-item label="描述:" prop="description">
-                <el-input type="textarea" v-model="form.description"></el-input>
+                <el-input v-model="form.description" type="textarea" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -46,11 +46,11 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="数据:" prop="metricContract.data_name">
-                <el-cascader v-model="dataValue" width="100" size="medium" :show-all-levels="false" :options="dataOptions" @change="dataChange"></el-cascader>
+                <el-cascader v-model="dataValue" width="100" size="medium" :show-all-levels="false" :options="dataOptions" @change="dataChange" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="聚合类型:" v-if="dataSourceType === 'elasticsearch'">
+              <el-form-item v-if="dataSourceType === 'elasticsearch'" label="聚合类型:">
                 <el-select v-model="form.metricContract.aggregation_type">
                   <el-option label="count" value="count" />
                   <!-- <el-option label="avg" value="avg"/> -->
@@ -58,17 +58,17 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="聚合字段:" v-if="form.metricContract.aggregation_type === 'avg'">
-                <el-input v-model="form.metricContract.aggregation_field"></el-input>
+              <el-form-item v-if="form.metricContract.aggregation_type === 'avg'" label="聚合字段:">
+                <el-input v-model="form.metricContract.aggregation_field" />
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-form-item label="查询语句:" prop="metricContract.query_string">
-            <el-input v-model="form.metricContract.query_string"></el-input>
+            <el-input v-model="form.metricContract.query_string" />
           </el-form-item>
-          <el-form-item label="POST数据:" v-if="dataSourceType === 'http'">
-            <el-input type="textarea" v-model="form.metricContract.post_data"></el-input>
+          <el-form-item v-if="dataSourceType === 'http'" label="POST数据:">
+            <el-input v-model="form.metricContract.post_data" type="textarea" />
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="报警规则">
@@ -95,27 +95,27 @@
             </el-form-item>
           </el-row>
           <el-form-item v-if="form.metricContract.metric_type == 'object'" label="判断表达式:">
-            <el-input type="textarea" v-model="form.ruleContract.settings.EXPRESSION" />
+            <el-input v-model="form.ruleContract.settings.EXPRESSION" type="textarea" />
           </el-form-item>
           <el-form-item v-if="form.metricContract.metric_type == 'ring_than'" label="判断规则:">
             <el-select v-model="form.ruleContract.PERIOD_UNIT">
-              <el-option label="周" value="week"></el-option>
-              <el-option label="日" value="day"></el-option>
-              <el-option label="小时" value="hour"></el-option>
-              <el-option label="分钟" value="minute"></el-option>
+              <el-option label="周" value="week" />
+              <el-option label="日" value="day" />
+              <el-option label="小时" value="hour" />
+              <el-option label="分钟" value="minute" />
             </el-select>
             环比
             <el-select v-model="form.ruleContract.settings.OPERATOR">
-              <el-option label="增加" value="increase"></el-option>
-              <el-option label="减少" value="decrease"></el-option>
+              <el-option label="增加" value="increase" />
+              <el-option label="减少" value="decrease" />
             </el-select>
             百分之
-            <el-input v-model="form.ruleContract.settings.PERCENT_THRESHOLD" style="width: 200px"></el-input>
+            <el-input v-model="form.ruleContract.settings.PERCENT_THRESHOLD" style="width: 200px" />
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="消息模板">
           <el-form-item label="消息模板:" prop="ruleContract.alert_template">
-            <el-input type="textarea" v-model="form.ruleContract.alert_template" rows="5" />
+            <el-input v-model="form.ruleContract.alert_template" type="textarea" rows="5" />
           </el-form-item>
         </el-tab-pane>
       </el-tabs>
@@ -129,7 +129,7 @@
               <el-checkbox-button label="sms">短信</el-checkbox-button>
             </el-checkbox-group>
           </el-form-item>
-          <el-form-item label="钉钉机器人:" v-if="form.alertContract.ways.includes('dingding')">
+          <el-form-item v-if="form.alertContract.ways.includes('dingding')" label="钉钉机器人:">
             <el-input v-model="form.alertContract.ding_robot_hook" size="small" placeholder="选填" />
           </el-form-item>
           <el-form-item label="静默时间:">
@@ -151,17 +151,17 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="每隔:">
-                <el-select @change="intervalChangeHandler" v-model="intervalCron">
-                  <el-option label="1分钟" value="0/1 * * * ?"></el-option>
-                  <el-option label="2分钟" value="0/2 * * * ?"></el-option>
-                  <el-option label="3分钟" value="0/3 * * * ?"></el-option>
-                  <el-option label="5分钟" value="0/5 * * * ?"></el-option>
-                  <el-option label="10分钟" value="0/10 * * * ?"></el-option>
-                  <el-option label="15分钟" value="0/15 * * * ?"></el-option>
-                  <el-option label="30分钟" value="0/30 * * * ?"></el-option>
-                  <el-option label="1小时" value="0 0/1 * * ?"></el-option>
-                  <el-option label="2小时" value="0 0/2 * * ?"></el-option>
-                  <el-option label="6小时" value="0 0/6 * * ?"></el-option>
+                <el-select v-model="intervalCron" @change="intervalChangeHandler">
+                  <el-option label="1分钟" value="0/1 * * * ?" />
+                  <el-option label="2分钟" value="0/2 * * * ?" />
+                  <el-option label="3分钟" value="0/3 * * * ?" />
+                  <el-option label="5分钟" value="0/5 * * * ?" />
+                  <el-option label="10分钟" value="0/10 * * * ?" />
+                  <el-option label="15分钟" value="0/15 * * * ?" />
+                  <el-option label="30分钟" value="0/30 * * * ?" />
+                  <el-option label="1小时" value="0 0/1 * * ?" />
+                  <el-option label="2小时" value="0 0/2 * * ?" />
+                  <el-option label="6小时" value="0 0/6 * * ?" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -169,7 +169,7 @@
             <el-col :span="8">
               <el-form-item label="每天:">
                 <el-select v-model="dayCron" @change="dayCronChangeHandler">
-                  <el-option v-for="item in dayCronOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                  <el-option v-for="item in dayCronOptions" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -183,7 +183,7 @@
       <el-form-item style="margin-top: 20px;">
         <el-button type="primary" :disabled="disableSave" @click="onSubmit">保存</el-button>
         <el-button type="primary" @click="onTest">测试</el-button>
-        <el-button type="primary" @click="onSaveAnother" v-if="enableSaveAnother">另存</el-button>
+        <el-button v-if="enableSaveAnother" type="primary" @click="onSaveAnother">另存</el-button>
         <el-button @click="onCancel">取消</el-button>
       </el-form-item>
     </el-form>
@@ -252,29 +252,29 @@ export default {
         description: [
           { required: true, message: '请输入描述', trigger: 'blur' }
         ],
-        "metricContract.data_name": [
+        'metricContract.data_name': [
           { required: true, message: '请选择数据', trigger: 'change' }
         ],
-        "metricContract.query_string": [
+        'metricContract.query_string': [
           { required: true, message: '请输入查询语句', trigger: 'blur' }
         ],
-        "metricContract.metric_type": [
+        'metricContract.metric_type': [
           { required: true, message: '请选择判断类型', trigger: 'change' }
         ],
-        "ruleContract.alert_template": [
+        'ruleContract.alert_template': [
           { required: true, message: '请输入消息模板', trigger: 'blur' }
         ],
-        "alertContract.ways": [
+        'alertContract.ways': [
           { type: 'array', required: true, message: '请至少选择一种报警方式', trigger: 'change' }
         ],
-        "alertContract.recipients": [
+        'alertContract.recipients': [
           { type: 'array', required: true, message: '请配置报警接收人', trigger: 'blur' }
         ],
         cron: [
           { required: true, message: '请输入cron表达式', trigger: 'blur' }
         ]
       },
-      dataSourceType: "",
+      dataSourceType: '',
       dataValue: [],
       dataOptions: [],
       teamList: [],
@@ -282,7 +282,7 @@ export default {
     }
   },
   mounted() {
-    this.initDayCronOptions();
+    this.initDayCronOptions()
     if (this.id) {
       this.getDetail()
       this.enableSaveAnother = true
@@ -358,36 +358,36 @@ export default {
     getDetail() {
       adminApi.findById(this.id)
         .then(response => {
-          this.form = response.result;
+          this.form = response.result
           if (response.result.metricContract.data_name === 'http') {
-            this.dataValue.push('http');
-            this.dataSourceType = 'http';
+            this.dataValue.push('http')
+            this.dataSourceType = 'http'
           } else {
-            this.dataValue.push(response.result.metricContract.dataSourceContract.datasource_type);
-            this.dataValue.push(response.result.metricContract.dataSourceContract.id);
-            this.dataValue.push(response.result.metricContract.data_name);
-            this.dataSourceType = response.result.metricContract.dataSourceContract.datasource_type;
+            this.dataValue.push(response.result.metricContract.dataSourceContract.datasource_type)
+            this.dataValue.push(response.result.metricContract.dataSourceContract.id)
+            this.dataValue.push(response.result.metricContract.data_name)
+            this.dataSourceType = response.result.metricContract.dataSourceContract.datasource_type
           }
         })
     },
     dataChange(value) {
-      if (value.length == 0) {
-        this.form.metricContract.data_source_id = 0;
-        this.form.metricContract.data_name = "";
-        return;
-      }
-      this.dataSourceType = value[0];
-      if (this.dataSourceType === 'http') {
-        this.form.metricContract.data_source_id = 0;
-        this.form.metricContract.data_name = "http";
-        this.form.metricContract.metric_type = "object";
+      if (value.length === 0) {
+        this.form.metricContract.data_source_id = 0
+        this.form.metricContract.data_name = ''
         return
       }
-      this.form.metricContract.data_source_id = value[1];
-      this.form.metricContract.data_name = value[2];
+      this.dataSourceType = value[0]
+      if (this.dataSourceType === 'http') {
+        this.form.metricContract.data_source_id = 0
+        this.form.metricContract.data_name = 'http'
+        this.form.metricContract.metric_type = 'object'
+        return
+      }
+      this.form.metricContract.data_source_id = value[1]
+      this.form.metricContract.data_name = value[2]
     },
     tabClick(tab, event) {
-      //console.log(tab, event);
+      // console.log(tab, event);
     },
     removeRecipient(recipient) {
       const start = this.form.alertContract.recipients.indexOf(recipient)
@@ -406,20 +406,20 @@ export default {
       this.recipient.value = ''
     },
     intervalChangeHandler(selectedValue) {
-      var seconds = (new Date()).getSeconds();
-      this.form.cron = seconds + ' ' + selectedValue;
+      var seconds = (new Date()).getSeconds()
+      this.form.cron = seconds + ' ' + selectedValue
     },
     initDayCronOptions() {
       for (var i = 0; i < 24; i++) {
-        this.dayCronOptions.push({ label: i + '点', value: '0 0 ' + i + ' * * ?' });
+        this.dayCronOptions.push({ label: i + '点', value: '0 0 ' + i + ' * * ?' })
       }
     },
     dayCronChangeHandler(selectedValue) {
-      this.form.cron = selectedValue;
+      this.form.cron = selectedValue
     },
     initDataOptions() {
       dataApi.dataOptions().then(response => {
-        var remoteOptions = response.result;
+        var remoteOptions = response.result
         for (var i = 0; i < remoteOptions.length; i++) {
           var dataOption = {
             label: remoteOptions[i].datasourceType,
@@ -443,7 +443,7 @@ export default {
           }
           this.dataOptions.push(dataOption)
         }
-        /*this.dataOptions.push({
+        /* this.dataOptions.push({
           value: 'http', label: 'http'
         })*/
       })

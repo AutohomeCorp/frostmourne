@@ -60,6 +60,9 @@ public class ElasticsearchNumericMetric extends AbstractCountMetric {
         searchRequest.source(searchSourceBuilder);
 
         Map<String, Object> result = new HashMap<>();
+
+        result.put("startTime", start.toDateTimeISO().toString());
+        result.put("endTime",end.toDateTimeISO().toString());
         try {
             SearchResponse searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest);
             result.put("NUMBER", searchResponse.getHits().totalHits);

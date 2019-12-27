@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select v-model="form.datasource_type" placeholder="选择数据类型" @change="formSourceTypeChangeHandler" clearable style="width: 190px" class="filter-item">
-        <el-option label="elasticsearch" value="elasticsearch"></el-option>
+      <el-select v-model="form.datasource_type" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item" @change="formSourceTypeChangeHandler">
+        <el-option label="elasticsearch" value="elasticsearch" />
       </el-select>
       <el-select v-model="form.data_source_id" placeholder="选择数据源" class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasource_name" :label="item.datasource_name" :value="item.id" />
@@ -23,7 +23,7 @@
       <el-table-column prop="timestamp_field" label="时间字段" align="center" />
       <el-table-column prop="modify_at" label="最近修改" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.modify_at|timeFormat }}</span>
+          <span>{{ scope.row.modify_at | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="modifier" label="修改人" align="center" />
@@ -47,12 +47,12 @@
     <el-dialog title="保存数据名" :visible.sync="dialogFormVisible" width="30%">
       <el-form :model="editData">
         <el-form-item label="名称" :label-width="formLabelWidth">
-          <el-input v-model="editData.data_name" :disabled="disableEdit" autocomplete="off"></el-input>
+          <el-input v-model="editData.data_name" :disabled="disableEdit" autocomplete="off" />
         </el-form-item>
 
         <el-form-item label="类型" :label-width="formLabelWidth">
-          <el-select v-model="editData.datasource_type" :disabled="disableEdit" placeholder="类型" @change="dialogSourceTypeChangeHandler" clearable style="width: 190px" class="filter-item">
-            <el-option label="elasticsearch" value="elasticsearch"></el-option>
+          <el-select v-model="editData.datasource_type" :disabled="disableEdit" placeholder="类型" clearable style="width: 190px" class="filter-item" @change="dialogSourceTypeChangeHandler">
+            <el-option label="elasticsearch" value="elasticsearch" />
           </el-select>
         </el-form-item>
 
@@ -63,21 +63,20 @@
         </el-form-item>
 
         <el-form-item label="说明" :label-width="formLabelWidth">
-          <el-input v-model="editData.display_name" autocomplete="off"></el-input>
+          <el-input v-model="editData.display_name" autocomplete="off" />
         </el-form-item>
 
         <el-form-item label="时间字段" :label-width="formLabelWidth">
-          <el-input v-model="editData.timestamp_field" autocomplete="off"></el-input>
+          <el-input v-model="editData.timestamp_field" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item label="索引前缀" :label-width="formLabelWidth" v-if="editData.datasource_type == 'elasticsearch'">
-          <el-input v-model="editData.settings.indexPrefix" placeholder="applog-" autocomplete="off"></el-input>
+        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="索引前缀" :label-width="formLabelWidth">
+          <el-input v-model="editData.settings.indexPrefix" placeholder="applog-" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item label="时间后缀" :label-width="formLabelWidth" v-if="editData.datasource_type == 'elasticsearch'">
-          <el-input v-model="editData.settings.timePattern" placeholder="yyyyMMdd" autocomplete="off"></el-input>
+        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="时间后缀" :label-width="formLabelWidth">
+          <el-input v-model="editData.settings.timePattern" placeholder="yyyyMMdd" autocomplete="off" />
         </el-form-item>
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -85,7 +84,6 @@
       </div>
     </el-dialog>
   </div>
-
 </template>
 
 <script>
@@ -109,7 +107,7 @@ export default {
         pageSize: 20,
         data_name: '',
         datasource_type: '',
-        data_source_id: null,
+        data_source_id: null
       },
       editData: {
         id: 0,
@@ -183,7 +181,7 @@ export default {
       this.dialogFormVisible = true
     },
     search() {
-      //console.log(this.form)
+      // console.log(this.form)
       this.form.pageIndex = 1
       this.fetchData()
     },
@@ -194,7 +192,7 @@ export default {
       })
     },
     formSourceTypeChangeHandler(selectedValue) {
-      this.form.data_source_id = null;
+      this.form.data_source_id = null
       if (selectedValue) {
         dataApi.findDataSourceByType(selectedValue).then(response => {
           this.formDatasourceList = response.result
@@ -204,7 +202,7 @@ export default {
       }
     },
     dialogSourceTypeChangeHandler(selectedValue) {
-      this.editData.data_source_id = null;
+      this.editData.data_source_id = null
       if (selectedValue) {
         dataApi.findDataSourceByType(selectedValue).then(response => {
           this.dialogDatasourceList = response.result
@@ -218,7 +216,7 @@ export default {
         this.$message({
           type: 'success',
           message: '删除成功！',
-          duration: 1500,
+          duration: 1500
         })
         this.fetchData()
       })

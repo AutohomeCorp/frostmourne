@@ -130,9 +130,9 @@ export default {
         pageSize: 20
       },
       alarmStatus: [
-        { value: "", text: '监控状态' },
-        { value: "OPEN", text: '开启' },
-        { value: "CLOSE", text: '关闭' }
+        { value: '', text: '监控状态' },
+        { value: 'OPEN', text: '开启' },
+        { value: 'CLOSE', text: '关闭' }
       ]
     }
   },

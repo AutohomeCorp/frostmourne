@@ -7,18 +7,20 @@ import com.autohome.frostmourne.core.contract.Protocol;
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
 import com.autohome.frostmourne.monitor.service.core.query.IQueryService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
+@Controller
 @RequestMapping(value = {"/query", "/api/monitor-api/query"})
 public class DataQueryController {
 
     @Resource
     private IQueryService queryService;
 
+    @ResponseBody
     @RequestMapping(value = "/elasticsearchData", method = RequestMethod.GET)
     public Protocol<ElasticsearchDataResult> elasticsearchData(@RequestParam(value = "_appId", required = true) String _appId,
                                                                @RequestParam(value = "dataName", required = true) String dataName,
@@ -33,4 +35,5 @@ public class DataQueryController {
         ElasticsearchDataResult elasticsearchDataResult = queryService.ElasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, intervalInSeconds);
         return new Protocol<>(elasticsearchDataResult);
     }
+
 }

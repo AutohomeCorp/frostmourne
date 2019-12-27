@@ -13,3 +13,4 @@ tests/**/coverage/
 *.ntvs*
 *.njsproj
 *.sln
+*.lock

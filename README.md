@@ -10,6 +10,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 报警消息定制
 * 多种发送方式(email,短信,钉钉(机器人))
 * 数据源管理
+* 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制
 
 ## 功能截图
@@ -29,6 +30,10 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 数据名管理
 
 <img src="./doc/img/dataname.png" />
+
+* elasticsearch数据查询
+
+<img src="./doc/img/es.png" />
 
 ## 调试环境要求
 
@@ -50,7 +55,7 @@ UI项目，使用vue-element-template实现，打包时会打到frostmourne-moni
 
 * frostmourne-spi
 
-需要根据各自情况适配实现的模块，包括用户相关接口，消息发送(短信发送和钉钉消息发送)接口需要自己实现，邮件发送和
+需要根据各自情况适配实现的模块，包括用户相关接口，短链接生成接口, 消息发送(短信发送和钉钉消息发送)接口, 需要自己实现，邮件发送和
 钉钉机器人消息发送已经实现好了，其中邮箱配置需要修改为自己的
 
 ```
@@ -213,6 +218,8 @@ frostmourne最近5分钟内有异常日志1条。最近一条异常信息:
 异常类型: redis.clients.jedis.exceptions.JedisConnectionException
 自定义信息: HashCache error 
 异常信息: save(key:xxxx, seconds:xxxx)
+
+详细请看: http://iii94.cn/KYmvPI
 ```
 
 * 如果这个监控上一次没有触发报警，这次触发了报警，一定发送一条报警通知
@@ -227,6 +234,8 @@ frostmourne最近5分钟内有异常日志1条。最近一条异常信息:
 异常类型: redis.clients.jedis.exceptions.JedisConnectionException
 自定义信息: HashCache error 
 异常信息: save(key:xxxx, seconds:xxxx)
+
+详细请看: http://iii94.cn/KYmvPI
 ```
 
 * 如果这次监控触发报警，并且前面一直在连续触发报警，并且当前报警和连续报警最早那次报警的时间距离小于静默时间，则这次报警被静默处理。
@@ -245,8 +254,11 @@ UI项目frostmourne-vue会自动把资源打到frostmourne-monitor的resources/d
 他们都是无状态的服务，分配好域名做负载均衡，其中frostmourne-monitor依赖frostomourne-spi。在frostmourne-monitor配置文件中配置frostomourne-spi地址:
 
 ```
-frostmourne.spi.service-addr=http://[frostmourne-spi-address]/
+frostmourne.spi.service-addr=http://${frostmourne-spi-address}/
+frostmourne.monitor.address=http://${frostmourne-monitor-address}
 ```
+
+其中frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。**注意：直接使用ip是无法生成短链接的**
 
 ## 监控测试
 
@@ -261,15 +273,29 @@ frostmourne.spi.service-addr=http://[frostmourne-spi-address]/
 中找一个和你想要创建的监控相似的监控，点编辑进入监控编辑页面后，直接另存，就会生成一个一模一样的新监控，然后你就可以安全的
 修改这个新监控了。之所以建议直接另存是因为你会非常容易忘记你是想另存一个监控，而去点了保存按钮。就会把现有监控覆盖掉。
 
+## 短链接服务
+
+为了方便使用者快速查看产生报警的日志，报警消息最后会有一个日志查询地址的短链接，打开即可看到产生报警的日志。默认短链接实现使用
+的是四五短网址免费版，网址: <a href="http://www.45dwz.cn/" target="_blank">45短网址</a>, 默认申请的token限制很大，
+调用次数有限制，你可以去45短网址申请自己token，或者你可以自己选择换别的短网址服务都行，只需要自己实现简单适配即可。
+
+如果你自己申请了token，请修改配置文件 frostmourne-spi/src/main/resources/application.properties 如下配置值：
+
+```
+dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
+```
+
 ## 后续规划
 
 * 增加Elasticsearch数据查询页面
 * 报警消息增加触发报警的日志查询页面短链接
+* 日志查询结果分享;日志导出csv
 * 添加dashboard页内容
 * 增加http类型数据监控
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 加强登录安全(集成ldap, CAS单点登录)
+* 增加Dockerfile
 * 增加单元测试
 * 国际化
 
@@ -288,3 +314,4 @@ frostmourne.spi.service-addr=http://[frostmourne-spi-address]/
 - [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
 - [xxl-job](https://github.com/xuxueli/xxl-job)
 - [element ui](https://element.eleme.cn/#/zh-CN)
+- [45短网址](https://45dwz.cn/)

@@ -1,47 +1,63 @@
 {
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.mouseWheelZoom": true,
+  "editor.renderControlCharacters": true,
+  "editor.wordWrapColumn": 180,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true,
+    "source.fixAll": true
+  },
+  // 旧版保存自动格式化
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": ["javascript", "html", "vue"],
   "typescript.validate.enable": false,
   "javascript.validate.enable": false,
-  "vetur.validation.script": false,
   "emmet.syntaxProfiles": {
     "vue-html": "html",
     "vue": "html"
   },
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "html",
-    {
-      "language": "vue",
-      "autoFix": true
-    }
-  ],
   "beautify.language": {
     "html": [
       "htm",
-      "html",
+      "html"
       // "vue"
     ]
   },
-  //保存自动格式化
-  "editor.formatOnSave": true, //设置成true会导致Windows平台下 vscode JS文件的函数注释重复缩进. 参考 issue: https://github.com/Microsoft/vscode-eslint/issues/380
   "[javascript]": {
     "editor.formatOnSave": false
   },
-  //保存自动格式化
-  "eslint.autoFixOnSave": true,
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  },
+  "vetur.validation.script": false,
   "vetur.format.defaultFormatter.js": "vscode-typescript",
-  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatter.html": "prettyhtml",
   "vetur.format.defaultFormatterOptions": {
     "js-beautify-html": {
       "wrap_attributes": "auto"
     },
     "prettyhtml": {
-      "printWidth": 100,
+      "printWidth": 180,
       "singleQuote": false,
       "wrapAttributes": false,
       "sortAttributes": false
+    },
+    "prettier": {
+      "singleQuote": true,
+      "proseWrap": "preserve",
+      "printWidth": 180,
+      "arrowParens": "avoid",
+      "bracketSpacing": true
     }
   },
+  // prettier
+  "prettier.singleQuote": true,
+  "prettier.proseWrap": "preserve",
+  "prettier.printWidth": 180,
+  "prettier.semi": false,
+  "prettier.disableLanguages": ["vue"],
+  "prettier.endOfLine": "auto",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -56,9 +72,5 @@
     "dist/**": true,
     "vendor/**": true
   },
-  "files.eol": "\n",
-  "editor.tabSize": 2,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+  "files.eol": "\n"
 }
