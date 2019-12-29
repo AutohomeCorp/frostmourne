@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS data_name
     display_name    VARCHAR(200)  NOT NULL COMMENT '名称描述',
     data_source_id  BIGINT        NOT NULL COMMENT '所属数据源id',
     datasource_type VARCHAR(500)  NOT NULL COMMENT '数据源类型。(Elasticsearch, Influxdb)',
-    timestamp_field VARCHAR(200)  NOT NULL COMMENT '时间字段名',
+    timestamp_field VARCHAR(200)  COMMENT '时间字段名',
     properties      VARCHAR(2000) NOT NULL COMMENT '不同数据的附加属性',
     creator         VARCHAR(200)  NOT NULL COMMENT '创建人',
     create_at       DATETIME      NOT NULL COMMENT '创建时间',
