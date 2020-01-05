@@ -184,6 +184,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         metricContract.setMetric_type(metric.getMetric_type());
         metricContract.setData_name_id(metric.getData_name_id());
         metricContract.setAlarm_id(alarmId);
+        metricContract.setPost_data(metric.getPost_data());
         metricContract.setProperties(JacksonUtil.deSerialize(metric.getProperties(), new TypeReference<Map<String, Object>>() {
         }));
         if (metric.getData_source_id() != null && metric.getData_source_id() > 0) {
@@ -264,7 +265,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         Long ruleId = saveRule(alarmContract.getRuleContract(), alarmId, isNewAlarm, alarmContract.getOperator());
         saveMetric(alarmContract.getMetricContract(), alarmId, ruleId, isNewAlarm, alarmContract.getOperator());
 
-        saveJobSchedule(isNewAlarm, alarm);
+        //saveJobSchedule(isNewAlarm, alarm);
     }
 
     private Alarm addAlarm(AlarmContract alarmContract) {
@@ -375,11 +376,13 @@ public class AlarmAdminService implements IAlarmAdminService {
         metric.setCreator(account);
         metric.setRule_id(ruleId);
         metric.setAggregation_type(metricContract.getAggregation_type());
+        metric.setAggregation_field(metricContract.getAggregation_field());
         metric.setData_name(metricContract.getData_name());
         metric.setData_source_id(metricContract.getData_source_id());
         metric.setData_name_id(metricContract.getData_name_id());
         metric.setMetric_type(metricContract.getMetric_type());
         metric.setQuery_string(metricContract.getQuery_string());
+        metric.setPost_data(metricContract.getPost_data());
         metric.setProperties(JacksonUtil.serialize(metricContract.getProperties()));
         metric.setCreate_at(new Date());
         metricMapper.insert(metric);

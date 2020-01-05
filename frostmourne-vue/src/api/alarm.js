@@ -13,6 +13,9 @@ const alarmApi = {
   },
   test(alarmContract) {
     return query.json(URL.test, alarmContract)
+  },
+  httpTest(metricContract) {
+    return query.json(baseUrl + '/httpTest', metricContract)
   }
 }
 

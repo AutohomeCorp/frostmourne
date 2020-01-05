@@ -33,4 +33,8 @@
   <update id="updateJobId">
     UPDATE alarm SET job_id = #{jobId} WHERE id=#{alarmId}
   </update>
+
+  <select id="total">
+    SELECT COUNT(*) FROM alarm
+  </select>
 </mapper>

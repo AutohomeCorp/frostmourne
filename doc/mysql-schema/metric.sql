@@ -12,8 +12,9 @@ CREATE TABLE IF NOT EXISTS metric
     data_name         VARCHAR(200) NOT NULL COMMENT '监控数据名。(http：表示静态http数据; 其他data_name关联data_name表)',
     query_string      VARCHAR(1000) COMMENT '查询语句',
     properties        VARCHAR(2000) COMMENT '附加属性JSON格式',
+    post_data         VARCHAR(2000) COMMENT 'http数据监控，post数据内容',
     creator           VARCHAR(200) NOT NULL COMMENT '创建人',
-    create_at      DATETIME     NOT NULL COMMENT '创建时间'
+    create_at         DATETIME     NOT NULL COMMENT '创建时间'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4

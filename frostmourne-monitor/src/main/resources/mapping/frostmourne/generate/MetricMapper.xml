@@ -3,8 +3,8 @@
 <mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.MetricMapper" >
   <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Metric" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="aggregation_type" property="aggregation_type" jdbcType="VARCHAR"/>
-    <result column="aggregation_field" property="aggregation_field" jdbcType="VARCHAR"/>
+    <result column="aggregation_type" property="aggregation_type" jdbcType="VARCHAR" />
+    <result column="aggregation_field" property="aggregation_field" jdbcType="VARCHAR" />
     <result column="metric_type" property="metric_type" jdbcType="VARCHAR" />
     <result column="alarm_id" property="alarm_id" jdbcType="BIGINT" />
     <result column="rule_id" property="rule_id" jdbcType="BIGINT" />
@@ -15,10 +15,11 @@
     <result column="properties" property="properties" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
+    <result column="post_data" property="post_data" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, aggregation_type, aggregation_field, metric_type, alarm_id, rule_id, data_source_id, 
-    data_name_id, data_name, query_string, properties, creator, create_at
+    data_name_id, data_name, query_string, properties, creator, create_at, post_data
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -34,16 +35,16 @@
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into metric (aggregation_type, aggregation_field,
-    metric_type, alarm_id, rule_id,
-    data_source_id, data_name_id, data_name,
-    query_string, properties, creator,
-    create_at)
-    values (#{aggregation_type,jdbcType=VARCHAR}, #{aggregation_field,jdbcType=VARCHAR},
-    #{metric_type,jdbcType=VARCHAR}, #{alarm_id,jdbcType=BIGINT}, #{rule_id,jdbcType=BIGINT},
-    #{data_source_id,jdbcType=BIGINT}, #{data_name_id,jdbcType=BIGINT}, #{data_name,jdbcType=VARCHAR},
-    #{query_string,jdbcType=VARCHAR}, #{properties,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR},
-    #{create_at,jdbcType=TIMESTAMP})
+    insert into metric (aggregation_type, aggregation_field, 
+      metric_type, alarm_id, rule_id, 
+      data_source_id, data_name_id, data_name, 
+      query_string, properties, creator, 
+      create_at, post_data)
+    values (#{aggregation_type,jdbcType=VARCHAR}, #{aggregation_field,jdbcType=VARCHAR}, 
+      #{metric_type,jdbcType=VARCHAR}, #{alarm_id,jdbcType=BIGINT}, #{rule_id,jdbcType=BIGINT}, 
+      #{data_source_id,jdbcType=BIGINT}, #{data_name_id,jdbcType=BIGINT}, #{data_name,jdbcType=VARCHAR}, 
+      #{query_string,jdbcType=VARCHAR}, #{properties,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{create_at,jdbcType=TIMESTAMP}, #{post_data,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Metric" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
@@ -51,10 +52,10 @@
     </selectKey>
     insert into metric
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="aggregation_type != null">
+      <if test="aggregation_type != null" >
         aggregation_type,
       </if>
-      <if test="aggregation_field != null">
+      <if test="aggregation_field != null" >
         aggregation_field,
       </if>
       <if test="metric_type != null" >
@@ -87,12 +88,15 @@
       <if test="create_at != null" >
         create_at,
       </if>
+      <if test="post_data != null" >
+        post_data,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="aggregation_type != null">
+      <if test="aggregation_type != null" >
         #{aggregation_type,jdbcType=VARCHAR},
       </if>
-      <if test="aggregation_field != null">
+      <if test="aggregation_field != null" >
         #{aggregation_field,jdbcType=VARCHAR},
       </if>
       <if test="metric_type != null" >
@@ -125,15 +129,18 @@
       <if test="create_at != null" >
         #{create_at,jdbcType=TIMESTAMP},
       </if>
+      <if test="post_data != null" >
+        #{post_data,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Metric" >
     update metric
     <set >
-      <if test="aggregation_type != null">
+      <if test="aggregation_type != null" >
         aggregation_type = #{aggregation_type,jdbcType=VARCHAR},
       </if>
-      <if test="aggregation_field != null">
+      <if test="aggregation_field != null" >
         aggregation_field = #{aggregation_field,jdbcType=VARCHAR},
       </if>
       <if test="metric_type != null" >
@@ -166,6 +173,9 @@
       <if test="create_at != null" >
         create_at = #{create_at,jdbcType=TIMESTAMP},
       </if>
+      <if test="post_data != null" >
+        post_data = #{post_data,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -182,7 +192,8 @@
       query_string = #{query_string,jdbcType=VARCHAR},
       properties = #{properties,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
-      create_at = #{create_at,jdbcType=TIMESTAMP}
+      create_at = #{create_at,jdbcType=TIMESTAMP},
+      post_data = #{post_data,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

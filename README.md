@@ -1,15 +1,18 @@
 ## 介绍
 
 frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助开发监控应用日志，现主要用于监控Elasticsearch数据。
-关于内部日志系统的设计实现感兴趣的话，请移步文章: <a href="./doc/wiki/design.md" target="blank">之家经销商技术部基于Elasticsearch的日志系统设计与实现</a> 可以认为frostmoure是监控部分的实现。
+关于内部日志系统的设计实现感兴趣的话，请移步文章: <a href="./doc/wiki/design.md" target="_blank">之家经销商技术部基于Elasticsearch的日志系统设计与实现</a> 可以认为frostmoure是监控部分的实现。
 如果你现在使用Elastic stack(ELK)建立起了日志系统，却苦恼于没有一个配套日志监控系统，也许它能帮到你。
 
 ## 主要功能
 
+* Elasticsearch数据监控
+* HTTP数据监控
+* UI功能，简单易用
 * 监控管理
 * 灵活的报警消息模板定制，支持变量
 * 多种消息发送方式(email,短信,钉钉(机器人))
-* 数据源管理
+* 多数据源管理
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制
 
@@ -22,6 +25,16 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 新增或编辑监控
 
 <img src="./doc/img/edit.png" />
+
+* HTTP数据监控
+
+以监控Elasticsearch集群健康状态为例。
+
+<img src="./doc/img/http_metric.png" />
+
+检测条件为：集群状态字段status不为green，或者集群节点数量不等于11
+
+<img src="./doc/img/http_rule.png" />
 
 * 监控列表
 
@@ -297,16 +310,20 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 ## 后续规划
 
+目前还有很多feature需要持续开发，目前已知的规划有: 
+
 * 日志查询结果分享;日志导出csv
 * 添加dashboard页内容
 * 增加http类型数据监控
 * 增加数据mock，部署一个公网可访问的全静态demo站点，方便别人进行功能预览试用
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控
 * 增加influxdb数据监控(数据同比，环比监控)
+* 增加prometheus支持
 * 加强登录安全(集成ldap, CAS单点登录)
 * 增加Dockerfile
 * 增加单元测试
 * 国际化
+* 移除xxl-job依赖，内置实现监控调度，减小部署难度(待讨论)
 
 ## 主要技术栈
 
@@ -316,6 +333,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * mybatis
 * freemarker
 * elasticsearch
+* jjwt
 
 ## Contribution
 
@@ -328,3 +346,5 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 - [xxl-job](https://github.com/xuxueli/xxl-job)
 - [element ui](https://element.eleme.cn/#/zh-CN)
 - [45短网址](https://45dwz.cn/)
+- [jjwt](https://github.com/jwtk/jjwt)
+- [vue-json-pretty](https://github.com/leezng/vue-json-pretty)

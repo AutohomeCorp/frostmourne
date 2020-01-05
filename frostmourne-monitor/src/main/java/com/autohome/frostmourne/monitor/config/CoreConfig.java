@@ -5,7 +5,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.service.core.metric.ElasticsearchNumericMetric;
+import com.autohome.frostmourne.monitor.service.core.metric.HttpMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
+import com.autohome.frostmourne.monitor.service.core.rule.ExpressionRule;
 import com.autohome.frostmourne.monitor.service.core.rule.NumericRule;
 import com.autohome.frostmourne.monitor.service.core.rule.IRule;
 import com.autohome.frostmourne.monitor.service.core.template.ITemplateService;
@@ -22,6 +24,7 @@ public class CoreConfig {
     public Map<String, IRule> ruleMap() {
         Map<String, IRule> ruleMap = new HashMap<>();
         ruleMap.put("numeric", numericRule());
+        ruleMap.put("expression", expressionRule());
 
         return ruleMap;
     }
@@ -29,6 +32,11 @@ public class CoreConfig {
     @Bean
     public NumericRule numericRule() {
         return new NumericRule(templateService);
+    }
+
+    @Bean
+    public ExpressionRule expressionRule() {
+        return new ExpressionRule(templateService);
     }
 
     @Bean
@@ -41,5 +49,10 @@ public class CoreConfig {
     @Bean
     public ElasticsearchNumericMetric elasticsearchNumericMetric() {
         return new ElasticsearchNumericMetric();
+    }
+
+    @Bean
+    public HttpMetric httpMetric() {
+        return new HttpMetric();
     }
 }

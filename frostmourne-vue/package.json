@@ -31,6 +31,7 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue": "2.6.10",
     "vue-echarts": "^4.1.0",
+    "vue-json-pretty": "^1.6.3",
     "vue-router": "3.0.6",
     "vuex": "3.1.0",
     "webpack-require-http": "^0.4.3"
