@@ -10,7 +10,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="">
+              <el-form-item label>
                 <el-switch v-model="form.status" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
               </el-form-item>
             </el-col>
@@ -69,21 +69,21 @@
           </el-form-item>
           <el-form-item v-if="dataSourceType === 'http'" label="POST数据:">
             <el-input v-model="form.metricContract.post_data" type="textarea" />
+            <el-button type="primary" @click="handleHttpTest">测试请求</el-button>
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="报警规则">
           <el-form-item label="判断类型:" prop="metricContract.metric_type">
             <el-select v-model="form.metricContract.metric_type">
-              <el-option label="数值" value="numeric" />
-              <!--<el-option label="Javascript表达式" value="object"/>
-                            <el-option label="环比" value="ring_than"/> -->
+              <el-option v-if="dataSourceType != 'http'" label="数值" value="numeric" />
+              <el-option v-if="dataSourceType === 'http'" label="Javascript表达式" value="object" />
+              <!--<el-option label="环比" value="ring_than"/>-->
             </el-select>
           </el-form-item>
           <el-row>
             <el-form-item v-if="form.metricContract.metric_type == 'numeric'" label="判断规则:">
               最近
-              <el-input-number v-model="form.ruleContract.settings.TIME_WINDOW" size="small" :min="1" label="间隔分钟" />
-              分钟；指标数值
+              <el-input-number v-model="form.ruleContract.settings.TIME_WINDOW" size="small" :min="1" label="间隔分钟" />分钟；指标数值
               <el-select v-model="form.ruleContract.settings.OPERATOR" size="small" style="width:100px" placeholder="比较类型">
                 <el-option label="<" value="LESS" />
                 <el-option label="<=" value="LTE" />
@@ -103,13 +103,11 @@
               <el-option label="日" value="day" />
               <el-option label="小时" value="hour" />
               <el-option label="分钟" value="minute" />
-            </el-select>
-            环比
+            </el-select>环比
             <el-select v-model="form.ruleContract.settings.OPERATOR">
               <el-option label="增加" value="increase" />
               <el-option label="减少" value="decrease" />
-            </el-select>
-            百分之
+            </el-select>百分之
             <el-input v-model="form.ruleContract.settings.PERCENT_THRESHOLD" style="width: 200px" />
           </el-form-item>
         </el-tab-pane>
@@ -133,14 +131,20 @@
             <el-input v-model="form.alertContract.ding_robot_hook" size="small" placeholder="选填" />
           </el-form-item>
           <el-form-item label="静默时间:">
-            <el-input-number v-model="form.alertContract.silence" size="small" :min="1" label="静默时间" />
-            分钟
+            <el-input-number v-model="form.alertContract.silence" size="small" :min="1" label="静默时间" />分钟
           </el-form-item>
           <el-form-item label="报警接收人:" prop="alertContract.recipients">
-            <el-tag v-for="tag in form.alertContract.recipients" :key="tag" style="margin-right:5px;" closable @close="removeRecipient(tag)">
-              {{ tag }}
-            </el-tag>
-            <el-input v-if="recipient.visible" ref="addRecipient" v-model="recipient.value" style="width:100px" class="input-new-tag" size="small" @keyup.enter.native="inputRecipient" @blur="inputRecipient" />
+            <el-tag v-for="tag in form.alertContract.recipients" :key="tag" style="margin-right:5px;" closable @close="removeRecipient(tag)">{{ tag }}</el-tag>
+            <el-input
+              v-if="recipient.visible"
+              ref="addRecipient"
+              v-model="recipient.value"
+              style="width:100px"
+              class="input-new-tag"
+              size="small"
+              @keyup.enter.native="inputRecipient"
+              @blur="inputRecipient"
+            />
             <el-button v-else class="button-new-tag" size="small" @click="showRecipient">+ 接收人</el-button>
           </el-form-item>
         </el-tab-pane>
@@ -187,6 +191,12 @@
         <el-button @click="onCancel">取消</el-button>
       </el-form-item>
     </el-form>
+
+    <el-dialog title="响应数据" :visible.sync="httpResponseDialogVisible">
+      <div>
+        <vue-json-pretty :data="httpResonseData"></vue-json-pretty>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -196,7 +206,12 @@ import adminApi from '@/api/admin.js'
 import { teams } from '@/api/user'
 import dataApi from '@/api/data.js'
 
+import VueJsonPretty from 'vue-json-pretty'
+
 export default {
+  components: {
+    VueJsonPretty
+  },
   data() {
     return {
       intervalCron: '',
@@ -209,6 +224,8 @@ export default {
       disableSave: false,
       activeName: 'datasource_tab',
       id: this.$route.query.id,
+      httpResonseData: {},
+      httpResponseDialogVisible: false,
       form: {
         alarm_name: '',
         owner_key: '',
@@ -218,7 +235,7 @@ export default {
         cron: '',
         metricContract: {
           query_string: '',
-          post_data: '',
+          post_data: null,
           aggregation_type: '',
           aggregation_field: '',
           metric_type: '',
@@ -381,10 +398,12 @@ export default {
         this.form.metricContract.data_source_id = 0
         this.form.metricContract.data_name = 'http'
         this.form.metricContract.metric_type = 'object'
+        this.form.ruleContract.rule_type = 'expression'
         return
       }
       this.form.metricContract.data_source_id = value[1]
       this.form.metricContract.data_name = value[2]
+      this.form.metricContract.metric_type = ''
     },
     tabClick(tab, event) {
       // console.log(tab, event);
@@ -443,9 +462,15 @@ export default {
           }
           this.dataOptions.push(dataOption)
         }
-        /* this.dataOptions.push({
+        this.dataOptions.push({
           value: 'http', label: 'http'
-        })*/
+        })
+      })
+    },
+    handleHttpTest() {
+      alarmApi.httpTest(this.form.metricContract).then(response => {
+        this.httpResonseData = response.result
+        this.httpResponseDialogVisible = true;
       })
     }
   }

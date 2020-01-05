@@ -29,4 +29,6 @@ public interface AlarmMapper {
                                     @Param("executeResult") String executeResult);
 
     int updateJobId(@Param("alarmId") Long alarmId, @Param("jobId") Long jobId);
+
+    int total();
 }

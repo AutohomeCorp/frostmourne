@@ -29,6 +29,8 @@ public class Metric {
 
     private Date create_at;
 
+    private String post_data;
+
     public Long getId() {
         return id;
     }
@@ -131,5 +133,13 @@ public class Metric {
 
     public void setCreate_at(Date create_at) {
         this.create_at = create_at;
+    }
+
+    public String getPost_data() {
+        return post_data;
+    }
+
+    public void setPost_data(String post_data) {
+        this.post_data = post_data == null ? null : post_data.trim();
     }
 }

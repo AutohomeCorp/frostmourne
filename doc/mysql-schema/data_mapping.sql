@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS data_mapping
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
-    COMMENT = '数据名';
+    COMMENT = '数据名字段说明';
 
 ALTER TABLE data_mapping
     ADD INDEX idx_dataname (data_name(20));

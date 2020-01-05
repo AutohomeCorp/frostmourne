@@ -29,6 +29,10 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
 
     public String generate(AlarmProcessLogger alarmProcessLogger) {
         AlarmContract alarmContract = alarmProcessLogger.getAlarmContract();
+        String dataName = alarmContract.getMetricContract().getData_name();
+        if (dataName.equalsIgnoreCase("http")) {
+            return null;
+        }
         String datasourceType = alarmContract.getMetricContract().getDataNameContract().getDatasource_type();
         String url = null;
         List<String> queryParameters = new ArrayList<>();
@@ -43,7 +47,7 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
             }
             String longUrl = url + "?" + Strings.join(queryParameters, '&');
             Protocol<String> protocol = frostmourneSpiApi.shortenLink("frostmourne-monitor", URLEncoder.encode(longUrl, "utf8"));
-            if(protocol.getReturncode() == 0) {
+            if (protocol.getReturncode() == 0) {
                 return protocol.getResult();
             }
             LOGGER.error("error when generate short link. response: " + JacksonUtil.serialize(protocol));
