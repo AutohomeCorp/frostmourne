@@ -121,6 +121,8 @@ public class AlertService implements IAlertService {
         if (latestAlarmLog != null && latestAlarmLog.getVerify_result().equalsIgnoreCase(VerifyResult.TRUE)) {
             //this is recover message
             sendAlert(alarmProcessLogger, recipients, AlertType.RECOVER);
+        } else {
+            alarmLog(alarmProcessLogger);
         }
     }
 
