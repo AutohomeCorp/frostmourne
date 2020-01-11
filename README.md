@@ -331,6 +331,10 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待讨论)
 
+## 欢迎使用
+
+由于项目还在重度开发中，可能会导致一些bug，敬请谅解。有问题或需要帮助请提issue，或者直接联系我: 690392771@qq.com
+
 ## 主要技术栈
 
 * springboot 2.x
