@@ -61,31 +61,31 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/alarm/list.view',
     name: 'alarm',
-    meta: { title: '监控管理', icon: 'example' },
+    meta: { title: '监控管理', icon: 'component' },
     children: [
       {
         path: 'list.view',
         name: 'alarm-list',
         component: () => import('@/views/alarm/list.vue'),
-        meta: { title: '监控列表', icon: 'table' }
+        meta: { title: '监控列表', icon: 'documentation' }
       },
       {
         path: 'edit.view',
         name: 'alarm-edit',
         component: () => import('@/views/alarm/edit.vue'),
-        meta: { title: '监控编辑', icon: 'form' }
+        meta: { title: '监控编辑', icon: 'documentation' }
       },
       {
         path: 'alarm-log.view',
         name: 'alarm-log',
         component: () => import('@/views/alarm/alarm-log.vue'),
-        meta: { title: '执行日志', icon: 'form' }
+        meta: { title: '执行日志', icon: 'documentation' }
       },
       {
         path: 'alert-log.view',
         name: 'alert-log',
         component: () => import('@/views/alarm/alert-log.vue'),
-        meta: { title: '我的消息', icon: 'form' }
+        meta: { title: '我的消息', icon: 'documentation' }
       }
     ]
   },
@@ -93,19 +93,14 @@ export const constantRoutes = [
     path: '/query',
     component: Layout,
     name: 'query',
-    meta: { title: '数据查询', icon: 'example' },
+    redirect: '/query/elasticsearch.view',
+    meta: { title: '数据查询', icon: 'chart' },
     children: [
       {
         path: 'elasticsearch.view',
         name: 'elasticsearch',
         component: () => import('@/views/query/elasticsearch.vue'),
-        meta: { title: 'elasticsearch查询', icon: 'table' }
-      },
-      {
-        path: 'elasticsearch1.view',
-        name: 'elasticsearch1',
-        component: () => import('@/views/query/elasticsearch.vue'),
-        meta: { title: 'elasticsearch查询', icon: 'table' }
+        meta: { title: '数据查询', icon: 'chart' }
       }
     ]
   },
@@ -114,19 +109,19 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/data/source.view',
     name: 'data',
-    meta: { title: '数据管理', icon: 'example' },
+    meta: { title: '数据管理', icon: 'excel' },
     children: [
       {
         path: 'source.view',
         name: 'source-list',
         component: () => import('@/views/data/source.vue'),
-        meta: { title: '数据源', icon: 'table' }
+        meta: { title: '数据源', icon: 'documentation' }
       },
       {
         path: 'name.view',
         name: 'name-list',
         component: () => import('@/views/data/name.vue'),
-        meta: { title: '数据名', icon: 'form' }
+        meta: { title: '数据名', icon: 'documentation' }
       }
     ]
   },
