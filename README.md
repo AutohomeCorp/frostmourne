@@ -14,7 +14,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 多种消息发送方式(email,短信,钉钉(机器人))
 * 多数据源管理
 * 报警消息附带日志查询短链接，直达报警原因
-* 报警消息抑制
+* 报警消息抑制功能，防止消息轰炸
 
 ## 功能截图
 
@@ -157,7 +157,7 @@ npm run dev
 
 ## 用户管理和登录认证
 
-目前没有做任何密码认证，只要用户名是存在的，任意密码均可以登录, 默认只有admin账号可用。用户信息管理在frostmourne-spi种实现，默认实现方式是一个json配置文件，
+目前没有做任何密码认证，只要用户名是存在的，任意密码均可以登录, 默认只有admin账号可用。用户信息管理在frostmourne-spi中实现，默认实现方式是一个json配置文件，
 需要添加用户的时候，修改这个json文件即可。同样团队管理，部门管理默认也是json配置。  
 
 * frostmourne-spi/src/main/resources/auth/user.json 用户信息配置文件
@@ -177,6 +177,12 @@ TIME_WINDOW | int | 查询时间范围窗口大小(单位: 分钟) | 数值
 NUMBER | double | 数值类型值 | 数值
 THRESHOLD | double | 判断阈值 | 数值
 
+### HTTP数据内置变量
+
+ 字段名  | 类型     | 说明  | 适用的数据源   
+-------- |----------| ------- | -----
+HTTP_STATUS | int | HTTP状态码 | HTTP 
+HTTP_COST | long | 请求耗时 | HTTP
 
 查询的数据可用变量取决于你的数据格式。以我们部门程序日志数值监控为例，可用变量和我们日志格式是一致的。如下表格: 
 
@@ -314,8 +320,8 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 * 日志查询结果分享;日志导出csv
 * 添加dashboard页内容
-* 增加http类型数据监控
 * 增加数据mock，部署一个公网可访问的全静态demo站点，方便别人进行功能预览试用
+* 发布1.0-RELEASE
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
@@ -348,3 +354,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 - [45短网址](https://45dwz.cn/)
 - [jjwt](https://github.com/jwtk/jjwt)
 - [vue-json-pretty](https://github.com/leezng/vue-json-pretty)
+
+## License
+
+The project is licensed under the [MIT](LICENSE).

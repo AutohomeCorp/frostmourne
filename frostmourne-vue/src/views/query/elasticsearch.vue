@@ -41,6 +41,9 @@
               <span>{{ props.row[field] }}</span>
             </el-form-item>
           </el-form>
+          <!--<div>
+            <vue-json-pretty :data="props.row"></vue-json-pretty>
+          </div>-->
         </template>
       </el-table-column>
       <el-table-column type="index" width="50" />
@@ -62,6 +65,7 @@ import dataQueryApi from '@/api/data-query.js'
 import dataApi from '@/api/data.js'
 import { formatJsonDate } from '@/utils/datetime.js'
 import moment from 'moment'
+import VueJsonPretty from 'vue-json-pretty'
 import ECharts from 'vue-echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
@@ -79,6 +83,7 @@ export default {
     }
   },
   components: {
+    VueJsonPretty,
     'v-chart': ECharts
   },
   data() {
@@ -270,5 +275,9 @@ figure {
 .echarts {
   width: 100%;
   /* height: 100%; */
+}
+
+.vjs-value__string .el-form-item__content {
+  white-space: pre-wrap;
 }
 </style>
