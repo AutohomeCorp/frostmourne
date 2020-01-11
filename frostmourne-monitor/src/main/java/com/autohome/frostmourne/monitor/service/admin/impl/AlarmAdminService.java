@@ -265,7 +265,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         Long ruleId = saveRule(alarmContract.getRuleContract(), alarmId, isNewAlarm, alarmContract.getOperator());
         saveMetric(alarmContract.getMetricContract(), alarmId, ruleId, isNewAlarm, alarmContract.getOperator());
 
-        //saveJobSchedule(isNewAlarm, alarm);
+        saveJobSchedule(isNewAlarm, alarm);
     }
 
     private Alarm addAlarm(AlarmContract alarmContract) {
