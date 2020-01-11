@@ -267,7 +267,7 @@ figure {
   margin: 2em auto;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  box-shadow: 0 0 45px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 0 45px rgba(0, 0, 0, 0.2); */
   padding: 1.5em 2em;
   min-width: calc(40vw + 4em);
   width: 100%;
@@ -277,7 +277,7 @@ figure {
   /* height: 100%; */
 }
 
-.vjs-value__string .el-form-item__content {
+.el-form-item__content {
   white-space: pre-wrap;
 }
 </style>
