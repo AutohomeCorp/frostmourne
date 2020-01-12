@@ -244,12 +244,14 @@ export default {
   }
 }
 </script>
+
 <style>
 .filter-container {
   padding-bottom: 20px;
 }
 .demo-table-expand {
   font-size: 0;
+  white-space: PRE-WRAP;
 }
 .demo-table-expand label {
   width: 150px;
@@ -275,9 +277,5 @@ figure {
 .echarts {
   width: 100%;
   /* height: 100%; */
-}
-
-.el-form-item__content {
-  white-space: pre-wrap;
 }
 </style>
