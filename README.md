@@ -58,6 +58,10 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 但是随着配置的增加，管理成本，使用成本较高和，配置文件多了之后，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
+## 在线demo
+
+为了更快的理解本项目的作用，提供了一个接口全mock的静态站点供大家预览功能: <a href="https://frostmourne-demo.github.io/">在线demo</a>
+
 ## 欢迎使用
 
 由于项目还在重度开发中，有问题或需要帮助请提issue，或者直接QQ联系我: 690392771
@@ -324,13 +328,14 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 * 日志查询结果分享;日志导出csv
 * 添加dashboard页内容
-* 增加数据mock，部署一个公网可访问的全静态demo站点，方便别人进行功能预览试用
 * 发布1.0-RELEASE
+* 增加assembly打包，降低部署难度
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
 * 加强登录安全(集成ldap, CAS单点登录)
 * 增加Dockerfile
+* 增加docker-compose部署，用于快速启动
 * 增加单元测试
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待讨论)
