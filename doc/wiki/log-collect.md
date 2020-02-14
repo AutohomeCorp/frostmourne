@@ -176,3 +176,5 @@ output {
 这样程序日志规范化和采集已经完成了，日志已经可以用kibana直接查看了。 程序日志采集已经完成，后面会继续介绍我们如何实现日志查询分析和监控。  
 
 其中我们的日志监控系统已经开源，有需要的话，欢迎使用：<a href="https://github.com/AutohomeCorp/frostmourne" target="_blank">frostmourne(霜之哀伤日志监控系统)</a>  
+
+关于内部日志系统的设计实现感兴趣的话，请移步文章: <a href="./doc/wiki/design.md" target="_blank">之家经销商技术部基于Elasticsearch的日志系统设计与实现</a>
