@@ -45,7 +45,7 @@
 </Extension>
 <Input applog_in>
     Module im_file
-    File '/data/project_*.log'
+    File '/[your_log_dir_1]/project_*.log'
     SavePos TRUE
     InputType applog-multi
     Exec applog_layout->parse_csv();
@@ -54,7 +54,7 @@
  
 <Input auth_applog_in>
     Module im_file
-    File '/data/auth/project_*.log'
+    File '/[your_log_dir_2]/project_*.log'
     SavePos TRUE
     InputType applog-multi
     Exec applog_layout->parse_csv();
