@@ -17,7 +17,7 @@ public class ElasticsearchSourceManager {
         }
 
         synchronized (ElasticsearchSourceManager.class) {
-            EsRestClientContainer esRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff());
+            EsRestClientContainer esRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
             esRestClientContainer.init();
 
             containerMap.put(elasticsearchInfo.getName(), esRestClientContainer);

@@ -194,7 +194,7 @@
 
     <el-dialog title="响应数据" :visible.sync="httpResponseDialogVisible">
       <div>
-        <vue-json-pretty :data="httpResonseData"></vue-json-pretty>
+        <vue-json-pretty :data="httpResonseData" />
       </div>
     </el-dialog>
   </div>
@@ -354,23 +354,29 @@ export default {
         })
     },
     onTest() {
-      alarmApi.test(this.form)
-        .then(response => {
-          this.$alert('<pre style="overflow: auto">' + response.result + '</pre>', '测试运行成功', {
-            dangerouslyUseHTMLString: true
-          })
-        })
-        .catch(error => {
-          console.log('测试运行失败: ' + error)
-          this.$message({
-            type: 'success',
-            message: '测试运行失败',
-            duration: 1500
-          })
-        })
+      this.$refs['form'].validate((validate) => {
+        if (validate) {
+          alarmApi.test(this.form)
+            .then(response => {
+              this.$alert('<pre style="overflow: auto">' + response.result + '</pre>', '测试运行成功', {
+                dangerouslyUseHTMLString: true
+              })
+            })
+            .catch(error => {
+              console.log('测试运行失败: ' + error)
+              this.$message({
+                type: 'success',
+                message: '测试运行失败',
+                duration: 1500
+              })
+            })
+        } else {
+          return false
+        }
+      })
     },
     onCancel() {
-      this.$router.push({ path: '/alarm/list' })
+      this.$router.push({ path: '/alarm/list.view' })
     },
     getDetail() {
       adminApi.findById(this.id)
@@ -470,7 +476,7 @@ export default {
     handleHttpTest() {
       alarmApi.httpTest(this.form.metricContract).then(response => {
         this.httpResonseData = response.result
-        this.httpResponseDialogVisible = true;
+        this.httpResponseDialogVisible = true
       })
     }
   }

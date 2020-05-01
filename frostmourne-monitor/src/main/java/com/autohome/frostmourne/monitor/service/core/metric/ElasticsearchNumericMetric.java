@@ -33,6 +33,7 @@ public class ElasticsearchNumericMetric extends AbstractCountMetric {
         elasticsearchInfo.setName(metricContract.getDataSourceContract().getDatasource_name());
         elasticsearchInfo.setEsHostList(metricContract.getDataSourceContract().getService_address());
         elasticsearchInfo.setSniff(false);
+        elasticsearchInfo.setSettings(metricContract.getDataSourceContract().getSettings());
 
         EsRestClientContainer esRestClientContainer = elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
         DateTime end = DateTime.now();

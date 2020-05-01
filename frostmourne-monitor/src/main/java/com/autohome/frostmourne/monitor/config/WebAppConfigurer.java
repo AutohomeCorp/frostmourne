@@ -1,16 +1,12 @@
 package com.autohome.frostmourne.monitor.config;
 
 import java.util.List;
-import java.util.TimeZone;
+
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.jackson.JacksonObjectMapper;
 import com.autohome.frostmourne.monitor.controller.interceptor.PermissionInterceptor;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.util.StdDateFormat;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -63,6 +59,9 @@ public class WebAppConfigurer implements WebMvcConfigurer {
                 .resourceChain(true);
         registry.addResourceHandler("/dist/**")
                 .addResourceLocations("classpath:/dist/")
+                .resourceChain(true);
+        registry.addResourceHandler("/favicon.ico")
+                .addResourceLocations("classpath:/dist/favicon.ico")
                 .resourceChain(true);
     }
 

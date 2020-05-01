@@ -34,7 +34,7 @@
     UPDATE alarm SET job_id = #{jobId} WHERE id=#{alarmId}
   </update>
 
-  <select id="total">
+  <select id="total" resultType="java.lang.Integer">
     SELECT COUNT(*) FROM alarm
   </select>
 </mapper>

@@ -52,6 +52,9 @@ public class DataAdminService implements IDataAdminService {
         dataSource.setModifier(account);
         dataSource.setService_address(dataSourceContract.getService_address());
         dataSource.setModify_at(new Date());
+        if(dataSourceContract.getSettings() != null && dataSourceContract.getSettings().size() > 0) {
+            dataSource.setProperties(JacksonUtil.serialize(dataSourceContract.getSettings()));
+        }
         if (dataSourceContract.getId() != null && dataSourceContract.getId() > 0) {
             dataSource.setId(dataSourceContract.getId());
             return dataSourceMapper.updateByPrimaryKeySelective(dataSource) > 0;
@@ -69,10 +72,11 @@ public class DataAdminService implements IDataAdminService {
         return this.dataSourceMapper.deleteByPrimaryKey(id) > 0;
     }
 
-    public PagerContract<DataSource> findDatasource(int pageIndex, int pageSize, String datasourceType) {
+    public PagerContract<DataSourceContract> findDatasource(int pageIndex, int pageSize, String datasourceType) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<DataSource> list = this.dataSourceMapper.find(datasourceType);
-        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
+        return new PagerContract<>(list.stream().map(DataSourceTransformer::model2Contract).collect(Collectors.toList()),
+                page.getPageSize(), page.getPageNum(), (int) page.getTotal());
     }
 
     public List<DataSource> findDataSourceByType(String datasourceType) {

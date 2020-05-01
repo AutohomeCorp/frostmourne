@@ -15,6 +15,7 @@
       </el-select>
       <el-date-picker
         v-model="datePickValue"
+        class="filter-item"
         type="datetimerange"
         :picker-options="pickerOptions"
         range-separator="至"
@@ -26,7 +27,7 @@
       />
       <el-input v-model="form.esQuery" clearable placeholder="输入查询语句。如: Team: dealer.arch" style="width: 700px;" class="filter-item" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">分享</el-button>
+      <!-- <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">分享</el-button> -->
     </div>
 
     <figure>
@@ -65,7 +66,6 @@ import dataQueryApi from '@/api/data-query.js'
 import dataApi from '@/api/data.js'
 import { formatJsonDate } from '@/utils/datetime.js'
 import moment from 'moment'
-import VueJsonPretty from 'vue-json-pretty'
 import ECharts from 'vue-echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
@@ -83,7 +83,6 @@ export default {
     }
   },
   components: {
-    VueJsonPretty,
     'v-chart': ECharts
   },
   data() {
