@@ -37,7 +37,7 @@
     <div class="filter-container">
       <el-input v-model="form.alarmId" placeholder="输入id" clearable style="width: 150px;" class="filter-item" />
       <el-input v-model="form.name" clearable placeholder="输入名称,支持模糊查询" style="width: 300px;" class="filter-item" />
-      <el-select v-model="form.status" placeholder="报警状态" clearable class="filter-item" @change="onStatusChange">
+      <el-select v-model="form.status" placeholder="监控状态" clearable class="filter-item" @change="onStatusChange">
         <el-option v-for="item in alarmStatus" :key="item.value" :label="item.text" :value="item.value" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>

@@ -10,10 +10,11 @@
     <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
     <result column="modifier" property="modifier" jdbcType="VARCHAR" />
     <result column="modify_at" property="modify_at" jdbcType="TIMESTAMP" />
+    <result column="properties" property="properties" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, datasource_name, datasource_type, service_address, creator, create_at, modifier, 
-    modify_at
+    modify_at, properties
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -31,10 +32,12 @@
     </selectKey>
     insert into data_source (datasource_name, datasource_type, 
       service_address, creator, create_at, 
-      modifier, modify_at)
+      modifier, modify_at, properties
+      )
     values (#{datasource_name,jdbcType=VARCHAR}, #{datasource_type,jdbcType=VARCHAR}, 
       #{service_address,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{create_at,jdbcType=TIMESTAMP}, 
-      #{modifier,jdbcType=VARCHAR}, #{modify_at,jdbcType=TIMESTAMP})
+      #{modifier,jdbcType=VARCHAR}, #{modify_at,jdbcType=TIMESTAMP}, #{properties,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
@@ -63,6 +66,9 @@
       <if test="modify_at != null" >
         modify_at,
       </if>
+      <if test="properties != null" >
+        properties,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="datasource_name != null" >
@@ -85,6 +91,9 @@
       </if>
       <if test="modify_at != null" >
         #{modify_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="properties != null" >
+        #{properties,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -112,6 +121,9 @@
       <if test="modify_at != null" >
         modify_at = #{modify_at,jdbcType=TIMESTAMP},
       </if>
+      <if test="properties != null" >
+        properties = #{properties,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -123,7 +135,8 @@
       creator = #{creator,jdbcType=VARCHAR},
       create_at = #{create_at,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=VARCHAR},
-      modify_at = #{modify_at,jdbcType=TIMESTAMP}
+      modify_at = #{modify_at,jdbcType=TIMESTAMP},
+      properties = #{properties,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

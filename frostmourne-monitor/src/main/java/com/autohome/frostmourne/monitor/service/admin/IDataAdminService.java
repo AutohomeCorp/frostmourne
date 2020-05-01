@@ -21,7 +21,7 @@ public interface IDataAdminService {
 
     boolean removeDataName(Long datanameId);
 
-    PagerContract<DataSource> findDatasource(int pageIndex, int pageSize, String datasourceType);
+    PagerContract<DataSourceContract> findDatasource(int pageIndex, int pageSize, String datasourceType);
 
     List<DataSource> findDataSourceByType(String datasourceType);
 

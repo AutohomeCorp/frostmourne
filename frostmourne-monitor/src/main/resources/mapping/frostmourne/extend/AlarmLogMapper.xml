@@ -38,4 +38,23 @@
      create_at < #{reserveLine}
     ]]>
   </delete>
+
+  <select id="count" resultType="java.lang.Integer">
+    SELECT COUNT(0) FROM alarm_log
+    WHERE create_at BETWEEN #{startTime} AND #{endTime}
+    <if test="verifyResult != null and verifyResult != ''">
+      AND verify_result = #{verifyResult}
+    </if>
+  </select>
+
+  <select id="aggregation" resultType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate">
+    SELECT from_days(to_days(create_at)) AS `date`, COUNT(0) AS `count`
+      FROM alarm_log
+     WHERE create_at BETWEEN #{startTime} AND #{endTime}
+    <if test="verifyResult != null and verifyResult != ''">
+      AND verify_result = #{verifyResult}
+    </if>
+     GROUP BY to_days(create_at)
+  </select>
+
 </mapper>

@@ -19,6 +19,8 @@ public class DataSource {
 
     private Date modify_at;
 
+    private String properties;
+
     public Long getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class DataSource {
 
     public void setModify_at(Date modify_at) {
         this.modify_at = modify_at;
+    }
+
+    public String getProperties() {
+        return properties;
+    }
+
+    public void setProperties(String properties) {
+        this.properties = properties == null ? null : properties.trim();
     }
 }

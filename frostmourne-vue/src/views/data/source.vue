@@ -57,6 +57,12 @@
             <i class="el-icon-question" />
           </el-tooltip>
         </el-form-item>
+        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="认证用户" :label-width="formLabelWidth">
+          <el-input v-model="editData.settings.username" placeholder="无认证不需要填写" autocomplete="off" />
+        </el-form-item>
+        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="密码" :label-width="formLabelWidth">
+          <el-input v-model="editData.settings.password" placeholder="无认证不需要填写" autocomplete="off" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -91,7 +97,8 @@ export default {
         id: 0,
         datasource_name: '',
         datasource_type: '',
-        service_address: ''
+        service_address: '',
+        settings: {}
       },
       formLabelWidth: '80px',
       dialogFormVisible: false,
@@ -136,8 +143,11 @@ export default {
         this.editData.datasource_type = row.datasource_type
         this.editData.service_address = row.service_address
         this.disableTypeSelect = true
+        this.editData.settings = row.settings
       } else {
-        this.editData = {}
+        this.editData = {
+          settings: {}
+        }
         this.disableTypeSelect = false
       }
 

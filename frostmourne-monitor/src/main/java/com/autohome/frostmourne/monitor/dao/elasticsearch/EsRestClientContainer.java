@@ -6,15 +6,21 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Splitter;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.sniff.Sniffer;
+import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,14 +41,32 @@ public class EsRestClientContainer {
 
     private String name;
 
-    public EsRestClientContainer(String esHostList, boolean sniff) {
+    private Map<String, String> settings;
+
+    public EsRestClientContainer(String esHostList, boolean sniff, Map<String, String> settings) {
         esHosts = Splitter.on(",").splitToList(esHostList);
         this.sniff = sniff;
+        this.settings = settings;
     }
 
     public void init() {
         RestClientBuilder restClientBuilder = RestClient.builder(parseHttpHost(esHosts)
                 .toArray(new HttpHost[0]));
+
+        if(this.settings != null && this.settings.size() > 0 &&
+                !Strings.isNullOrEmpty(this.settings.get("username"))
+                && !Strings.isNullOrEmpty(this.settings.get("password"))) {
+            String userName = this.settings.get("username");
+            String password = this.settings.get("password");
+            final CredentialsProvider credentialsProvider =
+                    new BasicCredentialsProvider();
+            credentialsProvider.setCredentials(AuthScope.ANY,
+                    new UsernamePasswordCredentials(userName, password));
+            restClientBuilder.setHttpClientConfigCallback(httpAsyncClientBuilder -> {
+                httpAsyncClientBuilder.disableAuthCaching();
+                return httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+            });
+        }
         restHighLevelClient = new RestHighLevelClient(restClientBuilder);
         this.restLowLevelClient = restHighLevelClient.getLowLevelClient();
         if (sniff) {
@@ -79,7 +103,7 @@ public class EsRestClientContainer {
 
     public boolean checkIndexExists(String index) {
         try {
-            Response response = this.restLowLevelClient.performRequest("HEAD", index);
+            Response response = this.restLowLevelClient.performRequest("HEAD", "/" + index);
             return response.getStatusLine().getStatusCode() == 200;
         } catch (IOException ex) {
             throw new RuntimeException(ex);

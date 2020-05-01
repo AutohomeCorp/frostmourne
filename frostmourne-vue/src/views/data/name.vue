@@ -69,7 +69,6 @@
         <el-form-item label="时间字段" :label-width="formLabelWidth">
           <el-input v-model="editData.timestamp_field" autocomplete="off" />
         </el-form-item>
-
         <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="索引前缀" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.indexPrefix" placeholder="applog-" autocomplete="off" />
         </el-form-item>

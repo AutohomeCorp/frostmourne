@@ -40,4 +40,28 @@
     LIMIT 1
   </select>
 
+  <select id="count" resultType="java.lang.Integer">
+    SELECT COUNT(0) FROM alert_log
+    WHERE create_at BETWEEN #{startTime} AND #{endTime}
+    <if test="recipient != null and recipient != ''">
+      AND recipient = #{recipient}
+    </if>
+    <if test="sendStatus != null and sendStatus != ''">
+      AND send_status = #{sendStatus}
+    </if>
+  </select>
+
+  <select id="aggregation" resultType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate">
+    SELECT from_days(to_days(create_at)) AS `date`, COUNT(0) AS `count`
+    FROM alert_log
+    WHERE create_at BETWEEN #{startTime} AND #{endTime}
+    <if test="recipient != null and recipient != ''">
+      AND recipient = #{recipient}
+    </if>
+    <if test="sendStatus != null and sendStatus != ''">
+      AND send_status = #{sendStatus}
+    </if>
+    GROUP BY to_days(create_at)
+  </select>
+
 </mapper>
