@@ -20,17 +20,14 @@ public class AlarmExecutor {
 
     private IMetric metric;
 
-    private IAlertService alertService;
-
     private IGenerateShortLinkService generateShortLinkService;
 
     private AlarmProcessLogger alarmProcessLogger;
 
-    public AlarmExecutor(AlarmContract alarmContract, IRule rule, IMetric metric, IAlertService alertService, IGenerateShortLinkService generateShortLinkService) {
+    public AlarmExecutor(AlarmContract alarmContract, IRule rule, IMetric metric, IGenerateShortLinkService generateShortLinkService) {
         this.alarmContract = alarmContract;
         this.rule = rule;
         this.metric = metric;
-        this.alertService = alertService;
         this.generateShortLinkService = generateShortLinkService;
         this.alarmProcessLogger = new AlarmProcessLogger();
     }
@@ -52,15 +49,7 @@ public class AlarmExecutor {
             boolean isAlert = this.rule.verify(this.alarmProcessLogger, alarmContract.getRuleContract(), alarmContract.getMetricContract(), metric);
             this.alarmProcessLogger.setAlert(isAlert);
             if (isAlert) {
-                String alertMessage = this.rule.alertMessage(alarmContract.getRuleContract(), this.alarmProcessLogger.getContext());
-                String timeString = DateTime.now().toString("yyyy-MM-dd hh:mm:ss");
-                String shortLink = generateShortLinkService.generate(alarmProcessLogger);
-                String completeMessage = null;
-                if(Strings.isNullOrEmpty(shortLink)) {
-                    completeMessage = String.format("[%s]\n%s", timeString, alertMessage);
-                } else {
-                    completeMessage = String.format("[%s]\n%s\n\n详细请看: %s", timeString, alertMessage, shortLink);
-                }
+                String completeMessage = completeAlertMessage();
                 alarmProcessLogger.setAlertMessage(completeMessage);
             }
             return ExecuteStatus.SUCCESS;
@@ -68,5 +57,18 @@ public class AlarmExecutor {
             LOGGER.error("error when doRule", ex);
             return ExecuteStatus.ERROR;
         }
+    }
+
+    private String completeAlertMessage() {
+        String alertMessage = this.rule.alertMessage(alarmContract.getRuleContract(), this.alarmProcessLogger.getContext());
+        String timeString = DateTime.now().toString("yyyy-MM-dd hh:mm:ss");
+        String shortLink = generateShortLinkService.generate(alarmProcessLogger);
+        String completeMessage = null;
+        if(Strings.isNullOrEmpty(shortLink)) {
+            completeMessage = String.format("[%s]\n%s", timeString, alertMessage);
+        } else {
+            completeMessage = String.format("[%s]\n%s\n\n详细请看: %s", timeString, alertMessage, shortLink);
+        }
+        return completeMessage;
     }
 }

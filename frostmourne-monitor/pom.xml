@@ -5,10 +5,10 @@
     <parent>
         <groupId>com.autohome</groupId>
         <artifactId>frostmourne</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.1-RELEASE</version>
     </parent>
     <artifactId>frostmourne-monitor</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1-RELEASE</version>
     <name>frostmourne-monitor</name>
     <description>frostmourne-monitor</description>
 
@@ -19,6 +19,7 @@
         <pagehelper.version>5.0.0</pagehelper.version>
         <mybatis-spring-boot-starter.version>1.2.0</mybatis-spring-boot-starter.version>
         <feign-okhttp.version>10.1.0</feign-okhttp.version>
+        <opencsv.version>2.3</opencsv.version>
     </properties>
 
     <dependencies>
@@ -161,9 +162,17 @@
             <version>0.10.7</version>
             <scope>runtime</scope>
         </dependency>
+
+        <dependency>
+            <groupId>net.sf.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>${opencsv.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <finalName>frostmourne-monitor-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -176,6 +185,24 @@
                         <goals>
                             <goal>build-info</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>frostmourne-monitor-${project.version}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/assembly/assembly-descriptor.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

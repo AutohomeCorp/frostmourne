@@ -33,9 +33,6 @@ public class AlarmService implements IAlarmService {
     private IAlertService alertService;
 
     @Resource
-    private AlarmLogMapper alarmLogMapper;
-
-    @Resource
     private IGenerateShortLinkService generateShortLinkService;
 
     public AlarmProcessLogger run(String account, Long alarmId, boolean test) {
@@ -57,7 +54,7 @@ public class AlarmService implements IAlarmService {
             dataSourceType = alarmContract.getMetricContract().getData_name();
         }
         IMetric metric = this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetric_type());
-        AlarmExecutor alarmExecutor = new AlarmExecutor(alarmContract, rule, metric, alertService, generateShortLinkService);
+        AlarmExecutor alarmExecutor = new AlarmExecutor(alarmContract, rule, metric, generateShortLinkService);
         AlarmProcessLogger alarmProcessLogger = alarmExecutor.execute();
         if (!test) {
             updateAlarmLastExeuteInfo(alarmContract.getId(), alarmProcessLogger.getStart().toDate(), alarmProcessLogger.getExecuteStatus());
@@ -76,17 +73,7 @@ public class AlarmService implements IAlarmService {
     }
 
     private void alarmLog(AlarmProcessLogger alarmProcessLogger) {
-        AlarmLog alarmLog = new AlarmLog();
-        alarmLog.setAlarm_id(alarmProcessLogger.getAlarmContract().getId());
-        alarmLog.setCost((int) (alarmProcessLogger.getEnd().getMillis() - alarmProcessLogger.getStart().getMillis()));
-        alarmLog.setCreate_at(new Date());
-        alarmLog.setExe_start(alarmProcessLogger.getStart().toDate());
-        alarmLog.setExe_end(alarmProcessLogger.getEnd().toDate());
-        alarmLog.setExecute_result(alarmProcessLogger.getExecuteStatus().getName());
-        alarmLog.setMessage(alarmProcessLogger.traceInfo());
-        alarmLog.setVerify_result(alarmProcessLogger.getAlert() ? VerifyResult.TRUE : VerifyResult.FALSE);
-        alarmLogMapper.insert(alarmLog);
-        alarmProcessLogger.setAlarmLog(alarmLog);
+        alertService.alarmLog(alarmProcessLogger);
     }
 
 }

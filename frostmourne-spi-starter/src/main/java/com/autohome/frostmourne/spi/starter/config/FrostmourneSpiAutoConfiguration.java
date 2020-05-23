@@ -2,7 +2,10 @@ package com.autohome.frostmourne.spi.starter.config;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Resource;
+
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
+import com.autohome.frostmourne.spi.starter.mock.MockFrostmourneSpi;
 import feign.Feign;
 import feign.Logger;
 import feign.Request;
@@ -20,6 +23,9 @@ import org.springframework.context.annotation.Bean;
 public class FrostmourneSpiAutoConfiguration {
 
     private FrostmourneSpiProperties frostmourneSpiProperties;
+
+    @Resource
+    private OkHttpClient okHttpClient;
 
     public FrostmourneSpiAutoConfiguration(FrostmourneSpiProperties frostmourneSpiProperties) {
         this.frostmourneSpiProperties = frostmourneSpiProperties;
@@ -46,11 +52,16 @@ public class FrostmourneSpiAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public IFrostmourneSpiApi frostmourneSpiApi() {
+
+        if(frostmourneSpiProperties.getMock()) {
+            return new MockFrostmourneSpi();
+        }
+
         return Feign.builder().options(defaultOptions())
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .retryer(feignRetryer())
-                .client(okHttpClient())
+                .client(okHttpClient)
                 .logLevel(feignLoggerLevel())
                 .target(IFrostmourneSpiApi.class, frostmourneSpiProperties.getServiceAddr());
     }

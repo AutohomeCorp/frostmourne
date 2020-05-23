@@ -5,6 +5,12 @@
       "type": "java.lang.String",
       "description": "spi service address",
       "defaultValue": "http://localhost:8080/"
+    },
+    {
+      "name": "frostmourne.spi.mock",
+      "type": "java.lang.Boolean",
+      "description": "if use mock service",
+      "defaultValue": "false"
     }
   ]
 }
