@@ -43,8 +43,7 @@ public class HttpMetric implements IMetric {
             String json = responseEntity.getBody();
             if (!Strings.isNullOrEmpty(json)) {
                 try {
-                    Map<String, Object> map = mapper.readValue(json, new TypeReference<Map<String, Object>>() {
-                    });
+                    Map<String, Object> map = mapper.readValue(json, new TypeReference<Map<String, Object>>() {});
                     result.putAll(map);
                 } catch (Exception ex) {
                     result.put("ResponseBody", json);

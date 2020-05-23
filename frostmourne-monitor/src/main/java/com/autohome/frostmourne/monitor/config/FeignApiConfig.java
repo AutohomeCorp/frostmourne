@@ -1,6 +1,7 @@
 package com.autohome.frostmourne.monitor.config;
 
 import com.autohome.frostmourne.monitor.dao.http.IXxlJob;
+import com.autohome.frostmourne.monitor.dao.http.MockXxlJob;
 import feign.Feign;
 import feign.Request;
 import feign.Retryer;
@@ -18,6 +19,9 @@ public class FeignApiConfig {
     @Value("${xxl.job.admin.addresses}")
     private String xxlJobAdminHost;
 
+    @Value("${xxl.job.mock}")
+    private Boolean mock;
+
     @Bean
     public OkHttpClient okHttpClient() {
         return new OkHttpClient();
@@ -25,6 +29,9 @@ public class FeignApiConfig {
 
     @Bean
     public IXxlJob xxlJobApi(Retryer retryer, Request.Options defaultOptions) {
+        if (mock) {
+            return new MockXxlJob();
+        }
         return Feign.builder().options(defaultOptions)
                 .encoder(new FormEncoder(new JacksonEncoder()))
                 .decoder(new JacksonDecoder())

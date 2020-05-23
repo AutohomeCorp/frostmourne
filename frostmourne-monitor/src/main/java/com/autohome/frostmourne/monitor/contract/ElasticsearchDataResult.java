@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.contract;
 import java.util.List;
 import java.util.Map;
 
-public class ElasticsearchDataResult {
+public class  ElasticsearchDataResult {
 
     private long total;
 

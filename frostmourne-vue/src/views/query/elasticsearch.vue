@@ -27,7 +27,7 @@
       />
       <el-input v-model="form.esQuery" clearable placeholder="输入查询语句。如: Team: dealer.arch" style="width: 700px;" class="filter-item" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
-      <!-- <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">分享</el-button> -->
+      <el-button class="filter-item" type="info" icon="el-icon-message" @click="share">分享</el-button>
     </div>
 
     <figure>
@@ -213,6 +213,44 @@ export default {
         this.total = response.result.total
         this.charData(response.result.statItem)
       })
+    },
+    share() {
+      var sb = []
+      sb.push('dataName=' + this.form.dataName)
+      sb.push('startTime=' + this.form.startTime.toISOString())
+      sb.push('endTime=' + this.form.endTime.toISOString())
+      sb.push('esQuery=' + this.form.esQuery)
+      sb.push('sortOrder=' + this.form.sortOrder)
+      sb.push('intervalInSeconds=' + this.form.intervalInSeconds)
+      const uri = window.location.href.indexOf('?') >= 0
+        ? window.location.href.substr(0, window.location.href.indexOf('?'))
+        : window.location.href
+      const url = encodeURI(uri + '?' + sb.join('&'))
+      dataQueryApi.shortenLink(url).then(response => {
+        const shorten = response.result === '' ? url : response.result
+        this.copyToClipboard(shorten)
+      })
+    },
+    copyToClipboard(message) {
+      var textArea = document.createElement('textarea')
+      textArea.style.position = 'fixed'
+      textArea.style.top = '0'
+      textArea.style.left = '0'
+      textArea.style.width = '2em'
+      textArea.style.height = '2em'
+      textArea.style.padding = '0'
+      textArea.style.border = 'none'
+      textArea.style.outline = 'none'
+      textArea.style.boxShadow = 'none'
+      textArea.style.background = 'transparent'
+      textArea.value = message
+      document.body.appendChild(textArea)
+      textArea.select()
+      if (document.execCommand('copy')) {
+        this.$message({ message: '已复制: ' + message, type: 'success', duration: 4000, offset: 60 })
+      }
+
+      document.body.removeChild(textArea)
     },
     charData(statItem) {
       const min = formatJsonDate(statItem.keys[0], 'yyyy-MM-dd hh:mm:ss')

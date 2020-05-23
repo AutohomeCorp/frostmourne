@@ -177,7 +177,8 @@ public class AlertService implements IAlertService {
         }
     }
 
-    private void alarmLog(AlarmProcessLogger alarmProcessLogger) {
+    @Override
+    public void alarmLog(AlarmProcessLogger alarmProcessLogger) {
         AlarmLog alarmLog = new AlarmLog();
         alarmLog.setAlarm_id(alarmProcessLogger.getAlarmContract().getId());
         alarmLog.setCost((int) (alarmProcessLogger.getEnd().getMillis() - alarmProcessLogger.getStart().getMillis()));
