@@ -1,6 +1,6 @@
 ## Quick Start
 
-由于frostmourne-monitor正常启动需要依赖xxl-job和frostmourne-spi的部署，还以来短网址服务，邮箱服务等等；为了达到本地调试，快速启动的目的，
+由于frostmourne-monitor正常启动需要依赖xxl-job和frostmourne-spi的部署，还依赖短网址服务，邮箱服务等等；为了达到本地调试，快速启动的目的，
 你可以设置frostmourne-monitor的如下两个配置：
 
 ```
