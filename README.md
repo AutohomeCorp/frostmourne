@@ -109,7 +109,7 @@ druid.datasource.frostmourne.username=[username]
 druid.datasource.frostmourne.password=[plain_password]
 ```
 
-密码默认没有使用明文，没有加密策略，如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
+密码默认使用明文，没有加密策略，如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
 
 ### 快速启动
 
