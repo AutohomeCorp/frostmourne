@@ -49,12 +49,13 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
     private ElasticsearchSourceManager elasticsearchSourceManager;
 
     public ElasticsearchDataResult query(DataNameContract dataNameContract, DataSourceContract dataSourceContract,
-                                         DateTime start, DateTime end, String esQuery,
-                                         String scrollId, String sortOrder, Integer intervalInSeconds) {
+                                         DateTime start, DateTime end, String esQuery, String scrollId,
+                                         String sortOrder, Integer intervalInSeconds, boolean includeDateHist) {
         ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo();
         elasticsearchInfo.setName(dataSourceContract.getDatasource_name());
         elasticsearchInfo.setEsHostList(dataSourceContract.getService_address());
         elasticsearchInfo.setSniff(false);
+        elasticsearchInfo.setSettings(dataSourceContract.getSettings());
 
         EsRestClientContainer esRestClientContainer = elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
 
@@ -83,15 +84,17 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
                 searchRequest.source(searchSourceBuilder);
                 searchRequest.scroll(DEFAULT_TIME_VALUE);
 
-                DateHistogramAggregationBuilder dateHistogramAggregationBuilder =
-                        AggregationBuilders.dateHistogram("date_hist")
-                                .timeZone(DateTimeZone.getDefault())
-                                .extendedBounds(new ExtendedBounds(start.getMillis(), end.getMillis()))
-                                .field(dataNameContract.getTimestamp_field())
-                                .format("yyyy-MM-dd'T'HH:mm:ssZ")
-                                .dateHistogramInterval(DateHistogramInterval.seconds(intervalInSeconds));
-                searchSourceBuilder.aggregation(dateHistogramAggregationBuilder);
-                searchRequest.source(searchSourceBuilder);
+                if(includeDateHist) {
+                    DateHistogramAggregationBuilder dateHistogramAggregationBuilder =
+                            AggregationBuilders.dateHistogram("date_hist")
+                                    .timeZone(DateTimeZone.getDefault())
+                                    .extendedBounds(new ExtendedBounds(start.getMillis(), end.getMillis()))
+                                    .field(dataNameContract.getTimestamp_field())
+                                    .format("yyyy-MM-dd'T'HH:mm:ssZ")
+                                    .dateHistogramInterval(DateHistogramInterval.seconds(intervalInSeconds));
+                    searchSourceBuilder.aggregation(dateHistogramAggregationBuilder);
+                }
+
 
                 searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest);
             } else {

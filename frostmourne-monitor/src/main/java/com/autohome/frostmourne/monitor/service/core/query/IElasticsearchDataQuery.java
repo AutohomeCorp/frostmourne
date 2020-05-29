@@ -9,5 +9,5 @@ public interface IElasticsearchDataQuery {
 
     ElasticsearchDataResult query(DataNameContract dataNameContract, DataSourceContract dataSourceContract,
                                   DateTime start, DateTime end, String esQuery,
-                                  String scrollId, String sortOrder, Integer intervalInSeconds);
+                                  String scrollId, String sortOrder, Integer intervalInSeconds, boolean includeDateHist);
 }

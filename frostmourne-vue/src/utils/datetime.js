@@ -42,7 +42,9 @@ const getDateByJsonStr = function(dateStr) {
 }
 // 格式话JSON日期
 const formatJsonDate = function(date, format) {
-  if (typeof date === 'string') {
+  if (/1[0-9]{12}/.test(date)) {
+    date = new Date(date)
+  } else if (typeof date === 'string') {
     date = getDateByStr(date)
   }
   return formatDate(date, format)
@@ -112,3 +114,4 @@ const valueParseResult = value => {
 }
 
 export { datetimeFormat, formatJsonDate, formatDateText, parseDateTime, valueParseResult, formatTimeText }
+

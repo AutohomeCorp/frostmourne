@@ -37,7 +37,7 @@ public class QueryService implements IQueryService {
     @Resource
     private IDataAdminService dataAdminService;
 
-    public ElasticsearchDataResult ElasticsearchQuery(String dataName, Date startTime, Date endTime, String esQuery,
+    public ElasticsearchDataResult elasticsearchQuery(String dataName, Date startTime, Date endTime, String esQuery,
                                                       String scrollId, String sortOrder, Integer intervalInSeconds) {
         if (intervalInSeconds == null || intervalInSeconds == 0) {
             Long timeGap = endTime.getTime() - startTime.getTime();
@@ -46,7 +46,13 @@ public class QueryService implements IQueryService {
         DataNameContract dataNameContract = dataAdminService.findDataNameByName(dataName);
         DataSourceContract dataSourceContract = dataAdminService.findDatasourceById(dataNameContract.getData_source_id());
         ElasticsearchDataResult elasticsearchDataResult = elasticsearchDataQuery.query(dataNameContract, dataSourceContract,
-                new DateTime(startTime), new DateTime(endTime), esQuery, scrollId, sortOrder, intervalInSeconds);
+                new DateTime(startTime), new DateTime(endTime), esQuery, scrollId, sortOrder, intervalInSeconds, true);
         return elasticsearchDataResult;
+    }
+
+    public ElasticsearchDataResult elasticsearchQuery(DataNameContract dataNameContract, DataSourceContract dataSourceContract,
+                                                      DateTime startTime, DateTime endTime, String esQuery, String scrollId,
+                                                      String sortOrder) {
+        return elasticsearchDataQuery.query(dataNameContract, dataSourceContract, startTime, endTime, esQuery, scrollId, sortOrder, null, false);
     }
 }

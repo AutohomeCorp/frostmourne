@@ -148,7 +148,7 @@ export default {
         dataName: null,
         startTime: null,
         endTime: null,
-        esQuery: null,
+        esQuery: '*',
         sortOrder: 'desc',
         intervalInSeconds: '0'
       },

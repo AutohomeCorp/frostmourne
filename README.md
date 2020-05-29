@@ -152,6 +152,19 @@ xxl.job.executor.logretentiondays=3
 xxl.job.alarm.email=[your_email]
 ```
 
+如果你觉得从官方下载源码修改部署太麻烦，我会在release里附加处理好了的xxl-job-admin的zip包，你可以下载直接解压使用，启动脚本
+都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。
+
+```bash
+./scripts/startup.sh
+```
+
+执行如下命令停止应用：
+
+```bash
+./scripts/shutdown.sh
+```
+
 启动frostmourne-spi项目，active profile设置为default, 测试地址: http://localhost:8180  
 启动frostmourne-monitor项目, active profile设置为local, 测试地址: http://localhost:8080   
 使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
@@ -318,6 +331,8 @@ frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目�
 ./scripts/shutdown.sh
 ```
 
+xxl-job-admin的zip包也已经放到release里，使用方式相同。
+
 ## 监控测试
 
 一般在创建监控或者刚创建完监控的时候，你会想测试一下监控的执行。在监控保存页面有测试功能，你可以尝试不同的查询
@@ -347,17 +362,19 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 目前已知的规划有: 
 
-* 发布0.1-RELEASE
 * 日志导出csv
+* 增加Dockerfile
+* 数据源增加连接测试功能
+* 报警方式增加HTTP POST方式
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控和同比环比监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
 * 加强登录安全(集成ldap, CAS单点登录)
-* 增加Dockerfile
 * 增加docker-compose部署，用于快速启动
 * 增加单元测试
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待讨论)
+* 发布1.0-RELEASE
 
 ## 主要技术栈
 
