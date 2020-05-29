@@ -7,12 +7,8 @@
       <el-select v-model="form.data_source_id" placeholder="选择数据源" class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasource_name" :label="item.datasource_name" :value="item.id" />
       </el-select>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">
-        查询
-      </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="edit(null)">
-        新增
-      </el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="edit(null)">新增</el-button>
     </div>
 
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
@@ -51,7 +47,15 @@
         </el-form-item>
 
         <el-form-item label="类型" :label-width="formLabelWidth">
-          <el-select v-model="editData.datasource_type" :disabled="disableEdit" placeholder="类型" clearable style="width: 190px" class="filter-item" @change="dialogSourceTypeChangeHandler">
+          <el-select
+            v-model="editData.datasource_type"
+            :disabled="disableEdit"
+            placeholder="类型"
+            clearable
+            style="width: 190px"
+            class="filter-item"
+            @change="dialogSourceTypeChangeHandler"
+          >
             <el-option label="elasticsearch" value="elasticsearch" />
           </el-select>
         </el-form-item>
@@ -74,7 +78,7 @@
         </el-form-item>
 
         <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="时间后缀" :label-width="formLabelWidth">
-          <el-input v-model="editData.settings.timePattern" placeholder="yyyyMMdd" autocomplete="off" />
+          <el-input v-model="editData.settings.timePattern" placeholder="如: yyyyMMdd。最小单位到天, 小于天请用*表示" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -167,7 +171,7 @@ export default {
         this.disableEdit = false
         this.editData = {
           id: 0,
-          data_name: '',
+          data_name: null,
           data_source_id: null,
           datasource_type: '',
           display_name: '',

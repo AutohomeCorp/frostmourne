@@ -13,6 +13,7 @@ import com.autohome.frostmourne.core.contract.Protocol;
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
 import com.autohome.frostmourne.monitor.service.core.query.IQueryService;
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
+import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -39,11 +40,14 @@ public class DataQueryController {
                                                                @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
                                                                @RequestParam(value = "endTime", required = true)
                                                                @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
-                                                               @RequestParam(value = "esQuery", required = true) String esQuery,
+                                                               @RequestParam(value = "esQuery", required = false) String esQuery,
                                                                @RequestParam(value = "scrollId", required = false) String scrollId,
                                                                @RequestParam(value = "sortOrder", required = true) String sortOrder,
                                                                @RequestParam(value = "intervalInSeconds", required = false) Integer intervalInSeconds) {
-        ElasticsearchDataResult elasticsearchDataResult = queryService.ElasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, intervalInSeconds);
+        if(Strings.isNullOrEmpty(esQuery)) {
+            esQuery = "*";
+        }
+        ElasticsearchDataResult elasticsearchDataResult = queryService.elasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, intervalInSeconds);
         return new Protocol<>(elasticsearchDataResult);
     }
 
@@ -73,7 +77,7 @@ public class DataQueryController {
         response.getOutputStream().write(bom);
         try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
              CSVWriter csvWriter = new CSVWriter(outputStreamWriter, ',')) {
-            ElasticsearchDataResult elasticsearchDataResult = queryService.ElasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, null);
+            ElasticsearchDataResult elasticsearchDataResult = queryService.elasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, null);
             csvWriter.writeNext(elasticsearchDataResult.getFields().toArray(new String[0]));
             while (true) {
                 if (elasticsearchDataResult.getTotal() > 10 * 10000) {
@@ -89,7 +93,7 @@ public class DataQueryController {
                     csvWriter.writeNext(data);
                 }
                 scrollId = elasticsearchDataResult.getScrollId();
-                elasticsearchDataResult = queryService.ElasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, null);
+                elasticsearchDataResult = queryService.elasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, null);
             }
         } finally {
             response.getOutputStream().flush();

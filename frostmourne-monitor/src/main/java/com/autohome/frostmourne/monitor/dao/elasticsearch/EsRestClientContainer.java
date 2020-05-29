@@ -78,7 +78,7 @@ public class EsRestClientContainer {
         if (this.sniffer != null) {
             try {
                 this.sniffer.close();
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 LOGGER.error("error when close elasticsearch sniffer", ex);
             }
         }
@@ -103,9 +103,13 @@ public class EsRestClientContainer {
 
     public boolean checkIndexExists(String index) {
         try {
-            Response response = this.restLowLevelClient.performRequest("HEAD", "/" + index);
-            return response.getStatusLine().getStatusCode() == 200;
-        } catch (IOException ex) {
+            /*GetIndexRequest request = new GetIndexRequest(index);
+            request.local(false);
+            request.humanReadable(true);
+            request.includeDefaults(false);
+            return this.restHighLevelClient.indices().exists(request, RequestOptions.DEFAULT);*/
+            return true;
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -134,6 +138,16 @@ public class EsRestClientContainer {
             to = now;
         }
         List<String> indiceList = new ArrayList<>();
+        if(Strings.isNullOrEmpty(datePattern)) {
+            indiceList.add(prefix);
+            return indiceList.toArray(new String[0]);
+        }
+
+        if(datePattern.equals("*")) {
+            indiceList.add(prefix + "*");
+            return indiceList.toArray(new String[0]);
+        }
+
         DateTime cursor = DateTime.parse(from.minusDays(1).toString("yyyy-MM-dd"));
 
         while (cursor.getMillis() < to.getMillis()) {
@@ -142,7 +156,7 @@ public class EsRestClientContainer {
                 if (!indiceList.contains(index)) {
                     indiceList.add(index);
                 }
-            } else if (checkIndexOpenExists(index)) {
+            } else if (checkIndexExists(index)) {
                 if (!indiceList.contains(index)) {
                     indiceList.add(index);
                 }

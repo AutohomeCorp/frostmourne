@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.autohome</groupId>
     <artifactId>frostmourne</artifactId>
-    <version>0.1-RELEASE</version>
+    <version>0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>frostmourne</name>
     <description>frostmourne for Spring Boot</description>
@@ -51,12 +51,12 @@
             <dependency>
                 <groupId>com.autohome</groupId>
                 <artifactId>frostmourne-core</artifactId>
-                <version>0.1-RELEASE</version>
+                <version>0.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.autohome</groupId>
                 <artifactId>frostmourne-spi-starter</artifactId>
-                <version>0.1-RELEASE</version>
+                <version>0.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
