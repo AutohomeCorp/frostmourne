@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.service.core.query;
 
 import java.util.Date;
 
+import au.com.bytecode.opencsv.CSVWriter;
 import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
@@ -12,7 +13,6 @@ public interface IQueryService {
     ElasticsearchDataResult elasticsearchQuery(String dataName, Date startTime, Date endTime, String esQuery,
                                                String scrollId, String sortOrder, Integer intervalInSeconds);
 
-    ElasticsearchDataResult elasticsearchQuery(DataNameContract dataNameContract, DataSourceContract dataSourceContract,
-                                               DateTime startTime, DateTime endTime, String esQuery, String scrollId,
-                                               String sortOrder);
+    void exportToCsv(CSVWriter csvWriter, String dataName, DateTime startTime, DateTime endTime, String esQuery,
+                                        String scrollId, String sortOrder);
 }

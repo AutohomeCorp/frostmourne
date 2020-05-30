@@ -25,8 +25,7 @@ public class QueryServiceTest {
     public void ElasticsearchQueryTest() {
         DateTime end = DateTime.now();
         DateTime start = end.minusMinutes(10);
-        ElasticsearchDataResult result = queryService.ElasticsearchQuery("dealer.program.log", start.toDate(), end.toDate(), "Team: dealer.arch",
+        ElasticsearchDataResult result = queryService.elasticsearchQuery("dealer.program.log", start.toDate(), end.toDate(), "Team: dealer.arch",
                 null, "desc", 60);
-
     }
 }
