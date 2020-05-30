@@ -78,7 +78,7 @@
         </el-form-item>
 
         <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="时间后缀" :label-width="formLabelWidth">
-          <el-input v-model="editData.settings.timePattern" placeholder="如: yyyyMMdd。最小单位到天, 小于天请用*表示" autocomplete="off" />
+          <el-input v-model="editData.settings.timePattern" placeholder="可空。举例: yyyyMMdd。最小单位到天, 小于天请用*表示" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -1,7 +1,9 @@
 package com.autohome.frostmourne.spi.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
@@ -21,7 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -73,6 +77,10 @@ public class MessageService implements IMessageService {
             return smsSenderPlugin.send(alarmMessage.getTitle(), alarmMessage.getContent(), cellphoneList);
         }
 
+        if(way.equalsIgnoreCase("http_post") && Strings.isNullOrEmpty(alarmMessage.getHttpPostEndpoint())) {
+            return sendHttpPost(alarmMessage.getHttpPostEndpoint(), alarmMessage);
+        }
+
         throw new IllegalArgumentException("unknown way: " + way);
     }
 
@@ -104,6 +112,24 @@ public class MessageService implements IMessageService {
             return dingMessageResponse != null && dingMessageResponse.getErrcode() != null && dingMessageResponse.getErrcode() == 0;
         } catch (Exception ex) {
             LOGGER.error("error when send ding robot message", ex);
+            return false;
+        }
+    }
+
+    boolean sendHttpPost(String httpPostEndPoint, AlarmMessage alarmMessage) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+            headers.setContentType(type);
+            headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+            Map<String, Object> data = new HashMap<>();
+            data.put("recipients", alarmMessage.getRecipients());
+            data.put("content", alarmMessage.getContent());
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(data, headers);
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(httpPostEndPoint, request, String.class);
+            return responseEntity.getStatusCode() == HttpStatus.OK;
+        } catch (Exception ex) {
+            LOGGER.error("error when send http post, url: " + httpPostEndPoint, ex);
             return false;
         }
     }

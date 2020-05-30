@@ -14,6 +14,8 @@ public class AlarmMessage {
 
     private String dingHook;
 
+    private String httpPostEndpoint;
+
     public String getContent() {
         return content;
     }
@@ -52,5 +54,13 @@ public class AlarmMessage {
 
     public void setDingHook(String dingHook) {
         this.dingHook = dingHook;
+    }
+
+    public String getHttpPostEndpoint() {
+        return httpPostEndpoint;
+    }
+
+    public void setHttpPostEndpoint(String httpPostEndpoint) {
+        this.httpPostEndpoint = httpPostEndpoint;
     }
 }

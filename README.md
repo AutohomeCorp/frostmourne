@@ -191,6 +191,15 @@ npm run dev
 * frostmourne-spi/src/main/resources/auth/department.json 部门信息配置文件
 * frostmourne-spi/src/main/resources/auth/team.json 团队信息配置文件
 
+应用内的文件有个问题就是修改起来非常不方便，每次修改都要重新打包部署，为了更方便一些，提供了外部配置文件路径设置的配置，你可以维护
+应用外的配置文件，修改完重启frostmourne-spi就可以了，不需要重新打包。对应的application.properties文件的配置如下：
+
+```
+your.auth.user.jsonfile=
+your.auth.team.jsonfile=
+your.auth.department.jsonfile=
+```
+
 当然，更好的选择是选择不使用默认的方式，自己实现frostmourne-spi里的相关插件来适配自己内部系统的用户管理。
 
 ## 消息模板配置
@@ -362,10 +371,9 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 目前已知的规划有: 
 
-* 日志导出csv
+* 报警方式增加HTTP POST方式
 * 增加Dockerfile
 * 数据源增加连接测试功能
-* 报警方式增加HTTP POST方式
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控和同比环比监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持

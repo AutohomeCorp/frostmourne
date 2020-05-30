@@ -27,7 +27,8 @@
       />
       <el-input v-model="form.esQuery" clearable placeholder="输入查询语句。如: Team: dealer.arch" style="width: 700px;" class="filter-item" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
-      <el-button class="filter-item" type="info" icon="el-icon-message" @click="share">分享</el-button>
+      <el-button class="filter-item el-icon-share" type="primary" @click="share">分享</el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-download" @click="download">下载</el-button>
     </div>
 
     <figure>
@@ -251,6 +252,24 @@ export default {
       }
 
       document.body.removeChild(textArea)
+    },
+    download() {
+      dataQueryApi.downloadData(this.form).then(response => {
+        this.forceFileDownload(response);
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    forceFileDownload(response) {
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      var fileName = response.headers['attachment-filename'];
+      link.setAttribute('download', fileName) //or any other extension
+      document.body.appendChild(link)
+      link.click()
+      URL.revokeObjectURL(link.href) // 释放URL 对象
+      document.body.removeChild(link)
     },
     charData(statItem) {
       const min = formatJsonDate(statItem.keys[0], 'yyyy-MM-dd hh:mm:ss')

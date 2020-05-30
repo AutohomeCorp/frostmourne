@@ -50,7 +50,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
 
     public ElasticsearchDataResult query(DataNameContract dataNameContract, DataSourceContract dataSourceContract,
                                          DateTime start, DateTime end, String esQuery, String scrollId,
-                                         String sortOrder, Integer intervalInSeconds, boolean includeDateHist) {
+                                         String sortOrder, Integer intervalInSeconds) {
         ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo();
         elasticsearchInfo.setName(dataSourceContract.getDatasource_name());
         elasticsearchInfo.setEsHostList(dataSourceContract.getService_address());
@@ -84,7 +84,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
                 searchRequest.source(searchSourceBuilder);
                 searchRequest.scroll(DEFAULT_TIME_VALUE);
 
-                if(includeDateHist) {
+                if(intervalInSeconds != null && intervalInSeconds > 0) {
                     DateHistogramAggregationBuilder dateHistogramAggregationBuilder =
                             AggregationBuilders.dateHistogram("date_hist")
                                     .timeZone(DateTimeZone.getDefault())

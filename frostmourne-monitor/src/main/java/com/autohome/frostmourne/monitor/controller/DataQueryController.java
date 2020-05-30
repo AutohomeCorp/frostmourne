@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +14,8 @@ import com.autohome.frostmourne.monitor.service.core.query.IQueryService;
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
 import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = {"/query", "/api/monitor-api/query"})
 public class DataQueryController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataQueryController.class);
 
     @Resource
     private IQueryService queryService;
@@ -68,33 +71,17 @@ public class DataQueryController {
                              @RequestParam(value = "esQuery", required = true) String esQuery,
                              @RequestParam(value = "scrollId", required = false) String scrollId,
                              @RequestParam(value = "sortOrder", required = true) String sortOrder) throws IOException {
-
-        response.setContentType("application/octet-stream");
+        response.setContentType("application/octet-stream;charset=utf-8");
         String fileName = dataName + "-" + DateTime.now().toString("yyyyMMddHHmmssSSS") + ".csv";
         response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-
+        response.setHeader("attachment-filename", fileName);
         byte[] bom = {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};
         response.getOutputStream().write(bom);
         try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
              CSVWriter csvWriter = new CSVWriter(outputStreamWriter, ',')) {
-            ElasticsearchDataResult elasticsearchDataResult = queryService.elasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, null);
-            csvWriter.writeNext(elasticsearchDataResult.getFields().toArray(new String[0]));
-            while (true) {
-                if (elasticsearchDataResult.getTotal() > 10 * 10000) {
-                    throw new RuntimeException("export data length too big, surpass 10W.");
-                }
-                if (elasticsearchDataResult.getLogs().size() == 0) {
-                    break;
-                }
-                for (Map<String, Object> log : elasticsearchDataResult.getLogs()) {
-                    String[] data = log.entrySet().stream()
-                            .map(entry -> entry.getValue().toString())
-                            .toArray(String[]::new);
-                    csvWriter.writeNext(data);
-                }
-                scrollId = elasticsearchDataResult.getScrollId();
-                elasticsearchDataResult = queryService.elasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, null);
-            }
+            queryService.exportToCsv(csvWriter, dataName, new DateTime(startTime), new DateTime(endTime), esQuery, null, sortOrder);
+        } catch (Exception ex) {
+            LOGGER.error("error when download", ex);
         } finally {
             response.getOutputStream().flush();
             response.getOutputStream().close();

@@ -42,6 +42,11 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    const headers = response.headers
+    if (headers['content-type'] === 'application/octet-stream;charset=utf-8') {
+      return response
+    }
+
     const res = response.data
     if (res.returncode !== 0) {
       Message({
