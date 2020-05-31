@@ -372,8 +372,11 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 目前已知的规划有: 
 
 * 报警方式增加HTTP POST方式
-* 增加Dockerfile
+* 报警方式增加微信
+* Elasticsearch查询增加常用语句自动提示
 * 数据源增加连接测试功能
+* 数据查询页面增加创建监控按钮，打通数据查询和监控创建两个过程
+* 增加Dockerfile
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控和同比环比监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
