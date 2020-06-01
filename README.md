@@ -262,6 +262,10 @@ ${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一�
 这里用我们内部使用的例子供大家参考使用，具体模板内容，你需要自己根据数据格式定制。如果你想使用我们的日志格式，请参考
 另外一个开源项目: autolog4j[https://github.com/AutohomeCorp/autolog4j]
 
+## HTTP类型监控
+
+除了Elasticsearch数据监控，还提供了HTTP监控，使用起来非常灵活方便，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
+
 ## 报警发送
 
 现在支持短信,email, 钉钉(机器人)三种发送方式，其中email和钉钉机器人默认可用，短信和钉钉需要自己适配实现。在钉钉群组里
@@ -372,8 +376,11 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 目前已知的规划有: 
 
 * 报警方式增加HTTP POST方式
-* 增加Dockerfile
+* 报警方式增加微信
+* Elasticsearch查询增加常用语句自动提示
 * 数据源增加连接测试功能
+* 数据查询页面增加创建监控按钮，打通数据查询和监控创建两个过程
+* 增加Dockerfile
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控和同比环比监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
