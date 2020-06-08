@@ -35,7 +35,9 @@ HTTP Url： http://localhost:9200/_cluster/health?pretty ;常规返回结果：
 }
 ```
 
-#### 报警判断表达式
+#### 报警判断Javascript表达式
+
+javascript表达式引擎使用<a href="https://www.runoob.com/java/java8-nashorn-javascript.html" target="_blank">nashorn</a>
 
 ```
 status == "yellow" || status == "red" || number_of_nodes != 5

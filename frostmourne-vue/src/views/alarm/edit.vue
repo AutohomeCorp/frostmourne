@@ -125,10 +125,15 @@
               <el-checkbox-button label="dingding">钉钉</el-checkbox-button>
               <el-checkbox-button label="email">Email</el-checkbox-button>
               <el-checkbox-button label="sms">短信</el-checkbox-button>
+              <el-checkbox-button label="wechat">企业微信</el-checkbox-button>
+              <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item v-if="form.alertContract.ways.includes('dingding')" label="钉钉机器人:">
             <el-input v-model="form.alertContract.ding_robot_hook" size="small" placeholder="选填" />
+          </el-form-item>
+          <el-form-item v-if="form.alertContract.ways.includes('http_post')" label="HTTP地址:">
+            <el-input v-model="form.alertContract.http_post_url" size="small" placeholder="必填" />
           </el-form-item>
           <el-form-item label="静默时间:">
             <el-input-number v-model="form.alertContract.silence" size="small" :min="1" label="静默时间" />分钟

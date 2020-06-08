@@ -1,0 +1,1 @@
+ALTER TABLE alert ADD COLUMN http_post_url VARCHAR(500) COMMENT 'http post报警方式地址';

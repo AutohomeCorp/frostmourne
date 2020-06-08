@@ -11,9 +11,11 @@
     <result column="allow_sms_from" property="allow_sms_from" jdbcType="INTEGER" />
     <result column="allow_sms_to" property="allow_sms_to" jdbcType="INTEGER" />
     <result column="ding_robot_hook" property="ding_robot_hook" jdbcType="VARCHAR" />
+    <result column="http_post_url" property="http_post_url" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, alarm_id, ways, silence, creator, create_at, allow_sms_from, allow_sms_to, ding_robot_hook
+    id, alarm_id, ways, silence, creator, create_at, allow_sms_from, allow_sms_to, ding_robot_hook, 
+    http_post_url
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -31,10 +33,12 @@
     </selectKey>
     insert into alert (alarm_id, ways, silence, 
       creator, create_at, allow_sms_from, 
-      allow_sms_to, ding_robot_hook)
+      allow_sms_to, ding_robot_hook, http_post_url
+      )
     values (#{alarm_id,jdbcType=BIGINT}, #{ways,jdbcType=VARCHAR}, #{silence,jdbcType=BIGINT}, 
       #{creator,jdbcType=VARCHAR}, #{create_at,jdbcType=TIMESTAMP}, #{allow_sms_from,jdbcType=INTEGER}, 
-      #{allow_sms_to,jdbcType=INTEGER}, #{ding_robot_hook,jdbcType=VARCHAR})
+      #{allow_sms_to,jdbcType=INTEGER}, #{ding_robot_hook,jdbcType=VARCHAR}, #{http_post_url,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alert" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
@@ -66,6 +70,9 @@
       <if test="ding_robot_hook != null" >
         ding_robot_hook,
       </if>
+      <if test="http_post_url != null" >
+        http_post_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="alarm_id != null" >
@@ -91,6 +98,9 @@
       </if>
       <if test="ding_robot_hook != null" >
         #{ding_robot_hook,jdbcType=VARCHAR},
+      </if>
+      <if test="http_post_url != null" >
+        #{http_post_url,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -121,6 +131,9 @@
       <if test="ding_robot_hook != null" >
         ding_robot_hook = #{ding_robot_hook,jdbcType=VARCHAR},
       </if>
+      <if test="http_post_url != null" >
+        http_post_url = #{http_post_url,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -133,7 +146,8 @@
       create_at = #{create_at,jdbcType=TIMESTAMP},
       allow_sms_from = #{allow_sms_from,jdbcType=INTEGER},
       allow_sms_to = #{allow_sms_to,jdbcType=INTEGER},
-      ding_robot_hook = #{ding_robot_hook,jdbcType=VARCHAR}
+      ding_robot_hook = #{ding_robot_hook,jdbcType=VARCHAR},
+      http_post_url = #{http_post_url,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -9,6 +9,8 @@ import com.autohome.frostmourne.monitor.contract.MetricContract;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elasticsearch.common.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class HttpMetric implements IMetric {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(HttpMetric.class);
 
     @Resource
     private RestTemplate restTemplate;
@@ -27,10 +31,10 @@ public class HttpMetric implements IMetric {
         ResponseEntity<String> responseEntity;
         try {
             Long start = System.currentTimeMillis();
+            HttpHeaders headers = new HttpHeaders();
             if (Strings.isNullOrEmpty(metricContract.getPost_data())) {
                 responseEntity = restTemplate.getForEntity(metricContract.getQuery_string(), String.class);
             } else {
-                HttpHeaders headers = new HttpHeaders();
                 MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
                 headers.setContentType(type);
                 headers.add("Accept", MediaType.APPLICATION_JSON.toString());
@@ -43,7 +47,8 @@ public class HttpMetric implements IMetric {
             String json = responseEntity.getBody();
             if (!Strings.isNullOrEmpty(json)) {
                 try {
-                    Map<String, Object> map = mapper.readValue(json, new TypeReference<Map<String, Object>>() {});
+                    Map<String, Object> map = mapper.readValue(json, new TypeReference<Map<String, Object>>() {
+                    });
                     result.putAll(map);
                 } catch (Exception ex) {
                     result.put("ResponseBody", json);

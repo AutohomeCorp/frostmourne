@@ -7,13 +7,13 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 主要功能
 
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
-* HTTP数据监控
+* HTTP数据监控, 表达式判断是否报警
 * UI功能，简单易用
 * 监控管理
-* 灵活的报警消息模板定制，支持变量
-* 多种消息发送方式(email,短信,钉钉(机器人))
+* 灵活的报警消息freemarker模板定制，支持变量
+* 多种消息发送方式(email,短信,钉钉(机器人),企业微信, HTTP请求)
 * 多数据源管理
-* Elasticsearch数据查询,分享，下载
+* Elasticsearch数据查询,分享,下载
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
 
@@ -87,14 +87,18 @@ UI项目，使用vue-element-template实现，打包时会打到frostmourne-moni
 
 * frostmourne-spi
 
-需要根据各自情况适配实现的模块，包括用户相关接口，短链接生成接口, 消息发送(短信发送和钉钉消息发送)接口, 需要自己实现，邮件发送和
-钉钉机器人消息发送已经实现好了，其中邮箱配置需要修改为自己的
+需要根据各自情况适配实现的模块，包括用户相关接口，短链接生成接口, 消息发送(短信发送和钉钉消息发送)接口, 需要自己实现，邮件发送,
+钉钉机器人消息发送，企业微信消息发送和HTTP请求消息发送已经实现好了，其中邮箱配置和企业微信需要修改为自己的
 
 ```
-email.smtp.host=${smtp.host}
-email.smtp.port=25
-email.sender=${sender.email}
-email.sender.password=${sender.password}
+email.smtp.host=${your.email.smtp.host}
+email.smtp.port=${your.email.smtp.port}
+email.sender=${your.email.sender}
+email.sender.password=${your.email.sender.password}
+
+wechat.corpid=${your.wechat.corpid}
+wechat.agentid=${your.wechat.agentid}
+wechat.secret={your.wechat.secret}
 ```
 
 com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况实现。
@@ -268,8 +272,40 @@ ${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一�
 
 ## 报警发送
 
-现在支持短信,email, 钉钉(机器人)三种发送方式，其中email和钉钉机器人默认可用，短信和钉钉需要自己适配实现。在钉钉群组里
+现在支持短信,email, 钉钉(机器人), 企业微信，HTTP 五种发送方式，其中email和钉钉机器人, 企业微信， HTTP默认可用，短信和钉钉需要自己适配实现。在钉钉群组里
 创建好机器人后，把地址复制到钉钉机器人地址输入栏即可。其中钉钉机器人的安全策略选择自定义关键词: 霜之哀伤。
+
+HTTP消息发送方式，需要使用者自己实现一个用于接收消息发送请求的POST接口，接口POST内容JSON格式如下: 
+
+```json
+{
+	"recipients": [
+		{
+			"account": "admin",
+			"fullName": "管理员",
+			"teamName": "team1",
+			"mobile": "150****0501",
+			"email": "admin@qq.com",
+			"wxid": "00001",
+			"roles": [
+				"admin"
+			]
+		},
+		{
+			"account": "zhangsan",
+			"fullName": "张三",
+			"teamName": "team2",
+			"mobile": "150****0311",
+			"email": "zhangsan@163.com",
+			"wxid": "00002",
+			"roles": [
+				"admin"
+			]
+		}
+	],
+	"content": "报警消息"
+}
+```
 
 ## 报警抑制
 
@@ -375,12 +411,14 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 目前已知的规划有: 
 
-* 报警方式增加HTTP POST方式
-* 报警方式增加微信
-* Elasticsearch查询增加常用语句自动提示
-* 数据源增加连接测试功能
 * 数据查询页面增加创建监控按钮，打通数据查询和监控创建两个过程
+* HTTP监控增加header设置
+* Elasticsearch查询增加常用语句自动提示
+* Elasticsearch监控查询语句增加DSL类型查询
+* Elasticsearch监控查询语句增加SQL类型查询
+* 数据源增加连接测试功能
 * 增加Dockerfile
+* 使用autolog4j程序日志格式
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控和同比环比监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
