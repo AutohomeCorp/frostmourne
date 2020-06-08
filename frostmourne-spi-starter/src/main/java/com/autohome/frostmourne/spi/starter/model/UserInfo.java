@@ -16,6 +16,8 @@ public class UserInfo {
 
     private String email;
 
+    private String wxid;
+
     private List<String> roles;
 
     public String getAccount() {
@@ -72,5 +74,13 @@ public class UserInfo {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getWxid() {
+        return wxid;
+    }
+
+    public void setWxid(String wxid) {
+        this.wxid = wxid;
     }
 }

@@ -5,6 +5,7 @@
     "teamName":"dealer.arch",
     "mobile": "150****0501",
     "email": "admin@xxx.com",
+    "wxid": "00001",
     "roles": ["admin"]
   }
 ]

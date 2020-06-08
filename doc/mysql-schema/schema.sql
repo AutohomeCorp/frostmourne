@@ -1,6 +1,6 @@
 CREATE DATABASE frostmourne
-  DEFAULT CHARACTER SET utf8mb4
-  DEFAULT COLLATE utf8mb4_0900_ai_ci;
+    DEFAULT CHARACTER SET utf8mb4
+    DEFAULT COLLATE utf8mb4_0900_ai_ci;
 
 /* if your mysql not support utf8mb4_0900_ai_ci, use collate utf8mb4_general_ci instead
 CREATE DATABASE frostmourne
@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS alarm
     DEFAULT CHARSET = utf8mb4
     COMMENT = '监控报警';
 
-ALTER TABLE alarm ADD INDEX idx_ownerkey (owner_key(20));
+ALTER TABLE alarm
+    ADD INDEX idx_ownerkey (owner_key(20));
 
 /*------------------------------------------- create alarm_log -------------------------------------------*/
 DROP TABLE IF EXISTS alarm_log;
@@ -55,7 +56,8 @@ CREATE TABLE IF NOT EXISTS alarm_log
     DEFAULT CHARSET = utf8mb4
     COMMENT = '监控任务执行日志';
 
-ALTER TABLE alarm_log ADD INDEX idx_createat_alarmid(create_at, alarm_id);
+ALTER TABLE alarm_log
+    ADD INDEX idx_createat_alarmid (create_at, alarm_id);
 
 /*------------------------------------------- create alert -------------------------------------------*/
 DROP TABLE IF EXISTS alert;
@@ -69,13 +71,15 @@ CREATE TABLE IF NOT EXISTS alert
     create_at       DATETIME     NOT NULL COMMENT '创建时间',
     allow_sms_from  INTEGER      NULL COMMENT '短信允许发送开始时间，[0,23]',
     allow_sms_to    INTEGER      NULL COMMENT '短信允许发送结束时间，[0,23]',
-    ding_robot_hook VARCHAR(500) NULL COMMENT '钉钉机器人hook地址'
+    ding_robot_hook VARCHAR(500) NULL COMMENT '钉钉机器人hook地址',
+    http_post_url   VARCHAR(500) COMMENT 'http post报警方式地址'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
     COMMENT = '报警配置';
 
-ALTER TABLE alert ADD INDEX idx_alarmid (alarm_id);
+ALTER TABLE alert
+    ADD INDEX idx_alarmid (alarm_id);
 
 /*------------------------------------------- create alert_log -------------------------------------------*/
 DROP TABLE IF EXISTS alert_log;
@@ -89,14 +93,15 @@ CREATE TABLE IF NOT EXISTS alert_log
     content     VARCHAR(2000) NOT NULL COMMENT '报警内容',
     in_silence  VARCHAR(50)   NOT NULL COMMENT '是否在静默期(YES,NO)',
     send_status VARCHAR(50)   NOT NULL COMMENT '发送状态(NONE,SUCCESS,FAIL,FORBID)',
-    alert_type VARCHAR(50) NOT NULL COMMENT '消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)',
+    alert_type  VARCHAR(50)   NOT NULL COMMENT '消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)',
     create_at   DATETIME      NOT NULL COMMENT '创建时间'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
     COMMENT = '报警日志';
 
-ALTER TABLE alert_log ADD INDEX idx_createat_recipient(create_at, recipient);
+ALTER TABLE alert_log
+    ADD INDEX idx_createat_recipient (create_at, recipient);
 
 ALTER TABLE alert_log
     ADD INDEX idx_alarmid (alarm_id);
@@ -131,7 +136,7 @@ CREATE TABLE IF NOT EXISTS data_name
     display_name    VARCHAR(200)  NOT NULL COMMENT '名称描述',
     data_source_id  BIGINT        NOT NULL COMMENT '所属数据源id',
     datasource_type VARCHAR(500)  NOT NULL COMMENT '数据源类型。(Elasticsearch, Influxdb)',
-    timestamp_field VARCHAR(200)  COMMENT '时间字段名',
+    timestamp_field VARCHAR(200) COMMENT '时间字段名',
     properties      VARCHAR(2000) NOT NULL COMMENT '不同数据的附加属性',
     creator         VARCHAR(200)  NOT NULL COMMENT '创建人',
     create_at       DATETIME      NOT NULL COMMENT '创建时间',
@@ -177,7 +182,7 @@ CREATE TABLE IF NOT EXISTS metric
     post_data         VARCHAR(2000) COMMENT 'http数据监控，post数据内容',
     properties        VARCHAR(2000) COMMENT '附加属性JSON格式',
     creator           VARCHAR(200) NOT NULL COMMENT '创建人',
-    create_at      DATETIME     NOT NULL COMMENT '创建时间'
+    create_at         DATETIME     NOT NULL COMMENT '创建时间'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4

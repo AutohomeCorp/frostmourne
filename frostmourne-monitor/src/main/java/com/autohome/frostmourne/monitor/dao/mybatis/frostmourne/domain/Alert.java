@@ -21,6 +21,8 @@ public class Alert {
 
     private String ding_robot_hook;
 
+    private String http_post_url;
+
     public Long getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class Alert {
 
     public void setDing_robot_hook(String ding_robot_hook) {
         this.ding_robot_hook = ding_robot_hook == null ? null : ding_robot_hook.trim();
+    }
+
+    public String getHttp_post_url() {
+        return http_post_url;
+    }
+
+    public void setHttp_post_url(String http_post_url) {
+        this.http_post_url = http_post_url == null ? null : http_post_url.trim();
     }
 }

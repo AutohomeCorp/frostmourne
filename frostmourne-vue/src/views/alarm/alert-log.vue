@@ -37,6 +37,8 @@
                 <el-option label="钉钉" value="dingding" />
                 <el-option label="短信" value="sms" />
                 <el-option label="邮件" value="email" />
+                <el-option label="企业微信" value="wechat" />
+                <el-option label="HTTP" value="http_post" />
               </el-select>
             </el-form-item>
           </el-col>

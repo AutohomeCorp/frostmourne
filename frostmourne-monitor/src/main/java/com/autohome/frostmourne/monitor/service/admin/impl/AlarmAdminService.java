@@ -225,6 +225,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertContract.setAllow_sms_from(alert.getAllow_sms_from());
         alertContract.setAllow_sms_to(alert.getAllow_sms_to());
         alertContract.setDing_robot_hook(alert.getDing_robot_hook());
+        alertContract.setHttp_post_url(alert.getHttp_post_url());
         alertContract.setCreate_at(alert.getCreate_at());
 
         List<Recipient> recipientList = this.recipientMapper.findByAlarm(alarmId);
@@ -324,6 +325,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alert.setCreator(account);
         alert.setCreate_at(new Date());
         alert.setDing_robot_hook(contract.getDing_robot_hook());
+        alert.setHttp_post_url(contract.getHttp_post_url());
         alertMapper.insert(alert);
 
         for (String recipient : contract.getRecipients()) {

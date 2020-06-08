@@ -12,6 +12,7 @@ import com.autohome.frostmourne.spi.contract.DingMessageResponse;
 import com.autohome.frostmourne.spi.contract.DingRobotMessage;
 import com.autohome.frostmourne.spi.contract.DingText;
 import com.autohome.frostmourne.spi.dao.IEmailSender;
+import com.autohome.frostmourne.spi.dao.IWeChatSender;
 import com.autohome.frostmourne.spi.plugin.IDingSenderPlugin;
 import com.autohome.frostmourne.spi.plugin.ISmsSenderPlugin;
 import com.autohome.frostmourne.spi.service.IMessageService;
@@ -36,6 +37,9 @@ public class MessageService implements IMessageService {
 
     @Resource
     private IEmailSender emailSender;
+
+    @Resource
+    private IWeChatSender weChatSender;
 
     @Resource
     private IDingSenderPlugin dingSenderPlugin;
@@ -77,8 +81,15 @@ public class MessageService implements IMessageService {
             return smsSenderPlugin.send(alarmMessage.getTitle(), alarmMessage.getContent(), cellphoneList);
         }
 
-        if(way.equalsIgnoreCase("http_post") && Strings.isNullOrEmpty(alarmMessage.getHttpPostEndpoint())) {
+        if (way.equalsIgnoreCase("http_post") && !Strings.isNullOrEmpty(alarmMessage.getHttpPostEndpoint())) {
             return sendHttpPost(alarmMessage.getHttpPostEndpoint(), alarmMessage);
+        }
+
+        if (way.equalsIgnoreCase("wechat")) {
+            List<String> wxidList = alarmMessage.getRecipients().stream()
+                    .filter(m -> !Strings.isNullOrEmpty(m.getWxid()))
+                    .map(UserInfo::getWxid).collect(Collectors.toList());
+            return weChatSender.send(wxidList, alarmMessage.getContent());
         }
 
         throw new IllegalArgumentException("unknown way: " + way);
