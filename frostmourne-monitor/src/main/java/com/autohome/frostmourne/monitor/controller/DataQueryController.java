@@ -47,7 +47,7 @@ public class DataQueryController {
                                                                @RequestParam(value = "scrollId", required = false) String scrollId,
                                                                @RequestParam(value = "sortOrder", required = true) String sortOrder,
                                                                @RequestParam(value = "intervalInSeconds", required = false) Integer intervalInSeconds) {
-        if(Strings.isNullOrEmpty(esQuery)) {
+        if (Strings.isNullOrEmpty(esQuery)) {
             esQuery = "*";
         }
         ElasticsearchDataResult elasticsearchDataResult = queryService.elasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, intervalInSeconds);
@@ -65,9 +65,9 @@ public class DataQueryController {
     public void downloadData(HttpServletResponse response, @RequestParam(value = "_appId", required = true) String _appId,
                              @RequestParam(value = "dataName", required = true) String dataName,
                              @RequestParam(value = "startTime", required = true)
-                                 @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
+                             @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
                              @RequestParam(value = "endTime", required = true)
-                                 @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
+                             @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
                              @RequestParam(value = "esQuery", required = true) String esQuery,
                              @RequestParam(value = "scrollId", required = false) String scrollId,
                              @RequestParam(value = "sortOrder", required = true) String sortOrder) throws IOException {
@@ -80,8 +80,6 @@ public class DataQueryController {
         try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
              CSVWriter csvWriter = new CSVWriter(outputStreamWriter, ',')) {
             queryService.exportToCsv(csvWriter, dataName, new DateTime(startTime), new DateTime(endTime), esQuery, null, sortOrder);
-        } catch (Exception ex) {
-            LOGGER.error("error when download", ex);
         } finally {
             response.getOutputStream().flush();
             response.getOutputStream().close();

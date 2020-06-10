@@ -4,6 +4,8 @@
 * 增加数据导出CSV功能
 * 增加HTTP报警方式
 * 增加企业微信报警方式
+* Elasticsearch-Rest-Client升级至6.6.2
+* bugfix: 解决elasticsearch 7+版本，数据数量为0的问题
 * mysql: alert表增加字段: http_post_url
 
 ## 0.1-RELEASE

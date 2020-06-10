@@ -15,12 +15,17 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.core.CountRequest;
+import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.client.sniff.Sniffer;
 import org.elasticsearch.common.Strings;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +58,7 @@ public class EsRestClientContainer {
         RestClientBuilder restClientBuilder = RestClient.builder(parseHttpHost(esHosts)
                 .toArray(new HttpHost[0]));
 
-        if(this.settings != null && this.settings.size() > 0 &&
+        if (this.settings != null && this.settings.size() > 0 &&
                 !Strings.isNullOrEmpty(this.settings.get("username"))
                 && !Strings.isNullOrEmpty(this.settings.get("password"))) {
             String userName = this.settings.get("username");
@@ -138,12 +143,12 @@ public class EsRestClientContainer {
             to = now;
         }
         List<String> indiceList = new ArrayList<>();
-        if(Strings.isNullOrEmpty(datePattern)) {
+        if (Strings.isNullOrEmpty(datePattern)) {
             indiceList.add(prefix);
             return indiceList.toArray(new String[0]);
         }
 
-        if(datePattern.equals("*")) {
+        if (datePattern.equals("*")) {
             indiceList.add(prefix + "*");
             return indiceList.toArray(new String[0]);
         }
@@ -164,6 +169,16 @@ public class EsRestClientContainer {
             cursor = cursor.minusDays(-1);
         }
         return indiceList.toArray(new String[0]);
+    }
+
+    public long totalCount(BoolQueryBuilder boolQueryBuilder, String[] indices) throws IOException {
+        CountRequest countRequest = new CountRequest(indices);
+        SearchSourceBuilder countSourceBuilder = new SearchSourceBuilder();
+        countSourceBuilder.query(boolQueryBuilder);
+        countRequest.source(countSourceBuilder);
+
+        CountResponse countResponse = this.fetchHighLevelClient().count(countRequest, RequestOptions.DEFAULT);
+        return countResponse.getCount();
     }
 
     private List<HttpHost> parseHttpHost(List<String> esHosts) {

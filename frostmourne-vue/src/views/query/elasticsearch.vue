@@ -281,7 +281,7 @@ export default {
         format = 'MM-dd hh:mm'
       }
       this.charOptions.xAxis.data = statItem.keys.map(e => formatJsonDate(e, format))
-      this.charOptions.title.text = `${formatJsonDate(this.form.startTime, 'yyyy-MM-dd hh:mm:ss')} - ${formatJsonDate(this.form.endTime, 'yyyy-MM-dd hh:mm:ss')}  总数:${this.total}`
+      this.charOptions.title.text = `${formatJsonDate(this.form.startTime, 'yyyy-MM-dd hh:mm:ss')} 至 ${formatJsonDate(this.form.endTime, 'yyyy-MM-dd hh:mm:ss')}  总数:${this.total}`
       this.charOptions.series = [{ name: '次数', type: 'bar', data: statItem.values }]
     },
     dataNameChangeHandler() {

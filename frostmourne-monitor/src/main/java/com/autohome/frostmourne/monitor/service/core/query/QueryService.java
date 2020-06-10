@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
@@ -65,7 +66,7 @@ public class QueryService implements IQueryService {
         csvWriter.writeNext(heads);
         while (true) {
             if (elasticsearchDataResult.getTotal() > 10 * 10000) {
-                throw new RuntimeException("export data length too big, surpass 10W.");
+                throw new ProtocolException(500, "数量总数超过10万,无法下载");
             }
             if (elasticsearchDataResult.getLogs().size() == 0) {
                 break;
