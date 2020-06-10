@@ -16,6 +16,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * Elasticsearch数据查询,分享,下载
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
+* 每个监控都是独立调度，互不影响
 
 ## 在线demo
 
@@ -272,8 +273,35 @@ ${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一�
 
 ## 报警发送
 
-现在支持短信,email, 钉钉(机器人), 企业微信，HTTP 五种发送方式，其中email和钉钉机器人, 企业微信， HTTP默认可用，短信和钉钉需要自己适配实现。在钉钉群组里
-创建好机器人后，把地址复制到钉钉机器人地址输入栏即可。其中钉钉机器人的安全策略选择自定义关键词: 霜之哀伤。
+现在支持短信,email, 钉钉(机器人), 企业微信，HTTP 五种发送方式，其中email和钉钉机器人, 企业微信， HTTP默认可用，短信和钉钉需要自己适配实现。。
+
+* 钉钉机器人消息发送
+
+钉钉机器人使用说明请看钉钉官方文档: <a href="https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq/26eaddd5" target="_blank">钉钉机器人使用</a> ;
+在钉钉群组里创建好机器人后，把地址复制到钉钉机器人地址输入栏即可。其中钉钉机器人的安全策略选择自定义关键词: 霜之哀伤
+
+* 邮件消息发送
+
+在frostmourne-spi中将邮件发送人相关配置填写正确即可
+
+```
+email.smtp.host=${your.email.smtp.host}
+email.smtp.port=${your.email.smtp.port}
+email.sender=${your.email.sender}
+email.sender.password=${your.email.sender.password}
+```
+
+* 企业微信消息发送
+
+在frostmourne-spi中将企业微信相关配置填写正确即可
+
+```
+wechat.corpid=${your.wechat.corpid}
+wechat.agentid=${your.wechat.agentid}
+wechat.secret={your.wechat.secret}
+```
+
+* HTTP消息发送
 
 HTTP消息发送方式，需要使用者自己实现一个用于接收消息发送请求的POST接口，接口POST内容JSON格式如下: 
 
@@ -306,6 +334,8 @@ HTTP消息发送方式，需要使用者自己实现一个用于接收消息发�
 	"content": "报警消息"
 }
 ```
+
+其中wxid是企业微信的userid
 
 ## 报警抑制
 
@@ -411,14 +441,20 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 目前已知的规划有: 
 
+* 企业微信消息发送改进，将token缓存一段时间，不用每次都重新获取新的token
+* 增加企业钉钉发消息默认实现(本地没有环境，需要帮助)
 * 数据查询页面增加创建监控按钮，打通数据查询和监控创建两个过程
 * HTTP监控增加header设置
+* 页面交互优化
 * Elasticsearch查询增加常用语句自动提示
+* Elasticsearch查询数据柱状图可点击并自动变更时间范围
 * Elasticsearch监控查询语句增加DSL类型查询
 * Elasticsearch监控查询语句增加SQL类型查询
 * 数据源增加连接测试功能
 * 增加Dockerfile
 * 使用autolog4j程序日志格式
+* 报警消息模板存库管理
+* Elasticsearch索引字段自动获取
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控和同比环比监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
@@ -441,7 +477,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 ## Contribution
 
-[@menong-chen](https://github.com/menong-chen)
+[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz)
 
 ## 致谢
 - [springboot](https://github.com/spring-projects/spring-boot)

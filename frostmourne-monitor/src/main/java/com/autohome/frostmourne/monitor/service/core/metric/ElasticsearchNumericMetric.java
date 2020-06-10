@@ -10,6 +10,7 @@ import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceMan
 import com.autohome.frostmourne.monitor.dao.elasticsearch.EsRestClientContainer;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
@@ -28,18 +29,13 @@ public class ElasticsearchNumericMetric extends AbstractCountMetric {
     private ElasticsearchSourceManager elasticsearchSourceManager;
 
     public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> settings) {
-
-        ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo();
-        elasticsearchInfo.setName(metricContract.getDataSourceContract().getDatasource_name());
-        elasticsearchInfo.setEsHostList(metricContract.getDataSourceContract().getService_address());
-        elasticsearchInfo.setSniff(false);
-        elasticsearchInfo.setSettings(metricContract.getDataSourceContract().getSettings());
-
+        ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo(metricContract.getDataSourceContract());
         EsRestClientContainer esRestClientContainer = elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
         DateTime end = DateTime.now();
         DateTime start = end.minusMinutes(findTimeWindowInMinutes(settings));
 
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery().must(new QueryStringQueryBuilder(metricContract.getQuery_string()))
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
+                .must(new QueryStringQueryBuilder(metricContract.getQuery_string()))
                 .must(QueryBuilders.rangeQuery(metricContract.getDataNameContract().getTimestamp_field())
                         .from(start.toDateTimeISO().toString())
                         .to(end.toDateTimeISO().toString())
@@ -56,6 +52,8 @@ public class ElasticsearchNumericMetric extends AbstractCountMetric {
 
         SearchRequest searchRequest = new SearchRequest(indices);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.trackScores(false);
+        searchSourceBuilder.trackTotalHits(true);
         searchSourceBuilder.query(boolQueryBuilder).size(1)
                 .sort(metricContract.getDataNameContract().getTimestamp_field(), SortOrder.DESC);
         searchRequest.source(searchSourceBuilder);
@@ -63,15 +61,20 @@ public class ElasticsearchNumericMetric extends AbstractCountMetric {
         Map<String, Object> result = new HashMap<>();
 
         result.put("startTime", start.toDateTimeISO().toString());
-        result.put("endTime",end.toDateTimeISO().toString());
+        result.put("endTime", end.toDateTimeISO().toString());
+        result.put("indices", indices);
         try {
-            SearchResponse searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest);
-            result.put("NUMBER", searchResponse.getHits().totalHits);
-
-            if (searchResponse.getHits().totalHits > 0) {
+            long count = esRestClientContainer.totalCount(boolQueryBuilder, indices);
+            result.put("NUMBER", count);
+            if (count > 0) {
+                SearchResponse searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
                 SearchHit latestDoc = searchResponse.getHits().getAt(0);
                 result.putAll(latestDoc.getSourceAsMap());
+                if (searchResponse.getHits().getTotalHits() > 0) {
+                    result.put("NUMBER", searchResponse.getHits().getTotalHits());
+                }
             }
+
         } catch (Exception ex) {
             LOGGER.error("error when pullMetric", ex);
         }

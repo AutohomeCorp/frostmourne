@@ -40,6 +40,10 @@ public class WeChatSender implements IWeChatSender {
 
     private String tokenUrl;
 
+    private String token;
+
+    private long expiresTime = 0;
+
     @Resource
     private RestTemplate restTemplate;
 
@@ -74,15 +78,12 @@ public class WeChatSender implements IWeChatSender {
             return false;
         }
 
-        ResponseEntity<String> tokenResponseEntity = restTemplate.getForEntity(this.tokenUrl, String.class);
-        if (tokenResponseEntity.getStatusCode() != HttpStatus.OK) {
-            LOGGER.error("error when get wechat token, response: " + tokenResponseEntity.getBody());
+        String token = token();
+        if (Strings.isNullOrEmpty(token)) {
+            LOGGER.error("could not get token when send wechat message");
             return false;
         }
-        String tokenJson = tokenResponseEntity.getBody();
-        Map<String, Object> tokenMap = JacksonUtil.deSerialize(tokenJson, new TypeReference<Map<String, Object>>() {
-        });
-        String token = tokenMap.get("access_token").toString();
+        // https://work.weixin.qq.com/api/doc/90000/90135/90236
         String messageUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + token;
         HttpHeaders headers = new HttpHeaders();
         MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
@@ -104,5 +105,33 @@ public class WeChatSender implements IWeChatSender {
             return false;
         }
         return true;
+    }
+
+    private String token() {
+        if (System.currentTimeMillis() < expiresTime && !Strings.isNullOrEmpty(token)) {
+            return token;
+        }
+
+        //https://qydev.weixin.qq.com/wiki/index.php?title=%E4%B8%BB%E5%8A%A8%E8%B0%83%E7%94%A8
+        ResponseEntity<String> tokenResponseEntity = restTemplate.getForEntity(this.tokenUrl, String.class);
+        if (tokenResponseEntity.getStatusCode() != HttpStatus.OK) {
+            LOGGER.error("error when get wechat token, response: " + tokenResponseEntity.getBody());
+            return null;
+        }
+        String tokenJson = tokenResponseEntity.getBody();
+        Map<String, Object> tokenMap = JacksonUtil.deSerialize(tokenJson, new TypeReference<Map<String, Object>>() {
+        });
+        if (tokenMap.containsKey("errcode")) {
+            Integer errcode = (Integer) tokenMap.get("errcode");
+            if (errcode != 0) {
+                LOGGER.error("error when get wechat token, response: " + tokenJson);
+                return null;
+            }
+        }
+        String newToken = tokenMap.get("access_token").toString();
+        int expiresIn = (Integer) tokenMap.get("expires_in");
+        this.token = newToken;
+        this.expiresTime = System.currentTimeMillis() + (expiresIn - 300) * 1000;
+        return token;
     }
 }

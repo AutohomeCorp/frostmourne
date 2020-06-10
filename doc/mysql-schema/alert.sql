@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS alert
 (
     id              BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '自增主键',
     alarm_id        BIGINT       NOT NULL COMMENT '监控ID',
-    ways            VARCHAR(500) NOT NULL COMMENT '报警方式(sms,dingding,email,http_post)',
+    ways            VARCHAR(500) NOT NULL COMMENT '报警方式(sms,dingding,email,http_post,wechat)',
     silence         BIGINT       NOT NULL COMMENT '静默时间，单位：分钟',
     creator         VARCHAR(200) NOT NULL COMMENT '创建人',
     create_at       DATETIME     NOT NULL COMMENT '创建时间',
