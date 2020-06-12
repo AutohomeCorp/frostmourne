@@ -9,7 +9,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
 * HTTP数据监控, 表达式判断是否报警
 * UI功能，简单易用
-* 监控管理，测试，另存
+* 监控管理，测试，另存。执行日志，历史消息。
 * 灵活的报警消息freemarker模板定制，支持变量
 * 多种消息发送方式(email,短信,钉钉(机器人),企业微信, HTTP请求)
 * 多数据源管理
@@ -66,15 +66,8 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 欢迎使用
 
-有问题或需要帮助请提issue，或者加入QQ群: 1082617505，也欢迎对项目感兴趣的同僚加群沟通。
-
-## 调试环境要求
-
-* JDK 1.8
-* xxl-job 2.1.0
-* nodejs
-* mysql
-* elasticsearch 6.3.2+
+frostmourne是完全开源免费的，如果愿意回馈，你只需要简单做一个 <a href="https://github.com/AutohomeCorp/frostmourne/issues/1" target="_blank">小调查</a>。 
+有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的便于搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 
 ## 主要项目结构
 
@@ -103,6 +96,18 @@ wechat.secret={your.wechat.secret}
 ```
 
 com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况实现。
+
+## 为什么设计frostmourne-spi模块
+
+请参考文档: <a href="./doc/wiki/frostmourne-spi.md" target="_blank">为什么设计frostmourne-spi</a>
+
+## 调试环境要求
+
+* JDK 1.8
+* xxl-job 2.1.0
+* nodejs
+* mysql
+* elasticsearch 6.3.2+
 
 ## 数据库相关
 
@@ -197,7 +202,7 @@ npm run dev
 * frostmourne-spi/src/main/resources/auth/team.json 团队信息配置文件
 
 应用内的文件有个问题就是修改起来非常不方便，每次修改都要重新打包部署，为了更方便一些，提供了外部配置文件路径设置的配置，你可以维护
-应用外的配置文件，修改完重启frostmourne-spi就可以了，不需要重新打包。对应的application.properties文件的配置如下：
+应用外的配置文件，修改完重启frostmourne-spi就可以了，不需要重新打包，配置了外部文件的将优先使用外部文件。对应的application.properties文件的配置如下：
 
 ```
 your.auth.user.jsonfile=
@@ -454,13 +459,15 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 使用autolog4j程序日志格式
 * 报警消息模板存库管理
 * Elasticsearch索引字段自动获取
+* 集成Swagger
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控和同比环比监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
-* 加强登录安全(集成ldap, CAS单点登录)
+* 加强登录安全(集成LDAP, CAS单点登录)
 * 增加docker-compose部署，用于快速启动
 * 增加单元测试
 * 国际化
+* 内置实现一个短链接功能，移除外部短链接服务依赖
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待讨论)
 * 发布1.0-RELEASE
 
@@ -486,7 +493,6 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 - [element ui](https://element.eleme.cn/#/zh-CN)
 - [45短网址](https://45dwz.cn/)
 - [jjwt](https://github.com/jwtk/jjwt)
-- [vue-json-pretty](https://github.com/leezng/vue-json-pretty)
 
 ## License
 
