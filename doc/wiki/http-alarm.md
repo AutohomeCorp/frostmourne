@@ -113,8 +113,8 @@ POST http://localhost:9200/applog-*/_search
 				"_type": "applog",
 				"_source": {
 					"Level": "ERROR",
-                    "CustomMessage": "访问接口报错",
-                    "ExceptionType": "java.lang.NullPointerException",
+					"CustomMessage": "访问接口报错",
+					"ExceptionType": "java.lang.NullPointerException",
 					"LogAt": "2020-06-11T10:35:08.547+0800"
 				},
 				"_id": "juA7oXIBULp1bxFiRzYT",
