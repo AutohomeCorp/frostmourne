@@ -56,3 +56,85 @@ status == "yellow" || status == "red" || number_of_nodes != 5
 日志elasticsearch集群状态异常。status: red， number_of_nodes: 2
 ```
 
+### 创建一个简单的HTTP监控作为第一个监控，对熟悉项目功能非常有帮助
+
+上面是一个非常简单的使用案例，HTTP可以有更为复杂的使用方法，比如：elasticsearch 有丰富的 rest api，都是可以用HTTP方式
+来获取到结果然后监控报警的。例如：
+
+```
+POST http://localhost:9200/applog-*/_search
+
+{
+	"size": 1,
+	"query": {
+		"bool": {
+			"must": [
+				{
+					"query_string": {
+						"query": "Level: ERROR",
+						"analyze_wildcard": true
+					}
+				},
+				{
+					"range": {
+						"LogAt": {
+							"gte": "now-1h",
+							"format": "epoch_millis"
+						}
+					}
+				}
+			]
+		}
+	},
+	"aggs": {
+		"check": {
+			"cardinality": {
+				"field": "IP.keyword"
+			}
+		}
+	}
+}
+```
+
+返回值
+
+```json
+{
+	"_shards": {
+		"total": 25,
+		"failed": 0,
+		"successful": 25,
+		"skipped": 0
+	},
+	"hits": {
+		"hits": [
+			{
+				"_index": "applog-2020.06",
+				"_type": "applog",
+				"_source": {
+					"Level": "ERROR",
+                    "CustomMessage": "访问接口报错",
+                    "ExceptionType": "java.lang.NullPointerException",
+					"LogAt": "2020-06-11T10:35:08.547+0800"
+				},
+				"_id": "juA7oXIBULp1bxFiRzYT",
+				"_score": 2.0
+			}
+		],
+		"total": 14,
+		"max_score": 2.0
+	},
+	"took": 56,
+	"QTime": 61,
+	"HttpStatus": 200,
+	"timed_out": false,
+	"aggregations": {
+		"check": {
+			"value": 11
+		}
+	}
+}
+```
+
+看到这么丰富的返回数据，是不是有了很多想法。
+
