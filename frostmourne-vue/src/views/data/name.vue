@@ -215,13 +215,19 @@ export default {
       }
     },
     remove(row) {
-      dataApi.removeDataName(row.id).then(response => {
-        this.$message({
-          type: 'success',
-          message: '删除成功！',
-          duration: 1500
+      this.$confirm('此操作将删除数据名, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        dataApi.removeDataName(row.id).then(response => {
+          this.$message({
+            type: 'success',
+            message: '删除成功！',
+            duration: 1500
+          })
+          this.fetchData()
         })
-        this.fetchData()
       })
     }
   }

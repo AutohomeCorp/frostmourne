@@ -7,6 +7,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 主要功能
 
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
+* 多种数值聚合类型监控(count,min,max,avg,sum)
 * HTTP数据监控, 表达式判断是否报警
 * UI功能，简单易用
 * 监控管理，测试，另存。执行日志，历史消息。
@@ -102,11 +103,11 @@ wechat.agentid=${your.wechat.agentid}
 wechat.secret={your.wechat.secret}
 ```
 
+com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况实现。
+
 * frostmourne-spi-starter
 
 为了方便frostmourne-monitor使用frostmourne-spi，增加了frostmourne-spi-starter, 里面主要是接口定义和feign接口的自动注入。
-
-com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况实现。
 
 ## 为什么设计frostmourne-spi模块
 
@@ -203,6 +204,16 @@ npm run dev
 
 会自动打开： http://localhost:9528
 
+## 为什么需要xxl-job
+
+引入xxl-job是为了让每个监控任务都可以独立调度，在创建监控的同时，会调用xxl-job的服务的接口创建一个调度任务。引入xxl-job确实给部署带来了
+一定的难度，但是也带来了如下好处: 
+
+* 节约很多开发成本，让项目可以很快完成
+* 将调度作为一个服务独立出去，大大降低了主体功能项目的复杂度
+
+所以在权衡利弊之后，还是决定好好利用优秀的国内开源项目xxl-job
+
 ## 用户管理和登录认证
 
 目前没有做任何密码认证，只要用户名是存在的，任意密码均可以登录, 默认只有admin账号可用。用户信息管理在frostmourne-spi中实现，默认实现方式是一个json配置文件，
@@ -282,6 +293,9 @@ department.json
 TIME_WINDOW | int | 查询时间范围窗口大小(单位: 分钟) | 数值 
 NUMBER | double | 数值类型值 | 数值
 THRESHOLD | double | 判断阈值 | 数值
+COUNT | long | 查询记录数量 | 数值
+
+当聚合类型是avg时，NUMBER表示平均值；当聚合类型是count时，NUMBER表示数量；当聚合类型是sum时，NUMBER表示和；以此类推。
 
 ### HTTP数据内置变量
 
@@ -509,18 +523,18 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
 * HTTP监控增加header设置
-* data_name不可重名检查
-* 删除数据源，数据名时，是否仍有相关监控在使用检查
 * 报警接收人设置时给出提示
 * Elasticsearch查询增加常用语句自动提示
 * Elasticsearch查询数据柱状图可点击并自动变更时间范围
-* 数据源增加连接测试功能
+* Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
 * 增加Dockerfile
 * 使用autolog4j程序日志格式
 * 报警消息模板存库管理
 * Elasticsearch索引字段自动获取
 * 集成Swagger
-* Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控和同比环比监控
+* 内置实现一个短链接功能，移除外部短链接服务依赖
+* 数据源增加连接测试功能
+* Elasticsearch监控数值实现同比，环比监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
 * Elasticsearch监控查询语句增加DSL类型查询
@@ -529,7 +543,6 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 增加docker-compose部署，用于快速启动
 * 增加单元测试
 * 国际化
-* 内置实现一个短链接功能，移除外部短链接服务依赖
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待讨论)
 * 发布1.0-RELEASE
 

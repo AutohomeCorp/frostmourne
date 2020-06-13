@@ -52,7 +52,7 @@ public class DataAdminService implements IDataAdminService {
         dataSource.setModifier(account);
         dataSource.setService_address(dataSourceContract.getService_address());
         dataSource.setModify_at(new Date());
-        if(dataSourceContract.getSettings() != null && dataSourceContract.getSettings().size() > 0) {
+        if (dataSourceContract.getSettings() != null && dataSourceContract.getSettings().size() > 0) {
             dataSource.setProperties(JacksonUtil.serialize(dataSourceContract.getSettings()));
         }
         if (dataSourceContract.getId() != null && dataSourceContract.getId() > 0) {
@@ -129,6 +129,10 @@ public class DataAdminService implements IDataAdminService {
             dataName.setId(dataNameContract.getId());
             return this.dataNameMapper.updateByPrimaryKeySelective(dataName) > 0;
         }
+        DataName oldDataName = this.dataNameMapper.findByName(dataNameContract.getData_name());
+        if (oldDataName != null) {
+            throw new ProtocolException(504, "数据名称发生重复");
+        }
         dataName.setCreator(account);
         dataName.setCreate_at(now);
         return this.dataNameMapper.insert(dataName) > 0;
@@ -136,7 +140,7 @@ public class DataAdminService implements IDataAdminService {
 
     public boolean removeDataName(Long datanameId) {
         int datanameCount = this.metricMapper.datanameCount(datanameId);
-        if(datanameCount > 1) {
+        if (datanameCount > 0) {
             throw new ProtocolException(600, "数据名正在使用无法删除");
         }
         return this.dataNameMapper.deleteByPrimaryKey(datanameId) > 0;

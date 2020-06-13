@@ -53,12 +53,15 @@
               <el-form-item v-if="dataSourceType === 'elasticsearch'" label="聚合类型:">
                 <el-select v-model="form.metricContract.aggregation_type">
                   <el-option label="count" value="count" />
-                  <!-- <el-option label="avg" value="avg"/> -->
+                  <el-option label="avg" value="avg" />
+                  <el-option label="min" value="min" />
+                  <el-option label="max" value="max" />
+                  <el-option label="sum" value="sum" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item v-if="form.metricContract.aggregation_type === 'avg'" label="聚合字段:">
+              <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregation_type !== 'count'" label="聚合字段:">
                 <el-input v-model="form.metricContract.aggregation_field" />
               </el-form-item>
             </el-col>
@@ -85,11 +88,9 @@
               最近
               <el-input-number v-model="form.ruleContract.settings.TIME_WINDOW" size="small" :min="1" label="间隔分钟" />分钟；指标数值
               <el-select v-model="form.ruleContract.settings.OPERATOR" size="small" style="width:100px" placeholder="比较类型">
-                <el-option label="<" value="LESS" />
+                <el-option label=">=" value="GTE" />
                 <el-option label="<=" value="LTE" />
                 <el-option label="==" value="EQUAL" />
-                <el-option label=">=" value="GTE" />
-                <el-option label=">" value="GREATER" />
               </el-select>
               <el-input-number v-model="form.ruleContract.settings.THRESHOLD" size="small" label="阈值" />
             </el-form-item>

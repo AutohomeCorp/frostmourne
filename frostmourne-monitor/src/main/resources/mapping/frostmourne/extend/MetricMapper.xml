@@ -13,13 +13,13 @@
   </select>
 
   <select id="datasourceCount" resultType="java.lang.Integer">
-    SELECT COUNT(1)
+    SELECT COUNT(*)
     FROM metric
     WHERE data_source_id=#{datasourceId}
   </select>
 
   <select id="datanameCount" resultType="java.lang.Integer">
-    SELECT COUNT(1)
+    SELECT COUNT(*)
     FROM metric
     WHERE data_name_id=#{datanameId}
   </select>

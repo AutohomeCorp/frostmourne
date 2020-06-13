@@ -5,12 +5,8 @@
         <el-option label="elasticsearch" value="elasticsearch" />
       </el-select>
       <!-- <el-input v-model="form.datasource_name" placeholder="名称" style="width: 300px;" class="filter-item" /> -->
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">
-        查询
-      </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="edit(null)">
-        新增
-      </el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="edit(null)">新增</el-button>
     </div>
 
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
@@ -165,14 +161,21 @@ export default {
       })
     },
     remove(row) {
-      dataApi.removeDataSource(row.id).then(response => {
-        this.$message({
-          type: 'success',
-          message: '删除成功！',
-          duration: 1500
+      this.$confirm('此操作将删除数据源, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        dataApi.removeDataSource(row.id).then(response => {
+          this.$message({
+            type: 'success',
+            message: '删除成功！',
+            duration: 1500
+          })
+          this.fetchData()
         })
-        this.fetchData()
       })
+
     }
   }
 }

@@ -27,7 +27,7 @@
       />
       <el-input v-model="form.esQuery" clearable placeholder="输入查询语句。如: Team: dealer.arch" style="width: 700px;" class="filter-item" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="addAlarm">添加监控</el-button>
+      <el-button class="filter-item el-icon-plus" type="primary" @click="addAlarm">添加监控</el-button>
       <el-button class="filter-item el-icon-share" type="primary" @click="share">分享</el-button>
       <el-button class="filter-item" type="primary" icon="el-icon-download" @click="download">下载</el-button>
     </div>
