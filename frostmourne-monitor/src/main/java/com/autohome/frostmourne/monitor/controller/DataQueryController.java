@@ -84,7 +84,6 @@ public class DataQueryController {
             response.getOutputStream().flush();
             response.getOutputStream().close();
         }
-
     }
 
 }

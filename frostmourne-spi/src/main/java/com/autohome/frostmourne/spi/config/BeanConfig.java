@@ -18,6 +18,9 @@ public class BeanConfig {
     @Value("${email.smtp.port}")
     private String smtpPort;
 
+    @Value("${email.smtp.auth}")
+    private String smtpAuth;
+
     @Value("${email.sender}")
     private String sender;
 
@@ -35,7 +38,7 @@ public class BeanConfig {
 
     @Bean
     public IEmailSender emailSender() {
-        return new EmailSender(smtpHost, smtpPort, sender, senderPassword);
+        return new EmailSender(smtpHost, smtpPort, smtpAuth, sender, senderPassword);
     }
 
     @Bean

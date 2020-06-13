@@ -316,7 +316,17 @@ export default {
       this.teamList = response.result
     })
 
+    if (this.$route.query.data_name) {
+      this.dataValue.push(this.$route.query.datasource_type)
+      this.dataValue.push(this.$route.query.datasource_id)
+      this.dataValue.push(this.$route.query.data_name)
+      this.dataSourceType = this.$route.query.datasource_type
+      this.form.metricContract.query_string = this.$route.query.query_string
+      this.dataChange(this.dataValue)
+    }
+
     this.initDataOptions()
+
   },
   methods: {
     onSubmit() {

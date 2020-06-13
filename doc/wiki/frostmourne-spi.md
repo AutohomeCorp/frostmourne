@@ -12,6 +12,7 @@
 * 相对主体项目frostmourne-monitor, frostmourne-spi维护量很小，基本协议不会变
 
 frostmourne-monitor作为主体功能项目，代码变更肯定是非常频繁的，但是frostmourne-spi接口协议基本不变，代码也基本很少变更。
-这样你就可以实现frostmourne-monitor跟着主版本升级，而frostmourne-spi自己维护一个，不用跟着主版本升级。  
+这样你就可以实现frostmourne-monitor跟着主版本升级，而frostmourne-spi自己维护一个，不用跟着主版本升级，会java的使用者自己
+照着spi项目自己实现一套也是非常简单的事情。  
 
 基于以上两点原因设计的frostmourne-spi模块，应该可以大大减少项目跟着主版本维护升级这方面的困难。

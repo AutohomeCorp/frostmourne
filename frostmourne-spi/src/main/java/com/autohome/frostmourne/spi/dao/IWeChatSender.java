@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface IWeChatSender {
 
-    boolean send(List<String> users, String content);
+    boolean send(List<String> users, String title, String content);
 }

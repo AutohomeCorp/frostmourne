@@ -57,7 +57,7 @@ public class WeChatSender implements IWeChatSender {
         }
     }
 
-    public boolean send(List<String> users, String content) {
+    public boolean send(List<String> users, String title, String content) {
         if (Strings.isNullOrEmpty(this.corpId)) {
             LOGGER.error("corpId could not be null when send by wechat");
             return false;
@@ -94,6 +94,7 @@ public class WeChatSender implements IWeChatSender {
         data.put("msgtype", "text");
         data.put("agentid", this.agentId);
         data.put("safe", 0);
+        content = String.format("%s%n%s", title, content);
         if (content.length() > 2048) {
             content = content.substring(0, 2048);
         }

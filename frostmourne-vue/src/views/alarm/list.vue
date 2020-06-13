@@ -162,9 +162,9 @@ export default {
     changeStatus(alarm) {
       const message = `id=${alarm.id} 监控报警${alarm.status}成功！`
       if (alarm.status === 'OPEN') {
-        adminApi.open(alarm.id).then(response => this.$message({ type: 'success', message: message, duration: 1000 }))
+        adminApi.open(alarm.id).then(response => this.$message({ type: 'success', message: message, duration: 2000 }))
       } else {
-        adminApi.close(alarm.id).then(response => this.$message({ type: 'success', message: message, duration: 1000 }))
+        adminApi.close(alarm.id).then(response => this.$message({ type: 'success', message: message, duration: 2000 }))
       }
     },
     fetchData() {
@@ -188,7 +188,7 @@ export default {
     },
     remove(id) {
       adminApi.delete(id).then(response => {
-        this.$message({ type: 'success', message: '删除成功', duration: 1000 })
+        this.$message({ type: 'success', message: '删除成功', duration: 2000 })
         this.fetchData()
       })
     }
