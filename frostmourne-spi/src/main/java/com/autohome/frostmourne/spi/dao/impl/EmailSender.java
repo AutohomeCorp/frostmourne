@@ -16,15 +16,18 @@ public class EmailSender implements IEmailSender {
 
     private final String smtpPort;
 
+    private final String smtpAuth;
+
     private final String sender;
 
     private final String senderPassword;
 
-    public EmailSender(String smtpHost, String smtpPort, String sender, String senderPassword) {
+    public EmailSender(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword) {
         this.smtpHost = smtpHost;
         this.smtpPort = smtpPort;
         this.sender = sender;
         this.senderPassword = senderPassword;
+        this.smtpAuth = smtpAuth;
     }
 
     public boolean send(String title, String content, List<String> recipients) {
@@ -32,6 +35,6 @@ public class EmailSender implements IEmailSender {
             LOGGER.error("email sender could not be null");
             return false;
         }
-        return EmailHelper.sendText(this.smtpHost, this.smtpPort, sender, senderPassword, recipients, title, content);
+        return EmailHelper.sendText(this.smtpHost, this.smtpPort, this.smtpAuth, sender, senderPassword, recipients, title, content);
     }
 }

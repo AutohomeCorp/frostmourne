@@ -28,6 +28,22 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 <img src="./doc/img/message.png" />
 
+* 数据源管理
+
+<img src="./doc/img/datasource.png" />
+
+* 数据名管理
+
+<img src="./doc/img/dataname.png" />
+
+对于elasticsearch数据源来说，数据名等同于索引的概念
+
+* elasticsearch数据查询
+
+<img src="./doc/img/es.png" />
+
+配置完数据源和数据名，你就可以用查询页面验证数据配置是否正确了。
+
 * 新增或编辑监控
 
 <img src="./doc/img/edit.png" />
@@ -46,17 +62,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 <img src="./doc/img/list.png" />
 
-* 数据源管理
-
-<img src="./doc/img/datasource.png" />
-
-* 数据名管理
-
-<img src="./doc/img/dataname.png" />
-
-* elasticsearch数据查询
-
-<img src="./doc/img/es.png" />
+监控保存成功后，就可以在监控列表里看到了
 
 ## 项目初衷
 
@@ -67,7 +73,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 欢迎使用
 
 frostmourne是完全开源免费的，如果愿意回馈，你只需要简单做一个 <a href="https://github.com/AutohomeCorp/frostmourne/issues/1" target="_blank">小调查</a>。 
-有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的便于搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
+有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。  
 
 ## 主要项目结构
 
@@ -84,9 +90,14 @@ UI项目，使用vue-element-template实现，打包时会打到frostmourne-moni
 需要根据各自情况适配实现的模块，包括用户相关接口，短链接生成接口, 消息发送(短信发送和钉钉消息发送)接口, 需要自己实现，邮件发送,
 钉钉机器人消息发送，企业微信消息发送和HTTP请求消息发送已经实现好了，其中邮箱配置和企业微信需要修改为自己的
 
+* frostmourne-spi-starter
+
+为了方便frostmourne-monitor使用frostmourne-spi，增加了frostmourne-spi-starter, 里面主要是接口定义和feign接口的自动注入。
+
 ```
 email.smtp.host=${your.email.smtp.host}
 email.smtp.port=${your.email.smtp.port}
+email.smtp.auth=${your.email.smtp.auth}
 email.sender=${your.email.sender}
 email.sender.password=${your.email.sender.password}
 
@@ -210,7 +221,56 @@ your.auth.team.jsonfile=
 your.auth.department.jsonfile=
 ```
 
+文件内容格式举例：
+
+user.json
+
+```json
+[
+  {
+    "account": "admin",
+    "fullName": "管理员",
+    "teamName":"dealer.arch",
+    "mobile": "150****501",
+    "email": "xxxx@qq.com",
+    "wxid": "000001",
+    "roles": ["admin"]
+  }
+]
+```
+
+在设置报警接收人的时候，接收人信息填写这里的account字段值即可，发送报警的时候，会根据account获取到user信息，然后
+取到号码，邮箱，企业微信id等接收对象。
+
+team.json
+
+```json
+[
+  {
+    "name": "dealer.arch",
+    "fullName": "架构组",
+    "department": "dealer"
+  }
+]
+```
+
+department.json
+
+```json
+[
+  {
+    "name": "dealer",
+    "fullName": "经销商技术部"
+  }
+]
+```
+
 当然，更好的选择是选择不使用默认的方式，自己实现frostmourne-spi里的相关插件来适配自己内部系统的用户管理。
+
+## query string简易教程
+
+本项目elasticsearch查询语句使用的是query string语句，并非DSL query, 这里提供了一个<a href="./doc/wiki/query-string.md" target="_blank">简易教程</a>供不会的同学快速
+入门，英文水平可以的同学最好是看<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax" target="_blank">官方文档</a>
 
 ## 消息模板配置
 
@@ -292,6 +352,7 @@ ${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一�
 ```
 email.smtp.host=${your.email.smtp.host}
 email.smtp.port=${your.email.smtp.port}
+email.smtp.auth=${your.email.smtp.auth}
 email.sender=${your.email.sender}
 email.sender.password=${your.email.sender.password}
 ```
@@ -447,13 +508,12 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 目前已知的规划有: 
 
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
-* 数据查询页面增加创建监控按钮，打通数据查询和监控创建两个过程
 * HTTP监控增加header设置
-* 页面交互优化
+* data_name不可重名检查
+* 删除数据源，数据名时，是否仍有相关监控在使用检查
+* 报警接收人设置时给出提示
 * Elasticsearch查询增加常用语句自动提示
 * Elasticsearch查询数据柱状图可点击并自动变更时间范围
-* Elasticsearch监控查询语句增加DSL类型查询
-* Elasticsearch监控查询语句增加SQL类型查询
 * 数据源增加连接测试功能
 * 增加Dockerfile
 * 使用autolog4j程序日志格式
@@ -463,6 +523,8 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * Elasticsearch数据监控增加多种聚合类型(如: avg, unique_count, percentiles)数值监控和同比环比监控
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
+* Elasticsearch监控查询语句增加DSL类型查询
+* Elasticsearch监控查询语句增加SQL类型查询
 * 加强登录安全(集成LDAP, CAS单点登录)
 * 增加docker-compose部署，用于快速启动
 * 增加单元测试
@@ -483,7 +545,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 ## Contribution
 
-[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz)
+[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) 
 
 ## 致谢
 - [springboot](https://github.com/spring-projects/spring-boot)

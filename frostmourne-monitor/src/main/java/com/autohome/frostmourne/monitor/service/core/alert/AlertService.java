@@ -51,7 +51,7 @@ public class AlertService implements IAlertService {
         AlarmLog latestAlarmLog = alarmLogMapper.selectLatest(alarmId, null);
         if (!alarmProcessLogger.getAlert()) {
             checkRecover(latestAlarmLog, alarmProcessLogger, recipients);
-        } else {
+         } else {
             processProblem(alarmProcessLogger, recipients, latestAlarmLog);
         }
     }

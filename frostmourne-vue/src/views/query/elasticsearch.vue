@@ -27,6 +27,7 @@
       />
       <el-input v-model="form.esQuery" clearable placeholder="输入查询语句。如: Team: dealer.arch" style="width: 700px;" class="filter-item" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="addAlarm">添加监控</el-button>
       <el-button class="filter-item el-icon-share" type="primary" @click="share">分享</el-button>
       <el-button class="filter-item" type="primary" icon="el-icon-download" @click="download">下载</el-button>
     </div>
@@ -155,6 +156,7 @@ export default {
       },
       datePickValue: [],
       dataNameList: [],
+      selectedDataName: null,
       charOptions: {
         title: {
           left: 'center',
@@ -201,6 +203,16 @@ export default {
       this.form.endTime = value[1]
     },
     search() {
+      if (this.selectedDataName == null) {
+        this.$message({ type: 'warning', message: '请先选择一个数据名', duration: 2000 })
+        return
+      }
+
+      if (this.form.esQuery == null || this.form.esQuery == '') {
+        this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
+        return
+      }
+
       this.listLoading = true
       this.form.scrollId = null
       this.list = []
@@ -284,8 +296,8 @@ export default {
       this.charOptions.title.text = `${formatJsonDate(this.form.startTime, 'yyyy-MM-dd hh:mm:ss')} 至 ${formatJsonDate(this.form.endTime, 'yyyy-MM-dd hh:mm:ss')}  总数:${this.total}`
       this.charOptions.series = [{ name: '次数', type: 'bar', data: statItem.values }]
     },
-    dataNameChangeHandler() {
-
+    dataNameChangeHandler(selectedName) {
+      this.selectedDataName = this.dataNameList.filter(d => d.data_name == selectedName)[0];
     },
     loadMore() {
       this.listLoading = true
@@ -295,6 +307,25 @@ export default {
         }
         this.form.scrollId = response.result.scrollId
         this.listLoading = false
+      })
+    },
+    addAlarm() {
+      if (this.selectedDataName == null) {
+        this.$message({ type: 'warning', message: '请先选择一个数据名', duration: 2000 })
+        return
+      }
+      if (this.form.esQuery == null || this.form.esQuery == '') {
+        this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
+        return
+      }
+      this.$router.push({
+        name: 'alarm-edit',
+        query: {
+          datasource_type: this.selectedDataName.datasource_type,
+          datasource_id: this.selectedDataName.data_source_id,
+          data_name: this.selectedDataName.data_name,
+          query_string: this.form.esQuery
+        }
       })
     }
   }

@@ -64,11 +64,14 @@ public class MessageService implements IMessageService {
 
     private boolean innerSend(String way, AlarmMessage alarmMessage) {
         if (way.equalsIgnoreCase("email")) {
-            List<String> emails = alarmMessage.getRecipients().stream().map(UserInfo::getEmail).collect(Collectors.toList());
+            List<String> emails = alarmMessage.getRecipients().stream()
+                    .filter(m -> !Strings.isNullOrEmpty(m.getEmail()))
+                    .map(UserInfo::getEmail).collect(Collectors.toList());
             return emailSender.send(alarmMessage.getTitle(), alarmMessage.getContent(), emails);
         }
 
-        List<String> cellphoneList = alarmMessage.getRecipients().stream().map(UserInfo::getMobile).collect(Collectors.toList());
+        List<String> cellphoneList = alarmMessage.getRecipients().stream()
+                .map(UserInfo::getMobile).collect(Collectors.toList());
         if (way.equalsIgnoreCase("dingding")) {
             if (Strings.isNullOrEmpty(alarmMessage.getDingHook())) {
                 return dingSenderPlugin.send(alarmMessage.getTitle(), alarmMessage.getContent(), cellphoneList);
@@ -89,7 +92,7 @@ public class MessageService implements IMessageService {
             List<String> wxidList = alarmMessage.getRecipients().stream()
                     .filter(m -> !Strings.isNullOrEmpty(m.getWxid()))
                     .map(UserInfo::getWxid).collect(Collectors.toList());
-            return weChatSender.send(wxidList, alarmMessage.getContent());
+            return weChatSender.send(wxidList, alarmMessage.getTitle(), alarmMessage.getContent());
         }
 
         throw new IllegalArgumentException("unknown way: " + way);

@@ -7,9 +7,11 @@ import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -39,15 +41,26 @@ public class EmailHelper {
      * @param attachments    附件
      * @return 发送结果
      */
-    public static boolean send(String smtpHost, String smtpPort, String sender, String senderPassword,
+    public static boolean send(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword,
                                List<String> to, String subject, String content, String contentType, List<MimeBodyPart> attachments) {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", smtpHost);
         properties.put("mail.smtp.port", smtpPort);
-        properties.put("mail.smtp.auth", "false");
+        properties.put("mail.smtp.auth", smtpAuth);
+        properties.put("mail.smtp.timeout", "2000");
+        properties.put("mail.smtp.connectiontimeout", "2000");
         properties.setProperty("mail.user", sender);
         properties.setProperty("mail.password", senderPassword);
-        Session session = Session.getDefaultInstance(properties);
+        Authenticator authenticator = null;
+        if(smtpAuth.equalsIgnoreCase("true")) {
+            authenticator = new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(sender, senderPassword);
+                }
+            };
+        }
+        Session session = Session.getDefaultInstance(properties, authenticator);
 
         MimeMessage message = new MimeMessage(session);
         try {
@@ -91,9 +104,9 @@ public class EmailHelper {
      * @param content        邮件内容
      * @return 发送结果
      */
-    public static boolean sendHtml(String smtpHost, String smtpPort, String sender, String senderPassword,
+    public static boolean sendHtml(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword,
                                    List<String> to, String subject, String content) {
-        return send(smtpHost, smtpPort, sender, senderPassword, to, subject, content, "text/html;charset=utf-8", null);
+        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content, "text/html;charset=utf-8", null);
     }
 
     /**
@@ -108,9 +121,9 @@ public class EmailHelper {
      * @param content        邮件内容
      * @return 发送结果
      */
-    public static boolean sendText(String smtpHost, String smtpPort, String sender, String senderPassword,
+    public static boolean sendText(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword,
                                    List<String> to, String subject, String content) {
-        return send(smtpHost, smtpPort, sender, senderPassword, to, subject, content, "text/plain;charset=utf-8", null);
+        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content, "text/plain;charset=utf-8", null);
     }
 
     /**
