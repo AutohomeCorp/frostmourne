@@ -147,6 +147,8 @@ CREATE TABLE IF NOT EXISTS data_name
     DEFAULT CHARSET = utf8mb4
     COMMENT = '数据名';
 
+CREATE UNIQUE INDEX uniq_dataname ON data_name(data_name);
+
 /*------------------------------------------- create data_source -------------------------------------------*/
 DROP TABLE IF EXISTS data_source;
 CREATE TABLE IF NOT EXISTS data_source

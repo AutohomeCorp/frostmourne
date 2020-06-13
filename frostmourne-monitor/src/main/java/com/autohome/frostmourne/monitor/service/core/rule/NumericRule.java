@@ -24,9 +24,11 @@ public class NumericRule extends AbstractRule {
         if (operator.equalsIgnoreCase("gte")) {
             return number >= threshold;
         }
-
         if (operator.equalsIgnoreCase("lte")) {
             return number <= threshold;
+        }
+        if(operator.equalsIgnoreCase("equal")) {
+            return number.equals(threshold);
         }
 
         throw new RuntimeException("unknown operator: " + operator);

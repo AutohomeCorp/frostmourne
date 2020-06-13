@@ -16,3 +16,5 @@ CREATE TABLE IF NOT EXISTS data_name
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
     COMMENT = '数据名';
+
+CREATE UNIQUE INDEX uniq_dataname ON data_name(data_name);
