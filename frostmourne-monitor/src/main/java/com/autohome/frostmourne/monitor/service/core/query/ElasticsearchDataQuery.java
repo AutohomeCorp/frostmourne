@@ -12,16 +12,16 @@ import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
+import com.autohome.frostmourne.monitor.contract.MetricContract;
 import com.autohome.frostmourne.monitor.contract.StatItem;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchInfo;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceManager;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.EsRestClientContainer;
+import com.autohome.frostmourne.monitor.service.core.domain.ElasticsearchMetric;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchScrollRequest;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.core.CountRequest;
-import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -33,6 +33,10 @@ import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramAggre
 import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
 import org.elasticsearch.search.aggregations.bucket.histogram.ExtendedBounds;
 import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
+import org.elasticsearch.search.aggregations.metrics.avg.Avg;
+import org.elasticsearch.search.aggregations.metrics.max.Max;
+import org.elasticsearch.search.aggregations.metrics.min.Min;
+import org.elasticsearch.search.aggregations.metrics.sum.Sum;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.joda.time.DateTime;
@@ -57,7 +61,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo(dataSourceContract);
         EsRestClientContainer esRestClientContainer = elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
         DateTime queryEnd = end;
-        if(queryEnd.getMillis() > System.currentTimeMillis()) {
+        if (queryEnd.getMillis() > System.currentTimeMillis()) {
             queryEnd = DateTime.now();
         }
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery().must(new QueryStringQueryBuilder(esQuery))
@@ -116,6 +120,93 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
             }
         }
         return elasticsearchDataResult;
+    }
+
+    public ElasticsearchMetric queryElasticsearchMetricValue(DateTime start, DateTime end, MetricContract metricContract) throws IOException {
+        ElasticsearchMetric elasticsearchMetric = new ElasticsearchMetric();
+        ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo(metricContract.getDataSourceContract());
+        EsRestClientContainer esRestClientContainer = elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
+                .must(new QueryStringQueryBuilder(metricContract.getQuery_string()))
+                .must(QueryBuilders.rangeQuery(metricContract.getDataNameContract().getTimestamp_field())
+                        .from(start.toDateTimeISO().toString())
+                        .to(end.toDateTimeISO().toString())
+                        .includeLower(true)
+                        .includeUpper(false)
+                        .format("date_optional_time"));
+        Map<String, String> dataNameProperties = metricContract.getDataNameContract().getSettings();
+        String indexPrefix = dataNameProperties.get("indexPrefix");
+        String datePattern = dataNameProperties.get("timePattern");
+        String[] indices = esRestClientContainer.buildIndices(start, end, indexPrefix, datePattern);
+        Long count = null;
+        try {
+            count = esRestClientContainer.totalCount(boolQueryBuilder, indices);
+        } catch (Exception ex) {
+            throw new RuntimeException("error when totalCount");
+        }
+        if (metricContract.getAggregation_type().equalsIgnoreCase("count")) {
+            elasticsearchMetric.setMetricValue(count);
+        }
+        if (count == 0) {
+            elasticsearchMetric.setMetricValue(0);
+            return elasticsearchMetric;
+        }
+        SearchRequest searchRequest = new SearchRequest(indices);
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.trackScores(false);
+        searchSourceBuilder.trackTotalHits(true);
+        searchSourceBuilder.query(boolQueryBuilder).size(1)
+                .sort(metricContract.getDataNameContract().getTimestamp_field(), SortOrder.DESC);
+        attachAggregation(metricContract, searchSourceBuilder);
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
+        SearchHit latestDoc = searchResponse.getHits().getAt(0);
+        elasticsearchMetric.setLatestDocument(latestDoc.getSourceAsMap());
+        if (metricContract.getAggregation_type().equalsIgnoreCase("count")) {
+            if (searchResponse.getHits().getTotalHits() > 0) {
+                elasticsearchMetric.setMetricValue(searchResponse.getHits().getTotalHits());
+            }
+        } else {
+            Double numericValue = findAggregationValue(metricContract, searchResponse);
+            elasticsearchMetric.setMetricValue(numericValue);
+        }
+        return elasticsearchMetric;
+    }
+
+    private void attachAggregation(MetricContract metricContract, SearchSourceBuilder searchSourceBuilder) {
+        String aggType = metricContract.getAggregation_type();
+        String aggField = metricContract.getAggregation_field();
+        if (aggType.equalsIgnoreCase("max")) {
+            searchSourceBuilder.aggregation(AggregationBuilders.max("maxNumber").field(aggField));
+        } else if (aggType.equalsIgnoreCase("min")) {
+            searchSourceBuilder.aggregation(AggregationBuilders.min("minNumber").field(aggField));
+        } else if (aggType.equalsIgnoreCase("avg")) {
+            searchSourceBuilder.aggregation(AggregationBuilders.avg("avgNumber").field(aggField));
+        } else if (aggType.equalsIgnoreCase("sum")) {
+            searchSourceBuilder.aggregation(AggregationBuilders.sum("sumNumber").field(aggField));
+        }
+    }
+
+    private Double findAggregationValue(MetricContract metricContract, SearchResponse searchResponse) {
+        String aggType = metricContract.getAggregation_type();
+        if (aggType.equalsIgnoreCase("max")) {
+            Max max = searchResponse.getAggregations().get("maxNumber");
+            return max.getValue();
+        }
+        if (aggType.equalsIgnoreCase("min")) {
+            Min min = searchResponse.getAggregations().get("minNumber");
+            return min.getValue();
+        }
+        if (aggType.equalsIgnoreCase("avg")) {
+            Avg avg = searchResponse.getAggregations().get("avgNumber");
+            return avg.getValue();
+        }
+        if (aggType.equalsIgnoreCase("sum")) {
+            Sum sum = searchResponse.getAggregations().get("sumNumber");
+            return sum.getValue();
+        }
+
+        throw new IllegalArgumentException("unsupported aggregation type: " + aggType);
     }
 
     private ElasticsearchDataResult parseResult(SearchResponse searchResponse, String timestampField) {

@@ -12,6 +12,9 @@
         <el-option label="自动" value="0" />
         <el-option label="1小时" value="3600" />
         <el-option label="1天" value="86400" />
+        <el-option label="5分钟" value="300" />
+        <el-option label="15分钟" value="900" />
+        <el-option label="30分钟" value="1800" />
       </el-select>
       <el-date-picker
         v-model="datePickValue"
@@ -203,7 +206,7 @@ export default {
       this.form.endTime = value[1]
     },
     search() {
-      if (this.selectedDataName == null) {
+      if (this.form.dataName == null) {
         this.$message({ type: 'warning', message: '请先选择一个数据名', duration: 2000 })
         return
       }
@@ -310,7 +313,7 @@ export default {
       })
     },
     addAlarm() {
-      if (this.selectedDataName == null) {
+      if (this.form.dataName == null) {
         this.$message({ type: 'warning', message: '请先选择一个数据名', duration: 2000 })
         return
       }
@@ -318,6 +321,7 @@ export default {
         this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
         return
       }
+      this.selectedDataName = this.dataNameList.filter(d => d.data_name == this.form.dataName)[0];
       this.$router.push({
         name: 'alarm-edit',
         query: {

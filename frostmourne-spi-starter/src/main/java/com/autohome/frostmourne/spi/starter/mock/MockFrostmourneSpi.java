@@ -27,7 +27,17 @@ public class MockFrostmourneSpi implements IFrostmourneSpiApi {
 
     @Override
     public Protocol<List<UserInfo>> search(String _appId, String keyword) {
-        return null;
+        UserInfo userInfo = new UserInfo();
+        userInfo.setAccount("admin");
+        userInfo.setEmail("admin@frostmourne.com");
+        userInfo.setFullName("管理员");
+        userInfo.setMobile("150XXXX0501");
+        userInfo.setTeamId(-1);
+        userInfo.setTeamName("抄鸡赛亚人");
+
+        List<UserInfo> userInfoList = new ArrayList<>();
+        userInfoList.add(userInfo);
+        return new Protocol<>(userInfoList);
     }
 
     @Override
@@ -64,6 +74,6 @@ public class MockFrostmourneSpi implements IFrostmourneSpiApi {
 
     @Override
     public Protocol<String> shortenLink(String _appId, String longUrl) {
-        return new Protocol<>("http://this.is.fake.short.lin.com");
+        return new Protocol<>("");
     }
 }

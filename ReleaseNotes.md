@@ -1,17 +1,33 @@
 ## 0.2-SNAPSHOT
 
+### Feature
+
 * 用户，团队，部门增加应用外配置文件的维护方式
 * 增加数据导出CSV功能
 * 增加HTTP报警方式
 * 增加企业微信报警方式
-* Elasticsearch-Rest-Client升级至6.6.2
-* bugfix: 解决elasticsearch 7+版本，数据数量为0的问题
-* bugfix: 解决邮箱需要认证的情况下，邮件发送失败的问题
-* mysql: alert表增加字段: http_post_url
-* 文档: 增加query string简易教程
-* mysql: data_name表增加data_name字段唯一索引
-* bugfix: 解决dataname还在使用中，仍然可以删除的问题
 * elasticsearch监控增加avg,min,max,sum数值metric类型
+* 缺少短链接或短链接失败的情况下，使用原链接
+
+### Bugfix
+
+* bugfix: 解决dataname还在使用中，仍然可以删除的问题
+* bugfix: 解决elasticsearch 7+版本，数据数量为0的问题
+* bugfix: 解决邮箱需要认证的情况下，邮件发送失败的问题 [issue#2](https://github.com/AutohomeCorp/frostmourne/issues/2)
+
+### Mysql
+
+* mysql: alert表增加字段: http_post_url - [SQL](./doc/mysql-schema/2020-06-01/change.sql)
+* mysql: data_name表增加data_name字段唯一索引 - [SQL](./doc/mysql-schema/2020-06-13/change.sql)
+
+### Document
+
+* 文档: 增加query string简易教程
+
+### Others
+
+* Elasticsearch-Rest-Client升级至6.6.2
+* 升级guava至28.2-jre
 
 ## 0.1-RELEASE
 

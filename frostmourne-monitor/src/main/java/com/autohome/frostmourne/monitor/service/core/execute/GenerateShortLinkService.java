@@ -10,7 +10,7 @@ import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.contract.enums.DataSourceType;
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
-import org.apache.logging.log4j.util.Strings;
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +36,6 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
         String datasourceType = alarmContract.getMetricContract().getDataNameContract().getDatasource_type();
         String url = null;
         List<String> queryParameters = new ArrayList<>();
-
         try {
             if (datasourceType.equalsIgnoreCase(DataSourceType.ELASTICSEARCH)) {
                 url = frostmourneMonitorAddress + "/query/elasticsearch.view";
@@ -45,13 +44,13 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
                 queryParameters.add("endTime=" + URLEncoder.encode(alarmProcessLogger.getContext().get("endTime").toString(), "utf8"));
                 queryParameters.add("dataName=" + URLEncoder.encode(alarmContract.getMetricContract().getDataNameContract().getData_name(), "utf8"));
             }
-            String longUrl = url + "?" + Strings.join(queryParameters, '&');
+            String longUrl = url + "?" + String.join("&", queryParameters);
             Protocol<String> protocol = frostmourneSpiApi.shortenLink("frostmourne-monitor", URLEncoder.encode(longUrl, "utf8"));
-            if (protocol.getReturncode() == 0) {
+            if (protocol.getReturncode() == 0 && !Strings.isNullOrEmpty(protocol.getResult())) {
                 return protocol.getResult();
             }
-            LOGGER.error("error when generate short link. response: " + JacksonUtil.serialize(protocol));
-            return null;
+            LOGGER.warn("error when generate short link. response: " + JacksonUtil.serialize(protocol));
+            return longUrl;
         } catch (Exception ex) {
             LOGGER.error("error when generate short link", ex);
             return null;
