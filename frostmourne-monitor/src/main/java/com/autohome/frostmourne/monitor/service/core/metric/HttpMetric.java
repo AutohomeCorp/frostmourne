@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -32,8 +33,14 @@ public class HttpMetric implements IMetric {
         try {
             Long start = System.currentTimeMillis();
             HttpHeaders headers = new HttpHeaders();
+            if (metricContract.getProperties() != null && metricContract.getProperties().size() > 0) {
+                for (Map.Entry<String, Object> entry : metricContract.getProperties().entrySet()) {
+                    headers.set(entry.getKey(), entry.getValue().toString());
+                }
+            }
             if (Strings.isNullOrEmpty(metricContract.getPost_data())) {
-                responseEntity = restTemplate.getForEntity(metricContract.getQuery_string(), String.class);
+                HttpEntity requestGet = new HttpEntity(headers);
+                responseEntity = restTemplate.exchange(metricContract.getQuery_string(), HttpMethod.GET, requestGet, String.class);
             } else {
                 MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
                 headers.setContentType(type);

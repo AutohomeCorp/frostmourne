@@ -1,11 +1,11 @@
 package com.autohome.frostmourne.spi.plugin.defaultimpl;
 
-import java.util.Map;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.spi.contract.ShortenLink45Response;
 import com.autohome.frostmourne.spi.plugin.IShortenLinkPlugin;
+import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +24,9 @@ public class DefaultShortenLinkPlugin implements IShortenLinkPlugin {
 
     @Override
     public String shortenLink(String longLink) {
+        if (Strings.isNullOrEmpty(dwzToken)) {
+            return null;
+        }
         MultiValueMap<String, Object> postParameters = new LinkedMultiValueMap<>();
         postParameters.add("url", longLink);
         postParameters.add("mark", "frostmourne");
