@@ -243,7 +243,7 @@ export default {
         : window.location.href
       const url = encodeURI(uri + '?' + sb.join('&'))
       dataQueryApi.shortenLink(url).then(response => {
-        const shorten = response.result === '' ? url : response.result
+        const shorten = (response.result === '' || response.result == null) ? url : response.result
         this.copyToClipboard(shorten)
       })
     },
