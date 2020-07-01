@@ -25,6 +25,7 @@ RUN true \
 
 RUN mkdir -p /opt/frostmourne \
     && mkdir -p /opt/core \
+    && mkdir -p /opt/core/mysql \
     && mkdir -p /opt/frostmourne/frostmourne-monitor \
     && mkdir -p /opt/frostmourne/frostmourne-spi \
     && mkdir -p /opt/frostmourne/xxl-job
