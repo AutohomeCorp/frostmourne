@@ -28,21 +28,13 @@ RUN mkdir -p /opt/frostmourne \
     && mkdir -p /opt/frostmourne/frostmourne-monitor \
     && mkdir -p /opt/frostmourne/frostmourne-spi \
     && mkdir -p /opt/frostmourne/xxl-job
- 
+
 COPY ./ /usr/src/mymaven
 RUN cd /usr/src/mymaven && ls -l
 
 WORKDIR /opt/frostmourne
 RUN chmod +x /opt/frostmourne
 
-#编译node项目
-#RUN true \
-#    && cd /opt/frostmourne/frostmourne-vue \
-#    && npm config set registry https://registry.npm.taobao.org \
-#    && npm install webpack -g \
-#    && npm install -g vue-cli \
-#    && npm install \
-#    && npm run build:stage
 
 #编译jar包
 
@@ -58,13 +50,31 @@ RUN cp /usr/src/mymaven/frostmourne-monitor/target/frostmourne-monitor-0.2-SNAPS
     && cp -r /usr/src/mymaven/doc/mysql-schema/* /opt/core/mysql \
     && rm -rf /usr/src/mymaven/*
 
-#RUN cp /usr/src/mymaven/frostmourne-monitor/target/frostmourne-monitor-0.2-SNAPSHOT.zip /opt/frostmourne/frostmourne-monitor/ \
-#    && unzip /opt/frostmourne/frostmourne-monitor/frostmourne-monitor-0.2-SNAPSHOT.zip \
-#    && cp 
 
 
 RUN true \
    &&{ \
+        echo "#!/bin/bash"; \
+        echo "if [ ! -d \"/opt/frostmourne/frostmourne-monitor/scripts\" ];then"; \
+        echo "mkdir -p /opt/frostmourne/frostmourne-monitor &&mkdir -p  /opt/frostmourne/frostmourne-spi "; \
+        echo "mkdir -p /opt/frostmourne/xxl-job &&mkdir -p  /opt/frostmourne/mysql"; \
+        echo "cp /opt/core/frostmourne-monitor-0.2-SNAPSHOT.zip /opt/frostmourne/frostmourne-monitor/"; \
+        echo "cp /opt/core/frostmourne-spi-0.2-SNAPSHOT.zip /opt/frostmourne/frostmourne-spi/"; \
+        echo "cp /opt/core/xxl-job-admin-2.1.0.zip /opt/frostmourne/xxl-job/"; \
+        echo "cp -r /opt/core/mysql/* /opt/frostmourne/mysql/"; \
+        echo "cd /opt/frostmourne/"; \
+        echo "unzip ./frostmourne-monitor/frostmourne-monitor-0.2-SNAPSHOT.zip -d ./frostmourne-monitor/"; \
+        echo "unzip ./frostmourne-spi/frostmourne-spi-0.2-SNAPSHOT.zip -d ./frostmourne-spi/"; \
+        echo "unzip ./xxl-job/xxl-job-admin-2.1.0.zip -d ./xxl-job"; \
+        echo ""; \
+        echo "sed -i 's/\".jar\" start/\".jar\" start \$PARAMS/p' /opt/frostmourne/xxl-job/scripts/startup.sh"; \
+        echo "fi"; \
+        echo "/opt/frostmourne/xxl-job/scripts/startup.sh"; \
+        echo "/opt/frostmourne/frostmourne-spi/scripts/startup.sh"; \
+        echo "/opt/frostmourne/frostmourne-monitor/scripts/startup.sh"; \
+        echo "tail -f /dev/null"; \
+    } | tee /start.sh \
+  &&{ \
         echo "#!/bin/bash"; \
         echo "if [ ! -d \"/opt/frostmourne/frostmourne-monitor/scripts\" ];then"; \
         echo "mkdir -p /opt/frostmourne/frostmourne-monitor &&mkdir -p  /opt/frostmourne/frostmourne-spi "; \
@@ -78,14 +88,11 @@ RUN true \
         echo "unzip ./frostmourne-spi/frostmourne-spi-0.2-SNAPSHOT.zip -d ./frostmourne-spi/"; \
         echo "unzip ./xxl-job/xxl-job-admin-2.1.0.zip -d ./xxl-job"; \
         echo ""; \
-        echo "fi"; \
         echo "sed -i 's/\".jar\" start/\".jar\" start \$PARAMS/p' /opt/frostmourne/xxl-job/scripts/startup.sh"; \
-        echo "/opt/frostmourne/xxl-job/scripts/startup.sh"; \
-        echo "/opt/frostmourne/frostmourne-spi/scripts/startup.sh"; \
-        echo "/opt/frostmourne/frostmourne-monitor/scripts/startup.sh"; \
-        echo "tail -f /dev/null"; \
-    } | tee /start.sh \
-  && chmod -R 777 /start.sh
+        echo "fi"; \
+    } | tee /init.sh \
+  && chmod -R 777 /start.sh \
+  && chmod -R 777 /init.sh
 
 
 
