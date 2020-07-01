@@ -78,7 +78,7 @@ RUN true \
         echo "#!/bin/bash"; \
         echo "if [ ! -d \"/opt/frostmourne/frostmourne-monitor/scripts\" ];then"; \
         echo "mkdir -p /opt/frostmourne/frostmourne-monitor &&mkdir -p  /opt/frostmourne/frostmourne-spi "; \
-        echo "mkdir -p /opt/frostmourne/xxl-job &&mkdir -p  /opt/frostmourne/mysql";
+        echo "mkdir -p /opt/frostmourne/xxl-job &&mkdir -p  /opt/frostmourne/mysql"; \
         echo "cp /opt/core/frostmourne-monitor-0.2-SNAPSHOT.zip /opt/frostmourne/frostmourne-monitor/"; \
         echo "cp /opt/core/frostmourne-spi-0.2-SNAPSHOT.zip /opt/frostmourne/frostmourne-spi/"; \
         echo "cp /opt/core/xxl-job-admin-2.1.0.zip /opt/frostmourne/xxl-job/"; \
