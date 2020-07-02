@@ -1,0 +1,53 @@
+version: '3.6'
+services:
+  xxl-job:
+    image: frostmourne:latest
+    container_name: xxl-job
+    environment:
+      - PARAMS= --spring.datasource.url=jdbc:mysql://127.0.0.1:3306/xxl_job?Unicode=true&characterEncoding=UTF-8 --spring.datasource.username=root --spring.datasource.password=root
+    ports:
+      - "18080:10052"
+    expose:
+      - "18080"
+    volumes:
+      - ./runtime:/opt/frostmourne
+    networks:
+      frostmourne_net:
+
+    command: bash -c "/init.sh&&/opt/frostmourne/xxl-job/scripts/startup.sh&&tail -f /dev/null"
+
+  frostmourne-spi:
+    image: frostmourne:latest
+    container_name: frostmourne-spi
+
+    ports:
+      - "10055:10055"
+    expose:
+      - "10055"
+    volumes:
+      - ./runtime:/opt/frostmourne
+    networks:
+      frostmourne_net:
+
+    command: bash -c "/init.sh&&/opt/frostmourne/frostmourne-spi/scripts/startup.sh&&tail -f /dev/null"
+
+  frostmourne-monitor:
+    image: frostmourne:latest
+    container_name: frostmourne-monitor
+    environment:
+      - PARAMS= --xxljob_mock=false --frostmourne_spi_mock=false --xxl.job.admin.addresses=http://xxl-job:10052/xxl-job-admin --xxl.job.executor.id=2 --xxl.job.executor.appname=frostmourne --druid.datasource.frostmourne.url=jdbc:mysql://127.0.0.1:3306/frostmourne?characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Shanghai --druid.datasource.frostmourne.username=root --druid.datasource.frostmourne.password=root --frostmourne.spi.service-addr=http://frostmourne-spi:10055 --frostmourne.monitor.address=http://192.168.1.222:10054
+    ports:
+      - "10054:10054"
+      - "9999:9999"
+    expose:
+      - "10054"
+      - "9999"
+    volumes:
+      - ./runtime:/opt/frostmourne
+    networks:
+      frostmourne_net:
+
+    command: bash -c "/init.sh&&/opt/frostmourne/frostmourne-monitor/scripts/startup.sh&&tail -f /dev/null"
+
+networks:
+  frostmourne_net:
