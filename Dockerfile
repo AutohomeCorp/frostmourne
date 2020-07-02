@@ -29,13 +29,21 @@ RUN mkdir -p /opt/frostmourne \
     && mkdir -p /opt/frostmourne/frostmourne-monitor \
     && mkdir -p /opt/frostmourne/frostmourne-spi \
     && mkdir -p /opt/frostmourne/xxl-job
-
+ 
 COPY ./ /usr/src/mymaven
 RUN cd /usr/src/mymaven && ls -l
 
 WORKDIR /opt/frostmourne
 RUN chmod +x /opt/frostmourne
 
+#编译node项目
+#RUN true \
+#    && cd /opt/frostmourne/frostmourne-vue \
+#    && npm config set registry https://registry.npm.taobao.org \
+#    && npm install webpack -g \
+#    && npm install -g vue-cli \
+#    && npm install \
+#    && npm run build:stage
 
 #编译jar包
 
@@ -51,6 +59,9 @@ RUN cp /usr/src/mymaven/frostmourne-monitor/target/frostmourne-monitor-0.2-SNAPS
     && cp -r /usr/src/mymaven/doc/mysql-schema/* /opt/core/mysql \
     && rm -rf /usr/src/mymaven/*
 
+#RUN cp /usr/src/mymaven/frostmourne-monitor/target/frostmourne-monitor-0.2-SNAPSHOT.zip /opt/frostmourne/frostmourne-monitor/ \
+#    && unzip /opt/frostmourne/frostmourne-monitor/frostmourne-monitor-0.2-SNAPSHOT.zip \
+#    && cp 
 
 
 RUN true \
@@ -69,6 +80,7 @@ RUN true \
         echo "unzip ./xxl-job/xxl-job-admin-2.1.0.zip -d ./xxl-job"; \
         echo ""; \
         echo "sed -i 's/\".jar\" start/\".jar\" start \$PARAMS/p' /opt/frostmourne/xxl-job/scripts/startup.sh"; \
+        echo "sed -i 's/\".jar\" start/\".jar\" start \$PARAMS/p' /opt/frostmourne/frostmourne-monitor/scripts/startup.sh"; \
         echo "fi"; \
         echo "/opt/frostmourne/xxl-job/scripts/startup.sh"; \
         echo "/opt/frostmourne/frostmourne-spi/scripts/startup.sh"; \
@@ -90,6 +102,7 @@ RUN true \
         echo "unzip ./xxl-job/xxl-job-admin-2.1.0.zip -d ./xxl-job"; \
         echo ""; \
         echo "sed -i 's/\".jar\" start/\".jar\" start \$PARAMS/p' /opt/frostmourne/xxl-job/scripts/startup.sh"; \
+        echo "sed -i 's/\".jar\" start/\".jar\" start \$PARAMS/p' /opt/frostmourne/frostmourne-monitor/scripts/startup.sh"; \
         echo "fi"; \
     } | tee /init.sh \
   && chmod -R 777 /start.sh \
