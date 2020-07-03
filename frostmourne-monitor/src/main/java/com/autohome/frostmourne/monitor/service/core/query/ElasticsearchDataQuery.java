@@ -142,7 +142,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         try {
             count = esRestClientContainer.totalCount(boolQueryBuilder, indices);
         } catch (Exception ex) {
-            throw new RuntimeException("error when totalCount");
+            throw new RuntimeException("error when totalCount", ex);
         }
         if (metricContract.getAggregation_type().equalsIgnoreCase("count")) {
             elasticsearchMetric.setMetricValue(count);
