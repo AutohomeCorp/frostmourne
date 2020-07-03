@@ -36,7 +36,7 @@ CREATE TABLE `xxl_job_group` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `xxl_job_group` VALUES (1, 'xxl-job-executor-sample', '示例执行器', 1, 0, NULL);
-INSERT INTO `xxl_job_group` VALUES (2, 'frostmourne', '异常日志告警', 1, 0, '172.19.0.3:9999');
+INSERT INTO `xxl_job_group` VALUES (2, 'frostmourne', '霜之哀伤监控平台', 1, 0, NULL);
 COMMIT;
 
 -- ----------------------------

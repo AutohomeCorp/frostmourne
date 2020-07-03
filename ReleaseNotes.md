@@ -4,10 +4,13 @@
 
 * 用户，团队，部门增加应用外配置文件的维护方式
 * 增加数据导出CSV功能
+* 增加Elasticsearch查询分享功能
 * 增加HTTP报警方式
 * 增加企业微信报警方式
 * elasticsearch监控增加avg,min,max,sum数值metric类型
 * 缺少短链接或短链接失败的情况下，使用原链接
+* 数据查询页面增加创建监控跳转按钮
+* 增加dockerfile和docker-compose
 
 ### Bugfix
 

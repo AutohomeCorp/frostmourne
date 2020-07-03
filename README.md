@@ -112,7 +112,7 @@ com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况
 
 ## 为什么设计frostmourne-spi模块
 
-请参考文档: <a href="./doc/wiki/frostmourne-spi.md" target="_blank">为什么设计frostmourne-spi</a>
+请参考文档: <a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/frostmourne-spi.md" target="_blank">为什么设计frostmourne-spi</a>
 
 ## 调试环境要求
 
@@ -137,7 +137,7 @@ druid.datasource.frostmourne.password=[plain_password]
 ### 快速启动
 
 由于正常启动还需要不少依赖部署，所以并不那么容易，所以提供了一个快速启动的办法，让你更快的理解项目，和运行起来。
-详细请看文档：<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
 ## 开发调试
 
@@ -155,13 +155,13 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 
 <img src="./doc/img/executor.png"/>
 
-然后修改frostmourne-monitor里和xxl-job相关配置。其中xxl.job.executor.id配置为刚在xxl-job中创建的执行器id。
+然后修改frostmourne-monitor里和xxl-job相关配置。其中xxl.job.executor.id配置为刚在xxl-job中创建的执行器id。一般执行器id是2。
 
 ```
 ### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
 xxl.job.admin.addresses=http://[your_xxljob_address]/xxl-job-admin
 ### xxl-job executor address
-xxl.job.executor.id=[frostmourne executor id]
+xxl.job.executor.id=2
 xxl.job.executor.appname=frostmourne
 xxl.job.executor.ip=
 xxl.job.executor.port=-1
@@ -175,7 +175,7 @@ xxl.job.executor.logretentiondays=3
 xxl.job.alarm.email=[your_email]
 ```
 
-如果你觉得从官方下载源码修改部署太麻烦，你可以使用我处理好了的jar包 <a href="./doc/xxl-job/xxl-job-admin-2.1.0.zip" target="_blank">xxl-job-admin-2.1.0.zip</a>，你可以下载直接解压使用，启动脚本
+如果你觉得从xxl-job官方下载源码修改部署太麻烦，你可以使用我处理好了的jar包 <a href="./doc/xxl-job/xxl-job-admin-2.1.0.zip" target="_blank">xxl-job-admin-2.1.0.zip</a>，你可以下载直接解压使用，启动脚本
 都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。
 
 ```bash
@@ -215,9 +215,13 @@ npm run dev
 
 所以在权衡利弊之后，还是决定好好利用优秀的国内开源项目xxl-job
 
+## docker
+
+[docker和docker-compose部署指南](./doc/wiki/docker.md)
+
 ## 用户管理和登录认证
 
-请参考文档：[用户管理和登录认证](./doc/wiki/auth.md)
+请参考文档：[用户管理和登录认证](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/auth.md)
 
 ## query string简易教程
 
@@ -226,7 +230,7 @@ npm run dev
 
 ## 消息模板配置
 
-[消息模板配置](./doc/wiki/template.md)
+[消息模板配置](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/template.md)
 
 ## HTTP类型监控
 
@@ -234,11 +238,11 @@ npm run dev
 
 ## 报警发送
 
-[报警发送](./doc/wiki/ways.md)
+[报警发送](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/ways.md)
 
 ## 报警抑制
 
-[报警抑制](./doc/wiki/supress.md)
+[报警抑制](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/supress.md)
 
 ## 调度配置
 
@@ -307,9 +311,14 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 目前已知的规划有: 
 
+* ~~增加Dockerfile~~  [xyzj91][2020-07-02]
+* ~~增加docker-compose部署，用于快速启动~~ [xyzj91][2020-07-02]
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
+* 增加企业微信机器人消息发送方式 [issue#7](https://github.com/AutohomeCorp/frostmourne/issues/7)
 * HTTP监控增加header设置
-* Elasticsearch监控数值实现同比，环比监控
+* Elasticsearch监控数值实现同比监控
+* Elasticsearch监控数值实现环比监控
+* 增加用户信息，团队信息，部门信息管理功能模块 [issue#6](https://github.com/AutohomeCorp/frostmourne/issues/6)
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * 报警接收人设置时给出提示
 * Elasticsearch查询增加常用语句自动提示
@@ -319,7 +328,6 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * README简化为文档目录索引形式，具体内容分散到各个文档中，方便查找
 * 监控调度配置后显示预计调度时间 [issue#3](https://github.com/AutohomeCorp/frostmourne/issues/3)
 * 报警接收人可以设置为组 [issue#4](https://github.com/AutohomeCorp/frostmourne/issues/4)
-* 增加Dockerfile
 * 使用autolog4j程序日志格式
 * 报警消息模板存库管理
 * Elasticsearch数据名配置时自动提示索引名称
@@ -331,7 +339,6 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * Elasticsearch监控查询语句增加DSL类型查询
 * Elasticsearch监控查询语句增加SQL类型查询
 * 加强登录安全(集成LDAP, CAS单点登录)
-* 增加docker-compose部署，用于快速启动
 * 增加单元测试
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
@@ -349,7 +356,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 ## Contribution
 
-[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) 
+[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91)
 
 ## 致谢
 - [springboot](https://github.com/spring-projects/spring-boot)
