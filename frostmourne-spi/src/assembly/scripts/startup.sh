@@ -92,7 +92,12 @@ printf "$(date) ==== Starting ==== \n"
 
 ln $PATH_TO_JAR $SERVICE_NAME".jar"
 chmod a+x $SERVICE_NAME".jar"
-./$SERVICE_NAME".jar" start
+
+if [ $PARAMS ];then
+    ./$SERVICE_NAME".jar" start $PARAMS
+else
+    ./$SERVICE_NAME".jar" start
+fi
 
 rc=$?;
 
