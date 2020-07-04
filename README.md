@@ -313,14 +313,14 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 * ~~增加Dockerfile~~  [xyzj91][2020-07-02]
 * ~~增加docker-compose部署，用于快速启动~~ [xyzj91][2020-07-02]
-* 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
+* ~~HTTP监控增加header设置~~ [2020-07-04]
+* ~~报警接收人设置时给出提示~~ [2020-07-04]
 * 增加企业微信机器人消息发送方式 [issue#7](https://github.com/AutohomeCorp/frostmourne/issues/7)
-* HTTP监控增加header设置
+* 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
 * Elasticsearch监控数值实现同比监控
 * Elasticsearch监控数值实现环比监控
 * 增加用户信息，团队信息，部门信息管理功能模块 [issue#6](https://github.com/AutohomeCorp/frostmourne/issues/6)
 * 内置实现一个短链接功能，移除外部短链接服务依赖
-* 报警接收人设置时给出提示
 * Elasticsearch查询增加常用语句自动提示
 * Elasticsearch查询数据柱状图可点击并自动变更时间范围
 * Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控

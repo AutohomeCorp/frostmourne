@@ -3,7 +3,6 @@ package com.autohome.frostmourne.monitor.service.core.query;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import au.com.bytecode.opencsv.CSVWriter;
@@ -11,18 +10,10 @@ import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
-import com.autohome.frostmourne.monitor.contract.MetricContract;
 import com.autohome.frostmourne.monitor.service.admin.IDataAdminService;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.metrics.avg.Avg;
-import org.elasticsearch.search.aggregations.metrics.max.Max;
-import org.elasticsearch.search.aggregations.metrics.min.Min;
-import org.elasticsearch.search.aggregations.metrics.sum.Sum;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +56,7 @@ public class QueryService implements IQueryService {
 
     @Override
     public void exportToCsv(CSVWriter csvWriter, String dataName, DateTime startTime, DateTime endTime, String esQuery,
-                                               String scrollId, String sortOrder) {
+                            String scrollId, String sortOrder) {
         DataNameContract dataNameContract = dataAdminService.findDataNameByName(dataName);
         DataSourceContract dataSourceContract = dataAdminService.findDatasourceById(dataNameContract.getData_source_id());
         ElasticsearchDataResult elasticsearchDataResult = elasticsearchDataQuery.query(dataNameContract, dataSourceContract,

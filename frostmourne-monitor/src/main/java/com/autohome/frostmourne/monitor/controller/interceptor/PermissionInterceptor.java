@@ -23,59 +23,59 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 	/*@Resource
 	private LoginService loginService;*/
 
-	@Resource
-	private JwtToken jwtToken;
+    @Resource
+    private JwtToken jwtToken;
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		
-		if (!(handler instanceof HandlerMethod)) {
-			return super.preHandle(request, response, handler);
-		}
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-		boolean needLogin = true;
-		HandlerMethod method = (HandlerMethod)handler;
-		PermissionLimit permission = method.getMethodAnnotation(PermissionLimit.class);
-		if (permission!=null) {
-			needLogin = permission.limit();
-		}
-		if (needLogin) {
-			String token = request.getHeader("Frostmourne-Token");
-			if(Strings.isNullOrEmpty(token)) {
-				notLoginResponse(response);
-				return false;
-			}
-			Claims claims = null;
-			try {
-				claims = jwtToken.parseToken(token);
-			} catch (Exception ex) {
-				wrongTokenResponse(response);
-				return false;
-			}
-			String json =(String) claims.get("userinfo");
-			UserInfo userInfo = JacksonUtil.deSerialize(json, UserInfo.class);
-			request.setAttribute(AuthTool.USER_ATTR, userInfo);
-		}
+        if (!(handler instanceof HandlerMethod)) {
+            return super.preHandle(request, response, handler);
+        }
 
-		return super.preHandle(request, response, handler);
-	}
+        boolean needLogin = true;
+        HandlerMethod method = (HandlerMethod) handler;
+        PermissionLimit permission = method.getMethodAnnotation(PermissionLimit.class);
+        if (permission != null) {
+            needLogin = permission.limit();
+        }
+        if (needLogin) {
+            String token = request.getHeader("Frostmourne-Token");
+            if (Strings.isNullOrEmpty(token)) {
+                notLoginResponse(response);
+                return false;
+            }
+            Claims claims = null;
+            try {
+                claims = jwtToken.parseToken(token);
+            } catch (Exception ex) {
+                wrongTokenResponse(response);
+                return false;
+            }
+            String json = (String) claims.get("userinfo");
+            UserInfo userInfo = JacksonUtil.deSerialize(json, UserInfo.class);
+            request.setAttribute(AuthTool.USER_ATTR, userInfo);
+        }
 
-	private void notLoginResponse(HttpServletResponse response) throws IOException {
-		Protocol protocol = new Protocol();
-		protocol.setReturncode(50008);
-		protocol.setMessage("not login request");
-		response.setContentType("application/json;charset=utf-8");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(JacksonUtil.serialize(protocol));
-	}
+        return super.preHandle(request, response, handler);
+    }
 
-	private void wrongTokenResponse(HttpServletResponse response) throws IOException {
-		Protocol protocol = new Protocol();
-		protocol.setReturncode(50012);
-		protocol.setMessage("wrong token");
-		response.setContentType("application/json;charset=utf-8");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(JacksonUtil.serialize(protocol));
-	}
-	
+    private void notLoginResponse(HttpServletResponse response) throws IOException {
+        Protocol protocol = new Protocol();
+        protocol.setReturncode(50008);
+        protocol.setMessage("not login request");
+        response.setContentType("application/json;charset=utf-8");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(JacksonUtil.serialize(protocol));
+    }
+
+    private void wrongTokenResponse(HttpServletResponse response) throws IOException {
+        Protocol protocol = new Protocol();
+        protocol.setReturncode(50012);
+        protocol.setMessage("wrong token");
+        response.setContentType("application/json;charset=utf-8");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(JacksonUtil.serialize(protocol));
+    }
+
 }

@@ -17,7 +17,7 @@ public class DataSourceTransformer {
         dataSourceContract.setDatasource_type(dataSource.getDatasource_type());
         dataSourceContract.setId(dataSource.getId());
         dataSourceContract.setService_address(dataSource.getService_address());
-        if(!Strings.isNullOrEmpty(dataSource.getProperties())) {
+        if (!Strings.isNullOrEmpty(dataSource.getProperties())) {
             dataSourceContract.setSettings(JacksonUtil.deSerialize(dataSource.getProperties(), new TypeReference<Map<String, String>>() {
             }));
         } else {

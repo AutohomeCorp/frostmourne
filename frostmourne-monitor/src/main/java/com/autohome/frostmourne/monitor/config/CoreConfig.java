@@ -9,8 +9,8 @@ import com.autohome.frostmourne.monitor.service.core.metric.ElasticsearchSameTim
 import com.autohome.frostmourne.monitor.service.core.metric.HttpMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.rule.ExpressionRule;
-import com.autohome.frostmourne.monitor.service.core.rule.NumericRule;
 import com.autohome.frostmourne.monitor.service.core.rule.IRule;
+import com.autohome.frostmourne.monitor.service.core.rule.NumericRule;
 import com.autohome.frostmourne.monitor.service.core.rule.PercentageRule;
 import com.autohome.frostmourne.monitor.service.core.template.ITemplateService;
 import org.springframework.context.annotation.Bean;

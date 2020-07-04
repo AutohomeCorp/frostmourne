@@ -51,7 +51,7 @@ public class AlertService implements IAlertService {
         AlarmLog latestAlarmLog = alarmLogMapper.selectLatest(alarmId, null);
         if (!alarmProcessLogger.getAlert()) {
             checkRecover(latestAlarmLog, alarmProcessLogger, recipients);
-         } else {
+        } else {
             processProblem(alarmProcessLogger, recipients, latestAlarmLog);
         }
     }
@@ -70,7 +70,7 @@ public class AlertService implements IAlertService {
             alertContent = "消息类型: [恢复] 请自己检查问题是否解决,上次报警内容如下\n" + alertLog.getContent();
             alarmMessage.setContent(alertContent);
         }
-        alarmMessage.setTitle(String.format("[霜之哀伤监控平台][id:%s]%s", alarmProcessLogger.getAlarmContract().getId() , alarmProcessLogger.getAlarmContract().getAlarm_name()));
+        alarmMessage.setTitle(String.format("[霜之哀伤监控平台][id:%s]%s", alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarm_name()));
         alarmMessage.setRecipients(recipients);
         alarmMessage.setWays(alertContract.getWays());
         alarmMessage.setDingHook(alertContract.getDing_robot_hook());

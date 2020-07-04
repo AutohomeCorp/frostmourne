@@ -8,7 +8,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class AuthTool {
 
-    public final static String USER_ATTR= "frostmourne_user";
+    public final static String USER_ATTR = "frostmourne_user";
 
     public static HttpServletRequest currentRequest() {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();

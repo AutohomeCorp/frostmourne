@@ -11,7 +11,7 @@ const URL = {
   close: baseUrl + '/close'
 }
 const adminApi = {
-  getList(alarmId, name, teamName, status, pageIndex, pageSize) {
+  getList (alarmId, name, teamName, status, pageIndex, pageSize) {
     return query.get(URL.list, {
       account: 'admin',
       alarmId: alarmId,
@@ -22,28 +22,28 @@ const adminApi = {
       pageSize: pageSize
     })
   },
-  findById(alarmId) {
+  findById (alarmId) {
     return query.get(URL.findById, { account: 'admin', alarmId: alarmId })
   },
-  save(alarm) {
+  save (alarm) {
     return query.json(URL.save, alarm)
   },
-  saveAnother(alarm) {
+  saveAnother (alarm) {
     return query.json(URL.saveAnother, alarm)
   },
-  operation(url, alarmId) {
+  operation (url, alarmId) {
     return query.post(url, { alarmId: alarmId })
   },
-  delete(alarmId) {
+  delete (alarmId) {
     return this.operation(URL.delete, alarmId)
   },
-  open(alarmId) {
+  open (alarmId) {
     return this.operation(URL.open, alarmId)
   },
-  close(alarmId) {
+  close (alarmId) {
     return this.operation(URL.close, alarmId)
   },
-  run(alarmId) {
+  run (alarmId) {
     return
   }
 }

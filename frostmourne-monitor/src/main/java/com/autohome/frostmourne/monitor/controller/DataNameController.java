@@ -44,9 +44,9 @@ public class DataNameController {
 
     @RequestMapping(value = "/findDataSource", method = RequestMethod.GET)
     public Protocol<PagerContract<DataSourceContract>> findDataSource(@RequestParam(value = "_appId", required = true) String _appId,
-                                                              @RequestParam(value = "pageIndex", required = true) int pageIndex,
-                                                              @RequestParam(value = "pageSize", required = true) int pageSize,
-                                                              @RequestParam(value = "datasourceType", required = false) String datasourceType) {
+                                                                      @RequestParam(value = "pageIndex", required = true) int pageIndex,
+                                                                      @RequestParam(value = "pageSize", required = true) int pageSize,
+                                                                      @RequestParam(value = "datasourceType", required = false) String datasourceType) {
         PagerContract<DataSourceContract> pagerContract = dataAdminService.findDatasource(pageIndex, pageSize, datasourceType);
         return new Protocol<>(pagerContract);
     }

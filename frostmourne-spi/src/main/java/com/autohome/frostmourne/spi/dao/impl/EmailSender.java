@@ -31,7 +31,7 @@ public class EmailSender implements IEmailSender {
     }
 
     public boolean send(String title, String content, List<String> recipients) {
-        if(Strings.isNullOrEmpty(this.smtpHost) || Strings.isNullOrEmpty(this.smtpPort) || Strings.isNullOrEmpty(this.sender) || Strings.isNullOrEmpty(this.senderPassword)) {
+        if (Strings.isNullOrEmpty(this.smtpHost) || Strings.isNullOrEmpty(this.smtpPort) || Strings.isNullOrEmpty(this.sender) || Strings.isNullOrEmpty(this.senderPassword)) {
             LOGGER.error("email sender could not be null");
             return false;
         }

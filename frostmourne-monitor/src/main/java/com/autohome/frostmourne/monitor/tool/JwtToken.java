@@ -8,7 +8,6 @@ import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.spi.starter.model.UserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 

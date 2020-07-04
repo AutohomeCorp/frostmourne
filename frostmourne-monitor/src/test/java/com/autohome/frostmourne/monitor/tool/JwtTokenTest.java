@@ -1,7 +1,5 @@
 package com.autohome.frostmourne.monitor.tool;
 
-import static org.junit.Assert.*;
-
 import java.security.Key;
 import java.util.Date;
 

@@ -3,8 +3,6 @@ package com.autohome.frostmourne.monitor.service.core.query;
 import java.util.Date;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import com.autohome.frostmourne.monitor.contract.DataNameContract;
-import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
 import org.joda.time.DateTime;
 
@@ -14,5 +12,5 @@ public interface IQueryService {
                                                String scrollId, String sortOrder, Integer intervalInSeconds);
 
     void exportToCsv(CSVWriter csvWriter, String dataName, DateTime startTime, DateTime endTime, String esQuery,
-                                        String scrollId, String sortOrder);
+                     String scrollId, String sortOrder);
 }

@@ -12,12 +12,14 @@ public interface IOrgPlugin {
 
     /**
      * 获取部门列表
+     *
      * @return
      */
     List<Department> departments();
 
     /**
      * 获取某个部门下的团队列表
+     *
      * @param department 部门
      * @return
      */

@@ -1,7 +1,5 @@
 package com.autohome.frostmourne.spi.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.Arrays;
 import javax.annotation.Resource;
 

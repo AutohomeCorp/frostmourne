@@ -63,7 +63,7 @@ public class MockFrostmourneSpi implements IFrostmourneSpiApi {
     @Override
     public Protocol<List<MessageResult>> send(AlarmMessage alarmMessage, String _appId) {
         List<MessageResult> messageResults = new ArrayList<>();
-        for(String way: alarmMessage.getWays()) {
+        for (String way : alarmMessage.getWays()) {
             MessageResult messageResult = new MessageResult();
             messageResult.setWay(way);
             messageResult.setSuccess(1);

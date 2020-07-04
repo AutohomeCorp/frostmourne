@@ -1,7 +1,6 @@
 package com.autohome.frostmourne.spi.starter.config;
 
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
@@ -53,7 +52,7 @@ public class FrostmourneSpiAutoConfiguration {
     @ConditionalOnMissingBean
     public IFrostmourneSpiApi frostmourneSpiApi() {
 
-        if(frostmourneSpiProperties.getMock()) {
+        if (frostmourneSpiProperties.getMock()) {
             return new MockFrostmourneSpi();
         }
 

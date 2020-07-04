@@ -8,17 +8,17 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PermissionLimit {
-	
-	/**
-	 * 登录拦截 (默认拦截)
-	 */
-	boolean limit() default true;
 
-	/**
-	 * 要求管理员权限
-	 *
-	 * @return
-	 */
-	boolean adminuser() default false;
+    /**
+     * 登录拦截 (默认拦截)
+     */
+    boolean limit() default true;
+
+    /**
+     * 要求管理员权限
+     *
+     * @return
+     */
+    boolean adminuser() default false;
 
 }

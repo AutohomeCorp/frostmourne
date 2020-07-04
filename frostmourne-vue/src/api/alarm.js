@@ -6,15 +6,15 @@ const URL = {
   test: baseUrl + '/test'
 }
 const alarmApi = {
-  run(alarmId) {
+  run (alarmId) {
     return query.get(URL.run, {
       alarmId: alarmId
     })
   },
-  test(alarmContract) {
+  test (alarmContract) {
     return query.json(URL.test, alarmContract)
   },
-  httpTest(metricContract) {
+  httpTest (metricContract) {
     return query.json(baseUrl + '/httpTest', metricContract)
   }
 }

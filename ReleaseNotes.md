@@ -11,6 +11,7 @@
 * 缺少短链接或短链接失败的情况下，使用原链接
 * 数据查询页面增加创建监控跳转按钮
 * 增加dockerfile和docker-compose
+* HTTP监控增加头设置
 
 ### Bugfix
 
@@ -25,7 +26,8 @@
 
 ### Document
 
-* 文档: 增加query string简易教程
+* 增加query string简易教程
+* 增加docker启动说明文档
 
 ### Others
 

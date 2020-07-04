@@ -1,7 +1,6 @@
 package com.autohome.frostmourne.monitor.jobhandler;
 
 import java.util.Map;
-
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.jackson.JacksonObjectMapper;

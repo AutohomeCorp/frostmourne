@@ -57,7 +57,14 @@ public class WeChatSender implements IWeChatSender {
         }
     }
 
-    public boolean send(List<String> users, String title, String content) {
+    public boolean send(List<String> users, String title, String content, String wechatRobotHook) {
+        if(Strings.isNullOrEmpty(wechatRobotHook)) {
+            return sendMessage(users, title, content);
+        }
+        return sendRobotMessage(users, title, content, wechatRobotHook);
+    }
+
+    public boolean sendMessage(List<String> users, String title, String content) {
         if (Strings.isNullOrEmpty(this.corpId)) {
             LOGGER.error("corpId could not be null when send by wechat");
             return false;
@@ -134,5 +141,9 @@ public class WeChatSender implements IWeChatSender {
         this.token = newToken;
         this.expiresTime = System.currentTimeMillis() + (expiresIn - 300) * 1000;
         return token;
+    }
+
+    private boolean sendRobotMessage(List<String> users, String title, String content, String wechatRobotHook) {
+        return true;
     }
 }
