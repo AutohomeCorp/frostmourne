@@ -32,7 +32,7 @@ public class AdminController {
 
     @RequestMapping(value = "/saveAnother", method = RequestMethod.POST)
     public Protocol<Boolean> saveAnother(@RequestParam(value = "_appId", required = true) String _appId,
-                                  @RequestBody AlarmContract alarmContract) {
+                                         @RequestBody AlarmContract alarmContract) {
         alarmContract.setOperator(AuthTool.currentUser().getAccount());
         alarmContract.setTeam_name(AuthTool.currentUser().getTeamName());
         alarmContract.setId(null);

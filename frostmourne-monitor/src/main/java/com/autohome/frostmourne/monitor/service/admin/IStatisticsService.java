@@ -2,7 +2,6 @@ package com.autohome.frostmourne.monitor.service.admin;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate;
 

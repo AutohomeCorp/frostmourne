@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function login(data) {
+export function login (data) {
   return request({
     url: '/api/monitor-api/user/login',
     method: 'post',
@@ -8,7 +8,7 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
+export function getInfo (token) {
   return request({
     url: '/api/monitor-api/user/info',
     method: 'get',
@@ -16,16 +16,24 @@ export function getInfo(token) {
   })
 }
 
-export function logout() {
+export function logout () {
   return request({
     url: '/api/monitor-api/user/logout',
     method: 'post'
   })
 }
 
-export function teams() {
+export function teams () {
   return request({
     url: '/api/monitor-api/user/teams',
     method: 'get'
+  })
+}
+
+export function search (keyword) {
+  return request({
+    url: '/api/monitor-api/user/search',
+    method: 'get',
+    params: { keyword: keyword }
   })
 }

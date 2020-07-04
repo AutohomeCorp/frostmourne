@@ -52,7 +52,7 @@ public class EmailHelper {
         properties.setProperty("mail.user", sender);
         properties.setProperty("mail.password", senderPassword);
         Authenticator authenticator = null;
-        if(smtpAuth.equalsIgnoreCase("true")) {
+        if (smtpAuth.equalsIgnoreCase("true")) {
             authenticator = new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {

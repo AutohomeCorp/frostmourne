@@ -11,6 +11,7 @@ public interface IUserPlugin {
 
     /**
      * 获取用户信息
+     *
      * @param account
      * @return
      */
@@ -18,6 +19,7 @@ public interface IUserPlugin {
 
     /**
      * 用户模糊搜索
+     *
      * @param keyword 模糊搜索关键词
      * @return
      */

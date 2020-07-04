@@ -70,6 +70,20 @@
           <el-form-item label="查询语句:" prop="metricContract.query_string">
             <el-input v-model="form.metricContract.query_string" />
           </el-form-item>
+          <el-form-item v-if="dataSourceType === 'http'" label="HTTP头:">
+            <template v-if="httpHeaders.length === 0">
+              <el-button type="primary" @click="addHeader">+</el-button>
+            </template>
+            <template v-else>
+              <el-row v-for="(item, index) in httpHeaders" :key="'header-'+index">
+                <el-input v-model="item.key" clearable style="width:160px;" />
+                =
+                <el-input v-model="item.value" clearable style="width:300px;" />
+                <el-link :underline="false" icon="el-icon-delete" @click="removeHeader(index)" />
+                <el-link :underline="false" icon="el-icon-plus" @click="addHeader" />
+              </el-row>
+            </template>
+          </el-form-item>
           <el-form-item v-if="dataSourceType === 'http'" label="POST数据:">
             <el-input v-model="form.metricContract.post_data" type="textarea" />
             <el-button type="primary" @click="handleHttpTest">测试请求</el-button>
@@ -140,18 +154,10 @@
             <el-input-number v-model="form.alertContract.silence" size="small" :min="1" label="静默时间" />分钟
           </el-form-item>
           <el-form-item label="报警接收人:" prop="alertContract.recipients">
-            <el-tag v-for="tag in form.alertContract.recipients" :key="tag" style="margin-right:5px;" closable @close="removeRecipient(tag)">{{ tag }}</el-tag>
-            <el-input
-              v-if="recipient.visible"
-              ref="addRecipient"
-              v-model="recipient.value"
-              style="width:100px"
-              class="input-new-tag"
-              size="small"
-              @keyup.enter.native="inputRecipient"
-              @blur="inputRecipient"
-            />
-            <el-button v-else class="button-new-tag" size="small" @click="showRecipient">+ 接收人</el-button>
+            <el-select v-model="form.alertContract.recipients" style="width:100%;" multiple filterable remote
+                       placeholder="请输入关键词" :remote-method="findRecipient" :loading="loading">
+              <el-option v-for="item in recipientList" :key="item.account" :label="item.account" :value="item.account" />
+            </el-select>
           </el-form-item>
         </el-tab-pane>
       </el-tabs>
@@ -209,7 +215,7 @@
 <script>
 import alarmApi from '@/api/alarm.js'
 import adminApi from '@/api/admin.js'
-import { teams } from '@/api/user'
+import { teams, search } from '@/api/user'
 import dataApi from '@/api/data.js'
 
 import VueJsonPretty from 'vue-json-pretty'
@@ -218,7 +224,7 @@ export default {
   components: {
     VueJsonPretty
   },
-  data() {
+  data () {
     return {
       intervalCron: '',
       dayCron: '',
@@ -232,6 +238,9 @@ export default {
       id: this.$route.query.id,
       httpResonseData: {},
       httpResponseDialogVisible: false,
+      httpHeaders: [],
+      loading: false,
+      recipientList: [],
       form: {
         alarm_name: '',
         owner_key: '',
@@ -304,7 +313,7 @@ export default {
       enableSaveAnother: true
     }
   },
-  mounted() {
+  mounted () {
     this.initDayCronOptions()
     if (this.id) {
       this.getDetail()
@@ -317,6 +326,10 @@ export default {
       this.teamList = response.result
     })
 
+    search('').then(response => {
+      this.recipientList = response.result
+    })
+
     if (this.$route.query.data_name) {
       this.dataValue.push(this.$route.query.datasource_type)
       this.dataValue.push(this.$route.query.datasource_id)
@@ -327,13 +340,13 @@ export default {
     }
 
     this.initDataOptions()
-
   },
   methods: {
-    onSubmit() {
+    onSubmit () {
       this.$refs['form'].validate((validate) => {
         if (validate) {
           this.disableSave = false
+          this.copyToProperties()
           adminApi.save(this.form)
             .then(response => {
               this.$message({
@@ -355,7 +368,8 @@ export default {
         }
       })
     },
-    onSaveAnother() {
+    onSaveAnother () {
+      this.copyToProperties()
       adminApi.saveAnother(this.form)
         .then(response => {
           this.$message({
@@ -369,7 +383,35 @@ export default {
           console.log('另存失败:', error)
         })
     },
-    onTest() {
+    removeHeader (index) {
+      if (index > -1) {
+        this.httpHeaders.splice(index, 1)
+      }
+      console.log('addHeader.headers -> ', this.httpHeaders)
+    },
+    addHeader () {
+      this.httpHeaders.push({ key: '', value: '' })
+      console.log('addHeader.headers -> ' + this.httpHeaders.length, this.httpHeaders)
+    },
+    copyToProperties () {
+      this.form.metricContract.properties = {}
+      this.httpHeaders.forEach(item => {
+        if (item.key !== '' && item.value !== '') {
+          this.form.metricContract.properties[item.key] = item.value
+        }
+      })
+      console.log('properties -> ', this.form.metricContract.properties)
+    },
+    copyToHeaders (properties) {
+      this.httpHeaders = []
+      if (properties) {
+        for (const key of Object.keys(properties)) {
+          this.httpHeaders.push({ key: key, value: properties[key] })
+        }
+      }
+      console.log('copyToHeaders. -> ', this.httpHeaders)
+    },
+    onTest () {
       this.$refs['form'].validate((validate) => {
         if (validate) {
           alarmApi.test(this.form)
@@ -391,13 +433,15 @@ export default {
         }
       })
     },
-    onCancel() {
+    onCancel () {
       this.$router.push({ path: '/alarm/list.view' })
     },
-    getDetail() {
+    getDetail () {
       adminApi.findById(this.id)
         .then(response => {
           this.form = response.result
+          this.copyToHeaders(this.form.metricContract.properties)
+
           if (response.result.metricContract.data_name === 'http') {
             this.dataValue.push('http')
             this.dataSourceType = 'http'
@@ -409,7 +453,7 @@ export default {
           }
         })
     },
-    dataChange(value) {
+    dataChange (value) {
       if (value.length === 0) {
         this.form.metricContract.data_source_id = 0
         this.form.metricContract.data_name = ''
@@ -427,18 +471,28 @@ export default {
       this.form.metricContract.data_name = value[2]
       this.form.metricContract.metric_type = ''
     },
-    tabClick(tab, event) {
-      // console.log(tab, event);
+    tabClick (tab, event) {
+      // console.log(tab, event)
     },
-    removeRecipient(recipient) {
+    findRecipient (keyword) {
+      this.loading = true
+      search(keyword).then(response => {
+        this.recipientList = response.result
+        this.loading = false
+      })
+    },
+    loadRecipient () {
+      return this.form.alertContract.recipients
+    },
+    removeRecipient (recipient) {
       const start = this.form.alertContract.recipients.indexOf(recipient)
       this.form.alertContract.recipients.splice(start, 1)
     },
-    showRecipient() {
+    showRecipient () {
       this.recipient.visible = true
       this.$nextTick(_ => this.$refs.addRecipient.$refs.input.focus())
     },
-    inputRecipient() {
+    inputRecipient () {
       const inputValue = this.recipient.value
       if (inputValue) {
         this.form.alertContract.recipients.push(inputValue)
@@ -446,19 +500,19 @@ export default {
       this.recipient.visible = false
       this.recipient.value = ''
     },
-    intervalChangeHandler(selectedValue) {
+    intervalChangeHandler (selectedValue) {
       var seconds = (new Date()).getSeconds()
       this.form.cron = seconds + ' ' + selectedValue
     },
-    initDayCronOptions() {
+    initDayCronOptions () {
       for (var i = 0; i < 24; i++) {
         this.dayCronOptions.push({ label: i + '点', value: '0 0 ' + i + ' * * ?' })
       }
     },
-    dayCronChangeHandler(selectedValue) {
+    dayCronChangeHandler (selectedValue) {
       this.form.cron = selectedValue
     },
-    initDataOptions() {
+    initDataOptions () {
       dataApi.dataOptions().then(response => {
         var remoteOptions = response.result
         for (var i = 0; i < remoteOptions.length; i++) {
@@ -489,7 +543,7 @@ export default {
         })
       })
     },
-    handleHttpTest() {
+    handleHttpTest () {
       alarmApi.httpTest(this.form.metricContract).then(response => {
         this.httpResonseData = response.result
         this.httpResponseDialogVisible = true

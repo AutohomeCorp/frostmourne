@@ -9,8 +9,9 @@ public interface IDingSenderPlugin {
 
     /**
      * 钉钉消息发送接口
-     * @param title 标题
-     * @param content 内容
+     *
+     * @param title      标题
+     * @param content    内容
      * @param recipients 接收人号码列表
      * @return
      */

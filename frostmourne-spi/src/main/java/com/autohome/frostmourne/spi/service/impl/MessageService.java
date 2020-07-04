@@ -92,7 +92,7 @@ public class MessageService implements IMessageService {
             List<String> wxidList = alarmMessage.getRecipients().stream()
                     .filter(m -> !Strings.isNullOrEmpty(m.getWxid()))
                     .map(UserInfo::getWxid).collect(Collectors.toList());
-            return weChatSender.send(wxidList, alarmMessage.getTitle(), alarmMessage.getContent());
+            return weChatSender.send(wxidList, alarmMessage.getTitle(), alarmMessage.getContent(), null);
         }
 
         throw new IllegalArgumentException("unknown way: " + way);

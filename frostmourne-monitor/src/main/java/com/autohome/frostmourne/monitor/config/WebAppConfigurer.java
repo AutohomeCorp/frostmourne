@@ -1,7 +1,6 @@
 package com.autohome.frostmourne.monitor.config;
 
 import java.util.List;
-
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.jackson.JacksonObjectMapper;

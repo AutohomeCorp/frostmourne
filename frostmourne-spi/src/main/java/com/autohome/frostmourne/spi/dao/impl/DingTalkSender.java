@@ -41,7 +41,7 @@ public class DingTalkSender {
         }
     }
 
-    public boolean send(List<String> users,String content) {
+    public boolean send(List<String> users, String content) {
         if (Strings.isNullOrEmpty(this.appkey)) {
             LOGGER.error("appkey could not be null when send by dingtalk");
             return false;

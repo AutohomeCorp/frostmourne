@@ -24,7 +24,7 @@ public class LogService implements ILogService {
     private AlertLogMapper alertLogMapper;
 
     public PagerContract<AlarmLog> findAlarmLog(int pageIndex, int pageSize, Date startTime,
-                                        Date endTime, Long alarmId, String verifyResult, String executeResult) {
+                                                Date endTime, Long alarmId, String verifyResult, String executeResult) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<AlarmLog> list = alarmLogMapper.find(startTime, endTime, alarmId, verifyResult, executeResult);
         return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());

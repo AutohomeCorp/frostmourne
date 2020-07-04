@@ -5,16 +5,15 @@
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <line-chart :chart-data="chartData" />
     </el-row>
-
   </div>
 </template>
 
 <script>
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
-import RaddarChart from './components/RaddarChart'
-import PieChart from './components/PieChart'
-import BarChart from './components/BarChart'
+// import RaddarChart from './components/RaddarChart'
+// import PieChart from './components/PieChart'
+// import BarChart from './components/BarChart'
 import moment from 'moment'
 import { formatJsonDate } from '@/utils/datetime.js'
 import statisticsApi from '@/api/statistics.js'
@@ -23,12 +22,9 @@ export default {
   name: 'DashboardAdmin',
   components: {
     PanelGroup,
-    LineChart,
-    RaddarChart,
-    PieChart,
-    BarChart
+    LineChart
   },
-  data() {
+  data () {
     return {
       startMoment: moment().startOf('day').subtract(30, 'day').toDate(),
       endMoment: moment().endOf('day').toDate(),
@@ -45,18 +41,18 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.handlePanelData()
     this.handleSetLineChartData('alarm')
   },
   methods: {
-    handlePanelData() {
+    handlePanelData () {
       statisticsApi.panelData({ startTime: this.startMoment, endTime: this.endMoment })
         .then(response => {
           this.panelData = response.result
         })
     },
-    handleSetLineChartData(type) {
+    handleSetLineChartData (type) {
       const condition = { startTime: this.startMoment, endTime: this.endMoment }
       if (type === 'alarm') {
         statisticsApi.alarmAggregation(condition)
@@ -66,7 +62,7 @@ export default {
           .then(response => this.setChartData(type, response.result))
       }
     },
-    setChartData(type, result) {
+    setChartData (type, result) {
       if (type === 'alarm') {
         this.chartData.title = '最近30天报警次数'
       } else {
@@ -78,7 +74,7 @@ export default {
       this.chartData.lineData = result.map(e => e.count)
       console.log('xAxisData', this.chartData.xAxisData, 'lineData', this.chartData.lineData)
     },
-    fillDate(result) {
+    fillDate (result) {
       const xAxisData = []
       const lineData = []
       for (let day = this.startMoment; day <= this.endMoment; day = moment(day).startOf('day').add(1, 'day').toDate()) {

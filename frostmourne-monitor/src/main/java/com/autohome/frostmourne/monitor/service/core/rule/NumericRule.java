@@ -27,7 +27,7 @@ public class NumericRule extends AbstractRule {
         if (operator.equalsIgnoreCase("lte")) {
             return number <= threshold;
         }
-        if(operator.equalsIgnoreCase("equal")) {
+        if (operator.equalsIgnoreCase("equal")) {
             return number.equals(threshold);
         }
 

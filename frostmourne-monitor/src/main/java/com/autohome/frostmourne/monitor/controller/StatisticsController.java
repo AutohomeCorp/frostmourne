@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.Protocol;
@@ -44,7 +43,7 @@ public class StatisticsController {
 
     @RequestMapping(value = "/aggregation/alert", method = RequestMethod.GET)
     public Protocol<List<AggregationDate>> aggregationAlert(@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
-                                                           @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime) {
+                                                            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime) {
         String account = AuthTool.currentUser().getAccount();
         List<AggregationDate> list = statisticsService.aggregationAlert(startTime, endTime, account);
         return new Protocol<>(list);

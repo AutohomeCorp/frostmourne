@@ -2,7 +2,6 @@ package com.autohome.frostmourne.monitor.service.core.execute;
 
 import com.autohome.frostmourne.monitor.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.contract.enums.ExecuteStatus;
-import com.autohome.frostmourne.monitor.service.core.alert.IAlertService;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.rule.IRule;
 import org.elasticsearch.common.Strings;
@@ -64,7 +63,7 @@ public class AlarmExecutor {
         String timeString = DateTime.now().toString("yyyy-MM-dd hh:mm:ss");
         String shortLink = generateShortLinkService.generate(alarmProcessLogger);
         String completeMessage = null;
-        if(Strings.isNullOrEmpty(shortLink)) {
+        if (Strings.isNullOrEmpty(shortLink)) {
             completeMessage = String.format("[%s]\n%s", timeString, alertMessage);
         } else {
             completeMessage = String.format("[%s]\n%s\n\n详细请看: %s", timeString, alertMessage, shortLink);

@@ -2,7 +2,6 @@ package com.autohome.frostmourne.monitor.service.core.metric;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.contract.MetricContract;
@@ -35,7 +34,9 @@ public class HttpMetric implements IMetric {
             HttpHeaders headers = new HttpHeaders();
             if (metricContract.getProperties() != null && metricContract.getProperties().size() > 0) {
                 for (Map.Entry<String, Object> entry : metricContract.getProperties().entrySet()) {
-                    headers.set(entry.getKey(), entry.getValue().toString());
+                    if (!Strings.isNullOrEmpty(entry.getKey()) && entry.getValue() != null) {
+                        headers.set(entry.getKey(), entry.getValue().toString());
+                    }
                 }
             }
             if (Strings.isNullOrEmpty(metricContract.getPost_data())) {

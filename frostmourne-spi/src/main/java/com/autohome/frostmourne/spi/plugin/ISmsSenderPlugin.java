@@ -8,8 +8,9 @@ import java.util.List;
 public interface ISmsSenderPlugin {
     /**
      * 短信发送接口
-     * @param title 标题
-     * @param content 短信内容
+     *
+     * @param title      标题
+     * @param content    短信内容
      * @param recipients 接收人号码列表
      * @return
      */

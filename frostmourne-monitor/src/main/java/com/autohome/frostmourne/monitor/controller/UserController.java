@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public Protocol<List<UserInfo>> search(@RequestParam(value = "keyword", required = true) String keyword) {
-        return frostmourneSpiApi.search("frostmourne-monitor", keyword);
+    public Protocol<List<UserInfo>> search(@RequestParam(value = "keyword", required = false) String keyword) {
+        return this.frostmourneSpiApi.search("frostmourne-monitor", keyword);
     }
 }

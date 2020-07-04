@@ -4,7 +4,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.contract.MetricContract;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
@@ -42,7 +41,7 @@ public class AlarmController {
 
     @RequestMapping(value = "/httpTest", method = RequestMethod.POST)
     public Protocol<Map<String, Object>> httpTest(@RequestParam(value = "_appId", required = true) String _appId,
-                                     @RequestBody MetricContract metricContract) {
+                                                  @RequestBody MetricContract metricContract) {
         Map<String, Object> result = httpMetric.pullMetric(metricContract, null);
         return new Protocol<>(result);
     }
