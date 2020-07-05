@@ -107,7 +107,7 @@
             <property name="useActualColumnNames" value="true"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>-->
-        <table tableName="data_source" domainObjectName="DataSource" enableCountByExample="false"
+        <table tableName="alert" domainObjectName="Alert" enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="true"
                enableInsert="true" enableDeleteByPrimaryKey="true" enableUpdateByPrimaryKey="true">

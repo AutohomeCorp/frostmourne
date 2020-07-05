@@ -1,0 +1,1 @@
+ALTER TABLE alert ADD COLUMN wechat_robot_hook VARCHAR(500) NULL COMMENT '企业微信机器人hook地址';

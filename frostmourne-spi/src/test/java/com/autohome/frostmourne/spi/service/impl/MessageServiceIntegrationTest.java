@@ -1,8 +1,10 @@
 package com.autohome.frostmourne.spi.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.spi.dao.impl.WeChatSender;
 import com.autohome.frostmourne.spi.starter.model.AlarmMessage;
 import com.autohome.frostmourne.spi.starter.model.UserInfo;
 import org.junit.jupiter.api.Test;
@@ -14,12 +16,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ActiveProfiles({"default"})
+@ActiveProfiles({"autohome"})
 @IfProfileValue(name = "test-profile", value = "IntegrationTest")
 class MessageServiceIntegrationTest {
 
     @Resource
     private MessageService messageService;
+
+    @Resource
+    private WeChatSender weChatSender;
 
     @Test
     void sendByDingRobot() {
@@ -33,5 +38,11 @@ class MessageServiceIntegrationTest {
         alarmMessage.setRecipients(Arrays.asList(userInfo));
         String hook = "hook";
         messageService.sendByDingRobot(hook, alarmMessage, Arrays.asList("150xxxx0501"));
+    }
+
+    @Test
+    public void sendWechatRobot() {
+        boolean result = weChatSender.send(new ArrayList<>(), "[霜之哀伤]测试微信机器人", "测试微信机器人消息",
+                "http://weixin.com");
     }
 }

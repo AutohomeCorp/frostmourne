@@ -26,8 +26,7 @@
         end-placeholder="结束日期"
         align="right"
         :default-time="['00:00:00', '23:59:59']"
-        @change="dateChangeHandler"
-      />
+        @change="dateChangeHandler" />
       <el-input v-model="form.esQuery" clearable placeholder="输入查询语句。如: Team: dealer.arch" style="width: 700px;" class="filter-item" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
       <el-button class="filter-item el-icon-plus" type="primary" @click="addAlarm">添加监控</el-button>
@@ -83,19 +82,19 @@ ECharts.registerTheme('ovilia-green', theme)
 
 export default {
   filters: {
-    timeFormat(value) {
+    timeFormat (value) {
       return value ? formatJsonDate(value, 'yyyy-MM-dd hh:mm:ss') : null
     }
   },
   components: {
     'v-chart': ECharts
   },
-  data() {
+  data () {
     return {
       pickerOptions: {
         shortcuts: [{
           text: '今天',
-          onClick(picker) {
+          onClick (picker) {
             const startMoment = moment().startOf('day')
             const endMoment = moment().endOf('day')
             picker.$emit('pick', [startMoment.toDate(), endMoment.toDate()])
@@ -103,7 +102,7 @@ export default {
         },
         {
           text: '昨天',
-          onClick(picker) {
+          onClick (picker) {
             const end = moment().startOf('day').toDate()
             const start = moment().startOf('day').subtract(1, 'day').toDate()
             picker.$emit('pick', [start, end])
@@ -111,7 +110,7 @@ export default {
         },
         {
           text: '前天',
-          onClick(picker) {
+          onClick (picker) {
             const end = moment().startOf('day').subtract(1, 'day').toDate()
             const start = moment().startOf('day').subtract(2, 'day').toDate()
             picker.$emit('pick', [start, end])
@@ -119,7 +118,7 @@ export default {
         },
         {
           text: '最近三天',
-          onClick(picker) {
+          onClick (picker) {
             const end = moment().endOf('day').toDate()
             const start = moment().startOf('day').subtract(3, 'day').toDate()
             picker.$emit('pick', [start, end])
@@ -127,7 +126,7 @@ export default {
         },
         {
           text: '最近七天',
-          onClick(picker) {
+          onClick (picker) {
             const end = moment().endOf('day').toDate()
             const start = moment().startOf('day').subtract(7, 'day').toDate()
             picker.$emit('pick', [start, end])
@@ -135,7 +134,7 @@ export default {
         },
         {
           text: '最近一月',
-          onClick(picker) {
+          onClick (picker) {
             const end = moment().endOf('day').toDate()
             const start = moment().startOf('day').subtract(30, 'day').toDate()
             picker.$emit('pick', [start, end])
@@ -172,7 +171,7 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     const startMoment = moment().startOf('day')
     const endMoment = moment().endOf('day')
     this.datePickValue[0] = startMoment.toDate()
@@ -195,17 +194,17 @@ export default {
     }
   },
   methods: {
-    handleClick() {
+    handleClick () {
       console.log('click from echars')
     },
-    handleZrClick() {
+    handleZrClick () {
       console.log('click from zrender')
     },
-    dateChangeHandler(value) {
+    dateChangeHandler (value) {
       this.form.startTime = value[0]
       this.form.endTime = value[1]
     },
-    search() {
+    search () {
       if (this.form.dataName == null) {
         this.$message({ type: 'warning', message: '请先选择一个数据名', duration: 2000 })
         return
@@ -230,7 +229,7 @@ export default {
         this.charData(response.result.statItem)
       })
     },
-    share() {
+    share () {
       var sb = []
       sb.push('dataName=' + this.form.dataName)
       sb.push('startTime=' + this.form.startTime.toISOString())
@@ -247,7 +246,7 @@ export default {
         this.copyToClipboard(shorten)
       })
     },
-    copyToClipboard(message) {
+    copyToClipboard (message) {
       var textArea = document.createElement('textarea')
       textArea.style.position = 'fixed'
       textArea.style.top = '0'
@@ -268,25 +267,25 @@ export default {
 
       document.body.removeChild(textArea)
     },
-    download() {
+    download () {
       dataQueryApi.downloadData(this.form).then(response => {
-        this.forceFileDownload(response);
+        this.forceFileDownload(response)
       }).catch(error => {
         console.log(error)
       })
     },
-    forceFileDownload(response) {
+    forceFileDownload (response) {
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
       link.href = url
-      var fileName = response.headers['attachment-filename'];
-      link.setAttribute('download', fileName) //or any other extension
+      var fileName = response.headers['attachment-filename']
+      link.setAttribute('download', fileName) // or any other extension
       document.body.appendChild(link)
       link.click()
       URL.revokeObjectURL(link.href) // 释放URL 对象
       document.body.removeChild(link)
     },
-    charData(statItem) {
+    charData (statItem) {
       const min = formatJsonDate(statItem.keys[0], 'yyyy-MM-dd hh:mm:ss')
       const max = formatJsonDate(statItem.keys[statItem.keys.length - 1], 'yyyy-MM-dd hh:mm:ss')
       let format = 'yyyy-MM-dd'
@@ -299,10 +298,10 @@ export default {
       this.charOptions.title.text = `${formatJsonDate(this.form.startTime, 'yyyy-MM-dd hh:mm:ss')} 至 ${formatJsonDate(this.form.endTime, 'yyyy-MM-dd hh:mm:ss')}  总数:${this.total}`
       this.charOptions.series = [{ name: '次数', type: 'bar', data: statItem.values }]
     },
-    dataNameChangeHandler(selectedName) {
-      this.selectedDataName = this.dataNameList.filter(d => d.data_name == selectedName)[0];
+    dataNameChangeHandler (selectedName) {
+      this.selectedDataName = this.dataNameList.filter(d => d.data_name == selectedName)[0]
     },
-    loadMore() {
+    loadMore () {
       this.listLoading = true
       dataQueryApi.elasticsearchData(this.form).then(response => {
         for (var i = 0; i < response.result.logs.length; i++) {
@@ -312,7 +311,7 @@ export default {
         this.listLoading = false
       })
     },
-    addAlarm() {
+    addAlarm () {
       if (this.form.dataName == null) {
         this.$message({ type: 'warning', message: '请先选择一个数据名', duration: 2000 })
         return
@@ -321,7 +320,7 @@ export default {
         this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
         return
       }
-      this.selectedDataName = this.dataNameList.filter(d => d.data_name == this.form.dataName)[0];
+      this.selectedDataName = this.dataNameList.filter(d => d.data_name == this.form.dataName)[0]
       this.$router.push({
         name: 'alarm-edit',
         query: {

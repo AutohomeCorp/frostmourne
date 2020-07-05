@@ -75,6 +75,7 @@ public class AlertService implements IAlertService {
         alarmMessage.setWays(alertContract.getWays());
         alarmMessage.setDingHook(alertContract.getDing_robot_hook());
         alarmMessage.setHttpPostEndpoint(alertContract.getHttp_post_url());
+        alarmMessage.setWechatHook(alertContract.getWechat_robot_hook());
         Protocol<List<MessageResult>> protocol = frostmourneSpiApi.send(alarmMessage, "frostmourne-monitor");
         if (protocol.getReturncode() != 0) {
             LOGGER.error("error when send alert. protocol: " + JacksonUtil.serialize(protocol));

@@ -58,13 +58,13 @@ public class WeChatSender implements IWeChatSender {
     }
 
     public boolean send(List<String> users, String title, String content, String wechatRobotHook) {
-        if(Strings.isNullOrEmpty(wechatRobotHook)) {
+        if (Strings.isNullOrEmpty(wechatRobotHook)) {
             return sendMessage(users, title, content);
         }
         return sendRobotMessage(users, title, content, wechatRobotHook);
     }
 
-    public boolean sendMessage(List<String> users, String title, String content) {
+    private boolean sendMessage(List<String> users, String title, String content) {
         if (Strings.isNullOrEmpty(this.corpId)) {
             LOGGER.error("corpId could not be null when send by wechat");
             return false;
@@ -144,6 +144,37 @@ public class WeChatSender implements IWeChatSender {
     }
 
     private boolean sendRobotMessage(List<String> users, String title, String content, String wechatRobotHook) {
+        //https://work.weixin.qq.com/help?person_id=1&doc_id=13376
+        HttpHeaders headers = new HttpHeaders();
+        MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+        headers.setContentType(type);
+        headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+        content = String.format("%s%n%s", title, content);
+        if (content.length() > 2048) {
+            content = content.substring(0, 2048);
+        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("text", ImmutableMap.of("mentioned_list", users, "content", content));
+        data.put("msgtype", "text");
+        //HttpEntity<Map<String, Object>> request = new HttpEntity<>(data, headers);
+        String json = JacksonUtil.serialize(data);
+        HttpEntity<String> request = new HttpEntity<>(json, headers);
+        ResponseEntity<String> messageResponseEntity = restTemplate.postForEntity(wechatRobotHook, request, String.class);
+        //response like: {"errcode":0,"errmsg":"ok"}
+        if (messageResponseEntity.getStatusCode() != HttpStatus.OK) {
+            LOGGER.error("error when send wechat robot message, code: {} response: {}", messageResponseEntity.getStatusCodeValue(), messageResponseEntity.getBody());
+            return false;
+        }
+        String responseJson = messageResponseEntity.getBody();
+        Map<String, Object> responseMap = JacksonUtil.deSerialize(responseJson, new TypeReference<Map<String, Object>>() {
+        });
+        if (responseMap.containsKey("errcode")) {
+            Integer errcode = (Integer) responseMap.get("errcode");
+            if (errcode != 0) {
+                LOGGER.error("error when send wechat robot message, response: " + responseJson);
+                return false;
+            }
+        }
         return true;
     }
 }
