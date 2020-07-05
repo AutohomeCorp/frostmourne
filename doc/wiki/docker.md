@@ -9,6 +9,7 @@ docker部署有两种方式：
     docker pull frostmourne2020/frostmourne:latest
 
 创建docker-compose.yml文件：
+    
     version: '3.6'
     services:
       xxl-job:
