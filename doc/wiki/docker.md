@@ -1,5 +1,74 @@
-## 如何使用docker快速安装和使用frostmourne
+# 如何使用docker快速安装和使用frostmourne
+docker部署有两种方式：
+* 一、从dockerhub拉取编译好的镜像直接运行 
+* 二、从git拉取代码并通过Dockerfile自动编译并运行
 
+## 一、从dockerhub拉取编译好的镜像直接运行 
+从dockerhub拉取镜像直接运行步骤非常简单，而且快速。我们只需要执行命令从dockerhub拉取镜像下来，然后创建一个docker-compose.yml文件，即可运行
+
+    docker pull frostmourne2020/frostmourne:latest
+
+创建docker-compose.yml文件：
+    
+    version: '3.6'
+    services:
+      xxl-job:
+        image: frostmourne2020/frostmourne:latest
+        container_name: xxl-job
+        environment:
+          - PARAMS= --spring.datasource.url=jdbc:mysql://127.0.0.1:3306/xxl_job?Unicode=true&characterEncoding=UTF-8 --spring.datasource.username=root --spring.datasource.password=root
+        ports:
+          - "18080:10052"
+        expose:
+          - "18080"
+        volumes:
+          - ./runtime:/opt/frostmourne
+        networks:
+          frostmourne_net:
+
+        command: bash -c "/init.sh&&/opt/frostmourne/xxl-job/scripts/startup.sh&&tail -f /dev/null"
+
+      frostmourne-spi:
+        image: frostmourne2020/frostmourne:latest
+        container_name: frostmourne-spi
+
+        ports:
+          - "10055:10055"
+        expose:
+          - "10055"
+        volumes:
+          - ./runtime:/opt/frostmourne
+        networks:
+          frostmourne_net:
+
+        command: bash -c "/init.sh&&/opt/frostmourne/frostmourne-spi/scripts/startup.sh&&tail -f /dev/null"
+
+      frostmourne-monitor:
+        image: frostmourne2020/frostmourne:latest
+        container_name: frostmourne-monitor
+        environment:
+          - PARAMS= --xxljob_mock=false --frostmourne_spi_mock=false --xxl.job.admin.addresses=http://xxl-job:10052/xxl-job-admin --xxl.job.executor.id=2 --xxl.job.executor.appname=frostmourne --druid.datasource.frostmourne.url=jdbc:mysql://127.0.0.1:3306/frostmourne?characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Shanghai --druid.datasource.frostmourne.username=root --druid.datasource.frostmourne.password=root --frostmourne.spi.service-addr=http://frostmourne-spi:10055 --frostmourne.monitor.address=http://192.168.1.222:10054
+        ports:
+          - "10054:10054"
+          - "9999:9999"
+        expose:
+          - "10054"
+          - "9999"
+        volumes:
+          - ./runtime:/opt/frostmourne
+        networks:
+          frostmourne_net:
+
+        command: bash -c "/init.sh&&/opt/frostmourne/frostmourne-monitor/scripts/startup.sh&&tail -f /dev/null"
+
+    networks:
+      frostmourne_net:
+    
+将里面的配置改为您自己的，然后执行启动命令即可启动：
+
+    docker-compose up
+  
+## 二、从git拉取代码并通过Dockerfile自动编译并运行
 docker可以很方便的实现frostmourne的编译部署和使用,我们先从github上将frostmourne代码拉下来
 
     git clone https://github.com/AutohomeCorp/frostmourne.git
