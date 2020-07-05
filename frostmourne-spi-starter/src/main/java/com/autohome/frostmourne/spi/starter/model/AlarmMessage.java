@@ -16,6 +16,8 @@ public class AlarmMessage {
 
     private String httpPostEndpoint;
 
+    private String wechatHook;
+
     public String getContent() {
         return content;
     }
@@ -62,5 +64,13 @@ public class AlarmMessage {
 
     public void setHttpPostEndpoint(String httpPostEndpoint) {
         this.httpPostEndpoint = httpPostEndpoint;
+    }
+
+    public String getWechatHook() {
+        return wechatHook;
+    }
+
+    public void setWechatHook(String wechatHook) {
+        this.wechatHook = wechatHook;
     }
 }

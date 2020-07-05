@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS alert
     allow_sms_from  INTEGER      NULL COMMENT '短信允许发送开始时间，[0,23]',
     allow_sms_to    INTEGER      NULL COMMENT '短信允许发送结束时间，[0,23]',
     ding_robot_hook VARCHAR(500) NULL COMMENT '钉钉机器人hook地址',
-    http_post_url   VARCHAR(500) COMMENT 'http post报警方式地址'
+    http_post_url   VARCHAR(500) COMMENT 'http post报警方式地址',
+    wechat_robot_hook VARCHAR(500) NULL COMMENT '企业微信机器人hook地址'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4

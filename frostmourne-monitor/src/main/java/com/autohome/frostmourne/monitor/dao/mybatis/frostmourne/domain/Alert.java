@@ -23,6 +23,8 @@ public class Alert {
 
     private String http_post_url;
 
+    private String wechat_robot_hook;
+
     public Long getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class Alert {
 
     public void setHttp_post_url(String http_post_url) {
         this.http_post_url = http_post_url == null ? null : http_post_url.trim();
+    }
+
+    public String getWechat_robot_hook() {
+        return wechat_robot_hook;
+    }
+
+    public void setWechat_robot_hook(String wechat_robot_hook) {
+        this.wechat_robot_hook = wechat_robot_hook == null ? null : wechat_robot_hook.trim();
     }
 }

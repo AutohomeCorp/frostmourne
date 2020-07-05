@@ -1,4 +1,4 @@
-## 0.2-SNAPSHOT
+## 0.2-RELEASE
 
 ### Feature
 
@@ -12,6 +12,9 @@
 * 数据查询页面增加创建监控跳转按钮
 * 增加dockerfile和docker-compose
 * HTTP监控增加头设置
+* 报警接收人设置时给出提示
+* 增加企业微信机器人消息发送方式 [2020-07-05] [issue#7](https://github.com/AutohomeCorp/frostmourne/issues/7)
+* 用户信息，团队信息，部门信息外部文件增加定期重新加载 [2020-07-05]
 
 ### Bugfix
 
@@ -23,6 +26,7 @@
 
 * mysql: alert表增加字段: http_post_url - [SQL](./doc/mysql-schema/2020-06-01/change.sql)
 * mysql: data_name表增加data_name字段唯一索引 - [SQL](./doc/mysql-schema/2020-06-13/change.sql)
+* mysql: alert表增加字段: wechat_robot_hook - [SQL](./doc/mysql-schema/2020-07-04/change.sql)
 
 ### Document
 

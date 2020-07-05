@@ -23,6 +23,8 @@ public class AlertContract {
 
     private String http_post_url;
 
+    private String wechat_robot_hook;
+
     private List<String> recipients;
 
     public Long getAlarm_id() {
@@ -103,5 +105,13 @@ public class AlertContract {
 
     public void setHttp_post_url(String http_post_url) {
         this.http_post_url = http_post_url;
+    }
+
+    public String getWechat_robot_hook() {
+        return wechat_robot_hook;
+    }
+
+    public void setWechat_robot_hook(String wechat_robot_hook) {
+        this.wechat_robot_hook = wechat_robot_hook;
     }
 }

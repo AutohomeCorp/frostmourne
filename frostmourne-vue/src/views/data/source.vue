@@ -48,7 +48,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="服务地址" :label-width="formLabelWidth">
-          <el-input v-model="editData.service_address" autocomplete="off" />
+          <el-input v-model="editData.service_address" autocomplete="off" placeholder="例如：127.0.0.1:9200，多地址英文逗号分隔" />
           <el-tooltip content="地址更新后，下次重启后才生效" placement="bottom">
             <i class="el-icon-question" />
           </el-tooltip>
@@ -74,11 +74,11 @@ import { formatJsonDate } from '@/utils/datetime.js'
 
 export default {
   filters: {
-    timeFormat(value) {
+    timeFormat (value) {
       return value ? formatJsonDate(value, 'yyyy-MM-dd hh:mm:ss') : null
     }
   },
-  data() {
+  data () {
     return {
       list: null,
       rowcount: 0,
@@ -101,11 +101,11 @@ export default {
       disableTypeSelect: true
     }
   },
-  created() {
+  created () {
     this.fetchData()
   },
   methods: {
-    fetchData() {
+    fetchData () {
       this.listLoading = true
       dataApi
         .findDataSource(
@@ -119,19 +119,19 @@ export default {
           this.listLoading = false
         })
     },
-    onPrevClick() {
+    onPrevClick () {
       this.form.pageIndex--
       this.fetchData()
     },
-    onNextClick() {
+    onNextClick () {
       this.form.pageIndex++
       this.fetchData()
     },
-    onCurrentChange(curr) {
+    onCurrentChange (curr) {
       this.form.pageIndex = curr
       this.fetchData()
     },
-    edit(row) {
+    edit (row) {
       console.log(row)
       if (row != null) {
         this.editData.id = row.id
@@ -149,18 +149,24 @@ export default {
 
       this.dialogFormVisible = true
     },
-    search() {
+    search () {
       // console.log(this.form)
       this.form.pageIndex = 1
       this.fetchData()
     },
-    save() {
+    save () {
+      if (this.editData.datasource_type === 'elasticsearch') {
+        if (this.editData.service_address.indexOf(':') < 0) {
+          this.$message({ type: 'warning', message: 'elasticsearch地址必须指定端口', duration: 2000 })
+          return
+        }
+      }
       dataApi.saveDataSource(this.editData).then(response => {
         this.dialogFormVisible = false
         this.fetchData()
       })
     },
-    remove(row) {
+    remove (row) {
       this.$confirm('此操作将删除数据源, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -175,7 +181,6 @@ export default {
           this.fetchData()
         })
       })
-
     }
   }
 }

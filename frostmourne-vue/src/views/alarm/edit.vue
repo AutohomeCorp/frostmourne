@@ -147,6 +147,9 @@
           <el-form-item v-if="form.alertContract.ways.includes('dingding')" label="钉钉机器人:">
             <el-input v-model="form.alertContract.ding_robot_hook" size="small" placeholder="选填" />
           </el-form-item>
+          <el-form-item v-if="form.alertContract.ways.includes('wechat')" label="微信机器人:">
+            <el-input v-model="form.alertContract.wechat_robot_hook" size="small" placeholder="选填" />
+          </el-form-item>
           <el-form-item v-if="form.alertContract.ways.includes('http_post')" label="HTTP地址:">
             <el-input v-model="form.alertContract.http_post_url" size="small" placeholder="必填" />
           </el-form-item>
@@ -338,7 +341,6 @@ export default {
       this.form.metricContract.query_string = this.$route.query.query_string
       this.dataChange(this.dataValue)
     }
-
     this.initDataOptions()
   },
   methods: {

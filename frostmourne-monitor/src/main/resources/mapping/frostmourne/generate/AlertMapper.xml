@@ -12,10 +12,11 @@
     <result column="allow_sms_to" property="allow_sms_to" jdbcType="INTEGER" />
     <result column="ding_robot_hook" property="ding_robot_hook" jdbcType="VARCHAR" />
     <result column="http_post_url" property="http_post_url" jdbcType="VARCHAR" />
+    <result column="wechat_robot_hook" property="wechat_robot_hook" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, alarm_id, ways, silence, creator, create_at, allow_sms_from, allow_sms_to, ding_robot_hook, 
-    http_post_url
+    http_post_url, wechat_robot_hook
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -33,12 +34,12 @@
     </selectKey>
     insert into alert (alarm_id, ways, silence, 
       creator, create_at, allow_sms_from, 
-      allow_sms_to, ding_robot_hook, http_post_url
-      )
+      allow_sms_to, ding_robot_hook, http_post_url, 
+      wechat_robot_hook)
     values (#{alarm_id,jdbcType=BIGINT}, #{ways,jdbcType=VARCHAR}, #{silence,jdbcType=BIGINT}, 
       #{creator,jdbcType=VARCHAR}, #{create_at,jdbcType=TIMESTAMP}, #{allow_sms_from,jdbcType=INTEGER}, 
-      #{allow_sms_to,jdbcType=INTEGER}, #{ding_robot_hook,jdbcType=VARCHAR}, #{http_post_url,jdbcType=VARCHAR}
-      )
+      #{allow_sms_to,jdbcType=INTEGER}, #{ding_robot_hook,jdbcType=VARCHAR}, #{http_post_url,jdbcType=VARCHAR}, 
+      #{wechat_robot_hook,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alert" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
@@ -73,6 +74,9 @@
       <if test="http_post_url != null" >
         http_post_url,
       </if>
+      <if test="wechat_robot_hook != null" >
+        wechat_robot_hook,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="alarm_id != null" >
@@ -101,6 +105,9 @@
       </if>
       <if test="http_post_url != null" >
         #{http_post_url,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat_robot_hook != null" >
+        #{wechat_robot_hook,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -134,6 +141,9 @@
       <if test="http_post_url != null" >
         http_post_url = #{http_post_url,jdbcType=VARCHAR},
       </if>
+      <if test="wechat_robot_hook != null" >
+        wechat_robot_hook = #{wechat_robot_hook,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -147,7 +157,8 @@
       allow_sms_from = #{allow_sms_from,jdbcType=INTEGER},
       allow_sms_to = #{allow_sms_to,jdbcType=INTEGER},
       ding_robot_hook = #{ding_robot_hook,jdbcType=VARCHAR},
-      http_post_url = #{http_post_url,jdbcType=VARCHAR}
+      http_post_url = #{http_post_url,jdbcType=VARCHAR},
+      wechat_robot_hook = #{wechat_robot_hook,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
