@@ -1,11 +1,6 @@
 #编译vue项目
 FROM node:8.11.3-slim as frostmourne-vue
 
-#frostmourne版本
-ARG FVERSION=0.2
-#xxl-job版本
-ARG JVERSION=2.1.0
-
 RUN mkdir /workspace \
     && chmod +x /workspace
 WORKDIR /workspace
@@ -33,6 +28,11 @@ RUN true \
 
 #编译springboot项目
 FROM maven:3.6.3-ibmjava-8-alpine as frostmourne-build
+
+#frostmourne版本
+ARG FVERSION=0.2
+#xxl-job版本
+ARG JVERSION=2.1.0
 
 RUN true \
     && mkdir -p /opt/frostmourne \
