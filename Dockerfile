@@ -30,7 +30,7 @@ RUN true \
 FROM maven:3.6.3-ibmjava-8-alpine as frostmourne-build
 
 #frostmourne版本
-ARG FVERSION=0.2
+ARG FVERSION=0.2-SNAPSHOT
 #xxl-job版本
 ARG JVERSION=2.1.0
 
@@ -51,9 +51,9 @@ RUN chmod +x /opt/frostmourne \
     && sed -i '/<module>frostmourne-vue/d' pom.xml \
     && mvn clean install -DskipTests \
     && ls -l \
-    && cp /usr/src/mymaven/frostmourne-monitor/target/frostmourne-monitor-{$FVERSION}-SNAPSHOT.zip /opt/core/frostmourne-monitor.zip \
-    && cp /usr/src/mymaven/frostmourne-spi/target/frostmourne-spi-{$FVERSION}-SNAPSHOT.zip /opt/core/frostmourne-spi.zip \
-    && cp /usr/src/mymaven/doc/xxl-job/xxl-job-admin-{$JVERSION}.zip /opt/core/xxl-job-admin.zip \
+    && cp /usr/src/mymaven/frostmourne-monitor/target/frostmourne-monitor-$FVERSION.zip /opt/core/frostmourne-monitor.zip \
+    && cp /usr/src/mymaven/frostmourne-spi/target/frostmourne-spi-$FVERSION.zip /opt/core/frostmourne-spi.zip \
+    && cp /usr/src/mymaven/doc/xxl-job/xxl-job-admin-$JVERSION.zip /opt/core/xxl-job-admin.zip \
     && cp -r /usr/src/mymaven/doc/* /opt/core/doc \
     && rm -rf /usr/src/mymaven/*
 
