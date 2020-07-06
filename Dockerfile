@@ -29,10 +29,15 @@ RUN true \
 #编译springboot项目
 FROM maven:3.6.3-ibmjava-8-alpine as frostmourne-build
 
+#frostmourne版本
+ARG FVERSION=0.2-SNAPSHOT
+#xxl-job版本
+ARG JVERSION=2.1.0
+
 RUN true \
     && mkdir -p /opt/frostmourne \
     && mkdir -p /opt/core \
-    && mkdir -p /opt/core/mysql \
+    && mkdir -p /opt/core/doc \
     && mkdir -p /opt/frostmourne/frostmourne-monitor \
     && mkdir -p /opt/frostmourne/frostmourne-spi \
     && mkdir -p /opt/frostmourne/xxl-job
@@ -46,10 +51,10 @@ RUN chmod +x /opt/frostmourne \
     && sed -i '/<module>frostmourne-vue/d' pom.xml \
     && mvn clean install -DskipTests \
     && ls -l \
-    && cp /usr/src/mymaven/frostmourne-monitor/target/frostmourne-monitor-0.2-SNAPSHOT.zip /opt/core/ \
-    && cp /usr/src/mymaven/frostmourne-spi/target/frostmourne-spi-0.2-SNAPSHOT.zip /opt/core/ \
-    && cp /usr/src/mymaven/doc/xxl-job/xxl-job-admin-2.1.0.zip /opt/core/ \
-    && cp -r /usr/src/mymaven/doc/mysql-schema/* /opt/core/mysql \
+    && cp /usr/src/mymaven/frostmourne-monitor/target/frostmourne-monitor-$FVERSION.zip /opt/core/frostmourne-monitor.zip \
+    && cp /usr/src/mymaven/frostmourne-spi/target/frostmourne-spi-$FVERSION.zip /opt/core/frostmourne-spi.zip \
+    && cp /usr/src/mymaven/doc/xxl-job/xxl-job-admin-$JVERSION.zip /opt/core/xxl-job-admin.zip \
+    && cp -r /usr/src/mymaven/doc/* /opt/core/doc \
     && rm -rf /usr/src/mymaven/*
 
 #生成镜像
@@ -70,17 +75,16 @@ RUN { \
             echo "#!/bin/bash"; \
             echo "if [ ! -d \"/opt/frostmourne/frostmourne-monitor/scripts\" ];then"; \
             echo "mkdir -p /opt/frostmourne/frostmourne-monitor &&mkdir -p  /opt/frostmourne/frostmourne-spi "; \
-            echo "mkdir -p /opt/frostmourne/xxl-job &&mkdir -p  /opt/frostmourne/mysql"; \
-            echo "cp /opt/core/frostmourne-monitor-0.2-SNAPSHOT.zip /opt/frostmourne/frostmourne-monitor/"; \
-            echo "cp /opt/core/frostmourne-spi-0.2-SNAPSHOT.zip /opt/frostmourne/frostmourne-spi/"; \
-            echo "cp /opt/core/xxl-job-admin-2.1.0.zip /opt/frostmourne/xxl-job/"; \
-            echo "cp -r /opt/core/mysql/* /opt/frostmourne/mysql/"; \
+            echo "mkdir -p /opt/frostmourne/xxl-job &&mkdir -p  /opt/frostmourne/doc"; \
+            echo "cp /opt/core/frostmourne-monitor.zip /opt/frostmourne/frostmourne-monitor/"; \
+            echo "cp /opt/core/frostmourne-spi.zip /opt/frostmourne/frostmourne-spi/"; \
+            echo "cp /opt/core/xxl-job-admin.zip /opt/frostmourne/xxl-job/"; \
+            echo "cp -r /opt/core/doc/* /opt/frostmourne/doc/"; \
             echo "cd /opt/frostmourne/"; \
-            echo "unzip ./frostmourne-monitor/frostmourne-monitor-0.2-SNAPSHOT.zip -d ./frostmourne-monitor/"; \
-            echo "unzip ./frostmourne-spi/frostmourne-spi-0.2-SNAPSHOT.zip -d ./frostmourne-spi/"; \
-            echo "unzip ./xxl-job/xxl-job-admin-2.1.0.zip -d ./xxl-job"; \
+            echo "unzip ./frostmourne-monitor/frostmourne-monitor.zip -d ./frostmourne-monitor/"; \
+            echo "unzip ./frostmourne-spi/frostmourne-spi.zip -d ./frostmourne-spi/"; \
+            echo "unzip ./xxl-job/xxl-job-admin.zip -d ./xxl-job"; \
             echo ""; \
-            echo "sed -i 's/\".jar\" start/\".jar\" start \$PARAMS/p' /opt/frostmourne/xxl-job/scripts/startup.sh"; \
             echo "fi"; \
         } | tee /init.sh \
       && chmod -R 777 /start.sh \
