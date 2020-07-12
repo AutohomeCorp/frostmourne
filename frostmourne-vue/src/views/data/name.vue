@@ -41,7 +41,7 @@
     </div>
 
     <el-dialog title="保存数据名" :visible.sync="dialogFormVisible" width="30%">
-      <el-form :model="editData">
+      <el-form ref="form" :model="editData" :rules="rules">
         <el-form-item label="名称" :label-width="formLabelWidth">
           <el-input v-model="editData.data_name" :disabled="disableEdit" autocomplete="off" />
         </el-form-item>
@@ -54,8 +54,7 @@
             clearable
             style="width: 190px"
             class="filter-item"
-            @change="dialogSourceTypeChangeHandler"
-          >
+            @change="dialogSourceTypeChangeHandler">
             <el-option label="elasticsearch" value="elasticsearch" />
           </el-select>
         </el-form-item>
@@ -95,11 +94,11 @@ import { formatJsonDate } from '@/utils/datetime.js'
 
 export default {
   filters: {
-    timeFormat(value) {
+    timeFormat (value) {
       return value ? formatJsonDate(value, 'yyyy-MM-dd hh:mm:ss') : null
     }
   },
-  data() {
+  data () {
     return {
       list: null,
       rowcount: 0,
@@ -114,24 +113,38 @@ export default {
       },
       editData: {
         id: 0,
-        data_name: '',
+        data_name: null,
         data_source_id: null,
-        datasource_type: '',
-        display_name: '',
-        timestamp_field: '',
+        datasource_type: null,
+        display_name: null,
+        timestamp_field: null,
         settings: {}
       },
       dialogDatasourceList: [],
       formLabelWidth: '80px',
       dialogFormVisible: false,
-      disableEdit: true
+      disableEdit: true,
+      rules: {
+        'editData.data_name': [
+          { required: true, message: '请输入数据名称', trigger: 'blur' }
+        ],
+        'editData.display_name': [
+          { required: true, message: '请输入数据说明', trigger: 'blur' }
+        ],
+        'editData.data_source_id': [
+          { required: true, message: '请选择数据源', trigger: 'change' }
+        ],
+        'editData.datasource_type': [
+          { required: true, message: '请选择数据类型', trigger: 'change' }
+        ]
+      }
     }
   },
-  created() {
+  created () {
     this.fetchData()
   },
   methods: {
-    fetchData() {
+    fetchData () {
       this.listLoading = true
       dataApi.findDataName(this.form.pageIndex, this.form.pageSize, this.form.datasource_type, this.form.data_source_id)
         .then(response => {
@@ -140,19 +153,19 @@ export default {
           this.listLoading = false
         })
     },
-    onPrevClick() {
+    onPrevClick () {
       this.form.pageIndex--
       this.fetchData()
     },
-    onNextClick() {
+    onNextClick () {
       this.form.pageIndex++
       this.fetchData()
     },
-    onCurrentChange(curr) {
+    onCurrentChange (curr) {
       this.form.pageIndex = curr
       this.fetchData()
     },
-    edit(row) {
+    edit (row) {
       if (row != null) {
         console.log(row)
         this.disableEdit = true
@@ -183,18 +196,22 @@ export default {
 
       this.dialogFormVisible = true
     },
-    search() {
-      // console.log(this.form)
+    search () {
       this.form.pageIndex = 1
       this.fetchData()
     },
-    save() {
-      dataApi.saveDataName(this.editData).then(response => {
-        this.dialogFormVisible = false
-        this.fetchData()
+    save () {
+      this.$refs['form'].validate((validate) => {
+        if (!validate) {
+          return false
+        }
+        dataApi.saveDataName(this.editData).then(response => {
+          this.dialogFormVisible = false
+          this.fetchData()
+        })
       })
     },
-    formSourceTypeChangeHandler(selectedValue) {
+    formSourceTypeChangeHandler (selectedValue) {
       this.form.data_source_id = null
       if (selectedValue) {
         dataApi.findDataSourceByType(selectedValue).then(response => {
@@ -204,7 +221,7 @@ export default {
         this.formDatasourceList = []
       }
     },
-    dialogSourceTypeChangeHandler(selectedValue) {
+    dialogSourceTypeChangeHandler (selectedValue) {
       this.editData.data_source_id = null
       if (selectedValue) {
         dataApi.findDataSourceByType(selectedValue).then(response => {
@@ -214,7 +231,7 @@ export default {
         this.dialogDatasourceList = []
       }
     },
-    remove(row) {
+    remove (row) {
       this.$confirm('此操作将删除数据名, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

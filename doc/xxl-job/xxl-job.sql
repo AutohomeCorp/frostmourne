@@ -1,21 +1,10 @@
-/*
- Navicat Premium Data Transfer
+CREATE DATABASE xxl_job DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_0900_ai_ci;
 
- Source Server         : mysql
- Source Server Type    : MySQL
- Source Server Version : 80020
- Source Host           : 127.0.0.1:3306
- Source Schema         : xxl_job
-
- Target Server Type    : MySQL
- Target Server Version : 80020
- File Encoding         : 65001
-
- Date: 02/07/2020 10:00:11
+/* if your mysql not support utf8mb4_0900_ai_ci, use collate utf8mb4_general_ci instead
+CREATE DATABASE xxl_job DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
 */
 
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+use `xxl_job`;
 
 -- ----------------------------
 -- Table structure for xxl_job_group
@@ -184,5 +173,3 @@ CREATE TABLE `xxl_job_user` (
 BEGIN;
 INSERT INTO `xxl_job_user` VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL);
 COMMIT;
-
-SET FOREIGN_KEY_CHECKS = 1;

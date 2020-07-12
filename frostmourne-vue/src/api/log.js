@@ -4,11 +4,11 @@ const baseUrl = '/api/monitor-api/log'
 
 const logApi = {
 
-  findAlarmLog(condition) {
+  findAlarmLog (condition) {
     return query.get(baseUrl + '/findAlarmLog', condition)
   },
 
-  findAlertLog(condition) {
+  findAlertLog (condition) {
     return query.get(baseUrl + '/findAlertLog', condition)
   }
 }

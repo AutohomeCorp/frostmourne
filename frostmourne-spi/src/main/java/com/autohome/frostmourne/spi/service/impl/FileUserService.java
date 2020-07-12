@@ -13,9 +13,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.Department;
 import com.autohome.frostmourne.spi.starter.model.Team;
-import com.autohome.frostmourne.spi.starter.model.UserInfo;
 import com.google.common.base.Strings;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class FileUserService {
 
     private long lastLoadTime = 0;
 
-    private Map<String, UserInfo> userInfoMap;
+    private Map<String, AccountInfo> userInfoMap;
 
     private Map<String, Team> teamMap;
 
@@ -48,23 +48,23 @@ public class FileUserService {
         this.lastLoadTime = System.currentTimeMillis();
     }
 
-    public UserInfo findByAccount(String account) {
+    public AccountInfo findByAccount(String account) {
         reloadFile();
         return userInfoMap.get(account);
     }
 
-    public List<UserInfo> search(String keyword) {
+    public List<AccountInfo> search(String keyword) {
         reloadFile();
         if (Strings.isNullOrEmpty(keyword)) {
             return new ArrayList<>(userInfoMap.values());
         }
-        List<UserInfo> userInfos = new ArrayList<>();
-        for (Map.Entry<String, UserInfo> entry : userInfoMap.entrySet()) {
+        List<AccountInfo> accountInfos = new ArrayList<>();
+        for (Map.Entry<String, AccountInfo> entry : userInfoMap.entrySet()) {
             if (entry.getKey().startsWith(keyword)) {
-                userInfos.add(entry.getValue());
+                accountInfos.add(entry.getValue());
             }
         }
-        return userInfos;
+        return accountInfos;
     }
 
     public List<Department> departments() {
@@ -117,8 +117,8 @@ public class FileUserService {
             } else {
                 json = readFile(this.userFile, StandardCharsets.UTF_8);
             }
-            List<UserInfo> userInfos = JacksonUtil.deSerializeList(json, UserInfo.class);
-            this.userInfoMap = userInfos.stream().collect(Collectors.toMap(UserInfo::getAccount, userInfo -> userInfo));
+            List<AccountInfo> accountInfos = JacksonUtil.deSerializeList(json, AccountInfo.class);
+            this.userInfoMap = accountInfos.stream().collect(Collectors.toMap(AccountInfo::getAccount, userInfo -> userInfo));
         } catch (Exception ex) {
             LOGGER.error("error when loadUserFile", ex);
             this.userInfoMap = new HashMap<>();

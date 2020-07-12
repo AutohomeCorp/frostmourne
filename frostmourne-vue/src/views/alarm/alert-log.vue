@@ -106,16 +106,16 @@ import moment from 'moment'
 
 export default {
   filters: {
-    timeFormat(value) {
+    timeFormat (value) {
       return value ? formatJsonDate(value, 'yyyy-MM-dd hh:mm:ss') : null
     }
   },
-  data() {
+  data () {
     return {
       pickerOptions: {
         shortcuts: [{
           text: '今天',
-          onClick(picker) {
+          onClick (picker) {
             const startMoment = moment().startOf('day')
             const endMoment = moment().endOf('day')
             picker.$emit('pick', [startMoment.toDate(), endMoment.toDate()])
@@ -123,7 +123,7 @@ export default {
         },
         {
           text: '昨天',
-          onClick(picker) {
+          onClick (picker) {
             const end = moment().startOf('day').toDate()
             const start = moment().startOf('day').subtract(1, 'day').toDate()
             picker.$emit('pick', [start, end])
@@ -131,7 +131,7 @@ export default {
         },
         {
           text: '前天',
-          onClick(picker) {
+          onClick (picker) {
             const end = moment().startOf('day').subtract(1, 'day').toDate()
             const start = moment().startOf('day').subtract(2, 'day').toDate()
             picker.$emit('pick', [start, end])
@@ -139,7 +139,7 @@ export default {
         },
         {
           text: '最近三天',
-          onClick(picker) {
+          onClick (picker) {
             const end = moment().endOf('day').toDate()
             const start = moment().startOf('day').subtract(3, 'day').toDate()
             picker.$emit('pick', [start, end])
@@ -147,7 +147,7 @@ export default {
         },
         {
           text: '最近一周',
-          onClick(picker) {
+          onClick (picker) {
             const end = moment().endOf('day').toDate()
             const start = moment().startOf('day').subtract(7, 'day').toDate()
             picker.$emit('pick', [start, end])
@@ -155,7 +155,7 @@ export default {
         },
         {
           text: '最近一月',
-          onClick(picker) {
+          onClick (picker) {
             const end = moment().endOf('day').toDate()
             const start = moment().startOf('day').subtract(30, 'day').toDate()
             picker.$emit('pick', [start, end])
@@ -181,7 +181,7 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     const startMoment = moment().startOf('day')
     const endMoment = moment().endOf('day')
     this.datePickValue[0] = startMoment.toDate()
@@ -191,26 +191,26 @@ export default {
     this.fetchData()
   },
   methods: {
-    onSubmit() {
+    onSubmit () {
       this.fetchData()
     },
-    onStatusChange() {
+    onStatusChange () {
       this.form.pageIndex = 1
       this.fetchData()
     },
-    onPrevClick() {
+    onPrevClick () {
       this.form.pageIndex--
       this.fetchData()
     },
-    onNextClick() {
+    onNextClick () {
       this.form.pageIndex++
       this.fetchData()
     },
-    onCurrentChange(curr) {
+    onCurrentChange (curr) {
       this.form.pageIndex = curr
       this.fetchData()
     },
-    fetchData() {
+    fetchData () {
       this.listLoading = true
       logApi.findAlertLog(this.form)
         .then(response => {
@@ -219,11 +219,11 @@ export default {
           this.listLoading = false
         })
     },
-    dateChangeHandler(value) {
+    dateChangeHandler (value) {
       this.form.startTime = value[0]
       this.form.endTime = value[1]
     },
-    showMessage(row) {
+    showMessage (row) {
       this.currentMessage = row.content
       this.dialogVisible = true
       /* this.$alert('<pre>' + row.content + '</pre>', '消息内容',{

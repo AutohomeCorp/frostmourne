@@ -16,11 +16,12 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogMapper;
+import com.autohome.frostmourne.monitor.service.account.IAccountService;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
+import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.AlarmMessage;
 import com.autohome.frostmourne.spi.starter.model.MessageResult;
-import com.autohome.frostmourne.spi.starter.model.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -39,9 +40,12 @@ public class AlertService implements IAlertService {
     @Resource
     private AlarmLogMapper alarmLogMapper;
 
+    @Resource
+    private IAccountService accountService;
+
     public void alert(AlarmProcessLogger alarmProcessLogger) {
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
-        List<UserInfo> recipients = recipients(alertContract.getRecipients());
+        List<AccountInfo> recipients = recipients(alertContract.getRecipients());
         if (recipients.size() == 0) {
             LOGGER.error("no recipients, alarmId: " + alarmProcessLogger.getAlarmContract().getId());
             return;
@@ -56,7 +60,7 @@ public class AlertService implements IAlertService {
         }
     }
 
-    private void sendAlert(AlarmProcessLogger alarmProcessLogger, List<UserInfo> recipients, String alertType) {
+    private void sendAlert(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, String alertType) {
         alarmLog(alarmProcessLogger);
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
         AlarmMessage alarmMessage = new AlarmMessage();
@@ -85,29 +89,27 @@ public class AlertService implements IAlertService {
                 alertContent, alarmProcessLogger.getAlarmLog().getId());
     }
 
-    private List<UserInfo> recipients(List<String> accounts) {
-        List<UserInfo> recipients = new ArrayList<>();
+    private List<AccountInfo> recipients(List<String> accounts) {
+        List<AccountInfo> recipients = new ArrayList<>();
         for (String userName : accounts) {
-            Protocol<UserInfo> protocol = frostmourneSpiApi.findByAccount("frostmourne-monitor", userName);
-            if (protocol.getReturncode() == 0) {
-                recipients.add(protocol.getResult());
-            } else {
-                LOGGER.error(String.format("error when frostmourneSpiApi.findByAccount, account: %s, response: %s", userName, JacksonUtil.serialize(protocol)));
+            AccountInfo accountInfo = accountService.findByAccount(userName);
+            if (accountInfo != null) {
+                recipients.add(accountInfo);
             }
         }
         return recipients;
     }
 
     private void saveAlertLog(String alertType, String silenceStatus, List<MessageResult> messageResults,
-                              List<UserInfo> userInfos, Long alarmId, String content, Long executeId) {
+                              List<AccountInfo> accountInfos, Long alarmId, String content, Long executeId) {
         for (MessageResult messageResult : messageResults) {
-            for (UserInfo userInfo : userInfos) {
+            for (AccountInfo accountInfo : accountInfos) {
                 AlertLog alertLog = new AlertLog();
                 alertLog.setAlarm_id(alarmId);
                 alertLog.setContent(content);
                 alertLog.setExecute_id(executeId);
                 alertLog.setCreate_at(new Date());
-                alertLog.setRecipient(userInfo.getAccount());
+                alertLog.setRecipient(accountInfo.getAccount());
                 alertLog.setIn_silence(SilenceStatus.NO);
                 alertLog.setSend_status(messageResult.getSuccess() == 1 ? SendStatus.SUCCESS : SendStatus.FAIL);
                 alertLog.setWay(messageResult.getWay());
@@ -118,7 +120,7 @@ public class AlertService implements IAlertService {
         }
     }
 
-    private void checkRecover(AlarmLog latestAlarmLog, AlarmProcessLogger alarmProcessLogger, List<UserInfo> recipients) {
+    private void checkRecover(AlarmLog latestAlarmLog, AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients) {
         //if not alert, check if send recover message
         if (latestAlarmLog != null && latestAlarmLog.getVerify_result().equalsIgnoreCase(VerifyResult.TRUE)) {
             //this is recover message
@@ -145,18 +147,18 @@ public class AlertService implements IAlertService {
         return false;
     }
 
-    private void saveSilenceAlertLog(AlarmProcessLogger alarmProcessLogger, List<UserInfo> recipients) {
+    private void saveSilenceAlertLog(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients) {
         alarmLog(alarmProcessLogger);
         Long alarmId = alarmProcessLogger.getAlarmContract().getId();
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
         for (String way : alertContract.getWays()) {
-            for (UserInfo userInfo : recipients) {
+            for (AccountInfo accountInfo : recipients) {
                 AlertLog alertLog = new AlertLog();
                 alertLog.setAlarm_id(alarmId);
                 alertLog.setContent(alarmProcessLogger.getAlertMessage());
                 alertLog.setExecute_id(alarmProcessLogger.getAlarmLog().getId());
                 alertLog.setCreate_at(new Date());
-                alertLog.setRecipient(userInfo.getAccount());
+                alertLog.setRecipient(accountInfo.getAccount());
                 alertLog.setSend_status(SendStatus.NONE);
                 alertLog.setWay(way);
                 alertLog.setAlert_type(AlertType.PROBLEM);
@@ -166,7 +168,7 @@ public class AlertService implements IAlertService {
         }
     }
 
-    private void processProblem(AlarmProcessLogger alarmProcessLogger, List<UserInfo> recipients, AlarmLog latestAlarmLog) {
+    private void processProblem(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, AlarmLog latestAlarmLog) {
         if (latestAlarmLog == null || latestAlarmLog.getVerify_result().equalsIgnoreCase(VerifyResult.FALSE)) {
             sendAlert(alarmProcessLogger, recipients, AlertType.PROBLEM);
             return;

@@ -10,7 +10,7 @@ import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.controller.annotation.PermissionLimit;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
 import com.autohome.frostmourne.monitor.tool.JwtToken;
-import com.autohome.frostmourne.spi.starter.model.UserInfo;
+import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import io.jsonwebtoken.Claims;
 import org.elasticsearch.common.Strings;
 import org.springframework.stereotype.Component;
@@ -53,8 +53,8 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }
             String json = (String) claims.get("userinfo");
-            UserInfo userInfo = JacksonUtil.deSerialize(json, UserInfo.class);
-            request.setAttribute(AuthTool.USER_ATTR, userInfo);
+            AccountInfo accountInfo = JacksonUtil.deSerialize(json, AccountInfo.class);
+            request.setAttribute(AuthTool.USER_ATTR, accountInfo);
         }
 
         return super.preHandle(request, response, handler);

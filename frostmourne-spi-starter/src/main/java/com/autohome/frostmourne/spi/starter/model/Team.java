@@ -2,7 +2,7 @@ package com.autohome.frostmourne.spi.starter.model;
 
 public class Team {
 
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -10,11 +10,11 @@ public class Team {
 
     private String department;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

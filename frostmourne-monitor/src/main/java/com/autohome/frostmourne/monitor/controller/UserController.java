@@ -4,13 +4,15 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.Protocol;
+import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.contract.LoginInfo;
 import com.autohome.frostmourne.monitor.controller.annotation.PermissionLimit;
+import com.autohome.frostmourne.monitor.service.account.IAccountService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
 import com.autohome.frostmourne.monitor.tool.JwtToken;
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
+import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.Team;
-import com.autohome.frostmourne.spi.starter.model.UserInfo;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,16 +29,22 @@ public class UserController {
     @Resource
     private IFrostmourneSpiApi frostmourneSpiApi;
 
+    @Resource
+    private IAccountService accountService;
+
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public Protocol<UserInfo> info() {
+    public Protocol<AccountInfo> info() {
         return new Protocol<>(AuthTool.currentUser());
     }
 
     @PermissionLimit(limit = false)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Protocol<String> login(@RequestBody LoginInfo loginInfo) {
-        Protocol<UserInfo> protocol = frostmourneSpiApi.findByAccount("frostmourne-monitor", loginInfo.getUsername());
-        String token = jwtToken.generateToken(protocol.getResult());
+        AccountInfo accountInfo = accountService.findByAccount(loginInfo.getUsername());
+        if (accountInfo == null) {
+            throw new ProtocolException(590, "用户不存在");
+        }
+        String token = jwtToken.generateToken(accountInfo);
         return new Protocol<>(token);
     }
 
@@ -47,11 +55,13 @@ public class UserController {
 
     @RequestMapping(value = "/teams", method = RequestMethod.GET)
     public Protocol<List<Team>> teams() {
-        return frostmourneSpiApi.teams("frostmourne-monitor", null);
+        List<Team> teamList = accountService.teams(null);
+        return new Protocol<>(teamList);
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public Protocol<List<UserInfo>> search(@RequestParam(value = "keyword", required = false) String keyword) {
-        return this.frostmourneSpiApi.search("frostmourne-monitor", keyword);
+    public Protocol<List<AccountInfo>> search(@RequestParam(value = "keyword", required = false) String keyword) {
+        List<AccountInfo> accountInfoList = accountService.search(keyword);
+        return new Protocol<>(accountInfoList);
     }
 }

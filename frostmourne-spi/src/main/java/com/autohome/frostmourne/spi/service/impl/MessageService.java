@@ -16,9 +16,9 @@ import com.autohome.frostmourne.spi.dao.IWeChatSender;
 import com.autohome.frostmourne.spi.plugin.IDingSenderPlugin;
 import com.autohome.frostmourne.spi.plugin.ISmsSenderPlugin;
 import com.autohome.frostmourne.spi.service.IMessageService;
+import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.AlarmMessage;
 import com.autohome.frostmourne.spi.starter.model.MessageResult;
-import com.autohome.frostmourne.spi.starter.model.UserInfo;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,12 +66,12 @@ public class MessageService implements IMessageService {
         if (way.equalsIgnoreCase("email")) {
             List<String> emails = alarmMessage.getRecipients().stream()
                     .filter(m -> !Strings.isNullOrEmpty(m.getEmail()))
-                    .map(UserInfo::getEmail).collect(Collectors.toList());
+                    .map(AccountInfo::getEmail).collect(Collectors.toList());
             return emailSender.send(alarmMessage.getTitle(), alarmMessage.getContent(), emails);
         }
 
         List<String> cellphoneList = alarmMessage.getRecipients().stream()
-                .map(UserInfo::getMobile).collect(Collectors.toList());
+                .map(AccountInfo::getMobile).collect(Collectors.toList());
         if (way.equalsIgnoreCase("dingding")) {
             if (Strings.isNullOrEmpty(alarmMessage.getDingHook())) {
                 return dingSenderPlugin.send(alarmMessage.getTitle(), alarmMessage.getContent(), cellphoneList);
@@ -91,7 +91,7 @@ public class MessageService implements IMessageService {
         if (way.equalsIgnoreCase("wechat")) {
             List<String> wxidList = alarmMessage.getRecipients().stream()
                     .filter(m -> !Strings.isNullOrEmpty(m.getWxid()))
-                    .map(UserInfo::getWxid).collect(Collectors.toList());
+                    .map(AccountInfo::getWxid).collect(Collectors.toList());
             return weChatSender.send(wxidList, alarmMessage.getTitle(), alarmMessage.getContent(), alarmMessage.getWechatHook());
         }
 

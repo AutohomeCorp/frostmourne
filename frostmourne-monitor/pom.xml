@@ -17,7 +17,7 @@
         <elasticsearch.version>6.6.2</elasticsearch.version>
         <druid.version>1.0.15</druid.version>
         <pagehelper.version>5.0.0</pagehelper.version>
-        <mybatis-spring-boot-starter.version>1.2.0</mybatis-spring-boot-starter.version>
+        <mybatis-spring-boot-starter.version>2.1.1</mybatis-spring-boot-starter.version>
         <feign-okhttp.version>10.1.0</feign-okhttp.version>
         <opencsv.version>2.3</opencsv.version>
     </properties>
@@ -101,6 +101,12 @@
             <artifactId>druid</artifactId>
             <version>${druid.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mybatis.dynamic-sql/mybatis-dynamic-sql -->
+        <dependency>
+            <groupId>org.mybatis.dynamic-sql</groupId>
+            <artifactId>mybatis-dynamic-sql</artifactId>
+            <version>1.1.4</version>
+        </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
@@ -175,6 +181,23 @@
         <finalName>frostmourne-monitor-${project.version}</finalName>
         <plugins>
             <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.20</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configurationFile>${basedir}/src/main/resources/generatorConfig.xml</configurationFile>
+                    <contexts>dsql</contexts>
+                    <overwrite>true</overwrite>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -206,6 +229,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 
