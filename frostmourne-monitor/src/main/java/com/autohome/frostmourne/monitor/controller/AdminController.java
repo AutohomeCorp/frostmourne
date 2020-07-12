@@ -25,7 +25,6 @@ public class AdminController {
     public Protocol<Boolean> save(@RequestParam(value = "_appId", required = true) String _appId,
                                   @RequestBody AlarmContract alarmContract) {
         alarmContract.setOperator(AuthTool.currentUser().getAccount());
-        alarmContract.setTeam_name(AuthTool.currentUser().getTeamName());
         boolean result = alarmAdminService.atomicSave(alarmContract);
         return new Protocol<>(result);
     }
