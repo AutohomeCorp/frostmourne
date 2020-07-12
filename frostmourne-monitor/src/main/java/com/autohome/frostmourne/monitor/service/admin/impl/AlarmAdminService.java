@@ -305,6 +305,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setCron(alarmContract.getCron());
         alarm.setModify_at(now);
         alarm.setModifier(alarmContract.getOperator());
+        alarm.setTeam_name(alarmContract.getTeam_name());
 
         alarmMapper.updateByPrimaryKeySelective(alarm);
 
