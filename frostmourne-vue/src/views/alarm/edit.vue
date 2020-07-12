@@ -92,13 +92,13 @@
         <el-tab-pane label="报警规则">
           <el-form-item label="判断类型:" prop="metricContract.metric_type">
             <el-select v-model="form.metricContract.metric_type">
-              <el-option v-if="dataSourceType != 'http'" label="数值" value="numeric" />
+              <el-option v-if="dataSourceType !== 'http'" label="数值" value="numeric" />
               <el-option v-if="dataSourceType === 'http'" label="Javascript表达式" value="object" />
               <!--<el-option label="环比" value="ring_than"/>-->
             </el-select>
           </el-form-item>
           <el-row>
-            <el-form-item v-if="form.metricContract.metric_type == 'numeric'" label="判断规则:">
+            <el-form-item v-if="form.metricContract.metric_type === 'numeric'" label="判断规则:">
               最近
               <el-input-number v-model="form.ruleContract.settings.TIME_WINDOW" size="small" :min="1" label="间隔分钟" />分钟；指标数值
               <el-select v-model="form.ruleContract.settings.OPERATOR" size="small" style="width:100px" placeholder="比较类型">
@@ -106,13 +106,13 @@
                 <el-option label="<=" value="LTE" />
                 <el-option label="==" value="EQUAL" />
               </el-select>
-              <el-input-number v-model="form.ruleContract.settings.THRESHOLD" size="small" label="阈值" />
+              <el-input-number v-model="form.ruleContract.settings.THRESHOLD" :precision="2" size="small" label="阈值" />
             </el-form-item>
           </el-row>
-          <el-form-item v-if="form.metricContract.metric_type == 'object'" label="判断表达式:">
+          <el-form-item v-if="form.metricContract.metric_type === 'object'" label="判断表达式:">
             <el-input v-model="form.ruleContract.settings.EXPRESSION" type="textarea" />
           </el-form-item>
-          <el-form-item v-if="form.metricContract.metric_type == 'ring_than'" label="判断规则:">
+          <el-form-item v-if="form.metricContract.metric_type === 'ring_than'" label="判断规则:">
             <el-select v-model="form.ruleContract.PERIOD_UNIT">
               <el-option label="周" value="week" />
               <el-option label="日" value="day" />
@@ -319,10 +319,11 @@ export default {
   mounted () {
     this.initDayCronOptions()
     if (this.id) {
-      this.getDetail()
+      this.getDetail(this.initDataOptions)
       this.enableSaveAnother = true
     } else {
       this.enableSaveAnother = false
+      this.initDataOptions()
     }
 
     teams().then(response => {
@@ -341,7 +342,6 @@ export default {
       this.form.metricContract.query_string = this.$route.query.query_string
       this.dataChange(this.dataValue)
     }
-    this.initDataOptions()
   },
   methods: {
     onSubmit () {
@@ -438,7 +438,7 @@ export default {
     onCancel () {
       this.$router.push({ path: '/alarm/list.view' })
     },
-    getDetail () {
+    getDetail (callback) {
       adminApi.findById(this.id)
         .then(response => {
           this.form = response.result
@@ -452,6 +452,9 @@ export default {
             this.dataValue.push(response.result.metricContract.dataSourceContract.id)
             this.dataValue.push(response.result.metricContract.data_name)
             this.dataSourceType = response.result.metricContract.dataSourceContract.datasource_type
+          }
+          if (callback) {
+            callback()
           }
         })
     },

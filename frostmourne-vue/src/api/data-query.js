@@ -4,15 +4,15 @@ const baseUrl = '/api/monitor-api/query'
 
 const dataQueryApi = {
 
-  elasticsearchData(condition) {
+  elasticsearchData (condition) {
     return query.get(baseUrl + '/elasticsearchData', condition)
   },
 
-  shortenLink(longUrl) {
+  shortenLink (longUrl) {
     return query.get(baseUrl + '/shortenLink', { longUrl: longUrl })
   },
 
-  downloadData(condition, fileName) {
+  downloadData (condition, fileName) {
     return request({
       url: baseUrl + '/downloadData',
       method: 'get',

@@ -5,7 +5,7 @@ import java.security.Key;
 import java.util.Date;
 
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.spi.starter.model.UserInfo;
+import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -19,11 +19,11 @@ public class JwtToken {
 
     private final static String SALT = "别杀我，我是鲁班7号";
 
-    public String generateToken(UserInfo userInfo) {
+    public String generateToken(AccountInfo accountInfo) {
         return Jwts.builder()
                 .claim("salt", SALT)
-                .claim("userinfo", JacksonUtil.serialize(userInfo))
-                .setSubject(userInfo.getAccount())
+                .claim("userinfo", JacksonUtil.serialize(accountInfo))
+                .setSubject(accountInfo.getAccount())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
                 .signWith(key).compact();
     }

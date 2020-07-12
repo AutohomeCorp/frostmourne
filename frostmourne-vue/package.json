@@ -5,7 +5,7 @@
   "author": "frostmourne",
   "license": "MIT",
   "scripts": {
-    "dev": "vue-cli-service serve",
+    "dev": "vue-cli-service serve --open",
     "dev:m": "vue-cli-service serve --mode mock",
     "build": "vue-cli-service build",
     "build:stage": "vue-cli-service build --mode staging",

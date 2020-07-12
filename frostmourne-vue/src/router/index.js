@@ -125,97 +125,29 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/example',
+    path: '/account',
     component: Layout,
-    redirect: '/example/table.view',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    hidden: true,
+    redirect: '/account/user-info.view',
+    name: 'account',
+    meta: { title: '账号管理', icon: 'people' },
     children: [
       {
-        path: 'table.view',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'user-info.view',
+        name: 'user-info',
+        component: () => import('@/views/account/user-info.vue'),
+        meta: { title: '账号信息', icon: 'documentation' }
       },
       {
-        path: 'tree.view',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: 'index.view',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    hidden: true,
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1.view',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1.view',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2.view',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1.view',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2.view',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3.view',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+        path: 'team-info.view',
+        name: 'team-info',
+        component: () => import('@/views/account/team-info.vue'),
+        meta: { title: '团队信息', icon: 'documentation' }
       },
       {
-        path: 'menu2.view',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
+        path: 'department-info.view',
+        name: 'department-info',
+        component: () => import('@/views/account/department-info.vue'),
+        meta: { title: '部门信息', icon: 'documentation' }
       }
     ]
   },
@@ -245,7 +177,7 @@ const createRouter = () =>
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }

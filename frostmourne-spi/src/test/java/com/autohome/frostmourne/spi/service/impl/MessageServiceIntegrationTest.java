@@ -5,8 +5,8 @@ import java.util.Arrays;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.spi.dao.impl.WeChatSender;
+import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.AlarmMessage;
-import com.autohome.frostmourne.spi.starter.model.UserInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,9 +33,9 @@ class MessageServiceIntegrationTest {
         alarmMessage.setContent("测试机器人");
         alarmMessage.setWays(Arrays.asList("dingding"));
 
-        UserInfo userInfo = new UserInfo();
-        userInfo.setMobile("150xxxx0501");
-        alarmMessage.setRecipients(Arrays.asList(userInfo));
+        AccountInfo accountInfo = new AccountInfo();
+        accountInfo.setMobile("150xxxx0501");
+        alarmMessage.setRecipients(Arrays.asList(accountInfo));
         String hook = "hook";
         messageService.sendByDingRobot(hook, alarmMessage, Arrays.asList("150xxxx0501"));
     }

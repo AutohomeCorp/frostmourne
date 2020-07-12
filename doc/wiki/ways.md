@@ -1,6 +1,6 @@
 ## 报警发送
 
-现在支持短信,email, 钉钉(机器人), 企业微信，HTTP 五种发送方式，其中email和钉钉机器人, 企业微信， HTTP默认可用，短信和钉钉需要自己适配实现。。
+现在支持短信,email, 钉钉(机器人), 企业微信(机器人)，HTTP 五种发送方式，其中email和钉钉机器人, 企业微信(机器人)， HTTP默认可用，短信和钉钉需要自己适配实现。。
 
 * 钉钉机器人消息发送
 
@@ -28,6 +28,8 @@ wechat.corpid=${your.wechat.corpid}
 wechat.agentid=${your.wechat.agentid}
 wechat.secret={your.wechat.secret}
 ```
+
+企业微信机器人和钉钉机器人类似，创建好机器人后，将机器人地址复制到企业微信机器人地址输入栏即可。
 
 * HTTP消息发送
 

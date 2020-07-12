@@ -3,15 +3,15 @@ import query from '@/utils/query.js'
 const baseUrl = '/api/monitor-api/data'
 
 const dataApi = {
-  saveDataSource(model) {
+  saveDataSource (model) {
     return query.json(baseUrl + '/saveDataSource', model)
   },
 
-  removeDataSource(id) {
+  removeDataSource (id) {
     return query.post(baseUrl + '/removeDataSource', { id: id })
   },
 
-  findDataSource(pageIndex, pageSize, datasourceType) {
+  findDataSource (pageIndex, pageSize, datasourceType) {
     return query.get(baseUrl + '/findDataSource', {
       pageIndex: pageIndex,
       pageSize: pageSize,
@@ -19,21 +19,21 @@ const dataApi = {
     })
   },
 
-  findDataSourceByType(datasourceType) {
+  findDataSourceByType (datasourceType) {
     return query.get(baseUrl + '/findDataSourceByType', {
       datasourceType: datasourceType
     })
   },
 
-  saveDataName(model) {
+  saveDataName (model) {
     return query.json(baseUrl + '/saveDataName', model)
   },
 
-  removeDataName(id) {
+  removeDataName (id) {
     return query.post(baseUrl + '/removeDataName', { id: id })
   },
 
-  findDataName(pageIndex, pageSize, datasourceType, datasourceId) {
+  findDataName (pageIndex, pageSize, datasourceType, datasourceId) {
     return query.get(baseUrl + '/findDataName', {
       pageIndex: pageIndex,
       pageSize: pageSize,
@@ -42,13 +42,13 @@ const dataApi = {
     })
   },
 
-  findDataNameByType(datasourceType) {
+  findDataNameByType (datasourceType) {
     return query.get(baseUrl + '/findDataNameByType', {
       datasourceType: datasourceType
     })
   },
 
-  dataOptions() {
+  dataOptions () {
     return query.get(baseUrl + '/dataOptions')
   }
 }

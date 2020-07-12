@@ -18,6 +18,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
 * 每个监控都是独立调度，互不影响
+* 自带账号,团队,部门信息管理模块，也可自己实现内部对接
 
 ## 在线demo
 
@@ -124,7 +125,9 @@ com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况
 
 ## 数据库相关
 
-所有表的创建语句在doc/mysql-schema/schema.sql文件中，数据库开发使用druid + mybatis，创建好语句后，自己修改frostmourne-monitor模块的数据库配置
+* frostmourne库
+
+frostmourne所有表的创建语句在[doc/mysql-schema/schema.sql](./doc/mysql-schema/schema.sql)文件中，数据库开发使用druid + mybatis，创建好语句后，自己修改frostmourne-monitor模块的数据库配置
 
 ```
 druid.datasource.frostmourne.url=jdbc:mysql://[mysql]:3306/frostmourne?characterEncoding=utf8
@@ -133,6 +136,10 @@ druid.datasource.frostmourne.password=[plain_password]
 ```
 
 密码默认使用明文，没有加密策略，如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
+
+* xxl-job库
+
+xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql)
 
 ### 快速启动
 
@@ -317,8 +324,8 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * ~~报警接收人设置时给出提示~~ [2020-07-04]
 * ~~增加企业微信机器人消息发送方式~~ [2020-07-05] [issue#7](https://github.com/AutohomeCorp/frostmourne/issues/7)
 * ~~用户信息，团队信息，部门信息外部文件增加定期重新加载~~ [2020-07-05]
+* ~~增加账号信息管理功能模块~~ [2020-07-11] [issue#6](https://github.com/AutohomeCorp/frostmourne/issues/6)
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
-* 增加用户信息，团队信息，部门信息管理功能模块 [issue#6](https://github.com/AutohomeCorp/frostmourne/issues/6)
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * Elasticsearch监控数值实现同比监控
 * Elasticsearch监控数值实现环比监控
@@ -326,6 +333,8 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * Elasticsearch查询增加常用语句自动提示
 * Elasticsearch查询数据柱状图可点击并自动变更时间范围
 * Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
+* 增加系统配置功能模块，将启动非必要的配置用功能管理起来，减轻启动配置负担
+* 移除SPI模块，经过一系列优化后，spi模块存在的必要性可能很低了，考虑移除掉，降低部署难度
 * 补充更详细的部署文档
 * README简化为文档目录索引形式，具体内容分散到各个文档中，方便查找
 * 监控调度配置后显示预计调度时间 [issue#3](https://github.com/AutohomeCorp/frostmourne/issues/3)
@@ -368,6 +377,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 - [element ui](https://element.eleme.cn/#/zh-CN)
 - [45短网址](https://45dwz.cn/)
 - [jjwt](https://github.com/jwtk/jjwt)
+- [mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 
 ## License
 

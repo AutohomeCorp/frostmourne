@@ -9,7 +9,7 @@ const service = {
     multipart_form_data: { 'Content-Type': 'multipart/form-data' }
   },
   appId: 'frostmourne',
-  query(config) {
+  query (config) {
     if (!config.params) {
       config.params = {}
     }
@@ -20,19 +20,19 @@ const service = {
   /**
    * get
    */
-  get(url, params) {
+  get (url, params) {
     return this.query({ method: 'get', url: url, params: params })
   },
   /**
    * post form
    */
-  post(url, params) {
+  post (url, params) {
     return this.query({ method: 'post', url: url, data: qs.stringify(params), headers: this.MediaType.application_form_urlencoded })
   },
   /**
    * post json
    */
-  json(url, params) {
+  json (url, params) {
     return this.query({ method: 'post', url: url, data: params, headers: this.MediaType.application_json })
   }
 }

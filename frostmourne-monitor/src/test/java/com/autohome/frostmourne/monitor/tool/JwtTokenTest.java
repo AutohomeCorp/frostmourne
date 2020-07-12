@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.tool;
 import java.security.Key;
 import java.util.Date;
 
-import com.autohome.frostmourne.spi.starter.model.UserInfo;
+import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -25,10 +25,10 @@ public class JwtTokenTest {
     @Test
     public void generateTokenTest() {
         JwtToken jwtToken = new JwtToken();
-        UserInfo userInfo = new UserInfo();
-        userInfo.setAccount("admin");
-        userInfo.setTeamId(1);
-        String token = jwtToken.generateToken(userInfo);
+        AccountInfo accountInfo = new AccountInfo();
+        accountInfo.setAccount("admin");
+        accountInfo.setTeamId(1L);
+        String token = jwtToken.generateToken(accountInfo);
     }
 
     @Test

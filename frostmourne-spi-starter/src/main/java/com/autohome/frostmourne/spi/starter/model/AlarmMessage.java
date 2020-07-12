@@ -8,7 +8,7 @@ public class AlarmMessage {
 
     private String content;
 
-    private List<UserInfo> recipients;
+    private List<AccountInfo> recipients;
 
     private List<String> ways;
 
@@ -26,11 +26,11 @@ public class AlarmMessage {
         this.content = content;
     }
 
-    public List<UserInfo> getRecipients() {
+    public List<AccountInfo> getRecipients() {
         return recipients;
     }
 
-    public void setRecipients(List<UserInfo> recipients) {
+    public void setRecipients(List<AccountInfo> recipients) {
         this.recipients = recipients;
     }
 
