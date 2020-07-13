@@ -322,9 +322,9 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * ~~增加docker-compose部署，用于快速启动~~ [xyzj91][2020-07-02]
 * ~~HTTP监控增加header设置~~ [2020-07-04]
 * ~~报警接收人设置时给出提示~~ [2020-07-04]
-* ~~增加企业微信机器人消息发送方式~~ [2020-07-05] [issue#7](https://github.com/AutohomeCorp/frostmourne/issues/7)
+* ~~增加企业微信机器人消息发送方式~~ [2020-07-05]
 * ~~用户信息，团队信息，部门信息外部文件增加定期重新加载~~ [2020-07-05]
-* ~~增加账号信息管理功能模块~~ [2020-07-11] [issue#6](https://github.com/AutohomeCorp/frostmourne/issues/6)
+* ~~增加账号信息管理功能模块~~ [2020-07-11]
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * Elasticsearch监控数值实现同比监控
@@ -338,8 +338,8 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 补充更详细的部署文档
 * README简化为文档目录索引形式，具体内容分散到各个文档中，方便查找
 * 监控列表增加按团队查询；监控列表增加权限控制，监控按部门隔离
-* 监控调度配置后显示预计调度时间 [issue#3](https://github.com/AutohomeCorp/frostmourne/issues/3)
-* 报警接收人可以设置为组 [issue#4](https://github.com/AutohomeCorp/frostmourne/issues/4)
+* 监控调度配置后显示预计调度时间
+* 报警接收人可以设置为组
 * 使用autolog4j程序日志格式
 * 报警消息模板存库管理
 * Elasticsearch数据名配置时自动提示索引名称
