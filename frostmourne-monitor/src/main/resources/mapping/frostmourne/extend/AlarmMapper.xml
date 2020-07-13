@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmMapper" >
+  <update id="updateStatus">
+    UPDATE alarm SET `status`=#{status} WHERE id=#{alarmId}
+  </update>
+
+  <select id="find" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM alarm
+    WHERE 1 = 1
+    <if test="teamName != null and teamName != ''">
+      AND team_name=#{teamName}
+    </if>
+    <if test="alarmId != null and alarmId > 0">
+      AND id = #{alarmId}
+    </if>
+    <if test="name != null and name != ''">
+      AND alarm_name LIKE concat('%', #{name}, '%')
+    </if>
+    <if test="status != null and status != ''">
+      AND status = #{status}
+    </if>
+    ORDER BY create_at DESC
+  </select>
+
+  <update id="updateAlarmLastExecuteInfo">
+    UPDATE alarm SET execute_at=#{executeTime}, execute_result=#{executeResult}
+    WHERE id=#{alarmId}
+  </update>
+
+  <update id="updateJobId">
+    UPDATE alarm SET job_id = #{jobId} WHERE id=#{alarmId}
+  </update>
+
+  <select id="total" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM alarm
+  </select>
+</mapper>

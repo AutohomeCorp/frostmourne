@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataSourceMapper" >
+  <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="datasource_name" property="datasource_name" jdbcType="VARCHAR" />
+    <result column="datasource_type" property="datasource_type" jdbcType="VARCHAR" />
+    <result column="service_address" property="service_address" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modify_at" property="modify_at" jdbcType="TIMESTAMP" />
+    <result column="properties" property="properties" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, datasource_name, datasource_type, service_address, creator, create_at, modifier, 
+    modify_at, properties
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from data_source
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from data_source
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into data_source (datasource_name, datasource_type, 
+      service_address, creator, create_at, 
+      modifier, modify_at, properties
+      )
+    values (#{datasource_name,jdbcType=VARCHAR}, #{datasource_type,jdbcType=VARCHAR}, 
+      #{service_address,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{create_at,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=VARCHAR}, #{modify_at,jdbcType=TIMESTAMP}, #{properties,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into data_source
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="datasource_name != null" >
+        datasource_name,
+      </if>
+      <if test="datasource_type != null" >
+        datasource_type,
+      </if>
+      <if test="service_address != null" >
+        service_address,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="create_at != null" >
+        create_at,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modify_at != null" >
+        modify_at,
+      </if>
+      <if test="properties != null" >
+        properties,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="datasource_name != null" >
+        #{datasource_name,jdbcType=VARCHAR},
+      </if>
+      <if test="datasource_type != null" >
+        #{datasource_type,jdbcType=VARCHAR},
+      </if>
+      <if test="service_address != null" >
+        #{service_address,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modify_at != null" >
+        #{modify_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="properties != null" >
+        #{properties,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource" >
+    update data_source
+    <set >
+      <if test="datasource_name != null" >
+        datasource_name = #{datasource_name,jdbcType=VARCHAR},
+      </if>
+      <if test="datasource_type != null" >
+        datasource_type = #{datasource_type,jdbcType=VARCHAR},
+      </if>
+      <if test="service_address != null" >
+        service_address = #{service_address,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="create_at != null" >
+        create_at = #{create_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modify_at != null" >
+        modify_at = #{modify_at,jdbcType=TIMESTAMP},
+      </if>
+      <if test="properties != null" >
+        properties = #{properties,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource" >
+    update data_source
+    set datasource_name = #{datasource_name,jdbcType=VARCHAR},
+      datasource_type = #{datasource_type,jdbcType=VARCHAR},
+      service_address = #{service_address,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_at = #{create_at,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modify_at = #{modify_at,jdbcType=TIMESTAMP},
+      properties = #{properties,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

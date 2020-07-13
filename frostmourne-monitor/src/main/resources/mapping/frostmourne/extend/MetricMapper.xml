@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.MetricMapper" >
+  <delete id="deleteByAlarm">
+    DELETE FROM metric WHERE alarm_id=#{alarmId}
+  </delete>
+
+  <select id="findOneByAlarm" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM metric
+    WHERE alarm_id=#{alarmId} LIMIT 1
+  </select>
+
+  <select id="datasourceCount" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+    FROM metric
+    WHERE data_source_id=#{datasourceId}
+  </select>
+
+  <select id="datanameCount" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+    FROM metric
+    WHERE data_name_id=#{datanameId}
+  </select>
+</mapper>

@@ -1,0 +1,52 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": false,
+  "editor.mouseWheelZoom": true,
+  "editor.renderControlCharacters": true,
+  "editor.wordWrapColumn": 180,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": [
+    "javascript",
+    "html",
+    "vue"
+  ],
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  },
+  "html.format.extraLiners": "",
+  "html.format.endWithNewline": true,
+  "html.format.indentHandlebars": true,
+  "html.format.indentInnerHtml": true,
+  "html.format.wrapLineLength": 180,
+  "html.format.wrapAttributes": "auto",
+  "vetur.format.defaultFormatter.js": "vscode-typescript",
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatterOptions": {
+    "js-beautify-html": {
+      "wrap_line_length": 180,
+      "wrap_attributes": "auto",
+      "end_with_newline": false
+    }
+  },
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "files.eol": "\n",
+  // prettier
+  "prettier.singleQuote": true,
+  "prettier.proseWrap": "never",
+  "prettier.printWidth": 180,
+  "prettier.semi": false,
+  "prettier.disableLanguages": [
+    "vue"
+  ]
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogMapper" >
+  <select id="find" resultMap="ResultMapWithBLOBs">
+    SELECT <include refid="Base_Column_List" />, <include refid="Blob_Column_List" />
+    FROM alarm_log
+    WHERE 1 = 1
+    <if test="startTime != null and endTime != null">
+      AND create_at BETWEEN #{startTime} AND #{endTime}
+    </if>
+    <if test="alarmId != null and alarmId > 0">
+      AND alarm_id=#{alarmId}
+    </if>
+    <if test="verifyResult != null and verifyResult != ''">
+      AND verify_result = #{verifyResult}
+    </if>
+    <if test="executeResult != null and executeResult != ''">
+      AND execute_result = #{executeResult}
+    </if>
+    ORDER BY create_at DESC
+  </select>
+
+  <select id="selectLatest" resultMap="ResultMapWithBLOBs">
+    SELECT <include refid="Base_Column_List" />, <include refid="Blob_Column_List" />
+    FROM alarm_log
+    WHERE alarm_id=#{alarmId}
+    <if test="verifyResult != null and verifyResult != ''">
+      AND verify_result = #{verifyResult}
+    </if>
+    ORDER BY id DESC
+    LIMIT 1
+  </select>
+
+  <delete id="clearBefore">
+    DELETE FROM alarm_log
+    WHERE
+    <![CDATA[
+     create_at < #{reserveLine}
+    ]]>
+  </delete>
+
+  <select id="count" resultType="java.lang.Integer">
+    SELECT COUNT(0) FROM alarm_log
+    WHERE create_at BETWEEN #{startTime} AND #{endTime}
+    <if test="verifyResult != null and verifyResult != ''">
+      AND verify_result = #{verifyResult}
+    </if>
+  </select>
+
+  <select id="aggregation" resultType="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate">
+    SELECT from_days(to_days(create_at)) AS `date`, COUNT(0) AS `count`
+      FROM alarm_log
+     WHERE create_at BETWEEN #{startTime} AND #{endTime}
+    <if test="verifyResult != null and verifyResult != ''">
+      AND verify_result = #{verifyResult}
+    </if>
+     GROUP BY to_days(create_at)
+  </select>
+
+</mapper>

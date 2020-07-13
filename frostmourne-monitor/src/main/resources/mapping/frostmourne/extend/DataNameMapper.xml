@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataNameMapper">
+    <select id="findByName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM data_name
+        WHERE data_name=#{dataName}
+    </select>
+
+    <select id="find" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM data_name
+        WHERE 1 = 1
+        <if test="datasourceType != null and datasourceType != ''">
+            AND datasource_type = #{datasourceType}
+        </if>
+        <if test="datasourceId != null and datasourceId > 0">
+            AND data_source_id = #{datasourceId}
+        </if>
+        ORDER BY create_at DESC
+    </select>
+</mapper>
