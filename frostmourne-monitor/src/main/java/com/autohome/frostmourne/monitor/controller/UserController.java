@@ -13,6 +13,8 @@ import com.autohome.frostmourne.monitor.tool.JwtToken;
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
 import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.Team;
+import org.elasticsearch.common.Strings;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = {"/user", "/api/monitor-api/user"})
 public class UserController {
+
+    @Value("${initial.password}")
+    private String initialPassword;
 
     @Resource
     private JwtToken jwtToken;
@@ -40,6 +45,11 @@ public class UserController {
     @PermissionLimit(limit = false)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Protocol<String> login(@RequestBody LoginInfo loginInfo) {
+        if (!Strings.isNullOrEmpty(initialPassword)) {
+            if (!loginInfo.getPassword().equalsIgnoreCase(initialPassword)) {
+                throw new ProtocolException(580, "密码错误");
+            }
+        }
         AccountInfo accountInfo = accountService.findByAccount(loginInfo.getUsername());
         if (accountInfo == null) {
             throw new ProtocolException(590, "用户不存在");
