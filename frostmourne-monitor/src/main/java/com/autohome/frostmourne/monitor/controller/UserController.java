@@ -32,9 +32,6 @@ public class UserController {
     private JwtToken jwtToken;
 
     @Resource
-    private IFrostmourneSpiApi frostmourneSpiApi;
-
-    @Resource
     private IAccountService accountService;
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
