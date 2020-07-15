@@ -4,8 +4,8 @@
 <generatorConfiguration>
     <context id="dsql" targetRuntime="MyBatis3DynamicSql">
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://${mysql.host}:3306/frostmourne" userId="${mysql.user}"
-                        password="${mysql.password}">
+                        connectionURL="jdbc:mysql://localhost:3306/frostmourne" userId="root"
+                        password="example">
             <property name="nullCatalogMeansCurrent" value="true" />
         </jdbcConnection>
 
@@ -14,7 +14,7 @@
         <javaClientGenerator
                 targetPackage="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic"
                 targetProject="src/main/java"/>
-        <table tableName="alarm" mapperName="AlarmDynamicMapper">
+        <!--<table tableName="alarm" mapperName="AlarmDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
         </table>
         <table tableName="alarm_log" mapperName="AlarmLogDynamicMapper">
@@ -52,7 +52,7 @@
         </table>
         <table tableName="department_info" mapperName="DepartmentInfoDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
-        </table>
+        </table>-->
     </context>
 
 </generatorConfiguration>
