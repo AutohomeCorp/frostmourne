@@ -7,7 +7,6 @@ import com.autohome.frostmourne.core.contract.Protocol;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
 import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
-import javafx.scene.chart.ValueAxis;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

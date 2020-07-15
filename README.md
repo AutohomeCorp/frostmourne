@@ -23,6 +23,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 在线demo
 
 为了更快的理解本项目的作用，提供了一个接口全mock的静态站点供大家预览功能: <a href="https://frostmourne-demo.github.io/">在线demo</a>
+在线demo更新不及时，请以项目实际运行效果为准，demo只是用于快速浏览
 
 ## 功能截图
 
@@ -127,7 +128,7 @@ com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况
 
 * frostmourne库
 
-frostmourne所有表的创建语句在[doc/mysql-schema/schema.sql](./doc/mysql-schema/schema.sql)文件中，数据库开发使用druid + mybatis，创建好语句后，自己修改frostmourne-monitor模块的数据库配置
+frostmourne所有表的创建语句在[doc/mysql-schema/frostmourne.sql](./doc/mysql-schema/frostmourne.sql)文件中，数据库开发使用druid + mybatis，创建好语句后，自己修改frostmourne-monitor模块的数据库配置
 
 ```
 druid.datasource.frostmourne.url=jdbc:mysql://[mysql]:3306/frostmourne?characterEncoding=utf8
@@ -221,10 +222,6 @@ npm run dev
 * 将调度作为一个服务独立出去，大大降低了主体功能项目的复杂度
 
 所以在权衡利弊之后，还是决定好好利用优秀的国内开源项目xxl-job
-
-## docker
-
-[docker和docker-compose部署指南](./doc/wiki/docker.md)
 
 ## 用户管理和登录认证
 
@@ -322,9 +319,9 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * ~~增加docker-compose部署，用于快速启动~~ [xyzj91][2020-07-02]
 * ~~HTTP监控增加header设置~~ [2020-07-04]
 * ~~报警接收人设置时给出提示~~ [2020-07-04]
-* ~~增加企业微信机器人消息发送方式~~ [2020-07-05] [issue#7](https://github.com/AutohomeCorp/frostmourne/issues/7)
+* ~~增加企业微信机器人消息发送方式~~ [2020-07-05]
 * ~~用户信息，团队信息，部门信息外部文件增加定期重新加载~~ [2020-07-05]
-* ~~增加账号信息管理功能模块~~ [2020-07-11] [issue#6](https://github.com/AutohomeCorp/frostmourne/issues/6)
+* ~~增加账号信息管理功能模块~~ [2020-07-11]
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * Elasticsearch监控数值实现同比监控
@@ -337,8 +334,9 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 移除SPI模块，经过一系列优化后，spi模块存在的必要性可能很低了，考虑移除掉，降低部署难度
 * 补充更详细的部署文档
 * README简化为文档目录索引形式，具体内容分散到各个文档中，方便查找
-* 监控调度配置后显示预计调度时间 [issue#3](https://github.com/AutohomeCorp/frostmourne/issues/3)
-* 报警接收人可以设置为组 [issue#4](https://github.com/AutohomeCorp/frostmourne/issues/4)
+* 监控列表增加按团队查询；监控列表增加权限控制，监控按部门隔离
+* 监控调度配置后显示预计调度时间
+* 报警接收人可以设置为组
 * 使用autolog4j程序日志格式
 * 报警消息模板存库管理
 * Elasticsearch数据名配置时自动提示索引名称
