@@ -11,7 +11,7 @@
             <property name="useActualColumnNames" value="false"/>
         </commentGenerator>
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://${mysql.host}/frostmourne" userId="${myql.user}"
+                        connectionURL="jdbc:mysql://${mysql.host}:3306/frostmourne" userId="${mysql.user}"
                         password="${mysql.password}">
         </jdbcConnection>
         <javaTypeResolver>
