@@ -23,6 +23,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 在线demo
 
 为了更快的理解本项目的作用，提供了一个接口全mock的静态站点供大家预览功能: <a href="https://frostmourne-demo.github.io/">在线demo</a>
+在线demo更新不及时，请以项目实际运行效果为准，demo只是用于快速浏览
 
 ## 功能截图
 
@@ -127,7 +128,7 @@ com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况
 
 * frostmourne库
 
-frostmourne所有表的创建语句在[doc/mysql-schema/schema.sql](./doc/mysql-schema/schema.sql)文件中，数据库开发使用druid + mybatis，创建好语句后，自己修改frostmourne-monitor模块的数据库配置
+frostmourne所有表的创建语句在[doc/mysql-schema/frostmourne.sql](./doc/mysql-schema/frostmourne.sql)文件中，数据库开发使用druid + mybatis，创建好语句后，自己修改frostmourne-monitor模块的数据库配置
 
 ```
 druid.datasource.frostmourne.url=jdbc:mysql://[mysql]:3306/frostmourne?characterEncoding=utf8
@@ -221,10 +222,6 @@ npm run dev
 * 将调度作为一个服务独立出去，大大降低了主体功能项目的复杂度
 
 所以在权衡利弊之后，还是决定好好利用优秀的国内开源项目xxl-job
-
-## docker
-
-[docker和docker-compose部署指南](./doc/wiki/docker.md)
 
 ## 用户管理和登录认证
 

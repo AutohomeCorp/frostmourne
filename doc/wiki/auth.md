@@ -1,6 +1,13 @@
 ## 用户管理和登录认证
 
-目前密码认证比较简单，只要用户是存在的，密码都是项目初始密码, 默认只有admin账号可用。目前用户管理有两个实现，
+目前密码认证比较简单，只要账号存在，如果没有设置初始密码，那么任意密码可登陆，如果设置了初始密码，则所有
+账号都用初始密码登陆。初始密码在frostmourne-monitor里配置
+
+```
+initial.password=${initial_password:#{null}}
+```
+
+默认只有admin账号可用。目前用户管理有两个实现，
 
 * frostmourne-monitor自带的账号信息管理功能模块(默认选项)
 * 另一个是用frostmourne-spi接口实现的。
@@ -11,7 +18,9 @@
 ### default: apply frostmourne's default account module; spi: apply frostmourne-spi account service
 frostmourne.account.type=${frostmourne_account_type:default}
 ```
+
 配置值说明：
+
 * default: 默认实现，使用frostmourne-monitor自带的账号信息管理
 * spi: 使用spi接口实现
 
