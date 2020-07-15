@@ -22,6 +22,7 @@
 * bugfix: 解决dataname还在使用中，仍然可以删除的问题
 * bugfix: 解决elasticsearch 7+版本，数据数量为0的问题
 * bugfix: 解决邮箱需要认证的情况下，邮件发送失败的问题
+* bugfix: 解决消息过长无法保存的问题
 
 ### Mysql
 
@@ -35,6 +36,7 @@
 
 * 增加query string简易教程
 * 增加docker启动说明文档
+* 引入[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 
 ### Others
 
