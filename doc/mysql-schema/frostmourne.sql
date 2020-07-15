@@ -2,11 +2,9 @@ CREATE DATABASE frostmourne
     DEFAULT CHARACTER SET utf8mb4
     DEFAULT COLLATE utf8mb4_0900_ai_ci;
 
-/* if your mysql not support utf8mb4_0900_ai_ci, use collate utf8mb4_general_ci instead
-CREATE DATABASE frostmourne
-  DEFAULT CHARACTER SET utf8mb4
-  DEFAULT COLLATE utf8mb4_general_ci;
-*/
+/* if your mysql not support utf8mb4_0900_ai_ci, use collate utf8mb4_general_ci instead */
+--CREATE DATABASE frostmourne DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
+
 
 
 use frostmourne;
@@ -49,7 +47,7 @@ CREATE TABLE IF NOT EXISTS alarm_log
     cost           INT         NOT NULL COMMENT '监控任务执行耗时，单位：毫秒',
     execute_result VARCHAR(50) NOT NULL COMMENT '执行结果(SUCCESS,ERROR)',
     verify_result  VARCHAR(50) NOT NULL DEFAULT 'NONE' COMMENT 'NONE,TRUE,FALSE',
-    message        VARCHAR(2000) COMMENT '日志消息',
+    message        TEXT COMMENT '日志消息',
     create_at      DATETIME    NOT NULL COMMENT '创建时间'
 )
     ENGINE = InnoDB
@@ -91,7 +89,7 @@ CREATE TABLE IF NOT EXISTS alert_log
     execute_id  BIGINT        NOT NULL COMMENT '监控执行ID',
     way         VARCHAR(100)  NOT NULL COMMENT '报警方式',
     recipient   VARCHAR(100)  NOT NULL COMMENT '报警接收人',
-    content     VARCHAR(2000) NOT NULL COMMENT '报警内容',
+    content     TEXT NOT NULL COMMENT '报警内容',
     in_silence  VARCHAR(50)   NOT NULL COMMENT '是否在静默期(YES,NO)',
     send_status VARCHAR(50)   NOT NULL COMMENT '发送状态(NONE,SUCCESS,FAIL,FORBID)',
     alert_type  VARCHAR(50)   NOT NULL COMMENT '消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)',
