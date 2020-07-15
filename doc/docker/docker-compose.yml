@@ -28,7 +28,7 @@ services:
     ports:
       - '10053:10053'
     expose:
-      - '10055'
+      - '10053'
     networks:
       frostmourne_net:
     depends_on:
