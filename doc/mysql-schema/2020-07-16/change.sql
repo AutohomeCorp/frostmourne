@@ -1,0 +1,2 @@
+ALTER TABLE alarm_log MODIFY COLUMN message TEXT COMMENT '日志消息';
+ALTER TABLE alert_log MODIFY COLUMN content TEXT COMMENT '报警内容';
