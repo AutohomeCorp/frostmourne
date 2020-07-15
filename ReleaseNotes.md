@@ -29,6 +29,7 @@
 * mysql: data_name表增加data_name字段唯一索引 - [SQL](./doc/mysql-schema/2020-06-13/change.sql)
 * mysql: alert表增加字段: wechat_robot_hook - [SQL](./doc/mysql-schema/2020-07-04/change.sql)
 * mysql: 增加user_info, team_info, department_info表 - [SQL](./doc/mysql-schema/2020-07-11/change.sql)
+* mysql: alarm_log表字段message类型改为text；alert_log字段content类型改为text - [SQL](./doc/mysql-schema/2020-07-16/change.sql)
 
 ### Document
 

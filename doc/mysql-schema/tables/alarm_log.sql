@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS alarm_log
     cost           INT         NOT NULL COMMENT '监控任务执行耗时，单位：毫秒',
     execute_result VARCHAR(50) NOT NULL COMMENT '执行结果(SUCCESS,ERROR)',
     verify_result  VARCHAR(50) NOT NULL DEFAULT 'NONE' COMMENT 'NONE,TRUE,FALSE',
-    message        VARCHAR(2000) COMMENT '日志消息',
+    message        TEXT COMMENT '日志消息',
     create_at      DATETIME    NOT NULL COMMENT '创建时间'
 )
     ENGINE = InnoDB
