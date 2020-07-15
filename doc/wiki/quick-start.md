@@ -1,24 +1,67 @@
 ## Quick Start
 
-由于frostmourne-monitor正常启动需要依赖xxl-job和frostmourne-spi的部署，还依赖短网址服务，邮箱服务等等；为了达到本地调试，快速启动的目的，
-你可以设置frostmourne-monitor的如下两个配置：
+### 第一步：数据库准备
+
+依赖数据库有两个xxl-job和frostmourne，语句分别在[xxl-job.sql](../xxl-job/xxl-job.sql)和[frostmourne.sql](../mysql-schema/frostmourne.sql)
+如果你已经有自己的测试库，你可以在自己的测试库中执行；如果没有，可以用mysql-docker启动一个，下面是一个mysql的docker-compose例子供参考使用：
+
+```yaml
+version: '3.1'
+
+services:
+  db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data: {}
 
 ```
-xxl.job.mock=true
-frostmourne.spi.mock=true
-```
 
-这两个配置的作用是，在这些依赖服务还没就绪的时候，启动这两个配置，会使用代码里的mock功能，替换真正的服务调用，达到隔离的目的，以此来简化启动。配置了
-这两个参数后，你就可以先启动frostmourne-monitor， 再用VS Code打开frostmourne-vue
+直接将内容保存为docker-compose.yml文件存到本地目录mysql中，进入目录执行如下命令就可以启动一个mysql实例
 
 ```bash
-# install dependency
-npm install
-
-# 建议不要直接使用 cnpm 安装以来，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
-npm install --registry=https://registry.npm.taobao.org
-
-# develop
-npm run dev
+docker-compose up
 ```
+
+更多有关mysql-docker的内容请参考[官方地址](https://hub.docker.com/_/mysql)
+
+### 第二步：配置参数
+
+请将本项目的[docker-compose.yml](../docker/docker-compose.yml)文件保存到本地目录frostmourne中，只需要看情况修改其中的数据库连接。
+默认是我本地环境，我用的是docker for windows，容器之间通过host.docker.internal来访问主机，如果你和我环境一样，就不用任何改动。  
+
+如果你是自己的另外mysql实例，请将host.docker.internal修改为你的mysql服务地址，并同时修改mysql用户和密码。注意xxl-job和frostmourne-monitor两个服务都有
+mysql连接配置，都需要修改。
+
+### 第三步：启动
+
+进入第二步的frostmourne目录，执行如下命令
+
+```yaml
+docker-compose up
+```
+
+如果启动失败，请进入容器查看相关日志，日志目录为：
+
+```
+/opt/frostmourne/xxl-job-admin/logs
+/opt/frostmourne/frostmourne-spi/logs
+/opt/frostmourne/frostmourne-monitor/logs
+```
+
+启动成功后。frostmounre-monitor地址为： http://localhost:10054 ;  
+xxl-job-admin地址为: http://localhost:10052/xxl-job-admin ;
+
+注意：目前本项目的镜像制作主要用于本地快速启动搭建，并没有遵守docker和springboot项目部署的最佳实践，
+所以不能直接用于生产，用于生产的镜像请自己制作。  
+
+
 

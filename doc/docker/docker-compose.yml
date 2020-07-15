@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   xxl-job:
-    image: frostmourne2020/frostmourne:latest
+    image: frostmourne2020/frostmourne:0.2
     container_name: xxl-job
     environment:
       spring_datasource_url: jdbc:mysql://host.docker.internal:3306/xxl_job?Unicode=true&characterEncoding=UTF-8
@@ -23,7 +23,7 @@ services:
     command: bash -c "/opt/frostmourne/start.sh xxl-job"
 
   frostmourne-spi:
-    image: frostmourne2020/frostmourne:latest
+    image: frostmourne2020/frostmourne:0.2
     container_name: frostmourne-spi
     ports:
       - '10053:10053'
@@ -36,10 +36,9 @@ services:
     command: bash -c "/opt/frostmourne/start.sh frostmourne-spi"
 
   frostmourne-monitor:
-    image: frostmourne2020/frostmourne:latest
+    image: frostmourne2020/frostmourne:0.2
     container_name: frostmourne-monitor
     environment:
-      alarmlog_reserve_days: 30
       datasource_frostmourne_url: jdbc:mysql://host.docker.internal:3306/frostmourne?useSSL=false&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
       datasource_frostmourne_username: root
       datasource_frostmourne_password: example
@@ -53,6 +52,8 @@ services:
       frostmourne_spi_service: http://frostmourne-spi:10053
       frostmourne_monitor_address: http://localhost:10054
       frostmourne_account_type: default
+      initial_password:
+      alarmlog_reserve_days: 30
     ports:
       - '10054:10054'
       - '9999:9999'
