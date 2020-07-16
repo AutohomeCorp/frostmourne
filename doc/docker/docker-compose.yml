@@ -25,6 +25,16 @@ services:
   frostmourne-spi:
     image: frostmourne2020/frostmourne:0.2
     container_name: frostmourne-spi
+    environment:
+      email.smtp.host: smtp.qq.com
+      email.smtp.port: 25
+      email.smtp.auth: 'true'
+      email.sender: xxx@qq.com
+      email.sender.password: xxx
+      dwz45.token: t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
+      wechat.corpid:
+      wechat.agentid:
+      wechat.secret=:
     ports:
       - '10053:10053'
     expose:
@@ -32,7 +42,7 @@ services:
     networks:
       frostmourne_net:
     depends_on:
-    - xxl-job
+      - xxl-job
     command: bash -c "/opt/frostmourne/start.sh frostmourne-spi"
 
   frostmourne-monitor:
@@ -42,11 +52,13 @@ services:
       datasource_frostmourne_url: jdbc:mysql://host.docker.internal:3306/frostmourne?useSSL=false&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
       datasource_frostmourne_username: root
       datasource_frostmourne_password: example
+      xxljob_mock: 'false'
       xxljob_admin_addresses: http://xxl-job:10052/xxl-job-admin
       xxljob_executor_id: 2
       xxljob_executor_logpath: /opt/frostmourne/frostmourne-monitor/10054/log
       xxljob_executor_logretentiondays: 3
       xxljob_alarm_email: your_eamil@163.com
+      frostmourne_spi_mock: 'false'
       frostmourne_spi_service: http://frostmourne-spi:10053
       frostmourne_monitor_address: http://localhost:10054
       frostmourne_account_type: default
@@ -59,7 +71,7 @@ services:
       - '10054'
       - '9999'
     depends_on:
-      - frostmourne-spi
+    - frostmourne-spi
     networks:
       frostmourne_net:
 
