@@ -25,6 +25,16 @@ services:
   frostmourne-spi:
     image: frostmourne2020/frostmourne:0.2
     container_name: frostmourne-spi
+    environment:
+      email.smtp.host: smtp.qq.com
+      email.smtp.port: 25
+      email.smtp.auth: 'true'
+      email.sender: xxx@qq.com
+      email.sender.password: xxx
+      dwz45.token: t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
+      wechat.corpid:
+      wechat.agentid:
+      wechat.secret=:
     ports:
       - '10053:10053'
     expose:
@@ -32,7 +42,7 @@ services:
     networks:
       frostmourne_net:
     depends_on:
-    - xxl-job
+      - xxl-job
     command: bash -c "/opt/frostmourne/start.sh frostmourne-spi"
 
   frostmourne-monitor:
