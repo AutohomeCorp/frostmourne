@@ -3,5 +3,5 @@ MODE=service
 #PID_FOLDER=.
 #LOG_DIR=logs
 ## Adjust server port if necessary
-SERVER_PORT=10055
+SERVER_PORT=10053
 PROFILE=default
