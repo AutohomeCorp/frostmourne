@@ -13,15 +13,16 @@
 * 增加dockerfile和docker-compose
 * HTTP监控增加头设置
 * 报警接收人设置时给出提示
-* 增加企业微信机器人消息发送方式 [2020-07-05] [issue#7](https://github.com/AutohomeCorp/frostmourne/issues/7)
+* 增加企业微信机器人消息发送方式 [2020-07-05]
 * 用户信息，团队信息，部门信息外部文件增加定期重新加载 [2020-07-05]
-* 账号管理功能模块 [2020-07-11] [issue#6](https://github.com/AutohomeCorp/frostmourne/issues/6)
+* 账号管理功能模块 [2020-07-11]
 
 ### Bugfix
 
 * bugfix: 解决dataname还在使用中，仍然可以删除的问题
 * bugfix: 解决elasticsearch 7+版本，数据数量为0的问题
-* bugfix: 解决邮箱需要认证的情况下，邮件发送失败的问题 [issue#2](https://github.com/AutohomeCorp/frostmourne/issues/2)
+* bugfix: 解决邮箱需要认证的情况下，邮件发送失败的问题
+* bugfix: 解决消息过长无法保存的问题
 
 ### Mysql
 
@@ -29,11 +30,13 @@
 * mysql: data_name表增加data_name字段唯一索引 - [SQL](./doc/mysql-schema/2020-06-13/change.sql)
 * mysql: alert表增加字段: wechat_robot_hook - [SQL](./doc/mysql-schema/2020-07-04/change.sql)
 * mysql: 增加user_info, team_info, department_info表 - [SQL](./doc/mysql-schema/2020-07-11/change.sql)
+* mysql: alarm_log表字段message类型改为text；alert_log字段content类型改为text - [SQL](./doc/mysql-schema/2020-07-16/change.sql)
 
 ### Document
 
 * 增加query string简易教程
 * 增加docker启动说明文档
+* 引入[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 
 ### Others
 

@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.dingtalk.api.DefaultDingTalkClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
@@ -52,9 +51,6 @@ public class DingTalkSender {
             LOGGER.error("appsecret could not be null when send by dingtalk");
             return false;
         }
-
-        //https://ding-doc.dingtalk.com/doc#/serverapi2/pgoxpy
-        DefaultDingTalkClient defaultDingTalkClient  = new DefaultDingTalkClient("");
         return true;
     }
 

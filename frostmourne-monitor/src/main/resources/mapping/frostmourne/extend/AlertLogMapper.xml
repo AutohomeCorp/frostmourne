@@ -61,7 +61,7 @@
     <if test="sendStatus != null and sendStatus != ''">
       AND send_status = #{sendStatus}
     </if>
-    GROUP BY to_days(create_at)
+    GROUP BY from_days(to_days(create_at))
   </select>
 
 </mapper>

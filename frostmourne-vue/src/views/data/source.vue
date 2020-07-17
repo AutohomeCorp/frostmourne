@@ -57,7 +57,7 @@
           <el-input v-model="editData.settings.username" placeholder="无认证不需要填写" autocomplete="off" />
         </el-form-item>
         <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="密码" :label-width="formLabelWidth">
-          <el-input v-model="editData.settings.password" placeholder="无认证不需要填写" autocomplete="off" />
+          <el-input v-model="editData.settings.password" placeholder="无认证不需要填写" :type="passwordType" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -98,7 +98,8 @@ export default {
       },
       formLabelWidth: '80px',
       dialogFormVisible: false,
-      disableTypeSelect: true
+      disableTypeSelect: true,
+      passwordType: 'password'
     }
   },
   created () {
@@ -132,8 +133,8 @@ export default {
       this.fetchData()
     },
     edit (row) {
-      console.log(row)
       if (row != null) {
+        this.passwordType = 'password'
         this.editData.id = row.id
         this.editData.datasource_name = row.datasource_name
         this.editData.datasource_type = row.datasource_type
@@ -141,6 +142,7 @@ export default {
         this.disableTypeSelect = true
         this.editData.settings = row.settings
       } else {
+        this.passwordType = ''
         this.editData = {
           settings: {}
         }
@@ -181,6 +183,13 @@ export default {
           this.fetchData()
         })
       })
+    },
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
     }
   }
 }

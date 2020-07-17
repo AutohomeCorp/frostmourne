@@ -1,8 +1,7 @@
 CREATE DATABASE xxl_job DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_0900_ai_ci;
 
-/* if your mysql not support utf8mb4_0900_ai_ci, use collate utf8mb4_general_ci instead
-CREATE DATABASE xxl_job DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
-*/
+--if your mysql not support utf8mb4_0900_ai_ci, use collate utf8mb4_general_ci instead
+--CREATE DATABASE xxl_job DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
 
 use `xxl_job`;
 

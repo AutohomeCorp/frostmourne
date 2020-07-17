@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS alert_log
     execute_id  BIGINT        NOT NULL COMMENT '监控执行ID',
     way         VARCHAR(100)  NOT NULL COMMENT '报警方式',
     recipient   VARCHAR(100)  NOT NULL COMMENT '报警接收人',
-    content     VARCHAR(2000) NOT NULL COMMENT '报警内容',
+    content     TEXT NOT NULL COMMENT '报警内容',
     in_silence  VARCHAR(50)   NOT NULL COMMENT '是否在静默期(YES,NO)',
     send_status VARCHAR(50)   NOT NULL COMMENT '发送状态(NONE,SUCCESS,FAIL,FORBID)',
     alert_type VARCHAR(50) NOT NULL COMMENT '消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)',

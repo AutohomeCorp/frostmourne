@@ -59,12 +59,6 @@
             <artifactId>commons-io</artifactId>
             <version>2.6</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.dingtalk.open/taobao-sdk-java-auto-source -->
-        <dependency>
-            <groupId>com.dingtalk</groupId>
-            <artifactId>taobao-sdk-java-auto_1479188381469</artifactId>
-            <version>20191104</version>
-        </dependency>
 
     </dependencies>
 
