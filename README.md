@@ -325,7 +325,11 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * ~~用户信息，团队信息，部门信息外部文件增加定期重新加载~~ [2020-07-05]
 * ~~增加账号信息管理功能模块~~ [2020-07-11]
 * 引入[maven-ci-friendly](https://maven.apache.org/maven-ci-friendly.html)实践
+* 使用[autolog4j](https://github.com/AutohomeCorp/autolog4j)程序日志格式
+* 补充更详细的部署文档和使用指南
+* 更新在线demo至最新功能
 * 新功能暂时停止，代码优化改进，稳定一段时间后发布0.2-RELEASE
+* 监控列表增加按团队查询；监控列表增加权限控制，监控按部门隔离
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * Elasticsearch监控数值实现同比监控
@@ -336,12 +340,9 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
 * 增加系统配置功能模块，将启动非必要的配置用功能管理起来，减轻启动配置负担
 * 移除SPI模块，经过一系列优化后，spi模块存在的必要性可能很低了，考虑移除掉，降低部署难度
-* 补充更详细的部署文档
 * README简化为文档目录索引形式，具体内容分散到各个文档中，方便查找
-* 监控列表增加按团队查询；监控列表增加权限控制，监控按部门隔离
 * 监控调度配置后显示预计调度时间
 * 报警接收人可以设置为组
-* 使用autolog4j程序日志格式
 * 报警消息模板存库管理
 * Elasticsearch数据名配置时自动提示索引名称
 * Elasticsearch索引字段自动获取
