@@ -36,12 +36,12 @@
 
 * 增加query string简易教程
 * 增加docker启动说明文档
-* 引入[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 
 ### Others
 
 * Elasticsearch-Rest-Client升级至6.6.2
 * 升级guava至28.2-jre
+* 引入[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 
 ## 0.1-RELEASE
 
