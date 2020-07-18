@@ -325,7 +325,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * ~~用户信息，团队信息，部门信息外部文件增加定期重新加载~~ [2020-07-05]
 * ~~增加账号信息管理功能模块~~ [2020-07-11]
 * ~~引入[maven-ci-friendly](https://maven.apache.org/maven-ci-friendly.html)实践~~ [2020-07-18]
-* 使用[autolog4j](https://github.com/AutohomeCorp/autolog4j)程序日志格式
+* 使用[autolog4j](https://github.com/AutohomeCorp/autolog4j)程序日志格式和文本日志按天滚动
 * 补充更详细的部署文档和使用指南
 * 更新在线demo至最新
 * 新功能暂时停止，代码优化改进，稳定一段时间后发布0.2-RELEASE
