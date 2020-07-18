@@ -324,10 +324,10 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * ~~增加企业微信机器人消息发送方式~~ [2020-07-05]
 * ~~用户信息，团队信息，部门信息外部文件增加定期重新加载~~ [2020-07-05]
 * ~~增加账号信息管理功能模块~~ [2020-07-11]
-* 引入[maven-ci-friendly](https://maven.apache.org/maven-ci-friendly.html)实践
+* ~~引入[maven-ci-friendly](https://maven.apache.org/maven-ci-friendly.html)实践~~ [2020-07-18]
 * 使用[autolog4j](https://github.com/AutohomeCorp/autolog4j)程序日志格式
 * 补充更详细的部署文档和使用指南
-* 更新在线demo至最新功能
+* 更新在线demo至最新
 * 新功能暂时停止，代码优化改进，稳定一段时间后发布0.2-RELEASE
 * 监控列表增加按团队查询；监控列表增加权限控制，监控按部门隔离
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
@@ -357,6 +357,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
 * 发布1.0-RELEASE
+* 加入更为复杂的时序数据异常检测算法规则
 
 ## 主要技术栈
 

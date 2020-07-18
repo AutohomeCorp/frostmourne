@@ -5,10 +5,9 @@
     <parent>
         <groupId>com.autohome</groupId>
         <artifactId>frostmourne</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>frostmourne-spi-starter</artifactId>
-    <version>0.2-SNAPSHOT</version>
     <name>frostmourne-spi-starter</name>
     <description>frostmourne-spi-starter</description>
 
@@ -21,7 +20,6 @@
         <dependency>
             <groupId>com.autohome</groupId>
             <artifactId>frostmourne-core</artifactId>
-            <version>0.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
