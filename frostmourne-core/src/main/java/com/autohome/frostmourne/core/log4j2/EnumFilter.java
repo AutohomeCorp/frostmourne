@@ -60,6 +60,9 @@ public class EnumFilter extends AbstractFilter {
     }
 
     private Result filter(final Level level) {
+        if(allowLevelList.contains(Level.OFF)) {
+            return onMismatch;
+        }
         if (allowLevelList.contains(level)) {
             return onMatch;
         }
