@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="WARN">
     <properties>
-        <property name="log.path">logs</property>
+        <property name="logs.dir">logs</property>
         <property name="department">tech</property>
         <property name="team">frostmourne</property>
         <property name="project">frostmourne.monitor</property>
-        <property name="log.console.level">INFO</property>
+        <property name="log.console.level">OFF</property>
         <property name="log.root.level">INFO</property>
     </properties>
 
@@ -15,15 +15,15 @@
             <PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss} ${team} ${project} %highlight{%p} %l %m %n"/>
         </Console>
         <RollingFile name="ProgramError" ignoreExceptions="false"
-                     fileName="${sys:log.path}/project_error.log"
-                     filePattern="${sys:log.path}/project_error.log_%d{yyyy-MM-dd}">
+                     fileName="${sys:logs.dir}/project_error.log"
+                     filePattern="${sys:logs.dir}/project_error.log_%d{yyyy-MM-dd}">
             <Autolog4jCsvLayout charset="UTF-8" department="${sys:department}" team="${sys:team}" project="${sys:project}" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>
             <EnumFilter allowLevels="WARN,ERROR,FATAL" />
             <DefaultRolloverStrategy max="100">
-                <Delete basePath="${sys:log.path}" maxDepth="2">
+                <Delete basePath="${sys:logs.dir}" maxDepth="2">
                     <IfFileName glob="project_error.log_*">
                         <IfLastModified age="7d"/>
                     </IfFileName>
@@ -31,15 +31,15 @@
             </DefaultRolloverStrategy>
         </RollingFile>
         <RollingFile name="ProgramRun" ignoreExceptions="false"
-                     fileName="${sys:log.path}/project_run.log"
-                     filePattern="${sys:log.path}/project_run.log_%d{yyyy-MM-dd}">
+                     fileName="${sys:logs.dir}/project_run.log"
+                     filePattern="${sys:logs.dir}/project_run.log_%d{yyyy-MM-dd}">
             <Autolog4jCsvLayout charset="UTF-8" department="${sys:department}" team="${sys:team}" project="${sys:project}" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>
             <EnumFilter allowLevels="TRACE,DEBUG,INFO" />
             <DefaultRolloverStrategy max="100">
-                <Delete basePath="${sys:log.path}" maxDepth="2">
+                <Delete basePath="${sys:logs.dir}" maxDepth="2">
                     <IfFileName glob="project_run.log_*">
                         <IfLastModified age="7d"/>
                     </IfFileName>
