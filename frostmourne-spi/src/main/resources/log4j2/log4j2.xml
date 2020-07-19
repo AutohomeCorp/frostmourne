@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+    <properties>
+        <Property name="PID">????</Property>
+        <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+        <Property name="LOG_LEVEL_PATTERN">%5p</Property>
+        <Property name="LOG_DATEFORMAT_PATTERN">yyyy-MM-dd HH:mm:ss.SSS</Property>
+        <Property name="CONSOLE_LOG_PATTERN">%clr{%d{${LOG_DATEFORMAT_PATTERN}}}{faint} %clr{${LOG_LEVEL_PATTERN}} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+
+        <property name="logs.dir">logs</property>
+        <property name="department">tech</property>
+        <property name="team">frostmourne</property>
+        <property name="project">frostmourne.spi</property>
+        <property name="log.console.level">OFF</property>
+        <property name="log.root.level">INFO</property>
+    </properties>
+
+    <appenders>
+        <!--<Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="${sys:log.console.level}" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss} ${team} ${project} %highlight{%p} %l %m %n"/>
+        </Console>-->
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" />
+        </Console>
+        <RollingFile name="ProgramError" ignoreExceptions="false"
+                     fileName="${sys:logs.dir}/project_error.log"
+                     filePattern="${sys:logs.dir}/project_error.log_%d{yyyy-MM-dd}">
+            <Autolog4jCsvLayout charset="UTF-8" department="${sys:department}" team="${sys:team}" project="${sys:project}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+            <EnumFilter allowLevels="WARN,ERROR,FATAL" />
+            <DefaultRolloverStrategy max="100">
+                <Delete basePath="${sys:logs.dir}" maxDepth="2">
+                    <IfFileName glob="project_error.log_*">
+                        <IfLastModified age="7d"/>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <RollingFile name="ProgramRun" ignoreExceptions="false"
+                     fileName="${sys:logs.dir}/project_run.log"
+                     filePattern="${sys:logs.dir}/project_run.log_%d{yyyy-MM-dd}">
+            <Autolog4jCsvLayout charset="UTF-8" department="${sys:department}" team="${sys:team}" project="${sys:project}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+            <EnumFilter allowLevels="TRACE,DEBUG,INFO" />
+            <DefaultRolloverStrategy max="100">
+                <Delete basePath="${sys:logs.dir}" maxDepth="2">
+                    <IfFileName glob="project_run.log_*">
+                        <IfLastModified age="7d"/>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <Root level="${sys:log.root.level}">
+            <appender-ref ref="Console" />
+            <appender-ref ref="ProgramError" />
+            <appender-ref ref="ProgramRun" />
+        </Root>
+    </loggers>
+</configuration>
