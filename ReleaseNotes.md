@@ -44,6 +44,8 @@
 * 引入[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 * springboot升级至2.3.1-RELEASE
 * 引入[maven-ci-friendly](https://maven.apache.org/maven-ci-friendly.html)实践 [2020-07-18]
+* 使用[autolog4j](https://github.com/AutohomeCorp/autolog4j)程序日志格式 [2020-07-19]
+* 文本日志按天滚动 [2020-07-19]
 
 ## 0.1-RELEASE
 

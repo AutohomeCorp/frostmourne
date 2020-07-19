@@ -16,16 +16,13 @@
     </properties>
 
     <appenders>
-        <!--<Console name="Console" target="SYSTEM_OUT">
-            <ThresholdFilter level="${sys:log.console.level}" onMatch="ACCEPT" onMismatch="DENY" />
-            <PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss} ${team} ${project} %highlight{%p} %l %m %n"/>
-        </Console>-->
         <Console name="Console" target="SYSTEM_OUT" follow="true">
-            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" />
+            <ThresholdFilter level="${sys:log.console.level}" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout charset="UTF-8" pattern="${sys:CONSOLE_LOG_PATTERN}" />
         </Console>
         <RollingFile name="ProgramError" ignoreExceptions="false"
-                     fileName="${sys:logs.dir}/project_error.log"
-                     filePattern="${sys:logs.dir}/project_error.log_%d{yyyy-MM-dd}">
+                     fileName="${sys:logs.dir}/spi_error.log"
+                     filePattern="${sys:logs.dir}/spi_error.log_%d{yyyy-MM-dd}">
             <Autolog4jCsvLayout charset="UTF-8" department="${sys:department}" team="${sys:team}" project="${sys:project}" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
@@ -33,15 +30,15 @@
             <EnumFilter allowLevels="WARN,ERROR,FATAL" />
             <DefaultRolloverStrategy max="100">
                 <Delete basePath="${sys:logs.dir}" maxDepth="2">
-                    <IfFileName glob="project_error.log_*">
+                    <IfFileName glob="spi_error.log_*">
                         <IfLastModified age="7d"/>
                     </IfFileName>
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingFile>
         <RollingFile name="ProgramRun" ignoreExceptions="false"
-                     fileName="${sys:logs.dir}/project_run.log"
-                     filePattern="${sys:logs.dir}/project_run.log_%d{yyyy-MM-dd}">
+                     fileName="${sys:logs.dir}/spi_run.log"
+                     filePattern="${sys:logs.dir}/spi_run.log_%d{yyyy-MM-dd}">
             <Autolog4jCsvLayout charset="UTF-8" department="${sys:department}" team="${sys:team}" project="${sys:project}" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
@@ -49,7 +46,7 @@
             <EnumFilter allowLevels="TRACE,DEBUG,INFO" />
             <DefaultRolloverStrategy max="100">
                 <Delete basePath="${sys:logs.dir}" maxDepth="2">
-                    <IfFileName glob="project_run.log_*">
+                    <IfFileName glob="spi_run.log_*">
                         <IfLastModified age="7d"/>
                     </IfFileName>
                 </Delete>
