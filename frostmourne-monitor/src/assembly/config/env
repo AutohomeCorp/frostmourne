@@ -2,6 +2,7 @@ MODE=service
 JAVA_HOME=/usr/local/java/jdk1.8.0_05
 #PID_FOLDER=.
 #LOG_DIR=logs
+LOG_CONSOLE_LEVEL=OFF
 ## Adjust server port if necessary
 SERVER_PORT=10054
 PROFILE=dev
