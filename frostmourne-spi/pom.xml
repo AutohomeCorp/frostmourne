@@ -5,10 +5,9 @@
     <parent>
         <groupId>com.autohome</groupId>
         <artifactId>frostmourne</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>frostmourne-spi</artifactId>
-    <version>0.2-SNAPSHOT</version>
     <name>frostmourne-spi</name>
     <description>frostmourne spi</description>
 
