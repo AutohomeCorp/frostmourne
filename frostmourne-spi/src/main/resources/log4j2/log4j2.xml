@@ -10,12 +10,16 @@
         <property name="logs.dir">logs</property>
         <property name="department">tech</property>
         <property name="team">frostmourne</property>
-        <property name="project">frostmourne.monitor</property>
+        <property name="project">frostmourne.spi</property>
         <property name="log.console.level">OFF</property>
         <property name="log.root.level">INFO</property>
     </properties>
 
     <appenders>
+        <!--<Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="${sys:log.console.level}" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss} ${team} ${project} %highlight{%p} %l %m %n"/>
+        </Console>-->
         <Console name="Console" target="SYSTEM_OUT" follow="true">
             <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" />
         </Console>
