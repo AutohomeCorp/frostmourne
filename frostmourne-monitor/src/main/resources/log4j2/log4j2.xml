@@ -17,7 +17,8 @@
 
     <appenders>
         <Console name="Console" target="SYSTEM_OUT" follow="true">
-            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" />
+            <ThresholdFilter level="${sys:log.console.level}" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout charset="UTF-8" pattern="${sys:CONSOLE_LOG_PATTERN}" />
         </Console>
         <RollingFile name="ProgramError" ignoreExceptions="false"
                      fileName="${sys:logs.dir}/monitor_error.log"

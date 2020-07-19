@@ -16,12 +16,9 @@
     </properties>
 
     <appenders>
-        <!--<Console name="Console" target="SYSTEM_OUT">
-            <ThresholdFilter level="${sys:log.console.level}" onMatch="ACCEPT" onMismatch="DENY" />
-            <PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss} ${team} ${project} %highlight{%p} %l %m %n"/>
-        </Console>-->
         <Console name="Console" target="SYSTEM_OUT" follow="true">
-            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" />
+            <ThresholdFilter level="${sys:log.console.level}" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout charset="UTF-8" pattern="${sys:CONSOLE_LOG_PATTERN}" />
         </Console>
         <RollingFile name="ProgramError" ignoreExceptions="false"
                      fileName="${sys:logs.dir}/spi_error.log"
