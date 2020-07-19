@@ -47,7 +47,7 @@ module.exports = {
         }
       },
       '/monitor-api/': {
-        target: `http://localhost:8080/`,
+        target: `http://localhost:10054/`,
         changeOrigin: true,
         pathRewrite: {
           '^/api/monitor-api/': ''

@@ -1,6 +1,8 @@
 HELP.md
+.flattened-pom.xml
 application-autohome.properties
 target/
+logs/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
