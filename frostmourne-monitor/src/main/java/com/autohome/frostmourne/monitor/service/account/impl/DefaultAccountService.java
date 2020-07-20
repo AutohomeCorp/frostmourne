@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DepartmentInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.TeamInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
@@ -37,22 +38,25 @@ public class DefaultAccountService implements IAccountService {
     private IDepartmentInfoRepository departmentInfoRepository;
 
     @Override
-    public AccountInfo findByAccount(String account) {
+    public Optional<AccountInfo> findByAccount(String account) {
         Optional<UserInfo> optionalUserInfo = userInfoService.findByAccount(account);
-        return optionalUserInfo.map(DefaultAccountService::transformUser).orElse(null);
+        if(!optionalUserInfo.isPresent()) {
+            return Optional.empty();
+        }
+        AccountInfo accountInfo = DefaultAccountService.transformUser(optionalUserInfo.get());
+        Optional<TeamInfo> optionalTeamInfo = teamInfoService.findByName(accountInfo.getTeamName());
+        if(!optionalTeamInfo.isPresent()) {
+            LOGGER.error("user team not exists. team: {}", accountInfo.getTeamName());
+            throw new ProtocolException(5009, "用户所属团队不存在");
+        }
+        accountInfo.setTeamId(optionalTeamInfo.get().getId());
+        accountInfo.setDepartmentId(optionalTeamInfo.get().getDepartment_id());
+
+        return Optional.of(accountInfo);
     }
 
     @Override
-    public List<Team> teams(String department) {
-        Long departmentId = null;
-        if (!Strings.isNullOrEmpty(department)) {
-            Optional<DepartmentInfo> optionalDepartmentInfo = departmentInfoRepository.findByDepartmentName(department);
-            if (!optionalDepartmentInfo.isPresent()) {
-                LOGGER.error("not exist department: {}", department);
-                return new ArrayList<>();
-            }
-            departmentId = optionalDepartmentInfo.get().getId();
-        }
+    public List<Team> teams(Long departmentId) {
         List<TeamInfo> teamInfoList = teamInfoService.find(departmentId);
         return teamInfoList.stream().map(DefaultAccountService::transformTeam).collect(Collectors.toList());
 

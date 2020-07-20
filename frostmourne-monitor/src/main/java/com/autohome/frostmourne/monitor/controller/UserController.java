@@ -1,6 +1,7 @@
 package com.autohome.frostmourne.monitor.controller;
 
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.Protocol;
@@ -46,11 +47,11 @@ public class UserController {
                 throw new ProtocolException(580, "密码错误");
             }
         }
-        AccountInfo accountInfo = accountService.findByAccount(loginInfo.getUsername());
-        if (accountInfo == null) {
+        Optional<AccountInfo> optionalAccountInfo = accountService.findByAccount(loginInfo.getUsername());
+        if (!optionalAccountInfo.isPresent()) {
             throw new ProtocolException(590, "用户不存在");
         }
-        String token = jwtToken.generateToken(accountInfo);
+        String token = jwtToken.generateToken(optionalAccountInfo.get());
         return new Protocol<>(token);
     }
 
@@ -61,7 +62,7 @@ public class UserController {
 
     @RequestMapping(value = "/teams", method = RequestMethod.GET)
     public Protocol<List<Team>> teams() {
-        List<Team> teamList = accountService.teams(null);
+        List<Team> teamList = accountService.teams(AuthTool.currentUser().getDepartmentId());
         return new Protocol<>(teamList);
     }
 

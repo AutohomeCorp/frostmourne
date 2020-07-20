@@ -1,44 +1,13 @@
 <template>
   <div class="app-container">
-    <!--<div class="block">
-      <el-form ref="form" :model="form" label-width="100px" label-position="center">
-        <el-row :gutter="5">
-          <el-col :span="8">
-            <el-form-item label="报警名称">
-              <el-input v-model="form.name" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="报警状态">
-              <el-select v-model="form.status" placeholder="报警状态" @change="onStatusChange">
-                <el-option v-for="item in alarmStatus" :key="item.id" :label="item.text" :value="item.id" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="5">
-          <el-col :span="10">
-            <el-form-item>
-              <el-row>
-                <el-col :span="12">
-                  <el-button type="primary" @click="onSubmit">查询</el-button>
-                </el-col>
-                <el-col :span="12">
-                  <el-button icon="el-icon-edit" @click="goEdit(null)">添加报警</el-button>
-                </el-col>
-              </el-row>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-    </div>
-    -->
-
     <div class="filter-container">
       <el-input v-model="form.alarmId" placeholder="输入id" clearable style="width: 150px;" class="filter-item" />
       <el-input v-model="form.name" clearable placeholder="输入名称,支持模糊查询" style="width: 300px;" class="filter-item" />
       <el-select v-model="form.status" placeholder="监控状态" clearable class="filter-item" @change="onStatusChange">
         <el-option v-for="item in alarmStatus" :key="item.value" :label="item.text" :value="item.value" />
+      </el-select>
+      <el-select v-model="form.teamName" placeholder="选择团队" clearable style="width: 200px" class="filter-item">
+        <el-option v-for="item in teamList" :key="item.team_name" :label="item.full_name" :value="item.team_name" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
       <el-button class="filter-item" icon="el-icon-edit" @click="goEdit(null)">添加报警</el-button>
@@ -95,14 +64,15 @@
 <script>
 import alarmApi from '@/api/alarm.js'
 import adminApi from '@/api/admin.js'
+import { teams, getInfo } from '@/api/user'
 import { formatJsonDate } from '@/utils/datetime.js'
 
 export default {
   filters: {
-    statusFilter(status) {
+    statusFilter (status) {
       return status !== 'OPEN' ? 'info' : ''
     },
-    executeResultFilter(result) {
+    executeResultFilter (result) {
       if (!result) {
         return ''
       }
@@ -112,11 +82,11 @@ export default {
       }
       return resultMap[result]
     },
-    timeFormat(value) {
+    timeFormat (value) {
       return value ? formatJsonDate(value, 'yyyy-MM-dd hh:mm:ss') : null
     }
   },
-  data() {
+  data () {
     return {
       list: null,
       rowcount: 0,
@@ -133,33 +103,41 @@ export default {
         { value: '', text: '监控状态' },
         { value: 'OPEN', text: '开启' },
         { value: 'CLOSE', text: '关闭' }
-      ]
+      ],
+      teamList: []
     }
   },
-  created() {
+  created () {
     this.fetchData()
+    teams().then(response => {
+      this.teamList = response.result
+    })
+
+    getInfo().then(response => {
+      this.form.teamName = response.result.teamName
+    })
   },
   methods: {
-    onSubmit() {
+    onSubmit () {
       this.fetchData()
     },
-    onStatusChange() {
+    onStatusChange () {
       this.form.pageIndex = 1
       this.fetchData()
     },
-    onPrevClick() {
+    onPrevClick () {
       this.form.pageIndex--
       this.fetchData()
     },
-    onNextClick() {
+    onNextClick () {
       this.form.pageIndex++
       this.fetchData()
     },
-    onCurrentChange(curr) {
+    onCurrentChange (curr) {
       this.form.pageIndex = curr
       this.fetchData()
     },
-    changeStatus(alarm) {
+    changeStatus (alarm) {
       const message = `id=${alarm.id} 监控报警${alarm.status}成功！`
       if (alarm.status === 'OPEN') {
         adminApi.open(alarm.id).then(response => this.$message({ type: 'success', message: message, duration: 2000 }))
@@ -167,7 +145,7 @@ export default {
         adminApi.close(alarm.id).then(response => this.$message({ type: 'success', message: message, duration: 2000 }))
       }
     },
-    fetchData() {
+    fetchData () {
       this.listLoading = true
       adminApi.getList(this.form.alarmId, this.form.name, this.form.groupId, this.form.status, this.form.pageIndex, this.form.pageSize)
         .then(response => {
@@ -176,17 +154,17 @@ export default {
           this.listLoading = false
         })
     },
-    goEdit(id) {
+    goEdit (id) {
       this.$router.push({ name: 'alarm-edit', query: { id: id } })
     },
-    run(id) {
+    run (id) {
       alarmApi.run(id).then(response => {
         this.$alert('<pre style="overflow: auto">' + response.result + '</pre>', '执行成功', {
           dangerouslyUseHTMLString: true
         })
       })
     },
-    remove(id) {
+    remove (id) {
       this.$confirm('此操作将删除监控, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

@@ -3,6 +3,7 @@ package com.autohome.frostmourne.monitor.service.core.alert;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.Protocol;
@@ -92,10 +93,8 @@ public class AlertService implements IAlertService {
     private List<AccountInfo> recipients(List<String> accounts) {
         List<AccountInfo> recipients = new ArrayList<>();
         for (String userName : accounts) {
-            AccountInfo accountInfo = accountService.findByAccount(userName);
-            if (accountInfo != null) {
-                recipients.add(accountInfo);
-            }
+            Optional<AccountInfo> accountInfo = accountService.findByAccount(userName);
+            accountInfo.ifPresent(recipients::add);
         }
         return recipients;
     }
