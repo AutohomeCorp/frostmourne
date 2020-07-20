@@ -85,7 +85,7 @@ public class AlertService implements IAlertService {
             LOGGER.error("error when send alert. protocol: " + JacksonUtil.serialize(protocol));
             return;
         }
-        saveAlertLog(alertType, SilenceStatus.NO, protocol.getResult(), recipients, alarmProcessLogger.getAlarmContract().getId(),
+        saveAlertLog(alertType, protocol.getResult(), recipients, alarmProcessLogger.getAlarmContract().getId(),
                 alertContent, alarmProcessLogger.getAlarmLog().getId());
     }
 
@@ -100,7 +100,7 @@ public class AlertService implements IAlertService {
         return recipients;
     }
 
-    private void saveAlertLog(String alertType, String silenceStatus, List<MessageResult> messageResults,
+    private void saveAlertLog(String alertType, List<MessageResult> messageResults,
                               List<AccountInfo> accountInfos, Long alarmId, String content, Long executeId) {
         for (MessageResult messageResult : messageResults) {
             for (AccountInfo accountInfo : accountInfos) {
@@ -110,11 +110,10 @@ public class AlertService implements IAlertService {
                 alertLog.setExecute_id(executeId);
                 alertLog.setCreate_at(new Date());
                 alertLog.setRecipient(accountInfo.getAccount());
-                alertLog.setIn_silence(SilenceStatus.NO);
                 alertLog.setSend_status(messageResult.getSuccess() == 1 ? SendStatus.SUCCESS : SendStatus.FAIL);
                 alertLog.setWay(messageResult.getWay());
                 alertLog.setAlert_type(alertType);
-                alertLog.setIn_silence(silenceStatus);
+                alertLog.setIn_silence(SilenceStatus.NO);
                 alertLogMapper.insert(alertLog);
             }
         }
