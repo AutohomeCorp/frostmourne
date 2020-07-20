@@ -198,8 +198,8 @@ xxl.job.alarm.email=[your_email]
 ./scripts/shutdown.sh
 ```
 
-启动frostmourne-spi项目，active profile设置为default, 测试地址: http://localhost:8180  
-启动frostmourne-monitor项目, active profile设置为local, 测试地址: http://localhost:8080   
+启动frostmourne-spi项目，active profile设置为default, 测试地址: http://localhost:10053  
+启动frostmourne-monitor项目, active profile设置为local, 测试地址: http://localhost:10054   
 使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
 
 ```bash
