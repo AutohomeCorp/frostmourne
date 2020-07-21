@@ -51,11 +51,6 @@ public class FrostmourneSpiAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public IFrostmourneSpiApi frostmourneSpiApi() {
-
-        if (frostmourneSpiProperties.getMock()) {
-            return new MockFrostmourneSpi();
-        }
-
         return Feign.builder().options(defaultOptions())
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
