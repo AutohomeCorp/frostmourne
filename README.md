@@ -361,7 +361,9 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 发布1.0-RELEASE
 * 加入更为复杂的时序数据异常检测算法规则(需要实验可行性)
 
-## [Release Notes](./ReleaseNotes.md)
+## 发版历史
+
+[ReleaseNotes](./ReleaseNotes.md)
 
 ## 主要技术栈
 
