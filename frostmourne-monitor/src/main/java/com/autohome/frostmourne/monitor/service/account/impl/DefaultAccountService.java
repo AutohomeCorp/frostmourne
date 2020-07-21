@@ -1,6 +1,5 @@
 package com.autohome.frostmourne.monitor.service.account.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,16 +8,13 @@ import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.ProtocolException;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DepartmentInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.TeamInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDepartmentInfoRepository;
 import com.autohome.frostmourne.monitor.service.account.IAccountService;
 import com.autohome.frostmourne.monitor.service.account.ITeamInfoService;
 import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
 import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.Team;
-import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -33,9 +29,6 @@ public class DefaultAccountService implements IAccountService {
 
     @Resource
     private ITeamInfoService teamInfoService;
-
-    @Resource
-    private IDepartmentInfoRepository departmentInfoRepository;
 
     @Override
     public Optional<AccountInfo> findByAccount(String account) {
