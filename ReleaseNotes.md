@@ -1,9 +1,3 @@
-## 0.3-RELEASE
-
-### Feature
-
-### Bugfix
-
 ## 0.2-RELEASE
 
 ### Feature

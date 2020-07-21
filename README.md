@@ -332,6 +332,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 新功能暂时停止，代码优化改进，稳定一段时间后发布0.2-RELEASE
 * 监控列表增加按团队查询，按创建人查询，默认只显示自己创建的监控；监控列表增加权限控制，监控按部门隔离
 * 菜单增加权限控制，部分页面(如：数据源配置，用户管理)只对管理员开放
+* 表单数据提交增加验证
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
 * 报警消息模板存库管理
 * 内置实现一个短链接功能，移除外部短链接服务依赖
@@ -348,7 +349,6 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 报警接收人可以设置为组
 * Elasticsearch数据名配置时自动提示索引名称
 * Elasticsearch索引字段自动获取
-* 集成Swagger
 * 数据源增加连接测试功能
 * 增加influxdb数据监控(数据同比，环比监控)
 * 增加prometheus支持
@@ -360,6 +360,8 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
 * 发布1.0-RELEASE
 * 加入更为复杂的时序数据异常检测算法规则(需要实验可行性)
+
+## [Release Notes](./ReleaseNotes.md)
 
 ## 主要技术栈
 
