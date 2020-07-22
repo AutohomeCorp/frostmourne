@@ -6,8 +6,8 @@
       <el-select v-model="form.status" placeholder="监控状态" clearable class="filter-item" @change="onStatusChange">
         <el-option v-for="item in alarmStatus" :key="item.value" :label="item.text" :value="item.value" />
       </el-select>
-      <el-select v-model="form.teamName" placeholder="选择团队" clearable style="width: 200px" class="filter-item">
-        <el-option v-for="item in teamList" :key="item.team_name" :label="item.full_name" :value="item.team_name" />
+      <el-select v-model="form.teamName" placeholder="选择团队" clearable style="width: 200px" class="filter-item" @change="teamChangeHanlder">
+        <el-option v-for="item in teamList" :key="item.name" :label="item.fullName" :value="item.name" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
       <el-button class="filter-item" icon="el-icon-edit" @click="goEdit(null)">添加报警</el-button>
@@ -108,13 +108,13 @@ export default {
     }
   },
   created () {
-    this.fetchData()
-    teams().then(response => {
-      this.teamList = response.result
-    })
-
     getInfo().then(response => {
       this.form.teamName = response.result.teamName
+      this.fetchData()
+    })
+
+    teams().then(response => {
+      this.teamList = response.result
     })
   },
   methods: {
@@ -147,7 +147,7 @@ export default {
     },
     fetchData () {
       this.listLoading = true
-      adminApi.getList(this.form.alarmId, this.form.name, this.form.groupId, this.form.status, this.form.pageIndex, this.form.pageSize)
+      adminApi.getList(this.form.alarmId, this.form.name, this.form.teamName, this.form.status, this.form.pageIndex, this.form.pageSize)
         .then(response => {
           this.list = response.result.list || []
           this.rowcount = response.result.rowcount
@@ -175,6 +175,10 @@ export default {
           this.fetchData()
         })
       })
+    },
+    teamChangeHanlder () {
+      this.form.pageIndex = 1
+      this.fetchData()
     }
   }
 }

@@ -37,12 +37,13 @@ public class DefaultAccountService implements IAccountService {
             return Optional.empty();
         }
         AccountInfo accountInfo = DefaultAccountService.transformUser(optionalUserInfo.get());
-        Optional<TeamInfo> optionalTeamInfo = teamInfoService.findByName(accountInfo.getTeamName());
+        Optional<TeamInfo> optionalTeamInfo = teamInfoService.findById(accountInfo.getTeamId());
         if(!optionalTeamInfo.isPresent()) {
             LOGGER.error("user team not exists. team: {}", accountInfo.getTeamName());
             throw new ProtocolException(5009, "用户所属团队不存在");
         }
         accountInfo.setTeamId(optionalTeamInfo.get().getId());
+        accountInfo.setTeamName(optionalTeamInfo.get().getTeam_name());
         accountInfo.setDepartmentId(optionalTeamInfo.get().getDepartment_id());
 
         return Optional.of(accountInfo);
