@@ -213,7 +213,9 @@ npm install --registry=https://registry.npm.taobao.org
 npm run dev
 ```
 
-会自动打开： http://localhost:9528
+会自动打开： http://localhost:9528  
+
+搭建本地开发调试环境或者需要做二次开发遇到什么困难的都可以加群沟通，环境各路英雄多多PR
 
 ## 为什么需要xxl-job
 
@@ -321,16 +323,16 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * ~~数据名保存表单数据提交增加前端验证~~ [2020-07-22]
 * 补充更详细的部署文档和使用指南
 * 更新在线demo至最新
-* 菜单增加权限控制，部分页面(如：数据源配置，用户管理)只对管理员开放
+* 菜单增加权限控制，部分页面(如：数据源配置)只对管理员开放
 * 监控增加风险等级(中风险，高风险，故障)
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
-* 报警消息模板存库管理
+* Elasticsearch查询增加常用语句自动提示
+* 报警消息模板管理功能
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * 移除SPI模块，经过一系列优化后，spi模块存在的必要性可能很低了，考虑移除掉，降低部署难度
 * Elasticsearch监控数值实现同比监控
 * Elasticsearch监控数值实现环比监控
 * Elasticsearch数据源更新免重启加载
-* Elasticsearch查询增加常用语句自动提示
 * Elasticsearch查询数据柱状图可点击并自动变更时间范围
 * Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
 * 增加系统配置功能模块，将启动非必要的配置用功能管理起来，减轻启动配置负担
