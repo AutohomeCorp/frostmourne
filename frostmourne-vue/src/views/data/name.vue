@@ -4,7 +4,7 @@
       <el-select v-model="form.datasource_type" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item" @change="formSourceTypeChangeHandler">
         <el-option label="elasticsearch" value="elasticsearch" />
       </el-select>
-      <el-select v-model="form.data_source_id" placeholder="选择数据源" class="filter-item">
+      <el-select v-model="form.data_source_id" placeholder="选择数据源" clearable class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasource_name" :label="item.datasource_name" :value="item.id" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
