@@ -92,7 +92,7 @@
         <el-tab-pane label="报警规则">
           <el-form-item label="判断类型:" prop="metricContract.metric_type">
             <el-select v-model="form.metricContract.metric_type" @change="metricTypeChangeHandler">
-              <el-option v-if="dataSourceType !== 'http'" label="数值" value="numeric" />
+              <el-option v-if="dataSourceType !== 'http'" label="数值比较" value="numeric" />
               <el-option v-if="dataSourceType === 'http'" label="Javascript表达式" value="object" />
               <!--<el-option label="环比" value="ring_than"/>-->
               <el-option v-if="dataSourceType !== 'http'" label="同比" value="same_time" />
