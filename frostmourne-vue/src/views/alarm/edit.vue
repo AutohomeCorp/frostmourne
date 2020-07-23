@@ -113,7 +113,7 @@
             <el-input v-model="form.ruleContract.settings.EXPRESSION" type="textarea" />
           </el-form-item>
           <el-form-item v-if="form.metricContract.metric_type === 'ring_than'" label="判断规则:">
-            <el-select v-model="form.ruleContract.PERIOD_UNIT">
+            <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
               <el-option label="周" value="week" />
               <el-option label="日" value="day" />
               <el-option label="小时" value="hour" />
@@ -125,6 +125,32 @@
             </el-select>百分之
             <el-input v-model="form.ruleContract.settings.PERCENT_THRESHOLD" style="width: 200px" />
           </el-form-item>
+          <el-form-item v-if="form.metricContract.metric_type === 'same_time'" label="判断规则:">
+            <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
+              <el-option label="小时" value="hour" />
+              <el-option label="天" value="day" />
+            </el-select>同比
+            <el-select v-model="form.ruleContract.settings.REFERENCE_TYPE_LIST">
+              <el-option label="昨天" value="day" />
+              <el-option label="上周" value="week" />
+              <el-option label="上月" value="month" />
+              <el-option label="昨天和上周" value="day,week" />
+            </el-select>
+            <el-select v-model="form.ruleContract.settings.OPERATOR">
+              <el-option label="增加" value="increase" />
+              <el-option label="减少" value="decrease" />
+              <el-option label="增加或减少" value="abs" />
+            </el-select>百分之
+            <el-input v-model="form.ruleContract.settings.PERCENT_THRESHOLD" style="width: 200px" />并且差值
+            <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
+              <el-option label=">=" value="GTE" />
+              <el-option label="<=" value="LTE" />
+              <el-option label="绝对值>=" value="ABS_GTE" />
+              <el-option label="绝对值<=" value="ABS_LTE" />
+            </el-select>
+            <el-input v-model="form.ruleContract.settings.DIFF_VALUE_THRESHOLD" style="width: 200px" />
+          </el-form-item>
+          
         </el-tab-pane>
         <el-tab-pane label="消息模板">
           <el-form-item label="消息模板:" prop="ruleContract.alert_template">
