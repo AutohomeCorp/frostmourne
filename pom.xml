@@ -27,7 +27,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <revision>0.2-RELEASE</revision>
+        <revision>0.3-SNAPSHOT</revision>
         <slf4j-api.version>1.7.12</slf4j-api.version>
         <jackson.version>2.10.3</jackson.version>
         <guava.version>28.2-jre</guava.version>
