@@ -1,3 +1,24 @@
+## 0.3-RELEASE
+
+### Feature
+
+* 监控列表增加按团队查询，默认只显示自己团队的监控；监控按部门隔离 [2020-07-22]
+* Elasticsearch监控数值实现同比监控 [2020-07-24]
+
+### Improvement
+
+* 数据名保存表单数据提交增加前端验证 [2020-07-22]
+
+### Bugfix
+
+
+### Mysql
+
+### Document
+
+### Other
+
+
 ## 0.2-RELEASE
 
 ### Feature
