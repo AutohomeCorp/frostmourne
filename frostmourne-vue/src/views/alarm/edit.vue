@@ -584,7 +584,7 @@ export default {
     metricTypeChangeHandler (newValue) {
       if (newValue === 'same_time') {
         this.form.ruleContract.alert_template = '自然${PERIOD_UNIT_DESCRIPTION}\r\n' +
-        '<#list REFERENCE_LIST as item>\r\n' +
+        '<#list REFERENCE_LIST as item>\n' +
         '指标同比${item.description}变化${item.percentage}%,超过阈值${PERCENTAGE_THRESHOLD}%, 当前值: ${CURRENT}, 对比值：${item.value};\r\n' +
         '</#list>'
       }
