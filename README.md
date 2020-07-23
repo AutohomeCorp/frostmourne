@@ -344,7 +344,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * Elasticsearch索引字段自动获取
 * 数据源增加连接测试功能
 * 增加influxdb数值监控
-* 增加influxdb数值同比，环比监控)
+* 增加influxdb数值同比，环比监控
 * 增加prometheus支持
 * Elasticsearch监控查询语句增加DSL类型查询
 * Elasticsearch监控查询语句增加SQL类型查询
