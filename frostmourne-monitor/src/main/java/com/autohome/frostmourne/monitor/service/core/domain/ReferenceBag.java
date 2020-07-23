@@ -10,6 +10,8 @@ public class ReferenceBag {
 
     private String query;
 
+    private Double percentage;
+
     public String getReferenceType() {
         return referenceType;
     }
@@ -40,5 +42,13 @@ public class ReferenceBag {
 
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    public Double getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(Double percentage) {
+        this.percentage = percentage;
     }
 }
