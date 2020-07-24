@@ -346,6 +346,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 数据源保存增加表单验证
 * 数据源增加连接测试功能
 * 增加变量管理，可以设置多个值；根据变量批量创建监控
+* 发布0.3-RELEASE
 * 增加influxdb数值监控
 * 增加influxdb数值同比，环比监控
 * 增加prometheus支持
