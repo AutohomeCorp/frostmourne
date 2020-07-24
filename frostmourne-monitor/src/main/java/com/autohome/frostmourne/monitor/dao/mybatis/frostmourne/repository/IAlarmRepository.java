@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
 import org.apache.ibatis.annotations.Param;
@@ -12,9 +13,7 @@ public interface IAlarmRepository {
 
     Long insert(Alarm record);
 
-    int insertSelective(Alarm record);
-
-    Alarm selectByPrimaryKey(Long id);
+    Optional<Alarm> selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(Alarm record);
 
@@ -31,5 +30,5 @@ public interface IAlarmRepository {
 
     int updateJobId(@Param("alarmId") Long alarmId, @Param("jobId") Long jobId);
 
-    int total();
+    long total();
 }
