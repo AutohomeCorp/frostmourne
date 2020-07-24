@@ -323,6 +323,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * ~~数据名保存表单数据提交增加前端验证~~ [2020-07-22]
 * ~~Elasticsearch监控数值实现同比监控~~ [2020-07-24]
 * ~~Elasticsearch数据源更新免重启加载~~ [2020-07-25]
+* 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 * 报警消息模板管理功能
 * 补充更详细的部署文档和使用指南
 * 更新在线demo至最新
@@ -331,6 +332,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * Elasticsearch查询增加历史语句自动提示
 * Elasticsearch监控数值实现环比监控
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)
+* 登录安全：LDAP验证支持
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * 监控列表页增加按创建人查询条件
 * 移除SPI模块，经过一系列优化后，spi模块存在的必要性可能很低了，考虑移除掉，降低部署难度
@@ -351,7 +353,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 增加influxdb数值同比，环比监控
 * 增加prometheus支持
 * Elasticsearch监控查询语句增加SQL类型查询
-* 加强登录安全(集成LDAP, CAS单点登录)
+* 加强登录安全(CAS单点登录)
 * 增加单元测试
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
