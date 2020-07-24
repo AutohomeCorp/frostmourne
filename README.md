@@ -9,7 +9,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 主要功能
 
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
-* 多种数值聚合类型监控(count,min,max,avg,sum)
+* 多种数值聚合类型监控(count,min,max,avg,sum), 同比监控
 * HTTP数据监控, 表达式判断是否报警
 * UI功能，简单易用
 * 监控管理，测试，另存。执行日志，历史消息。
@@ -331,6 +331,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * Elasticsearch监控数值实现环比监控
 * 监控增加风险等级设置(有风险，中风险，高风险，我崩了)
 * 内置实现一个短链接功能，移除外部短链接服务依赖
+* 监控列表页增加按创建人查询条件
 * 移除SPI模块，经过一系列优化后，spi模块存在的必要性可能很低了，考虑移除掉，降低部署难度
 * 制作符合docker和springboot应用容器部署的可用于生产的标准docker镜像
 * Elasticsearch数据源更新免重启加载
@@ -346,7 +347,6 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 增加influxdb数值监控
 * 增加influxdb数值同比，环比监控
 * 增加prometheus支持
-* Elasticsearch监控查询语句增加DSL类型查询
 * Elasticsearch监控查询语句增加SQL类型查询
 * 加强登录安全(集成LDAP, CAS单点登录)
 * 增加单元测试
