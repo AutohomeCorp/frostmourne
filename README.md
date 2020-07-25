@@ -169,8 +169,6 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 
 启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。  
 
-如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
-
 ```bash
 ./scripts/startup.sh
 ```
@@ -180,6 +178,9 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 ```bash
 ./scripts/shutdown.sh
 ```
+
+如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+docker里启动一个xxl-job服务，供本地调用
 
 ## 为什么需要xxl-job
 
@@ -250,7 +251,7 @@ frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目�
 ./scripts/shutdown.sh
 ```
 
-xxl-job-admin的zip包也已经放到release里，使用方式相同。
+[xxl-job-admin-2.1.0.zip](./doc/xxl-job/xxl-job-admin-2.1.0.zip)的zip包也已经放在了仓库里，供下载使用，使用方式相同。
 
 ## 监控测试
 
@@ -329,6 +330,7 @@ npm run dev
 * ~~Elasticsearch监控数值实现同比监控~~ [2020-07-24]
 * ~~Elasticsearch数据源更新免重启加载~~ [2020-07-25]
 * ~~集成LDAP登录验证~~ [2020-07-25]
+* 代码文件增加开源协议说明
 * 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 * 报警消息模板管理功能
 * 补充更详细的部署文档和使用指南
