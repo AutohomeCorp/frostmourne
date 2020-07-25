@@ -3,6 +3,7 @@ package com.autohome.frostmourne.monitor.service.account.impl;
 import javax.naming.directory.DirContext;
 
 import com.autohome.frostmourne.monitor.service.account.IAuthService;
+import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ldap.core.ContextSource;
@@ -30,7 +31,11 @@ public class LdapAuthService implements IAuthService {
         if (account.equals("admin")) {
             return password.equals(initailPassword);
         }
-        String userDn = account + ldapDomainName;
+
+        String userDn = account;
+        if (!Strings.isNullOrEmpty(ldapDomainName)) {
+            userDn += ldapDomainName;
+        }
         DirContext dirContext = null;
         try {
             ContextSource contextSource = ldapTemplate.getContextSource();
