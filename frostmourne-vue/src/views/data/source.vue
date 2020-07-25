@@ -53,10 +53,10 @@
             <i class="el-icon-question" />
           </el-tooltip>-->
         </el-form-item>
-        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="认证用户" :label-width="formLabelWidth">
+        <el-form-item v-if="editData.datasource_type === 'elasticsearch'" label="认证用户" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.username" placeholder="无认证不需要填写" autocomplete="off" />
         </el-form-item>
-        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="密码" :label-width="formLabelWidth">
+        <el-form-item v-if="editData.datasource_type === 'elasticsearch'" label="密码" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.password" placeholder="无认证不需要填写" :type="passwordType" autocomplete="off" />
         </el-form-item>
       </el-form>
