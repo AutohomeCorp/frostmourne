@@ -323,11 +323,11 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * ~~数据名保存表单数据提交增加前端验证~~ [2020-07-22]
 * ~~Elasticsearch监控数值实现同比监控~~ [2020-07-24]
 * ~~Elasticsearch数据源更新免重启加载~~ [2020-07-25]
+* ~~集成LDAP登录验证~~ [2020-07-25]
 * 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 * 报警消息模板管理功能
 * 补充更详细的部署文档和使用指南
 * 更新在线demo至最新
-* 集成LDAP登录验证
 * 菜单增加权限控制，部分页面(如：数据源配置)只对管理员开放
 * Elasticsearch查询数据柱状图可点击并自动变更时间范围
 * Elasticsearch查询增加历史语句自动提示
@@ -347,7 +347,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * Elasticsearch索引字段自动获取
 * 数据源保存增加表单验证
 * 数据源增加连接测试功能
-* 增加变量管理，可以设置多个值；根据变量批量创建监控
+* 增加变量管理，可以设置多个值；根据变量批量创建监控，最多可以设置两个变量；一次创建m*n个监控
 * 发布0.3-RELEASE
 * 增加influxdb数值监控
 * 增加influxdb数值同比，环比监控
