@@ -1,14 +1,10 @@
 package com.autohome.frostmourne.monitor.service.account.impl;
 
-import static org.springframework.ldap.query.LdapQueryBuilder.query;
-
 import javax.naming.directory.DirContext;
 
 import com.autohome.frostmourne.monitor.service.account.IAuthService;
-import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapUtils;
 
@@ -39,7 +35,7 @@ public class LdapAuthService implements IAuthService {
             dirContext = ldapTemplate.getContextSource().getContext(userDn, password);
             return dirContext != null;
         } catch (Exception ex) {
-            LOGGER.error("error when ldap validate user", ex);
+            LOGGER.error("error when ldap validate user: {}", userDn, ex);
             return false;
         } finally {
             LdapUtils.closeContext(dirContext);
