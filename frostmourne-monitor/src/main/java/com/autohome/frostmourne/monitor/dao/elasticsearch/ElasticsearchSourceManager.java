@@ -57,11 +57,10 @@ public class ElasticsearchSourceManager {
         return true;
     }
 
-    public synchronized boolean addEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
+    public synchronized void addEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
         EsRestClientContainer esRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
         esRestClientContainer.init();
         containerMap.put(elasticsearchInfo.getName(), esRestClientContainer);
-        return true;
     }
 
     public void close() {
