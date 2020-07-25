@@ -10,6 +10,8 @@ import com.autohome.frostmourne.monitor.service.account.impl.DefaultAccountServi
 import com.autohome.frostmourne.monitor.service.account.impl.DefaultAuthService;
 import com.autohome.frostmourne.monitor.service.account.impl.LdapAuthService;
 import org.elasticsearch.common.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class BeanConfig {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(BeanConfig.class);
 
     @Value("${initial.password}")
     private String initialPassword;
@@ -59,8 +63,10 @@ public class BeanConfig {
     @Bean
     public IAuthService authService() {
         if (!Strings.isNullOrEmpty(ldapUrls) && ldapEnabled) {
+            LOGGER.info("apply ldap auth");
             return new LdapAuthService(ldapDomainName, ldapTemplate, initialPassword);
         }
+        LOGGER.info("apply default auth");
         return new DefaultAuthService(initialPassword);
 
     }
