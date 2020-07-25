@@ -18,11 +18,11 @@ initial.password=${initial_password:#{null}}
 
 ```
 ldap.enabled=${ldap_enabled:false}
-spring.ldap.urls=${spring_ldap_urls:#{null}}
-spring.ldap.username=${spring_ldap_username:#{null}}
-spring.ldap.password=${spring_ldap_password:#{null}}
+spring.ldap.urls=${spring_ldap_urls:}
+spring.ldap.username=${spring_ldap_username:}
+spring.ldap.password=${spring_ldap_password:}
 spring.ldap.base=${spring_ldap_base:#{null}}
-spring.ldap.domainName=${spring_ldap_domainName:#{null}}
+spring.ldap.domainName=${spring_ldap_domainName:}
 ```
 
 > 注意： 开启了LDAP认证，admin账号仍然可以用方式1来登录
