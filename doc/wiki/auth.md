@@ -14,6 +14,8 @@ initial.password=${initial_password:#{null}}
 
 * 方式2：LDAP认证
 
+如果在frostmourne-monitor中关于ldap的配置有值，则优先使用ldap认证方式。
+
 ```
 spring.ldap.urls=${spring_ldap_urls:#{null}}
 spring.ldap.username=${spring_ldap_username:#{null}}
@@ -21,8 +23,6 @@ spring.ldap.password=${spring_ldap_password:#{null}}
 spring.ldap.base=${spring_ldap_base:#{null}}
 spring.ldap.domainName=${spring_ldap_domainName:#{null}}
 ```
-
-如果在frostmourne-monitor中关于ldap的配置有值，则优先使用ldap认证方式。
 
 > 注意： 开启了LDAP认证，admin账号仍然可以用方式1来登录
 
