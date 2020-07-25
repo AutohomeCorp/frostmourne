@@ -28,7 +28,7 @@ public class ElasticsearchSourceManager {
             if (currentEsRestClientContainer.getInitTimestamp() >= elasticsearchInfo.getLastUpdateTime()) {
                 return currentEsRestClientContainer;
             } else {
-                LOGGER.warn("elasticsearch updated after init. info: {}", JacksonUtil.serialize(elasticsearchInfo));
+                LOGGER.warn("elasticsearch updated after init, start reload. info: {}", JacksonUtil.serialize(elasticsearchInfo));
                 reloadEsRestClientContainer(elasticsearchInfo);
             }
         } else {
