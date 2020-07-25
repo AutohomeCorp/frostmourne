@@ -147,10 +147,10 @@ xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql
 
 ### 快速启动
 
-由于正常启动还需要不少依赖部署，所以并不那么容易，所以提供了一个快速启动的办法，让你更快的理解项目，和运行起来。
+提供docker方式，让你更快运行起来便于更好理解项目作用。
 详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
-## 开发调试
+## xxl-job服务说明
 
 本项目依赖xxl-job, 请自己部署xxl-job，并将相关接口权限认证去掉(在action上加注解 @PermissionLimit(limit=false) )，让frostmourne可以访问这些接口。需要了解xxl-job请
 查阅官方站点[https://www.xuxueli.com/xxl-job/]. 当前依赖版本为2.1.0，如果存在版本兼容问题，请自行修改适配, 建议单独部署一套新的xxl-job，能避免很多不必要的麻烦。
@@ -162,32 +162,14 @@ xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql
 * /jobinfo/start
 * /jobinfo/stop
 
+如果你觉得从xxl-job官方下载源码修改部署太麻烦，你可以使用我处理好了的jar包 <a href="./doc/xxl-job/xxl-job-admin-2.1.0.zip" target="_blank">xxl-job-admin-2.1.0.zip</a>，你可以下载直接解压使用
 xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一个名为frostmourne的执行器，注册方式为自动注册，如下图：
 
 <img src="./doc/img/executor.png"/>
 
-然后修改frostmourne-monitor里和xxl-job相关配置。其中xxl.job.executor.id配置为刚在xxl-job中创建的执行器id。一般执行器id是2。
+启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。  
 
-```
-### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
-xxl.job.admin.addresses=http://[your_xxljob_address]/xxl-job-admin
-### xxl-job executor address
-xxl.job.executor.id=2
-xxl.job.executor.appname=frostmourne
-xxl.job.executor.ip=
-xxl.job.executor.port=-1
-### xxl-job, access token
-xxl.job.accessToken=
-### xxl-job log path
-xxl.job.executor.logpath=/data/applogs/xxl-job/jobhandler
-### xxl-job log retention days
-xxl.job.executor.logretentiondays=3
-### xxl-job alarm email
-xxl.job.alarm.email=[your_email]
-```
-
-如果你觉得从xxl-job官方下载源码修改部署太麻烦，你可以使用我处理好了的jar包 <a href="./doc/xxl-job/xxl-job-admin-2.1.0.zip" target="_blank">xxl-job-admin-2.1.0.zip</a>，你可以下载直接解压使用，启动脚本
-都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。
+如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
 ```bash
 ./scripts/startup.sh
@@ -198,25 +180,6 @@ xxl.job.alarm.email=[your_email]
 ```bash
 ./scripts/shutdown.sh
 ```
-
-启动frostmourne-spi项目，active profile设置为default, 测试地址: http://localhost:10053  
-启动frostmourne-monitor项目, active profile设置为local, 测试地址: http://localhost:10054   
-使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
-
-```bash
-# install dependency
-npm install
-
-# 建议不要直接使用 cnpm 安装以来，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
-npm install --registry=https://registry.npm.taobao.org
-
-# develop
-npm run dev
-```
-
-会自动打开： http://localhost:9528  
-
-搭建本地开发调试环境或者需要做二次开发遇到什么困难的都可以加群沟通，环境各路英雄多多PR
 
 ## 为什么需要xxl-job
 
@@ -315,6 +278,47 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 ```
 
 如果短链接服务出错或者不使用，报警消息里的链接将使用原链接，会比较长。
+
+## 开发调试
+
+修改frostmourne-monitor里和xxl-job相关配置。其中xxl.job.executor.id配置为刚在xxl-job中创建的执行器id。一般执行器id是2。
+
+```
+### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
+xxl.job.admin.addresses=http://[your_xxljob_address]/xxl-job-admin
+### xxl-job executor address
+xxl.job.executor.id=2
+xxl.job.executor.appname=frostmourne
+xxl.job.executor.ip=
+xxl.job.executor.port=-1
+### xxl-job, access token
+xxl.job.accessToken=
+### xxl-job log path
+xxl.job.executor.logpath=/data/applogs/xxl-job/jobhandler
+### xxl-job log retention days
+xxl.job.executor.logretentiondays=3
+### xxl-job alarm email
+xxl.job.alarm.email=[your_email]
+```
+
+启动frostmourne-spi项目，active profile设置为default, 测试地址: http://localhost:10053  
+启动frostmourne-monitor项目, active profile设置为local, 测试地址: http://localhost:10054   
+使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
+
+```bash
+# install dependency
+npm install
+
+# 建议不要直接使用 cnpm 安装以来，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
+npm install --registry=https://registry.npm.taobao.org
+
+# develop
+npm run dev
+```
+
+会自动打开： http://localhost:9528  
+
+搭建本地开发调试环境或者需要做二次开发遇到什么困难的都可以加群沟通，环境各路英雄多多PR
 
 ## 后续规划
 
