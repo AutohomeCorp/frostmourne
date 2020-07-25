@@ -4,7 +4,7 @@
       <el-select v-model="form.datasource_type" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item" @change="formSourceTypeChangeHandler">
         <el-option label="elasticsearch" value="elasticsearch" />
       </el-select>
-      <el-select v-model="form.data_source_id" placeholder="选择数据源" class="filter-item">
+      <el-select v-model="form.data_source_id" placeholder="选择数据源" clearable class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasource_name" :label="item.datasource_name" :value="item.id" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
@@ -42,11 +42,11 @@
 
     <el-dialog title="保存数据名" :visible.sync="dialogFormVisible" width="30%">
       <el-form ref="form" :model="editData" :rules="rules">
-        <el-form-item label="名称" :label-width="formLabelWidth">
+        <el-form-item label="名称" :label-width="formLabelWidth" prop="data_name">
           <el-input v-model="editData.data_name" :disabled="disableEdit" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item label="类型" :label-width="formLabelWidth">
+        <el-form-item label="类型" :label-width="formLabelWidth" prop="datasource_type">
           <el-select
             v-model="editData.datasource_type"
             :disabled="disableEdit"
@@ -59,20 +59,20 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="数据源" :label-width="formLabelWidth">
+        <el-form-item label="数据源" :label-width="formLabelWidth" prop="data_source_id">
           <el-select v-model="editData.data_source_id" :disabled="disableEdit" placeholder="选择数据源" class="filter-item">
             <el-option v-for="item in dialogDatasourceList" :key="item.datasource_name" :label="item.datasource_name" :value="item.id" />
           </el-select>
         </el-form-item>
 
-        <el-form-item label="说明" :label-width="formLabelWidth">
+        <el-form-item label="说明" :label-width="formLabelWidth" prop="display_name">
           <el-input v-model="editData.display_name" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item label="时间字段" :label-width="formLabelWidth">
+        <el-form-item label="时间字段" :label-width="formLabelWidth" prop="timestamp_field">
           <el-input v-model="editData.timestamp_field" autocomplete="off" />
         </el-form-item>
-        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="索引前缀" :label-width="formLabelWidth">
+        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="索引前缀" :label-width="formLabelWidth" prop="indexPrefix">
           <el-input v-model="editData.settings.indexPrefix" placeholder="applog-" autocomplete="off" />
         </el-form-item>
 
@@ -125,17 +125,20 @@ export default {
       dialogFormVisible: false,
       disableEdit: true,
       rules: {
-        'editData.data_name': [
+        data_name: [
           { required: true, message: '请输入数据名称', trigger: 'blur' }
         ],
-        'editData.display_name': [
+        display_name: [
           { required: true, message: '请输入数据说明', trigger: 'blur' }
         ],
-        'editData.data_source_id': [
+        data_source_id: [
           { required: true, message: '请选择数据源', trigger: 'change' }
         ],
-        'editData.datasource_type': [
+        datasource_type: [
           { required: true, message: '请选择数据类型', trigger: 'change' }
+        ],
+        indexPrefix: [
+          { required: true, message: '请输入索引前缀', trigger: 'blur' }
         ]
       }
     }

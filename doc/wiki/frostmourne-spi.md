@@ -15,4 +15,7 @@ frostmourne-monitor作为主体功能项目，代码变更肯定是非常频繁�
 这样你就可以实现frostmourne-monitor跟着主版本升级，而frostmourne-spi自己维护一个，不用跟着主版本升级，会java的使用者自己
 照着spi项目自己实现一套也是非常简单的事情。  
 
-基于以上两点原因设计的frostmourne-spi模块，应该可以大大减少项目跟着主版本维护升级这方面的困难。
+基于以上两点原因设计的frostmourne-spi模块，应该可以大大减少项目跟着主版本维护升级这方面的困难。  
+
+随着功能的完善，frostmourne-spi里的东西越来越少，账号信息管理已经内置，大部分报警发送方式也可以移到frostmourne-monitor里；短链接
+服务也考虑内置实现，后面考虑移除掉，降低部署难度。

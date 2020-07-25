@@ -66,4 +66,14 @@ public class TeamInfoService implements ITeamInfoService {
             delete(teamInfo.getId());
         }
     }
+
+    @Override
+    public Optional<TeamInfo> findByName(String teamName) {
+        return teamInfoRepository.findByName(teamName);
+    }
+
+    @Override
+    public Optional<TeamInfo> findById(Long teamId) {
+        return teamInfoRepository.findById(teamId);
+    }
 }
