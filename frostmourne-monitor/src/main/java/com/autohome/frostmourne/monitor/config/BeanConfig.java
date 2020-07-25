@@ -26,14 +26,8 @@ public class BeanConfig {
     @Value("${spring.ldap.urls}")
     private String ldapUrls;
 
-    @Value("${spring.ldap.username}")
-    private String ldapUsername;
-
-    @Value("${spring.ldap.password}")
-    private String ldapPassword;
-
-    @Value("${spring.ldap.base}")
-    private String ldapBase;
+    @Value("${ldap.enabled}")
+    private Boolean ldapEnabled;
 
     @Value("${spring.ldap.domainName}")
     private String ldapDomainName;
@@ -64,7 +58,7 @@ public class BeanConfig {
 
     @Bean
     public IAuthService authService() {
-        if (!Strings.isNullOrEmpty(ldapUrls)) {
+        if (!Strings.isNullOrEmpty(ldapUrls) && ldapEnabled) {
             return new LdapAuthService(ldapDomainName, ldapTemplate, initialPassword);
         }
         return new DefaultAuthService(initialPassword);
