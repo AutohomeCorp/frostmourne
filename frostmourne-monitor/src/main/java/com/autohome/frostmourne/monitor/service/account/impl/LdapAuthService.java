@@ -37,10 +37,7 @@ public class LdapAuthService implements IAuthService {
         DirContext dirContext = null;
         try {
             dirContext = ldapTemplate.getContextSource().getContext(userDn, password);
-            String user = ldapTemplate.search(
-                    query().where("objectclass").is("user").and("samaccountname").is(account),
-                    (AttributesMapper<String>) attributes -> attributes.get("samaccountname").get().toString()).get(0);
-            return !Strings.isNullOrEmpty(user);
+            return dirContext != null;
         } catch (Exception ex) {
             LOGGER.error("error when ldap validate user", ex);
             return false;
