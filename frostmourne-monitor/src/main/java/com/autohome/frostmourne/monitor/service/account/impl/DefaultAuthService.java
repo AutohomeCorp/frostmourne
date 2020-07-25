@@ -20,6 +20,6 @@ public class DefaultAuthService implements IAuthService {
             return false;
         }
 
-        return account.equals(password);
+        return password.equals(initialPassword);
     }
 }
