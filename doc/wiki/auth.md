@@ -5,7 +5,7 @@
 
 * 方式1： 默认配置文件认证
 
-只要账号存在，如果没有设置初始密码，那么任意密码可登陆，如果设置了初始密码，则所有
+这是默认的方式，只要账号存在，如果没有设置初始密码，那么任意密码可登陆，如果设置了初始密码，则所有
 账号都用初始密码登陆。初始密码在frostmourne-monitor里配置
 
 ```
@@ -17,6 +17,7 @@ initial.password=${initial_password:#{null}}
 如果在frostmourne-monitor中关于ldap的配置有值，则优先使用ldap认证方式。
 
 ```
+ldap.enabled=${ldap_enabled:false}
 spring.ldap.urls=${spring_ldap_urls:#{null}}
 spring.ldap.username=${spring_ldap_username:#{null}}
 spring.ldap.password=${spring_ldap_password:#{null}}
