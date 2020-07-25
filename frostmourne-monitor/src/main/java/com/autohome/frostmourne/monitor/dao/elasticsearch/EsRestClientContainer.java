@@ -52,6 +52,8 @@ public class EsRestClientContainer {
 
     private Map<String, String> settings;
 
+    private Long initTimestamp;
+
     public EsRestClientContainer(String esHostList, boolean sniff, Map<String, String> settings) {
         esHosts = Splitter.on(",").splitToList(esHostList);
         this.sniff = sniff;
@@ -81,6 +83,8 @@ public class EsRestClientContainer {
         if (sniff) {
             sniffer = Sniffer.builder(restLowLevelClient).setSniffIntervalMillis(5 * 60 * 1000).build();
         }
+
+        this.initTimestamp = System.currentTimeMillis();
     }
 
     public boolean health() {
@@ -205,5 +209,9 @@ public class EsRestClientContainer {
             hostList.add(new HttpHost(hostAndPort.get(0), Integer.parseInt(hostAndPort.get(1)), "http"));
         }
         return hostList;
+    }
+
+    public Long getInitTimestamp() {
+        return initTimestamp;
     }
 }

@@ -32,7 +32,7 @@ public class DataNameController {
         if (result) {
             return new Protocol(0, "保存成功");
         }
-        return new Protocol(101, "保存失败");
+        return new Protocol(101, "保存失败, 请检查地址和认证信息是否正确");
     }
 
     @RequestMapping(value = "/removeDataSource", method = RequestMethod.POST)

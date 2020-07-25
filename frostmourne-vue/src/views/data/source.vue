@@ -184,7 +184,7 @@ export default {
         })
       })
     },
-    showPwd() {
+    showPwd () {
       if (this.passwordType === 'password') {
         this.passwordType = ''
       } else {

@@ -14,6 +14,8 @@ public class ElasticsearchInfo {
 
     private Map<String, String> settings;
 
+    private Long lastUpdateTime;
+
     public String getName() {
         return name;
     }
@@ -51,5 +53,14 @@ public class ElasticsearchInfo {
         this.esHostList = dataSourceContract.getService_address();
         this.sniff = false;
         this.settings = dataSourceContract.getSettings();
+        this.lastUpdateTime = dataSourceContract.getModify_at().getTime();
+    }
+
+    public Long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Long lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
     }
 }

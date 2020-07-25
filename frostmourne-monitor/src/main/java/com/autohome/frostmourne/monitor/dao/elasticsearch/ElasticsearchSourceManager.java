@@ -18,14 +18,20 @@ public class ElasticsearchSourceManager {
 
     public EsRestClientContainer findEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
         if (containerMap.containsKey(elasticsearchInfo.getName())) {
-            return containerMap.get(elasticsearchInfo.getName());
+            EsRestClientContainer currentEsRestClientContainer = containerMap.get(elasticsearchInfo.getName());
+            if (currentEsRestClientContainer.getInitTimestamp() >= elasticsearchInfo.getLastUpdateTime()) {
+                return currentEsRestClientContainer;
+            } else {
+                reloadEsRestClientContainer(elasticsearchInfo);
+            }
+        } else {
+            addEsRestClientContainer(elasticsearchInfo);
         }
 
-        addEsRestClientContainer(elasticsearchInfo);
         return containerMap.get(elasticsearchInfo.getName());
     }
 
-    public boolean reloadEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
+    public synchronized boolean reloadEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
         if (!containerMap.containsKey(elasticsearchInfo.getName())) {
             return true;
         }
