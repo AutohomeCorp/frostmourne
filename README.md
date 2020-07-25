@@ -329,6 +329,7 @@ npm run dev
 * ~~Elasticsearch监控数值实现同比监控~~ [2020-07-24]
 * ~~Elasticsearch数据源更新免重启加载~~ [2020-07-25]
 * ~~集成LDAP登录验证~~ [2020-07-25]
+* 代码文件增加开源协议说明
 * 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 * 报警消息模板管理功能
 * 补充更详细的部署文档和使用指南
