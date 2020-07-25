@@ -21,27 +21,32 @@ public class ElasticsearchSourceManager {
             return containerMap.get(elasticsearchInfo.getName());
         }
 
-        synchronized (ElasticsearchSourceManager.class) {
-            EsRestClientContainer esRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
-            esRestClientContainer.init();
-
-            containerMap.put(elasticsearchInfo.getName(), esRestClientContainer);
-
-            return esRestClientContainer;
-        }
+        addEsRestClientContainer(elasticsearchInfo);
+        return containerMap.get(elasticsearchInfo.getName());
     }
 
-    public void loadEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
-        if(containerMap.containsKey(elasticsearchInfo.getName())) {
-            EsRestClientContainer newEsRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
-            newEsRestClientContainer.init();
-
-            EsRestClientContainer oldEsRestClientContainer = containerMap.get(elasticsearchInfo.getName());
-            containerMap.put(elasticsearchInfo.getName(), newEsRestClientContainer);
-
-            Runnable task = () -> oldEsRestClientContainer.close();
-            executor.schedule(task, 5, TimeUnit.MINUTES);
+    public boolean reloadEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
+        if (!containerMap.containsKey(elasticsearchInfo.getName())) {
+            return true;
         }
+        EsRestClientContainer newEsRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
+        newEsRestClientContainer.init();
+        if (!newEsRestClientContainer.health()) {
+            return false;
+        }
+
+        EsRestClientContainer oldEsRestClientContainer = containerMap.get(elasticsearchInfo.getName());
+        containerMap.put(elasticsearchInfo.getName(), newEsRestClientContainer);
+        Runnable task = oldEsRestClientContainer::close;
+        executor.schedule(task, 5, TimeUnit.MINUTES);
+        return true;
+    }
+
+    public synchronized boolean addEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
+        EsRestClientContainer esRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
+        esRestClientContainer.init();
+        containerMap.put(elasticsearchInfo.getName(), esRestClientContainer);
+        return true;
     }
 
     public void close() {

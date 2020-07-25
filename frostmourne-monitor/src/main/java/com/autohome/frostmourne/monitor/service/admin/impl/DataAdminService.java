@@ -63,11 +63,13 @@ public class DataAdminService implements IDataAdminService {
         }
         if (dataSourceContract.getId() != null && dataSourceContract.getId() > 0) {
             dataSource.setId(dataSourceContract.getId());
-            boolean result = dataSourceMapper.updateByPrimaryKeySelective(dataSource) > 0;
-            if (result && dataSource.getDatasource_type().equalsIgnoreCase("elasticsearch")) {
-                elasticsearchSourceManager.loadEsRestClientContainer(new ElasticsearchInfo(dataSourceContract));
+            if (dataSource.getDatasource_type().equalsIgnoreCase("elasticsearch")) {
+                boolean reloadResult = elasticsearchSourceManager.reloadEsRestClientContainer(new ElasticsearchInfo(dataSourceContract));
+                if (!reloadResult) {
+                    return false;
+                }
             }
-            return result;
+            return dataSourceMapper.updateByPrimaryKeySelective(dataSource) > 0;
         }
         dataSource.setCreator(account);
         dataSource.setCreate_at(new Date());

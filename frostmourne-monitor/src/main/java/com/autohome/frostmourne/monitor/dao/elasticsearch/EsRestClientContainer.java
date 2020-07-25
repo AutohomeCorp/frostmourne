@@ -15,6 +15,8 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
+import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
@@ -23,7 +25,9 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.client.sniff.Sniffer;
+import org.elasticsearch.cluster.health.ClusterHealthStatus;
 import org.elasticsearch.common.Strings;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.joda.time.DateTime;
@@ -77,6 +81,19 @@ public class EsRestClientContainer {
         if (sniff) {
             sniffer = Sniffer.builder(restLowLevelClient).setSniffIntervalMillis(5 * 60 * 1000).build();
         }
+    }
+
+    public boolean health() {
+        ClusterHealthRequest request = new ClusterHealthRequest();
+        request.timeout(TimeValue.timeValueSeconds(5));
+        ClusterHealthResponse response = null;
+        try {
+            response = restHighLevelClient.cluster().health(request, RequestOptions.DEFAULT);
+        } catch (IOException ex) {
+            LOGGER.error("error when check cluster health", ex);
+            return false;
+        }
+        return response.getStatus() == ClusterHealthStatus.GREEN;
     }
 
     public void close() {
