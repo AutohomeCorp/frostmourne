@@ -39,7 +39,7 @@ public class LdapAuthService implements IAuthService {
             dirContext = ldapTemplate.getContextSource().getContext(userDn, password);
             return dirContext != null;
         } catch (Exception ex) {
-            LOGGER.error("error when ldap validate user", ex);
+            LOGGER.error("error when ldap validate user: {}", userDn, ex);
             return false;
         } finally {
             LdapUtils.closeContext(dirContext);
