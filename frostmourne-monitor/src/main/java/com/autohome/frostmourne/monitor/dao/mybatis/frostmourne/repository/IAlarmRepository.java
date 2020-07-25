@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,8 +22,7 @@ public interface IAlarmRepository {
 
     int updateStatus(@Param("alarmId") Long alarmId, @Param("status") String status);
 
-    List<Alarm> find(@Param("alarmId") Long alarmId, @Param("name") String name,
-                     @Param("teamName") String teamName, @Param("status") String status);
+    PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status);
 
     void updateAlarmLastExecuteInfo(@Param("alarmId") Long alarmId,
                                     @Param("executeTime") Date executeTime,

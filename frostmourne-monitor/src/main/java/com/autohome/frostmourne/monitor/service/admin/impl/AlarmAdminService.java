@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
@@ -26,7 +27,6 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Metric;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Recipient;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.RuleProperty;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataNameMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataSourceMapper;
@@ -34,6 +34,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.MetricMap
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RecipientMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RuleMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RulePropertyMapper;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
@@ -67,8 +68,11 @@ public class AlarmAdminService implements IAlarmAdminService {
     };
 
 
+    /*@Resource
+    private AlarmMapper alarmMapper;*/
+
     @Resource
-    private AlarmMapper alarmMapper;
+    private IAlarmRepository alarmRepository;
 
     @Resource
     private RecipientMapper recipientMapper;
@@ -118,15 +122,16 @@ public class AlarmAdminService implements IAlarmAdminService {
     }
 
     public boolean delete(Long alarmId) {
-        Alarm alarm = alarmMapper.selectByPrimaryKey(alarmId);
-        if (alarm == null) {
+        Optional<Alarm> optionalAlarm = alarmRepository.selectByPrimaryKey(alarmId);
+        if (!optionalAlarm.isPresent()) {
             return false;
         }
+        Alarm alarm = optionalAlarm.get();
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         TransactionStatus status = frostmourneTransactionManager.getTransaction(def);
         try {
-            alarmMapper.deleteByPrimaryKey(alarmId);
+            alarmRepository.deleteByPrimaryKey(alarmId);
             alertMapper.deleteByAlarm(alarmId);
             metricMapper.deleteByAlarm(alarmId);
             ruleMapper.deleteByAlarm(alarmId);
@@ -143,7 +148,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     @Transactional(value = "frostmourneTransactionManager")
     public boolean open(Long alarmId) {
         boolean result = updateStatus(alarmId, AlarmStatus.OPEN);
-        Alarm alarm = this.alarmMapper.selectByPrimaryKey(alarmId);
+        Alarm alarm = this.alarmRepository.selectByPrimaryKey(alarmId).get();
         this.scheduleService.openJob(Math.toIntExact(alarm.getJob_id()));
         return result;
     }
@@ -151,14 +156,14 @@ public class AlarmAdminService implements IAlarmAdminService {
     @Transactional(value = "frostmourneTransactionManager")
     public boolean close(Long alarmId) {
         boolean result = updateStatus(alarmId, AlarmStatus.CLOSE);
-        Alarm alarm = this.alarmMapper.selectByPrimaryKey(alarmId);
+        Alarm alarm = this.alarmRepository.selectByPrimaryKey(alarmId).get();
         this.scheduleService.closeJob(Math.toIntExact(alarm.getJob_id()));
         return result;
     }
 
     public AlarmContract findById(Long alarmId) {
         AlarmContract alarmContract = new AlarmContract();
-        Alarm alarm = alarmMapper.selectByPrimaryKey(alarmId);
+        Alarm alarm = alarmRepository.selectByPrimaryKey(alarmId).get();
         if (alarm == null) {
             return null;
         }
@@ -237,19 +242,17 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     public PagerContract<Alarm> find(int pageIndex, int pageSize, Long alarmId, String name,
                                      String teamName, String status) {
-        Page page = PageHelper.startPage(pageIndex, pageSize);
-        List<Alarm> list = this.alarmMapper.find(alarmId, name, teamName, status);
-        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
+        return alarmRepository.findPage(pageIndex, pageSize, alarmId, name, teamName, status);
     }
 
 
     @Override
     public void updateAlarmLastExecuteInfo(Long alarmId, Date executeTime, ExecuteStatus status) {
-        alarmMapper.updateAlarmLastExecuteInfo(alarmId, executeTime, status.getName());
+        alarmRepository.updateAlarmLastExecuteInfo(alarmId, executeTime, status.getName());
     }
 
     private boolean updateStatus(Long alarmId, String status) {
-        return alarmMapper.updateStatus(alarmId, status) > 0;
+        return alarmRepository.updateStatus(alarmId, status) > 0;
     }
 
     public void save(AlarmContract alarmContract) {
@@ -287,7 +290,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setModify_at(now);
         alarm.setJob_id(0L);
         alarm.setExecute_result(ExecuteStatus.WAITING.getName());
-        alarmMapper.insert(alarm);
+        alarmRepository.insert(alarm);
 
         return alarm;
     }
@@ -307,9 +310,9 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setModifier(alarmContract.getOperator());
         alarm.setTeam_name(alarmContract.getTeam_name());
 
-        alarmMapper.updateByPrimaryKeySelective(alarm);
+        alarmRepository.updateByPrimaryKeySelective(alarm);
 
-        alarm = alarmMapper.selectByPrimaryKey(alarmContract.getId());
+        alarm = alarmRepository.selectByPrimaryKey(alarmContract.getId()).get();
         return alarm;
     }
 
@@ -412,7 +415,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     private void saveJobSchedule(boolean isNewAlarm, Alarm alarm) {
         if (isNewAlarm || alarm.getJob_id() == -1) {
             Integer jobId = this.scheduleService.addJob(alarm.getId(), alarm.getCron(), alarm.getStatus());
-            alarmMapper.updateJobId(alarm.getId(), new Long(jobId));
+            alarmRepository.updateJobId(alarm.getId(), new Long(jobId));
         } else {
             this.scheduleService.updateJob(alarm.getId(), Math.toIntExact(alarm.getJob_id()), alarm.getCron(), alarm.getStatus());
         }

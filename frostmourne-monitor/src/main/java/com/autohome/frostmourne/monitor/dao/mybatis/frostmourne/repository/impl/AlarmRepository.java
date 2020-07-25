@@ -9,16 +9,23 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
 import com.autohome.frostmourne.monitor.tool.MybatisTool;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.mybatis.dynamic.sql.select.CountDSL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class AlarmRepository implements IAlarmRepository {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(AlarmRepository.class);
 
     @Resource
     private AlarmDynamicMapper alarmDynamicMapper;
@@ -58,13 +65,17 @@ public class AlarmRepository implements IAlarmRepository {
     }
 
     @Override
-    public List<Alarm> find(Long alarmId, String name, String teamName, String status) {
-        return alarmDynamicMapper.select(c -> c.where()
-                .and(AlarmDynamicSqlSupport.id, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
-                .and(AlarmDynamicSqlSupport.alarm_name, isLike(name).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
-                .and(AlarmDynamicSqlSupport.team_name, isEqualTo(teamName).when(MybatisTool::notNullAndEmpty))
-                .and(AlarmDynamicSqlSupport.status, isEqualTo(status).when(MybatisTool::notNullAndEmpty))
-                .orderBy(AlarmDynamicSqlSupport.create_at.descending()));
+    public PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status) {
+        Page page = PageHelper.startPage(pageIndex, pageSize);
+        List<Alarm> list = alarmDynamicMapper.select(query -> {
+            query.where().and(AlarmDynamicSqlSupport.id, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
+                    .and(AlarmDynamicSqlSupport.alarm_name, isLike(name).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
+                    .and(AlarmDynamicSqlSupport.team_name, isEqualTo(teamName).when(MybatisTool::notNullAndEmpty))
+                    .and(AlarmDynamicSqlSupport.status, isEqualTo(status).when(MybatisTool::notNullAndEmpty))
+                    .orderBy(AlarmDynamicSqlSupport.create_at.descending());
+            return query;
+        });
+        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
     }
 
     @Override

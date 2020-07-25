@@ -5,7 +5,7 @@ import org.elasticsearch.common.Strings;
 public class MybatisTool {
 
     public static boolean notNullAndEmpty(String value) {
-        return Strings.isNullOrEmpty(value);
+        return !Strings.isNullOrEmpty(value);
     }
 
     public static  boolean notNullAndZero(Long value) {
