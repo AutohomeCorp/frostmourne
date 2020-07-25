@@ -6,7 +6,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ElasticsearchSourceManager {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(ElasticsearchSourceManager.class);
 
     private ConcurrentHashMap<String, EsRestClientContainer> containerMap;
 
@@ -22,6 +28,7 @@ public class ElasticsearchSourceManager {
             if (currentEsRestClientContainer.getInitTimestamp() >= elasticsearchInfo.getLastUpdateTime()) {
                 return currentEsRestClientContainer;
             } else {
+                LOGGER.warn("elasticsearch updated after init. info: {}", JacksonUtil.serialize(elasticsearchInfo));
                 reloadEsRestClientContainer(elasticsearchInfo);
             }
         } else {
@@ -38,6 +45,7 @@ public class ElasticsearchSourceManager {
         EsRestClientContainer newEsRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
         newEsRestClientContainer.init();
         if (!newEsRestClientContainer.health()) {
+            LOGGER.warn("elasticsearch not health when reload. info: {}", JacksonUtil.serialize(elasticsearchInfo));
             return false;
         }
 
@@ -45,6 +53,7 @@ public class ElasticsearchSourceManager {
         containerMap.put(elasticsearchInfo.getName(), newEsRestClientContainer);
         Runnable task = oldEsRestClientContainer::close;
         executor.schedule(task, 5, TimeUnit.MINUTES);
+        LOGGER.warn("elasticsearch reload success. info: {}", JacksonUtil.serialize(elasticsearchInfo));
         return true;
     }
 
