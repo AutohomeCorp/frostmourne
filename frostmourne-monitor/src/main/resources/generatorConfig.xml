@@ -20,6 +20,7 @@
         </table>
         <table tableName="alarm_log" mapperName="AlarmLogDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="alert" mapperName="AlertDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
@@ -54,7 +55,7 @@
         <table tableName="department_info" mapperName="DepartmentInfoDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
         </table>-->
-        <table tableName="alarm" mapperName="AlarmDynamicMapper">
+        <table tableName="alarm_log" mapperName="AlarmLogDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
