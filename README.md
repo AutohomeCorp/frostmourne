@@ -169,8 +169,6 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 
 启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。  
 
-如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
-
 ```bash
 ./scripts/startup.sh
 ```
@@ -180,6 +178,9 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 ```bash
 ./scripts/shutdown.sh
 ```
+
+如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+docker里启动一个xxl-job服务，供本地调用
 
 ## 为什么需要xxl-job
 
