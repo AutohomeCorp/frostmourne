@@ -1,3 +1,5 @@
+## [Github地址](https://github.com/AutohomeCorp/frostmourne) | [Gitee地址](https://gitee.com/tim_guai/frostmourne)
+
 ## 介绍
 
 frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助开发监控应用日志，现主要用于监控Elasticsearch数据。
@@ -7,7 +9,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 主要功能
 
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
-* 多种数值聚合类型监控(count,min,max,avg,sum)
+* 多种数值聚合类型监控(count,min,max,avg,sum), 同比监控
 * HTTP数据监控, 表达式判断是否报警
 * UI功能，简单易用
 * 监控管理，测试，另存。执行日志，历史消息。
@@ -19,6 +21,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 报警消息抑制功能，防止消息轰炸
 * 每个监控都是独立调度，互不影响
 * 自带账号,团队,部门信息管理模块，也可自己实现内部对接
+* 集成LDAP登录认证
 
 ## 在线demo
 
@@ -144,10 +147,10 @@ xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql
 
 ### 快速启动
 
-由于正常启动还需要不少依赖部署，所以并不那么容易，所以提供了一个快速启动的办法，让你更快的理解项目，和运行起来。
+提供docker方式，让你更快运行起来便于更好理解项目作用。
 详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
-## 开发调试
+## xxl-job服务说明
 
 本项目依赖xxl-job, 请自己部署xxl-job，并将相关接口权限认证去掉(在action上加注解 @PermissionLimit(limit=false) )，让frostmourne可以访问这些接口。需要了解xxl-job请
 查阅官方站点[https://www.xuxueli.com/xxl-job/]. 当前依赖版本为2.1.0，如果存在版本兼容问题，请自行修改适配, 建议单独部署一套新的xxl-job，能避免很多不必要的麻烦。
@@ -159,32 +162,14 @@ xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql
 * /jobinfo/start
 * /jobinfo/stop
 
+如果你觉得从xxl-job官方下载源码修改部署太麻烦，你可以使用我处理好了的jar包 <a href="./doc/xxl-job/xxl-job-admin-2.1.0.zip" target="_blank">xxl-job-admin-2.1.0.zip</a>，你可以下载直接解压使用
 xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一个名为frostmourne的执行器，注册方式为自动注册，如下图：
 
 <img src="./doc/img/executor.png"/>
 
-然后修改frostmourne-monitor里和xxl-job相关配置。其中xxl.job.executor.id配置为刚在xxl-job中创建的执行器id。一般执行器id是2。
+启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。  
 
-```
-### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
-xxl.job.admin.addresses=http://[your_xxljob_address]/xxl-job-admin
-### xxl-job executor address
-xxl.job.executor.id=2
-xxl.job.executor.appname=frostmourne
-xxl.job.executor.ip=
-xxl.job.executor.port=-1
-### xxl-job, access token
-xxl.job.accessToken=
-### xxl-job log path
-xxl.job.executor.logpath=/data/applogs/xxl-job/jobhandler
-### xxl-job log retention days
-xxl.job.executor.logretentiondays=3
-### xxl-job alarm email
-xxl.job.alarm.email=[your_email]
-```
-
-如果你觉得从xxl-job官方下载源码修改部署太麻烦，你可以使用我处理好了的jar包 <a href="./doc/xxl-job/xxl-job-admin-2.1.0.zip" target="_blank">xxl-job-admin-2.1.0.zip</a>，你可以下载直接解压使用，启动脚本
-都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。
+如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
 ```bash
 ./scripts/startup.sh
@@ -195,23 +180,6 @@ xxl.job.alarm.email=[your_email]
 ```bash
 ./scripts/shutdown.sh
 ```
-
-启动frostmourne-spi项目，active profile设置为default, 测试地址: http://localhost:8180  
-启动frostmourne-monitor项目, active profile设置为local, 测试地址: http://localhost:8080   
-使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
-
-```bash
-# install dependency
-npm install
-
-# 建议不要直接使用 cnpm 安装以来，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
-npm install --registry=https://registry.npm.taobao.org
-
-# develop
-npm run dev
-```
-
-会自动打开： http://localhost:9528
 
 ## 为什么需要xxl-job
 
@@ -311,48 +279,95 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 如果短链接服务出错或者不使用，报警消息里的链接将使用原链接，会比较长。
 
+## 开发调试
+
+修改frostmourne-monitor里和xxl-job相关配置。其中xxl.job.executor.id配置为刚在xxl-job中创建的执行器id。一般执行器id是2。
+
+```
+### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
+xxl.job.admin.addresses=http://[your_xxljob_address]/xxl-job-admin
+### xxl-job executor address
+xxl.job.executor.id=2
+xxl.job.executor.appname=frostmourne
+xxl.job.executor.ip=
+xxl.job.executor.port=-1
+### xxl-job, access token
+xxl.job.accessToken=
+### xxl-job log path
+xxl.job.executor.logpath=/data/applogs/xxl-job/jobhandler
+### xxl-job log retention days
+xxl.job.executor.logretentiondays=3
+### xxl-job alarm email
+xxl.job.alarm.email=[your_email]
+```
+
+启动frostmourne-spi项目，active profile设置为default, 测试地址: http://localhost:10053  
+启动frostmourne-monitor项目, active profile设置为local, 测试地址: http://localhost:10054   
+使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
+
+```bash
+# install dependency
+npm install
+
+# 建议不要直接使用 cnpm 安装以来，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
+npm install --registry=https://registry.npm.taobao.org
+
+# develop
+npm run dev
+```
+
+会自动打开： http://localhost:9528  
+
+搭建本地开发调试环境或者需要做二次开发遇到什么困难的都可以加群沟通，欢迎各路英雄多多PR
+
 ## 后续规划
 
 目前已知的规划有: 
 
-* ~~增加Dockerfile~~  [xyzj91][2020-07-02]
-* ~~增加docker-compose部署，用于快速启动~~ [xyzj91][2020-07-02]
-* ~~HTTP监控增加header设置~~ [2020-07-04]
-* ~~报警接收人设置时给出提示~~ [2020-07-04]
-* ~~增加企业微信机器人消息发送方式~~ [2020-07-05]
-* ~~用户信息，团队信息，部门信息外部文件增加定期重新加载~~ [2020-07-05]
-* ~~增加账号信息管理功能模块~~ [2020-07-11]
-* 新功能暂时停止，代码优化改进，稳定一段时间后发布0.2-RELEASE
-* 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
-* 内置实现一个短链接功能，移除外部短链接服务依赖
-* Elasticsearch监控数值实现同比监控
-* Elasticsearch监控数值实现环比监控
-* Elasticsearch数据源更新免重启加载
-* Elasticsearch查询增加常用语句自动提示
+* ~~监控列表增加按团队查询，默认只显示自己团队的监控；监控按部门隔离~~ [2020-07-22]
+* ~~数据名保存表单数据提交增加前端验证~~ [2020-07-22]
+* ~~Elasticsearch监控数值实现同比监控~~ [2020-07-24]
+* ~~Elasticsearch数据源更新免重启加载~~ [2020-07-25]
+* ~~集成LDAP登录验证~~ [2020-07-25]
+* 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
+* 报警消息模板管理功能
+* 补充更详细的部署文档和使用指南
+* 更新在线demo至最新
+* 菜单增加权限控制，部分页面(如：数据源配置)只对管理员开放
 * Elasticsearch查询数据柱状图可点击并自动变更时间范围
-* Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
-* 增加系统配置功能模块，将启动非必要的配置用功能管理起来，减轻启动配置负担
+* Elasticsearch查询增加历史语句自动提示
+* Elasticsearch监控数值实现环比监控
+* 监控增加风险等级设置(提示，重要，紧急，我崩了)
+* 内置实现一个短链接功能，移除外部短链接服务依赖
+* 监控列表页增加按创建人查询条件
 * 移除SPI模块，经过一系列优化后，spi模块存在的必要性可能很低了，考虑移除掉，降低部署难度
-* 补充更详细的部署文档
+* 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像
+* Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
+* 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
+* 增加系统配置功能模块，将启动非必要的配置用功能管理起来，减轻启动配置负担
 * README简化为文档目录索引形式，具体内容分散到各个文档中，方便查找
-* 监控列表增加按团队查询；监控列表增加权限控制，监控按部门隔离
 * 监控调度配置后显示预计调度时间
 * 报警接收人可以设置为组
-* 使用autolog4j程序日志格式
-* 报警消息模板存库管理
 * Elasticsearch数据名配置时自动提示索引名称
 * Elasticsearch索引字段自动获取
-* 集成Swagger
+* 数据源保存增加表单验证
 * 数据源增加连接测试功能
-* 增加influxdb数据监控(数据同比，环比监控)
+* 增加变量管理，可以设置多个值；根据变量批量创建监控，最多可以设置两个变量；一次创建m*n个监控
+* 发布0.3-RELEASE
+* 增加influxdb数值监控
+* 增加influxdb数值同比，环比监控
 * 增加prometheus支持
-* Elasticsearch监控查询语句增加DSL类型查询
 * Elasticsearch监控查询语句增加SQL类型查询
-* 加强登录安全(集成LDAP, CAS单点登录)
+* 集成CAS登录认证
 * 增加单元测试
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
 * 发布1.0-RELEASE
+* 加入更为智能的时序数据异常检测算法规则(需要实验可行性)
+
+## 发版历史
+
+[ReleaseNotes](./ReleaseNotes.md)
 
 ## 主要技术栈
 

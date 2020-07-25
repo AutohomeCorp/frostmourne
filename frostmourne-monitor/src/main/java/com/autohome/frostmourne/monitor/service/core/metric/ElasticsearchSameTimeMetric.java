@@ -32,9 +32,11 @@ public class ElasticsearchSameTimeMetric extends AbstractSameTimeMetric {
         resultMap.put("startTime", start.toDateTimeISO().toString());
         resultMap.put("endTime", end.toDateTimeISO().toString());
         resultMap.put("PERIOD_UNIT_DESCRIPTION", findPeriodUnitDescription(periodUnit));
+        Double current = null;
         try {
             ElasticsearchMetric elasticsearchMetric = elasticsearchDataQuery.queryElasticsearchMetricValue(start, end, metricContract);
-            resultMap.put("CURRENT", toDouble(elasticsearchMetric.getMetricValue(), 0D));
+            current = toDouble(elasticsearchMetric.getMetricValue(), 0D);
+            resultMap.put("CURRENT", current);
         } catch (IOException ex) {
             throw new RuntimeException("error when queryElasticsearchMetricValue", ex);
         }
@@ -42,10 +44,9 @@ public class ElasticsearchSameTimeMetric extends AbstractSameTimeMetric {
         List<ReferenceBag> referenceDataList = new ArrayList<>();
         try {
             for (String referenceType : referenceTypeList) {
-                ReferenceBag referenceBag = calculateReference(start, end, referenceType, metricContract);
+                ReferenceBag referenceBag = calculateReference(start, end, referenceType, metricContract, current);
                 referenceDataList.add(referenceBag);
             }
-
             resultMap.put("REFERENCE_LIST", referenceDataList);
         } catch (IOException ex) {
             throw new RuntimeException("error when calculateReference", ex);
@@ -55,7 +56,7 @@ public class ElasticsearchSameTimeMetric extends AbstractSameTimeMetric {
     }
 
     private ReferenceBag calculateReference(DateTime start, DateTime end, String referenceType,
-                                            MetricContract metricContract) throws IOException {
+                                            MetricContract metricContract, Double current) throws IOException {
         ReferenceBag referenceBag = new ReferenceBag();
         referenceBag.setReferenceType(referenceType);
         DateTime referenceStart;
@@ -76,8 +77,11 @@ public class ElasticsearchSameTimeMetric extends AbstractSameTimeMetric {
             throw new IllegalArgumentException("unknown reference_type: " + referenceType);
         }
         ElasticsearchMetric elasticsearchMetric = this.elasticsearchDataQuery.queryElasticsearchMetricValue(referenceStart, referenceEnd, metricContract);
-        referenceBag.setValue(toDouble(elasticsearchMetric.getMetricValue(), 0D));
-        return new ReferenceBag();
+        Double metricValue = toDouble(elasticsearchMetric.getMetricValue(), 0D);
+        Double percentage = calculatePercentage(current, metricValue);
+        referenceBag.setValue(metricValue);
+        referenceBag.setPercentage(percentage);
+        return referenceBag;
     }
 
     private Double toDouble(Object value, Double defaultValue) {
@@ -87,5 +91,12 @@ public class ElasticsearchSameTimeMetric extends AbstractSameTimeMetric {
             LOGGER.error("error when toDouble, value: " + value.toString(), ex);
             return defaultValue;
         }
+    }
+
+    private Double calculatePercentage(Double current, Double reference) {
+        if (reference == 0) {
+            return (current - reference) * 100 / (reference + 1);
+        }
+        return (current - reference) * 100 / reference;
     }
 }

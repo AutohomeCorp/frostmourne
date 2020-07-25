@@ -43,7 +43,7 @@ public class FrostmourneJobHandler extends IJobHandler {
             Map<String, Object> paramMap = JacksonObjectMapper.getCommonObjectMapper().readValue(param, typeRef);
             Long alarmId = new Long(paramMap.get("alarmId").toString());
             alarmService.run("system", alarmId, false);
-            XxlJobLogger.log("frostmourne, job begin.");
+            XxlJobLogger.log("frostmourne, job end.");
             return SUCCESS;
         } catch (Exception ex) {
             LOGGER.error("error when execute, param: " + param, ex);

@@ -5,10 +5,9 @@
     <parent>
         <groupId>com.autohome</groupId>
         <artifactId>frostmourne</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
     <artifactId>frostmourne-monitor</artifactId>
-    <version>0.2-SNAPSHOT</version>
     <name>frostmourne-monitor</name>
     <description>frostmourne-monitor</description>
 
@@ -84,7 +83,6 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.9.9</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -173,6 +171,11 @@
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>${opencsv.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-ldap</artifactId>
         </dependency>
 
     </dependencies>

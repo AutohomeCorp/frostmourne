@@ -1,34 +1,31 @@
-## 用户管理和登录认证
+## 登录认证和账号管理
 
-目前密码认证比较简单，只要账号存在，如果没有设置初始密码，那么任意密码可登陆，如果设置了初始密码，则所有
+### 登录认证
+目前密码认证有两种
+
+* 方式1： 默认配置文件认证
+
+只要账号存在，如果没有设置初始密码，那么任意密码可登陆，如果设置了初始密码，则所有
 账号都用初始密码登陆。初始密码在frostmourne-monitor里配置
 
 ```
 initial.password=${initial_password:#{null}}
 ```
 
-默认只有admin账号可用。目前用户管理有两个实现，
+* 方式2：LDAP认证
 
-* frostmourne-monitor自带的账号信息管理功能模块(默认选项)
-* 另一个是用frostmourne-spi接口实现的。
-
-使用如下配置项目来进行设置：
+如果在frostmourne-monitor中关于ldap的配置有值，则优先使用ldap认证方式。
 
 ```
-### default: apply frostmourne's default account module; spi: apply frostmourne-spi account service
-frostmourne.account.type=${frostmourne_account_type:default}
+spring.ldap.urls=${spring_ldap_urls:#{null}}
+spring.ldap.username=${spring_ldap_username:#{null}}
+spring.ldap.password=${spring_ldap_password:#{null}}
+spring.ldap.base=${spring_ldap_base:#{null}}
+spring.ldap.domainName=${spring_ldap_domainName:#{null}}
 ```
 
-配置值说明：
+> 注意： 开启了LDAP认证，admin账号仍然可以用方式1来登录
 
-* default: 默认实现，使用frostmourne-monitor自带的账号信息管理
-* spi: 使用spi接口实现
+### 账号信息
 
-一般情况下默认实现就能满足使用需求。如果需要对接自己内部系统，可以自己把账号信息同步到frostmourne库里；或者选择对接
-frostrmourne-spi, 然后将frostmourne.account.type配置为spi即可。frostmourne-spi里的账号信息默认使用json文件实现，比较简陋，不建议使用。
-
-* [frostmourne-spi/src/main/resources/auth/user.json](https://github.com/AutohomeCorp/frostmourne/tree/master/frostmourne-spi/src/main/resources/auth/user.json) 用户信息配置文件
-* [frostmourne-spi/src/main/resources/auth/department.json](https://github.com/AutohomeCorp/frostmourne/tree/master/frostmourne-spi/src/main/resources/auth/department.json) 部门信息配置文件
-* [frostmourne-spi/src/main/resources/auth/team.json](https://github.com/AutohomeCorp/frostmourne/tree/master/frostmourne-spi/src/main/resources/auth/team.json) 团队信息配置文件
-
-spi的账号管理接口只有选择自己对接内部信息管理时其中一种实现选择，基本上用不到。
+默认只有admin账号可用。frostmourne-monitor自带的账号信息管理功能模块一般情况下默认实现就能满足使用需求。如果需要对接自己内部系统，可以自己把账号信息同步到frostmourne库里；

@@ -29,13 +29,13 @@ export PID_FOLDER
 
 
 ## Adjust memory settings if necessary
-export JAVA_OPTS="-Xms1024m -Xmx1024m -Xss256k -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=256m -XX:NewRatio=4 -XX:SurvivorRatio=8"
+export JAVA_OPTS="-Xms256m -Xmx1024m -Xss256k -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=256m -XX:NewRatio=4 -XX:SurvivorRatio=8"
 
 ## Only uncomment the following when you are using server jvm
 #export JAVA_OPTS="$JAVA_OPTS -server -XX:-ReduceInitialCardMarks"
 
 export JAVA_OPTS="$JAVA_OPTS -XX:+UseParNewGC -XX:ParallelGCThreads=4 -XX:MaxTenuringThreshold=9 -XX:+UseConcMarkSweepGC -XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:+ScavengeBeforeFullGC -XX:+UseCMSCompactAtFullCollection -XX:+CMSParallelRemarkEnabled -XX:CMSFullGCsBeforeCompaction=9 -XX:CMSInitiatingOccupancyFraction=60 -XX:+CMSClassUnloadingEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSPermGenSweepingEnabled -XX:CMSInitiatingPermOccupancyFraction=70 -XX:+ExplicitGCInvokesConcurrent -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationConcurrentTime -XX:+PrintHeapAtGC -XX:+HeapDumpOnOutOfMemoryError -XX:-OmitStackTraceInFastThrow -Duser.timezone=Asia/Shanghai -Dclient.encoding.override=UTF-8 -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom"
-export JAVA_OPTS="$JAVA_OPTS -Dserver.port=$SERVER_PORT -Dspring.profiles.active=$PROFILE -Dlogs.dir=$LOG_DIR -Xloggc:$LOG_DIR/heap_trace.txt -XX:HeapDumpPath=$LOG_DIR/HeapDumpOnOutOfMemoryError/"
+export JAVA_OPTS="$JAVA_OPTS -Dserver.port=$SERVER_PORT -Dspring.profiles.active=$PROFILE -Dlogs.dir=$LOG_DIR -Dlog.console.level=${LOG_CONSOLE_LEVEL} -Xloggc:$LOG_DIR/heap_trace.txt -XX:HeapDumpPath=$LOG_DIR/HeapDumpOnOutOfMemoryError/"
 
 PATH_TO_JAR=$SERVICE_NAME".jar"
 SERVER_URL="http://localhost:$SERVER_PORT"

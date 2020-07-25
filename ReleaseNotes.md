@@ -1,3 +1,25 @@
+## 0.3-SNAPSHOT
+
+### Feature
+
+* 监控列表增加按团队查询，默认只显示自己团队的监控；监控按部门隔离 [2020-07-22]
+* Elasticsearch监控数值实现同比监控 [2020-07-24]
+* Elasticsearch数据源更新免重启加载 [2020-07-25]
+* 集成LDAP登录认证 [2020-07-25]
+
+### Improvement
+
+* 数据名保存表单数据提交增加前端验证 [2020-07-22]
+
+### Bugfix
+
+### Mysql
+
+### Document
+
+### Other
+
+
 ## 0.2-RELEASE
 
 ### Feature
@@ -36,12 +58,16 @@
 
 * 增加query string简易教程
 * 增加docker启动说明文档
-* 引入[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 
 ### Others
 
 * Elasticsearch-Rest-Client升级至6.6.2
 * 升级guava至28.2-jre
+* 引入[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
+* springboot升级至2.3.1-RELEASE
+* 引入[maven-ci-friendly](https://maven.apache.org/maven-ci-friendly.html)实践 [2020-07-18]
+* 使用[autolog4j](https://github.com/AutohomeCorp/autolog4j)程序日志格式 [2020-07-19]
+* 文本日志按天滚动 [2020-07-19]
 
 ## 0.1-RELEASE
 

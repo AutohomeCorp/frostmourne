@@ -1,21 +1,45 @@
 package com.autohome.frostmourne.monitor.config;
 
 import java.nio.charset.StandardCharsets;
-
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceManager;
 import com.autohome.frostmourne.monitor.service.account.IAccountService;
+import com.autohome.frostmourne.monitor.service.account.IAuthService;
 import com.autohome.frostmourne.monitor.service.account.impl.DefaultAccountService;
-import com.autohome.frostmourne.monitor.service.account.impl.FrostmourneSpiAccountService;
+import com.autohome.frostmourne.monitor.service.account.impl.DefaultAuthService;
+import com.autohome.frostmourne.monitor.service.account.impl.LdapAuthService;
+import org.elasticsearch.common.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class BeanConfig {
+
+    @Value("${initial.password}")
+    private String initialPassword;
+
+    @Value("${spring.ldap.urls}")
+    private String ldapUrls;
+
+    @Value("${spring.ldap.username}")
+    private String ldapUsername;
+
+    @Value("${spring.ldap.password}")
+    private String ldapPassword;
+
+    @Value("${spring.ldap.base}")
+    private String ldapBase;
+
+    @Value("${spring.ldap.domainName}")
+    private String ldapDomainName;
+
+    @Resource
+    private LdapTemplate ldapTemplate;
 
     @Bean(initMethod = "init", destroyMethod = "close")
     public ElasticsearchSourceManager elasticsearchSourceManager() {
@@ -24,9 +48,6 @@ public class BeanConfig {
 
     @Resource
     private DefaultAccountService defaultAccountService;
-
-    @Resource
-    private FrostmourneSpiAccountService frostmourneSpiAccountService;
 
     @Bean
     public RestTemplate restTemplate() {
@@ -38,9 +59,15 @@ public class BeanConfig {
 
     @Bean
     public IAccountService accountService(@Value("${frostmourne.account.type}") String accountType) {
-        if (accountType.equalsIgnoreCase("default")) {
-            return defaultAccountService;
+        return defaultAccountService;
+    }
+
+    @Bean
+    public IAuthService authService() {
+        if (!Strings.isNullOrEmpty(ldapUrls)) {
+            return new LdapAuthService(ldapDomainName, ldapTemplate, initialPassword);
         }
-        return frostmourneSpiAccountService;
+        return new DefaultAuthService(initialPassword);
+
     }
 }
