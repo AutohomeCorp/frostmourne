@@ -49,14 +49,14 @@
         </el-form-item>
         <el-form-item label="服务地址" :label-width="formLabelWidth">
           <el-input v-model="editData.service_address" autocomplete="off" placeholder="例如：127.0.0.1:9200，多地址英文逗号分隔" />
-          <el-tooltip content="地址更新后，下次重启后才生效" placement="bottom">
+          <!--<el-tooltip content="地址更新后，下次重启后才生效" placement="bottom">
             <i class="el-icon-question" />
-          </el-tooltip>
+          </el-tooltip>-->
         </el-form-item>
-        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="认证用户" :label-width="formLabelWidth">
+        <el-form-item v-if="editData.datasource_type === 'elasticsearch'" label="认证用户" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.username" placeholder="无认证不需要填写" autocomplete="off" />
         </el-form-item>
-        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="密码" :label-width="formLabelWidth">
+        <el-form-item v-if="editData.datasource_type === 'elasticsearch'" label="密码" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.password" placeholder="无认证不需要填写" :type="passwordType" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -184,7 +184,7 @@ export default {
         })
       })
     },
-    showPwd() {
+    showPwd () {
       if (this.passwordType === 'password') {
         this.passwordType = ''
       } else {

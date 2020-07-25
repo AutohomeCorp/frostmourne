@@ -1,0 +1,1 @@
+ALTER TABLE alarm ADD COLUMN risk_level VARCHAR(500) NULL COMMENT '风险等级。info: 提示；important: 重要；emergency: 紧急； crash: 我崩了';

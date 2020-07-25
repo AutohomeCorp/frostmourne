@@ -56,7 +56,27 @@ ${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一�
 异常类型: ${ExceptionType}
 自定义信息: ${CustomMessage}
 异常信息: ${ExceptionMessage}
-``` 
+```
+
+比如监控访问日志，我们一般定制的消息模板为:
+
+```
+域名${host}最近${TIME_WINDOW}分钟内有非200请求${NUMBER}。最近一条信息:
+服务器IP: ${server_ip}
+调用IP: ${client_ip}
+HttpCode: ${code}
+耗时: ${cost}
+```
+
+或者我们监控访问日志的耗时，定制的消息模板为：
+
+```
+域名${host}最近${TIME_WINDOW}分钟内有耗时超过500ms请求${NUMBER}。最近一条信息:
+服务器IP: ${server_ip}
+调用IP: ${client_ip}
+HttpCode: ${code}
+耗时: ${cost}
+```
 
 这里用我们内部使用的例子供大家参考使用，具体模板内容，你需要自己根据数据格式定制。如果你想使用我们的日志格式，请参考
 另外一个开源项目: autolog4j[https://github.com/AutohomeCorp/autolog4j]

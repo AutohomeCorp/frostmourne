@@ -21,4 +21,6 @@ public interface ITeamInfoRepository {
     int deleteByDepartment(Long departmentId);
 
     Optional<TeamInfo> findByName(String teamName);
+
+    Optional<TeamInfo> findById(Long teamId);
 }

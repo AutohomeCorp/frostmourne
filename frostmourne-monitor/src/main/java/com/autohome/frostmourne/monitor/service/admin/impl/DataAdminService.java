@@ -15,6 +15,8 @@ import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataOption;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceOption;
+import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchInfo;
+import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceManager;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataNameMapper;
@@ -40,6 +42,9 @@ public class DataAdminService implements IDataAdminService {
     @Resource
     private MetricMapper metricMapper;
 
+    @Resource
+    private ElasticsearchSourceManager elasticsearchSourceManager;
+
     public DataSourceContract findDatasourceById(Long id) {
         DataSource dataSource = dataSourceMapper.selectByPrimaryKey(id);
         return DataSourceTransformer.model2Contract(dataSource);
@@ -58,11 +63,18 @@ public class DataAdminService implements IDataAdminService {
         }
         if (dataSourceContract.getId() != null && dataSourceContract.getId() > 0) {
             dataSource.setId(dataSourceContract.getId());
+            if (dataSource.getDatasource_type().equalsIgnoreCase("elasticsearch")) {
+                boolean reloadResult = elasticsearchSourceManager.reloadEsRestClientContainer(new ElasticsearchInfo(dataSourceContract));
+                if (!reloadResult) {
+                    return false;
+                }
+            }
             return dataSourceMapper.updateByPrimaryKeySelective(dataSource) > 0;
         }
         dataSource.setCreator(account);
         dataSource.setCreate_at(new Date());
         return dataSourceMapper.insert(dataSource) > 0;
+
     }
 
     @Override

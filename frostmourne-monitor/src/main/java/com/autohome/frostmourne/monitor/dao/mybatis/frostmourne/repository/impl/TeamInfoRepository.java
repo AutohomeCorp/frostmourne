@@ -64,4 +64,9 @@ public class TeamInfoRepository implements ITeamInfoRepository {
     public Optional<TeamInfo> findByName(String teamName) {
         return teamInfoDynamicMapper.selectOne(c -> c.where().and(TeamInfoDynamicSqlSupport.team_name, isEqualTo(teamName)));
     }
+
+    @Override
+    public Optional<TeamInfo> findById(Long teamId) {
+        return teamInfoDynamicMapper.selectByPrimaryKey(teamId);
+    }
 }

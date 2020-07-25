@@ -91,10 +91,11 @@
         </el-tab-pane>
         <el-tab-pane label="报警规则">
           <el-form-item label="判断类型:" prop="metricContract.metric_type">
-            <el-select v-model="form.metricContract.metric_type">
-              <el-option v-if="dataSourceType !== 'http'" label="数值" value="numeric" />
+            <el-select v-model="form.metricContract.metric_type" @change="metricTypeChangeHandler">
+              <el-option v-if="dataSourceType !== 'http'" label="数值比较" value="numeric" />
               <el-option v-if="dataSourceType === 'http'" label="Javascript表达式" value="object" />
               <!--<el-option label="环比" value="ring_than"/>-->
+              <el-option v-if="dataSourceType !== 'http'" label="同比" value="same_time" />
             </el-select>
           </el-form-item>
           <el-row>
@@ -113,7 +114,7 @@
             <el-input v-model="form.ruleContract.settings.EXPRESSION" type="textarea" />
           </el-form-item>
           <el-form-item v-if="form.metricContract.metric_type === 'ring_than'" label="判断规则:">
-            <el-select v-model="form.ruleContract.PERIOD_UNIT">
+            <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
               <el-option label="周" value="week" />
               <el-option label="日" value="day" />
               <el-option label="小时" value="hour" />
@@ -123,8 +124,34 @@
               <el-option label="增加" value="increase" />
               <el-option label="减少" value="decrease" />
             </el-select>百分之
-            <el-input v-model="form.ruleContract.settings.PERCENT_THRESHOLD" style="width: 200px" />
+            <el-input v-model="form.ruleContract.settings.PERCENT_THRESHOLD" style="width: 150px" />
           </el-form-item>
+          <el-form-item v-if="form.metricContract.metric_type === 'same_time'" label="判断规则:">
+            <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
+              <el-option label="小时" value="hour" />
+              <el-option label="天" value="day" />
+            </el-select>同比
+            <el-select v-model="form.ruleContract.settings.REFERENCE_TYPE_LIST">
+              <el-option label="昨天" value="day" />
+              <el-option label="上周" value="week" />
+              <el-option label="上月" value="month" />
+              <el-option label="昨天和上周" value="day,week" />
+            </el-select>
+            <el-select v-model="form.ruleContract.settings.COMPARE_TYPE">
+              <el-option label="增加" value="increase" />
+              <el-option label="减少" value="decrease" />
+              <el-option label="增加或减少" value="both" />
+            </el-select>超过百分之
+            <el-input v-model="form.ruleContract.settings.PERCENTAGE_THRESHOLD" style="width: 150px" />并且差值(当前值 - 对比值)
+            <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
+              <el-option label="绝对值>=" value="ABS_GTE" />
+              <el-option label="绝对值<=" value="ABS_LTE" />
+              <el-option label=">=" value="GTE" />
+              <el-option label="<=" value="LTE" />
+            </el-select>
+            <el-input v-model="form.ruleContract.settings.DIFF_VALUE_THRESHOLD" style="width: 100px" />
+          </el-form-item>
+
         </el-tab-pane>
         <el-tab-pane label="消息模板">
           <el-form-item label="消息模板:" prop="ruleContract.alert_template">
@@ -553,6 +580,14 @@ export default {
         this.httpResonseData = response.result
         this.httpResponseDialogVisible = true
       })
+    },
+    metricTypeChangeHandler (newValue) {
+      if (newValue === 'same_time') {
+        this.form.ruleContract.alert_template = '自然${PERIOD_UNIT_DESCRIPTION}\r\n' +
+        '<#list REFERENCE_LIST as item>\n' +
+        '指标同比${item.description}变化${item.percentage}%,超过阈值${PERCENTAGE_THRESHOLD}%, 当前值: ${CURRENT}, 对比值：${item.value};\r\n' +
+        '</#list>'
+      }
     }
   }
 }

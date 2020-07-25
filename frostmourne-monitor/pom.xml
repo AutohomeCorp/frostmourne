@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.autohome</groupId>
         <artifactId>frostmourne</artifactId>
-        <version>${revision}</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
     <artifactId>frostmourne-monitor</artifactId>
     <name>frostmourne-monitor</name>
@@ -171,6 +171,11 @@
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>${opencsv.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-ldap</artifactId>
         </dependency>
 
     </dependencies>

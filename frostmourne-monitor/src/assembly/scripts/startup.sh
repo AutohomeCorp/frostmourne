@@ -29,7 +29,7 @@ export PID_FOLDER
 
 
 ## Adjust memory settings if necessary
-export JAVA_OPTS="-Xms1024m -Xmx1024m -Xss256k -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=256m -XX:NewRatio=4 -XX:SurvivorRatio=8"
+export JAVA_OPTS="-Xms256m -Xmx1024m -Xss256k -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=256m -XX:NewRatio=4 -XX:SurvivorRatio=8"
 
 ## Only uncomment the following when you are using server jvm
 #export JAVA_OPTS="$JAVA_OPTS -server -XX:-ReduceInitialCardMarks"
