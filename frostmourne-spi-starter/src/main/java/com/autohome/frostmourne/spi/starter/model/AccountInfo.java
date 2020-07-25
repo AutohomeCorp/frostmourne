@@ -18,6 +18,8 @@ public class AccountInfo {
 
     private String wxid;
 
+    private Long departmentId;
+
     private List<String> roles;
 
     public String getAccount() {
@@ -82,5 +84,13 @@ public class AccountInfo {
 
     public void setWxid(String wxid) {
         this.wxid = wxid;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 }

@@ -1,6 +1,7 @@
 package com.autohome.frostmourne.monitor.controller;
 
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.Protocol;
@@ -8,11 +9,11 @@ import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.contract.LoginInfo;
 import com.autohome.frostmourne.monitor.controller.annotation.PermissionLimit;
 import com.autohome.frostmourne.monitor.service.account.IAccountService;
+import com.autohome.frostmourne.monitor.service.account.IAuthService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
 import com.autohome.frostmourne.monitor.tool.JwtToken;
 import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.Team;
-import org.elasticsearch.common.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,9 @@ public class UserController {
     @Resource
     private IAccountService accountService;
 
+    @Resource
+    private IAuthService authService;
+
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public Protocol<AccountInfo> info() {
         return new Protocol<>(AuthTool.currentUser());
@@ -41,16 +45,15 @@ public class UserController {
     @PermissionLimit(limit = false)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Protocol<String> login(@RequestBody LoginInfo loginInfo) {
-        if (!Strings.isNullOrEmpty(initialPassword)) {
-            if (!loginInfo.getPassword().equalsIgnoreCase(initialPassword)) {
-                throw new ProtocolException(580, "密码错误");
-            }
+        boolean valid = authService.validate(loginInfo.getUsername(), loginInfo.getPassword());
+        if(!valid) {
+            throw new ProtocolException(580, "用户名或密码错误");
         }
-        AccountInfo accountInfo = accountService.findByAccount(loginInfo.getUsername());
-        if (accountInfo == null) {
+        Optional<AccountInfo> optionalAccountInfo = accountService.findByAccount(loginInfo.getUsername());
+        if (!optionalAccountInfo.isPresent()) {
             throw new ProtocolException(590, "用户不存在");
         }
-        String token = jwtToken.generateToken(accountInfo);
+        String token = jwtToken.generateToken(optionalAccountInfo.get());
         return new Protocol<>(token);
     }
 
@@ -61,7 +64,7 @@ public class UserController {
 
     @RequestMapping(value = "/teams", method = RequestMethod.GET)
     public Protocol<List<Team>> teams() {
-        List<Team> teamList = accountService.teams(null);
+        List<Team> teamList = accountService.teams(AuthTool.currentUser().getDepartmentId());
         return new Protocol<>(teamList);
     }
 

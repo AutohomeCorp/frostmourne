@@ -73,22 +73,14 @@ public class PercentageRule extends AbstractRule {
         return ruleSettings.get("DIFF_COMPARE_TYPE");
     }
 
-    private Double calculatePercentage(Map<String, Object> context, Double reference) {
-        Double current = findCurrent(context);
-        if (reference == 0) {
-            return (current - reference) * 100 / (reference + 1);
-        }
-        return (current - reference) * 100 / reference;
-    }
-
     private boolean verify(Map<String, Object> context, ReferenceBag referenceBag, Map<String, String> ruleSettings) {
-        return verifyPercentage(context, referenceBag, ruleSettings) && verifyDiff(context, referenceBag, ruleSettings);
+        return verifyPercentage(referenceBag, ruleSettings) && verifyDiff(context, referenceBag, ruleSettings);
     }
 
-    boolean verifyPercentage(Map<String, Object> context, ReferenceBag referenceBag, Map<String, String> ruleSettings) {
-        Double percentage = calculatePercentage(context, referenceBag.getValue());
-        String operationType = findOperationType(ruleSettings);
+    boolean verifyPercentage(ReferenceBag referenceBag, Map<String, String> ruleSettings) {
+        Double percentage = referenceBag.getPercentage();
         Double percentageThreshold = findPercentageThreshold(ruleSettings);
+        String operationType = findOperationType(ruleSettings);
         if (operationType.equalsIgnoreCase("INCREASE")) {
             return percentage >= percentageThreshold;
         } else if (operationType.equalsIgnoreCase("DECREASE")) {

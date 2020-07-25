@@ -59,6 +59,10 @@ public class AlarmService implements IAlarmService {
             } else {
                 alertService.alert(alarmProcessLogger);
             }
+        } else {
+            if(alarmProcessLogger.getAlert()) {
+                alarmProcessLogger.trace("test alarm, not send");
+            }
         }
 
         return alarmProcessLogger;

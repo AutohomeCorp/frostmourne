@@ -13,7 +13,6 @@ const URL = {
 const adminApi = {
   getList (alarmId, name, teamName, status, pageIndex, pageSize) {
     return query.get(URL.list, {
-      account: 'admin',
       alarmId: alarmId,
       name: name,
       teamName: teamName,

@@ -47,9 +47,11 @@ public class AlarmExecutor {
         try {
             boolean isAlert = this.rule.verify(this.alarmProcessLogger, alarmContract.getRuleContract(), alarmContract.getMetricContract(), metric);
             this.alarmProcessLogger.setAlert(isAlert);
+            this.alarmProcessLogger.trace("isAlert: " + isAlert);
             if (isAlert) {
                 String completeMessage = completeAlertMessage();
                 alarmProcessLogger.setAlertMessage(completeMessage);
+                alarmProcessLogger.trace("alertMessage: \r\n" + completeMessage);
             }
             return ExecuteStatus.SUCCESS;
         } catch (Exception ex) {
