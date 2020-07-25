@@ -251,7 +251,7 @@ frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目�
 ./scripts/shutdown.sh
 ```
 
-xxl-job-admin的zip包也已经放到release里，使用方式相同。
+[xxl-job-admin-2.1.0.zip](./doc/xxl-job/xxl-job-admin-2.1.0.zip)的zip包也已经放在了仓库里，供下载使用，使用方式相同。
 
 ## 监控测试
 
