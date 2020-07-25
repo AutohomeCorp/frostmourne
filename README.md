@@ -354,7 +354,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 * 增加influxdb数值同比，环比监控
 * 增加prometheus支持
 * Elasticsearch监控查询语句增加SQL类型查询
-* 加强登录安全(CAS单点登录)
+* 集成CAS登录认证
 * 增加单元测试
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
