@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.support.LdapUtils;
 
 public class LdapAuthService implements IAuthService {
@@ -38,6 +39,13 @@ public class LdapAuthService implements IAuthService {
         }
         DirContext dirContext = null;
         try {
+            EqualsFilter filter = new EqualsFilter("sAMAccountName", account);
+            return ldapTemplate.authenticate("", filter.encode(), password);
+        } catch (Exception ex) {
+            LOGGER.error("error when ldap authenticate user: {}", account, ex);
+            return false;
+        }
+        /*try {
             ContextSource contextSource = ldapTemplate.getContextSource();
             dirContext = contextSource.getContext(userDn, password);
             return dirContext != null;
@@ -46,6 +54,6 @@ public class LdapAuthService implements IAuthService {
             return false;
         } finally {
             LdapUtils.closeContext(dirContext);
-        }
+        }*/
     }
 }
