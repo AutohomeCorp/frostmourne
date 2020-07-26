@@ -31,7 +31,7 @@
       <el-row>
         <el-col :span="8" :offset="6">
           <div class="grid-content">
-            <el-pagination background layout="total, prev, pager, next" :total="rowcount" @prev-click="onPrevClick" @next-click="onNextClick" @current-change="onCurrentChange" />
+            <el-pagination background layout="total, prev, pager, next" :page-size="form.pageSize" :total="rowcount" @prev-click="onPrevClick" @next-click="onNextClick" @current-change="onCurrentChange" />
           </div>
         </el-col>
       </el-row>
@@ -85,7 +85,7 @@ export default {
       listLoading: true,
       form: {
         pageIndex: 1,
-        pageSize: 20,
+        pageSize: 10,
         datasource_name: '',
         datasource_type: ''
       },
