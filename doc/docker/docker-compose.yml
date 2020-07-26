@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   xxl-job:
-    image: frostmourne2020/frostmourne:0.3
+    image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.3
     container_name: xxl-job
     environment:
       spring_datasource_url: jdbc:mysql://host.docker.internal:3306/xxl_job?Unicode=true&characterEncoding=UTF-8
@@ -23,7 +23,7 @@ services:
     command: bash -c "/opt/frostmourne/start.sh xxl-job"
 
   frostmourne-spi:
-    image: frostmourne2020/frostmourne:0.3
+    image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.3
     container_name: frostmourne-spi
     environment:
       email.smtp.host: smtp.qq.com
@@ -46,7 +46,7 @@ services:
     command: bash -c "/opt/frostmourne/start.sh frostmourne-spi"
 
   frostmourne-monitor:
-    image: frostmourne2020/frostmourne:0.3
+    image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.3
     container_name: frostmourne-monitor
     environment:
       datasource_frostmourne_url: jdbc:mysql://host.docker.internal:3306/frostmourne?useSSL=false&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
