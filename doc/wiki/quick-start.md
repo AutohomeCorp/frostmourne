@@ -57,6 +57,9 @@ environment:
 
 ```
 
+> 镜像服务说明：由于dockerhub推送镜像太难受，所以用阿里云的镜像管理代替，dockerhub也会更新，但是由于经常失败，可能不会那么及时。所以尽可能
+使用阿里云。dockerhub的镜像地址为：frostmourne2020/frostmourne:tag
+
 ### 第三步：启动
 
 进入第二步的frostmourne目录，执行如下命令
