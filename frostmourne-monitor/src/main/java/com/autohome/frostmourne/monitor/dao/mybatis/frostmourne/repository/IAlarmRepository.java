@@ -1,12 +1,10 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
-import org.apache.ibatis.annotations.Param;
 
 public interface IAlarmRepository {
 
@@ -20,15 +18,13 @@ public interface IAlarmRepository {
 
     int updateByPrimaryKey(Alarm record);
 
-    int updateStatus(@Param("alarmId") Long alarmId, @Param("status") String status);
+    int updateStatus(Long alarmId, String status);
 
     PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status);
 
-    void updateAlarmLastExecuteInfo(@Param("alarmId") Long alarmId,
-                                    @Param("executeTime") Date executeTime,
-                                    @Param("executeResult") String executeResult);
+    void updateAlarmLastExecuteInfo(Long alarmId, Date executeTime, String executeResult);
 
-    int updateJobId(@Param("alarmId") Long alarmId, @Param("jobId") Long jobId);
+    int updateJobId(Long alarmId, Long jobId);
 
     long total();
 }
