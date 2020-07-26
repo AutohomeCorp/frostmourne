@@ -21,9 +21,22 @@ ldap.enabled=${ldap_enabled:false}
 spring.ldap.urls=${spring_ldap_urls:}
 spring.ldap.username=${spring_ldap_username:}
 spring.ldap.password=${spring_ldap_password:}
-spring.ldap.base=${spring_ldap_base:#{null}}
-spring.ldap.domainName=${spring_ldap_domainName:}
+spring.ldap.base=${spring_ldap_base:}
+spring.lap.auth.searchFilter=${spring_ldap_auth_searchFilter:sAMAccountName={0}}
 ```
+
+其中spring.lap.auth.searchFilter是认证时查找账号的条件，注意根据自己的情况修改查询字段。一般是如下两种情况：
+
+```
+spring_ldap_auth_searchFilter=sAMAccountName={0}
+```
+
+```
+spring_ldap_auth_searchFilter=uid={0}
+```
+
+例外情况自己修改
+
 
 > 注意： 开启了LDAP认证，admin账号仍然可以用方式1来登录
 

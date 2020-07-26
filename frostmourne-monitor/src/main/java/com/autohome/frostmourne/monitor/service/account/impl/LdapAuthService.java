@@ -1,14 +1,13 @@
 package com.autohome.frostmourne.monitor.service.account.impl;
 
-import javax.naming.directory.DirContext;
+import java.text.MessageFormat;
 
 import com.autohome.frostmourne.monitor.service.account.IAuthService;
-import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.support.LdapUtils;
+import org.springframework.ldap.filter.HardcodedFilter;
+
 
 public class LdapAuthService implements IAuthService {
 
@@ -16,12 +15,12 @@ public class LdapAuthService implements IAuthService {
 
     private LdapTemplate ldapTemplate;
 
-    private String ldapDomainName;
+    private String searchFilter;
 
     private String initailPassword;
 
-    public LdapAuthService(String ldapDomainName, LdapTemplate ldapTemplate, String initialPassword) {
-        this.ldapDomainName = ldapDomainName;
+    public LdapAuthService(String searchFilter, LdapTemplate ldapTemplate, String initialPassword) {
+        this.searchFilter = searchFilter;
         this.ldapTemplate = ldapTemplate;
         this.initailPassword = initialPassword;
     }
@@ -31,21 +30,13 @@ public class LdapAuthService implements IAuthService {
         if (account.equals("admin")) {
             return password.equals(initailPassword);
         }
-
-        String userDn = account;
-        if (!Strings.isNullOrEmpty(ldapDomainName)) {
-            userDn += ldapDomainName;
-        }
-        DirContext dirContext = null;
         try {
-            ContextSource contextSource = ldapTemplate.getContextSource();
-            dirContext = contextSource.getContext(userDn, password);
-            return dirContext != null;
+            String filterString = MessageFormat.format(searchFilter, account);
+            HardcodedFilter filter = new HardcodedFilter(filterString);
+            return ldapTemplate.authenticate("", filter.encode(), password);
         } catch (Exception ex) {
-            LOGGER.error("error when ldap validate user: {}", userDn, ex);
+            LOGGER.error("error when ldap authenticate user: {}", account, ex);
             return false;
-        } finally {
-            LdapUtils.closeContext(dirContext);
         }
     }
 }
