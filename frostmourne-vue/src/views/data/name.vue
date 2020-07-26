@@ -106,7 +106,7 @@ export default {
       formDatasourceList: [],
       form: {
         pageIndex: 1,
-        pageSize: 20,
+        pageSize: 10,
         data_name: '',
         datasource_type: '',
         data_source_id: null

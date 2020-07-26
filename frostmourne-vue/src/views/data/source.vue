@@ -85,7 +85,7 @@ export default {
       listLoading: true,
       form: {
         pageIndex: 1,
-        pageSize: 20,
+        pageSize: 10,
         datasource_name: '',
         datasource_type: ''
       },
