@@ -145,12 +145,12 @@ druid.datasource.frostmourne.password=[plain_password]
 
 xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql)
 
-### 快速启动
+## 快速启动
 
 提供docker方式，让你更快运行起来便于更好理解项目作用。
 详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
-## xxl-job服务说明
+## xxl-job服务
 
 本项目依赖xxl-job, 请自己部署xxl-job，并将相关接口权限认证去掉(在action上加注解 @PermissionLimit(limit=false) )，让frostmourne可以访问这些接口。需要了解xxl-job请
 查阅官方站点[https://www.xuxueli.com/xxl-job/]. 当前依赖版本为2.1.0，如果存在版本兼容问题，请自行修改适配, 建议单独部署一套新的xxl-job，能避免很多不必要的麻烦。
@@ -169,8 +169,6 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 
 启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。  
 
-如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
-
 ```bash
 ./scripts/startup.sh
 ```
@@ -180,6 +178,9 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 ```bash
 ./scripts/shutdown.sh
 ```
+
+如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+docker里启动一个xxl-job服务，供本地调用
 
 ## 为什么需要xxl-job
 
@@ -250,7 +251,7 @@ frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目�
 ./scripts/shutdown.sh
 ```
 
-xxl-job-admin的zip包也已经放到release里，使用方式相同。
+[xxl-job-admin-2.1.0.zip](./doc/xxl-job/xxl-job-admin-2.1.0.zip)的zip包也已经放在了仓库里，供下载使用，使用方式相同。
 
 ## 监控测试
 
@@ -329,6 +330,7 @@ npm run dev
 * ~~Elasticsearch监控数值实现同比监控~~ [2020-07-24]
 * ~~Elasticsearch数据源更新免重启加载~~ [2020-07-25]
 * ~~集成LDAP登录验证~~ [2020-07-25]
+* 代码文件增加开源协议说明
 * 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 * 报警消息模板管理功能
 * 补充更详细的部署文档和使用指南
@@ -344,7 +346,6 @@ npm run dev
 * 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像
 * Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
-* 增加系统配置功能模块，将启动非必要的配置用功能管理起来，减轻启动配置负担
 * README简化为文档目录索引形式，具体内容分散到各个文档中，方便查找
 * 监控调度配置后显示预计调度时间
 * 报警接收人可以设置为组
