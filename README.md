@@ -380,6 +380,7 @@ npm run dev
 * freemarker
 * elasticsearch
 * jjwt
+* nashorn
 
 ## Contribution
 
