@@ -27,7 +27,8 @@
         align="right"
         :default-time="['00:00:00', '23:59:59']"
         @change="dateChangeHandler" />
-      <el-input v-model="form.esQuery" clearable placeholder="输入查询语句。如: Team: dealer.arch" style="width: 700px;" class="filter-item" />
+      <el-autocomplete v-model="form.esQuery" style="width: 700px;" class="filter-item" :fetch-suggestions="findTips"
+                       placeholder="输入查询语句。如: Team: dealer.arch" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
       <el-button class="filter-item el-icon-plus" type="primary" @click="addAlarm">添加监控</el-button>
       <el-button class="filter-item el-icon-share" type="primary" @click="share">分享</el-button>
@@ -91,6 +92,11 @@ export default {
   },
   data () {
     return {
+      storage: window.localStorage,
+      tips: {
+        key: 'frostmourne#QUERY_TIPS',
+        limit: 10
+      },
       pickerOptions: {
         shortcuts: [{
           text: '今天',
@@ -218,6 +224,7 @@ export default {
       this.listLoading = true
       this.form.scrollId = null
       this.list = []
+      this.saveTips(this.form.esQuery)
       dataQueryApi.elasticsearchData(this.form).then(response => {
         this.list = response.result.logs
         this.timestampField = response.result.timestampField
@@ -330,6 +337,31 @@ export default {
           query_string: this.form.esQuery
         }
       })
+    },
+    saveTips (queryString) {
+      const tips = this.getTips()
+      if (!tips.some(e => e.toLowerCase() === queryString.toLowerCase())) {
+        tips.unshift(queryString)
+      }
+      if (tips.length > this.tips.limit) {
+        tips.splice(-1, 1)
+      }
+      const json = JSON.stringify(tips)
+      this.storage.setItem(this.tips.key, json)
+    },
+    findTips (queryString, cb) {
+      // this.storage.removeItem(this.tips.key)
+      const tips = this.getTips()
+      let result = queryString !== '' && queryString !== '*'
+        ? tips.filter(e => e.toLowerCase().indexOf(queryString.toLowerCase()) >= 0) : tips
+      result = result.map(function (item) {
+        return { value: item }
+      })
+      cb(result)
+    },
+    getTips () {
+      const dataString = this.storage.getItem(this.tips.key)
+      return JSON.parse(dataString) || []
     }
   }
 }
