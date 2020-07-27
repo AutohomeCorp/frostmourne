@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl;
 
+import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DepartmentInfoDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 
@@ -44,7 +45,7 @@ public class DepartmentInfoRepository implements IDepartmentInfoRepository {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<DepartmentInfo> list = departmentInfoDynamicMapper.select(c -> {
             c.where().and(DepartmentInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull))
-                    .and(DepartmentInfoDynamicSqlSupport.department_name, isLike(departmentName).when(Objects::nonNull).then(s -> s + "%s"));
+                    .and(department_name, isLike(departmentName).when(Objects::nonNull).then(s -> s + "%s"));
             return c.orderBy(DepartmentInfoDynamicSqlSupport.id.descending());
         });
         return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
@@ -57,6 +58,6 @@ public class DepartmentInfoRepository implements IDepartmentInfoRepository {
 
     @Override
     public Optional<DepartmentInfo> findByDepartmentName(String departmentName) {
-        return departmentInfoDynamicMapper.selectOne(c -> c.where().and(DepartmentInfoDynamicSqlSupport.department_name, isEqualTo(departmentName)));
+        return departmentInfoDynamicMapper.selectOne(c -> c.where().and(department_name, isEqualTo(departmentName)));
     }
 }
