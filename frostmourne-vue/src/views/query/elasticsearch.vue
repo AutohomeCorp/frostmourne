@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select v-model="form.dataName" placeholder="选择数据名" clearable style="width: 150px" class="filter-item" @change="dataNameChangeHandler">
+      <el-select v-model="form.dataName" placeholder="选择数据名" style="width: 150px" class="filter-item" @change="dataNameChangeHandler">
         <el-option v-for="item in dataNameList" :key="item.data_name" :label="item.display_name" :value="item.data_name" />
       </el-select>
-      <el-select v-model="form.sortOrder" placeholder="选择排序" clearable style="width: 120px" class="filter-item">
+      <el-select v-model="form.sortOrder" placeholder="选择排序" style="width: 120px" class="filter-item">
         <el-option label="时间倒序" value="desc" />
         <el-option label="时间正序" value="asc" />
       </el-select>
-      <el-select v-model="form.intervalInSeconds" placeholder="统计间隔" clearable style="width: 120px" class="filter-item">
+      <el-select v-model="form.intervalInSeconds" placeholder="统计间隔" style="width: 120px" class="filter-item">
         <el-option label="自动" value="0" />
         <el-option label="1小时" value="3600" />
         <el-option label="1天" value="86400" />
@@ -186,6 +186,9 @@ export default {
     this.form.endTime = endMoment.toDate()
     dataApi.findDataNameByType('elasticsearch').then(response => {
       this.dataNameList = response.result
+      if (this.form.dataName === null && this.dataNameList.length > 0) {
+        this.form.dataName = this.dataNameList[0].data_name
+      }
     })
 
     if (this.$route.query.esQuery) {
@@ -347,7 +350,7 @@ export default {
         tips.splice(-1, 1)
       }
       const json = JSON.stringify(tips)
-      this.storage.setItem(this.tips.key, json)
+      this.storage.setItem(this.tipsKey(), json)
     },
     findTips (queryString, cb) {
       // this.storage.removeItem(this.tips.key)
@@ -359,8 +362,11 @@ export default {
       })
       cb(result)
     },
+    tipsKey () {
+      return `${this.tips.key}@${this.form.dataName}` || this.tips.key
+    },
     getTips () {
-      const dataString = this.storage.getItem(this.tips.key)
+      const dataString = this.storage.getItem(this.tipsKey())
       return JSON.parse(dataString) || []
     }
   }
