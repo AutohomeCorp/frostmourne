@@ -50,7 +50,7 @@ public class UserController {
                 account.setRoles(ImmutableList.of("user"));
             }
         }
-        return new Protocol<>();
+        return new Protocol<>(account);
     }
 
     @PermissionLimit(limit = false)
