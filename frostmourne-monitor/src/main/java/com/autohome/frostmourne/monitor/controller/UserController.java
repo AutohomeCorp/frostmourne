@@ -1,7 +1,9 @@
 package com.autohome.frostmourne.monitor.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.Protocol;
@@ -14,6 +16,7 @@ import com.autohome.frostmourne.monitor.tool.AuthTool;
 import com.autohome.frostmourne.monitor.tool.JwtToken;
 import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.Team;
+import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,14 +42,22 @@ public class UserController {
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public Protocol<AccountInfo> info() {
-        return new Protocol<>(AuthTool.currentUser());
+        AccountInfo account = AuthTool.currentUser();
+        if (account != null) {
+            if ("admin".equalsIgnoreCase(account.getAccount())) {
+                account.setRoles(ImmutableList.of("admin"));
+            } else {
+                account.setRoles(ImmutableList.of("user"));
+            }
+        }
+        return new Protocol<>();
     }
 
     @PermissionLimit(limit = false)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Protocol<String> login(@RequestBody LoginInfo loginInfo) {
         boolean valid = authService.validate(loginInfo.getUsername(), loginInfo.getPassword());
-        if(!valid) {
+        if (!valid) {
             throw new ProtocolException(580, "用户名或密码错误");
         }
         Optional<AccountInfo> optionalAccountInfo = accountService.findByAccount(loginInfo.getUsername());
