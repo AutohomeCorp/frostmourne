@@ -1,15 +1,20 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl;
 
+import static org.mybatis.dynamic.sql.SqlBuilder.isBetween;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isLessThan;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmLogDynamicMapper;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmLogDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
+import com.autohome.frostmourne.monitor.tool.MybatisTool;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -50,26 +55,41 @@ public class AlarmLogRepository implements IAlarmLogRepository {
 
     @Override
     public List<AlarmLog> find(Date startTime, Date endTime, Long alarmId, String verifyResult, String executeResult) {
-        return null;
+        return alarmLogDynamicMapper.select(query -> {
+            query.where().and(AlarmLogDynamicSqlSupport.create_at, isBetween(startTime).and(endTime).when((d1, d2) -> d1 != null && d2 != null))
+                    .and(AlarmLogDynamicSqlSupport.alarm_id, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
+                    .and(AlarmLogDynamicSqlSupport.verify_result, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
+                    .and(AlarmLogDynamicSqlSupport.execute_result, isEqualTo(executeResult).when(MybatisTool::notNullAndEmpty))
+                    .orderBy(AlarmLogDynamicSqlSupport.create_at.descending());
+            return query;
+        });
     }
 
     @Override
-    public AlarmLog selectLatest(Long alarmId, String verifyResult) {
-        return null;
+    public Optional<AlarmLog> selectLatest(Long alarmId, String verifyResult) {
+        return alarmLogDynamicMapper.selectOne(query -> {
+            query.where().and(AlarmLogDynamicSqlSupport.alarm_id, isEqualTo(alarmId))
+                    .and(AlarmLogDynamicSqlSupport.verify_result, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
+                    .orderBy(AlarmLogDynamicSqlSupport.id.descending())
+                    .limit(1);
+            return query;
+        });
     }
 
     @Override
     public void clearBefore(Date reserveLine) {
-
+        alarmLogDynamicMapper.delete(query -> {
+            query.where().and(AlarmLogDynamicSqlSupport.create_at, isLessThan(reserveLine));
+            return query;
+        });
     }
 
     @Override
-    public Integer count(Date startTime, Date endTime, String verifyResult) {
-        return null;
-    }
-
-    @Override
-    public List<AggregationDate> aggregation(Date startTime, Date endTime, String verifyResult) {
-        return null;
+    public long count(Date startTime, Date endTime, String verifyResult) {
+        return alarmLogDynamicMapper.count(query -> {
+            query.where().and(AlarmLogDynamicSqlSupport.create_at, isBetween(startTime).and(endTime))
+                    .and(AlarmLogDynamicSqlSupport.verify_result, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty));
+            return query;
+        });
     }
 }
