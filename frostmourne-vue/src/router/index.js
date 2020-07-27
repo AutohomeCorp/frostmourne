@@ -2,6 +2,9 @@
 import Layout from '@/layout'
 import Vue from 'vue'
 import Router from 'vue-router'
+import accountRoutes from './routes/account'
+import alarmRoutes from './routes/alarm'
+import dataRoutes from './routes/data'
 
 Vue.use(Router)
 
@@ -31,18 +34,6 @@ Vue.use(Router)
  */
 export const constantRoutes = [
   {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
-
-  {
-    path: '/404.view',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-
-  {
     path: '/',
     component: Layout,
     redirect: '/dashboard.view',
@@ -61,32 +52,7 @@ export const constantRoutes = [
     redirect: '/alarm/list.view',
     name: 'alarm',
     meta: { title: '监控管理', icon: 'component' },
-    children: [
-      {
-        path: 'list.view',
-        name: 'alarm-list',
-        component: () => import('@/views/alarm/list.vue'),
-        meta: { title: '监控列表', icon: 'documentation' }
-      },
-      {
-        path: 'edit.view',
-        name: 'alarm-edit',
-        component: () => import('@/views/alarm/edit.vue'),
-        meta: { title: '监控编辑', icon: 'documentation' }
-      },
-      {
-        path: 'alarm-log.view',
-        name: 'alarm-log',
-        component: () => import('@/views/alarm/alarm-log.vue'),
-        meta: { title: '执行日志', icon: 'documentation' }
-      },
-      {
-        path: 'alert-log.view',
-        name: 'alert-log',
-        component: () => import('@/views/alarm/alert-log.vue'),
-        meta: { title: '我的消息', icon: 'documentation' }
-      }
-    ]
+    children: alarmRoutes
   },
   {
     path: '/query',
@@ -104,55 +70,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/data',
-    component: Layout,
-    redirect: '/data/source.view',
-    name: 'data',
-    meta: { title: '数据管理', icon: 'excel' },
-    children: [
-      {
-        path: 'source.view',
-        name: 'source-list',
-        component: () => import('@/views/data/source.vue'),
-        meta: { title: '数据源', icon: 'documentation' }
-      },
-      {
-        path: 'name.view',
-        name: 'name-list',
-        component: () => import('@/views/data/name.vue'),
-        meta: { title: '数据名', icon: 'documentation' }
-      }
-    ]
-  },
-  {
-    path: '/account',
-    component: Layout,
-    redirect: '/account/user-info.view',
-    name: 'account',
-    meta: { title: '账号管理', icon: 'people' },
-    children: [
-      {
-        path: 'user-info.view',
-        name: 'user-info',
-        component: () => import('@/views/account/user-info.vue'),
-        meta: { title: '账号信息', icon: 'documentation' }
-      },
-      {
-        path: 'team-info.view',
-        name: 'team-info',
-        component: () => import('@/views/account/team-info.vue'),
-        meta: { title: '团队信息', icon: 'documentation' }
-      },
-      {
-        path: 'department-info.view',
-        name: 'department-info',
-        component: () => import('@/views/account/department-info.vue'),
-        meta: { title: '部门信息', icon: 'documentation' }
-      }
-    ]
-  },
-
-  {
     path: 'external-link.view',
     component: Layout,
     children: [
@@ -163,8 +80,34 @@ export const constantRoutes = [
     ]
   },
 
+  { path: '/login', hidden: true, component: () => import('@/views/login/index') },
+
+  { path: '/404.view', hidden: true, component: () => import('@/views/404') },
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  { path: '*', hidden: true, redirect: '/404' }
+]
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
+  {
+    path: '/data',
+    component: Layout,
+    redirect: '/data/source.view',
+    name: 'data',
+    meta: { title: '数据管理', icon: 'excel', roles: ['admin'] },
+    children: dataRoutes
+  },
+  {
+    path: '/account',
+    component: Layout,
+    redirect: '/account/user-info.view',
+    name: 'account',
+    meta: { title: '账号管理', icon: 'people', roles: ['admin'] },
+    children: accountRoutes
+  }
 ]
 
 const createRouter = () =>

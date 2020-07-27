@@ -60,7 +60,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       data: {
         taskCount: 0,
@@ -73,18 +73,18 @@ export default {
   watch: {
     panelData: {
       deep: true,
-      handler(val) {
+      handler (val) {
         this.data = val
       }
     }
   },
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
       this.data = this.panelData
     })
   },
   methods: {
-    handleSetLineChartData(type) {
+    handleSetLineChartData (type) {
       this.$emit('handleSetLineChartData', type)
     }
   }

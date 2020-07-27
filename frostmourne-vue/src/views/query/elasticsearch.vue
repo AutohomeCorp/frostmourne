@@ -210,7 +210,7 @@ export default {
         return
       }
 
-      if (this.form.esQuery == null || this.form.esQuery == '') {
+      if (this.form.esQuery == null || this.form.esQuery === '') {
         this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
         return
       }
@@ -299,7 +299,7 @@ export default {
       this.charOptions.series = [{ name: '次数', type: 'bar', data: statItem.values }]
     },
     dataNameChangeHandler (selectedName) {
-      this.selectedDataName = this.dataNameList.filter(d => d.data_name == selectedName)[0]
+      this.selectedDataName = this.dataNameList.filter(d => d.data_name === selectedName)[0]
     },
     loadMore () {
       this.listLoading = true
@@ -316,11 +316,11 @@ export default {
         this.$message({ type: 'warning', message: '请先选择一个数据名', duration: 2000 })
         return
       }
-      if (this.form.esQuery == null || this.form.esQuery == '') {
+      if (this.form.esQuery == null || this.form.esQuery === '') {
         this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
         return
       }
-      this.selectedDataName = this.dataNameList.filter(d => d.data_name == this.form.dataName)[0]
+      this.selectedDataName = this.dataNameList.filter(d => d.data_name === this.form.dataName)[0]
       this.$router.push({
         name: 'alarm-edit',
         query: {
