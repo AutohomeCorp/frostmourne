@@ -8,7 +8,9 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
 import org.apache.ibatis.annotations.Param;
 
 public interface AlarmLogMapper {
+
     AlarmLog selectByPrimaryKey(Long id);
+
     /*int deleteByPrimaryKey(Long id);
 
     int insert(AlarmLog record);
