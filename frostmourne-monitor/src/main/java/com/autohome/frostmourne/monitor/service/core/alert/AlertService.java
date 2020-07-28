@@ -15,8 +15,6 @@ import com.autohome.frostmourne.monitor.contract.enums.SilenceStatus;
 import com.autohome.frostmourne.monitor.contract.enums.VerifyResult;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
 import com.autohome.frostmourne.monitor.service.account.IAccountService;
@@ -36,9 +34,6 @@ public class AlertService implements IAlertService {
 
     @Resource
     private IFrostmourneSpiApi frostmourneSpiApi;
-
-    @Resource
-    private AlertLogMapper alertLogMapper;
 
     @Resource
     private IAlertLogRepository alertLogRepository;
