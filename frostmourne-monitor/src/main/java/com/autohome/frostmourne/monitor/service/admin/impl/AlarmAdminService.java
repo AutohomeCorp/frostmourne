@@ -27,7 +27,6 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Metric;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Recipient;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.RuleProperty;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataNameMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataSourceMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.MetricMapper;
@@ -80,9 +79,6 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     @Resource(name = "frostmourneTransactionManager")
     private DataSourceTransactionManager frostmourneTransactionManager;
-
-    @Resource
-    private AlertMapper alertMapper;
 
     @Resource
     private IAlertRepository alertRepository;
