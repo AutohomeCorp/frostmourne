@@ -171,7 +171,7 @@ export default {
           text: '总数:0'
         },
         tooltip: { trigger: 'axis' },
-        xAxis: { data: ['00:00:00', '01:00:00', '02:00:00', '03:00:00', '04:00:00', '05:00:00', '06:00:00', '07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00'] },
+        xAxis: { data: [], value: [] },
         yAxis: {},
         series: [{ name: '总数', type: 'bar', data: [] }]
       }
@@ -203,8 +203,16 @@ export default {
     }
   },
   methods: {
-    handleClick () {
-      console.log('click from echars')
+    handleClick (e) {
+      const index = e.dataIndex
+      const xAxis = this.charOptions.xAxis.value
+      if (xAxis.length > 1) {
+        this.form.startTime = moment(xAxis[index]).toDate()
+        if (xAxis.length - 1 > index) {
+          this.form.endTime = moment(xAxis[index + 1]).subtract(1, 'second').toDate()
+        }
+        this.search()
+      }
     },
     handleZrClick () {
       console.log('click from zrender')
@@ -305,6 +313,7 @@ export default {
         format = 'MM-dd hh:mm'
       }
       this.charOptions.xAxis.data = statItem.keys.map(e => formatJsonDate(e, format))
+      this.charOptions.xAxis.value = statItem.keys
       this.charOptions.title.text = `${formatJsonDate(this.form.startTime, 'yyyy-MM-dd hh:mm:ss')} 至 ${formatJsonDate(this.form.endTime, 'yyyy-MM-dd hh:mm:ss')}  总数:${this.total}`
       this.charOptions.series = [{ name: '次数', type: 'bar', data: statItem.values }]
     },
