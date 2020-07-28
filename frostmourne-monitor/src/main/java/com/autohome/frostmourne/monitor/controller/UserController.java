@@ -1,6 +1,5 @@
 package com.autohome.frostmourne.monitor.controller;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +16,6 @@ import com.autohome.frostmourne.monitor.tool.JwtToken;
 import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.Team;
 import com.google.common.collect.ImmutableList;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,9 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = {"/user", "/api/monitor-api/user"})
 public class UserController {
-
-    @Value("${initial.password}")
-    private String initialPassword;
 
     @Resource
     private JwtToken jwtToken;

@@ -3,6 +3,7 @@ package com.autohome.frostmourne.monitor.task;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogMapper;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -17,11 +18,11 @@ public class TaskComponent {
     private Integer alarmLogReserviceDays;
 
     @Resource
-    private AlarmLogMapper alarmLogMapper;
+    private IAlarmLogRepository alarmLogRepository;
 
     @Scheduled(cron = "0 0 1 * * ?")
     public void rollingClearAlarmLog() {
         DateTime reserveLine = DateTime.now().withTimeAtStartOfDay().minusDays(30);
-        alarmLogMapper.clearBefore(reserveLine.toDate());
+        alarmLogRepository.clearBefore(reserveLine.toDate());
     }
 }

@@ -23,10 +23,10 @@ public class StatisticsController {
     private IStatisticsService statisticsService;
 
     @RequestMapping(value = "/panelData", method = RequestMethod.GET)
-    public Protocol<Map<String, Integer>> panelData(@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
+    public Protocol<Map<String, Long>> panelData(@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
                                                     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime) {
         String account = AuthTool.currentUser().getAccount();
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Long> map = new HashMap<>();
         map.put("taskCount", statisticsService.taskTotalCount());
         map.put("executeCount", statisticsService.executeCount(startTime, endTime));
         map.put("alarmCount", statisticsService.alarmCount(startTime, endTime));
