@@ -78,7 +78,6 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 欢迎使用
 
-frostmourne是完全开源免费的，如果愿意回馈，你只需要简单做一个 <a href="https://github.com/AutohomeCorp/frostmourne/issues/1" target="_blank">小调查</a>。 
 有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。  
 
