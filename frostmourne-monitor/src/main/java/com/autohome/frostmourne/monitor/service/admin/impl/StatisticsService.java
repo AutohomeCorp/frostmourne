@@ -10,6 +10,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogM
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
 import com.autohome.frostmourne.monitor.service.admin.IStatisticsService;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,9 @@ public class StatisticsService implements IStatisticsService {
 
     @Resource
     private AlertLogMapper alertLogMapper;
+
+    @Resource
+    private IAlertLogRepository alertLogRepository;
 
     @Resource
     private IAlarmLogRepository alarmLogRepository;
@@ -45,7 +49,7 @@ public class StatisticsService implements IStatisticsService {
     }
 
     public long alertCount(Date startTime, Date endTime, String recipient) {
-        return alertLogMapper.count(startTime, endTime, "SUCCESS", recipient);
+        return alertLogRepository.count(startTime, endTime, "SUCCESS", recipient);
     }
 
     public List<AggregationDate> aggregationAlert(Date startTime, Date endTime, String recipient) {

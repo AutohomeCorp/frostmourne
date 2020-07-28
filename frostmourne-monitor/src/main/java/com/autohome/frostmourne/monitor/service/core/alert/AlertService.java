@@ -18,6 +18,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
 import com.autohome.frostmourne.monitor.service.account.IAccountService;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
@@ -40,7 +41,7 @@ public class AlertService implements IAlertService {
     private AlertLogMapper alertLogMapper;
 
     @Resource
-    private AlarmLogMapper alarmLogMapper;
+    private IAlertLogRepository alertLogRepository;
 
     @Resource
     private IAccountService accountService;
@@ -75,7 +76,7 @@ public class AlertService implements IAlertService {
                     alertContract.getSilence(), alarmProcessLogger.getAlertMessage()));
             alertContent = alarmProcessLogger.getAlertMessage();
         } else if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
-            AlertLog alertLog = this.alertLogMapper.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO);
+            AlertLog alertLog = this.alertLogRepository.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
             alertContent = "消息类型: [恢复] 请自己检查问题是否解决,上次报警内容如下\n" + alertLog.getContent();
             alarmMessage.setContent(alertContent);
         }
@@ -117,7 +118,7 @@ public class AlertService implements IAlertService {
                 alertLog.setWay(messageResult.getWay());
                 alertLog.setAlert_type(alertType);
                 alertLog.setIn_silence(SilenceStatus.NO);
-                alertLogMapper.insert(alertLog);
+                alertLogRepository.insert(alertLog);
             }
         }
     }
@@ -141,8 +142,8 @@ public class AlertService implements IAlertService {
             return true;
         }
         //find latest problem and not silence alert time
-        AlertLog latestAlertLog = alertLogMapper.selectLatest(alarmId, AlertType.PROBLEM, SilenceStatus.NO);
-        if (latestAlertLog != null && current - latestAlertLog.getCreate_at().getTime() < silenceThreshold) {
+        Optional<AlertLog> latestAlertLog = alertLogRepository.selectLatest(alarmId, AlertType.PROBLEM, SilenceStatus.NO);
+        if (latestAlertLog.isPresent() && current - latestAlertLog.get().getCreate_at().getTime() < silenceThreshold) {
             return true;
         }
 
@@ -165,7 +166,7 @@ public class AlertService implements IAlertService {
                 alertLog.setWay(way);
                 alertLog.setAlert_type(AlertType.PROBLEM);
                 alertLog.setIn_silence(SilenceStatus.YES);
-                alertLogMapper.insert(alertLog);
+                alertLogRepository.insert(alertLog);
             }
         }
     }
