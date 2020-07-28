@@ -35,6 +35,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.Recipient
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RuleMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RulePropertyMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
@@ -82,6 +83,9 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     @Resource
     private AlertMapper alertMapper;
+
+    @Resource
+    private IAlertRepository alertRepository;
 
     @Resource
     private RulePropertyMapper rulePropertyMapper;
@@ -132,7 +136,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         TransactionStatus status = frostmourneTransactionManager.getTransaction(def);
         try {
             alarmRepository.deleteByPrimaryKey(alarmId);
-            alertMapper.deleteByAlarm(alarmId);
+            alertRepository.deleteByAlarm(alarmId);
             metricMapper.deleteByAlarm(alarmId);
             ruleMapper.deleteByAlarm(alarmId);
             rulePropertyMapper.deleteByAlarm(alarmId);
@@ -223,7 +227,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmContract.setRuleContract(ruleContract);
 
         AlertContract alertContract = new AlertContract();
-        Alert alert = this.alertMapper.findOneByAlarm(alarmId);
+        Alert alert = this.alertRepository.findOneByAlarm(alarmId).get();
         alertContract.setSilence(alert.getSilence());
         alertContract.setWays(Splitter.on(",").splitToList(alert.getWays()));
         alertContract.setAlarm_id(alarmId);
@@ -319,7 +323,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     private void saveAlert(AlertContract contract, Long alarmId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
             recipientMapper.deleteByAlarm(alarmId);
-            alertMapper.deleteByAlarm(alarmId);
+            alertRepository.deleteByAlarm(alarmId);
         }
         Alert alert = new Alert();
         alert.setWays(String.join(",", contract.getWays()));
@@ -332,7 +336,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alert.setDing_robot_hook(contract.getDing_robot_hook());
         alert.setHttp_post_url(contract.getHttp_post_url());
         alert.setWechat_robot_hook(contract.getWechat_robot_hook());
-        alertMapper.insert(alert);
+        alertRepository.insert(alert);
 
         for (String recipient : contract.getRecipients()) {
             Recipient alertRecipient = new Recipient();
