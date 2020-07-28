@@ -314,8 +314,6 @@ CREATE TABLE IF NOT EXISTS user_info
     COMMENT = '用户信息';
 
 ALTER TABLE user_info
-    ADD INDEX idx_account (account);
-ALTER TABLE user_info
     ADD INDEX idx_createat (create_at);
 
 CREATE UNIQUE INDEX uniq_account ON user_info (account);
