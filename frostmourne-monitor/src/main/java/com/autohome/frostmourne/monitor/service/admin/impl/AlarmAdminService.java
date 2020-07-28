@@ -163,10 +163,11 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     public AlarmContract findById(Long alarmId) {
         AlarmContract alarmContract = new AlarmContract();
-        Alarm alarm = alarmRepository.selectByPrimaryKey(alarmId).get();
-        if (alarm == null) {
+        Optional<Alarm> optionalAlarm = alarmRepository.selectByPrimaryKey(alarmId);
+        if (!optionalAlarm.isPresent()) {
             return null;
         }
+        Alarm alarm = optionalAlarm.get();
         alarmContract.setId(alarmId);
         alarmContract.setStatus(alarm.getStatus());
         alarmContract.setOwner_key(alarm.getOwner_key());
