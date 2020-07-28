@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import com.autohome.frostmourne.monitor.contract.enums.VerifyResult;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
@@ -16,9 +15,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StatisticsService implements IStatisticsService {
-
-    @Resource
-    private AlarmMapper alarmMapper;
 
     @Resource
     private AlarmLogMapper alarmLogMapper;
