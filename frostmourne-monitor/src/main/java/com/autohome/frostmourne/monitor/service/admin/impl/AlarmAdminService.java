@@ -38,6 +38,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAler
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRecipientRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
@@ -71,14 +72,11 @@ public class AlarmAdminService implements IAlarmAdminService {
     };
 
 
-    /*@Resource
-    private AlarmMapper alarmMapper;*/
-
     @Resource
     private IAlarmRepository alarmRepository;
 
     @Resource
-    private RecipientMapper recipientMapper;
+    private IRecipientRepository recipientRepository;
 
     @Resource(name = "frostmourneTransactionManager")
     private DataSourceTransactionManager frostmourneTransactionManager;
@@ -139,7 +137,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             metricRepository.deleteByAlarm(alarmId);
             ruleMapper.deleteByAlarm(alarmId);
             rulePropertyMapper.deleteByAlarm(alarmId);
-            recipientMapper.deleteByAlarm(alarmId);
+            recipientRepository.deleteByAlarm(alarmId);
             scheduleService.removeJob(Math.toIntExact(alarm.getJob_id()));
         } catch (Exception ex) {
             frostmourneTransactionManager.rollback(status);
@@ -247,7 +245,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertContract.setWechat_robot_hook(alert.getWechat_robot_hook());
         alertContract.setCreate_at(alert.getCreate_at());
 
-        List<Recipient> recipientList = this.recipientMapper.findByAlarm(alarmId);
+        List<Recipient> recipientList = this.recipientRepository.findByAlarm(alarmId);
         alertContract.setRecipients(recipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
         alarmContract.setAlertContract(alertContract);
         return alarmContract;
@@ -331,7 +329,7 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     private void saveAlert(AlertContract contract, Long alarmId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
-            recipientMapper.deleteByAlarm(alarmId);
+            recipientRepository.deleteByAlarm(alarmId);
             alertRepository.deleteByAlarm(alarmId);
         }
         Alert alert = new Alert();
@@ -353,7 +351,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             alertRecipient.setAlert_id(alert.getId());
             alertRecipient.setAccount(recipient);
             alertRecipient.setCreate_at(new Date());
-            recipientMapper.insert(alertRecipient);
+            recipientRepository.insert(alertRecipient);
         }
     }
 

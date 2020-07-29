@@ -1,18 +1,19 @@
-package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper;
+package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Recipient;
 
-public interface RecipientMapper {
-    Recipient selectByPrimaryKey(Long id);
-    /*int deleteByPrimaryKey(Long id);
+public interface IRecipientRepository {
+
+    int deleteByPrimaryKey(Long id);
 
     int insert(Recipient record);
 
     int insertSelective(Recipient record);
 
-    Recipient selectByPrimaryKey(Long id);
+    Optional<Recipient> selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(Recipient record);
 
@@ -20,5 +21,5 @@ public interface RecipientMapper {
 
     int deleteByAlarm(Long alarmId);
 
-    List<Recipient> findByAlarm(Long alarmId);*/
+    List<Recipient> findByAlarm(Long alarmId);
 }
