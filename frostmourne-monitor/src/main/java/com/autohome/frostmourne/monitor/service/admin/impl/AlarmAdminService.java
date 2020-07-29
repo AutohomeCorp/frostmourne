@@ -39,6 +39,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IData
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRecipientRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRulePropertyRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRuleRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
@@ -86,7 +87,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     private IAlertRepository alertRepository;
 
     @Resource
-    private RulePropertyMapper rulePropertyMapper;
+    private IRulePropertyRepository rulePropertyRepository;
 
     @Resource
     private IRuleRepository ruleRepository;
@@ -137,7 +138,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             alertRepository.deleteByAlarm(alarmId);
             metricRepository.deleteByAlarm(alarmId);
             ruleRepository.deleteByAlarm(alarmId);
-            rulePropertyMapper.deleteByAlarm(alarmId);
+            rulePropertyRepository.deleteByAlarm(alarmId);
             recipientRepository.deleteByAlarm(alarmId);
             scheduleService.removeJob(Math.toIntExact(alarm.getJob_id()));
         } catch (Exception ex) {
@@ -229,7 +230,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         ruleContract.setAlarm_id(alarmId);
         Map<String, String> rulePropertyMap = new HashMap<>();
 
-        List<RuleProperty> rulePropertyList = this.rulePropertyMapper.findByRuleId(rule.getId());
+        List<RuleProperty> rulePropertyList = this.rulePropertyRepository.findByRuleId(rule.getId());
         if (rulePropertyList != null && rulePropertyList.size() > 0) {
             for (RuleProperty ruleProperty : rulePropertyList) {
                 rulePropertyMap.put(ruleProperty.getProp_key(), ruleProperty.getProp_value());
@@ -362,7 +363,7 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     private Long saveRule(RuleContract ruleContract, Long alarmId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
-            rulePropertyMapper.deleteByAlarm(alarmId);
+            rulePropertyRepository.deleteByAlarm(alarmId);
             ruleRepository.deleteByAlarm(alarmId);
         }
 
@@ -383,7 +384,7 @@ public class AlarmAdminService implements IAlarmAdminService {
                 ruleProperty.setProp_value(entry.getValue());
                 ruleProperty.setRule_id(ruleId);
                 ruleProperty.setCreator(account);
-                rulePropertyMapper.insert(ruleProperty);
+                rulePropertyRepository.insert(ruleProperty);
             }
         }
 
