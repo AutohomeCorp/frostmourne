@@ -36,6 +36,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RulePrope
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
@@ -95,6 +96,9 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     @Resource
     private DataSourceMapper dataSourceMapper;
+
+    @Resource
+    private IDataSourceRepository dataSourceRepository;
 
     @Resource
     private IDataNameRepository dataNameRepository;
@@ -195,8 +199,9 @@ public class AlarmAdminService implements IAlarmAdminService {
         metricContract.setProperties(JacksonUtil.deSerialize(metric.getProperties(), new TypeReference<Map<String, Object>>() {
         }));
         if (metric.getData_source_id() != null && metric.getData_source_id() > 0) {
-            DataSource dataSource = dataSourceMapper.selectByPrimaryKey(metric.getData_source_id());
-            DataSourceContract dataSourceContract = DataSourceTransformer.model2Contract(dataSource);
+            Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(metric.getData_source_id());
+            DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)
+                    .orElseThrow(() -> new ProtocolException(1890, "datasource not exist. id: " + metric.getData_source_id()));
             metricContract.setDataSourceContract(dataSourceContract);
         }
 
@@ -417,8 +422,10 @@ public class AlarmAdminService implements IAlarmAdminService {
             alarmContract.getMetricContract().setDataNameContract(DataAdminService.toDataNameContract(dataName));
             alarmContract.getMetricContract().setData_source_id(dataName.getData_source_id());
 
-            DataSource dataSource = dataSourceMapper.selectByPrimaryKey(dataName.getData_source_id());
-            alarmContract.getMetricContract().setDataSourceContract(DataSourceTransformer.model2Contract(dataSource));
+            Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(dataName.getData_source_id());
+            DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)
+                    .orElseThrow(() -> new ProtocolException(1900, "dataSource not exist. id: " + dataName.getData_source_id()));
+            alarmContract.getMetricContract().setDataSourceContract(dataSourceContract);
         }
     }
 

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName;
-import org.apache.ibatis.annotations.Param;
 
 public interface IDataNameRepository {
 

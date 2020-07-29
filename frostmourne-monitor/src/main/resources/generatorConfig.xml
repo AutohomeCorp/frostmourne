@@ -36,6 +36,7 @@
         </table>
         <table tableName="data_source" mapperName="DataSourceDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="metric" mapperName="MetricDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
@@ -58,7 +59,7 @@
         <table tableName="department_info" mapperName="DepartmentInfoDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
         </table>-->
-        <table tableName="data_name" mapperName="DataNameDynamicMapper">
+        <table tableName="data_source" mapperName="DataSourceDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
