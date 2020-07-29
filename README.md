@@ -336,6 +336,7 @@ npm run dev
 * 报警消息模板管理功能
 * 监控列表增加一个开关选项，只显示我的监控
 * 另存时，监控名称增加(copy)字样标识，和原监控区分开
+* 解决Elasticsearch数据嵌套时，数据值为undefine的问题 [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11)
 * Elasticsearch监控数值实现环比监控
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)
 * 增加服务管理，监控可以和服务关联
