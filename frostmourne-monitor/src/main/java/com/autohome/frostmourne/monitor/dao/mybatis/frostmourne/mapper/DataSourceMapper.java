@@ -6,17 +6,8 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSourc
 import org.apache.ibatis.annotations.Param;
 
 public interface DataSourceMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(DataSource record);
-
-    int insertSelective(DataSource record);
 
     DataSource selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(DataSource record);
-
-    int updateByPrimaryKey(DataSource record);
 
     List<DataSource> find(@Param("datasourceType") String datasourceType);
 
