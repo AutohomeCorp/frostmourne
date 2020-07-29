@@ -95,9 +95,6 @@ public class AlarmAdminService implements IAlarmAdminService {
     private MetricMapper metricMapper;
 
     @Resource
-    private DataSourceMapper dataSourceMapper;
-
-    @Resource
     private IDataSourceRepository dataSourceRepository;
 
     @Resource
