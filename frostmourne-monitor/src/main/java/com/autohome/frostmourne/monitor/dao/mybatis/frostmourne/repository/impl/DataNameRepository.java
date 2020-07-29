@@ -59,6 +59,7 @@ public class DataNameRepository implements IDataNameRepository {
     public List<DataName> find(String datasourceType, Long datasourceId) {
         return dataNameDynamicMapper.select(query -> query.where()
                 .and(DataNameDynamicSqlSupport.datasource_type, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
-                .and(DataNameDynamicSqlSupport.data_source_id, isEqualTo(datasourceId).when(MybatisTool::notNullAndZero)));
+                .and(DataNameDynamicSqlSupport.data_source_id, isEqualTo(datasourceId).when(MybatisTool::notNullAndZero))
+                .orderBy(DataNameDynamicSqlSupport.create_at.descending()));
     }
 }
