@@ -1,4 +1,4 @@
-## 0.3-SNAPSHOT
+# 0.3-SNAPSHOT
 
 ### Feature
 
@@ -21,9 +21,10 @@
 
 ### Other
 
-* 镜像服务改用阿里云
+* 默认镜像服务改用阿里云
+* 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
 
-## 0.2-RELEASE
+# 0.2-RELEASE
 
 ### Feature
 
@@ -72,7 +73,7 @@
 * 使用[autolog4j](https://github.com/AutohomeCorp/autolog4j)程序日志格式 [2020-07-19]
 * 文本日志按天滚动 [2020-07-19]
 
-## 0.1-RELEASE
+# 0.1-RELEASE
 
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
 * HTTP数据监控
