@@ -16,17 +16,13 @@
         <el-option label="15分钟" value="900" />
         <el-option label="30分钟" value="1800" />
       </el-select>
-      <el-date-picker
-        v-model="datePickValue"
-        class="filter-item"
-        type="datetimerange"
-        :picker-options="pickerOptions"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        align="right"
-        :default-time="['00:00:00', '23:59:59']"
-        @change="dateChangeHandler" />
+      <el-date-picker v-model="datePickValue" class="filter-item" type="datetimerange" :picker-options="pickerOptions"
+                      range-separator="至"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期"
+                      align="right"
+                      :default-time="['00:00:00', '23:59:59']"
+                      @change="dateChangeHandler" />
       <el-autocomplete v-model="form.esQuery" style="width: 700px;" class="filter-item" :fetch-suggestions="findTips"
                        placeholder="输入查询语句。如: Team: dealer.arch" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
@@ -178,12 +174,9 @@ export default {
     }
   },
   created () {
-    const startMoment = moment().startOf('day')
-    const endMoment = moment().endOf('day')
-    this.datePickValue[0] = startMoment.toDate()
-    this.datePickValue[1] = endMoment.toDate()
-    this.form.startTime = startMoment.toDate()
-    this.form.endTime = endMoment.toDate()
+    this.form.startTime = moment().startOf('day').toDate()
+    this.form.endTime = moment().endOf('day').toDate()
+    this.datePickValue = [this.form.startTime, this.form.endTime]
     dataApi.findDataNameByType('elasticsearch').then(response => {
       this.dataNameList = response.result
       if (this.form.dataName === null && this.dataNameList.length > 0) {
@@ -196,8 +189,7 @@ export default {
       this.form.dataName = this.$route.query.dataName
       this.form.startTime = moment(this.$route.query.startTime).toDate()
       this.form.endTime = moment(this.$route.query.endTime).toDate()
-      this.datePickValue[0] = this.form.startTime
-      this.datePickValue[1] = this.form.endTime
+      this.datePickValue = [this.form.startTime, this.form.endTime]
 
       this.search()
     }
@@ -209,8 +201,9 @@ export default {
       if (xAxis.length > 1) {
         this.form.startTime = moment(xAxis[index]).toDate()
         if (xAxis.length - 1 > index) {
-          this.form.endTime = moment(xAxis[index + 1]).subtract(1, 'second').toDate()
+          this.form.endTime = moment(xAxis[index + 1]).toDate()
         }
+        this.datePickValue = [this.form.startTime, this.form.endTime]
         this.search()
       }
     },
