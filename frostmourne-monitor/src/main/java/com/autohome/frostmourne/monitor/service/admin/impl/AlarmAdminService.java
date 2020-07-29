@@ -35,6 +35,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RuleMappe
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RulePropertyMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
@@ -96,7 +97,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     private DataSourceMapper dataSourceMapper;
 
     @Resource
-    private DataNameMapper dataNameMapper;
+    private IDataNameRepository dataNameRepository;
 
     @Resource
     private IScheduleService scheduleService;
@@ -200,8 +201,12 @@ public class AlarmAdminService implements IAlarmAdminService {
         }
 
         if (metric.getData_name_id() != null && metric.getData_name_id() > 0) {
-            DataName dataName = dataNameMapper.selectByPrimaryKey(metric.getData_name_id());
-            DataNameContract dataNameContract = DataNameTransformer.model2Contract(dataName);
+            Optional<DataName> optionalDataName = dataNameRepository.selectByPrimaryKey(metric.getData_name_id());
+            if (!optionalDataName.isPresent()) {
+                LOGGER.error("dataName not exist. " + metric.getData_name_id());
+                throw new ProtocolException(1209, "dataName not exist. " + metric.getData_name_id());
+            }
+            DataNameContract dataNameContract = DataNameTransformer.model2Contract(optionalDataName.get());
             metricContract.setDataNameContract(dataNameContract);
         }
 
@@ -403,7 +408,11 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmContract.getRuleContract().setRule_type(ruleType);
 
         if (!alarmContract.getMetricContract().getData_name().equalsIgnoreCase("http")) {
-            DataName dataName = dataNameMapper.findByName(alarmContract.getMetricContract().getData_name());
+            Optional<DataName> optionalDataName = dataNameRepository.findByName(alarmContract.getMetricContract().getData_name());
+            if (!optionalDataName.isPresent()) {
+                throw new ProtocolException(1290, "dataName not exist. " + alarmContract.getMetricContract().getData_name());
+            }
+            DataName dataName = optionalDataName.get();
             alarmContract.getMetricContract().setData_name_id(dataName.getId());
             alarmContract.getMetricContract().setDataNameContract(DataAdminService.toDataNameContract(dataName));
             alarmContract.getMetricContract().setData_source_id(dataName.getData_source_id());

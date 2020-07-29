@@ -6,13 +6,13 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName;
 import org.apache.ibatis.annotations.Param;
 
 public interface DataNameMapper {
-    int deleteByPrimaryKey(Long id);
+
+    DataName selectByPrimaryKey(Long id);
+    /*int deleteByPrimaryKey(Long id);
 
     int insert(DataName record);
 
     int insertSelective(DataName record);
-
-    DataName selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(DataName record);
 
@@ -21,5 +21,5 @@ public interface DataNameMapper {
     DataName findByName(String dataName);
 
     List<DataName> find(@Param("datasourceType") String datasourceType,
-                        @Param("datasourceId") Long datasourceId);
+                        @Param("datasourceId") Long datasourceId);*/
 }

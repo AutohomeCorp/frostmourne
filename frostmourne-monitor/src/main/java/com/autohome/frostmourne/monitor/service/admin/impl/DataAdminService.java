@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
@@ -22,6 +23,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSourc
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataNameMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataSourceMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.MetricMapper;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
 import com.autohome.frostmourne.monitor.service.admin.IDataAdminService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
 import com.autohome.frostmourne.monitor.transform.DataSourceTransformer;
@@ -38,6 +40,9 @@ public class DataAdminService implements IDataAdminService {
 
     @Resource
     private DataNameMapper dataNameMapper;
+
+    @Resource
+    private IDataNameRepository dataNameRepository;
 
     @Resource
     private MetricMapper metricMapper;
@@ -102,7 +107,7 @@ public class DataAdminService implements IDataAdminService {
     @Override
     public List<DataOption> dataOptions() {
         List<DataSource> dataSourceList = this.dataSourceMapper.find(null);
-        List<DataName> dataNameList = this.dataNameMapper.find(null, null);
+        List<DataName> dataNameList = this.dataNameRepository.find(null, null);
         Map<String, List<DataSourceOption>> dataOptionMap = new HashMap<>();
         for (DataSource dataSource : dataSourceList) {
             DataSourceOption dataSourceOption = new DataSourceOption();
@@ -145,15 +150,15 @@ public class DataAdminService implements IDataAdminService {
         dataName.setTimestamp_field(dataNameContract.getTimestamp_field());
         if (dataNameContract.getId() != null && dataNameContract.getId() > 0) {
             dataName.setId(dataNameContract.getId());
-            return this.dataNameMapper.updateByPrimaryKeySelective(dataName) > 0;
+            return this.dataNameRepository.updateByPrimaryKeySelective(dataName) > 0;
         }
-        DataName oldDataName = this.dataNameMapper.findByName(dataNameContract.getData_name());
-        if (oldDataName != null) {
+        Optional<DataName> oldDataName = this.dataNameRepository.findByName(dataNameContract.getData_name());
+        if (oldDataName.isPresent()) {
             throw new ProtocolException(504, "数据名称发生重复");
         }
         dataName.setCreator(account);
         dataName.setCreate_at(now);
-        return this.dataNameMapper.insert(dataName) > 0;
+        return this.dataNameRepository.insert(dataName) > 0;
     }
 
     @Override
@@ -162,27 +167,27 @@ public class DataAdminService implements IDataAdminService {
         if (datanameCount > 0) {
             throw new ProtocolException(600, "数据名正在使用无法删除");
         }
-        return this.dataNameMapper.deleteByPrimaryKey(datanameId) > 0;
+        return this.dataNameRepository.deleteByPrimaryKey(datanameId) > 0;
     }
 
     @Override
     public PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, String datasourceType, Long datasourceId) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
-        List<DataName> list = this.dataNameMapper.find(datasourceType, datasourceId);
+        List<DataName> list = this.dataNameRepository.find(datasourceType, datasourceId);
         return new PagerContract<>(list.stream().map(DataAdminService::toDataNameContract).collect(Collectors.toList()),
                 page.getPageSize(), page.getPageNum(), (int) page.getTotal());
     }
 
     @Override
     public List<DataNameContract> findDataNameByType(String datasourceType) {
-        List<DataName> list = this.dataNameMapper.find(datasourceType, null);
+        List<DataName> list = this.dataNameRepository.find(datasourceType, null);
         return list.stream().map(DataAdminService::toDataNameContract).collect(Collectors.toList());
     }
 
     @Override
     public DataNameContract findDataNameByName(String name) {
-        DataName dataName = dataNameMapper.findByName(name);
-        return DataNameTransformer.model2Contract(dataName);
+        Optional<DataName> optionalDataName = dataNameRepository.findByName(name);
+        return optionalDataName.map(DataNameTransformer::model2Contract).orElse(null);
     }
 
     static DataNameContract toDataNameContract(DataName dataName) {
