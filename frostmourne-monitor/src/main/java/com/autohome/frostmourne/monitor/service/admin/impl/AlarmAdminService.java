@@ -39,6 +39,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IData
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRecipientRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRuleRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
@@ -88,7 +89,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     private RulePropertyMapper rulePropertyMapper;
 
     @Resource
-    private RuleMapper ruleMapper;
+    private IRuleRepository ruleRepository;
 
     @Resource
     private IMetricRepository metricRepository;
@@ -135,7 +136,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             alarmRepository.deleteByPrimaryKey(alarmId);
             alertRepository.deleteByAlarm(alarmId);
             metricRepository.deleteByAlarm(alarmId);
-            ruleMapper.deleteByAlarm(alarmId);
+            ruleRepository.deleteByAlarm(alarmId);
             rulePropertyMapper.deleteByAlarm(alarmId);
             recipientRepository.deleteByAlarm(alarmId);
             scheduleService.removeJob(Math.toIntExact(alarm.getJob_id()));
@@ -218,7 +219,11 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmContract.setMetricContract(metricContract);
 
         RuleContract ruleContract = new RuleContract();
-        Rule rule = this.ruleMapper.findOneByAlarm(alarmId);
+        Optional<Rule> optionalRule = this.ruleRepository.findOneByAlarm(alarmId);
+        if(!optionalRule.isPresent()) {
+            throw new ProtocolException(7292346, "alarm has no rule, alarmId: " + alarmId);
+        }
+        Rule rule = optionalRule.get();
         ruleContract.setAlert_template(rule.getAlert_template());
         ruleContract.setRule_type(rule.getRule_type());
         ruleContract.setAlarm_id(alarmId);
@@ -358,7 +363,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     private Long saveRule(RuleContract ruleContract, Long alarmId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
             rulePropertyMapper.deleteByAlarm(alarmId);
-            ruleMapper.deleteByAlarm(alarmId);
+            ruleRepository.deleteByAlarm(alarmId);
         }
 
         Rule rule = new Rule();
@@ -367,7 +372,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         rule.setCreator(account);
         rule.setCreate_at(new Date());
         rule.setRule_type(ruleContract.getRule_type());
-        ruleMapper.insert(rule);
+        ruleRepository.insert(rule);
         Long ruleId = rule.getId();
         if (ruleContract.getSettings() != null) {
             for (Map.Entry<String, String> entry : ruleContract.getSettings().entrySet()) {

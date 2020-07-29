@@ -1,15 +1,18 @@
-package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper;
+package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
+
+import java.util.Optional;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule;
 
-public interface RuleMapper {
-    /*int deleteByPrimaryKey(Long id);
+public interface IRuleRepository {
+
+    int deleteByPrimaryKey(Long id);
 
     int insert(Rule record);
 
     int insertSelective(Rule record);
 
-    Rule selectByPrimaryKey(Long id);
+    Optional<Rule> selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(Rule record);
 
@@ -17,5 +20,5 @@ public interface RuleMapper {
 
     int deleteByAlarm(Long alarmId);
 
-    Rule findOneByAlarm(Long alarmId);*/
+    Optional<Rule> findOneByAlarm(Long alarmId);
 }
