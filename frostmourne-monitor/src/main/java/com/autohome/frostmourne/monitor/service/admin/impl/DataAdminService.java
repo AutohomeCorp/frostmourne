@@ -20,8 +20,6 @@ import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchInfo;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceManager;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataSourceMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.MetricMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
