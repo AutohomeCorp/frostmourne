@@ -55,6 +55,7 @@ public class RuleRepository implements IRuleRepository {
 
     @Override
     public Optional<Rule> findOneByAlarm(Long alarmId) {
-        return ruleDynamicMapper.selectOne(query -> query.where().and(RuleDynamicSqlSupport.alarm_id, isEqualTo(alarmId)));
+        return ruleDynamicMapper.selectOne(query -> query.where()
+                .and(RuleDynamicSqlSupport.alarm_id, isEqualTo(alarmId)));
     }
 }
