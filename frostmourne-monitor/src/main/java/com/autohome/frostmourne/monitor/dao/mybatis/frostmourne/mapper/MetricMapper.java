@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Metric;
 
 public interface MetricMapper {
-    int deleteByPrimaryKey(Long id);
+    /*int deleteByPrimaryKey(Long id);
 
     int insert(Metric record);
 
@@ -23,5 +23,5 @@ public interface MetricMapper {
 
     int datasourceCount(Long datasourceId);
 
-    int datanameCount(Long datanameId);
+    int datanameCount(Long datanameId);*/
 }

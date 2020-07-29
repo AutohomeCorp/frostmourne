@@ -37,6 +37,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlar
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
@@ -92,7 +93,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     private RuleMapper ruleMapper;
 
     @Resource
-    private MetricMapper metricMapper;
+    private IMetricRepository metricRepository;
 
     @Resource
     private IDataSourceRepository dataSourceRepository;
@@ -135,7 +136,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         try {
             alarmRepository.deleteByPrimaryKey(alarmId);
             alertRepository.deleteByAlarm(alarmId);
-            metricMapper.deleteByAlarm(alarmId);
+            metricRepository.deleteByAlarm(alarmId);
             ruleMapper.deleteByAlarm(alarmId);
             rulePropertyMapper.deleteByAlarm(alarmId);
             recipientMapper.deleteByAlarm(alarmId);
@@ -183,7 +184,11 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmContract.setJob_id(alarm.getJob_id());
 
         MetricContract metricContract = new MetricContract();
-        Metric metric = this.metricMapper.findOneByAlarm(alarmId);
+        Optional<Metric> optionalMetric = this.metricRepository.findOneByAlarm(alarmId);
+        if(!optionalMetric.isPresent()) {
+            throw new ProtocolException(20200229, "find no metric, alarmId: " + alarmId);
+        }
+        Metric metric = optionalMetric.get();
         metricContract.setAggregation_type(metric.getAggregation_type());
         metricContract.setAggregation_field(metric.getAggregation_field());
         metricContract.setQuery_string(metric.getQuery_string());
@@ -384,7 +389,7 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     private void saveMetric(MetricContract metricContract, Long alarmId, Long ruleId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
-            metricMapper.deleteByAlarm(alarmId);
+            metricRepository.deleteByAlarm(alarmId);
         }
 
         Metric metric = new Metric();
@@ -401,7 +406,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         metric.setPost_data(metricContract.getPost_data());
         metric.setProperties(JacksonUtil.serialize(metricContract.getProperties()));
         metric.setCreate_at(new Date());
-        metricMapper.insert(metric);
+        metricRepository.insert(metric);
     }
 
     public void padAlarm(AlarmContract alarmContract) {

@@ -24,6 +24,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataSourc
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.MetricMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
 import com.autohome.frostmourne.monitor.service.admin.IDataAdminService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
 import com.autohome.frostmourne.monitor.transform.DataSourceTransformer;
@@ -36,16 +37,13 @@ import org.springframework.stereotype.Service;
 public class DataAdminService implements IDataAdminService {
 
     @Resource
-    private DataSourceMapper dataSourceMapper;
-
-    @Resource
     private IDataSourceRepository dataSourceRepository;
 
     @Resource
     private IDataNameRepository dataNameRepository;
 
     @Resource
-    private MetricMapper metricMapper;
+    private IMetricRepository metricRepository;
 
     @Resource
     private ElasticsearchSourceManager elasticsearchSourceManager;
@@ -84,7 +82,7 @@ public class DataAdminService implements IDataAdminService {
 
     @Override
     public boolean removeDataSource(Long id) {
-        int datasourceCount = metricMapper.datasourceCount(id);
+        long datasourceCount = metricRepository.datasourceCount(id);
         if (datasourceCount > 0) {
             throw new ProtocolException(600, "数据源正在使用无法删除");
         }
@@ -163,7 +161,7 @@ public class DataAdminService implements IDataAdminService {
 
     @Override
     public boolean removeDataName(Long datanameId) {
-        int datanameCount = this.metricMapper.datanameCount(datanameId);
+        long datanameCount = this.metricRepository.datanameCount(datanameId);
         if (datanameCount > 0) {
             throw new ProtocolException(600, "数据名正在使用无法删除");
         }
