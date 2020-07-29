@@ -6,7 +6,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSourc
 import org.apache.ibatis.annotations.Param;
 
 public interface DataSourceMapper {
-    /*int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(DataSource record);
 
@@ -20,5 +20,5 @@ public interface DataSourceMapper {
 
     List<DataSource> find(@Param("datasourceType") String datasourceType);
 
-    List<DataSource> findByIdList(@Param("idList") List<Long> idList);*/
+    List<DataSource> findByIdList(@Param("idList") List<Long> idList);
 }
