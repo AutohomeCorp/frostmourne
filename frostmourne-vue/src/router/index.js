@@ -69,22 +69,10 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: 'external-link.view',
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/AutohomeCorp/frostmourne',
-        meta: { title: 'Github', icon: 'link' }
-      }
-    ]
-  },
 
   { path: '/login', hidden: true, component: () => import('@/views/login/index') },
 
-  { path: '/404.view', hidden: true, component: () => import('@/views/404') },
-  // 404 page must be placed at the end !!!
-  { path: '*', hidden: true, redirect: '/404' }
+  { path: '/404.view', hidden: true, component: () => import('@/views/404') }
 ]
 
 /**
@@ -107,7 +95,19 @@ export const asyncRoutes = [
     name: 'account',
     meta: { title: '账号管理', icon: 'people', roles: ['admin'] },
     children: accountRoutes
-  }
+  },
+  {
+    path: 'external-link.view',
+    component: Layout,
+    children: [
+      {
+        path: 'https://github.com/AutohomeCorp/frostmourne',
+        meta: { title: 'Github', icon: 'link' }
+      }
+    ]
+  },
+  // 404 page must be placed at the end !!!
+  { path: '*', hidden: true, redirect: '/404' }
 ]
 
 const createRouter = () =>
