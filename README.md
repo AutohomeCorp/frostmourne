@@ -332,13 +332,13 @@ npm run dev
 * ~~菜单增加权限控制，部分页面(如：数据源配置)只对管理员开放~~ [2020-07-27]
 * ~~Elasticsearch查询增加历史语句自动提示~~ [2020-07-27]
 * ~~Elasticsearch查询数据柱状图可点击并自动变更时间范围~~ [2020-07-28]
-* 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
+* ~~数据库访问层全部换成~~[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
 * 报警消息模板管理功能
 * Elasticsearch监控数值实现环比监控
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)
 * 内置实现一个短链接功能，移除外部短链接服务依赖
-* 监控列表页增加按创建人查询条件
 * 监控列表增加一个开关选项，只显示我的监控
+* 监控列表页增加按创建人查询条件
 * 另存时，监控名称增加(copy)字样标识，和原监控区分开
 * Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
 * 移除SPI模块，经过一系列优化后，spi模块存在的必要性可能很低了，考虑移除掉，降低部署难度
