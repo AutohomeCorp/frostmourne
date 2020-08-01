@@ -399,6 +399,7 @@ export default {
     },
     onSaveAnother () {
       this.copyToProperties()
+      this.form.alarm_name = this.form.alarm_name + '(copy)'
       adminApi.saveAnother(this.form)
         .then(response => {
           this.$message({
