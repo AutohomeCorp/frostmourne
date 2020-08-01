@@ -333,7 +333,7 @@ npm run dev
 * ~~Elasticsearch查询增加历史语句自动提示~~ [2020-07-27]
 * ~~Elasticsearch查询数据柱状图可点击并自动变更时间范围~~ [2020-07-28]
 * ~~数据库访问层全部换成~~[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
-* ~~解决Elasticsearch数据嵌套时，数据值为undefine的问题~~ [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11)
+* ~~解决Elasticsearch数据嵌套时，数据值为undefine的问题~~ [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
 * 报警消息模板管理功能
 * 监控列表增加一个开关选项，只显示我的监控
 * 另存时，监控名称增加(copy)字样标识，和原监控区分开
