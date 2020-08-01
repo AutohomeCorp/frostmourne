@@ -4,6 +4,7 @@
   "description": "frostmourne",
   "author": "frostmourne",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "vue-cli-service serve --open",
     "dev:m": "vue-cli-service serve --mode mock",

@@ -11,11 +11,11 @@
     </div>
 
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column prop="id" label="id" align="center" />   
-      <el-table-column prop="department_name" label="部门" align="center" />   
-      <el-table-column prop="full_name" label="部门全称" align="center" />   
-      <el-table-column prop="creator" label="创建人" align="center" />   
-      <el-table-column prop="modifier" label="修改人" align="center" />   
+      <el-table-column prop="id" label="id" align="center" />
+      <el-table-column prop="department_name" label="部门" align="center" />
+      <el-table-column prop="full_name" label="部门全称" align="center" />
+      <el-table-column prop="creator" label="创建人" align="center" />
+      <el-table-column prop="modifier" label="修改人" align="center" />
       <el-table-column prop="create_at" label="创建时间" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.create_at | timeFormat }}</span>
@@ -66,11 +66,11 @@ import { formatJsonDate } from '@/utils/datetime.js'
 
 export default {
   filters: {
-    timeFormat(value) {
+    timeFormat (value) {
       return value ? formatJsonDate(value, 'yyyy-MM-dd hh:mm:ss') : null
     }
   },
-  data() {
+  data () {
     return {
       list: null,
       rowcount: 0,
@@ -82,37 +82,37 @@ export default {
       },
       editData: {
         department_name: null,
-        full_name: null,
+        full_name: null
       },
       formLabelWidth: '100px',
       dialogFormVisible: false
     }
   },
-  created() {
+  created () {
     this.fetchData()
   },
   methods: {
-    fetchData() {
+    fetchData () {
       this.listLoading = true
       departmentInfoApi.findPage(this.form).then(response => {
-          this.list = response.result.list || []
-          this.rowcount = response.result.rowcount
-          this.listLoading = false
-        })
+        this.list = response.result.list || []
+        this.rowcount = response.result.rowcount
+        this.listLoading = false
+      })
     },
-    onPrevClick() {
+    onPrevClick () {
       this.form.pageIndex--
       this.fetchData()
     },
-    onNextClick() {
+    onNextClick () {
       this.form.pageIndex++
       this.fetchData()
     },
-    onCurrentChange(curr) {
+    onCurrentChange (curr) {
       this.form.pageIndex = curr
       this.fetchData()
     },
-    edit(row) {
+    edit (row) {
       console.log(row)
       if (row != null) {
         this.editData.id = row.id
@@ -124,25 +124,25 @@ export default {
 
       this.dialogFormVisible = true
     },
-    search() {
+    search () {
       // console.log(this.form)
       this.form.pageIndex = 1
       this.fetchData()
     },
-    save() {
-      if(this.editData.id) {
-        departmentInfoApi.update(this.editData).then(response=> {
+    save () {
+      if (this.editData.id) {
+        departmentInfoApi.update(this.editData).then(response => {
           this.dialogFormVisible = false
           this.fetchData()
         })
       } else {
-        departmentInfoApi.create(this.editData).then(response=> {
+        departmentInfoApi.create(this.editData).then(response => {
           this.dialogFormVisible = false
           this.fetchData()
         })
       }
     },
-    remove(row) {
+    remove (row) {
       this.$confirm('此操作将删除部门和其下所有团队和账号, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

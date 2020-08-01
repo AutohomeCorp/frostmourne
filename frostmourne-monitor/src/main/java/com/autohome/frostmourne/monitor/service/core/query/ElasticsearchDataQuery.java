@@ -218,13 +218,13 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         for (SearchHit hit : searchResponse.getHits()) {
             logs.add(hit.getSourceAsMap());
             if (dataResult.getFields() == null) {
-                Set<String> keys = hit.getSourceAsMap().keySet();
-                List<String> fields = new ArrayList<>(keys);
-                dataResult.setFields(fields);
-                if (fields.size() > 7) {
-                    dataResult.setHeadFields(fields.subList(0, 6));
+                List<String> flatFields = findFields(hit.getSourceAsMap(), null);
+                dataResult.setFlatFields(flatFields);
+                dataResult.setFields(new ArrayList<>(hit.getSourceAsMap().keySet()));
+                if (flatFields.size() > 7) {
+                    dataResult.setHeadFields(flatFields.subList(0, 6));
                 } else {
-                    dataResult.setHeadFields(fields);
+                    dataResult.setHeadFields(flatFields);
                 }
             }
         }
@@ -243,5 +243,23 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         }
 
         return dataResult;
+    }
+
+    private List<String> findFields(Map<String, Object> doc, String parentField) {
+        List<String> fields = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : doc.entrySet()) {
+            String field = null;
+            if (Strings.isNullOrEmpty(parentField)) {
+                field = entry.getKey();
+            } else {
+                field = parentField + "." + entry.getKey();
+            }
+            if (entry.getValue() instanceof Map) {
+                fields.addAll(findFields((Map<String, Object>) entry.getValue(), field));
+            } else {
+                fields.add(field);
+            }
+        }
+        return fields;
     }
 }
