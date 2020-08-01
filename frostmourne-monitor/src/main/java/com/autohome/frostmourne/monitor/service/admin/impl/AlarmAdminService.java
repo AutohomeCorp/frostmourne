@@ -27,21 +27,19 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Metric;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Recipient;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.RuleProperty;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataNameMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.DataSourceMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.MetricMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RecipientMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RuleMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RulePropertyMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRecipientRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRulePropertyRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRuleRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
 import com.autohome.frostmourne.monitor.transform.DataSourceTransformer;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.google.common.base.Splitter;
 import org.apache.logging.log4j.core.util.CronExpression;
 import org.slf4j.Logger;
@@ -68,35 +66,32 @@ public class AlarmAdminService implements IAlarmAdminService {
     };
 
 
-    /*@Resource
-    private AlarmMapper alarmMapper;*/
-
     @Resource
     private IAlarmRepository alarmRepository;
 
     @Resource
-    private RecipientMapper recipientMapper;
+    private IRecipientRepository recipientRepository;
 
     @Resource(name = "frostmourneTransactionManager")
     private DataSourceTransactionManager frostmourneTransactionManager;
 
     @Resource
-    private AlertMapper alertMapper;
+    private IAlertRepository alertRepository;
 
     @Resource
-    private RulePropertyMapper rulePropertyMapper;
+    private IRulePropertyRepository rulePropertyRepository;
 
     @Resource
-    private RuleMapper ruleMapper;
+    private IRuleRepository ruleRepository;
 
     @Resource
-    private MetricMapper metricMapper;
+    private IMetricRepository metricRepository;
 
     @Resource
-    private DataSourceMapper dataSourceMapper;
+    private IDataSourceRepository dataSourceRepository;
 
     @Resource
-    private DataNameMapper dataNameMapper;
+    private IDataNameRepository dataNameRepository;
 
     @Resource
     private IScheduleService scheduleService;
@@ -132,11 +127,11 @@ public class AlarmAdminService implements IAlarmAdminService {
         TransactionStatus status = frostmourneTransactionManager.getTransaction(def);
         try {
             alarmRepository.deleteByPrimaryKey(alarmId);
-            alertMapper.deleteByAlarm(alarmId);
-            metricMapper.deleteByAlarm(alarmId);
-            ruleMapper.deleteByAlarm(alarmId);
-            rulePropertyMapper.deleteByAlarm(alarmId);
-            recipientMapper.deleteByAlarm(alarmId);
+            alertRepository.deleteByAlarm(alarmId);
+            metricRepository.deleteByAlarm(alarmId);
+            ruleRepository.deleteByAlarm(alarmId);
+            rulePropertyRepository.deleteByAlarm(alarmId);
+            recipientRepository.deleteByAlarm(alarmId);
             scheduleService.removeJob(Math.toIntExact(alarm.getJob_id()));
         } catch (Exception ex) {
             frostmourneTransactionManager.rollback(status);
@@ -163,10 +158,11 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     public AlarmContract findById(Long alarmId) {
         AlarmContract alarmContract = new AlarmContract();
-        Alarm alarm = alarmRepository.selectByPrimaryKey(alarmId).get();
-        if (alarm == null) {
+        Optional<Alarm> optionalAlarm = alarmRepository.selectByPrimaryKey(alarmId);
+        if (!optionalAlarm.isPresent()) {
             return null;
         }
+        Alarm alarm = optionalAlarm.get();
         alarmContract.setId(alarmId);
         alarmContract.setStatus(alarm.getStatus());
         alarmContract.setOwner_key(alarm.getOwner_key());
@@ -180,7 +176,11 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmContract.setJob_id(alarm.getJob_id());
 
         MetricContract metricContract = new MetricContract();
-        Metric metric = this.metricMapper.findOneByAlarm(alarmId);
+        Optional<Metric> optionalMetric = this.metricRepository.findOneByAlarm(alarmId);
+        if(!optionalMetric.isPresent()) {
+            throw new ProtocolException(20200229, "find no metric, alarmId: " + alarmId);
+        }
+        Metric metric = optionalMetric.get();
         metricContract.setAggregation_type(metric.getAggregation_type());
         metricContract.setAggregation_field(metric.getAggregation_field());
         metricContract.setQuery_string(metric.getQuery_string());
@@ -193,27 +193,36 @@ public class AlarmAdminService implements IAlarmAdminService {
         metricContract.setProperties(JacksonUtil.deSerialize(metric.getProperties(), new TypeReference<Map<String, Object>>() {
         }));
         if (metric.getData_source_id() != null && metric.getData_source_id() > 0) {
-            DataSource dataSource = dataSourceMapper.selectByPrimaryKey(metric.getData_source_id());
-            DataSourceContract dataSourceContract = DataSourceTransformer.model2Contract(dataSource);
+            Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(metric.getData_source_id());
+            DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)
+                    .orElseThrow(() -> new ProtocolException(1890, "datasource not exist. id: " + metric.getData_source_id()));
             metricContract.setDataSourceContract(dataSourceContract);
         }
 
         if (metric.getData_name_id() != null && metric.getData_name_id() > 0) {
-            DataName dataName = dataNameMapper.selectByPrimaryKey(metric.getData_name_id());
-            DataNameContract dataNameContract = DataNameTransformer.model2Contract(dataName);
+            Optional<DataName> optionalDataName = dataNameRepository.selectByPrimaryKey(metric.getData_name_id());
+            if (!optionalDataName.isPresent()) {
+                LOGGER.error("dataName not exist. " + metric.getData_name_id());
+                throw new ProtocolException(1209, "dataName not exist. " + metric.getData_name_id());
+            }
+            DataNameContract dataNameContract = DataNameTransformer.model2Contract(optionalDataName.get());
             metricContract.setDataNameContract(dataNameContract);
         }
 
         alarmContract.setMetricContract(metricContract);
 
         RuleContract ruleContract = new RuleContract();
-        Rule rule = this.ruleMapper.findOneByAlarm(alarmId);
+        Optional<Rule> optionalRule = this.ruleRepository.findOneByAlarm(alarmId);
+        if(!optionalRule.isPresent()) {
+            throw new ProtocolException(7292346, "alarm has no rule, alarmId: " + alarmId);
+        }
+        Rule rule = optionalRule.get();
         ruleContract.setAlert_template(rule.getAlert_template());
         ruleContract.setRule_type(rule.getRule_type());
         ruleContract.setAlarm_id(alarmId);
         Map<String, String> rulePropertyMap = new HashMap<>();
 
-        List<RuleProperty> rulePropertyList = this.rulePropertyMapper.findByRuleId(rule.getId());
+        List<RuleProperty> rulePropertyList = this.rulePropertyRepository.findByRuleId(rule.getId());
         if (rulePropertyList != null && rulePropertyList.size() > 0) {
             for (RuleProperty ruleProperty : rulePropertyList) {
                 rulePropertyMap.put(ruleProperty.getProp_key(), ruleProperty.getProp_value());
@@ -223,7 +232,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmContract.setRuleContract(ruleContract);
 
         AlertContract alertContract = new AlertContract();
-        Alert alert = this.alertMapper.findOneByAlarm(alarmId);
+        Alert alert = this.alertRepository.findOneByAlarm(alarmId).get();
         alertContract.setSilence(alert.getSilence());
         alertContract.setWays(Splitter.on(",").splitToList(alert.getWays()));
         alertContract.setAlarm_id(alarmId);
@@ -234,7 +243,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertContract.setWechat_robot_hook(alert.getWechat_robot_hook());
         alertContract.setCreate_at(alert.getCreate_at());
 
-        List<Recipient> recipientList = this.recipientMapper.findByAlarm(alarmId);
+        List<Recipient> recipientList = this.recipientRepository.findByAlarm(alarmId);
         alertContract.setRecipients(recipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
         alarmContract.setAlertContract(alertContract);
         return alarmContract;
@@ -318,8 +327,8 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     private void saveAlert(AlertContract contract, Long alarmId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
-            recipientMapper.deleteByAlarm(alarmId);
-            alertMapper.deleteByAlarm(alarmId);
+            recipientRepository.deleteByAlarm(alarmId);
+            alertRepository.deleteByAlarm(alarmId);
         }
         Alert alert = new Alert();
         alert.setWays(String.join(",", contract.getWays()));
@@ -332,7 +341,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alert.setDing_robot_hook(contract.getDing_robot_hook());
         alert.setHttp_post_url(contract.getHttp_post_url());
         alert.setWechat_robot_hook(contract.getWechat_robot_hook());
-        alertMapper.insert(alert);
+        alertRepository.insert(alert);
 
         for (String recipient : contract.getRecipients()) {
             Recipient alertRecipient = new Recipient();
@@ -340,14 +349,14 @@ public class AlarmAdminService implements IAlarmAdminService {
             alertRecipient.setAlert_id(alert.getId());
             alertRecipient.setAccount(recipient);
             alertRecipient.setCreate_at(new Date());
-            recipientMapper.insert(alertRecipient);
+            recipientRepository.insert(alertRecipient);
         }
     }
 
     private Long saveRule(RuleContract ruleContract, Long alarmId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
-            rulePropertyMapper.deleteByAlarm(alarmId);
-            ruleMapper.deleteByAlarm(alarmId);
+            rulePropertyRepository.deleteByAlarm(alarmId);
+            ruleRepository.deleteByAlarm(alarmId);
         }
 
         Rule rule = new Rule();
@@ -356,7 +365,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         rule.setCreator(account);
         rule.setCreate_at(new Date());
         rule.setRule_type(ruleContract.getRule_type());
-        ruleMapper.insert(rule);
+        ruleRepository.insert(rule);
         Long ruleId = rule.getId();
         if (ruleContract.getSettings() != null) {
             for (Map.Entry<String, String> entry : ruleContract.getSettings().entrySet()) {
@@ -367,7 +376,7 @@ public class AlarmAdminService implements IAlarmAdminService {
                 ruleProperty.setProp_value(entry.getValue());
                 ruleProperty.setRule_id(ruleId);
                 ruleProperty.setCreator(account);
-                rulePropertyMapper.insert(ruleProperty);
+                rulePropertyRepository.insert(ruleProperty);
             }
         }
 
@@ -376,7 +385,7 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     private void saveMetric(MetricContract metricContract, Long alarmId, Long ruleId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
-            metricMapper.deleteByAlarm(alarmId);
+            metricRepository.deleteByAlarm(alarmId);
         }
 
         Metric metric = new Metric();
@@ -393,7 +402,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         metric.setPost_data(metricContract.getPost_data());
         metric.setProperties(JacksonUtil.serialize(metricContract.getProperties()));
         metric.setCreate_at(new Date());
-        metricMapper.insert(metric);
+        metricRepository.insert(metric);
     }
 
     public void padAlarm(AlarmContract alarmContract) {
@@ -402,13 +411,19 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmContract.getRuleContract().setRule_type(ruleType);
 
         if (!alarmContract.getMetricContract().getData_name().equalsIgnoreCase("http")) {
-            DataName dataName = dataNameMapper.findByName(alarmContract.getMetricContract().getData_name());
+            Optional<DataName> optionalDataName = dataNameRepository.findByName(alarmContract.getMetricContract().getData_name());
+            if (!optionalDataName.isPresent()) {
+                throw new ProtocolException(1290, "dataName not exist. " + alarmContract.getMetricContract().getData_name());
+            }
+            DataName dataName = optionalDataName.get();
             alarmContract.getMetricContract().setData_name_id(dataName.getId());
             alarmContract.getMetricContract().setDataNameContract(DataAdminService.toDataNameContract(dataName));
             alarmContract.getMetricContract().setData_source_id(dataName.getData_source_id());
 
-            DataSource dataSource = dataSourceMapper.selectByPrimaryKey(dataName.getData_source_id());
-            alarmContract.getMetricContract().setDataSourceContract(DataSourceTransformer.model2Contract(dataSource));
+            Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(dataName.getData_source_id());
+            DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)
+                    .orElseThrow(() -> new ProtocolException(1900, "dataSource not exist. id: " + dataName.getData_source_id()));
+            alarmContract.getMetricContract().setDataSourceContract(dataSourceContract);
         }
     }
 

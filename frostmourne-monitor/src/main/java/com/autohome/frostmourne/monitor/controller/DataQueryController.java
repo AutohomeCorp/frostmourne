@@ -39,10 +39,8 @@ public class DataQueryController {
     @RequestMapping(value = "/elasticsearchData", method = RequestMethod.GET)
     public Protocol<ElasticsearchDataResult> elasticsearchData(@RequestParam(value = "_appId", required = true) String _appId,
                                                                @RequestParam(value = "dataName", required = true) String dataName,
-                                                               @RequestParam(value = "startTime", required = true)
-                                                               @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
-                                                               @RequestParam(value = "endTime", required = true)
-                                                               @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
+                                                               @RequestParam(value = "startTime", required = true) Date startTime,
+                                                               @RequestParam(value = "endTime", required = true) Date endTime,
                                                                @RequestParam(value = "esQuery", required = false) String esQuery,
                                                                @RequestParam(value = "scrollId", required = false) String scrollId,
                                                                @RequestParam(value = "sortOrder", required = true) String sortOrder,
@@ -64,10 +62,8 @@ public class DataQueryController {
     @RequestMapping(value = "/downloadData", method = RequestMethod.GET)
     public void downloadData(HttpServletResponse response, @RequestParam(value = "_appId", required = true) String _appId,
                              @RequestParam(value = "dataName", required = true) String dataName,
-                             @RequestParam(value = "startTime", required = true)
-                             @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
-                             @RequestParam(value = "endTime", required = true)
-                             @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
+                             @RequestParam(value = "startTime", required = true) Date startTime,
+                             @RequestParam(value = "endTime", required = true) Date endTime,
                              @RequestParam(value = "esQuery", required = true) String esQuery,
                              @RequestParam(value = "scrollId", required = false) String scrollId,
                              @RequestParam(value = "sortOrder", required = true) String sortOrder) throws IOException {

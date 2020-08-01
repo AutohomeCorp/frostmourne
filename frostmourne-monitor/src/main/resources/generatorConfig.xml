@@ -24,38 +24,50 @@
         </table>
         <table tableName="alert" mapperName="AlertDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="alert_log" mapperName="AlertLogDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="data_name" mapperName="DataNameDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="data_source" mapperName="DataSourceDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="metric" mapperName="MetricDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="recipient" mapperName="RecipientDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="rule" mapperName="RuleDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="rule_property" mapperName="RulePropertyDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="user_info" mapperName="UserInfoDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="team_info" mapperName="TeamInfoDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="department_info" mapperName="DepartmentInfoDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
-        </table>-->
-        <table tableName="alarm_log" mapperName="AlarmLogDynamicMapper">
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+        </table>
+        -->
+        <table tableName="alert_template" mapperName="AlertTemplateDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>

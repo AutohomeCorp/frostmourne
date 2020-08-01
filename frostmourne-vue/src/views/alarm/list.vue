@@ -6,7 +6,7 @@
       <el-select v-model="form.status" placeholder="监控状态" clearable class="filter-item" @change="onStatusChange">
         <el-option v-for="item in alarmStatus" :key="item.value" :label="item.text" :value="item.value" />
       </el-select>
-      <el-select v-model="form.teamName" placeholder="选择团队" clearable style="width: 200px" class="filter-item" @change="teamChangeHanlder">
+      <el-select v-model="form.teamName" placeholder="选择团队" style="width: 200px" class="filter-item" @change="teamChangeHanlder">
         <el-option v-for="item in teamList" :key="item.name" :label="item.fullName" :value="item.name" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>

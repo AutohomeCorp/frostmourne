@@ -7,28 +7,28 @@ import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class RuleDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.803+08:00", comments="Source Table: rule")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:40:25.315+08:00", comments="Source Table: rule")
     public static final Rule rule = new Rule();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.803+08:00", comments="Source field: rule.id")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:40:25.316+08:00", comments="Source field: rule.id")
     public static final SqlColumn<Long> id = rule.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.803+08:00", comments="Source field: rule.rule_type")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:40:25.316+08:00", comments="Source field: rule.rule_type")
     public static final SqlColumn<String> rule_type = rule.rule_type;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.803+08:00", comments="Source field: rule.alarm_id")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:40:25.316+08:00", comments="Source field: rule.alarm_id")
     public static final SqlColumn<Long> alarm_id = rule.alarm_id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.804+08:00", comments="Source field: rule.alert_template")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:40:25.317+08:00", comments="Source field: rule.alert_template")
     public static final SqlColumn<String> alert_template = rule.alert_template;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.804+08:00", comments="Source field: rule.creator")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:40:25.317+08:00", comments="Source field: rule.creator")
     public static final SqlColumn<String> creator = rule.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.804+08:00", comments="Source field: rule.create_at")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:40:25.317+08:00", comments="Source field: rule.create_at")
     public static final SqlColumn<Date> create_at = rule.create_at;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.803+08:00", comments="Source Table: rule")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:40:25.316+08:00", comments="Source Table: rule")
     public static final class Rule extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

@@ -20,7 +20,7 @@ const teamApi = {
     return query.get(baseUrl + '/findPage', condition)
   },
 
-  find() {
+  find () {
     return query.get(baseUrl + '/find')
   }
 }

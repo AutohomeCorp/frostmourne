@@ -1,4 +1,4 @@
-## 0.3-SNAPSHOT
+# 0.3-SNAPSHOT(开发中未发布)
 
 ### Feature
 
@@ -6,12 +6,15 @@
 * Elasticsearch监控数值实现同比监控 [2020-07-24]
 * Elasticsearch数据源更新免重启加载 [2020-07-25]
 * 集成LDAP登录认证 [2020-07-25]
-
-### Improvement
-
 * 数据名保存表单数据提交增加前端验证 [2020-07-22]
+* 菜单增加权限控制，部分页面(如：数据源配置)只对管理员开放 [2020-07-27]
+* Elasticsearch查询增加历史语句自动提示 [2020-07-27]
+* Elasticsearch查询数据柱状图可点击并自动变更时间范围 [2020-07-28]
 
 ### Bugfix
+
+* bugfix: 解决列表分页问题
+* 解决Elasticsearch数据嵌套时，数据值为undefine的问题 [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
 
 ### Mysql
 
@@ -19,8 +22,10 @@
 
 ### Other
 
+* 默认镜像服务改用阿里云
+* 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
 
-## 0.2-RELEASE
+# 0.2-RELEASE
 
 ### Feature
 
@@ -69,7 +74,7 @@
 * 使用[autolog4j](https://github.com/AutohomeCorp/autolog4j)程序日志格式 [2020-07-19]
 * 文本日志按天滚动 [2020-07-19]
 
-## 0.1-RELEASE
+# 0.1-RELEASE
 
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
 * HTTP数据监控

@@ -1,8 +1,11 @@
 package com.autohome.frostmourne.monitor.config;
 
+import java.util.concurrent.TimeUnit;
+
 import com.autohome.frostmourne.monitor.dao.http.IXxlJob;
 import com.autohome.frostmourne.monitor.dao.http.MockXxlJob;
 import feign.Feign;
+import feign.Logger;
 import feign.Request;
 import feign.Retryer;
 import feign.form.FormEncoder;

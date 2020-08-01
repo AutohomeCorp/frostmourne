@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.service.core.query;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
@@ -11,6 +12,7 @@ import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
 import com.autohome.frostmourne.monitor.service.admin.IDataAdminService;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
@@ -61,7 +63,7 @@ public class QueryService implements IQueryService {
         DataSourceContract dataSourceContract = dataAdminService.findDatasourceById(dataNameContract.getData_source_id());
         ElasticsearchDataResult elasticsearchDataResult = elasticsearchDataQuery.query(dataNameContract, dataSourceContract,
                 startTime, endTime, esQuery, scrollId, sortOrder, null);
-        String[] heads = elasticsearchDataResult.getFields().toArray(new String[0]);
+        String[] heads = elasticsearchDataResult.getFlatFields().toArray(new String[0]);
         csvWriter.writeNext(heads);
         while (true) {
             if (elasticsearchDataResult.getTotal() > 10 * 10000) {
@@ -71,12 +73,28 @@ public class QueryService implements IQueryService {
                 break;
             }
             for (Map<String, Object> log : elasticsearchDataResult.getLogs()) {
-                String[] data = Arrays.stream(heads).map(h -> log.get(h) == null ? null : log.get(h).toString()).toArray(String[]::new);
+                String[] data = Arrays.stream(heads).map(h -> {
+                    Object value = findFieldValue(log, h);
+                    return value == null ? null : value.toString();
+                }).toArray(String[]::new);
                 csvWriter.writeNext(data);
             }
             scrollId = elasticsearchDataResult.getScrollId();
             elasticsearchDataResult = elasticsearchDataQuery.query(dataNameContract, dataSourceContract,
                     startTime, endTime, esQuery, scrollId, sortOrder, null);
         }
+    }
+
+    private Object findFieldValue(Map<String, Object> sourceMap, String flatFieldName) {
+        List<String> fields = Splitter.on(".").splitToList(flatFieldName);
+        Map<String, Object> currentMap = sourceMap;
+        int size = fields.size();
+        for (int i = 0; i < size; i++) {
+            if (i == size - 1) {
+                return currentMap.get(fields.get(i));
+            }
+            currentMap = (Map<String, Object>) currentMap.get(fields.get(i));
+        }
+        return null;
     }
 }

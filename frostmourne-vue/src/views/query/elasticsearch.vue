@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select v-model="form.dataName" placeholder="选择数据名" clearable style="width: 150px" class="filter-item" @change="dataNameChangeHandler">
+      <el-select v-model="form.dataName" placeholder="选择数据名" style="width: 150px" class="filter-item" @change="dataNameChangeHandler">
         <el-option v-for="item in dataNameList" :key="item.data_name" :label="item.display_name" :value="item.data_name" />
       </el-select>
-      <el-select v-model="form.sortOrder" placeholder="选择排序" clearable style="width: 120px" class="filter-item">
+      <el-select v-model="form.sortOrder" placeholder="选择排序" style="width: 120px" class="filter-item">
         <el-option label="时间倒序" value="desc" />
         <el-option label="时间正序" value="asc" />
       </el-select>
-      <el-select v-model="form.intervalInSeconds" placeholder="统计间隔" clearable style="width: 120px" class="filter-item">
+      <el-select v-model="form.intervalInSeconds" placeholder="统计间隔" style="width: 120px" class="filter-item">
         <el-option label="自动" value="0" />
         <el-option label="1小时" value="3600" />
         <el-option label="1天" value="86400" />
@@ -16,18 +16,15 @@
         <el-option label="15分钟" value="900" />
         <el-option label="30分钟" value="1800" />
       </el-select>
-      <el-date-picker
-        v-model="datePickValue"
-        class="filter-item"
-        type="datetimerange"
-        :picker-options="pickerOptions"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        align="right"
-        :default-time="['00:00:00', '23:59:59']"
-        @change="dateChangeHandler" />
-      <el-input v-model="form.esQuery" clearable placeholder="输入查询语句。如: Team: dealer.arch" style="width: 700px;" class="filter-item" />
+      <el-date-picker v-model="datePickValue" class="filter-item" type="datetimerange" :picker-options="pickerOptions"
+                      range-separator="至"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期"
+                      align="right"
+                      :default-time="['00:00:00', '23:59:59']"
+                      @change="dateChangeHandler" />
+      <el-autocomplete v-model="form.esQuery" style="width: 700px;" class="filter-item" :fetch-suggestions="findTips"
+                       placeholder="输入查询语句。如: Team: dealer.arch" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
       <el-button class="filter-item el-icon-plus" type="primary" @click="addAlarm">添加监控</el-button>
       <el-button class="filter-item el-icon-share" type="primary" @click="share">分享</el-button>
@@ -91,6 +88,11 @@ export default {
   },
   data () {
     return {
+      storage: window.localStorage,
+      tips: {
+        key: 'frostmourne#QUERY_TIPS',
+        limit: 10
+      },
       pickerOptions: {
         shortcuts: [{
           text: '今天',
@@ -165,21 +167,21 @@ export default {
           text: '总数:0'
         },
         tooltip: { trigger: 'axis' },
-        xAxis: { data: ['00:00:00', '01:00:00', '02:00:00', '03:00:00', '04:00:00', '05:00:00', '06:00:00', '07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00'] },
+        xAxis: { data: [], value: [] },
         yAxis: {},
         series: [{ name: '总数', type: 'bar', data: [] }]
       }
     }
   },
   created () {
-    const startMoment = moment().startOf('day')
-    const endMoment = moment().endOf('day')
-    this.datePickValue[0] = startMoment.toDate()
-    this.datePickValue[1] = endMoment.toDate()
-    this.form.startTime = startMoment.toDate()
-    this.form.endTime = endMoment.toDate()
+    this.form.startTime = moment().startOf('day').toDate()
+    this.form.endTime = moment().endOf('day').toDate()
+    this.datePickValue = [this.form.startTime, this.form.endTime]
     dataApi.findDataNameByType('elasticsearch').then(response => {
       this.dataNameList = response.result
+      if (this.form.dataName === null && this.dataNameList.length > 0) {
+        this.form.dataName = this.dataNameList[0].data_name
+      }
     })
 
     if (this.$route.query.esQuery) {
@@ -187,15 +189,23 @@ export default {
       this.form.dataName = this.$route.query.dataName
       this.form.startTime = moment(this.$route.query.startTime).toDate()
       this.form.endTime = moment(this.$route.query.endTime).toDate()
-      this.datePickValue[0] = this.form.startTime
-      this.datePickValue[1] = this.form.endTime
+      this.datePickValue = [this.form.startTime, this.form.endTime]
 
       this.search()
     }
   },
   methods: {
-    handleClick () {
-      console.log('click from echars')
+    handleClick (e) {
+      const index = e.dataIndex
+      const xAxis = this.charOptions.xAxis.value
+      if (xAxis.length > 1) {
+        this.form.startTime = moment(xAxis[index]).toDate()
+        if (xAxis.length - 1 > index) {
+          this.form.endTime = moment(xAxis[index + 1]).toDate()
+        }
+        this.datePickValue = [this.form.startTime, this.form.endTime]
+        this.search()
+      }
     },
     handleZrClick () {
       console.log('click from zrender')
@@ -210,7 +220,7 @@ export default {
         return
       }
 
-      if (this.form.esQuery == null || this.form.esQuery == '') {
+      if (this.form.esQuery == null || this.form.esQuery === '') {
         this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
         return
       }
@@ -218,6 +228,7 @@ export default {
       this.listLoading = true
       this.form.scrollId = null
       this.list = []
+      this.saveTips(this.form.esQuery)
       dataQueryApi.elasticsearchData(this.form).then(response => {
         this.list = response.result.logs
         this.timestampField = response.result.timestampField
@@ -295,11 +306,12 @@ export default {
         format = 'MM-dd hh:mm'
       }
       this.charOptions.xAxis.data = statItem.keys.map(e => formatJsonDate(e, format))
+      this.charOptions.xAxis.value = statItem.keys
       this.charOptions.title.text = `${formatJsonDate(this.form.startTime, 'yyyy-MM-dd hh:mm:ss')} 至 ${formatJsonDate(this.form.endTime, 'yyyy-MM-dd hh:mm:ss')}  总数:${this.total}`
       this.charOptions.series = [{ name: '次数', type: 'bar', data: statItem.values }]
     },
     dataNameChangeHandler (selectedName) {
-      this.selectedDataName = this.dataNameList.filter(d => d.data_name == selectedName)[0]
+      this.selectedDataName = this.dataNameList.filter(d => d.data_name === selectedName)[0]
     },
     loadMore () {
       this.listLoading = true
@@ -316,11 +328,11 @@ export default {
         this.$message({ type: 'warning', message: '请先选择一个数据名', duration: 2000 })
         return
       }
-      if (this.form.esQuery == null || this.form.esQuery == '') {
+      if (this.form.esQuery == null || this.form.esQuery === '') {
         this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
         return
       }
-      this.selectedDataName = this.dataNameList.filter(d => d.data_name == this.form.dataName)[0]
+      this.selectedDataName = this.dataNameList.filter(d => d.data_name === this.form.dataName)[0]
       this.$router.push({
         name: 'alarm-edit',
         query: {
@@ -330,6 +342,34 @@ export default {
           query_string: this.form.esQuery
         }
       })
+    },
+    saveTips (queryString) {
+      const tips = this.getTips()
+      if (!tips.some(e => e.toLowerCase() === queryString.toLowerCase())) {
+        tips.unshift(queryString)
+      }
+      if (tips.length > this.tips.limit) {
+        tips.splice(-1, 1)
+      }
+      const json = JSON.stringify(tips)
+      this.storage.setItem(this.tipsKey(), json)
+    },
+    findTips (queryString, cb) {
+      // this.storage.removeItem(this.tips.key)
+      const tips = this.getTips()
+      let result = queryString !== '' && queryString !== '*'
+        ? tips.filter(e => e.toLowerCase().indexOf(queryString.toLowerCase()) >= 0) : tips
+      result = result.map(function (item) {
+        return { value: item }
+      })
+      cb(result)
+    },
+    tipsKey () {
+      return `${this.tips.key}@${this.form.dataName}` || this.tips.key
+    },
+    getTips () {
+      const dataString = this.storage.getItem(this.tipsKey())
+      return JSON.parse(dataString) || []
     }
   }
 }

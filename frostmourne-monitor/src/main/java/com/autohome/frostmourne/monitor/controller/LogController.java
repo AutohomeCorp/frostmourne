@@ -26,10 +26,8 @@ public class LogController {
     public Protocol<PagerContract<AlarmLog>> findAlarmLog(@RequestParam(value = "_appId", required = true) String _appId,
                                                           @RequestParam(value = "pageIndex", required = true) int pageIndex,
                                                           @RequestParam(value = "pageSize", required = true) int pageSize,
-                                                          @RequestParam(value = "startTime", required = false)
-                                                          @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
-                                                          @RequestParam(value = "endTime", required = false)
-                                                          @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
+                                                          @RequestParam(value = "startTime", required = false) Date startTime,
+                                                          @RequestParam(value = "endTime", required = false) Date endTime,
                                                           @RequestParam(value = "alarmId", required = false) Long alarmId,
                                                           @RequestParam(value = "verifyResult", required = false) String verifyResult,
                                                           @RequestParam(value = "executeResult", required = false) String executeResult) {
@@ -41,10 +39,8 @@ public class LogController {
     public Protocol<PagerContract<AlertLog>> findAlertLog(@RequestParam(value = "_appId", required = true) String _appId,
                                                           @RequestParam(value = "pageIndex", required = true) int pageIndex,
                                                           @RequestParam(value = "pageSize", required = true) int pageSize,
-                                                          @RequestParam(value = "startTime", required = true)
-                                                          @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
-                                                          @RequestParam(value = "endTime", required = true)
-                                                          @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime,
+                                                          @RequestParam(value = "startTime", required = true) Date startTime,
+                                                          @RequestParam(value = "endTime", required = true) Date endTime,
                                                           @RequestParam(value = "executeId", required = false) Long executeId,
                                                           @RequestParam(value = "alarmId", required = false) Long alarmId,
                                                           @RequestParam(value = "way", required = false) String way,

@@ -1,5 +1,5 @@
 // 格式化日期
-const formatDate = function(date, format) {
+const formatDate = function (date, format) {
   var o = {
     'M+': date.getMonth() + 1, // 月份
     'd+': date.getDate(), // 日
@@ -20,7 +20,7 @@ const formatDate = function(date, format) {
   return format
 }
 
-const getDateByStr = function(dateStr) {
+const getDateByStr = function (dateStr) {
   if (typeof dateStr !== 'string') {
     return null
   }
@@ -32,7 +32,7 @@ const getDateByStr = function(dateStr) {
 }
 
 // 处理2018-01-11T22:41:45 类型的JSON日期格式
-const getDateByJsonStr = function(dateStr) {
+const getDateByJsonStr = function (dateStr) {
   dateStr = dateStr.replace('T', ' ')
   if (dateStr.indexOf('.') > 0) {
     dateStr = dateStr.replace(/\.\d+/, '')
@@ -41,7 +41,7 @@ const getDateByJsonStr = function(dateStr) {
   return new Date(dateStr.replace(/-/g, '/'))
 }
 // 格式话JSON日期
-const formatJsonDate = function(date, format) {
+const formatJsonDate = function (date, format) {
   if (/1[0-9]{12}/.test(date)) {
     date = new Date(date)
   } else if (typeof date === 'string') {
@@ -50,7 +50,7 @@ const formatJsonDate = function(date, format) {
   return formatDate(date, format)
 }
 // 返回
-const datetimeFormat = function(value, formater) {
+const datetimeFormat = function (value, formater) {
   if (!value) {
     return ''
   }

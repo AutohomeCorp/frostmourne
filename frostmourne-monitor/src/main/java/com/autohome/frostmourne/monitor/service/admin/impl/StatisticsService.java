@@ -7,8 +7,10 @@ import javax.annotation.Resource;
 import com.autohome.frostmourne.monitor.contract.enums.VerifyResult;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogMapper;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
 import com.autohome.frostmourne.monitor.service.admin.IStatisticsService;
 import org.springframework.stereotype.Service;
 
@@ -16,32 +18,38 @@ import org.springframework.stereotype.Service;
 public class StatisticsService implements IStatisticsService {
 
     @Resource
-    private AlarmMapper alarmMapper;
-
-    @Resource
     private AlarmLogMapper alarmLogMapper;
 
     @Resource
     private AlertLogMapper alertLogMapper;
 
-    public int taskTotalCount() {
-        return alarmMapper.total();
+    @Resource
+    private IAlertLogRepository alertLogRepository;
+
+    @Resource
+    private IAlarmLogRepository alarmLogRepository;
+
+    @Resource
+    private IAlarmRepository alarmRepository;
+
+    public long taskTotalCount() {
+        return alarmRepository.total();
     }
 
-    public int executeCount(Date startTime, Date endTime) {
-        return alarmLogMapper.count(startTime, endTime, null);
+    public long executeCount(Date startTime, Date endTime) {
+        return alarmLogRepository.count(startTime, endTime, null);
     }
 
-    public int alarmCount(Date startTime, Date endTime) {
-        return alarmLogMapper.count(startTime, endTime, VerifyResult.TRUE);
+    public long alarmCount(Date startTime, Date endTime) {
+        return alarmLogRepository.count(startTime, endTime, VerifyResult.TRUE);
     }
 
     public List<AggregationDate> aggregationAlarm(Date startTime, Date endTime) {
         return alarmLogMapper.aggregation(startTime, endTime, VerifyResult.TRUE);
     }
 
-    public int alertCount(Date startTime, Date endTime, String recipient) {
-        return alertLogMapper.count(startTime, endTime, "SUCCESS", recipient);
+    public long alertCount(Date startTime, Date endTime, String recipient) {
+        return alertLogRepository.count(startTime, endTime, "SUCCESS", recipient);
     }
 
     public List<AggregationDate> aggregationAlert(Date startTime, Date endTime, String recipient) {

@@ -17,7 +17,7 @@ export default {
     }
   },
   methods: {
-    linkProps(url) {
+    linkProps (url) {
       if (isExternal(url)) {
         return {
           is: 'a',
