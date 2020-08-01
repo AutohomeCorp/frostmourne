@@ -34,7 +34,7 @@
       <el-row>
         <el-col :span="8" :offset="6">
           <div class="grid-content">
-            <el-pagination background layout="total, prev, pager, next" :total="rowcount" @prev-click="onPrevClick" @next-click="onNextClick" @current-change="onCurrentChange" />
+            <el-pagination background layout="total, prev, pager, next" :page-size="form.pageSize" :total="rowcount" @prev-click="onPrevClick" @next-click="onNextClick" @current-change="onCurrentChange" />
           </div>
         </el-col>
       </el-row>
@@ -106,7 +106,7 @@ export default {
       formDatasourceList: [],
       form: {
         pageIndex: 1,
-        pageSize: 20,
+        pageSize: 10,
         data_name: '',
         datasource_type: '',
         data_source_id: null
@@ -136,9 +136,6 @@ export default {
         ],
         datasource_type: [
           { required: true, message: '请选择数据类型', trigger: 'change' }
-        ],
-        indexPrefix: [
-          { required: true, message: '请输入索引前缀', trigger: 'blur' }
         ]
       }
     }
