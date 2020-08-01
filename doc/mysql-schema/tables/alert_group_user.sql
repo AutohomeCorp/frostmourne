@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS recipient_in_group;
-CREATE TABLE IF NOT EXISTS recipient_in_group
+DROP TABLE IF EXISTS alert_group_user;
+CREATE TABLE IF NOT EXISTS alert_group_user
 (
     id        BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '自增主键',
     account   VARCHAR(200) NOT NULL COMMENT '账号',

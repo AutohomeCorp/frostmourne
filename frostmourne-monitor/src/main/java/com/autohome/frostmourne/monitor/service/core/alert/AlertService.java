@@ -15,8 +15,8 @@ import com.autohome.frostmourne.monitor.contract.enums.SilenceStatus;
 import com.autohome.frostmourne.monitor.contract.enums.VerifyResult;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogMapper;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
 import com.autohome.frostmourne.monitor.service.account.IAccountService;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
@@ -36,13 +36,13 @@ public class AlertService implements IAlertService {
     private IFrostmourneSpiApi frostmourneSpiApi;
 
     @Resource
-    private AlertLogMapper alertLogMapper;
-
-    @Resource
-    private AlarmLogMapper alarmLogMapper;
+    private IAlertLogRepository alertLogRepository;
 
     @Resource
     private IAccountService accountService;
+
+    @Resource
+    private IAlarmLogRepository alarmLogRepository;
 
     public void alert(AlarmProcessLogger alarmProcessLogger) {
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
@@ -53,7 +53,7 @@ public class AlertService implements IAlertService {
         }
 
         Long alarmId = alarmProcessLogger.getAlarmContract().getId();
-        AlarmLog latestAlarmLog = alarmLogMapper.selectLatest(alarmId, null);
+        Optional<AlarmLog> latestAlarmLog = alarmLogRepository.selectLatest(alarmId, null);
         if (!alarmProcessLogger.getAlert()) {
             checkRecover(latestAlarmLog, alarmProcessLogger, recipients);
         } else {
@@ -71,7 +71,7 @@ public class AlertService implements IAlertService {
                     alertContract.getSilence(), alarmProcessLogger.getAlertMessage()));
             alertContent = alarmProcessLogger.getAlertMessage();
         } else if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
-            AlertLog alertLog = this.alertLogMapper.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO);
+            AlertLog alertLog = this.alertLogRepository.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
             alertContent = "消息类型: [恢复] 请自己检查问题是否解决,上次报警内容如下\n" + alertLog.getContent();
             alarmMessage.setContent(alertContent);
         }
@@ -113,14 +113,14 @@ public class AlertService implements IAlertService {
                 alertLog.setWay(messageResult.getWay());
                 alertLog.setAlert_type(alertType);
                 alertLog.setIn_silence(SilenceStatus.NO);
-                alertLogMapper.insert(alertLog);
+                alertLogRepository.insert(alertLog);
             }
         }
     }
 
-    private void checkRecover(AlarmLog latestAlarmLog, AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients) {
+    private void checkRecover(Optional<AlarmLog> latestAlarmLog, AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients) {
         //if not alert, check if send recover message
-        if (latestAlarmLog != null && latestAlarmLog.getVerify_result().equalsIgnoreCase(VerifyResult.TRUE)) {
+        if (latestAlarmLog.isPresent() && latestAlarmLog.get().getVerify_result().equalsIgnoreCase(VerifyResult.TRUE)) {
             //this is recover message
             sendAlert(alarmProcessLogger, recipients, AlertType.RECOVER);
         } else {
@@ -130,15 +130,15 @@ public class AlertService implements IAlertService {
 
     private boolean checkSilence(AlarmProcessLogger alarmProcessLogger) {
         Long alarmId = alarmProcessLogger.getAlarmContract().getId();
-        AlarmLog latestNoProblemAlarmLog = alarmLogMapper.selectLatest(alarmId, VerifyResult.FALSE);
+        Optional<AlarmLog> latestNoProblemAlarmLog = alarmLogRepository.selectLatest(alarmId, VerifyResult.FALSE);
         Long current = System.currentTimeMillis();
         Long silenceThreshold = alarmProcessLogger.getAlarmContract().getAlertContract().getSilence() * 60 * 1000;
-        if (latestNoProblemAlarmLog != null && current - latestNoProblemAlarmLog.getCreate_at().getTime() < silenceThreshold) {
+        if (latestNoProblemAlarmLog.isPresent() && current - latestNoProblemAlarmLog.get().getCreate_at().getTime() < silenceThreshold) {
             return true;
         }
         //find latest problem and not silence alert time
-        AlertLog latestAlertLog = alertLogMapper.selectLatest(alarmId, AlertType.PROBLEM, SilenceStatus.NO);
-        if (latestAlertLog != null && current - latestAlertLog.getCreate_at().getTime() < silenceThreshold) {
+        Optional<AlertLog> latestAlertLog = alertLogRepository.selectLatest(alarmId, AlertType.PROBLEM, SilenceStatus.NO);
+        if (latestAlertLog.isPresent() && current - latestAlertLog.get().getCreate_at().getTime() < silenceThreshold) {
             return true;
         }
 
@@ -161,13 +161,13 @@ public class AlertService implements IAlertService {
                 alertLog.setWay(way);
                 alertLog.setAlert_type(AlertType.PROBLEM);
                 alertLog.setIn_silence(SilenceStatus.YES);
-                alertLogMapper.insert(alertLog);
+                alertLogRepository.insert(alertLog);
             }
         }
     }
 
-    private void processProblem(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, AlarmLog latestAlarmLog) {
-        if (latestAlarmLog == null || latestAlarmLog.getVerify_result().equalsIgnoreCase(VerifyResult.FALSE)) {
+    private void processProblem(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, Optional<AlarmLog> latestAlarmLog) {
+        if (!latestAlarmLog.isPresent() || latestAlarmLog.get().getVerify_result().equalsIgnoreCase(VerifyResult.FALSE)) {
             sendAlert(alarmProcessLogger, recipients, AlertType.PROBLEM);
             return;
         }
@@ -190,7 +190,7 @@ public class AlertService implements IAlertService {
         alarmLog.setExecute_result(alarmProcessLogger.getExecuteStatus().getName());
         alarmLog.setMessage(alarmProcessLogger.traceInfo());
         alarmLog.setVerify_result(alarmProcessLogger.getAlert() ? VerifyResult.TRUE : VerifyResult.FALSE);
-        alarmLogMapper.insert(alarmLog);
+        alarmLogRepository.insert(alarmLog);
         alarmProcessLogger.setAlarmLog(alarmLog);
     }
 }

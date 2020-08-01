@@ -6,7 +6,7 @@
           <svg-icon icon-class="documentation" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">任务数量</div>
+          <div class="card-panel-text">监控数量</div>
           <count-to :start-val="0" :end-val="data.taskCount" :duration="1600" class="card-panel-num" />
         </div>
       </div>
@@ -60,7 +60,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       data: {
         taskCount: 0,
@@ -73,18 +73,18 @@ export default {
   watch: {
     panelData: {
       deep: true,
-      handler(val) {
+      handler (val) {
         this.data = val
       }
     }
   },
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
       this.data = this.panelData
     })
   },
   methods: {
-    handleSetLineChartData(type) {
+    handleSetLineChartData (type) {
       this.$emit('handleSetLineChartData', type)
     }
   }

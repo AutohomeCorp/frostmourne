@@ -7,15 +7,15 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Aggregati
 
 public interface IStatisticsService {
 
-    int taskTotalCount();
+    long taskTotalCount();
 
-    int executeCount(Date startTime, Date endTime);
+    long executeCount(Date startTime, Date endTime);
 
-    int alarmCount(Date startTime, Date endTime);
+    long alarmCount(Date startTime, Date endTime);
 
     List<AggregationDate> aggregationAlarm(Date startTime, Date endTime);
 
-    int alertCount(Date startTime, Date endTime, String account);
+    long alertCount(Date startTime, Date endTime, String account);
 
     List<AggregationDate> aggregationAlert(Date startTime, Date endTime, String recipient);
 }

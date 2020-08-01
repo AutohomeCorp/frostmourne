@@ -7,25 +7,25 @@ import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class RecipientDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.801+08:00", comments="Source Table: recipient")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:23:58.998+08:00", comments="Source Table: recipient")
     public static final Recipient recipient = new Recipient();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.801+08:00", comments="Source field: recipient.id")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:23:58.999+08:00", comments="Source field: recipient.id")
     public static final SqlColumn<Long> id = recipient.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.801+08:00", comments="Source field: recipient.alarm_id")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:23:58.999+08:00", comments="Source field: recipient.alarm_id")
     public static final SqlColumn<Long> alarm_id = recipient.alarm_id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.801+08:00", comments="Source field: recipient.alert_id")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:23:58.999+08:00", comments="Source field: recipient.alert_id")
     public static final SqlColumn<Long> alert_id = recipient.alert_id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.801+08:00", comments="Source field: recipient.account")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:23:59+08:00", comments="Source field: recipient.account")
     public static final SqlColumn<String> account = recipient.account;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.801+08:00", comments="Source field: recipient.create_at")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:23:59+08:00", comments="Source field: recipient.create_at")
     public static final SqlColumn<Date> create_at = recipient.create_at;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-11T14:44:51.801+08:00", comments="Source Table: recipient")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-07-29T23:23:58.999+08:00", comments="Source Table: recipient")
     public static final class Recipient extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
