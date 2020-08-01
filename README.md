@@ -78,7 +78,6 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 欢迎使用
 
-frostmourne是完全开源免费的，如果愿意回馈，你只需要简单做一个 <a href="https://github.com/AutohomeCorp/frostmourne/issues/1" target="_blank">小调查</a>。 
 有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。  
 
@@ -145,12 +144,12 @@ druid.datasource.frostmourne.password=[plain_password]
 
 xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql)
 
-### 快速启动
+## 快速启动
 
 提供docker方式，让你更快运行起来便于更好理解项目作用。
 详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
-## xxl-job服务说明
+## xxl-job服务
 
 本项目依赖xxl-job, 请自己部署xxl-job，并将相关接口权限认证去掉(在action上加注解 @PermissionLimit(limit=false) )，让frostmourne可以访问这些接口。需要了解xxl-job请
 查阅官方站点[https://www.xuxueli.com/xxl-job/]. 当前依赖版本为2.1.0，如果存在版本兼容问题，请自行修改适配, 建议单独部署一套新的xxl-job，能避免很多不必要的麻烦。
@@ -169,8 +168,6 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 
 启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。  
 
-如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
-
 ```bash
 ./scripts/startup.sh
 ```
@@ -180,6 +177,9 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 ```bash
 ./scripts/shutdown.sh
 ```
+
+如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+docker里启动一个xxl-job服务，供本地调用
 
 ## 为什么需要xxl-job
 
@@ -250,7 +250,7 @@ frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目�
 ./scripts/shutdown.sh
 ```
 
-xxl-job-admin的zip包也已经放到release里，使用方式相同。
+[xxl-job-admin-2.1.0.zip](./doc/xxl-job/xxl-job-admin-2.1.0.zip)的zip包也已经放在了仓库里，供下载使用，使用方式相同。
 
 ## 监控测试
 
@@ -329,30 +329,33 @@ npm run dev
 * ~~Elasticsearch监控数值实现同比监控~~ [2020-07-24]
 * ~~Elasticsearch数据源更新免重启加载~~ [2020-07-25]
 * ~~集成LDAP登录验证~~ [2020-07-25]
+* ~~菜单增加权限控制，部分页面(如：数据源配置)只对管理员开放~~ [2020-07-27]
+* ~~Elasticsearch查询增加历史语句自动提示~~ [2020-07-27]
+* ~~Elasticsearch查询数据柱状图可点击并自动变更时间范围~~ [2020-07-28]
 * 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
 * 报警消息模板管理功能
-* 补充更详细的部署文档和使用指南
-* 更新在线demo至最新
-* 菜单增加权限控制，部分页面(如：数据源配置)只对管理员开放
-* Elasticsearch查询数据柱状图可点击并自动变更时间范围
-* Elasticsearch查询增加历史语句自动提示
 * Elasticsearch监控数值实现环比监控
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * 监控列表页增加按创建人查询条件
+* 监控列表增加一个开关选项，只显示我的监控
+* 另存时，监控名称增加(copy)字样标识，和原监控区分开
+* Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
 * 移除SPI模块，经过一系列优化后，spi模块存在的必要性可能很低了，考虑移除掉，降低部署难度
 * 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像
-* Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
-* 增加系统配置功能模块，将启动非必要的配置用功能管理起来，减轻启动配置负担
 * README简化为文档目录索引形式，具体内容分散到各个文档中，方便查找
+* 补充更详细的部署文档和使用指南
+* 更新在线demo至最新
 * 监控调度配置后显示预计调度时间
-* 报警接收人可以设置为组
+* 增加服务管理，监控可以和服务关联
+* 增加报警接收组管理，报警接收组可以和服务关联；通过服务间接和监控关联上，监控产生报警消息自动给报警接收组也发送消息。
 * Elasticsearch数据名配置时自动提示索引名称
 * Elasticsearch索引字段自动获取
 * 数据源保存增加表单验证
 * 数据源增加连接测试功能
-* 增加变量管理，可以设置多个值；根据变量批量创建监控，最多可以设置两个变量；一次创建m*n个监控
+* 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
+基于监控模板创建监控只需要填写变量值即可
 * 发布0.3-RELEASE
 * 增加influxdb数值监控
 * 增加influxdb数值同比，环比监控
@@ -378,6 +381,7 @@ npm run dev
 * freemarker
 * elasticsearch
 * jjwt
+* nashorn
 
 ## Contribution
 
