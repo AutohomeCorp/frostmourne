@@ -13,6 +13,8 @@ public class ElasticsearchDataResult {
 
     private List<String> fields;
 
+    private List<String> flatFields;
+
     private String timestampField;
 
     private List<String> headFields;
@@ -73,5 +75,13 @@ public class ElasticsearchDataResult {
 
     public void setHeadFields(List<String> headFields) {
         this.headFields = headFields;
+    }
+
+    public List<String> getFlatFields() {
+        return flatFields;
+    }
+
+    public void setFlatFields(List<String> flatFields) {
+        this.flatFields = flatFields;
     }
 }

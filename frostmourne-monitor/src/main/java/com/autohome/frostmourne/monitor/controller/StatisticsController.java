@@ -23,8 +23,7 @@ public class StatisticsController {
     private IStatisticsService statisticsService;
 
     @RequestMapping(value = "/panelData", method = RequestMethod.GET)
-    public Protocol<Map<String, Long>> panelData(@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
-                                                    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime) {
+    public Protocol<Map<String, Long>> panelData(Date startTime, Date endTime) {
         String account = AuthTool.currentUser().getAccount();
         Map<String, Long> map = new HashMap<>();
         map.put("taskCount", statisticsService.taskTotalCount());
@@ -35,15 +34,13 @@ public class StatisticsController {
     }
 
     @RequestMapping(value = "/aggregation/alarm", method = RequestMethod.GET)
-    public Protocol<List<AggregationDate>> aggregationAlarm(@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
-                                                            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime) {
+    public Protocol<List<AggregationDate>> aggregationAlarm(Date startTime, Date endTime) {
         List<AggregationDate> list = statisticsService.aggregationAlarm(startTime, endTime);
         return new Protocol<>(list);
     }
 
     @RequestMapping(value = "/aggregation/alert", method = RequestMethod.GET)
-    public Protocol<List<AggregationDate>> aggregationAlert(@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date startTime,
-                                                            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ") Date endTime) {
+    public Protocol<List<AggregationDate>> aggregationAlert(Date startTime, Date endTime) {
         String account = AuthTool.currentUser().getAccount();
         List<AggregationDate> list = statisticsService.aggregationAlert(startTime, endTime, account);
         return new Protocol<>(list);

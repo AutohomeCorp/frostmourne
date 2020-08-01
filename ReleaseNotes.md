@@ -10,10 +10,12 @@
 * 菜单增加权限控制，部分页面(如：数据源配置)只对管理员开放 [2020-07-27]
 * Elasticsearch查询增加历史语句自动提示 [2020-07-27]
 * Elasticsearch查询数据柱状图可点击并自动变更时间范围 [2020-07-28]
+* 另存时，监控名称增加(copy)字样标识，名字和原监控区分开 [2020-08-01]
 
 ### Bugfix
 
 * bugfix: 解决列表分页问题
+* 解决Elasticsearch数据嵌套时，数据值为undefine的问题 [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
 
 ### Mysql
 

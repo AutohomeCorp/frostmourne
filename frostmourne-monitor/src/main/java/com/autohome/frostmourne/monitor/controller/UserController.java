@@ -70,7 +70,13 @@ public class UserController {
 
     @RequestMapping(value = "/teams", method = RequestMethod.GET)
     public Protocol<List<Team>> teams() {
-        List<Team> teamList = accountService.teams(AuthTool.currentUser().getDepartmentId());
+        List<String> roles = AuthTool.currentUser().getRoles();
+        List<Team> teamList = null;
+        if (roles != null && roles.contains("admin")) {
+            teamList = accountService.teams(null);
+        } else {
+            teamList = accountService.teams(AuthTool.currentUser().getDepartmentId());
+        }
         return new Protocol<>(teamList);
     }
 
