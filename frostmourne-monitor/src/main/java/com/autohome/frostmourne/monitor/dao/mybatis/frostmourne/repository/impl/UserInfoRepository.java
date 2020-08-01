@@ -41,22 +41,22 @@ public class UserInfoRepository implements IUserInfoRepository {
     @Override
     public PagerContract<UserInfo> findPage(int pageIndex, int pageSize, Long id, String account, Long teamId) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
-        List<UserInfo> list = userInfoDynamicMapper.select(c -> {
-            c.where().and(UserInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull))
+        List<UserInfo> list = userInfoDynamicMapper.select(query -> {
+            query.where().and(UserInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull))
                     .and(UserInfoDynamicSqlSupport.team_id, isEqualTo(teamId).when(s -> teamId != null && teamId > 0))
                     .and(UserInfoDynamicSqlSupport.account, isLike(account).when(Objects::nonNull).then(s -> s + "%"));
-            return c.orderBy(UserInfoDynamicSqlSupport.id.descending());
+            return query.orderBy(UserInfoDynamicSqlSupport.id.descending());
         });
         return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
     }
 
     @Override
     public int deleteByTeam(Long teamId) {
-        return userInfoDynamicMapper.delete(c -> c.where().and(UserInfoDynamicSqlSupport.team_id, isEqualTo(teamId)));
+        return userInfoDynamicMapper.delete(query -> query.where().and(UserInfoDynamicSqlSupport.team_id, isEqualTo(teamId)));
     }
 
     @Override
     public Optional<UserInfo> findByAccount(String account) {
-        return userInfoDynamicMapper.selectOne(c -> c.where().and(UserInfoDynamicSqlSupport.account, isEqualTo(account)));
+        return userInfoDynamicMapper.selectOne(query -> query.where().and(UserInfoDynamicSqlSupport.account, isEqualTo(account)));
     }
 }

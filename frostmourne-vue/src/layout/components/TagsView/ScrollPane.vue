@@ -9,23 +9,23 @@ const tagAndTagSpacing = 4 // tagAndTagSpacing
 
 export default {
   name: 'ScrollPane',
-  data() {
+  data () {
     return {
       left: 0
     }
   },
   computed: {
-    scrollWrapper() {
+    scrollWrapper () {
       return this.$refs.scrollContainer.$refs.wrap
     }
   },
   methods: {
-    handleScroll(e) {
+    handleScroll (e) {
       const eventDelta = e.wheelDelta || -e.deltaY * 40
       const $scrollWrapper = this.scrollWrapper
       $scrollWrapper.scrollLeft = $scrollWrapper.scrollLeft + eventDelta / 4
     },
-    moveToTarget(currentTag) {
+    moveToTarget (currentTag) {
       const $container = this.$refs.scrollContainer.$el
       const $containerWidth = $container.offsetWidth
       const $scrollWrapper = this.scrollWrapper

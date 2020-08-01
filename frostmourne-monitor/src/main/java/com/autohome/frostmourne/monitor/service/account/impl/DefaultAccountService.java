@@ -49,6 +49,8 @@ public class DefaultAccountService implements IAccountService {
         accountInfo.setDepartmentId(optionalTeamInfo.get().getDepartment_id());
         if(account.equals("admin")) {
             accountInfo.setRoles(Collections.singletonList("admin"));
+        } else {
+            accountInfo.setRoles(Collections.emptyList());
         }
 
         return Optional.of(accountInfo);

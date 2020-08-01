@@ -136,9 +136,6 @@ export default {
         ],
         datasource_type: [
           { required: true, message: '请选择数据类型', trigger: 'change' }
-        ],
-        indexPrefix: [
-          { required: true, message: '请输入索引前缀', trigger: 'blur' }
         ]
       }
     }

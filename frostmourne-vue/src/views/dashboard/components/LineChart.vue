@@ -31,7 +31,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       chart: null
     }
@@ -39,17 +39,17 @@ export default {
   watch: {
     chartData: {
       deep: true,
-      handler(val) {
+      handler (val) {
         this.setOptions(val)
       }
     }
   },
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
       this.initChart()
     })
   },
-  beforeDestroy() {
+  beforeDestroy () {
     if (!this.chart) {
       return
     }
@@ -57,11 +57,11 @@ export default {
     this.chart = null
   },
   methods: {
-    initChart() {
+    initChart () {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.chartData)
     },
-    setOptions({ title, xAxisData, lineData } = {}) {
+    setOptions ({ title, xAxisData, lineData } = {}) {
       this.chart.setOption({
         xAxis: {
           data: xAxisData,

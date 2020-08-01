@@ -5,7 +5,7 @@ import java.util.List;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.RuleProperty;
 
 public interface RulePropertyMapper {
-    int deleteByPrimaryKey(Long id);
+    /*int deleteByPrimaryKey(Long id);
 
     int insert(RuleProperty record);
 
@@ -19,5 +19,5 @@ public interface RulePropertyMapper {
 
     int deleteByAlarm(Long alarmId);
 
-    List<RuleProperty> findByRuleId(Long ruleId);
+    List<RuleProperty> findByRuleId(Long ruleId);*/
 }

@@ -3,7 +3,7 @@ CREATE DATABASE frostmourne
     DEFAULT COLLATE utf8mb4_0900_ai_ci;
 
 /* if your mysql not support utf8mb4_0900_ai_ci, use collate utf8mb4_general_ci instead */
---CREATE DATABASE frostmourne DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
+-- CREATE DATABASE frostmourne DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
 
 
 
@@ -313,8 +313,6 @@ CREATE TABLE IF NOT EXISTS user_info
     DEFAULT CHARSET = utf8mb4
     COMMENT = '用户信息';
 
-ALTER TABLE user_info
-    ADD INDEX idx_account (account);
 ALTER TABLE user_info
     ADD INDEX idx_createat (create_at);
 

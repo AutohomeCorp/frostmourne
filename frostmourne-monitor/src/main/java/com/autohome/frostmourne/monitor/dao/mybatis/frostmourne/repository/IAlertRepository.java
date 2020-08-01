@@ -1,15 +1,18 @@
-package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper;
+package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
+
+import java.util.Optional;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alert;
 
-public interface AlertMapper {
+public interface IAlertRepository {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(Alert record);
 
     int insertSelective(Alert record);
 
-    Alert selectByPrimaryKey(Long id);
+    Optional<Alert> selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(Alert record);
 
@@ -17,5 +20,5 @@ public interface AlertMapper {
 
     int deleteByAlarm(Long alarmId);
 
-    Alert findOneByAlarm(Long alarmId);
+    Optional<Alert> findOneByAlarm(Long alarmId);
 }
