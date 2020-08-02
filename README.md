@@ -236,7 +236,7 @@ frostmourne.monitor.address=http://${frostmourne-monitor-address}
 
 其中frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。**注意：直接使用ip是无法生成短链接的**  
 
-### assembly包部署
+### zip包部署
 
 frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目录下会生成zip包，你只需要将zip包解压，然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
@@ -340,6 +340,7 @@ npm run dev
 * 监控列表增加一个开关选项，只显示我的监控
 * Elasticsearch监控数值实现环比监控
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)
+* 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为NONE.
 * 账号增加角色(管理员，普通用户)设置功能
 * 增加服务管理，监控可以和服务关联
 * 增加报警接收组管理，报警接收组可以和服务关联；通过服务间接和监控关联上，监控产生报警消息自动给报警接收组也发送消息。
