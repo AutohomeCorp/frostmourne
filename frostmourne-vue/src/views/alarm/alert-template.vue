@@ -53,25 +53,25 @@
       </el-row>
     </div>
 
-    <el-dialog title="报警模板" :visible.sync="dialogEditVisible" width="50%">
-      <el-form :model="itemData" label-width="120px" label-suffix="：">
-        <el-form-item label="模板名称">
+    <el-dialog title="报警模板" :visible.sync="dialogEditVisible" width="50%" @close="closeAlertTemplateForm">
+      <el-form ref="alertTemplateForm" :model="itemData" :rules="rule" label-width="120px" label-suffix="：">
+        <el-form-item label="模板名称" prop="templateName">
           <el-input v-model="itemData.templateName" :maxlength="100" :disabled="!dialogEdit" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="模板类型">
+        <el-form-item label="模板类型" prop="templateType">
           <el-select v-model="itemData.templateType" :disabled="!dialogEdit" placeholder="模板类型" @change="templateTypeChangeHandler">
             <el-option label="==请选择==" value="" />
             <el-option label="COMMON" value="COMMON" />
             <el-option label="DATA_NAME" value="DATA_NAME" />
           </el-select>
         </el-form-item>
-        <el-form-item v-show="showTemplateUnionCode" label="模板关联内容">
+        <el-form-item v-show="showTemplateUnionCode" label="模板关联内容" prop="templateUnionCode">
           <el-select v-model="itemData.templateUnionCode" :disabled="!dialogEdit" placeholder="模板关联内容">
             <el-option label="==请选择==" value="" />
             <el-option v-for="option in templateUnionCodeOptions" :key="option.data_name" :lebel="option.display_name" :value="option.data_name" />
           </el-select>
         </el-form-item>
-        <el-form-item label="模板内容">
+        <el-form-item label="模板内容" prop="content">
           <el-input v-model="itemData.content" type="textarea" :rows="10" :maxlength="5000" :disabled="!dialogEdit" autocomplete="off" placeholder="" />
         </el-form-item>
       </el-form>
@@ -95,6 +95,13 @@ export default {
     }
   },
   data () {
+    var validateTemplateUnionCodeRule = (rule, value, callback) => {
+      if (this.showTemplateUnionCode && value === '') {
+        callback(new Error('模板关联内容不能为空'))
+      } else {
+        callback()
+      }
+    }
     return {
       list: null,
       rowcount: 0,
@@ -105,6 +112,10 @@ export default {
         pageIndex: 1,
         pageSize: 10
       },
+      templateTypeOptions: [
+        { code: 'COMMON', name: 'COMMON' },
+        { code: 'DATA_NAME', name: 'DATA_NAME', showTemplateUnionCode: true }
+      ],
       itemData: {
         id: 0,
         templateName: '',
@@ -115,7 +126,23 @@ export default {
       dialogEditVisible: false,
       dialogEdit: false,
       showTemplateUnionCode: false,
-      templateUnionCodeOptions: []
+      templateUnionCodeOptions: [],
+      rule: {
+        templateName: [
+          { required: true, message: '请输入模板名称', target: 'blur' },
+          { max: 100, message: '长度不能超过100', target: 'blur' }
+        ],
+        templateType: [
+          { required: true, message: '模板类型不能为空', target: 'change' }
+        ],
+        templateUnionCode: [
+          { validator: validateTemplateUnionCodeRule, target: 'change' }
+        ],
+        content: [
+          { required: true, message: '模板内容不能为空', target: 'blur' },
+          { max: 5000, message: '长度不能超过5000', target: 'blur' }
+        ]
+      }
     }
   },
   created () {
@@ -150,6 +177,9 @@ export default {
           this.listLoading = false
         })
     },
+    closeAlertTemplateForm () {
+      this.$refs.alertTemplateForm.resetFields()
+    },
     addItem () {
       this.readRowData(null)
       this.dialogEditVisible = true
@@ -179,10 +209,21 @@ export default {
         this.itemData.templateUnionCode = row.templateUnionCode
         this.itemData.content = row.content
       }
+      this.changeShowTemplateUnionCode()
+    },
+    changeShowTemplateUnionCode () {
+      var templateTypeOption = {}
+      for (var i = 0; i < this.templateTypeOptions.length; i++) {
+        if (this.templateTypeOptions[i].code === this.itemData.templateType) {
+          templateTypeOption = this.templateTypeOptions[i]
+          break
+        }
+      }
+      this.showTemplateUnionCode = templateTypeOption.showTemplateUnionCode
     },
     templateTypeChangeHandler (newValue) {
+      this.changeShowTemplateUnionCode()
       if (newValue === 'DATA_NAME') {
-        this.showTemplateUnionCode = true
         // 加载数据名选项
         dataApi.findDataNameByType('')
           .then(response => {
@@ -190,37 +231,26 @@ export default {
           })
       } else {
         this.templateUnionCodeOptions = []
-        this.showTemplateUnionCode = false
       }
     },
     submitSaveItem () {
-      if (this.itemData.templateName == null || this.itemData.templateName === '') {
-        this.$message({ type: 'warning', message: '模板名称不能为空', duration: 2000 })
-        return
-      }
-      if (this.itemData.templateType == null || this.itemData.templateType === '') {
-        this.$message({ type: 'warning', message: '模板类型不能为空', duration: 2000 })
-        return
-      }
-      if (this.itemData.templateType === 'DATA_NAME' && (this.itemData.templateUnionCode == null || this.itemData.templateUnionCode === '')) {
-        this.$message({ type: 'warning', message: '模板关联内容不能为空', duration: 2000 })
-        return
-      }
-      if (this.itemData.content == null || this.itemData.content === '') {
-        this.$message({ type: 'warning', message: '模板内容不能为空', duration: 2000 })
-        return
-      }
-
-      this.$confirm('是否确定保存?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        alerttemplateApi.saveAlertTemplate(this.itemData).then(response => {
-          this.dialogEditVisible = false
-          this.fetchData()
-        })
-      }).catch(e => e)
+      this.$refs.alertTemplateForm.validate((valid) => {
+        if (valid) {
+          this.$confirm('是否确定保存?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'info'
+          }).then(() => {
+            alerttemplateApi.saveAlertTemplate(this.itemData).then(response => {
+              this.dialogEditVisible = false
+              this.fetchData()
+            })
+          }).catch(e => e)
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     }
   }
 }
