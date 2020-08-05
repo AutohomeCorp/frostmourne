@@ -361,7 +361,8 @@ npm run dev
 * 发布0.3-RELEASE
 * 增加influxdb数值监控
 * 增加influxdb数值同比，环比监控
-* 增加prometheus支持
+* 增加prometheus数据监控报警支持
+* 增加skywalking数据监控报警支持
 * Elasticsearch监控查询语句增加SQL类型查询
 * 集成CAS登录认证
 * 增加单元测试
