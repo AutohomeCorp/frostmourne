@@ -23,8 +23,10 @@
 
 ### Other
 
+* mybatis-generator-maven-plugin依赖的mysql-connector升级为8.0.20
 * 默认镜像服务改用阿里云
 * 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
+
 
 # 0.2-RELEASE
 
