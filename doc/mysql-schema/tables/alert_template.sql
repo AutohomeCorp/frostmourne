@@ -1,4 +1,5 @@
-CREATE TABLE `alert_template`
+DROP TABLE IF EXISTS alert_template;
+CREATE TABLE IF NOT EXISTS `alert_template`
 (
     `id`                  bigint(20)    NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     `template_name`       varchar(100)  NOT NULL COMMENT '模板名称',
