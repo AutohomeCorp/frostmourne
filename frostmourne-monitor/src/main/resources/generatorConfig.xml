@@ -66,8 +66,12 @@
             <property name="useActualColumnNames" value="true"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
-        -->
         <table tableName="alert_template" mapperName="AlertTemplateDynamicMapper">
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+        </table>
+        -->
+        <table tableName="user_role" mapperName="UserRoleDynamicMapper">
             <property name="useActualColumnNames" value="true"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
