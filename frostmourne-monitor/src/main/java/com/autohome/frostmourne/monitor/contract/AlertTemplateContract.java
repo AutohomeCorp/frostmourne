@@ -1,6 +1,7 @@
 package com.autohome.frostmourne.monitor.contract;
 
 import java.util.Date;
+import java.util.List;
 
 public class AlertTemplateContract {
 
@@ -12,7 +13,9 @@ public class AlertTemplateContract {
 
     private String templateUnionCode;
 
-    private String templateUnionName;
+    private List<String> templateTypeTreeValues;
+
+    private List<String> templateTypeTreeLabels;
 
     private String content;
 
@@ -56,12 +59,20 @@ public class AlertTemplateContract {
         this.templateUnionCode = templateUnionCode;
     }
 
-    public String getTemplateUnionName() {
-        return templateUnionName;
+    public List<String> getTemplateTypeTreeValues() {
+        return templateTypeTreeValues;
     }
 
-    public void setTemplateUnionName(String templateUnionName) {
-        this.templateUnionName = templateUnionName;
+    public void setTemplateTypeTreeValues(List<String> templateTypeTreeValues) {
+        this.templateTypeTreeValues = templateTypeTreeValues;
+    }
+
+    public List<String> getTemplateTypeTreeLabels() {
+        return templateTypeTreeLabels;
+    }
+
+    public void setTemplateTypeTreeLabels(List<String> templateTypeTreeLabels) {
+        this.templateTypeTreeLabels = templateTypeTreeLabels;
     }
 
     public String getContent() {

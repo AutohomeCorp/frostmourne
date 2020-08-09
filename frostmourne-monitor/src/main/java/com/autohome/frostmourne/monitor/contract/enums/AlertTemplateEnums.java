@@ -9,11 +9,22 @@ public interface AlertTemplateEnums {
         /**
          * 通用模板
          */
-        COMMON,
+        COMMON("通用"),
         /**
          * 数据源模板
          */
-        DATA_NAME
+        DATA_NAME("数据");
+
+        private String displanName;
+
+        TemplateType(String displanName) {
+            this.displanName = displanName;
+        }
+
+        public String getDisplanName() {
+            return displanName;
+        }
+
     }
 
 }

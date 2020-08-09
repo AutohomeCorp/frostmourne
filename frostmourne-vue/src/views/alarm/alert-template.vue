@@ -12,8 +12,7 @@
             <el-form-item label="模板类型:">
               <el-select v-model="form.templateType" placeholder="模板类型">
                 <el-option label="全部" value="" />
-                <el-option label="COMMON" value="COMMON" />
-                <el-option label="DATA_NAME" value="DATA_NAME" />
+                <el-option v-for="option in templateTypeOptions" :key="option.code" :label="option.name" :value="option.code" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -29,8 +28,11 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="60" align="center" />
       <el-table-column prop="templateName" label="模板名称" align="center" />
-      <el-table-column prop="templateType" label="模板类型" align="center" />
-      <el-table-column prop="templateUnionName" label="关联名称" align="center" />
+      <el-table-column prop="templateTypeTreeLabels" label="模板类型" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.templateTypeTreeLabels | formatTemplateTypeTreeLabels }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="createAt" label="创建时间" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.createAt | timeFormat }}</span>
@@ -58,18 +60,8 @@
         <el-form-item label="模板名称" prop="templateName">
           <el-input v-model="itemData.templateName" :maxlength="100" :disabled="!dialogEdit" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="模板类型" prop="templateType">
-          <el-select v-model="itemData.templateType" :disabled="!dialogEdit" placeholder="模板类型" @change="templateTypeChangeHandler">
-            <el-option label="==请选择==" value="" />
-            <el-option label="COMMON" value="COMMON" />
-            <el-option label="DATA_NAME" value="DATA_NAME" />
-          </el-select>
-        </el-form-item>
-        <el-form-item v-show="showTemplateUnionCode" label="模板关联内容" prop="templateUnionCode">
-          <el-select v-model="itemData.templateUnionCode" :disabled="!dialogEdit" placeholder="模板关联内容">
-            <el-option label="==请选择==" value="" />
-            <el-option v-for="option in templateUnionCodeOptions" :key="option.data_name" :lebel="option.display_name" :value="option.data_name" />
-          </el-select>
+        <el-form-item label="模板类型" prop="templateTypeTreeValue">
+          <el-cascader ref="templateTypeTreeValue" v-model="templateTypeTreeValue" style="width: 100%" :options="templateTypeTreeOptions" :props="templateTypeTreeProps" :show-all-levels="false" :disabled="!dialogEdit" />
         </el-form-item>
         <el-form-item label="模板内容" prop="content">
           <el-input v-model="itemData.content" type="textarea" :rows="10" :maxlength="5000" :disabled="!dialogEdit" autocomplete="off" placeholder="" />
@@ -85,19 +77,27 @@
 
 <script>
 import alerttemplateApi from '@/api/alert-template.js'
-import dataApi from '@/api/data.js'
 import { formatJsonDate } from '@/utils/datetime.js'
 
 export default {
   filters: {
     timeFormat (value) {
       return value ? formatJsonDate(value, 'yyyy-MM-dd hh:mm:ss') : null
+    },
+    formatTemplateTypeTreeLabels (value) {
+      var label = ''
+      if (value && value.length > 0) {
+        for (var i = 0; i < value.length; i++) {
+          label += ' / ' + value[i]
+        }
+      }
+      return label.length > 0 ? label.substr(3) : label
     }
   },
   data () {
-    var validateTemplateUnionCodeRule = (rule, value, callback) => {
-      if (this.showTemplateUnionCode && value === '') {
-        callback(new Error('模板关联内容不能为空'))
+    var validateTemplateTypeTreeRule = (rule, value, callback) => {
+      if (!this.templateTypeTreeValue || this.templateTypeTreeValue.length === 0) {
+        callback(new Error('模板类型不能为空'))
       } else {
         callback()
       }
@@ -113,9 +113,16 @@ export default {
         pageSize: 10
       },
       templateTypeOptions: [
-        { code: 'COMMON', name: 'COMMON' },
-        { code: 'DATA_NAME', name: 'DATA_NAME', showTemplateUnionCode: true }
+        { code: 'COMMON', name: '通用' },
+        { code: 'DATA_NAME', name: '数据' }
       ],
+      templateTypeTreeProps: {
+        value: 'code',
+        label: 'name',
+        children: 'children'
+      },
+      templateTypeTreeValue: [],
+      templateTypeTreeOptions: [],
       itemData: {
         id: 0,
         templateName: '',
@@ -125,18 +132,13 @@ export default {
       },
       dialogEditVisible: false,
       dialogEdit: false,
-      showTemplateUnionCode: false,
-      templateUnionCodeOptions: [],
       rule: {
         templateName: [
           { required: true, message: '请输入模板名称', target: 'blur' },
           { max: 100, message: '长度不能超过100', target: 'blur' }
         ],
-        templateType: [
-          { required: true, message: '模板类型不能为空', target: 'change' }
-        ],
-        templateUnionCode: [
-          { validator: validateTemplateUnionCodeRule, target: 'change' }
+        templateTypeTreeValue: [
+          { required: true, validator: validateTemplateTypeTreeRule, target: 'change' }
         ],
         content: [
           { required: true, message: '模板内容不能为空', target: 'blur' },
@@ -147,6 +149,7 @@ export default {
   },
   created () {
     this.fetchData()
+    this.initTemplateTypeTreeOptions()
   },
   methods: {
     onSubmit () {
@@ -179,6 +182,7 @@ export default {
     },
     closeAlertTemplateForm () {
       this.$refs.alertTemplateForm.resetFields()
+      this.$refs.templateTypeTreeValue.focusFirstNode()
     },
     addItem () {
       this.readRowData(null)
@@ -202,38 +206,36 @@ export default {
         this.itemData.templateType = ''
         this.itemData.templateUnionCode = ''
         this.itemData.content = ''
+        this.templateTypeTreeValue = []
       } else {
         this.itemData.id = row.id
         this.itemData.templateName = row.templateName
         this.itemData.templateType = row.templateType
         this.itemData.templateUnionCode = row.templateUnionCode
         this.itemData.content = row.content
+        this.templateTypeTreeValue = row.templateTypeTreeValues
       }
-      this.changeShowTemplateUnionCode()
     },
-    changeShowTemplateUnionCode () {
-      var templateTypeOption = {}
-      for (var i = 0; i < this.templateTypeOptions.length; i++) {
-        if (this.templateTypeOptions[i].code === this.itemData.templateType) {
-          templateTypeOption = this.templateTypeOptions[i]
-          break
-        }
+    getFormTemplateType () {
+      if (this.templateTypeTreeValue == null || this.templateTypeTreeValue.length <= 0) {
+        return null
       }
-      this.showTemplateUnionCode = templateTypeOption.showTemplateUnionCode
+      return this.templateTypeTreeValue[0]
     },
-    templateTypeChangeHandler (newValue) {
-      this.changeShowTemplateUnionCode()
-      if (newValue === 'DATA_NAME') {
-        // 加载数据名选项
-        dataApi.findDataNameByType('')
-          .then(response => {
-            this.templateUnionCodeOptions = response.result
-          })
-      } else {
-        this.templateUnionCodeOptions = []
+    getFormTemplateUnionCode () {
+      if (this.templateTypeTreeValue == null || this.templateTypeTreeValue.length <= 1) {
+        return null
       }
+      return this.templateTypeTreeValue[this.templateTypeTreeValue.length - 1]
+    },
+    initTemplateTypeTreeOptions () {
+      alerttemplateApi.listTemplateTypeOptions().then(response => {
+        this.templateTypeTreeOptions = response.result
+      })
     },
     submitSaveItem () {
+      this.itemData.templateType = this.getFormTemplateType()
+      this.itemData.templateUnionCode = this.getFormTemplateUnionCode()
       this.$refs.alertTemplateForm.validate((valid) => {
         if (valid) {
           this.$confirm('是否确定保存?', '提示', {
@@ -247,7 +249,6 @@ export default {
             })
           }).catch(e => e)
         } else {
-          console.log('error submit!!')
           return false
         }
       })

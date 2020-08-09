@@ -14,6 +14,10 @@ const alerttemplateApi = {
 
   findAlertTemplate (condition) {
     return query.post(baseUrl + '/find', condition)
+  },
+
+  listTemplateTypeOptions () {
+    return query.get(baseUrl + '/templatetypeoption/list')
   }
 }
 

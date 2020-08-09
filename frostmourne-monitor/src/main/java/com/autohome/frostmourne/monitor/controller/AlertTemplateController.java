@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.controller;
 
+import java.util.List;
 import java.util.Optional;
 import javax.annotation.Resource;
 
@@ -8,6 +9,7 @@ import com.autohome.frostmourne.core.contract.Protocol;
 import com.autohome.frostmourne.monitor.contract.AlertTemplateContract;
 import com.autohome.frostmourne.monitor.contract.AlertTemplateQueryForm;
 import com.autohome.frostmourne.monitor.contract.AlertTemplateSaveForm;
+import com.autohome.frostmourne.monitor.contract.TreeDataOption;
 import com.autohome.frostmourne.monitor.service.core.template.IAlertTemplateService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +48,12 @@ public class AlertTemplateController {
                                                                        @ModelAttribute AlertTemplateQueryForm form) {
         PagerContract<AlertTemplateContract> result = alertTemplateService.findContract(form);
         return new Protocol<>(result, 0, "成功");
+    }
+
+    @RequestMapping("/templatetypeoption/list")
+    public Protocol<List<TreeDataOption>> listTemplateTypeOptions(@RequestParam("_appId") String appId) {
+        List<TreeDataOption> result = alertTemplateService.listTemplateTypeOptions();
+        return new Protocol<>(result);
     }
 
 }

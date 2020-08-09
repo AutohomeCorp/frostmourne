@@ -1,7 +1,9 @@
 package com.autohome.frostmourne.monitor.service.core.template;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,8 +14,12 @@ import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.contract.AlertTemplateContract;
 import com.autohome.frostmourne.monitor.contract.AlertTemplateQueryForm;
 import com.autohome.frostmourne.monitor.contract.AlertTemplateSaveForm;
+import com.autohome.frostmourne.monitor.contract.DataNameContract;
+import com.autohome.frostmourne.monitor.contract.TreeDataOption;
 import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateEnums.TemplateType;
+import com.autohome.frostmourne.monitor.contract.enums.DataSourceType;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertTemplate;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertTemplateRepository;
 import com.autohome.frostmourne.monitor.service.admin.IDataAdminService;
 import com.autohome.frostmourne.monitor.transform.AlertTemplateTransformer;
@@ -93,6 +99,7 @@ public class AlertTemplateService implements IAlertTemplateService {
     public PagerContract<AlertTemplateContract> findContract(AlertTemplateQueryForm form) {
         PageInfo<AlertTemplate> recordPage = alertTemplateRepository.find(form);
         List<AlertTemplateContract> contracts = AlertTemplateTransformer.model2Contract(recordPage.getList());
+        this.fillExtend2Contracts(contracts);
         return new PagerContract<>(contracts, recordPage.getPageSize(), recordPage.getPageNum(), (int) recordPage.getTotal());
     }
 
@@ -100,10 +107,25 @@ public class AlertTemplateService implements IAlertTemplateService {
         if (CollectionUtils.isEmpty(contracts)) {
             return;
         }
-        this.fillTemplateUnionCodeExtend2Contracts(contracts);
+        this.fillTemplateTypeTreeExtend2Contracts(contracts);
     }
 
-    private void fillTemplateUnionCodeExtend2Contracts(List<AlertTemplateContract> contracts) {
+    private void fillTemplateTypeTreeExtend2Contracts(List<AlertTemplateContract> contracts) {
+        this.fillTemplateTypeTreeCommonExtend2Contracts(contracts);
+        this.fillTemplateTypeTreeDataNameExtend2Contracts(contracts);
+    }
+
+    private void fillTemplateTypeTreeCommonExtend2Contracts(List<AlertTemplateContract> contracts) {
+        contracts.stream()
+                .filter(item -> TemplateType.COMMON.name().equals(item.getTemplateType()))
+                .forEach(item -> {
+                    item.setTemplateTypeTreeValues(Collections.singletonList(TemplateType.COMMON.name()));
+                    item.setTemplateTypeTreeLabels(Collections.singletonList(TemplateType.COMMON.getDisplanName()));
+                });
+    }
+
+    private void fillTemplateTypeTreeDataNameExtend2Contracts(List<AlertTemplateContract> contracts) {
+        // 关联数据名
         List<AlertTemplateContract> dataNameContracts = contracts.stream()
                 .filter(item -> TemplateType.DATA_NAME.name().equals(item.getTemplateType()))
                 .collect(Collectors.toList());
@@ -114,8 +136,58 @@ public class AlertTemplateService implements IAlertTemplateService {
                 .map(AlertTemplateContract::getTemplateUnionCode)
                 .distinct()
                 .collect(Collectors.toList());
-        //dataAdminService.findDataNameByName()
+        Map<String, DataNameContract> dataNameMap = dataAdminService.mapDataNameByNames(unionCodes);
+        // 获取数据源名称
+        List<Long> dataSourceIds = dataNameMap.values().stream()
+                .map(DataNameContract::getData_source_id)
+                .collect(Collectors.toList());
+        Map<Long, DataSource> dataSourceMap = dataAdminService.mapDataSourceByIds(dataSourceIds);
 
+        dataNameContracts.forEach(item -> {
+            if (DataSourceType.HTTP.equals(item.getTemplateUnionCode())) {
+                // http
+                item.setTemplateTypeTreeValues(Arrays.asList(TemplateType.DATA_NAME.name(), DataSourceType.HTTP));
+                item.setTemplateTypeTreeLabels(Arrays.asList(TemplateType.DATA_NAME.getDisplanName(), DataSourceType.HTTP));
+            } else {
+                DataNameContract contract = dataNameMap.get(item.getTemplateUnionCode());
+                if (contract == null) {
+                    item.setTemplateTypeTreeValues(Arrays.asList(TemplateType.DATA_NAME.name(), item.getTemplateUnionCode()));
+                    item.setTemplateTypeTreeLabels(Arrays.asList(TemplateType.DATA_NAME.getDisplanName(), item.getTemplateUnionCode()));
+                } else {
+                    item.setTemplateTypeTreeValues(Arrays.asList(
+                            TemplateType.DATA_NAME.name(),
+                            contract.getDatasource_type(),
+                            String.valueOf(contract.getData_source_id()),
+                            contract.getData_name()));
+                    item.setTemplateTypeTreeLabels(Arrays.asList(
+                            TemplateType.DATA_NAME.getDisplanName(),
+                            contract.getDatasource_type(),
+                            Optional.ofNullable(dataSourceMap.get(contract.getData_source_id()))
+                                    .map(DataSource::getDatasource_name)
+                                    .orElse(String.valueOf(contract.getData_source_id())),
+                            contract.getDisplay_name()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public List<TreeDataOption> listTemplateTypeOptions() {
+        return Arrays.stream(TemplateType.values())
+                .map(this::parseTemplateTypeOption)
+                .collect(Collectors.toList());
+    }
+
+    private TreeDataOption parseTemplateTypeOption(TemplateType templateType) {
+        TreeDataOption option = new TreeDataOption(templateType.name(), templateType.getDisplanName());
+        if (templateType == TemplateType.DATA_NAME) {
+            option.setChildren(this.listTemplateTypeOptionDataName());
+        }
+        return option;
+    }
+
+    private List<TreeDataOption> listTemplateTypeOptionDataName() {
+        return dataAdminService.listDataOptions();
     }
 
 }
