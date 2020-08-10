@@ -336,7 +336,7 @@ npm run dev
 * ~~数据库访问层全部换成~~[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
 * ~~解决Elasticsearch数据嵌套时，数据值为undefine的问题~~ [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
 * ~~另存时，监控名称增加(copy)字样标识，名字和原监控区分开~~ [2020-08-01]
-* 报警消息模板管理功能
+* ~~报警消息模板管理功能~~ [2020-08-10]
 * 监控列表增加一个开关选项，只显示我的监控
 * Elasticsearch监控数值实现环比监控
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)

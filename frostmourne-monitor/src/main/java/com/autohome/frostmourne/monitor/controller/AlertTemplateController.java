@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/alerttemplate")
+@RequestMapping(value = {"/alerttemplate", "/api/monitor-api/alerttemplate"})
 public class AlertTemplateController {
 
     @Resource
