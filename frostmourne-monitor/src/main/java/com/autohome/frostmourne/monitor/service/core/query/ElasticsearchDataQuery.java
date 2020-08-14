@@ -155,7 +155,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.trackScores(false);
         searchSourceBuilder.trackTotalHits(true);
-        searchSourceBuilder.query(boolQueryBuilder).size(1)
+        searchSourceBuilder.query(boolQueryBuilder).from(0).size(1)
                 .sort(metricContract.getDataNameContract().getTimestamp_field(), SortOrder.DESC);
         attachAggregation(metricContract, searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
