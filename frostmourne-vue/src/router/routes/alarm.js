@@ -27,7 +27,7 @@ const alarmRoutes = [
     path: 'alert-template.view',
     name: 'alert-template',
     component: () => import('@/views/alarm/alert-template.vue'),
-    meta: { title: '监控模板' }
+    meta: { title: '消息模板' }
   }
 ]
 export default alarmRoutes
