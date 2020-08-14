@@ -147,7 +147,7 @@ xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql
 
 ## 快速启动
 
-提供docker方式，让你更快运行起来便于更好理解项目作用。
+提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
 详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
 ## xxl-job服务
