@@ -1,5 +1,7 @@
 package com.autohome.frostmourne.monitor.service.account.impl;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +104,7 @@ public class UserInfoService implements IUserInfoService {
         if (map == null || map.isEmpty()) {
             return;
         }
-        list.forEach(user -> user.setRoles(map.get(user.getAccount())));
+        list.forEach(user -> user.setRoles(map.containsKey(user.getAccount()) ? map.get(user.getAccount()) : Collections.singletonList("user")));
     }
 
     private UserContract toContract(UserInfo info) {

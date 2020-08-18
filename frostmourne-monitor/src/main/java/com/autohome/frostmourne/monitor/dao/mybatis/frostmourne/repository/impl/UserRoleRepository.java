@@ -4,6 +4,8 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +64,7 @@ public class UserRoleRepository implements IUserRoleRepository {
         List<UserRole> list = userRoleDynamicMapper.select(
                 query -> query.where().and(UserRoleDynamicSqlSupport.account, isEqualTo(account)));
         if (list == null || list.isEmpty()) {
-            return new ArrayList<>();
+            return Collections.singletonList("user");
         }
         return list.stream().map(UserRole::getRole).collect(Collectors.toList());
     }
