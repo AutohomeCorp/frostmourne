@@ -14,24 +14,32 @@
       </el-button>
     </div>
 
-    <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column prop="id" label="id" align="center" />
-      <el-table-column prop="account" label="账号" align="center" />
-      <el-table-column prop="full_name" label="姓名" align="center" />
-      <el-table-column prop="team_id" label="团队ID" align="center" />
-      <el-table-column prop="mobile" label="手机号码" align="center" />
-      <el-table-column prop="email" label="邮件" align="center" />
-      <el-table-column prop="wxid" label="企业微信id" align="center" />
+    <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
+      <el-table-column prop="id" label="id" width="60" align="center" />
+      <el-table-column prop="account" label="账号" width="200" align="left" />
+      <el-table-column prop="fullName" label="姓名" width="100" align="center" />
+      <el-table-column prop="teamId" label="团队" width="160" align="center">
+        <template slot-scope="scope">{{ findTeamName(scope.row.teamId) }}</template>
+      </el-table-column>
+      <el-table-column prop="roles" label="角色" width="80" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="isRole(scope.row.roles, 'admin')" type="success" size="medium">{{ roles.admin }}</el-tag>
+          <el-tag v-else-if="isRole(scope.row.roles, 'user')" type="" size="medium">{{ roles.user }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="mobile" label="手机号码" width="120" align="center" />
+      <el-table-column prop="email" label="邮件" align="left" />
+      <el-table-column prop="wxid" label="企业微信id" width="200" align="center" />
       <!--<el-table-column prop="creator" label="创建人" align="center" />
       <el-table-column prop="create_at" label="创建时间" align="center" width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.create_at | timeFormat }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column prop="modifier" label="修改人" align="center" />
-      <el-table-column prop="modify_at" label="修改时间" align="center" width="200">
+      <el-table-column prop="modifier" label="修改人" width="140" align="center" />
+      <el-table-column prop="modifyAt" label="修改时间" width="160" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.modify_at | timeFormat }}</span>
+          <span>{{ scope.row.modifyAt | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="210" align="center" fixed="right">
@@ -54,15 +62,21 @@
     <el-dialog title="保存账号" :visible.sync="dialogFormVisible" width="40%">
       <el-form :model="editData">
         <el-form-item label="团队" :label-width="formLabelWidth">
-          <el-select v-model="editData.team_id" placeholder="选择团队" class="filter-item">
+          <el-select v-model="editData.teamId" placeholder="选择团队" class="filter-item">
             <el-option v-for="item in teamList" :key="item.team_name" :label="item.full_name" :value="item.id" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="角色" :label-width="formLabelWidth">
+          <el-radio-group v-model="editData.role" size="small">
+            <el-radio-button label="admin">管理员</el-radio-button>
+            <el-radio-button label="user">租户</el-radio-button>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="账号" :label-width="formLabelWidth">
           <el-input v-model="editData.account" autocomplete="off" />
         </el-form-item>
         <el-form-item label="名字" :label-width="formLabelWidth">
-          <el-input v-model="editData.full_name" autocomplete="off" />
+          <el-input v-model="editData.fullName" autocomplete="off" />
         </el-form-item>
         <el-form-item label="手机号码" :label-width="formLabelWidth">
           <el-input v-model="editData.mobile" autocomplete="off" />
@@ -98,6 +112,10 @@ export default {
       list: null,
       rowcount: 0,
       listLoading: true,
+      roles: {
+        admin: '管理员',
+        user: '租户'
+      },
       form: {
         pageIndex: 1,
         pageSize: 10,
@@ -107,8 +125,9 @@ export default {
       },
       editData: {
         account: null,
-        full_name: null,
-        team_id: null,
+        fullName: null,
+        teamId: null,
+        roles: null,
         mobile: null,
         email: null,
         wxid: null
@@ -151,13 +170,14 @@ export default {
       if (row != null) {
         this.editData.id = row.id
         this.editData.account = row.account
-        this.editData.full_name = row.full_name
-        this.editData.team_id = row.team_id
+        this.editData.fullName = row.fullName
+        this.editData.teamId = row.teamId
         this.editData.mobile = row.mobile
         this.editData.email = row.email
         this.editData.wxid = row.wxid
+        this.editData.role = this.findRole(row.roles)
       } else {
-        this.editData = {}
+        this.editData = { role: 'user' }
       }
 
       this.dialogFormVisible = true
@@ -168,6 +188,7 @@ export default {
       this.fetchData()
     },
     save () {
+      this.editData.roles = [this.editData.role]
       if (this.editData.id) {
         userInfoApi.update(this.editData).then(response => {
           this.dialogFormVisible = false
@@ -191,6 +212,25 @@ export default {
           this.fetchData()
         })
       })
+    },
+    findRole (roles) {
+      if (this.isRole(roles, 'admin')) {
+        return 'admin'
+      } else if (this.isRole(roles, 'user')) {
+        return 'user'
+      }
+      return null
+    },
+    isRole (roles, name) {
+      return roles && roles !== null && roles.includes(name)
+    },
+    findTeamName (id) {
+      for (var team of this.teamList) {
+        if (team.id === id) {
+          return team.full_name
+        }
+      }
+      return null
     }
   }
 }
