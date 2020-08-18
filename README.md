@@ -337,7 +337,7 @@ npm run dev
 * ~~解决Elasticsearch数据嵌套时，数据值为undefine的问题~~ [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
 * ~~另存时，监控名称增加(copy)字样标识，名字和原监控区分开~~ [2020-08-01]
 * ~~报警消息模板管理功能~~ [2020-08-10]
-* ~~账号增加角色(管理员，普通用户)设置功能~~ [2020-08-18]
+* ~~账号增加角色(管理员，普通用户)设置功能~~ [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 增加服务管理，监控可以和服务关联
