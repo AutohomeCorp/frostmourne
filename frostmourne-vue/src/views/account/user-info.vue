@@ -114,7 +114,7 @@ export default {
       listLoading: true,
       roles: {
         admin: '管理员',
-        user: '租户'
+        user: '用户'
       },
       form: {
         pageIndex: 1,
