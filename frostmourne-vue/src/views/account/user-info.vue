@@ -123,29 +123,26 @@ export default {
         account: null,
         teamId: null
       },
-      editData: {
-        account: null,
-        fullName: null,
-        teamId: null,
-        roles: null,
-        mobile: null,
-        email: null,
-        wxid: null
-      },
+      editData: { role: 'user' },
       formLabelWidth: '100px',
       dialogFormVisible: false,
       teamList: []
     }
   },
   created () {
-    this.fetchData()
-
-    teamInfoApi.find().then(response => {
-      this.teamList = response.result
-    })
+    this.init()
   },
   methods: {
-    fetchData () {
+    async init () {
+      await this.findTeamList()
+      await this.fetchData()
+    },
+    async findTeamList () {
+      teamInfoApi.find().then(response => {
+        this.teamList = response.result
+      })
+    },
+    async fetchData () {
       this.listLoading = true
       userInfoApi.findPage(this.form).then(response => {
         this.list = response.result.list || []
@@ -166,8 +163,7 @@ export default {
       this.fetchData()
     },
     edit (row) {
-      console.log(row)
-      if (row != null) {
+      if (row !== null) {
         this.editData.id = row.id
         this.editData.account = row.account
         this.editData.fullName = row.fullName
