@@ -11,6 +11,8 @@
 * Elasticsearch查询增加历史语句自动提示 [2020-07-27]
 * Elasticsearch查询数据柱状图可点击并自动变更时间范围 [2020-07-28]
 * 另存时，监控名称增加(copy)字样标识，名字和原监控区分开 [2020-08-01]
+* 报警消息模板管理功能 [2020-08-10]
+* 账号增加角色(管理员，普通用户)设置功能 [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
 
 ### Bugfix
 
@@ -19,6 +21,10 @@
 
 ### Mysql
 
+* mysql: alarm表增加风险等级字段risk_level - [SQL](./doc/mysql-schema/2020-07-24/change.sql)
+* mysql: 增加消息模板表alert_template - [SQL](./doc/mysql-schema/2020-07-31/alert_template.sql)
+* mysql: 增加用户角色表user_role - [SQL](./doc/mysql-schema/2020-08-18/user_role.sql)
+
 ### Document
 
 ### Other
@@ -26,7 +32,6 @@
 * mybatis-generator-maven-plugin依赖的mysql-connector升级为8.0.20
 * 默认镜像服务改用阿里云
 * 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
-
 
 # 0.2-RELEASE
 
