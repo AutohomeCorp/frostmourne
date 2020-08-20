@@ -143,6 +143,8 @@ POST http://localhost:9200/applog-*/_search
 hits.total > 1
 ```
 
+influxdb和prometheus都自带HTTP API支持，都可以用HTTP监控。
+
 ### 自定义HTTP监控
 
 除了利用现有的中间件提供的REST API之外，你还可以自己定义HTTP接口，接口里只需要写监控逻辑，接口返回的JSON数据，
