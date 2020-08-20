@@ -57,7 +57,13 @@
                   <el-option label="min" value="min" />
                   <el-option label="max" value="max" />
                   <el-option label="sum" value="sum" />
+                  <el-option label="unique count" value="cardinality" />
+                  <el-option label="standard deviation" value="standard_deviation" />
+                  <el-option label="percentiles" value="percentiles" />
                 </el-select>
+              </el-form-item>
+              <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregation_type === 'percentiles'" label="百分比:">
+                <el-input v-model="form.metricContract.properties.percent" placehold="like: 90" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
