@@ -37,6 +37,8 @@ import org.elasticsearch.search.aggregations.metrics.avg.Avg;
 import org.elasticsearch.search.aggregations.metrics.cardinality.Cardinality;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.elasticsearch.search.aggregations.metrics.min.Min;
+import org.elasticsearch.search.aggregations.metrics.percentiles.Percentiles;
+import org.elasticsearch.search.aggregations.metrics.stats.extended.ExtendedStats;
 import org.elasticsearch.search.aggregations.metrics.sum.Sum;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -185,8 +187,13 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
             searchSourceBuilder.aggregation(AggregationBuilders.avg("avgNumber").field(aggField));
         } else if (aggType.equalsIgnoreCase("sum")) {
             searchSourceBuilder.aggregation(AggregationBuilders.sum("sumNumber").field(aggField));
-        } else if(aggType.equalsIgnoreCase("")) {
+        } else if (aggType.equalsIgnoreCase("cardinality")) {
             searchSourceBuilder.aggregation(AggregationBuilders.cardinality("cardinality").field(aggField));
+        } else if (aggType.equalsIgnoreCase("standard_deviation")) {
+            searchSourceBuilder.aggregation(AggregationBuilders.extendedStats("extend").field(aggField));
+        } else if (aggType.equalsIgnoreCase("percentiles")) {
+            searchSourceBuilder.aggregation(AggregationBuilders.percentiles("percentiles")
+                    .percentiles(Double.parseDouble(metricContract.getProperties().get("percent").toString())).field(aggField));
         }
     }
 
@@ -208,9 +215,17 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
             Sum sum = searchResponse.getAggregations().get("sumNumber");
             return sum.getValue();
         }
-        if(aggType.equalsIgnoreCase("cardinality")) {
+        if (aggType.equalsIgnoreCase("cardinality")) {
             Cardinality cardinality = searchResponse.getAggregations().get("cardinality");
             return (double) cardinality.getValue();
+        }
+        if (aggType.equalsIgnoreCase("standard_deviation")) {
+            ExtendedStats extendedStats = searchResponse.getAggregations().get("extend");
+            return extendedStats.getStdDeviation();
+        }
+        if (aggType.equalsIgnoreCase("percentiles")) {
+            Percentiles percentiles = searchResponse.getAggregations().get("percentiles");
+            return percentiles.percentile(Double.parseDouble(metricContract.getProperties().get("percent").toString()));
         }
 
         throw new IllegalArgumentException("unsupported aggregation type: " + aggType);
