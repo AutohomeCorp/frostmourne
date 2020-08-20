@@ -34,6 +34,7 @@ import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInter
 import org.elasticsearch.search.aggregations.bucket.histogram.ExtendedBounds;
 import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
 import org.elasticsearch.search.aggregations.metrics.avg.Avg;
+import org.elasticsearch.search.aggregations.metrics.cardinality.Cardinality;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.elasticsearch.search.aggregations.metrics.min.Min;
 import org.elasticsearch.search.aggregations.metrics.sum.Sum;
@@ -184,6 +185,8 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
             searchSourceBuilder.aggregation(AggregationBuilders.avg("avgNumber").field(aggField));
         } else if (aggType.equalsIgnoreCase("sum")) {
             searchSourceBuilder.aggregation(AggregationBuilders.sum("sumNumber").field(aggField));
+        } else if(aggType.equalsIgnoreCase("")) {
+            searchSourceBuilder.aggregation(AggregationBuilders.cardinality("cardinality").field(aggField));
         }
     }
 
@@ -204,6 +207,10 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         if (aggType.equalsIgnoreCase("sum")) {
             Sum sum = searchResponse.getAggregations().get("sumNumber");
             return sum.getValue();
+        }
+        if(aggType.equalsIgnoreCase("cardinality")) {
+            Cardinality cardinality = searchResponse.getAggregations().get("cardinality");
+            return (double) cardinality.getValue();
         }
 
         throw new IllegalArgumentException("unsupported aggregation type: " + aggType);
