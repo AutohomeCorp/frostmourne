@@ -1,4 +1,4 @@
-package com.autohome.frostmourne.monitor.integration.service.core.query;
+package com.autohome.frostmourne.monitor.service.core.query;
 
 import javax.annotation.Resource;
 
@@ -16,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles({"local"})
 @SpringBootTest
 @IfProfileValue(name = "test-profile", value = "IntegrationTest")
-public class QueryServiceTest {
+public class QueryServiceIntegrationTest {
 
     @Resource
     private QueryService queryService;
