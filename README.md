@@ -9,7 +9,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 主要功能
 
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
-* 多种数值聚合类型监控(count,min,max,avg,sum), 同比监控
+* 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation), 同比监控
 * HTTP数据监控, 表达式判断是否报警
 * UI功能，简单易用
 * 监控管理，测试，另存。执行日志，历史消息。
@@ -338,7 +338,7 @@ npm run dev
 * ~~另存时，监控名称增加(copy)字样标识，名字和原监控区分开~~ [2020-08-01]
 * ~~报警消息模板管理功能~~ [2020-08-10]
 * ~~账号增加角色(管理员，普通用户)设置功能~~ [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
-* Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
+* ~~Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles, standard deviation)数值监控~~ [2020-08-22]
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件

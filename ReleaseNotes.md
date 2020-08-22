@@ -13,6 +13,7 @@
 * 另存时，监控名称增加(copy)字样标识，名字和原监控区分开 [2020-08-01]
 * 报警消息模板管理功能 [2020-08-10]
 * 账号增加角色(管理员，普通用户)设置功能 [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
+* 聚合类型(unique_count, percentiles, standard deviation)数值监控
 
 ### Bugfix
 
