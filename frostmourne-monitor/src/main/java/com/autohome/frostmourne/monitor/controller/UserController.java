@@ -15,7 +15,6 @@ import com.autohome.frostmourne.monitor.tool.AuthTool;
 import com.autohome.frostmourne.monitor.tool.JwtToken;
 import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.Team;
-import com.google.common.collect.ImmutableList;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,13 +37,6 @@ public class UserController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public Protocol<AccountInfo> info() {
         AccountInfo account = AuthTool.currentUser();
-        if (account != null) {
-            if ("admin".equalsIgnoreCase(account.getAccount())) {
-                account.setRoles(ImmutableList.of("admin"));
-            } else {
-                account.setRoles(ImmutableList.of("user"));
-            }
-        }
         return new Protocol<>(account);
     }
 
@@ -71,7 +63,7 @@ public class UserController {
     @RequestMapping(value = "/teams", method = RequestMethod.GET)
     public Protocol<List<Team>> teams() {
         List<String> roles = AuthTool.currentUser().getRoles();
-        List<Team> teamList = null;
+        List<Team> teamList;
         if (roles != null && roles.contains("admin")) {
             teamList = accountService.teams(null);
         } else {

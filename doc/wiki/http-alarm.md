@@ -137,7 +137,13 @@ POST http://localhost:9200/applog-*/_search
 ```
 
 看到这么丰富的返回数据，是不是有了很多想法。你还可以结合kibana的分享功能，将kibana的短链接，放到你
-的报警消息里，收到报警的人直接点击kibana短链接就可以查看数据或者你定制的图表，非常牛逼。
+的报警消息里，收到报警的人直接点击kibana短链接就可以查看数据或者你定制的图表。你的判断可以这么写：
+
+```
+hits.total > 1
+```
+
+influxdb和prometheus都自带HTTP API支持，都可以用HTTP监控。
 
 ### 自定义HTTP监控
 

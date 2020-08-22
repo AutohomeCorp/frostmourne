@@ -189,7 +189,8 @@ public class AlertService implements IAlertService {
         alarmLog.setExe_end(alarmProcessLogger.getEnd().toDate());
         alarmLog.setExecute_result(alarmProcessLogger.getExecuteStatus().getName());
         alarmLog.setMessage(alarmProcessLogger.traceInfo());
-        alarmLog.setVerify_result(alarmProcessLogger.getAlert() ? VerifyResult.TRUE : VerifyResult.FALSE);
+        Boolean alert = alarmProcessLogger.getAlert();
+        alarmLog.setVerify_result(alert != null &&  alert ? VerifyResult.TRUE : VerifyResult.FALSE);
         alarmLogRepository.insert(alarmLog);
         alarmProcessLogger.setAlarmLog(alarmLog);
     }
