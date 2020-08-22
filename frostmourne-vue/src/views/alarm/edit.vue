@@ -44,12 +44,12 @@
       <el-tabs>
         <el-tab-pane label="数据配置">
           <el-row>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-form-item label="数据:" prop="metricContract.data_name">
                 <el-cascader v-model="dataValue" width="100" size="medium" :show-all-levels="false" :options="dataOptions" @change="dataChange" />
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-form-item v-if="dataSourceType === 'elasticsearch'" label="聚合类型:">
                 <el-select v-model="form.metricContract.aggregation_type">
                   <el-option label="count" value="count" />
@@ -62,11 +62,13 @@
                   <el-option label="percentiles" value="percentiles" />
                 </el-select>
               </el-form-item>
+            </el-col>
+            <el-col :span="6">
               <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregation_type === 'percentiles'" label="百分比:">
-                <el-input v-model="form.metricContract.properties.percent" placehold="like: 90" />
+                <el-input v-model="form.metricContract.properties.percent" placeholder="例如: 90" />
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregation_type !== 'count'" label="聚合字段:">
                 <el-input v-model="form.metricContract.aggregation_field" />
               </el-form-item>
@@ -443,6 +445,9 @@ export default {
       console.log('addHeader.headers -> ' + this.httpHeaders.length, this.httpHeaders)
     },
     copyToProperties () {
+      if (this.dataSourceType !== 'http') {
+        return
+      }
       this.form.metricContract.properties = {}
       this.httpHeaders.forEach(item => {
         if (item.key !== '' && item.value !== '') {
