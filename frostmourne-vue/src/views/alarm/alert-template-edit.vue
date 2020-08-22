@@ -44,12 +44,12 @@
       <el-tabs>
         <el-tab-pane label="数据配置">
           <el-row>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="数据:" prop="metricContract.data_name">
                 <el-cascader v-model="dataValue" width="100" size="medium" :show-all-levels="false" :options="dataOptions" @change="dataChange" />
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item v-if="dataSourceType === 'elasticsearch'" label="聚合类型:">
                 <el-select v-model="form.metricContract.aggregation_type">
                   <el-option label="count" value="count" />
@@ -57,18 +57,10 @@
                   <el-option label="min" value="min" />
                   <el-option label="max" value="max" />
                   <el-option label="sum" value="sum" />
-                  <el-option label="unique count" value="cardinality" />
-                  <el-option label="standard deviation" value="standard_deviation" />
-                  <el-option label="percentiles" value="percentiles" />
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregation_type === 'percentiles'" label="百分比:">
-                <el-input v-model="form.metricContract.properties.percent" placeholder="例如: 90" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregation_type !== 'count'" label="聚合字段:">
                 <el-input v-model="form.metricContract.aggregation_field" />
               </el-form-item>
@@ -162,13 +154,6 @@
 
         </el-tab-pane>
         <el-tab-pane label="消息模板">
-          <el-form-item>
-            <el-select v-model.number="alertTemplateId" filterable placeholder="请选择" @change="changeAlertTemplateOptions()">
-              <el-option v-for="item in alertTemplateOptions"
-                         :key="item.id" :label="item.templateName" :value="item.id" />
-            </el-select>
-            <el-button type="primary" :disabled="alertTemplateOption==null" @click="importAlertTemplate">导入模板</el-button>
-          </el-form-item>
           <el-form-item label="消息模板:" prop="ruleContract.alert_template">
             <el-input v-model="form.ruleContract.alert_template" type="textarea" rows="5" />
           </el-form-item>
@@ -262,7 +247,6 @@ import alarmApi from '@/api/alarm.js'
 import adminApi from '@/api/admin.js'
 import { teams, search } from '@/api/user'
 import dataApi from '@/api/data.js'
-import alerttemplateApi from '@/api/alert-template.js'
 
 import VueJsonPretty from 'vue-json-pretty'
 
@@ -356,10 +340,7 @@ export default {
       dataValue: [],
       dataOptions: [],
       teamList: [],
-      enableSaveAnother: true,
-      alertTemplateOptions: [],
-      alertTemplateOption: null,
-      alertTemplateId: null
+      enableSaveAnother: true
     }
   },
   mounted () {
@@ -387,8 +368,6 @@ export default {
       this.dataSourceType = this.$route.query.datasource_type
       this.form.metricContract.query_string = this.$route.query.query_string
       this.dataChange(this.dataValue)
-    } else {
-      this.initAlertTemplateOptions()
     }
   },
   methods: {
@@ -445,9 +424,6 @@ export default {
       console.log('addHeader.headers -> ' + this.httpHeaders.length, this.httpHeaders)
     },
     copyToProperties () {
-      if (this.dataSourceType !== 'http') {
-        return
-      }
       this.form.metricContract.properties = {}
       this.httpHeaders.forEach(item => {
         if (item.key !== '' && item.value !== '') {
@@ -514,7 +490,6 @@ export default {
       if (value.length === 0) {
         this.form.metricContract.data_source_id = 0
         this.form.metricContract.data_name = ''
-        this.initAlertTemplateOptions()
         return
       }
       this.dataSourceType = value[0]
@@ -523,13 +498,11 @@ export default {
         this.form.metricContract.data_name = 'http'
         this.form.metricContract.metric_type = 'object'
         this.form.ruleContract.rule_type = 'expression'
-        this.initAlertTemplateOptions()
         return
       }
       this.form.metricContract.data_source_id = value[1]
       this.form.metricContract.data_name = value[2]
       this.form.metricContract.metric_type = ''
-      this.initAlertTemplateOptions()
     },
     tabClick (tab, event) {
       // console.log(tab, event)
@@ -616,50 +589,6 @@ export default {
         '指标同比${item.description}变化${item.percentage}%,超过阈值${PERCENTAGE_THRESHOLD}%, 当前值: ${CURRENT}, 对比值：${item.value};\r\n' +
         '</#list>'
       }
-    },
-    initAlertTemplateOptions () {
-      this.alertTemplateId = null
-      this.alertTemplateOption = null
-      var condition = {
-        templateTypeUnionCodes: ['COMMON'],
-        pageIndex: 1,
-        pageSize: 1000
-      }
-      var dataName = this.form.metricContract.data_name
-      if (dataName != null && dataName !== '') {
-        condition.templateTypeUnionCodes.push('DATA_NAME|' + dataName)
-      }
-      alerttemplateApi.findAlertTemplate(condition)
-        .then(response => {
-          this.alertTemplateOptions = response.result.list
-        }).catch(() => {
-          console.error('消息模板加载失败')
-        })
-    },
-    changeAlertTemplateOptions () {
-      this.alertTemplateOption = null
-      if (this.alertTemplateId) {
-        for (var i = 0; i < this.alertTemplateOptions.length; i++) {
-          if (this.alertTemplateId === this.alertTemplateOptions[i].id) {
-            this.alertTemplateOption = this.alertTemplateOptions[i]
-            this.disableAlertTemplateOptions = false
-            break
-          }
-        }
-      }
-    },
-    importAlertTemplate () {
-      if (this.alertTemplateOption) {
-        this.$confirm('是否确定使用选择的模板覆盖当前消息模板?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'info'
-        }).then(() => {
-          this.form.ruleContract.alert_template = this.alertTemplateOption.content
-        }).catch(() => {})
-      } else {
-        this.$alert('请选择一个消息模板', '提示').catch(() => {})
-      }
     }
   }
 }
@@ -670,4 +599,3 @@ export default {
   text-align: center;
 }
 </style>
-

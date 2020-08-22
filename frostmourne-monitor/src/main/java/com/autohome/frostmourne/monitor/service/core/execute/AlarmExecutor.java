@@ -62,7 +62,7 @@ public class AlarmExecutor {
 
     private String completeAlertMessage() {
         String alertMessage = this.rule.alertMessage(alarmContract.getRuleContract(), this.alarmProcessLogger.getContext());
-        String timeString = DateTime.now().toString("yyyy-MM-dd hh:mm:ss");
+        String timeString = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
         String shortLink = generateShortLinkService.generate(alarmProcessLogger);
         String completeMessage = null;
         if (Strings.isNullOrEmpty(shortLink)) {
