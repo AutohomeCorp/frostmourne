@@ -391,7 +391,8 @@ npm run dev
 
 ## Contribution
 
-[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91)
+[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91) 
+[@wxmclub](https://github.com/wxmclub)
 
 ## 致谢
 - [springboot](https://github.com/spring-projects/spring-boot)
