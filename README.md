@@ -362,7 +362,6 @@ npm run dev
 * 增加influxdb数值同比，环比监控
 * 增加prometheus数据监控报警支持
 * 增加skywalking数据监控报警支持
-* 集成CAS登录认证
 * 增加单元测试
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
