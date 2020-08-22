@@ -90,7 +90,12 @@ public class UserInfoService implements IUserInfoService {
             return null;
         }
         UserContract contract = toContract(optional.get());
-        contract.setRoles(userRoleRepository.findByAccount(account));
+        if(account.equalsIgnoreCase("admin")) {
+            contract.setRoles(Collections.singletonList("admin"));
+        } else {
+            contract.setRoles(userRoleRepository.findByAccount(account));
+        }
+
         return contract;
     }
 
