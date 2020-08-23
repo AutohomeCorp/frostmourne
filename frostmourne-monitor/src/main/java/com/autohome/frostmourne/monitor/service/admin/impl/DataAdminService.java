@@ -1,6 +1,7 @@
 package com.autohome.frostmourne.monitor.service.admin.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataOption;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceOption;
+import com.autohome.frostmourne.monitor.contract.TreeDataOption;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchInfo;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceManager;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName;
@@ -30,6 +32,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class DataAdminService implements IDataAdminService {
@@ -101,6 +104,19 @@ public class DataAdminService implements IDataAdminService {
     }
 
     @Override
+    public Map<Long, DataSource> mapDataSourceByIds(List<Long> dataSourceIds) {
+        if (CollectionUtils.isEmpty(dataSourceIds)) {
+            return Collections.emptyMap();
+        }
+        List<DataSource> items = dataSourceRepository.findByIdList(dataSourceIds);
+        if (CollectionUtils.isEmpty(items)) {
+            return Collections.emptyMap();
+        }
+        return items.stream()
+                .collect(Collectors.toMap(DataSource::getId, item -> item, (v1, v2) -> v1));
+    }
+
+    @Override
     public List<DataOption> dataOptions() {
         List<DataSource> dataSourceList = this.dataSourceRepository.find(null);
         List<DataName> dataNameList = this.dataNameRepository.find(null, null);
@@ -130,6 +146,50 @@ public class DataAdminService implements IDataAdminService {
         }
 
         return dataOptionList;
+    }
+
+    @Override
+    public List<TreeDataOption> listDataOptions() {
+        List<TreeDataOption> dataOptions = this.parseTreeDataOptionByDataOptions(this.dataOptions());
+        List<TreeDataOption> options = new ArrayList<>(dataOptions);
+        // HTTP
+        options.add(new TreeDataOption("http", "http"));
+        return options;
+    }
+
+    private List<TreeDataOption> parseTreeDataOptionByDataOptions(List<DataOption> items) {
+        if (CollectionUtils.isEmpty(items)) {
+            return Collections.emptyList();
+        }
+        return items.stream()
+                .map(item -> {
+                    TreeDataOption option = new TreeDataOption(item.getDatasourceType(), item.getDatasourceType());
+                    option.setChildren(this.parseTreeDataOptionByDataSourceOptions(item.getDataSourceOptionList()));
+                    return option;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<TreeDataOption> parseTreeDataOptionByDataSourceOptions(List<DataSourceOption> items) {
+        if (CollectionUtils.isEmpty(items)) {
+            return Collections.emptyList();
+        }
+        return items.stream()
+                .map(item -> {
+                    TreeDataOption option = new TreeDataOption(String.valueOf(item.getDataSource().getId()), item.getDataSource().getDatasource_name());
+                    option.setChildren(this.parseTreeDataOptionByDataNameContracts(item.getDataNameContractList()));
+                    return option;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<TreeDataOption> parseTreeDataOptionByDataNameContracts(List<DataNameContract> items) {
+        if (CollectionUtils.isEmpty(items)) {
+            return Collections.emptyList();
+        }
+        return items.stream()
+                .map(item -> new TreeDataOption(item.getData_name(), item.getDisplay_name()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -184,6 +244,16 @@ public class DataAdminService implements IDataAdminService {
     public DataNameContract findDataNameByName(String name) {
         Optional<DataName> optionalDataName = dataNameRepository.findByName(name);
         return optionalDataName.map(DataNameTransformer::model2Contract).orElse(null);
+    }
+
+    @Override
+    public Map<String, DataNameContract> mapDataNameByNames(List<String> names) {
+        if (CollectionUtils.isEmpty(names)) {
+            return Collections.emptyMap();
+        }
+        return dataNameRepository.findByNames(names).stream()
+                .map(DataNameTransformer::model2Contract)
+                .collect(Collectors.toMap(DataNameContract::getData_name, item -> item, (v1, v2) -> v1));
     }
 
     static DataNameContract toDataNameContract(DataName dataName) {

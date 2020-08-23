@@ -9,19 +9,20 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 主要功能
 
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
-* 多种数值聚合类型监控(count,min,max,avg,sum), 同比监控
+* 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation), 同比监控
 * HTTP数据监控, 表达式判断是否报警
 * UI功能，简单易用
 * 监控管理，测试，另存。执行日志，历史消息。
 * 灵活的报警消息freemarker模板定制，支持变量
-* 多种消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), HTTP请求)
-* 多数据源管理
+* 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), HTTP请求)
+* 多数据源(Elasticsearch集群)支持
 * Elasticsearch数据查询,分享,下载
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
 * 每个监控都是独立调度，互不影响
 * 自带账号,团队,部门信息管理模块，也可自己实现内部对接
 * 集成LDAP登录认证
+* 权限控制，数据隔离，各团队互不影响
 
 ## 在线demo
 
@@ -76,7 +77,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 但是随着配置的增加，管理成本，使用成本较高和，配置文件多了之后，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
-## 欢迎使用
+## 联系我们
 
 有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。  
@@ -146,7 +147,7 @@ xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql
 
 ## 快速启动
 
-提供docker方式，让你更快运行起来便于更好理解项目作用。
+提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
 详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
 ## xxl-job服务
@@ -235,7 +236,7 @@ frostmourne.monitor.address=http://${frostmourne-monitor-address}
 
 其中frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。**注意：直接使用ip是无法生成短链接的**  
 
-### assembly包部署
+### zip包部署
 
 frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目录下会生成zip包，你只需要将zip包解压，然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
@@ -334,45 +335,44 @@ npm run dev
 * ~~Elasticsearch查询数据柱状图可点击并自动变更时间范围~~ [2020-07-28]
 * ~~数据库访问层全部换成~~[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
 * ~~解决Elasticsearch数据嵌套时，数据值为undefine的问题~~ [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
-* 报警消息模板管理功能
-* 监控列表增加一个开关选项，只显示我的监控
-* 另存时，监控名称增加(copy)字样标识，和原监控区分开
-* Elasticsearch监控数值实现环比监控
+* ~~另存时，监控名称增加(copy)字样标识，名字和原监控区分开~~ [2020-08-01]
+* ~~报警消息模板管理功能~~ [2020-08-10]
+* ~~账号增加角色(管理员，普通用户)设置功能~~ [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
+* ~~Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles, standard deviation)数值监控~~ [2020-08-22]
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)
-* 增加服务管理，监控可以和服务关联
+* 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
+* 增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件
 * 增加报警接收组管理，报警接收组可以和服务关联；通过服务间接和监控关联上，监控产生报警消息自动给报警接收组也发送消息。
 * 数据源保存增加表单验证
 * 内置实现一个短链接功能，移除外部短链接服务依赖
-* Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles)数值监控
-* 移除SPI模块，经过一系列优化后，spi模块存在的必要性可能很低了，考虑移除掉，降低部署难度
+* Elasticsearch监控数值实现环比监控
 * 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
 * README简化为文档目录索引形式，具体内容分散到各个文档中，方便查找
-* 补充更详细的部署文档和使用指南
 * 更新在线demo至最新
+* 监控列表增加一个开关选项，只显示我的监控
 * 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
 * Elasticsearch索引字段自动获取
 * 数据源增加连接测试功能
 * 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
-基于监控模板创建监控只需要填写变量值即可
+基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
 * 发布0.3-RELEASE
 * 增加influxdb数值监控
 * 增加influxdb数值同比，环比监控
-* 增加prometheus支持
-* Elasticsearch监控查询语句增加SQL类型查询
-* 集成CAS登录认证
+* 增加prometheus数据监控报警支持
+* 增加skywalking数据监控报警支持
 * 增加单元测试
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
 * 发布1.0-RELEASE
-* 加入更为智能的时序数据异常检测算法规则(需要实验可行性)
 * 增加访问日志格式配置功能
 * 增加访问日志查询分析功能
 * 增加frostmourne程序日志格式采集方案
 * 增加frostmourne程序日志查询和分析功能
-* 增加指标定期采集功能
+* 增加时序指标定期采集功能
 * 增加定期采集指标的查询分析功能
+* 加入更为智能的时序数据异常检测算法规则(需要实验可行性)
 
 ## 发版历史
 
@@ -391,7 +391,8 @@ npm run dev
 
 ## Contribution
 
-[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91)
+[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91) 
+[@wxmclub](https://github.com/wxmclub)
 
 ## 致谢
 - [springboot](https://github.com/spring-projects/spring-boot)

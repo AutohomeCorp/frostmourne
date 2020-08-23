@@ -5,8 +5,6 @@ CREATE DATABASE frostmourne
 /* if your mysql not support utf8mb4_0900_ai_ci, use collate utf8mb4_general_ci instead */
 -- CREATE DATABASE frostmourne DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
 
-
-
 use frostmourne;
 
 /*------------------------------------------- create alarm---------------------------------------------------------------------*/
@@ -27,7 +25,8 @@ CREATE TABLE IF NOT EXISTS alarm
     create_at      DATETIME      NOT NULL COMMENT '创建时间',
     modifier       VARCHAR(200)  NOT NULL COMMENT '修改人',
     modify_at      DATETIME      NOT NULL COMMENT '修改时间',
-    team_name      VARCHAR(200)  NOT NULL COMMENT '监控所属团队'
+    team_name      VARCHAR(200)  NOT NULL COMMENT '监控所属团队',
+    risk_level     VARCHAR(500) COMMENT '风险等级。info: 提示；important: 重要；emergency: 紧急； crash: 我崩了'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -318,8 +317,43 @@ ALTER TABLE user_info
 
 CREATE UNIQUE INDEX uniq_account ON user_info (account);
 
+/*------------------------------------------- create user_role---------------------------------------------------------------------*/
+DROP TABLE IF EXISTS user_role;
+CREATE TABLE IF NOT EXISTS user_role
+(
+    id        BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '自增主键',
+    account   VARCHAR(200) NOT NULL COMMENT '账号',
+    role      VARCHAR(200) NOT NULL COMMENT '角色',
+    creator   VARCHAR(200) NOT NULL COMMENT '创建人',
+    create_at DATETIME     NOT NULL COMMENT '创建时间'
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COMMENT = '用户角色关系表';
+
+ALTER TABLE user_role
+    ADD INDEX idx_account (account);
+/*------------------------------------------- create alert_template---------------------------------------------------------------------*/
+DROP TABLE IF EXISTS alert_template;
+CREATE TABLE IF NOT EXISTS `alert_template`
+(
+    `id`                  bigint(20)    NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `template_name`       varchar(100)  NOT NULL COMMENT '模板名称',
+    `template_type`       varchar(32)   NOT NULL COMMENT '模板类型',
+    `template_union_code` varchar(200)  NOT NULL DEFAULT '' COMMENT '模板类型关联code，根据不同模板类型关联不同的源',
+    `content`             varchar(5000) NOT NULL DEFAULT '' COMMENT '模板内容',
+    `creator`             varchar(200)  NOT NULL COMMENT '创建人',
+    `create_at`           datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `modifier`            varchar(200)  NOT NULL COMMENT '修改人',
+    `modify_at`           datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_template_type_template_union_code` (`template_type`, `template_union_code`),
+    KEY `idx_template_name` (`template_name`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT ='报警模板';
 /*------------------------------------------- init data---------------------------------------------------------------------*/
 INSERT INTO department_info(department_name, full_name, creator, create_at, modify_at, modifier) VALUES ('default', '默认部门', 'admin', now(), now(), 'admin');
 INSERT INTO team_info(team_name, full_name, department_id, creator, create_at, modify_at, modifier) VALUES ('default', '炒鸡赛亚人', 1, 'admin', now(), now(), 'admin');
 INSERT INTO user_info(account, full_name, team_id, mobile, email, wxid, creator, create_at, modify_at, modifier) VALUES ('admin', '管理员', 1, null, 'xxx@163.com', 'wxid1', 'admin', now(), now(), 'admin');
+INSERT INTO user_role(account, role, creator, create_at) VALUES('admin', 'admin', 'admin', now());
 
