@@ -11,12 +11,13 @@ const URL = {
   close: baseUrl + '/close'
 }
 const adminApi = {
-  getList (alarmId, name, teamName, status, pageIndex, pageSize) {
+  getList (alarmId, name, teamName, status, serverId, pageIndex, pageSize) {
     return query.get(URL.list, {
       alarmId: alarmId,
       name: name,
       teamName: teamName,
       status: status,
+      serverId: serverId,
       pageIndex: pageIndex,
       pageSize: pageSize
     })

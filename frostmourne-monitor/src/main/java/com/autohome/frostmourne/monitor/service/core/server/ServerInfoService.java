@@ -53,6 +53,12 @@ public class ServerInfoService implements IServerInfoService {
     }
 
     @Override
+    public Optional<ServerInfoSimpleContract> getSimpleContract(Long id) {
+        return serverInfoRepository.getById(id)
+                .map(ServerInfoTransformer::model2SimpleContract);
+    }
+
+    @Override
     public Map<Long, ServerInfoSimpleContract> mapSimpleContractByIds(List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return Collections.emptyMap();

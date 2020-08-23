@@ -9,6 +9,10 @@
       <el-select v-model="form.teamName" placeholder="选择团队" style="width: 200px" class="filter-item" @change="teamChangeHanlder">
         <el-option v-for="item in teamList" :key="item.name" :label="item.fullName" :value="item.name" />
       </el-select>
+      <el-select v-model="form.serverId" filterable remote reserve-keyword clearable placeholder="请选择服务" class="filter-item"
+                 :remote-method="loadServerOptions" :loading="serverOptonsLoading" @change="onServerInfoChange">
+        <el-option v-for="item in serverOtions" :key="item.id" :label="item.serverName" :value="item.id" />
+      </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
       <el-button class="filter-item" icon="el-icon-edit" @click="goEdit(null)">添加报警</el-button>
     </div>
@@ -64,6 +68,7 @@
 <script>
 import alarmApi from '@/api/alarm.js'
 import adminApi from '@/api/admin.js'
+import serverinfoApi from '@/api/server-info.js'
 import { teams, getInfo } from '@/api/user'
 import { formatJsonDate } from '@/utils/datetime.js'
 
@@ -104,7 +109,9 @@ export default {
         { value: 'OPEN', text: '开启' },
         { value: 'CLOSE', text: '关闭' }
       ],
-      teamList: []
+      teamList: [],
+      serverOptonsLoading: false,
+      serverOtions: []
     }
   },
   created () {
@@ -116,6 +123,8 @@ export default {
     teams().then(response => {
       this.teamList = response.result
     })
+
+    this.loadServerOptions()
   },
   methods: {
     onSubmit () {
@@ -137,6 +146,10 @@ export default {
       this.form.pageIndex = curr
       this.fetchData()
     },
+    onServerInfoChange () {
+      this.form.pageIndex = 1
+      this.fetchData()
+    },
     changeStatus (alarm) {
       const message = `id=${alarm.id} 监控报警${alarm.status}成功！`
       if (alarm.status === 'OPEN') {
@@ -147,7 +160,7 @@ export default {
     },
     fetchData () {
       this.listLoading = true
-      adminApi.getList(this.form.alarmId, this.form.name, this.form.teamName, this.form.status, this.form.pageIndex, this.form.pageSize)
+      adminApi.getList(this.form.alarmId, this.form.name, this.form.teamName, this.form.status, this.form.serverId, this.form.pageIndex, this.form.pageSize)
         .then(response => {
           this.list = response.result.list || []
           this.rowcount = response.result.rowcount
@@ -179,6 +192,20 @@ export default {
     teamChangeHanlder () {
       this.form.pageIndex = 1
       this.fetchData()
+    },
+    loadServerOptions (query) {
+      this.serverOptonsLoading = true
+      serverinfoApi.findServerInfo({
+        serverName: query,
+        pageIndex: 1,
+        pageSize: 1000,
+        orderType: 'SERVER_NAME'
+      })
+        .then(response => {
+          this.serverOtions = response.result.list || []
+          this.serverOptonsLoading = false
+        })
+        .catch(e => {})
     }
   }
 }

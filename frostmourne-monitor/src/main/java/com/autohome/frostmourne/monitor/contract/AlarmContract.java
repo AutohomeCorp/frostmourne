@@ -34,6 +34,8 @@ public class AlarmContract {
 
     private AlertContract alertContract;
 
+    private ServerInfoSimpleContract serverInfo;
+
     public Long getId() {
         return id;
     }
@@ -152,5 +154,13 @@ public class AlarmContract {
 
     public void setTeam_name(String team_name) {
         this.team_name = team_name;
+    }
+
+    public ServerInfoSimpleContract getServerInfo() {
+        return serverInfo;
+    }
+
+    public void setServerInfo(ServerInfoSimpleContract serverInfo) {
+        this.serverInfo = serverInfo;
     }
 }

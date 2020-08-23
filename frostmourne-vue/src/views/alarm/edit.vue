@@ -30,6 +30,15 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="服务:">
+                <el-select v-model="form.serverInfo.id" reserve-keyword placeholder="请选择服务">
+                  <el-option v-for="item in serverOtions" :key="item.id" :label="item.serverName" :value="item.id" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
           <el-row>
             <el-col :span="24">
@@ -263,6 +272,7 @@ import adminApi from '@/api/admin.js'
 import { teams, search } from '@/api/user'
 import dataApi from '@/api/data.js'
 import alerttemplateApi from '@/api/alert-template.js'
+import serverinfoApi from '@/api/server-info.js'
 
 import VueJsonPretty from 'vue-json-pretty'
 
@@ -318,6 +328,9 @@ export default {
           ways: [],
           recipients: [],
           silence: 60
+        },
+        serverInfo: {
+          id: 0
         }
       },
       rules: {
@@ -359,7 +372,9 @@ export default {
       enableSaveAnother: true,
       alertTemplateOptions: [],
       alertTemplateOption: null,
-      alertTemplateId: null
+      alertTemplateId: null,
+      serverOptonsLoading: false,
+      serverOtions: []
     }
   },
   mounted () {
@@ -390,6 +405,8 @@ export default {
     } else {
       this.initAlertTemplateOptions()
     }
+
+    this.loadServerOptions()
   },
   methods: {
     onSubmit () {
@@ -493,6 +510,9 @@ export default {
     getDetail (callback) {
       adminApi.findById(this.id)
         .then(response => {
+          if (response.result.serverInfo == null) {
+            response.result.serverInfo = { id: 0 }
+          }
           this.form = response.result
           this.copyToHeaders(this.form.metricContract.properties)
 
@@ -660,6 +680,24 @@ export default {
       } else {
         this.$alert('请选择一个消息模板', '提示').catch(() => {})
       }
+    },
+    loadServerOptions (query) {
+      this.serverOptonsLoading = true
+      serverinfoApi.findServerInfo({
+        serverName: query,
+        pageIndex: 1,
+        pageSize: 1000,
+        orderType: 'SERVER_NAME'
+      })
+        .then(response => {
+          this.serverOtions = response.result.list || []
+          this.serverOtions.unshift({
+            id: 0,
+            serverName: '选择服务'
+          })
+          this.serverOptonsLoading = false
+        })
+        .catch(e => {})
     }
   }
 }

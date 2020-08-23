@@ -71,8 +71,9 @@ public class AdminController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Protocol<PagerContract<Alarm>> list(String _appId, int pageIndex, int pageSize,
-                                               Long alarmId, String name, String teamName, String status) {
-        PagerContract<Alarm> pagerContract = this.alarmAdminService.find(pageIndex, pageSize, alarmId, name, teamName, status);
+                                               Long alarmId, String name, String teamName, String status,
+                                               Long serverId) {
+        PagerContract<Alarm> pagerContract = this.alarmAdminService.find(pageIndex, pageSize, alarmId, name, teamName, status, serverId);
         return new Protocol<>(pagerContract);
     }
 }

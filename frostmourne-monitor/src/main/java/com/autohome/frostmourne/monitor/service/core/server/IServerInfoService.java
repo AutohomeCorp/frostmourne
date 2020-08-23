@@ -19,6 +19,8 @@ public interface IServerInfoService {
 
     PagerContract<ServerInfoContract> findContract(ServerInfoQueryForm form);
 
+    Optional<ServerInfoSimpleContract> getSimpleContract(Long id);
+
     Map<Long, ServerInfoSimpleContract> mapSimpleContractByIds(List<Long> ids);
 
 }

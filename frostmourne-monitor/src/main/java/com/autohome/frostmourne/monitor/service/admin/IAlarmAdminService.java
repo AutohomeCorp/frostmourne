@@ -20,7 +20,7 @@ public interface IAlarmAdminService {
     AlarmContract findById(Long alarmId);
 
     PagerContract<Alarm> find(int pageIndex, int pageSize, Long alarmId, String name,
-                              String teamName, String status);
+                              String teamName, String status, Long serverId);
 
     void updateAlarmLastExecuteInfo(Long alarmId, Date executeTime, ExecuteStatus status);
 

@@ -20,7 +20,7 @@ public interface IAlarmRepository {
 
     int updateStatus(Long alarmId, String status);
 
-    PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status);
+    PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serverId);
 
     void updateAlarmLastExecuteInfo(Long alarmId, Date executeTime, String executeResult);
 

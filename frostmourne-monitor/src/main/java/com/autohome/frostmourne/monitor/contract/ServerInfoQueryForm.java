@@ -14,6 +14,10 @@ public class ServerInfoQueryForm {
      * 每页条数
      */
     private int pageSize = 20;
+    /**
+     * 排序类型
+     */
+    private String orderType;
 
     public String getServerName() {
         return serverName;
@@ -37,5 +41,13 @@ public class ServerInfoQueryForm {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
     }
 }

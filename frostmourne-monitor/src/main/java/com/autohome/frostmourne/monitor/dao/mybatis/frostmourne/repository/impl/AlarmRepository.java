@@ -1,13 +1,16 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl;
 
-import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.*;
+import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.alarm_name;
+import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.create_at;
+import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.id;
+import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.server_id;
+import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.team_name;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
@@ -66,13 +69,14 @@ public class AlarmRepository implements IAlarmRepository {
     }
 
     @Override
-    public PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status) {
+    public PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serverId) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<Alarm> list = alarmDynamicMapper.select(query -> {
             query.where().and(id, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
                     .and(alarm_name, isLike(name).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
                     .and(team_name, isEqualTo(teamName).when(MybatisTool::notNullAndEmpty))
                     .and(AlarmDynamicSqlSupport.status, isEqualTo(status).when(MybatisTool::notNullAndEmpty))
+                    .and(server_id, isEqualTo(serverId).when(MybatisTool::notNullAndZero))
                     .orderBy(create_at.descending());
             return query;
         });
