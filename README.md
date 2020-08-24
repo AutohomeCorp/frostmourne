@@ -408,3 +408,10 @@ npm run dev
 ## License
 
 The project is licensed under the [MIT](LICENSE).
+
+## 项目事记
+
+* 2019-12-16: 发布github
+* 2019：发布gitee
+* 2019：被elastic中文社区收录
+* 2020-08-23: 上gitee推荐
