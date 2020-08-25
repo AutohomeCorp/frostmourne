@@ -412,8 +412,8 @@ The project is licensed under the [MIT](LICENSE).
 ## 项目事记
 
 * 2019-12-16: 发布github
-* 2019：发布gitee
-* 2019：被elastic中文社区收录
-* 2020：github误提交敏感信息，项目设置为私有，丢失82颗星，29个fork
+* 2019-12-16：发布gitee
+* 2020-07-04：被elastic中文社区收录 [Elastic日报 第988期](https://elasticsearch.cn/article/14018)
+* 2020-07-13：github项目设置为私有，丢失82颗星，29个fork
 * 2020-07-15：重新公开github
 * 2020-08-23: 上gitee推荐
