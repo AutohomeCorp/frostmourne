@@ -203,7 +203,7 @@ docker里启动一个xxl-job服务，供本地调用
 
 ## 消息模板配置
 
-[消息模板配置](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/template.md)
+消息模板采用freemarker语法，详细使用方法请参考文档：[消息模板配置](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/template.md)
 
 ## HTTP类型监控
 
@@ -211,11 +211,11 @@ docker里启动一个xxl-job服务，供本地调用
 
 ## 报警发送
 
-[报警发送](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/ways.md)
+提供了多种报警消息发送方式，详细请看文档： [报警发送](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/ways.md)
 
 ## 报警抑制
 
-[报警抑制](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/supress.md)
+为了防止消息轰炸，提供报警抑制机制，详细请看文档： [报警抑制](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/supress.md)
 
 ## 调度配置
 
