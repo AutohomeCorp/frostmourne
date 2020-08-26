@@ -236,7 +236,7 @@ frostmourne.monitor.address=http://${frostmourne-monitor-address}
 
 其中frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。**注意：直接使用ip是无法生成短链接的**  
 
-### 打包和部署
+### 打包和zip包部署
 
 frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目录下会生成zip包，你只需要将zip包解压，然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
