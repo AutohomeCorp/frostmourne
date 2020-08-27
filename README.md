@@ -84,7 +84,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## Elasticsearch数据监控指南
 
-
+<a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
 
 ## HTTP类型监控指南
  
