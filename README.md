@@ -82,6 +82,11 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。 
 
+## 快速启动
+
+提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
+详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+
 ## Elasticsearch数据监控指南
 
 <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
@@ -89,6 +94,56 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## HTTP类型监控指南
  
 除了Elasticsearch数据监控，还提供了HTTP监控，使用起来非常灵活方便，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
+
+## 消息模板配置
+
+消息模板采用freemarker语法，详细使用方法请参考文档：[消息模板配置](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/template.md)
+
+## 报警发送
+
+提供了多种报警消息发送方式，详细请看文档： [报警发送](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/ways.md)
+
+## 报警抑制
+
+为了防止消息轰炸，提供报警抑制机制，详细请看文档： [报警抑制](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/supress.md)
+
+## 调度配置
+
+调度配置有一个需要特别注意的地方，就是调度间隔和你的数据查询窗口有关系。一般日志系统采集日志多少都会有延迟，少的话几秒，多的话几分钟都
+是可以预见的，所以尽量保证两次调度之间查询的日志数据有一定的重叠是很明智的做法，切忌出现数据真空(两次调度之间有数据未被查询窗口覆盖)。
+举例：一般的程序错误日志监控配置调度间隔为每2分钟调度一次，查询数据窗口可以配置为3分钟。这样虽然因为1分钟数据重叠可能导致多报(事实上因为报警抑制
+的原因，你并不会受到多条报警消息的骚扰)，但是基本可以保证不会漏报。这里只是举一个常见的例子，具体如何配置，你需要根据自己的实际情况。
+
+## 监控测试
+
+一般在创建监控或者刚创建完监控的时候，你会想测试一下监控的执行。在监控保存页面有测试功能，你可以尝试不同的查询
+语句来验证你的想法。
+
+另外在监控列表页面，你可以点击运行按钮让监控立即运行而不必等待调度来验证你的想法。
+
+## 监控另存
+
+在创建了很多监控之后，你会发现同一类型的大部分监控是非常相似的，这时候你就会想要监控另存功能。你可以在监控列表的已有监控
+中找一个和你想要创建的监控相似的监控，点编辑进入监控编辑页面后，直接另存，就会生成一个一模一样的新监控，然后你就可以安全的
+修改这个新监控了。之所以建议直接另存是因为你会非常容易忘记你是想另存一个监控，而去点了保存按钮。就会把现有监控覆盖掉。
+
+## 短链接服务
+
+为了方便使用者快速查看产生报警的日志，报警消息最后会有一个日志查询地址的短链接，打开即可看到产生报警的日志。默认短链接实现使用
+的是四五短网址免费版，网址: <a href="http://www.45dwz.cn/" target="_blank">45短网址</a>, 默认申请的token限制很大，
+调用次数有限制，你可以去45短网址申请自己token，或者你可以自己选择换别的短网址服务都行，只需要自己实现简单适配即可。
+
+如果你自己申请了token，请修改配置文件 frostmourne-spi/src/main/resources/application.properties 如下配置值：
+
+```
+dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
+```
+
+如果短链接服务出错或者不使用，报警消息里的链接将使用原链接，会比较长。
+
+## 用户管理和登录认证
+
+请参考文档：[用户管理和登录认证](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/auth.md)
 
 ## 主要项目结构
 
@@ -153,11 +208,6 @@ druid.datasource.frostmourne.password=[plain_password]
 
 xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql)
 
-## 快速启动
-
-提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
-详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
-
 ## xxl-job服务
 
 本项目依赖xxl-job, 请自己部署xxl-job，并将相关接口权限认证去掉(在action上加注解 @PermissionLimit(limit=false) )，让frostmourne可以访问这些接口。需要了解xxl-job请
@@ -200,33 +250,10 @@ docker里启动一个xxl-job服务，供本地调用
 
 所以在权衡利弊之后，还是决定好好利用优秀的国内开源项目xxl-job
 
-## 用户管理和登录认证
-
-请参考文档：[用户管理和登录认证](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/auth.md)
-
 ## query string简易教程
 
 本项目elasticsearch查询语句使用的是query string语句，并非DSL query, 这里提供了一个<a href="./doc/wiki/query-string.md" target="_blank">简易教程</a>供不会的同学快速
 入门，英文水平可以的同学最好是看<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax" target="_blank">官方文档</a>
-
-## 消息模板配置
-
-消息模板采用freemarker语法，详细使用方法请参考文档：[消息模板配置](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/template.md)
-
-## 报警发送
-
-提供了多种报警消息发送方式，详细请看文档： [报警发送](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/ways.md)
-
-## 报警抑制
-
-为了防止消息轰炸，提供报警抑制机制，详细请看文档： [报警抑制](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/supress.md)
-
-## 调度配置
-
-调度配置有一个需要特别注意的地方，就是调度间隔和你的数据查询窗口有关系。一般日志系统采集日志多少都会有延迟，少的话几秒，多的话几分钟都
-是可以预见的，所以尽量保证两次调度之间查询的日志数据有一定的重叠是很明智的做法，切忌出现数据真空(两次调度之间有数据未被查询窗口覆盖)。
-举例：一般的程序错误日志监控配置调度间隔为每2分钟调度一次，查询数据窗口可以配置为3分钟。这样虽然因为1分钟数据重叠可能导致多报(事实上因为报警抑制
-的原因，你并不会受到多条报警消息的骚扰)，但是基本可以保证不会漏报。这里只是举一个常见的例子，具体如何配置，你需要根据自己的实际情况。
 
 ## 部署
 
@@ -256,33 +283,6 @@ frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目�
 ```
 
 [xxl-job-admin-2.1.0.zip](./doc/xxl-job/xxl-job-admin-2.1.0.zip)的zip包也已经放在了仓库里，供下载使用，使用方式相同。
-
-## 监控测试
-
-一般在创建监控或者刚创建完监控的时候，你会想测试一下监控的执行。在监控保存页面有测试功能，你可以尝试不同的查询
-语句来验证你的想法。
-
-另外在监控列表页面，你可以点击运行按钮让监控立即运行而不必等待调度来验证你的想法。
-
-## 监控另存
-
-在创建了很多监控之后，你会发现同一类型的大部分监控是非常相似的，这时候你就会想要监控另存功能。你可以在监控列表的已有监控
-中找一个和你想要创建的监控相似的监控，点编辑进入监控编辑页面后，直接另存，就会生成一个一模一样的新监控，然后你就可以安全的
-修改这个新监控了。之所以建议直接另存是因为你会非常容易忘记你是想另存一个监控，而去点了保存按钮。就会把现有监控覆盖掉。
-
-## 短链接服务
-
-为了方便使用者快速查看产生报警的日志，报警消息最后会有一个日志查询地址的短链接，打开即可看到产生报警的日志。默认短链接实现使用
-的是四五短网址免费版，网址: <a href="http://www.45dwz.cn/" target="_blank">45短网址</a>, 默认申请的token限制很大，
-调用次数有限制，你可以去45短网址申请自己token，或者你可以自己选择换别的短网址服务都行，只需要自己实现简单适配即可。
-
-如果你自己申请了token，请修改配置文件 frostmourne-spi/src/main/resources/application.properties 如下配置值：
-
-```
-dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
-```
-
-如果短链接服务出错或者不使用，报警消息里的链接将使用原链接，会比较长。
 
 ## 开发调试
 
