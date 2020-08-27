@@ -423,3 +423,4 @@ The project is licensed under the [MIT](LICENSE).
 * 2020-07-13: github项目设置为私有，丢失82个star，29个fork
 * 2020-07-15: 重新公开github
 * 2020-08-23: 上gitee推荐
+* 2020-08-27: gitee star破百
