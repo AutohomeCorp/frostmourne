@@ -28,6 +28,8 @@
 
 ### Document
 
+* 增加Elasticsearch数据监控使用指南 [2020-08-27]
+
 ### Other
 
 * mybatis-generator-maven-plugin依赖的mysql-connector升级为8.0.20
