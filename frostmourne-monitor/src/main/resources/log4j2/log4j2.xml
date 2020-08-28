@@ -21,8 +21,8 @@
             <PatternLayout charset="UTF-8" pattern="${sys:CONSOLE_LOG_PATTERN}" />
         </Console>
         <RollingFile name="ProgramError" ignoreExceptions="false"
-                     fileName="${sys:logs.dir}/frostmourne_monitor_error.log"
-                     filePattern="${sys:logs.dir}/frostmourne_monitor_error.log_%d{yyyy-MM-dd}">
+                     fileName="${sys:logs.dir}/monitor_error.log"
+                     filePattern="${sys:logs.dir}/monitor_error.log_%d{yyyy-MM-dd}">
             <Autolog4jCsvLayout charset="UTF-8" department="${sys:department}" team="${sys:team}" project="${sys:project}" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
@@ -30,15 +30,15 @@
             <EnumFilter allowLevels="WARN,ERROR,FATAL" />
             <DefaultRolloverStrategy max="100">
                 <Delete basePath="${sys:logs.dir}" maxDepth="2">
-                    <IfFileName glob="frostmourne_monitor_error.log_*">
+                    <IfFileName glob="monitor_error.log_*">
                         <IfLastModified age="7d"/>
                     </IfFileName>
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingFile>
         <RollingFile name="ProgramRun" ignoreExceptions="false"
-                     fileName="${sys:logs.dir}/frostmourne_monitor_run.log"
-                     filePattern="${sys:logs.dir}/frostmourne_monitor_run.log_%d{yyyy-MM-dd}">
+                     fileName="${sys:logs.dir}/monitor_run.log"
+                     filePattern="${sys:logs.dir}/monitor_run.log_%d{yyyy-MM-dd}">
             <Autolog4jCsvLayout charset="UTF-8" department="${sys:department}" team="${sys:team}" project="${sys:project}" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
@@ -46,7 +46,7 @@
             <EnumFilter allowLevels="TRACE,DEBUG,INFO" />
             <DefaultRolloverStrategy max="100">
                 <Delete basePath="${sys:logs.dir}" maxDepth="2">
-                    <IfFileName glob="frostmourne_monitor_run.log_*">
+                    <IfFileName glob="monitor_run.log_*">
                         <IfLastModified age="7d"/>
                     </IfFileName>
                 </Delete>
