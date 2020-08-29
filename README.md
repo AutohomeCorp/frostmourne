@@ -9,11 +9,12 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 主要功能
 
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
-* 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation), 同比监控
+* 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
+* 数值同比监控
 * HTTP数据监控, js表达式判断是否报警
 * UI功能，简单易用
 * 监控管理，测试，另存。执行日志，历史消息。
-* 灵活的报警消息freemarker模板定制，支持变量
+* 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), HTTP请求)
 * 多数据源(Elasticsearch集群)支持
 * Elasticsearch数据查询,分享,下载
@@ -94,6 +95,11 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## HTTP类型监控指南
  
 除了Elasticsearch数据监控，还提供了HTTP监控，使用起来非常灵活方便，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
+
+
+## 数值同比监控使用指南
+
+<a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
 
 ## 消息模板配置
 
@@ -344,20 +350,20 @@ npm run dev
 * ~~账号增加角色(管理员，普通用户)设置功能~~ [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
 * ~~Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles, standard deviation)数值监控~~ [2020-08-22]
 * ~~增加Elasticsearch数据监控使用指南~~ [2020-08-27]
+* ~~增加同比监控使用指南~~ [2020-08-29]
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)
 * 增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件
+* 替掉蛇形命名字段，全部改为驼峰，统一代码风格
 * 集成测试，单元测试
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
-* 增加同比监控使用指南
 * 发布0.3-RELEASE
 * 增加报警接收组管理，报警接收组可以和服务关联；通过服务间接和监控关联上，监控产生报警消息自动给报警接收组也发送消息。
 * 数据源保存增加表单验证
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * Elasticsearch监控数值实现环比监控
-* 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像
-* 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
+* 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
+* 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)
 * 更新在线demo至最新
-* 较为详细的功能使用指南
 * 监控列表增加一个开关选项，只显示我的监控
 * 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
