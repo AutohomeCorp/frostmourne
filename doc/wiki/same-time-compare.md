@@ -34,3 +34,20 @@
 
 使用同比主要的作用是规避指标的季节性，所以取相同季节来比较。比如雪糕的销售量，用环比比较9月和10月的销售量
 并没有太大的意义，但是拿今年9月和去年9月比，就可以规避季节性干扰，反馈数值的本质含义。
+
+## 报警消息模板
+
+同比监控的报警消息模板默认为：
+
+```
+自然${PERIOD_UNIT_DESCRIPTION}
+<#list REFERENCE_LIST as item>
+指标同比${item.description}变化${item.percentage}%,超过阈值${PERCENTAGE_THRESHOLD}%, 当前值: ${CURRENT}, 对比值：${item.value};
+</#list>
+```
+
+产生的消息会像是这样：
+
+```
+
+```
