@@ -9,11 +9,12 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 主要功能
 
 * Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
-* 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation), 同比监控
-* HTTP数据监控, 表达式判断是否报警
+* 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
+* 数值同比监控
+* HTTP数据监控, js表达式判断是否报警
 * UI功能，简单易用
 * 监控管理，测试，另存。执行日志，历史消息。
-* 灵活的报警消息freemarker模板定制，支持变量
+* 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), HTTP请求)
 * 多数据源(Elasticsearch集群)支持
 * Elasticsearch数据查询,分享,下载
@@ -80,7 +81,75 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 联系我们
 
 有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
-特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。  
+特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。 
+
+## 快速启动
+
+提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
+详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+
+## Elasticsearch数据监控指南
+
+<a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
+
+## HTTP类型监控指南
+ 
+除了Elasticsearch数据监控，还提供了HTTP监控，使用起来非常灵活方便，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
+
+
+## 数值同比监控使用指南
+
+<a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
+
+## 消息模板配置
+
+消息模板采用freemarker语法，详细使用方法请参考文档：[消息模板配置](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/template.md)
+
+## 报警发送
+
+提供了多种报警消息发送方式，详细请看文档： [报警发送](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/ways.md)
+
+## 报警抑制
+
+为了防止消息轰炸，提供报警抑制机制，详细请看文档： [报警抑制](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/supress.md)
+
+## 调度配置
+
+调度配置有一个需要特别注意的地方，就是调度间隔和你的数据查询窗口有关系。一般日志系统采集日志多少都会有延迟，少的话几秒，多的话几分钟都
+是可以预见的，所以尽量保证两次调度之间查询的日志数据有一定的重叠是很明智的做法，切忌出现数据真空(两次调度之间有数据未被查询窗口覆盖)。
+举例：一般的程序错误日志监控配置调度间隔为每2分钟调度一次，查询数据窗口可以配置为3分钟。这样虽然因为1分钟数据重叠可能导致多报(事实上因为报警抑制
+的原因，你并不会受到多条报警消息的骚扰)，但是基本可以保证不会漏报。这里只是举一个常见的例子，具体如何配置，你需要根据自己的实际情况。
+
+## 监控测试
+
+一般在创建监控或者刚创建完监控的时候，你会想测试一下监控的执行。在监控保存页面有测试功能，你可以尝试不同的查询
+语句来验证你的想法。
+
+另外在监控列表页面，你可以点击运行按钮让监控立即运行而不必等待调度来验证你的想法。
+
+## 监控另存
+
+在创建了很多监控之后，你会发现同一类型的大部分监控是非常相似的，这时候你就会想要监控另存功能。你可以在监控列表的已有监控
+中找一个和你想要创建的监控相似的监控，点编辑进入监控编辑页面后，直接另存，就会生成一个一模一样的新监控，然后你就可以安全的
+修改这个新监控了。之所以建议直接另存是因为你会非常容易忘记你是想另存一个监控，而去点了保存按钮。就会把现有监控覆盖掉。
+
+## 短链接服务
+
+为了方便使用者快速查看产生报警的日志，报警消息最后会有一个日志查询地址的短链接，打开即可看到产生报警的日志。默认短链接实现使用
+的是四五短网址免费版，网址: <a href="http://www.45dwz.cn/" target="_blank">45短网址</a>, 默认申请的token限制很大，
+调用次数有限制，你可以去45短网址申请自己token，或者你可以自己选择换别的短网址服务都行，只需要自己实现简单适配即可。
+
+如果你自己申请了token，请修改配置文件 frostmourne-spi/src/main/resources/application.properties 如下配置值：
+
+```
+dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
+```
+
+如果短链接服务出错或者不使用，报警消息里的链接将使用原链接，会比较长。
+
+## 用户管理和登录认证
+
+请参考文档：[用户管理和登录认证](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/auth.md)
 
 ## 主要项目结构
 
@@ -145,11 +214,6 @@ druid.datasource.frostmourne.password=[plain_password]
 
 xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql)
 
-## 快速启动
-
-提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
-详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
-
 ## xxl-job服务
 
 本项目依赖xxl-job, 请自己部署xxl-job，并将相关接口权限认证去掉(在action上加注解 @PermissionLimit(limit=false) )，让frostmourne可以访问这些接口。需要了解xxl-job请
@@ -192,37 +256,10 @@ docker里启动一个xxl-job服务，供本地调用
 
 所以在权衡利弊之后，还是决定好好利用优秀的国内开源项目xxl-job
 
-## 用户管理和登录认证
-
-请参考文档：[用户管理和登录认证](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/auth.md)
-
 ## query string简易教程
 
 本项目elasticsearch查询语句使用的是query string语句，并非DSL query, 这里提供了一个<a href="./doc/wiki/query-string.md" target="_blank">简易教程</a>供不会的同学快速
 入门，英文水平可以的同学最好是看<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax" target="_blank">官方文档</a>
-
-## 消息模板配置
-
-[消息模板配置](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/template.md)
-
-## HTTP类型监控
-
-除了Elasticsearch数据监控，还提供了HTTP监控，使用起来非常灵活方便，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
-
-## 报警发送
-
-[报警发送](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/ways.md)
-
-## 报警抑制
-
-[报警抑制](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/supress.md)
-
-## 调度配置
-
-调度配置有一个需要特别注意的地方，就是调度间隔和你的数据查询窗口有关系。一般日志系统采集日志多少都会有延迟，少的话几秒，多的话几分钟都
-是可以预见的，所以尽量保证两次调度之间查询的日志数据有一定的重叠是很明智的做法，切忌出现数据真空(两次调度之间有数据未被查询窗口覆盖)。
-举例：一般的程序错误日志监控配置调度间隔为每2分钟调度一次，查询数据窗口可以配置为3分钟。这样虽然因为1分钟数据重叠可能导致多报(事实上因为报警抑制
-的原因，你并不会受到多条报警消息的骚扰)，但是基本可以保证不会漏报。这里只是举一个常见的例子，具体如何配置，你需要根据自己的实际情况。
 
 ## 部署
 
@@ -236,7 +273,7 @@ frostmourne.monitor.address=http://${frostmourne-monitor-address}
 
 其中frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。**注意：直接使用ip是无法生成短链接的**  
 
-### zip包部署
+### 打包和zip包部署
 
 frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目录下会生成zip包，你只需要将zip包解压，然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
@@ -252,33 +289,6 @@ frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目�
 ```
 
 [xxl-job-admin-2.1.0.zip](./doc/xxl-job/xxl-job-admin-2.1.0.zip)的zip包也已经放在了仓库里，供下载使用，使用方式相同。
-
-## 监控测试
-
-一般在创建监控或者刚创建完监控的时候，你会想测试一下监控的执行。在监控保存页面有测试功能，你可以尝试不同的查询
-语句来验证你的想法。
-
-另外在监控列表页面，你可以点击运行按钮让监控立即运行而不必等待调度来验证你的想法。
-
-## 监控另存
-
-在创建了很多监控之后，你会发现同一类型的大部分监控是非常相似的，这时候你就会想要监控另存功能。你可以在监控列表的已有监控
-中找一个和你想要创建的监控相似的监控，点编辑进入监控编辑页面后，直接另存，就会生成一个一模一样的新监控，然后你就可以安全的
-修改这个新监控了。之所以建议直接另存是因为你会非常容易忘记你是想另存一个监控，而去点了保存按钮。就会把现有监控覆盖掉。
-
-## 短链接服务
-
-为了方便使用者快速查看产生报警的日志，报警消息最后会有一个日志查询地址的短链接，打开即可看到产生报警的日志。默认短链接实现使用
-的是四五短网址免费版，网址: <a href="http://www.45dwz.cn/" target="_blank">45短网址</a>, 默认申请的token限制很大，
-调用次数有限制，你可以去45短网址申请自己token，或者你可以自己选择换别的短网址服务都行，只需要自己实现简单适配即可。
-
-如果你自己申请了token，请修改配置文件 frostmourne-spi/src/main/resources/application.properties 如下配置值：
-
-```
-dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
-```
-
-如果短链接服务出错或者不使用，报警消息里的链接将使用原链接，会比较长。
 
 ## 开发调试
 
@@ -339,16 +349,20 @@ npm run dev
 * ~~报警消息模板管理功能~~ [2020-08-10]
 * ~~账号增加角色(管理员，普通用户)设置功能~~ [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
 * ~~Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles, standard deviation)数值监控~~ [2020-08-22]
+* ~~增加Elasticsearch数据监控使用指南~~ [2020-08-27]
+* ~~增加同比监控使用指南~~ [2020-08-29]
 * 监控增加风险等级设置(提示，重要，紧急，我崩了)
-* 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件
+* 替掉蛇形命名字段，全部改为驼峰，统一代码风格
+* 集成测试，单元测试
+* 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
+* 发布0.3-RELEASE
 * 增加报警接收组管理，报警接收组可以和服务关联；通过服务间接和监控关联上，监控产生报警消息自动给报警接收组也发送消息。
 * 数据源保存增加表单验证
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * Elasticsearch监控数值实现环比监控
-* 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像
-* 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎有环境的同僚联系，先行谢过)
-* README简化为文档目录索引形式，具体内容分散到各个文档中，方便查找
+* 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
+* 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)
 * 更新在线demo至最新
 * 监控列表增加一个开关选项，只显示我的监控
 * 监控调度配置后显示预计调度时间
@@ -357,17 +371,15 @@ npm run dev
 * 数据源增加连接测试功能
 * 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
 基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
-* 发布0.3-RELEASE
 * 增加influxdb数值监控
 * 增加influxdb数值同比，环比监控
 * 增加prometheus数据监控报警支持
 * 增加skywalking数据监控报警支持
-* 增加单元测试
 * 国际化
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
 * 发布1.0-RELEASE
 * 增加访问日志格式配置功能
-* 增加访问日志查询分析功能
+* 增加访问日志日常分析图表功能
 * 增加frostmourne程序日志格式采集方案
 * 增加frostmourne程序日志查询和分析功能
 * 增加时序指标定期采集功能
@@ -407,3 +419,14 @@ npm run dev
 ## License
 
 The project is licensed under the [MIT](LICENSE).
+
+## 项目事记
+
+* 2019-12-16: 发布github
+* 2020-06-14: 发布gitee
+* 2020-07-02: 合并第一个PR
+* 2020-07-04: 被elastic中文社区收录 [Elastic日报988期](https://elasticsearch.cn/article/14018)
+* 2020-07-13: github项目设置为私有，丢失82个star，29个fork
+* 2020-07-15: 重新公开github
+* 2020-08-23: 上gitee推荐
+* 2020-08-27: gitee star破百
