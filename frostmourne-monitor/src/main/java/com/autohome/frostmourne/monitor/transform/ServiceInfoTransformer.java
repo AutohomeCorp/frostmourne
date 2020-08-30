@@ -54,6 +54,7 @@ public class ServiceInfoTransformer {
         ServiceInfo data = new ServiceInfo();
         data.setId(form.getId());
         data.setServiceName(form.getServiceName());
+        data.setOwner(form.getOwner());
         data.setRemark(form.getRemark());
         return data;
     }

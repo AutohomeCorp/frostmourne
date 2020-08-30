@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl;
 
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 
 import java.util.List;
@@ -50,6 +51,7 @@ public class ServiceInfoRepository implements IServiceInfoRepository {
         PageHelper.startPage(form.getPageIndex(), form.getPageSize());
         List<ServiceInfo> records = serviceInfoDynamicMapper.select(query -> query.where()
                 .and(ServiceInfoDynamicSqlSupport.serviceName, isLike(form.getServiceName()).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
+                .and(ServiceInfoDynamicSqlSupport.owner, isEqualTo(form.getOwner()).when(MybatisTool::notNullAndEmpty))
                 .orderBy(this.parseOrderByColumns(form)));
         return new PageInfo<>(records);
     }

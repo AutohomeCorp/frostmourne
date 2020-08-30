@@ -7,6 +7,10 @@ public class ServiceInfoQueryForm {
      */
     private String serviceName;
     /**
+     * 负责人
+     */
+    private String owner;
+    /**
      * 当前页码
      */
     private int pageIndex = 1;
@@ -25,6 +29,14 @@ public class ServiceInfoQueryForm {
 
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public int getPageIndex() {
