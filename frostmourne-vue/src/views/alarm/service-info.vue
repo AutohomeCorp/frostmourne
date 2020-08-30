@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="searchForm.serverName" clearable placeholder="输入名称,支持模糊查询" style="width: 300px;" class="filter-item" />
+      <el-input v-model="searchForm.serviceName" clearable placeholder="输入名称,支持模糊查询" style="width: 300px;" class="filter-item" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
       <el-button class="filter-item" icon="el-icon-edit" @click="editItem(null)">新增</el-button>
     </div>
 
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="60" align="center" />
-      <el-table-column prop="serverName" label="服务名称" align="center" />
+      <el-table-column prop="serviceName" label="服务名称" align="center" />
       <el-table-column prop="remark" label="备注" align="center" />
       <el-table-column prop="createAt" label="创建时间" align="center">
         <template slot-scope="scope">
@@ -38,8 +38,8 @@
 
     <el-dialog title="服务信息" :visible.sync="dialogEditVisible" width="50%" @close="closeEditForm">
       <el-form ref="editForm" :model="itemData" :rules="rule" label-width="120px" label-suffix="：">
-        <el-form-item label="服务名称" prop="serverName">
-          <el-input v-model="itemData.serverName" :maxlength="100" :disabled="!dialogEdit" autocomplete="off" />
+        <el-form-item label="服务名称" prop="serviceName">
+          <el-input v-model="itemData.serviceName" :maxlength="100" :disabled="!dialogEdit" autocomplete="off" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="itemData.remark" type="textarea" :rows="10" :maxlength="5000" :disabled="!dialogEdit" autocomplete="off" placeholder="" />
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import serverinfoApi from '@/api/server-info.js'
+import serviceinfoApi from '@/api/service-info.js'
 import { formatJsonDate } from '@/utils/datetime.js'
 
 export default {
@@ -69,19 +69,19 @@ export default {
       rowcount: 0,
       listLoading: true,
       searchForm: {
-        serverName: null,
+        serviceName: null,
         pageIndex: 1,
         pageSize: 10
       },
       itemData: {
         id: 0,
-        serverName: '',
+        serviceName: '',
         remark: ''
       },
       dialogEditVisible: false,
       dialogEdit: false,
       rule: {
-        serverName: [
+        serviceName: [
           { required: true, message: '请输入服务名称', target: 'blur' },
           { max: 50, message: '长度不能超过50', target: 'blur' }
         ],
@@ -116,7 +116,7 @@ export default {
     },
     fetchData () {
       this.listLoading = true
-      serverinfoApi.findServerInfo(this.searchForm)
+      serviceinfoApi.findServiceInfo(this.searchForm)
         .then(response => {
           this.list = response.result.list || []
           this.rowcount = response.result.rowcount
@@ -134,11 +134,11 @@ export default {
     readRowData (row) {
       if (row == null) {
         this.itemData.id = 0
-        this.itemData.serverName = ''
+        this.itemData.serviceName = ''
         this.itemData.remark = ''
       } else {
         this.itemData.id = row.id
-        this.itemData.serverName = row.serverName
+        this.itemData.serviceName = row.serviceName
         this.itemData.remark = row.remark
       }
     },
@@ -150,7 +150,7 @@ export default {
             cancelButtonText: '取消',
             type: 'info'
           }).then(() => {
-            serverinfoApi.saveServerInfo(this.itemData).then(response => {
+            serviceinfoApi.saveServiceInfo(this.itemData).then(response => {
               this.dialogEditVisible = false
               this.fetchData()
             })

@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl
 import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.alarm_name;
 import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.create_at;
 import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.id;
-import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.server_id;
+import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.service_id;
 import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.team_name;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
@@ -69,14 +69,14 @@ public class AlarmRepository implements IAlarmRepository {
     }
 
     @Override
-    public PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serverId) {
+    public PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serviceId) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<Alarm> list = alarmDynamicMapper.select(query -> {
             query.where().and(id, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
                     .and(alarm_name, isLike(name).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
                     .and(team_name, isEqualTo(teamName).when(MybatisTool::notNullAndEmpty))
                     .and(AlarmDynamicSqlSupport.status, isEqualTo(status).when(MybatisTool::notNullAndEmpty))
-                    .and(server_id, isEqualTo(serverId).when(MybatisTool::notNullAndZero))
+                    .and(service_id, isEqualTo(serviceId).when(MybatisTool::notNullAndZero))
                     .orderBy(create_at.descending());
             return query;
         });

@@ -33,8 +33,8 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="服务:">
-                <el-select v-model="form.serverInfo.id" reserve-keyword placeholder="请选择服务">
-                  <el-option v-for="item in serverOtions" :key="item.id" :label="item.serverName" :value="item.id" />
+                <el-select v-model="form.serviceInfo.id" reserve-keyword placeholder="请选择服务">
+                  <el-option v-for="item in serviceOptions" :key="item.id" :label="item.serviceName" :value="item.id" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -272,7 +272,7 @@ import adminApi from '@/api/admin.js'
 import { teams, search } from '@/api/user'
 import dataApi from '@/api/data.js'
 import alerttemplateApi from '@/api/alert-template.js'
-import serverinfoApi from '@/api/server-info.js'
+import serviceinfoApi from '@/api/service-info.js'
 
 import VueJsonPretty from 'vue-json-pretty'
 
@@ -329,7 +329,7 @@ export default {
           recipients: [],
           silence: 60
         },
-        serverInfo: {
+        serviceInfo: {
           id: 0
         }
       },
@@ -373,8 +373,8 @@ export default {
       alertTemplateOptions: [],
       alertTemplateOption: null,
       alertTemplateId: null,
-      serverOptonsLoading: false,
-      serverOtions: []
+      serviceOptionsLoading: false,
+      serviceOptions: []
     }
   },
   mounted () {
@@ -406,7 +406,7 @@ export default {
       this.initAlertTemplateOptions()
     }
 
-    this.loadServerOptions()
+    this.loadServiceOptions()
   },
   methods: {
     onSubmit () {
@@ -510,8 +510,8 @@ export default {
     getDetail (callback) {
       adminApi.findById(this.id)
         .then(response => {
-          if (response.result.serverInfo == null) {
-            response.result.serverInfo = { id: 0 }
+          if (response.result.serviceInfo == null) {
+            response.result.serviceInfo = { id: 0 }
           }
           this.form = response.result
           this.copyToHeaders(this.form.metricContract.properties)
@@ -681,21 +681,21 @@ export default {
         this.$alert('请选择一个消息模板', '提示').catch(() => {})
       }
     },
-    loadServerOptions (query) {
-      this.serverOptonsLoading = true
-      serverinfoApi.findServerInfo({
-        serverName: query,
+    loadServiceOptions (query) {
+      this.serviceOptionsLoading = true
+      serviceinfoApi.findServiceInfo({
+        serviceName: query,
         pageIndex: 1,
         pageSize: 1000,
-        orderType: 'SERVER_NAME'
+        orderType: 'SERVICE_NAME'
       })
         .then(response => {
-          this.serverOtions = response.result.list || []
-          this.serverOtions.unshift({
+          this.serviceOptions = response.result.list || []
+          this.serviceOptions.unshift({
             id: 0,
-            serverName: '选择服务'
+            serviceName: '选择服务'
           })
-          this.serverOptonsLoading = false
+          this.serviceOptionsLoading = false
         })
         .catch(e => {})
     }

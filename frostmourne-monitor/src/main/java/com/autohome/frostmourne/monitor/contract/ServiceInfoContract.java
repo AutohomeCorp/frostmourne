@@ -2,7 +2,7 @@ package com.autohome.frostmourne.monitor.contract;
 
 import java.util.Date;
 
-public class ServerInfoContract {
+public class ServiceInfoContract {
 
     /**
      * ID
@@ -11,11 +11,15 @@ public class ServerInfoContract {
     /**
      * 服务名
      */
-    private String serverName;
+    private String serviceName;
     /**
      * 备注
      */
     private String remark;
+    /**
+     * 负责人
+     */
+    private String owner;
     /**
      * 创建人
      */
@@ -41,12 +45,12 @@ public class ServerInfoContract {
         this.id = id;
     }
 
-    public String getServerName() {
-        return serverName;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public String getRemark() {
@@ -55,6 +59,14 @@ public class ServerInfoContract {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getCreator() {

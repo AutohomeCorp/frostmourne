@@ -30,9 +30,9 @@ const alarmRoutes = [
     meta: { title: '消息模板' }
   },
   {
-    path: 'server-info.view',
-    name: 'server-info',
-    component: () => import('@/views/alarm/server-info.vue'),
+    path: 'service-info.view',
+    name: 'service-info',
+    component: () => import('@/views/alarm/service-info.vue'),
     meta: { title: '服务信息' }
   }
 ]

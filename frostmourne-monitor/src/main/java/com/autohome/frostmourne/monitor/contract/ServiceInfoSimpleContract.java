@@ -1,6 +1,6 @@
 package com.autohome.frostmourne.monitor.contract;
 
-public class ServerInfoSimpleContract {
+public class ServiceInfoSimpleContract {
 
     /**
      * ID
@@ -9,7 +9,7 @@ public class ServerInfoSimpleContract {
     /**
      * 服务名
      */
-    private String serverName;
+    private String serviceName;
 
     public Long getId() {
         return id;
@@ -19,11 +19,11 @@ public class ServerInfoSimpleContract {
         this.id = id;
     }
 
-    public String getServerName() {
-        return serverName;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 }

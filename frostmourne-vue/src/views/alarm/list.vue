@@ -9,9 +9,9 @@
       <el-select v-model="form.teamName" placeholder="选择团队" style="width: 200px" class="filter-item" @change="teamChangeHanlder">
         <el-option v-for="item in teamList" :key="item.name" :label="item.fullName" :value="item.name" />
       </el-select>
-      <el-select v-model="form.serverId" filterable remote reserve-keyword clearable placeholder="请选择服务" class="filter-item"
-                 :remote-method="loadServerOptions" :loading="serverOptonsLoading" @change="onServerInfoChange">
-        <el-option v-for="item in serverOtions" :key="item.id" :label="item.serverName" :value="item.id" />
+      <el-select v-model="form.serviceId" filterable remote reserve-keyword clearable placeholder="请选择服务" class="filter-item"
+                 :remote-method="loadServiceOptions" :loading="serviceOptionsLoading" @change="onServiceInfoChange">
+        <el-option v-for="item in ServiceOptions" :key="item.id" :label="item.serviceName" :value="item.id" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
       <el-button class="filter-item" icon="el-icon-edit" @click="goEdit(null)">添加报警</el-button>
@@ -68,7 +68,7 @@
 <script>
 import alarmApi from '@/api/alarm.js'
 import adminApi from '@/api/admin.js'
-import serverinfoApi from '@/api/server-info.js'
+import serviceinfoApi from '@/api/service-info.js'
 import { teams, getInfo } from '@/api/user'
 import { formatJsonDate } from '@/utils/datetime.js'
 
@@ -110,8 +110,8 @@ export default {
         { value: 'CLOSE', text: '关闭' }
       ],
       teamList: [],
-      serverOptonsLoading: false,
-      serverOtions: []
+      serviceOptionsLoading: false,
+      ServiceOptions: []
     }
   },
   created () {
@@ -124,7 +124,7 @@ export default {
       this.teamList = response.result
     })
 
-    this.loadServerOptions()
+    this.loadServiceOptions()
   },
   methods: {
     onSubmit () {
@@ -146,7 +146,7 @@ export default {
       this.form.pageIndex = curr
       this.fetchData()
     },
-    onServerInfoChange () {
+    onServiceInfoChange () {
       this.form.pageIndex = 1
       this.fetchData()
     },
@@ -160,7 +160,7 @@ export default {
     },
     fetchData () {
       this.listLoading = true
-      adminApi.getList(this.form.alarmId, this.form.name, this.form.teamName, this.form.status, this.form.serverId, this.form.pageIndex, this.form.pageSize)
+      adminApi.getList(this.form.alarmId, this.form.name, this.form.teamName, this.form.status, this.form.serviceId, this.form.pageIndex, this.form.pageSize)
         .then(response => {
           this.list = response.result.list || []
           this.rowcount = response.result.rowcount
@@ -193,17 +193,17 @@ export default {
       this.form.pageIndex = 1
       this.fetchData()
     },
-    loadServerOptions (query) {
-      this.serverOptonsLoading = true
-      serverinfoApi.findServerInfo({
-        serverName: query,
+    loadServiceOptions (query) {
+      this.serviceOptionsLoading = true
+      serviceinfoApi.findServiceInfo({
+        serviceName: query,
         pageIndex: 1,
         pageSize: 1000,
-        orderType: 'SERVER_NAME'
+        orderType: 'SERVICE_NAME'
       })
         .then(response => {
-          this.serverOtions = response.result.list || []
-          this.serverOptonsLoading = false
+          this.ServiceOptions = response.result.list || []
+          this.serviceOptionsLoading = false
         })
         .catch(e => {})
     }

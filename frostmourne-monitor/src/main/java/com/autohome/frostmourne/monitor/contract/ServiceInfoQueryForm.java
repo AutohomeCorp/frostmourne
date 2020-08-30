@@ -1,11 +1,11 @@
 package com.autohome.frostmourne.monitor.contract;
 
-public class ServerInfoQueryForm {
+public class ServiceInfoQueryForm {
 
     /**
      * 服务名称
      */
-    private String serverName;
+    private String serviceName;
     /**
      * 当前页码
      */
@@ -19,12 +19,12 @@ public class ServerInfoQueryForm {
      */
     private String orderType;
 
-    public String getServerName() {
-        return serverName;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public int getPageIndex() {

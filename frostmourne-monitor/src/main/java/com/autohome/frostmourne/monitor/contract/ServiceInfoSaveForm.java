@@ -1,6 +1,6 @@
 package com.autohome.frostmourne.monitor.contract;
 
-public class ServerInfoSaveForm {
+public class ServiceInfoSaveForm {
 
     /**
      * ID
@@ -9,11 +9,15 @@ public class ServerInfoSaveForm {
     /**
      * 服务名
      */
-    private String serverName;
+    private String serviceName;
     /**
      * 备注
      */
     private String remark;
+    /**
+     * 负责人
+     */
+    private String owner;
 
     public Long getId() {
         return id;
@@ -23,12 +27,12 @@ public class ServerInfoSaveForm {
         this.id = id;
     }
 
-    public String getServerName() {
-        return serverName;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
     public String getRemark() {
@@ -37,5 +41,13 @@ public class ServerInfoSaveForm {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

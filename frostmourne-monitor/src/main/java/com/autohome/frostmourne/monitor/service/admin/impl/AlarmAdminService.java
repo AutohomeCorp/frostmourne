@@ -17,7 +17,7 @@ import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.MetricContract;
 import com.autohome.frostmourne.monitor.contract.RuleContract;
-import com.autohome.frostmourne.monitor.contract.ServerInfoSimpleContract;
+import com.autohome.frostmourne.monitor.contract.ServiceInfoSimpleContract;
 import com.autohome.frostmourne.monitor.contract.enums.AlarmStatus;
 import com.autohome.frostmourne.monitor.contract.enums.ExecuteStatus;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
@@ -38,7 +38,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRule
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRuleRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
-import com.autohome.frostmourne.monitor.service.core.server.IServerInfoService;
+import com.autohome.frostmourne.monitor.service.core.service.IServiceInfoService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
 import com.autohome.frostmourne.monitor.transform.DataSourceTransformer;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -99,7 +99,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     private IScheduleService scheduleService;
 
     @Resource
-    private IServerInfoService serverInfoService;
+    private IServiceInfoService serviceInfoService;
 
     public boolean atomicSave(AlarmContract alarmContract) {
         boolean isValidCron = CronExpression.isValidExpression(alarmContract.getCron());
@@ -252,15 +252,15 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertContract.setRecipients(recipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
         alarmContract.setAlertContract(alertContract);
 
-        if (Optional.ofNullable(alarm.getServer_id()).orElse(0L) > 0L) {
-            alarmContract.setServerInfo(serverInfoService.getSimpleContract(alarm.getServer_id()).orElse(null));
+        if (Optional.ofNullable(alarm.getService_id()).orElse(0L) > 0L) {
+            alarmContract.setServiceInfo(serviceInfoService.getSimpleContract(alarm.getService_id()).orElse(null));
         }
         return alarmContract;
     }
 
     public PagerContract<Alarm> find(int pageIndex, int pageSize, Long alarmId, String name,
-                                     String teamName, String status, Long serverId) {
-        return alarmRepository.findPage(pageIndex, pageSize, alarmId, name, teamName, status, serverId);
+                                     String teamName, String status, Long serviceId) {
+        return alarmRepository.findPage(pageIndex, pageSize, alarmId, name, teamName, status, serviceId);
     }
 
 
@@ -308,7 +308,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setModify_at(now);
         alarm.setJob_id(0L);
         alarm.setExecute_result(ExecuteStatus.WAITING.getName());
-        alarm.setServer_id(Optional.ofNullable(alarmContract.getServerInfo()).map(ServerInfoSimpleContract::getId).orElse(null));
+        alarm.setService_id(Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
         alarmRepository.insert(alarm);
 
         return alarm;
@@ -328,7 +328,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setModify_at(now);
         alarm.setModifier(alarmContract.getOperator());
         alarm.setTeam_name(alarmContract.getTeam_name());
-        alarm.setServer_id(Optional.ofNullable(alarmContract.getServerInfo()).map(ServerInfoSimpleContract::getId).orElse(null));
+        alarm.setService_id(Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
 
         alarmRepository.updateByPrimaryKeySelective(alarm);
 
