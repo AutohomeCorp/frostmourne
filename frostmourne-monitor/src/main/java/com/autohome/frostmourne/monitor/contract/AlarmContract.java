@@ -28,6 +28,8 @@ public class AlarmContract {
 
     private String team_name;
 
+    private String risk_level;
+
     private MetricContract metricContract;
 
     private RuleContract ruleContract;
