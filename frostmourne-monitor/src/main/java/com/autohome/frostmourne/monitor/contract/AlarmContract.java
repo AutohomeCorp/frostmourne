@@ -165,4 +165,12 @@ public class AlarmContract {
     public void setServiceInfo(ServiceInfoSimpleContract serviceInfo) {
         this.serviceInfo = serviceInfo;
     }
+
+    public String getRisk_level() {
+        return risk_level;
+    }
+
+    public void setRisk_level(String risk_level) {
+        this.risk_level = risk_level;
+    }
 }
