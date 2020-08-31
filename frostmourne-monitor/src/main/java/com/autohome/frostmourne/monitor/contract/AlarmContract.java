@@ -36,6 +36,8 @@ public class AlarmContract {
 
     private AlertContract alertContract;
 
+    private ServiceInfoSimpleContract serviceInfo;
+
     public Long getId() {
         return id;
     }
@@ -156,11 +158,11 @@ public class AlarmContract {
         this.team_name = team_name;
     }
 
-    public String getRisk_level() {
-        return risk_level;
+    public ServiceInfoSimpleContract getServiceInfo() {
+        return serviceInfo;
     }
 
-    public void setRisk_level(String risk_level) {
-        this.risk_level = risk_level;
+    public void setServiceInfo(ServiceInfoSimpleContract serviceInfo) {
+        this.serviceInfo = serviceInfo;
     }
 }

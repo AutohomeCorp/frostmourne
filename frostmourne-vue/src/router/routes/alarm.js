@@ -28,6 +28,12 @@ const alarmRoutes = [
     name: 'alert-template',
     component: () => import('@/views/alarm/alert-template.vue'),
     meta: { title: '消息模板' }
+  },
+  {
+    path: 'service-info.view',
+    name: 'service-info',
+    component: () => import('@/views/alarm/service-info.vue'),
+    meta: { title: '服务信息' }
   }
 ]
 export default alarmRoutes
