@@ -431,7 +431,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     }
 
     private void saveJobSchedule(boolean isNewAlarm, Alarm alarm) {
-        if (isNewAlarm || alarm.getJob_id() == -1) {
+        if (isNewAlarm || alarm.getJob_id() <= 0) {
             Integer jobId = this.scheduleService.addJob(alarm.getId(), alarm.getCron(), alarm.getStatus());
             alarmRepository.updateJobId(alarm.getId(), new Long(jobId));
         } else {
