@@ -17,6 +17,10 @@
                   <el-option label="紧急" value="emergency" />
                   <el-option label="我崩了" value="crash" />
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="状态">      
                 <el-switch v-model="form.status" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
               </el-form-item>
             </el-col>
