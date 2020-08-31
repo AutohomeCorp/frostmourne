@@ -68,6 +68,8 @@ import { teams, getInfo } from '@/api/user'
 import { formatJsonDate } from '@/utils/datetime.js'
 
 export default {
+  // eslint-disable-next-line vue/name-property-casing
+  name: 'alarm-list',
   filters: {
     statusFilter (status) {
       return status !== 'OPEN' ? 'info' : ''

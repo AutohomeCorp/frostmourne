@@ -10,7 +10,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label>
+              <el-form-item label="风险等级">
+                <el-select v-model="form.risk_level" size="small" style="width:100px" placeholder="风险等级">
+                  <el-option label="提示" value="reminder" />
+                  <el-option label="重要" value="important" />
+                  <el-option label="紧急" value="urgent" />
+                  <el-option label="我崩了" value="down" />
+                </el-select>
                 <el-switch v-model="form.status" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
               </el-form-item>
             </el-col>
@@ -272,6 +278,7 @@ export default {
   },
   data () {
     return {
+      referer: null,
       intervalCron: '',
       dayCron: '',
       dayCronOptions: [],
@@ -362,6 +369,11 @@ export default {
       alertTemplateId: null
     }
   },
+  beforeRouteEnter (to, from, next) {
+    next(
+      vm => { vm.referer = from }
+    )
+  },
   mounted () {
     this.initDayCronOptions()
     if (this.id) {
@@ -392,20 +404,28 @@ export default {
     }
   },
   methods: {
+    goBack () {
+      if (this.referer) {
+        this.$router.back()
+      } else {
+        this.$router.push({ path: '/alarm/list.view' })
+      }
+    },
+    success (message) {
+      this.$message({
+        type: 'success',
+        message: message,
+        duration: 500,
+        onClose: () => this.goBack()
+      })
+    },
     onSubmit () {
       this.$refs['form'].validate((validate) => {
         if (validate) {
           this.disableSave = false
           this.copyToProperties()
           adminApi.save(this.form)
-            .then(response => {
-              this.$message({
-                type: 'success',
-                message: '保存成功！',
-                duration: 500,
-                onClose: () => this.$router.push({ path: '/alarm/list.view' })
-              })
-            })
+            .then(response => this.success('保存成功！'))
             .catch(error => {
               this.$message({
                 type: 'success',
@@ -422,14 +442,7 @@ export default {
       this.copyToProperties()
       this.form.alarm_name = this.form.alarm_name + '(copy)'
       adminApi.saveAnother(this.form)
-        .then(response => {
-          this.$message({
-            type: 'success',
-            message: '另存成功！',
-            duration: 500,
-            onClose: () => this.$router.push({ path: '/alarm/list.view' })
-          })
-        })
+        .then(response => this.success('另存成功！'))
         .catch(error => {
           console.log('另存失败:', error)
         })
@@ -488,7 +501,7 @@ export default {
       })
     },
     onCancel () {
-      this.$router.push({ path: '/alarm/list.view' })
+      this.goBack()
     },
     getDetail (callback) {
       adminApi.findById(this.id)
