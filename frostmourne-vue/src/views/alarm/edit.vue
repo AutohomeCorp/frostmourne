@@ -10,6 +10,20 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
+              <el-form-item label="状态">      
+                <el-switch v-model="form.status" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="服务:">
+                <el-select v-model="form.serviceInfo.id" reserve-keyword placeholder="请选择服务">
+                  <el-option v-for="item in serviceOptions" :key="item.id" :label="item.serviceName" :value="item.id" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item label="风险等级">
                 <el-select v-model="form.risk_level" size="small" style="width:100px" placeholder="风险等级">
                   <el-option label="提示" value="info" />
@@ -19,13 +33,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
-              <el-form-item label="状态">      
-                <el-switch v-model="form.status" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
-              </el-form-item>
-            </el-col>
           </el-row>
-
           <el-row>
             <el-col :span="12">
               <el-form-item label="所属对象:">
@@ -36,15 +44,6 @@
               <el-form-item label="所属团队:" prop="team_name">
                 <el-select v-model="form.team_name" placeholder="选择团队">
                   <el-option v-for="item in teamList" :key="item.name" :label="item.fullName" :value="item.name" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="服务:">
-                <el-select v-model="form.serviceInfo.id" reserve-keyword placeholder="请选择服务">
-                  <el-option v-for="item in serviceOptions" :key="item.id" :label="item.serviceName" :value="item.id" />
                 </el-select>
               </el-form-item>
             </el-col>
