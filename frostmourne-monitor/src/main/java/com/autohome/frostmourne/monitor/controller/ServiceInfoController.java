@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = {"/serviceinfo"})
+@RequestMapping(value = {"/serviceinfo", "/api/monitor-api/serviceinfo"})
 public class ServiceInfoController {
 
     @Resource
