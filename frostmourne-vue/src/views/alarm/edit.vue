@@ -17,7 +17,7 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="服务:">
+              <el-form-item label="所属服务:">
                 <el-select v-model="form.serviceInfo.id" reserve-keyword placeholder="请选择服务">
                   <el-option v-for="item in serviceOptions" :key="item.id" :label="item.serviceName" :value="item.id" />
                 </el-select>
