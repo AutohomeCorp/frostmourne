@@ -10,18 +10,30 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="风险等级">
-                <el-select v-model="form.risk_level" size="small" style="width:100px" placeholder="风险等级">
-                  <el-option label="提示" value="reminder" />
-                  <el-option label="重要" value="important" />
-                  <el-option label="紧急" value="urgent" />
-                  <el-option label="我崩了" value="down" />
-                </el-select>
+              <el-form-item label="状态">      
                 <el-switch v-model="form.status" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
               </el-form-item>
             </el-col>
           </el-row>
-
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="所属服务:">
+                <el-select v-model="form.serviceInfo.id" reserve-keyword placeholder="请选择服务">
+                  <el-option v-for="item in serviceOptions" :key="item.id" :label="item.serviceName" :value="item.id" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="风险等级">
+                <el-select v-model="form.risk_level" size="small" style="width:100px" placeholder="风险等级">
+                  <el-option label="提示" value="info" />
+                  <el-option label="重要" value="important" />
+                  <el-option label="紧急" value="emergency" />
+                  <el-option label="我崩了" value="crash" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="所属对象:">
@@ -269,6 +281,7 @@ import adminApi from '@/api/admin.js'
 import { teams, search } from '@/api/user'
 import dataApi from '@/api/data.js'
 import alerttemplateApi from '@/api/alert-template.js'
+import serviceinfoApi from '@/api/service-info.js'
 
 import VueJsonPretty from 'vue-json-pretty'
 
@@ -325,6 +338,9 @@ export default {
           ways: [],
           recipients: [],
           silence: 60
+        },
+        serviceInfo: {
+          id: 0
         }
       },
       rules: {
@@ -366,7 +382,9 @@ export default {
       enableSaveAnother: true,
       alertTemplateOptions: [],
       alertTemplateOption: null,
-      alertTemplateId: null
+      alertTemplateId: null,
+      serviceOptionsLoading: false,
+      serviceOptions: []
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -402,6 +420,8 @@ export default {
     } else {
       this.initAlertTemplateOptions()
     }
+
+    this.loadServiceOptions()
   },
   methods: {
     goBack () {
@@ -506,6 +526,9 @@ export default {
     getDetail (callback) {
       adminApi.findById(this.id)
         .then(response => {
+          if (response.result.serviceInfo == null) {
+            response.result.serviceInfo = { id: 0 }
+          }
           this.form = response.result
           this.copyToHeaders(this.form.metricContract.properties)
 
@@ -673,6 +696,24 @@ export default {
       } else {
         this.$alert('请选择一个消息模板', '提示').catch(() => {})
       }
+    },
+    loadServiceOptions (query) {
+      this.serviceOptionsLoading = true
+      serviceinfoApi.findServiceInfo({
+        serviceName: query,
+        pageIndex: 1,
+        pageSize: 1000,
+        orderType: 'SERVICE_NAME'
+      })
+        .then(response => {
+          this.serviceOptions = response.result.list || []
+          this.serviceOptions.unshift({
+            id: 0,
+            serviceName: '选择服务'
+          })
+          this.serviceOptionsLoading = false
+        })
+        .catch(e => {})
     }
   }
 }

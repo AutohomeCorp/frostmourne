@@ -17,6 +17,7 @@ import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.MetricContract;
 import com.autohome.frostmourne.monitor.contract.RuleContract;
+import com.autohome.frostmourne.monitor.contract.ServiceInfoSimpleContract;
 import com.autohome.frostmourne.monitor.contract.enums.AlarmStatus;
 import com.autohome.frostmourne.monitor.contract.enums.ExecuteStatus;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
@@ -37,6 +38,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRule
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRuleRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
+import com.autohome.frostmourne.monitor.service.core.service.IServiceInfoService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
 import com.autohome.frostmourne.monitor.transform.DataSourceTransformer;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -95,6 +97,9 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     @Resource
     private IScheduleService scheduleService;
+
+    @Resource
+    private IServiceInfoService serviceInfoService;
 
     public boolean atomicSave(AlarmContract alarmContract) {
         boolean isValidCron = CronExpression.isValidExpression(alarmContract.getCron());
@@ -178,7 +183,7 @@ public class AlarmAdminService implements IAlarmAdminService {
 
         MetricContract metricContract = new MetricContract();
         Optional<Metric> optionalMetric = this.metricRepository.findOneByAlarm(alarmId);
-        if(!optionalMetric.isPresent()) {
+        if (!optionalMetric.isPresent()) {
             throw new ProtocolException(20200229, "find no metric, alarmId: " + alarmId);
         }
         Metric metric = optionalMetric.get();
@@ -214,7 +219,7 @@ public class AlarmAdminService implements IAlarmAdminService {
 
         RuleContract ruleContract = new RuleContract();
         Optional<Rule> optionalRule = this.ruleRepository.findOneByAlarm(alarmId);
-        if(!optionalRule.isPresent()) {
+        if (!optionalRule.isPresent()) {
             throw new ProtocolException(7292346, "alarm has no rule, alarmId: " + alarmId);
         }
         Rule rule = optionalRule.get();
@@ -247,12 +252,16 @@ public class AlarmAdminService implements IAlarmAdminService {
         List<Recipient> recipientList = this.recipientRepository.findByAlarm(alarmId);
         alertContract.setRecipients(recipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
         alarmContract.setAlertContract(alertContract);
+
+        if (Optional.ofNullable(alarm.getService_id()).orElse(0L) > 0L) {
+            alarmContract.setServiceInfo(serviceInfoService.getSimpleContract(alarm.getService_id()).orElse(null));
+        }
         return alarmContract;
     }
 
     public PagerContract<Alarm> find(int pageIndex, int pageSize, Long alarmId, String name,
-                                     String teamName, String status) {
-        return alarmRepository.findPage(pageIndex, pageSize, alarmId, name, teamName, status);
+                                     String teamName, String status, Long serviceId) {
+        return alarmRepository.findPage(pageIndex, pageSize, alarmId, name, teamName, status, serviceId);
     }
 
 
@@ -301,6 +310,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setModify_at(now);
         alarm.setJob_id(0L);
         alarm.setExecute_result(ExecuteStatus.WAITING.getName());
+        alarm.setService_id(Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
         alarmRepository.insert(alarm);
 
         return alarm;
@@ -321,6 +331,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setModify_at(now);
         alarm.setModifier(alarmContract.getOperator());
         alarm.setTeam_name(alarmContract.getTeam_name());
+        alarm.setService_id(Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
 
         alarmRepository.updateByPrimaryKeySelective(alarm);
 
@@ -431,7 +442,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     }
 
     private void saveJobSchedule(boolean isNewAlarm, Alarm alarm) {
-        if (isNewAlarm || alarm.getJob_id() == -1) {
+        if (isNewAlarm || alarm.getJob_id() <= 0) {
             Integer jobId = this.scheduleService.addJob(alarm.getId(), alarm.getCron(), alarm.getStatus());
             alarmRepository.updateJobId(alarm.getId(), new Long(jobId));
         } else {

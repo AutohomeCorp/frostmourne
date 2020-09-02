@@ -9,6 +9,10 @@
       <el-select v-model="form.teamName" placeholder="选择团队" style="width: 200px" class="filter-item" @change="teamChangeHanlder">
         <el-option v-for="item in teamList" :key="item.name" :label="item.fullName" :value="item.name" />
       </el-select>
+      <el-select v-model="form.serviceId" filterable remote reserve-keyword clearable placeholder="请选择服务" class="filter-item"
+                 :remote-method="loadServiceOptions" :loading="serviceOptionsLoading" @change="onServiceInfoChange">
+        <el-option v-for="item in ServiceOptions" :key="item.id" :label="item.serviceName" :value="item.id" />
+      </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
       <el-button class="filter-item" icon="el-icon-edit" @click="goEdit(null)">添加报警</el-button>
     </div>
@@ -64,6 +68,7 @@
 <script>
 import alarmApi from '@/api/alarm.js'
 import adminApi from '@/api/admin.js'
+import serviceinfoApi from '@/api/service-info.js'
 import { teams, getInfo } from '@/api/user'
 import { formatJsonDate } from '@/utils/datetime.js'
 
@@ -106,7 +111,9 @@ export default {
         { value: 'OPEN', text: '开启' },
         { value: 'CLOSE', text: '关闭' }
       ],
-      teamList: []
+      teamList: [],
+      serviceOptionsLoading: false,
+      ServiceOptions: []
     }
   },
   created () {
@@ -118,6 +125,8 @@ export default {
     teams().then(response => {
       this.teamList = response.result
     })
+
+    this.loadServiceOptions()
   },
   methods: {
     onSubmit () {
@@ -139,6 +148,10 @@ export default {
       this.form.pageIndex = curr
       this.fetchData()
     },
+    onServiceInfoChange () {
+      this.form.pageIndex = 1
+      this.fetchData()
+    },
     changeStatus (alarm) {
       const message = `id=${alarm.id} 监控报警${alarm.status}成功！`
       if (alarm.status === 'OPEN') {
@@ -149,7 +162,7 @@ export default {
     },
     fetchData () {
       this.listLoading = true
-      adminApi.getList(this.form.alarmId, this.form.name, this.form.teamName, this.form.status, this.form.pageIndex, this.form.pageSize)
+      adminApi.getList(this.form.alarmId, this.form.name, this.form.teamName, this.form.status, this.form.serviceId, this.form.pageIndex, this.form.pageSize)
         .then(response => {
           this.list = response.result.list || []
           this.rowcount = response.result.rowcount
@@ -181,6 +194,20 @@ export default {
     teamChangeHanlder () {
       this.form.pageIndex = 1
       this.fetchData()
+    },
+    loadServiceOptions (query) {
+      this.serviceOptionsLoading = true
+      serviceinfoApi.findServiceInfo({
+        serviceName: query,
+        pageIndex: 1,
+        pageSize: 1000,
+        orderType: 'SERVICE_NAME'
+      })
+        .then(response => {
+          this.ServiceOptions = response.result.list || []
+          this.serviceOptionsLoading = false
+        })
+        .catch(e => {})
     }
   }
 }
