@@ -10,7 +10,7 @@
       <el-table-column prop="id" label="ID" width="60" align="center" fixed />
       <el-table-column prop="serviceName" label="服务名称" width="250" align="center" fixed />
       <el-table-column prop="owner" label="负责人" width="180" align="center" />
-      <el-table-column prop="remark" label="备注" width="300" align="center" :show-overflow-tooltip="true" />
+      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" />
       <el-table-column prop="createAt" label="创建时间" width="160" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.createAt | timeFormat }}</span>
