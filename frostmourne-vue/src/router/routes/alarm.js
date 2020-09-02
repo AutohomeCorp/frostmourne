@@ -3,7 +3,7 @@ const alarmRoutes = [
     path: 'list.view',
     name: 'alarm-list',
     component: () => import('@/views/alarm/list.vue'),
-    meta: { title: '监控列表', keepAlive: true }
+    meta: { title: '监控列表' }
   },
   {
     path: 'edit.view',
