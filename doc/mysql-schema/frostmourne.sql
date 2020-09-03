@@ -372,10 +372,13 @@ CREATE TABLE IF NOT EXISTS `service_info`
 /*------------------------------------------- init data---------------------------------------------------------------------*/
 INSERT INTO department_info(department_name, full_name, creator, create_at, modify_at, modifier)
 VALUES ('default', '默认部门', 'admin', now(), now(), 'admin');
+
 INSERT INTO team_info(team_name, full_name, department_id, creator, create_at, modify_at, modifier)
 VALUES ('default', '炒鸡赛亚人', 1, 'admin', now(), now(), 'admin');
+
 INSERT INTO user_info(account, full_name, team_id, mobile, email, wxid, creator, create_at, modify_at, modifier)
 VALUES ('admin', '管理员', 1, null, 'xxx@163.com', 'wxid1', 'admin', now(), now(), 'admin');
+
 INSERT INTO user_role(account, role, creator, create_at)
 VALUES ('admin', 'admin', 'admin', now());
 
