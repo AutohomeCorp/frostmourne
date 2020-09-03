@@ -10,7 +10,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="状态:">
+              <el-form-item>
                 <el-switch v-model="form.status" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
               </el-form-item>
             </el-col>
