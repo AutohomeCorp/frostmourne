@@ -17,9 +17,9 @@
       <el-button class="filter-item" icon="el-icon-edit" @click="goEdit(null)">添加报警</el-button>
     </div>
 
-    <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
+    <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="80" align="center" />
-      <el-table-column prop="alarm_name" label="监控名称" />
+      <el-table-column prop="alarm_name" label="监控名称" align="left" />
       <el-table-column prop="alarm_type" label="监控类型" width="160" align="center" />
       <el-table-column prop="cron" label="cron" width="120" align="center" />
       <el-table-column prop="status" label="是否开启" width="100" align="center">
@@ -37,7 +37,7 @@
           <span>{{ scope.row.execute_at|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="owner_key" label="owner_key" width="160" align="center" />
+      <el-table-column prop="owner_key" label="所属对象" width="160" align="center" />
       <el-table-column prop="modifier" label="最后修改人" width="160" align="center" />
       <el-table-column prop="modify_at" label="最后修改时间" width="160" align="center">
         <template slot-scope="scope">
