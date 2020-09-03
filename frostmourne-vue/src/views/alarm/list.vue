@@ -18,11 +18,10 @@
     </div>
 
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column prop="id" label="ID" width="60" align="center" />
+      <el-table-column prop="id" label="ID" width="80" align="center" />
       <el-table-column prop="alarm_name" label="监控名称" />
-      <el-table-column prop="description" label="监控描述" />
-      <el-table-column prop="alarm_type" label="监控类型" width="150" align="center" />
-      <el-table-column prop="cron" label="cron" width="110" align="center" />
+      <el-table-column prop="alarm_type" label="监控类型" width="160" align="center" />
+      <el-table-column prop="cron" label="cron" width="120" align="center" />
       <el-table-column prop="status" label="是否开启" width="100" align="center">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.status" active-value="OPEN" inactive-value="CLOSE" @change="changeStatus(scope.row)" />
@@ -30,7 +29,7 @@
       </el-table-column>
       <el-table-column label="最后执行结果" width="110" class-name="status-col" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.execute_result|executeResultFilter">{{ scope.row.execute_result }}</el-tag>
+          <el-tag size="medium" :type="scope.row.execute_result|executeResultFilter">{{ scope.row.execute_result }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="execute_at" label="最后执行时间" width="160" align="center">
@@ -38,8 +37,8 @@
           <span>{{ scope.row.execute_at|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="owner_key" label="owner_key" width="100" align="center" />
-      <el-table-column prop="modifier" label="最后修改人" width="100" align="center" />
+      <el-table-column prop="owner_key" label="owner_key" width="160" align="center" />
+      <el-table-column prop="modifier" label="最后修改人" width="160" align="center" />
       <el-table-column prop="modify_at" label="最后修改时间" width="160" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.modify_at|timeFormat }}</span>
@@ -84,7 +83,8 @@ export default {
         return ''
       }
       const resultMap = {
-        WAITING: 'success',
+        WAITING: 'info',
+        SUCCESS: 'success',
         ERROR: 'danger'
       }
       return resultMap[result]
