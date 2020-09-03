@@ -14,6 +14,7 @@
 * 报警消息模板管理功能 [2020-08-10]
 * 账号增加角色(管理员，普通用户)设置功能 [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
 * 聚合类型(unique_count, percentiles, standard deviation)数值监控
+* 增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件 [2020-09-03]
 
 ### Bugfix
 
@@ -25,6 +26,7 @@
 * mysql: alarm表增加风险等级字段risk_level - [SQL](./doc/mysql-schema/2020-07-24/change.sql)
 * mysql: 增加消息模板表alert_template - [SQL](./doc/mysql-schema/2020-07-31/alert_template.sql)
 * mysql: 增加用户角色表user_role - [SQL](./doc/mysql-schema/2020-08-18/user_role.sql)
+* mysql: 增加服务表 - [SQL](./doc/mysql-schema/2020-09-01/change.sql)
 
 ### Document
 
