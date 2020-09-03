@@ -433,7 +433,7 @@ The project is licensed under the [MIT](LICENSE).
 * 在issue提出你的宝贵建议
 * 对文档进行必要补充
 * 加入交流群，解答一些问题
-* 从规划里选择合适的任务提交PR
+* 从后续规划里选择合适的任务提交PR
 
 ## 项目事记
 
