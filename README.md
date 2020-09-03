@@ -428,7 +428,7 @@ The project is licensed under the [MIT](LICENSE).
 
 * 顺手star一下
 * 帮忙扩散推广
-* 部署使用起来
+* 部署本项目并使用起来
 * 在issue提出你的宝贵建议
 * 对文档进行必要补充
 * 加入交流群，解答一些问题
