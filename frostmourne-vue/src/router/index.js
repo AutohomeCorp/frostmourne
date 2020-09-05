@@ -110,12 +110,11 @@ export const asyncRoutes = [
   { path: '*', hidden: true, redirect: '/404' }
 ]
 
-const createRouter = () =>
-  new Router({
-    mode: 'history', // require service support
-    scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes
-  })
+const createRouter = () => new Router({
+  mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
+})
 
 const router = createRouter()
 
