@@ -376,8 +376,12 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 替掉蛇形命名字段，全部改为驼峰，统一代码风格
 * 集成测试，单元测试
 * 发布0.3-RELEASE
+* Elasticsearch索引字段自动获取
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
+* 增加influxdb数值监控
+* 增加influxdb数值同比，环比监控
+* 发布0.4-RELEASE
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * Elasticsearch监控数值实现环比监控
@@ -389,12 +393,9 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 监控列表增加一个开关选项，只显示我的监控
 * 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
-* Elasticsearch索引字段自动获取
 * 数据源增加连接测试功能
 * 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
 基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
-* 增加influxdb数值监控
-* 增加influxdb数值同比，环比监控
 * 增加prometheus数据监控报警支持
 * 增加skywalking数据监控报警支持
 * 增加mysql数据监控报警支持
