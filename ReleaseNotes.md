@@ -19,7 +19,8 @@
 ### Bugfix
 
 * bugfix: 解决列表分页问题
-* 解决Elasticsearch数据嵌套时，数据值为undefine的问题 [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
+* bugfix: 解决Elasticsearch数据嵌套时，数据值为undefine的问题 [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
+* bugfix: 解决部分浏览器下表头和表内容有点错位的问题 [2020-09-05]
 
 ### Mysql
 
