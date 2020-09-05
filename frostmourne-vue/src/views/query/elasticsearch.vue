@@ -314,6 +314,10 @@ export default {
       this.selectedDataName = this.dataNameList.filter(d => d.data_name === selectedName)[0]
     },
     loadMore () {
+      if(this.form.scrollId) {
+        this.$message({ type: 'warning', message: '请先查询数据', duration: 2000 })
+        return
+      }
       this.listLoading = true
       dataQueryApi.elasticsearchData(this.form).then(response => {
         for (var i = 0; i < response.result.logs.length; i++) {

@@ -15,12 +15,15 @@
 * 账号增加角色(管理员，普通用户)设置功能 [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
 * 聚合类型(unique_count, percentiles, standard deviation)数值监控
 * 增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件 [2020-09-03]
+* 如果监控关联了服务，报警接收人增加对应的服务负责人 [2020-09-05]
+* 监控增加风险等级设置(提示，重要，紧急，我崩了),报警消息添加风险等级信息 [2020-09-05]
 
 ### Bugfix
 
 * bugfix: 解决列表分页问题
 * bugfix: 解决Elasticsearch数据嵌套时，数据值为undefine的问题 [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
 * bugfix: 解决部分浏览器下表头和表内容有点错位的问题 [2020-09-05]
+* bugfix: 解决数据查询页面，不查询可以直接点击加载更多的问题 [2020-09-05]
 
 ### Mysql
 
