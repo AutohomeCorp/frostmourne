@@ -21,5 +21,7 @@ public interface IDataNameRepository {
 
     Optional<DataName> findByName(String dataName);
 
+    List<DataName> findByNames(List<String> dataNames);
+
     List<DataName> find(String datasourceType, Long datasourceId);
 }

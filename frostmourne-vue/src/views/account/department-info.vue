@@ -10,18 +10,12 @@
       </el-button>
     </div>
 
-    <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column prop="id" label="id" align="center" />
-      <el-table-column prop="department_name" label="部门" align="center" />
+    <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
+      <el-table-column prop="id" label="id" width="80" align="center" />
+      <el-table-column prop="department_name" label="部门" width="160" align="center" />
       <el-table-column prop="full_name" label="部门全称" align="center" />
-      <el-table-column prop="creator" label="创建人" align="center" />
-      <el-table-column prop="modifier" label="修改人" align="center" />
-      <el-table-column prop="create_at" label="创建时间" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.create_at | timeFormat }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="modify_at" label="修改时间" align="center">
+      <el-table-column prop="modifier" label="修改人" width="160" align="center" />
+      <el-table-column prop="modify_at" label="修改时间" width="160" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.modify_at | timeFormat }}</span>
         </template>

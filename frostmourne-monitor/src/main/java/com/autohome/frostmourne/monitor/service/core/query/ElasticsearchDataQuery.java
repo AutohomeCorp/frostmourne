@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 
@@ -34,8 +33,11 @@ import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInter
 import org.elasticsearch.search.aggregations.bucket.histogram.ExtendedBounds;
 import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
 import org.elasticsearch.search.aggregations.metrics.avg.Avg;
+import org.elasticsearch.search.aggregations.metrics.cardinality.Cardinality;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.elasticsearch.search.aggregations.metrics.min.Min;
+import org.elasticsearch.search.aggregations.metrics.percentiles.Percentiles;
+import org.elasticsearch.search.aggregations.metrics.stats.extended.ExtendedStats;
 import org.elasticsearch.search.aggregations.metrics.sum.Sum;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -155,7 +157,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.trackScores(false);
         searchSourceBuilder.trackTotalHits(true);
-        searchSourceBuilder.query(boolQueryBuilder).size(1)
+        searchSourceBuilder.query(boolQueryBuilder).from(0).size(1)
                 .sort(metricContract.getDataNameContract().getTimestamp_field(), SortOrder.DESC);
         attachAggregation(metricContract, searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
@@ -184,6 +186,13 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
             searchSourceBuilder.aggregation(AggregationBuilders.avg("avgNumber").field(aggField));
         } else if (aggType.equalsIgnoreCase("sum")) {
             searchSourceBuilder.aggregation(AggregationBuilders.sum("sumNumber").field(aggField));
+        } else if (aggType.equalsIgnoreCase("cardinality")) {
+            searchSourceBuilder.aggregation(AggregationBuilders.cardinality("cardinality").field(aggField));
+        } else if (aggType.equalsIgnoreCase("standard_deviation")) {
+            searchSourceBuilder.aggregation(AggregationBuilders.extendedStats("extend").field(aggField));
+        } else if (aggType.equalsIgnoreCase("percentiles")) {
+            searchSourceBuilder.aggregation(AggregationBuilders.percentiles("percentiles")
+                    .percentiles(Double.parseDouble(metricContract.getProperties().get("percent").toString())).field(aggField));
         }
     }
 
@@ -204,6 +213,18 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         if (aggType.equalsIgnoreCase("sum")) {
             Sum sum = searchResponse.getAggregations().get("sumNumber");
             return sum.getValue();
+        }
+        if (aggType.equalsIgnoreCase("cardinality")) {
+            Cardinality cardinality = searchResponse.getAggregations().get("cardinality");
+            return (double) cardinality.getValue();
+        }
+        if (aggType.equalsIgnoreCase("standard_deviation")) {
+            ExtendedStats extendedStats = searchResponse.getAggregations().get("extend");
+            return extendedStats.getStdDeviation();
+        }
+        if (aggType.equalsIgnoreCase("percentiles")) {
+            Percentiles percentiles = searchResponse.getAggregations().get("percentiles");
+            return percentiles.percentile(Double.parseDouble(metricContract.getProperties().get("percent").toString()));
         }
 
         throw new IllegalArgumentException("unsupported aggregation type: " + aggType);

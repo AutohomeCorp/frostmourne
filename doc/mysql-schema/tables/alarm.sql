@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS alarm
     create_at      DATETIME      NOT NULL COMMENT '创建时间',
     modifier       VARCHAR(200)  NOT NULL COMMENT '修改人',
     modify_at      DATETIME      NOT NULL COMMENT '修改时间',
-    team_name      VARCHAR(200)  NOT NULL COMMENT '监控所属团队'
+    team_name      VARCHAR(200)  NOT NULL COMMENT '监控所属团队',
+    risk_level     VARCHAR(500) COMMENT '风险等级。info: 提示；important: 重要；emergency: 紧急； crash: 我崩了',
+    service_id     BIGINT(20)             DEFAULT '0' COMMENT '服务ID'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4

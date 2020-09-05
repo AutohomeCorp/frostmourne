@@ -9,16 +9,19 @@
       <el-select v-model="form.teamName" placeholder="选择团队" style="width: 200px" class="filter-item" @change="teamChangeHanlder">
         <el-option v-for="item in teamList" :key="item.name" :label="item.fullName" :value="item.name" />
       </el-select>
+      <el-select v-model="form.serviceId" filterable remote reserve-keyword clearable placeholder="请选择服务" class="filter-item"
+                 :remote-method="loadServiceOptions" :loading="serviceOptionsLoading" @change="onServiceInfoChange">
+        <el-option v-for="item in ServiceOptions" :key="item.id" :label="item.serviceName" :value="item.id" />
+      </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
       <el-button class="filter-item" icon="el-icon-edit" @click="goEdit(null)">添加报警</el-button>
     </div>
 
-    <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column prop="id" label="ID" width="60" align="center" />
-      <el-table-column prop="alarm_name" label="监控名称" />
-      <el-table-column prop="description" label="监控描述" />
-      <el-table-column prop="alarm_type" label="监控类型" width="150" align="center" />
-      <el-table-column prop="cron" label="cron" width="110" align="center" />
+    <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
+      <el-table-column prop="id" label="ID" width="80" align="center" />
+      <el-table-column prop="alarm_name" label="监控名称" align="left" />
+      <el-table-column prop="alarm_type" label="监控类型" width="160" align="center" />
+      <el-table-column prop="cron" label="cron" width="120" align="center" />
       <el-table-column prop="status" label="是否开启" width="100" align="center">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.status" active-value="OPEN" inactive-value="CLOSE" @change="changeStatus(scope.row)" />
@@ -26,7 +29,7 @@
       </el-table-column>
       <el-table-column label="最后执行结果" width="110" class-name="status-col" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.execute_result|executeResultFilter">{{ scope.row.execute_result }}</el-tag>
+          <el-tag size="medium" :type="scope.row.execute_result|executeResultFilter">{{ scope.row.execute_result }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="execute_at" label="最后执行时间" width="160" align="center">
@@ -34,8 +37,8 @@
           <span>{{ scope.row.execute_at|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="owner_key" label="owner_key" width="100" align="center" />
-      <el-table-column prop="modifier" label="最后修改人" width="100" align="center" />
+      <el-table-column prop="owner_key" label="所属对象" width="160" align="center" />
+      <el-table-column prop="modifier" label="最后修改人" width="160" align="center" />
       <el-table-column prop="modify_at" label="最后修改时间" width="160" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.modify_at|timeFormat }}</span>
@@ -64,10 +67,13 @@
 <script>
 import alarmApi from '@/api/alarm.js'
 import adminApi from '@/api/admin.js'
+import serviceinfoApi from '@/api/service-info.js'
 import { teams, getInfo } from '@/api/user'
 import { formatJsonDate } from '@/utils/datetime.js'
 
 export default {
+  // eslint-disable-next-line vue/name-property-casing
+  name: 'alarm-list',
   filters: {
     statusFilter (status) {
       return status !== 'OPEN' ? 'info' : ''
@@ -77,7 +83,8 @@ export default {
         return ''
       }
       const resultMap = {
-        WAITING: 'success',
+        WAITING: 'info',
+        SUCCESS: 'success',
         ERROR: 'danger'
       }
       return resultMap[result]
@@ -104,7 +111,9 @@ export default {
         { value: 'OPEN', text: '开启' },
         { value: 'CLOSE', text: '关闭' }
       ],
-      teamList: []
+      teamList: [],
+      serviceOptionsLoading: false,
+      ServiceOptions: []
     }
   },
   created () {
@@ -116,6 +125,8 @@ export default {
     teams().then(response => {
       this.teamList = response.result
     })
+
+    this.loadServiceOptions()
   },
   methods: {
     onSubmit () {
@@ -137,6 +148,10 @@ export default {
       this.form.pageIndex = curr
       this.fetchData()
     },
+    onServiceInfoChange () {
+      this.form.pageIndex = 1
+      this.fetchData()
+    },
     changeStatus (alarm) {
       const message = `id=${alarm.id} 监控报警${alarm.status}成功！`
       if (alarm.status === 'OPEN') {
@@ -147,7 +162,7 @@ export default {
     },
     fetchData () {
       this.listLoading = true
-      adminApi.getList(this.form.alarmId, this.form.name, this.form.teamName, this.form.status, this.form.pageIndex, this.form.pageSize)
+      adminApi.getList(this.form.alarmId, this.form.name, this.form.teamName, this.form.status, this.form.serviceId, this.form.pageIndex, this.form.pageSize)
         .then(response => {
           this.list = response.result.list || []
           this.rowcount = response.result.rowcount
@@ -179,6 +194,20 @@ export default {
     teamChangeHanlder () {
       this.form.pageIndex = 1
       this.fetchData()
+    },
+    loadServiceOptions (query) {
+      this.serviceOptionsLoading = true
+      serviceinfoApi.findServiceInfo({
+        serviceName: query,
+        pageIndex: 1,
+        pageSize: 1000,
+        orderType: 'SERVICE_NAME'
+      })
+        .then(response => {
+          this.ServiceOptions = response.result.list || []
+          this.serviceOptionsLoading = false
+        })
+        .catch(e => {})
     }
   }
 }

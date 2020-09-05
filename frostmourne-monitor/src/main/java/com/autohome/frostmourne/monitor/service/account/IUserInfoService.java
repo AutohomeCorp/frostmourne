@@ -1,21 +1,19 @@
 package com.autohome.frostmourne.monitor.service.account;
 
-import java.util.Optional;
-
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
+import com.autohome.frostmourne.monitor.contract.UserContract;
 
 public interface IUserInfoService {
 
-    boolean insert(UserInfo userInfo, String account);
+    boolean insert(UserContract contract);
 
     boolean delete(Long userId);
 
-    boolean update(UserInfo userInfo, String account);
+    boolean update(UserContract contract);
 
-    PagerContract<UserInfo> findPage(int pageIndex, int pageSize, Long id, String account, Long teamId);
+    PagerContract<UserContract> findPage(int pageIndex, int pageSize, Long id, String account, Long teamId);
 
     int deleteByTeam(Long teamId);
 
-    Optional<UserInfo> findByAccount(String account);
+    UserContract findByAccount(String account);
 }
