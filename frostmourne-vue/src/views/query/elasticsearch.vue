@@ -314,7 +314,7 @@ export default {
       this.selectedDataName = this.dataNameList.filter(d => d.data_name === selectedName)[0]
     },
     loadMore () {
-      if(this.form.scrollId) {
+      if(!this.form.scrollId) {
         this.$message({ type: 'warning', message: '请先查询数据', duration: 2000 })
         return
       }
