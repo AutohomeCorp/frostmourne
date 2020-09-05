@@ -12,9 +12,7 @@
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item>
-              首页
-            </el-dropdown-item>
+            <el-dropdown-item>首页</el-dropdown-item>
           </router-link>
           <a target="_blank" href="https://github.com/AutohomeCorp/frostmourne">
             <el-dropdown-item>Github</el-dropdown-item>

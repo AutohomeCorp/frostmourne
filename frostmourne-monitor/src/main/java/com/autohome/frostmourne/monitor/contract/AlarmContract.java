@@ -28,11 +28,15 @@ public class AlarmContract {
 
     private String team_name;
 
+    private String risk_level;
+
     private MetricContract metricContract;
 
     private RuleContract ruleContract;
 
     private AlertContract alertContract;
+
+    private ServiceInfoSimpleContract serviceInfo;
 
     public Long getId() {
         return id;
@@ -152,5 +156,21 @@ public class AlarmContract {
 
     public void setTeam_name(String team_name) {
         this.team_name = team_name;
+    }
+
+    public ServiceInfoSimpleContract getServiceInfo() {
+        return serviceInfo;
+    }
+
+    public void setServiceInfo(ServiceInfoSimpleContract serviceInfo) {
+        this.serviceInfo = serviceInfo;
+    }
+
+    public String getRisk_level() {
+        return risk_level;
+    }
+
+    public void setRisk_level(String risk_level) {
+        this.risk_level = risk_level;
     }
 }

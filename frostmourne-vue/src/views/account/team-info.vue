@@ -11,19 +11,13 @@
       </el-button>
     </div>
 
-    <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column prop="id" label="id" align="center" />
-      <el-table-column prop="team_name" label="团队" align="center" />
-      <el-table-column prop="full_name" label="全名" align="center" />
-      <el-table-column prop="department_id" label="部门ID" align="center" />
-      <el-table-column prop="creator" label="创建人" align="center" />
-      <el-table-column prop="modifier" label="修改人" align="center" />
-      <el-table-column prop="create_at" label="创建时间" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.create_at | timeFormat }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="modify_at" label="修改时间" align="center">
+    <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
+      <el-table-column prop="id" label="id" width="80" align="center" />
+      <el-table-column prop="team_name" label="团队" width="160" align="center" />
+      <el-table-column prop="full_name" label="全名" align="left" />
+      <el-table-column prop="department_id" label="部门ID" width="80" align="center" />
+      <el-table-column prop="modifier" label="修改人" width="160" align="center" />
+      <el-table-column prop="modify_at" label="修改时间" width="160" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.modify_at | timeFormat }}</span>
         </template>

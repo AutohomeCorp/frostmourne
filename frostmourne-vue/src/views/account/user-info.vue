@@ -15,7 +15,7 @@
     </div>
 
     <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column prop="id" label="id" width="60" align="center" />
+      <el-table-column prop="id" label="id" width="80" align="center" />
       <el-table-column prop="account" label="账号" width="200" align="left" />
       <el-table-column prop="fullName" label="姓名" width="100" align="center" />
       <el-table-column prop="teamId" label="团队" width="160" align="center">
@@ -29,14 +29,8 @@
       </el-table-column>
       <el-table-column prop="mobile" label="手机号码" width="120" align="center" />
       <el-table-column prop="email" label="邮件" align="left" />
-      <el-table-column prop="wxid" label="企业微信id" width="200" align="center" />
-      <!--<el-table-column prop="creator" label="创建人" align="center" />
-      <el-table-column prop="create_at" label="创建时间" align="center" width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.create_at | timeFormat }}</span>
-        </template>
-      </el-table-column>-->
-      <el-table-column prop="modifier" label="修改人" width="140" align="center" />
+      <el-table-column prop="wxid" label="企业微信id" width="160" align="center" />
+      <el-table-column prop="modifier" label="修改人" width="160" align="center" />
       <el-table-column prop="modifyAt" label="修改时间" width="160" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.modifyAt | timeFormat }}</span>

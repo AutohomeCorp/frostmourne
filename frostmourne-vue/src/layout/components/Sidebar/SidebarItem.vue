@@ -12,13 +12,12 @@
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
-      <sidebar-item
-        v-for="child in item.children"
-        :key="child.path"
-        :is-nest="true"
-        :item="child"
-        :base-path="resolvePath(child.path)"
-        class="nest-menu" />
+      <sidebar-item v-for="child in item.children"
+                    :key="child.path"
+                    :is-nest="true"
+                    :item="child"
+                    :base-path="resolvePath(child.path)"
+                    class="nest-menu" />
     </el-submenu>
   </div>
 </template>

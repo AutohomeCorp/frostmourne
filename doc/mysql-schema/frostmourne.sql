@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS alarm
     modifier       VARCHAR(200)  NOT NULL COMMENT '修改人',
     modify_at      DATETIME      NOT NULL COMMENT '修改时间',
     team_name      VARCHAR(200)  NOT NULL COMMENT '监控所属团队',
-    risk_level     VARCHAR(500) COMMENT '风险等级。info: 提示；important: 重要；emergency: 紧急； crash: 我崩了'
+    risk_level     VARCHAR(500) COMMENT '风险等级。info: 提示；important: 重要；emergency: 紧急； crash: 我崩了',
+    service_id     BIGINT(20)             DEFAULT '0' COMMENT '服务ID'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -84,15 +85,15 @@ DROP TABLE IF EXISTS alert_log;
 CREATE TABLE IF NOT EXISTS alert_log
 (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '自增主键',
-    alarm_id    BIGINT        NOT NULL COMMENT '监控ID',
-    execute_id  BIGINT        NOT NULL COMMENT '监控执行ID',
-    way         VARCHAR(100)  NOT NULL COMMENT '报警方式',
-    recipient   VARCHAR(100)  NOT NULL COMMENT '报警接收人',
-    content     TEXT NOT NULL COMMENT '报警内容',
-    in_silence  VARCHAR(50)   NOT NULL COMMENT '是否在静默期(YES,NO)',
-    send_status VARCHAR(50)   NOT NULL COMMENT '发送状态(NONE,SUCCESS,FAIL,FORBID)',
-    alert_type  VARCHAR(50)   NOT NULL COMMENT '消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)',
-    create_at   DATETIME      NOT NULL COMMENT '创建时间'
+    alarm_id    BIGINT       NOT NULL COMMENT '监控ID',
+    execute_id  BIGINT       NOT NULL COMMENT '监控执行ID',
+    way         VARCHAR(100) NOT NULL COMMENT '报警方式',
+    recipient   VARCHAR(100) NOT NULL COMMENT '报警接收人',
+    content     TEXT         NOT NULL COMMENT '报警内容',
+    in_silence  VARCHAR(50)  NOT NULL COMMENT '是否在静默期(YES,NO)',
+    send_status VARCHAR(50)  NOT NULL COMMENT '发送状态(NONE,SUCCESS,FAIL,FORBID)',
+    alert_type  VARCHAR(50)  NOT NULL COMMENT '消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)',
+    create_at   DATETIME     NOT NULL COMMENT '创建时间'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -351,9 +352,33 @@ CREATE TABLE IF NOT EXISTS `alert_template`
     KEY `idx_template_name` (`template_name`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='报警模板';
+/*------------------------------------------- create service_info---------------------------------------------------------------------*/
+DROP TABLE IF EXISTS service_info;
+CREATE TABLE IF NOT EXISTS `service_info`
+(
+    `id`           bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+    `service_name` varchar(50)  NOT NULL COMMENT '服务名称',
+    `remark`       varchar(200) NOT NULL DEFAULT '' COMMENT '备注',
+    `owner`        varchar(200) NOT NULL DEFAULT '' COMMENT '负责人',
+    `creator`      varchar(200) NOT NULL COMMENT '创建人',
+    `create_at`    datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `modifier`     varchar(200) NOT NULL COMMENT '修改人',
+    `modify_at`    datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_service_name` (`service_name`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT ='服务信息';
+
 /*------------------------------------------- init data---------------------------------------------------------------------*/
-INSERT INTO department_info(department_name, full_name, creator, create_at, modify_at, modifier) VALUES ('default', '默认部门', 'admin', now(), now(), 'admin');
-INSERT INTO team_info(team_name, full_name, department_id, creator, create_at, modify_at, modifier) VALUES ('default', '炒鸡赛亚人', 1, 'admin', now(), now(), 'admin');
-INSERT INTO user_info(account, full_name, team_id, mobile, email, wxid, creator, create_at, modify_at, modifier) VALUES ('admin', '管理员', 1, null, 'xxx@163.com', 'wxid1', 'admin', now(), now(), 'admin');
-INSERT INTO user_role(account, role, creator, create_at) VALUES('admin', 'admin', 'admin', now());
+INSERT INTO department_info(department_name, full_name, creator, create_at, modify_at, modifier)
+VALUES ('default', '默认部门', 'admin', now(), now(), 'admin');
+
+INSERT INTO team_info(team_name, full_name, department_id, creator, create_at, modify_at, modifier)
+VALUES ('default', '炒鸡赛亚人', 1, 'admin', now(), now(), 'admin');
+
+INSERT INTO user_info(account, full_name, team_id, mobile, email, wxid, creator, create_at, modify_at, modifier)
+VALUES ('admin', '管理员', 1, null, 'xxx@163.com', 'wxid1', 'admin', now(), now(), 'admin');
+
+INSERT INTO user_role(account, role, creator, create_at)
+VALUES ('admin', 'admin', 'admin', now());
 
