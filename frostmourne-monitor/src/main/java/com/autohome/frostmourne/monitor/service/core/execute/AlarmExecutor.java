@@ -62,14 +62,37 @@ public class AlarmExecutor {
 
     private String completeAlertMessage() {
         String alertMessage = this.rule.alertMessage(alarmContract.getRuleContract(), this.alarmProcessLogger.getContext());
+        StringBuilder stringBuilder = new StringBuilder(alertMessage.length() * 2);
         String timeString = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
         String shortLink = generateShortLinkService.generate(alarmProcessLogger);
-        String completeMessage = null;
-        if (Strings.isNullOrEmpty(shortLink)) {
-            completeMessage = String.format("[%s]\n%s", timeString, alertMessage);
-        } else {
-            completeMessage = String.format("[%s]\n%s\n\n详细请看: %s", timeString, alertMessage, shortLink);
+        stringBuilder.append("[").append(timeString).append("]");
+        if (!Strings.isNullOrEmpty(this.alarmProcessLogger.getAlarmContract().getRisk_level())) {
+            String risk = riskTranslation(this.alarmProcessLogger.getAlarmContract().getRisk_level());
+            stringBuilder.append("[").append(risk).append("]").append("\n");
         }
-        return completeMessage;
+        stringBuilder.append(alertMessage);
+        if (!Strings.isNullOrEmpty(shortLink)) {
+            stringBuilder.append("\n\n").append("详细请看: ").append(shortLink);
+        }
+        return stringBuilder.toString();
+    }
+
+    private String riskTranslation(String riskLevel) {
+        if (Strings.isNullOrEmpty(riskLevel)) {
+            return null;
+        }
+        if (riskLevel.equalsIgnoreCase("info")) {
+            return "通知";
+        }
+        if (riskLevel.equalsIgnoreCase("important")) {
+            return "重要";
+        }
+        if (riskLevel.equalsIgnoreCase("emergency")) {
+            return "紧急";
+        }
+        if (riskLevel.equalsIgnoreCase("crash")) {
+            return "我崩了";
+        }
+        throw new IllegalArgumentException("unknown risk level: " + riskLevel);
     }
 }

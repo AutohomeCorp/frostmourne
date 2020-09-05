@@ -14,22 +14,29 @@
 * 报警消息模板管理功能 [2020-08-10]
 * 账号增加角色(管理员，普通用户)设置功能 [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
 * 聚合类型(unique_count, percentiles, standard deviation)数值监控
+* 增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件 [2020-09-03]
+* 如果监控关联了服务，报警接收人增加对应的服务负责人 [2020-09-05]
+* 监控增加风险等级设置(提示，重要，紧急，我崩了),报警消息添加风险等级信息 [2020-09-05]
 
 ### Bugfix
 
 * bugfix: 解决列表分页问题
-* 解决Elasticsearch数据嵌套时，数据值为undefine的问题 [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
+* bugfix: 解决Elasticsearch数据嵌套时，数据值为undefine的问题 [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
+* bugfix: 解决部分浏览器下表头和表内容有点错位的问题 [2020-09-05]
+* bugfix: 解决数据查询页面，不查询可以直接点击加载更多的问题 [2020-09-05]
 
 ### Mysql
 
 * mysql: alarm表增加风险等级字段risk_level - [SQL](./doc/mysql-schema/2020-07-24/change.sql)
 * mysql: 增加消息模板表alert_template - [SQL](./doc/mysql-schema/2020-07-31/alert_template.sql)
 * mysql: 增加用户角色表user_role - [SQL](./doc/mysql-schema/2020-08-18/user_role.sql)
+* mysql: 增加服务表 - [SQL](./doc/mysql-schema/2020-09-01/change.sql)
 
 ### Document
 
 * 增加Elasticsearch数据监控使用指南 [2020-08-27]
 * 增加同比监控使用指南 [2020-08-29]
+* 增加ORM层选型的说明 [2020-09-05]
 
 ### Other
 

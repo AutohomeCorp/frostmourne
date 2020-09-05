@@ -42,7 +42,7 @@
       </el-form>
     </div>
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column prop="id" label="ID" width="60" align="center" />
+      <el-table-column prop="id" label="ID" width="80" align="center" />
       <el-table-column prop="alarm_id" label="监控id" align="center" />
       <el-table-column prop="cost" label="耗时(毫秒)" align="center" />
       <el-table-column prop="exe_start" label="开始时间" align="center">
