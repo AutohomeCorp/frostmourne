@@ -312,8 +312,8 @@ xxl.job.executor.logretentiondays=3
 xxl.job.alarm.email=[your_email]
 ```
 
-启动frostmourne-spi项目，active profile设置为default, 测试地址: http://localhost:10053  
-启动frostmourne-monitor项目, active profile设置为local, 测试地址: http://localhost:10054   
+启动frostmourne-spi项目，启动参数增加：-Dlog.console.level=INFO，将active profile设置为default, 测试地址: http://localhost:10053  
+启动frostmourne-monitor项目, 启动参数增加：-Dlog.console.level=INFO，active profile设置为local, 测试地址: http://localhost:10054   
 使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
 
 ```bash
