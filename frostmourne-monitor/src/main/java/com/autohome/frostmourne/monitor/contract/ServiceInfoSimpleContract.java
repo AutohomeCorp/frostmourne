@@ -11,6 +11,8 @@ public class ServiceInfoSimpleContract {
      */
     private String serviceName;
 
+    private String owner;
+
     public Long getId() {
         return id;
     }
@@ -25,5 +27,13 @@ public class ServiceInfoSimpleContract {
 
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

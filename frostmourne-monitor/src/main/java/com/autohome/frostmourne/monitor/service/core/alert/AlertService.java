@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import com.autohome.frostmourne.core.contract.Protocol;
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.contract.AlertContract;
+import com.autohome.frostmourne.monitor.contract.ServiceInfoSimpleContract;
 import com.autohome.frostmourne.monitor.contract.enums.AlertType;
 import com.autohome.frostmourne.monitor.contract.enums.SendStatus;
 import com.autohome.frostmourne.monitor.contract.enums.SilenceStatus;
@@ -46,7 +47,7 @@ public class AlertService implements IAlertService {
 
     public void alert(AlarmProcessLogger alarmProcessLogger) {
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
-        List<AccountInfo> recipients = recipients(alertContract.getRecipients());
+        List<AccountInfo> recipients = recipients(alertContract.getRecipients(), alarmProcessLogger.getAlarmContract().getServiceInfo());
         if (recipients.size() == 0) {
             LOGGER.error("no recipients, alarmId: " + alarmProcessLogger.getAlarmContract().getId());
             return;
@@ -90,8 +91,11 @@ public class AlertService implements IAlertService {
                 alertContent, alarmProcessLogger.getAlarmLog().getId());
     }
 
-    private List<AccountInfo> recipients(List<String> accounts) {
+    private List<AccountInfo> recipients(List<String> accounts, ServiceInfoSimpleContract serviceInfoSimpleContract) {
         List<AccountInfo> recipients = new ArrayList<>();
+        if (serviceInfoSimpleContract != null && !accounts.contains(serviceInfoSimpleContract.getOwner())) {
+            accounts.add(serviceInfoSimpleContract.getOwner());
+        }
         for (String userName : accounts) {
             Optional<AccountInfo> accountInfo = accountService.findByAccount(userName);
             accountInfo.ifPresent(recipients::add);
@@ -190,7 +194,7 @@ public class AlertService implements IAlertService {
         alarmLog.setExecute_result(alarmProcessLogger.getExecuteStatus().getName());
         alarmLog.setMessage(alarmProcessLogger.traceInfo());
         Boolean alert = alarmProcessLogger.getAlert();
-        alarmLog.setVerify_result(alert != null &&  alert ? VerifyResult.TRUE : VerifyResult.FALSE);
+        alarmLog.setVerify_result(alert != null && alert ? VerifyResult.TRUE : VerifyResult.FALSE);
         alarmLogRepository.insert(alarmLog);
         alarmProcessLogger.setAlarmLog(alarmLog);
     }

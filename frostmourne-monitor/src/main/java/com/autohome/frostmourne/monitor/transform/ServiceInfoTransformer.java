@@ -44,6 +44,7 @@ public class ServiceInfoTransformer {
         ServiceInfoSimpleContract data = new ServiceInfoSimpleContract();
         data.setId(model.getId());
         data.setServiceName(model.getServiceName());
+        data.setOwner(model.getOwner());
         return data;
     }
 
