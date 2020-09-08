@@ -4,62 +4,94 @@ import java.util.Map;
 
 public class MetricContract {
 
-    private String metric_type;
+    private String metricType;
 
-    private String aggregation_type;
+    private String aggregationType;
 
-    private String aggregation_field;
+    private String aggregationField;
 
-    private Long alarm_id;
+    private Long alarmId;
 
-    private Long rule_id;
+    private Long ruleId;
 
-    private Long data_source_id;
+    private Long dataSourceId;
 
-    private Long data_name_id;
+    private Long dataNameId;
 
-    private String data_name;
+    private String dataName;
 
     private Map<String, Object> properties;
 
-    private String query_string;
+    private String queryString;
 
-    private String post_data;
+    private String postData;
 
     private DataSourceContract dataSourceContract;
 
     private DataNameContract dataNameContract;
 
-    public Long getAlarm_id() {
-        return alarm_id;
+    public String getMetricType() {
+        return metricType;
     }
 
-    public void setAlarm_id(Long alarm_id) {
-        this.alarm_id = alarm_id;
+    public void setMetricType(String metricType) {
+        this.metricType = metricType;
     }
 
-    public Long getRule_id() {
-        return rule_id;
+    public String getAggregationType() {
+        return aggregationType;
     }
 
-    public void setRule_id(Long rule_id) {
-        this.rule_id = rule_id;
+    public void setAggregationType(String aggregationType) {
+        this.aggregationType = aggregationType;
+    }
+
+    public String getAggregationField() {
+        return aggregationField;
+    }
+
+    public void setAggregationField(String aggregationField) {
+        this.aggregationField = aggregationField;
+    }
+
+    public Long getAlarmId() {
+        return alarmId;
+    }
+
+    public void setAlarmId(Long alarmId) {
+        this.alarmId = alarmId;
+    }
+
+    public Long getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(Long ruleId) {
+        this.ruleId = ruleId;
     }
 
     public Long getDataSourceId() {
-        return data_source_id;
+        return dataSourceId;
     }
 
-    public void setDataSourceId(Long data_source_id) {
-        this.data_source_id = data_source_id;
+    public void setDataSourceId(Long dataSourceId) {
+        this.dataSourceId = dataSourceId;
+    }
+
+    public Long getDataNameId() {
+        return dataNameId;
+    }
+
+    public void setDataNameId(Long dataNameId) {
+        this.dataNameId = dataNameId;
     }
 
     public String getDataName() {
-        return data_name;
+        return dataName;
     }
 
-    public void setDataName(String data_name) {
-        this.data_name = data_name;
+    public void setDataName(String dataName) {
+        this.dataName = dataName;
     }
 
     public Map<String, Object> getProperties() {
@@ -70,12 +102,20 @@ public class MetricContract {
         this.properties = properties;
     }
 
-    public String getQuery_string() {
-        return query_string;
+    public String getQueryString() {
+        return queryString;
     }
 
-    public void setQuery_string(String query_string) {
-        this.query_string = query_string;
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
+    }
+
+    public String getPostData() {
+        return postData;
+    }
+
+    public void setPostData(String postData) {
+        this.postData = postData;
     }
 
     public DataSourceContract getDataSourceContract() {
@@ -92,45 +132,5 @@ public class MetricContract {
 
     public void setDataNameContract(DataNameContract dataNameContract) {
         this.dataNameContract = dataNameContract;
-    }
-
-    public Long getDataName_id() {
-        return data_name_id;
-    }
-
-    public void setDataName_id(Long data_name_id) {
-        this.data_name_id = data_name_id;
-    }
-
-    public String getMetric_type() {
-        return metric_type;
-    }
-
-    public void setMetric_type(String metric_type) {
-        this.metric_type = metric_type;
-    }
-
-    public String getPost_data() {
-        return post_data;
-    }
-
-    public void setPost_data(String post_data) {
-        this.post_data = post_data;
-    }
-
-    public String getAggregation_type() {
-        return aggregation_type;
-    }
-
-    public void setAggregation_type(String aggregation_type) {
-        this.aggregation_type = aggregation_type;
-    }
-
-    public String getAggregation_field() {
-        return aggregation_field;
-    }
-
-    public void setAggregation_field(String aggregation_field) {
-        this.aggregation_field = aggregation_field;
     }
 }

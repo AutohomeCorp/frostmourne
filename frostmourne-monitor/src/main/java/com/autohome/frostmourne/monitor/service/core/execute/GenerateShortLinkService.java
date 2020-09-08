@@ -39,7 +39,7 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
         try {
             if (datasourceType.equalsIgnoreCase(DataSourceType.ELASTICSEARCH)) {
                 url = frostmourneMonitorAddress + "/query/elasticsearch.view";
-                queryParameters.add("esQuery=" + URLEncoder.encode(alarmContract.getMetricContract().getQuery_string(), "utf8"));
+                queryParameters.add("esQuery=" + URLEncoder.encode(alarmContract.getMetricContract().getQueryString(), "utf8"));
                 queryParameters.add("startTime=" + URLEncoder.encode(alarmProcessLogger.getContext().get("startTime").toString(), "utf8"));
                 queryParameters.add("endTime=" + URLEncoder.encode(alarmProcessLogger.getContext().get("endTime").toString(), "utf8"));
                 queryParameters.add("dataName=" + URLEncoder.encode(alarmContract.getMetricContract().getDataNameContract().getDataName(), "utf8"));

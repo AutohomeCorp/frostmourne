@@ -7,25 +7,25 @@ public class DataNameContract {
 
     private Long id;
 
-    private String data_name;
+    private String dataName;
 
-    private String display_name;
+    private String displayName;
 
-    private Long data_source_id;
+    private Long dataSourceId;
 
-    private String datasource_type;
+    private String datasourceType;
 
-    private String timestamp_field;
+    private String timestampField;
 
     private Map<String, String> settings;
 
     private String creator;
 
-    private Date create_at;
+    private Date createAt;
 
     private String modifier;
 
-    private Date modify_at;
+    private Date modifyAt;
 
     public Long getId() {
         return id;
@@ -36,35 +36,43 @@ public class DataNameContract {
     }
 
     public String getDataName() {
-        return data_name;
+        return dataName;
     }
 
-    public void setDataName(String data_name) {
-        this.data_name = data_name;
+    public void setDataName(String dataName) {
+        this.dataName = dataName;
     }
 
     public String getDisplayName() {
-        return display_name;
+        return displayName;
     }
 
-    public void setDisplayName(String display_name) {
-        this.display_name = display_name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public Long getDataSourceId() {
-        return data_source_id;
+        return dataSourceId;
     }
 
-    public void setDataSourceId(Long data_source_id) {
-        this.data_source_id = data_source_id;
+    public void setDataSourceId(Long dataSourceId) {
+        this.dataSourceId = dataSourceId;
+    }
+
+    public String getDatasourceType() {
+        return datasourceType;
+    }
+
+    public void setDatasourceType(String datasourceType) {
+        this.datasourceType = datasourceType;
     }
 
     public String getTimestampField() {
-        return timestamp_field;
+        return timestampField;
     }
 
-    public void setTimestampField(String timestamp_field) {
-        this.timestamp_field = timestamp_field;
+    public void setTimestampField(String timestampField) {
+        this.timestampField = timestampField;
     }
 
     public Map<String, String> getSettings() {
@@ -73,14 +81,6 @@ public class DataNameContract {
 
     public void setSettings(Map<String, String> settings) {
         this.settings = settings;
-    }
-
-    public String getDatasourceType() {
-        return datasource_type;
-    }
-
-    public void setDatasourceType(String datasource_type) {
-        this.datasource_type = datasource_type;
     }
 
     public String getCreator() {
@@ -92,11 +92,11 @@ public class DataNameContract {
     }
 
     public Date getCreateAt() {
-        return create_at;
+        return createAt;
     }
 
-    public void setCreateAt(Date create_at) {
-        this.create_at = create_at;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
     public String getModifier() {
@@ -108,10 +108,10 @@ public class DataNameContract {
     }
 
     public Date getModifyAt() {
-        return modify_at;
+        return modifyAt;
     }
 
-    public void setModifyAt(Date modify_at) {
-        this.modify_at = modify_at;
+    public void setModifyAt(Date modifyAt) {
+        this.modifyAt = modifyAt;
     }
 }

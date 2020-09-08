@@ -129,7 +129,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo(metricContract.getDataSourceContract());
         EsRestClientContainer esRestClientContainer = elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
-                .must(new QueryStringQueryBuilder(metricContract.getQuery_string()))
+                .must(new QueryStringQueryBuilder(metricContract.getQueryString()))
                 .must(QueryBuilders.rangeQuery(metricContract.getDataNameContract().getTimestampField())
                         .from(start.toDateTimeISO().toString())
                         .to(end.toDateTimeISO().toString())
@@ -146,7 +146,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         } catch (Exception ex) {
             throw new RuntimeException("error when totalCount", ex);
         }
-        if (metricContract.getAggregation_type().equalsIgnoreCase("count")) {
+        if (metricContract.getAggregationType().equalsIgnoreCase("count")) {
             elasticsearchMetric.setMetricValue(count);
         }
         if (count == 0) {
@@ -164,7 +164,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         SearchResponse searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
         SearchHit latestDoc = searchResponse.getHits().getAt(0);
         elasticsearchMetric.setLatestDocument(latestDoc.getSourceAsMap());
-        if (metricContract.getAggregation_type().equalsIgnoreCase("count")) {
+        if (metricContract.getAggregationType().equalsIgnoreCase("count")) {
             if (searchResponse.getHits().getTotalHits() > 0) {
                 elasticsearchMetric.setMetricValue(searchResponse.getHits().getTotalHits());
             }
@@ -176,8 +176,8 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
     }
 
     private void attachAggregation(MetricContract metricContract, SearchSourceBuilder searchSourceBuilder) {
-        String aggType = metricContract.getAggregation_type();
-        String aggField = metricContract.getAggregation_field();
+        String aggType = metricContract.getAggregationType();
+        String aggField = metricContract.getAggregationField();
         if (aggType.equalsIgnoreCase("max")) {
             searchSourceBuilder.aggregation(AggregationBuilders.max("maxNumber").field(aggField));
         } else if (aggType.equalsIgnoreCase("min")) {
@@ -197,7 +197,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
     }
 
     private Double findAggregationValue(MetricContract metricContract, SearchResponse searchResponse) {
-        String aggType = metricContract.getAggregation_type();
+        String aggType = metricContract.getAggregationType();
         if (aggType.equalsIgnoreCase("max")) {
             Max max = searchResponse.getAggregations().get("maxNumber");
             return max.getValue();

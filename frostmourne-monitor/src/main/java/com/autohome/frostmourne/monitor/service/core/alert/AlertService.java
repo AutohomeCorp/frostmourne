@@ -76,12 +76,12 @@ public class AlertService implements IAlertService {
             alertContent = "消息类型: [恢复] 请自己检查问题是否解决,上次报警内容如下\n" + alertLog.getContent();
             alarmMessage.setContent(alertContent);
         }
-        alarmMessage.setTitle(String.format("[霜之哀伤监控平台][id:%s]%s", alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarm_name()));
+        alarmMessage.setTitle(String.format("[霜之哀伤监控平台][id:%s]%s", alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
         alarmMessage.setRecipients(recipients);
         alarmMessage.setWays(alertContract.getWays());
-        alarmMessage.setDingHook(alertContract.getDing_robot_hook());
-        alarmMessage.setHttpPostEndpoint(alertContract.getHttp_post_url());
-        alarmMessage.setWechatHook(alertContract.getWechat_robot_hook());
+        alarmMessage.setDingHook(alertContract.getDingRobotHook());
+        alarmMessage.setHttpPostEndpoint(alertContract.getHttpPostUrl());
+        alarmMessage.setWechatHook(alertContract.getWechatRobotHook());
         Protocol<List<MessageResult>> protocol = frostmourneSpiApi.send(alarmMessage, "frostmourne-monitor");
         if (protocol.getReturncode() != 0) {
             LOGGER.error("error when send alert. protocol: " + JacksonUtil.serialize(protocol));

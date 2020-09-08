@@ -7,21 +7,21 @@ public class DataSourceContract {
 
     private Long id;
 
-    private String datasource_name;
+    private String datasourceName;
 
-    private String datasource_type;
+    private String datasourceType;
 
-    private String service_address;
+    private String serviceAddress;
 
     private Map<String, String> settings;
 
     private String creator;
 
-    private Date create_at;
+    private Date createAt;
 
     private String modifier;
 
-    private Date modify_at;
+    private Date modifyAt;
 
     public Long getId() {
         return id;
@@ -32,27 +32,27 @@ public class DataSourceContract {
     }
 
     public String getDatasourceName() {
-        return datasource_name;
+        return datasourceName;
     }
 
-    public void setDatasourceName(String datasource_name) {
-        this.datasource_name = datasource_name;
+    public void setDatasourceName(String datasourceName) {
+        this.datasourceName = datasourceName;
     }
 
     public String getDatasourceType() {
-        return datasource_type;
+        return datasourceType;
     }
 
-    public void setDatasourceType(String datasource_type) {
-        this.datasource_type = datasource_type;
+    public void setDatasourceType(String datasourceType) {
+        this.datasourceType = datasourceType;
     }
 
     public String getServiceAddress() {
-        return service_address;
+        return serviceAddress;
     }
 
-    public void setServiceAddress(String service_address) {
-        this.service_address = service_address;
+    public void setServiceAddress(String serviceAddress) {
+        this.serviceAddress = serviceAddress;
     }
 
     public Map<String, String> getSettings() {
@@ -72,11 +72,11 @@ public class DataSourceContract {
     }
 
     public Date getCreateAt() {
-        return create_at;
+        return createAt;
     }
 
-    public void setCreateAt(Date create_at) {
-        this.create_at = create_at;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
     public String getModifier() {
@@ -88,10 +88,10 @@ public class DataSourceContract {
     }
 
     public Date getModifyAt() {
-        return modify_at;
+        return modifyAt;
     }
 
-    public void setModifyAt(Date modify_at) {
-        this.modify_at = modify_at;
+    public void setModifyAt(Date modifyAt) {
+        this.modifyAt = modifyAt;
     }
 }

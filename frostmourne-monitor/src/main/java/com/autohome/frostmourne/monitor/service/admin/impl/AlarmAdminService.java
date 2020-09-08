@@ -170,16 +170,16 @@ public class AlarmAdminService implements IAlarmAdminService {
         Alarm alarm = optionalAlarm.get();
         alarmContract.setId(alarmId);
         alarmContract.setStatus(alarm.getStatus());
-        alarmContract.setOwner_key(alarm.getOwnerKey());
+        alarmContract.setOwnerKey(alarm.getOwnerKey());
         alarmContract.setDescription(alarm.getDescription());
         alarmContract.setCron(alarm.getCron());
-        alarmContract.setTeam_name(alarm.getTeamName());
-        alarmContract.setAlarm_type(alarm.getAlarmType());
-        alarmContract.setAlarm_name(alarm.getAlarmName());
-        alarmContract.setExecute_result(alarm.getExecuteResult());
-        alarmContract.setExecute_at(alarm.getExecuteAt());
-        alarmContract.setJob_id(alarm.getJobId());
-        alarmContract.setRisk_level(alarm.getRiskLevel());
+        alarmContract.setTeamName(alarm.getTeamName());
+        alarmContract.setAlarmType(alarm.getAlarmType());
+        alarmContract.setAlarmName(alarm.getAlarmName());
+        alarmContract.setExecuteResult(alarm.getExecuteResult());
+        alarmContract.setExecuteAt(alarm.getExecuteAt());
+        alarmContract.setJobId(alarm.getJobId());
+        alarmContract.setRiskLevel(alarm.getRiskLevel());
 
         MetricContract metricContract = new MetricContract();
         Optional<Metric> optionalMetric = this.metricRepository.findOneByAlarm(alarmId);
@@ -187,15 +187,15 @@ public class AlarmAdminService implements IAlarmAdminService {
             throw new ProtocolException(20200229, "find no metric, alarmId: " + alarmId);
         }
         Metric metric = optionalMetric.get();
-        metricContract.setAggregation_type(metric.getAggregationType());
-        metricContract.setAggregation_field(metric.getAggregationField());
-        metricContract.setQuery_string(metric.getQueryString());
+        metricContract.setAggregationType(metric.getAggregationType());
+        metricContract.setAggregationField(metric.getAggregationField());
+        metricContract.setQueryString(metric.getQueryString());
         metricContract.setDataSourceId(metric.getDataSourceId());
         metricContract.setDataName(metric.getDataName());
-        metricContract.setMetric_type(metric.getMetricType());
-        metricContract.setDataName_id(metric.getDataNameId());
-        metricContract.setAlarm_id(alarmId);
-        metricContract.setPost_data(metric.getPostData());
+        metricContract.setMetricType(metric.getMetricType());
+        metricContract.setDataNameId(metric.getDataNameId());
+        metricContract.setAlarmId(alarmId);
+        metricContract.setPostData(metric.getPostData());
         metricContract.setProperties(JacksonUtil.deSerialize(metric.getProperties(), new TypeReference<Map<String, Object>>() {
         }));
         if (metric.getDataSourceId() != null && metric.getDataSourceId() > 0) {
@@ -223,9 +223,9 @@ public class AlarmAdminService implements IAlarmAdminService {
             throw new ProtocolException(7292346, "alarm has no rule, alarmId: " + alarmId);
         }
         Rule rule = optionalRule.get();
-        ruleContract.setAlert_template(rule.getAlertTemplate());
-        ruleContract.setRule_type(rule.getRuleType());
-        ruleContract.setAlarm_id(alarmId);
+        ruleContract.setAlertTemplate(rule.getAlertTemplate());
+        ruleContract.setRuleType(rule.getRuleType());
+        ruleContract.setAlarmId(alarmId);
         Map<String, String> rulePropertyMap = new HashMap<>();
 
         List<RuleProperty> rulePropertyList = this.rulePropertyRepository.findByRuleId(rule.getId());
@@ -242,11 +242,11 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertContract.setSilence(alert.getSilence());
         alertContract.setWays(Splitter.on(",").splitToList(alert.getWays()));
         alertContract.setAlarm_id(alarmId);
-        alertContract.setAllow_sms_from(alert.getAllowSmsFrom());
-        alertContract.setAllow_sms_to(alert.getAllowSmsTo());
-        alertContract.setDing_robot_hook(alert.getDingRobotHook());
-        alertContract.setHttp_post_url(alert.getHttpPostUrl());
-        alertContract.setWechat_robot_hook(alert.getWechatRobotHook());
+        alertContract.setAllowSmsFrom(alert.getAllowSmsFrom());
+        alertContract.setAllowSmsTo(alert.getAllowSmsTo());
+        alertContract.setDingRobotHook(alert.getDingRobotHook());
+        alertContract.setHttpPostUrl(alert.getHttpPostUrl());
+        alertContract.setWechatRobotHook(alert.getWechatRobotHook());
         alertContract.setCreateAt(alert.getCreateAt());
 
         List<Recipient> recipientList = this.recipientRepository.findByAlarm(alarmId);
@@ -295,16 +295,16 @@ public class AlarmAdminService implements IAlarmAdminService {
     private Alarm addAlarm(AlarmContract alarmContract) {
         Alarm alarm = new Alarm();
 
-        alarm.setAlarmName(alarmContract.getAlarm_name());
-        alarm.setAlarmType(alarmContract.getAlarm_type());
+        alarm.setAlarmName(alarmContract.getAlarmName());
+        alarm.setAlarmType(alarmContract.getAlarmType());
         alarm.setCreator(alarmContract.getOperator());
         alarm.setCron(alarmContract.getCron());
         alarm.setTeamName(alarmContract.getTeamName());
         alarm.setDescription(alarmContract.getDescription());
         alarm.setModifier(alarmContract.getOperator());
-        alarm.setOwnerKey(alarmContract.getOwner_key());
+        alarm.setOwnerKey(alarmContract.getOwnerKey());
         alarm.setStatus(alarmContract.getStatus());
-        alarm.setRiskLevel(alarmContract.getRisk_level());
+        alarm.setRiskLevel(alarmContract.getRiskLevel());
         Date now = new Date();
         alarm.setCreateAt(now);
         alarm.setModifyAt(now);
@@ -321,12 +321,12 @@ public class AlarmAdminService implements IAlarmAdminService {
 
         Alarm alarm = new Alarm();
         alarm.setId(alarmContract.getId());
-        alarm.setAlarmName(alarmContract.getAlarm_name());
-        alarm.setAlarmType(alarmContract.getAlarm_type());
+        alarm.setAlarmName(alarmContract.getAlarmName());
+        alarm.setAlarmType(alarmContract.getAlarmType());
         alarm.setDescription(alarmContract.getDescription());
-        alarm.setOwnerKey(alarmContract.getOwner_key());
+        alarm.setOwnerKey(alarmContract.getOwnerKey());
         alarm.setStatus(alarmContract.getStatus());
-        alarm.setRiskLevel(alarmContract.getRisk_level());
+        alarm.setRiskLevel(alarmContract.getRiskLevel());
         alarm.setCron(alarmContract.getCron());
         alarm.setModifyAt(now);
         alarm.setModifier(alarmContract.getOperator());
@@ -348,13 +348,13 @@ public class AlarmAdminService implements IAlarmAdminService {
         alert.setWays(String.join(",", contract.getWays()));
         alert.setAlarmId(alarmId);
         alert.setSilence(contract.getSilence());
-        alert.setAllowSmsFrom(contract.getAllow_sms_from());
-        alert.setAllowSmsTo(contract.getAllow_sms_to());
+        alert.setAllowSmsFrom(contract.getAllowSmsFrom());
+        alert.setAllowSmsTo(contract.getAllowSmsTo());
         alert.setCreator(account);
         alert.setCreateAt(new Date());
-        alert.setDingRobotHook(contract.getDing_robot_hook());
-        alert.setHttpPostUrl(contract.getHttp_post_url());
-        alert.setWechatRobotHook(contract.getWechat_robot_hook());
+        alert.setDingRobotHook(contract.getDingRobotHook());
+        alert.setHttpPostUrl(contract.getHttpPostUrl());
+        alert.setWechatRobotHook(contract.getWechatRobotHook());
         alertRepository.insert(alert);
 
         for (String recipient : contract.getRecipients()) {
@@ -375,10 +375,10 @@ public class AlarmAdminService implements IAlarmAdminService {
 
         Rule rule = new Rule();
         rule.setAlarmId(alarmId);
-        rule.setAlertTemplate(ruleContract.getAlert_template());
+        rule.setAlertTemplate(ruleContract.getAlertTemplate());
         rule.setCreator(account);
         rule.setCreateAt(new Date());
-        rule.setRuleType(ruleContract.getRule_type());
+        rule.setRuleType(ruleContract.getRuleType());
         ruleRepository.insert(rule);
         Long ruleId = rule.getId();
         if (ruleContract.getSettings() != null) {
@@ -406,23 +406,23 @@ public class AlarmAdminService implements IAlarmAdminService {
         metric.setAlarmId(alarmId);
         metric.setCreator(account);
         metric.setRuleId(ruleId);
-        metric.setAggregationType(metricContract.getAggregation_type());
-        metric.setAggregationField(metricContract.getAggregation_field());
+        metric.setAggregationType(metricContract.getAggregationType());
+        metric.setAggregationField(metricContract.getAggregationField());
         metric.setDataName(metricContract.getDataName());
         metric.setDataSourceId(metricContract.getDataSourceId());
-        metric.setDataNameId(metricContract.getDataName_id());
-        metric.setMetricType(metricContract.getMetric_type());
-        metric.setQueryString(metricContract.getQuery_string());
-        metric.setPostData(metricContract.getPost_data());
+        metric.setDataNameId(metricContract.getDataNameId());
+        metric.setMetricType(metricContract.getMetricType());
+        metric.setQueryString(metricContract.getQueryString());
+        metric.setPostData(metricContract.getPostData());
         metric.setProperties(JacksonUtil.serialize(metricContract.getProperties()));
         metric.setCreateAt(new Date());
         metricRepository.insert(metric);
     }
 
     public void padAlarm(AlarmContract alarmContract) {
-        alarmContract.setAlarm_type(alarmContract.getMetricContract().getDataName());
-        String ruleType = metricRuleMap.get(alarmContract.getMetricContract().getMetric_type());
-        alarmContract.getRuleContract().setRule_type(ruleType);
+        alarmContract.setAlarmType(alarmContract.getMetricContract().getDataName());
+        String ruleType = metricRuleMap.get(alarmContract.getMetricContract().getMetricType());
+        alarmContract.getRuleContract().setRuleType(ruleType);
 
         if (!alarmContract.getMetricContract().getDataName().equalsIgnoreCase("http")) {
             Optional<DataName> optionalDataName = dataNameRepository.findByName(alarmContract.getMetricContract().getDataName());
@@ -430,7 +430,7 @@ public class AlarmAdminService implements IAlarmAdminService {
                 throw new ProtocolException(1290, "dataName not exist. " + alarmContract.getMetricContract().getDataName());
             }
             DataName dataName = optionalDataName.get();
-            alarmContract.getMetricContract().setDataName_id(dataName.getId());
+            alarmContract.getMetricContract().setDataNameId(dataName.getId());
             alarmContract.getMetricContract().setDataNameContract(DataAdminService.toDataNameContract(dataName));
             alarmContract.getMetricContract().setDataSourceId(dataName.getDataSourceId());
 
