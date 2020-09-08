@@ -13,7 +13,7 @@
       <el-table-column prop="id" label="ID" width="60" align="center" />
       <el-table-column prop="datasourceMame" label="名称" align="center" />
       <el-table-column prop="datasourceType" label="类型" align="center" />
-      <el-table-column prop="service_address" label="服务地址" align="center" />
+      <el-table-column prop="serviceAddress" label="服务地址" align="center" />
       <el-table-column prop="modifyAt" label="最近修改时间" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.modifyAt | timeFormat }}</span>
@@ -48,7 +48,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="服务地址" :label-width="formLabelWidth">
-          <el-input v-model="editData.service_address" autocomplete="off" placeholder="例如：127.0.0.1:9200，多地址英文逗号分隔" />
+          <el-input v-model="editData.serviceAddress" autocomplete="off" placeholder="例如：127.0.0.1:9200，多地址英文逗号分隔" />
           <!--<el-tooltip content="地址更新后，下次重启后才生效" placement="bottom">
             <i class="el-icon-question" />
           </el-tooltip>-->
@@ -93,7 +93,7 @@ export default {
         id: 0,
         datasourceMame: '',
         datasourceType: '',
-        service_address: '',
+        serviceAddress: '',
         settings: {}
       },
       formLabelWidth: '80px',
@@ -138,7 +138,7 @@ export default {
         this.editData.id = row.id
         this.editData.datasourceMame = row.datasourceMame
         this.editData.datasourceType = row.datasourceType
-        this.editData.service_address = row.service_address
+        this.editData.serviceAddress = row.serviceAddress
         this.disableTypeSelect = true
         this.editData.settings = row.settings
       } else {
@@ -158,7 +158,7 @@ export default {
     },
     save () {
       if (this.editData.datasourceType === 'elasticsearch') {
-        if (this.editData.service_address.indexOf(':') < 0) {
+        if (this.editData.serviceAddress.indexOf(':') < 0) {
           this.$message({ type: 'warning', message: 'elasticsearch地址必须指定端口', duration: 2000 })
           return
         }

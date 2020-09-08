@@ -29,7 +29,7 @@
       </el-table-column>
       <el-table-column label="最后执行结果" width="110" class-name="status-col" align="center">
         <template slot-scope="scope">
-          <el-tag size="medium" :type="scope.row.execute_result|executeResultFilter">{{ scope.row.execute_result }}</el-tag>
+          <el-tag size="medium" :type="scope.row.executeResult|executeResultFilter">{{ scope.row.executeResult }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="executeAt" label="最后执行时间" width="160" align="center">

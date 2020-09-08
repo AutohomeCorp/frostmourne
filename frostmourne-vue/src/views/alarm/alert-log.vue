@@ -64,14 +64,14 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="80" align="center" />
       <el-table-column prop="alarmId" label="监控id" align="center" />
-      <el-table-column prop="execute_id" label="执行id" align="center" />
+      <el-table-column prop="executeId" label="执行id" align="center" />
       <el-table-column prop="way" label="报警方式" align="center" />
-      <el-table-column prop="in_silence" label="静默状态" align="center" />
-      <el-table-column prop="send_status" label="发送状态" align="center" />
-      <el-table-column prop="alert_type" label="消息类型" align="center" />
-      <el-table-column prop="create_at" label="发送时间" align="center">
+      <el-table-column prop="inSilence" label="静默状态" align="center" />
+      <el-table-column prop="sendStatus" label="发送状态" align="center" />
+      <el-table-column prop="alertType" label="消息类型" align="center" />
+      <el-table-column prop="createAt" label="发送时间" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.create_at | timeFormat }}</span>
+          <span>{{ scope.row.createAt | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="210" align="center" fixed="right">
