@@ -33,10 +33,10 @@ class UserInfoRepositoryTest {
     void insert_test() {
         UserInfo insert = new UserInfo();
         insert.setAccount("test-user");
-        insert.setFull_name("test-user");
+        insert.setFullName("test-user");
         insert.setEmail("test-user@frostmourne.com");
         insert.setMobile("mobile");
-        insert.setTeam_id(1L);
+        insert.setTeamId(1L);
         insert.setWxid("wxid");
         insert.setCreator("test");
         insert.setCreateAt(DateTime.now().toDate());
@@ -51,7 +51,7 @@ class UserInfoRepositoryTest {
 
         UserInfo select = optional.get();
         System.out.println(JacksonUtil.serialize(select));
-        assertThat(insert.getFull_name(), equalTo(select.getFull_name()));
+        assertThat(insert.getFullName(), equalTo(select.getFullName()));
     }
 
 }

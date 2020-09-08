@@ -57,7 +57,7 @@ public class AlarmLogRepository implements IAlarmLogRepository {
     @Override
     public List<AlarmLog> find(Date startTime, Date endTime, Long alarmId, String verifyResult, String executeResult) {
         return alarmLogDynamicMapper.select(query -> {
-            query.where().and(createAt, isBetween(startTime).and(endTime).when((d1, d2) -> d1 != null && d2 != null))
+            query.where().and(AlarmLogDynamicSqlSupport.createAt, isBetween(startTime).and(endTime).when((d1, d2) -> d1 != null && d2 != null))
                     .and(AlarmLogDynamicSqlSupport.alarmId, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
                     .and(AlarmLogDynamicSqlSupport.verifyResult, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
                     .and(AlarmLogDynamicSqlSupport.executeResult, isEqualTo(executeResult).when(MybatisTool::notNullAndEmpty))
