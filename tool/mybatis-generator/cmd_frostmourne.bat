@@ -1,2 +1,2 @@
-java -jar mybatis-generator-core-1.3.2.jar -configfile generatorConfig.xml -overwrite
+java -jar mybatis-generator-core-1.4.0.jar -configfile generatorConfig.xml -overwrite
 pause
