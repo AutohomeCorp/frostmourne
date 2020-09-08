@@ -25,7 +25,7 @@ public class DepartmentInfoService implements IDepartmentInfoService {
 
     @Override
     public boolean insert(DepartmentInfo departmentInfo, String account) {
-        Optional<DepartmentInfo> optionalDepartmentInfo = departmentInfoRepository.findByDepartmentName(departmentInfo.getDepartment_name());
+        Optional<DepartmentInfo> optionalDepartmentInfo = departmentInfoRepository.findByDepartmentName(departmentInfo.getDepartmentName());
         if (optionalDepartmentInfo.isPresent()) {
             throw new ProtocolException(5101, "部门已经存在");
         }

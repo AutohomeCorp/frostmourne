@@ -57,17 +57,17 @@ public class DataAdminService implements IDataAdminService {
     @Override
     public boolean saveDataSource(String account, DataSourceContract dataSourceContract) {
         DataSource dataSource = new DataSource();
-        dataSource.setDatasourceName(dataSourceContract.getDatasource_name());
-        dataSource.setDatasourceType(dataSourceContract.getDatasource_type());
+        dataSource.setDatasourceName(dataSourceContract.getDatasourceName());
+        dataSource.setDatasourceType(dataSourceContract.getDatasourceType());
         dataSource.setModifier(account);
-        dataSource.setServiceAddress(dataSourceContract.getService_address());
-        dataSource.setModify_at(new Date());
+        dataSource.setServiceAddress(dataSourceContract.getServiceAddress());
+        dataSource.setModifyAt(new Date());
         if (dataSourceContract.getSettings() != null && dataSourceContract.getSettings().size() > 0) {
             dataSource.setProperties(JacksonUtil.serialize(dataSourceContract.getSettings()));
         }
         if (dataSourceContract.getId() != null && dataSourceContract.getId() > 0) {
             dataSource.setId(dataSourceContract.getId());
-            if (dataSource.getDatasource_type().equalsIgnoreCase("elasticsearch")) {
+            if (dataSource.getDatasourceType().equalsIgnoreCase("elasticsearch")) {
                 boolean reloadResult = elasticsearchSourceManager.reloadEsRestClientContainer(new ElasticsearchInfo(dataSourceContract));
                 if (!reloadResult) {
                     return false;
@@ -76,7 +76,7 @@ public class DataAdminService implements IDataAdminService {
             return dataSourceRepository.updateByPrimaryKeySelective(dataSource) > 0;
         }
         dataSource.setCreator(account);
-        dataSource.setCreate_at(new Date());
+        dataSource.setCreateAt(new Date());
         return dataSourceRepository.insert(dataSource) > 0;
 
     }
@@ -128,12 +128,12 @@ public class DataAdminService implements IDataAdminService {
                     .filter(dataName -> dataName.getDataSourceId().equals(dataSource.getId()))
                     .map(DataAdminService::toDataNameContract)
                     .collect(Collectors.toList()));
-            if (dataOptionMap.containsKey(dataSource.getDatasource_type())) {
-                dataOptionMap.get(dataSource.getDatasource_type()).add(dataSourceOption);
+            if (dataOptionMap.containsKey(dataSource.getDatasourceType())) {
+                dataOptionMap.get(dataSource.getDatasourceType()).add(dataSourceOption);
             } else {
                 List<DataSourceOption> dataSourceOptionList = new ArrayList<>();
                 dataSourceOptionList.add(dataSourceOption);
-                dataOptionMap.put(dataSource.getDatasource_type(), dataSourceOptionList);
+                dataOptionMap.put(dataSource.getDatasourceType(), dataSourceOptionList);
             }
         }
 
@@ -176,7 +176,7 @@ public class DataAdminService implements IDataAdminService {
         }
         return items.stream()
                 .map(item -> {
-                    TreeDataOption option = new TreeDataOption(String.valueOf(item.getDataSource().getId()), item.getDataSource().getDatasource_name());
+                    TreeDataOption option = new TreeDataOption(String.valueOf(item.getDataSource().getId()), item.getDataSource().getDatasourceName());
                     option.setChildren(this.parseTreeDataOptionByDataNameContracts(item.getDataNameContractList()));
                     return option;
                 })
@@ -188,7 +188,7 @@ public class DataAdminService implements IDataAdminService {
             return Collections.emptyList();
         }
         return items.stream()
-                .map(item -> new TreeDataOption(item.getData_name(), item.getDisplay_name()))
+                .map(item -> new TreeDataOption(item.getDataName(), item.getDisplayName()))
                 .collect(Collectors.toList());
     }
 
@@ -196,24 +196,24 @@ public class DataAdminService implements IDataAdminService {
     public boolean saveDataName(String account, DataNameContract dataNameContract) {
         DataName dataName = new DataName();
         Date now = new Date();
-        dataName.setData_name(dataNameContract.getData_name());
+        dataName.setDataName(dataNameContract.getDataName());
         dataName.setModifier(account);
-        dataName.setModify_at(now);
-        dataName.setData_source_id(dataNameContract.getDataSourceId());
-        dataName.setDatasourceType(dataNameContract.getDatasource_type());
-        dataName.setDisplay_name(dataNameContract.getDisplay_name());
+        dataName.setModifyAt(now);
+        dataName.setDataSourceId(dataNameContract.getDataSourceId());
+        dataName.setDatasourceType(dataNameContract.getDatasourceType());
+        dataName.setDisplayName(dataNameContract.getDisplayName());
         dataName.setProperties(JacksonUtil.serialize(dataNameContract.getSettings()));
-        dataName.setTimestamp_field(dataNameContract.getTimestamp_field());
+        dataName.setTimestampField(dataNameContract.getTimestampField());
         if (dataNameContract.getId() != null && dataNameContract.getId() > 0) {
             dataName.setId(dataNameContract.getId());
             return this.dataNameRepository.updateByPrimaryKeySelective(dataName) > 0;
         }
-        Optional<DataName> oldDataName = this.dataNameRepository.findByName(dataNameContract.getData_name());
+        Optional<DataName> oldDataName = this.dataNameRepository.findByName(dataNameContract.getDataName());
         if (oldDataName.isPresent()) {
             throw new ProtocolException(504, "数据名称发生重复");
         }
         dataName.setCreator(account);
-        dataName.setCreate_at(now);
+        dataName.setCreateAt(now);
         return this.dataNameRepository.insert(dataName) > 0;
     }
 
@@ -253,21 +253,21 @@ public class DataAdminService implements IDataAdminService {
         }
         return dataNameRepository.findByNames(names).stream()
                 .map(DataNameTransformer::model2Contract)
-                .collect(Collectors.toMap(DataNameContract::getData_name, item -> item, (v1, v2) -> v1));
+                .collect(Collectors.toMap(DataNameContract::getDataName, item -> item, (v1, v2) -> v1));
     }
 
     static DataNameContract toDataNameContract(DataName dataName) {
         DataNameContract dataNameContract = new DataNameContract();
         dataNameContract.setId(dataName.getId());
-        dataNameContract.setData_source_id(dataName.getDataSourceId());
-        dataNameContract.setDatasourceType(dataName.getDatasource_type());
-        dataNameContract.setData_name(dataName.getData_name());
-        dataNameContract.setDisplay_name(dataName.getDisplay_name());
-        dataNameContract.setTimestamp_field(dataName.getTimestamp_field());
+        dataNameContract.setDataSourceId(dataName.getDataSourceId());
+        dataNameContract.setDatasourceType(dataName.getDatasourceType());
+        dataNameContract.setDataName(dataName.getDataName());
+        dataNameContract.setDisplayName(dataName.getDisplayName());
+        dataNameContract.setTimestampField(dataName.getTimestampField());
         dataNameContract.setCreator(dataName.getCreator());
-        dataNameContract.setCreate_at(dataName.getCreate_at());
+        dataNameContract.setCreateAt(dataName.getCreateAt());
         dataNameContract.setModifier(dataName.getModifier());
-        dataNameContract.setModify_at(dataName.getModify_at());
+        dataNameContract.setModifyAt(dataName.getModifyAt());
         dataNameContract.setSettings(JacksonUtil.deSerialize(dataName.getProperties(), new TypeReference<Map<String, String>>() {
         }));
 

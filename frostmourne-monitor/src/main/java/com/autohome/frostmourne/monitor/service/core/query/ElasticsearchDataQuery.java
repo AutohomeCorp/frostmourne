@@ -67,7 +67,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
             queryEnd = DateTime.now();
         }
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery().must(new QueryStringQueryBuilder(esQuery))
-                .must(QueryBuilders.rangeQuery(dataNameContract.getTimestamp_field())
+                .must(QueryBuilders.rangeQuery(dataNameContract.getTimestampField())
                         .from(start.toDateTimeISO().toString())
                         .to(queryEnd.toDateTimeISO().toString())
                         .includeLower(true)
@@ -85,7 +85,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
             if (Strings.isNullOrEmpty(scrollId)) {
                 SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
                 searchSourceBuilder.query(boolQueryBuilder);
-                searchSourceBuilder.sort(dataNameContract.getTimestamp_field(), SortOrder.fromString(sortOrder));
+                searchSourceBuilder.sort(dataNameContract.getTimestampField(), SortOrder.fromString(sortOrder));
                 searchSourceBuilder.size(50);
                 searchSourceBuilder.trackTotalHits(true);
                 searchSourceBuilder.trackScores(false);
@@ -98,7 +98,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
                             AggregationBuilders.dateHistogram("date_hist")
                                     .timeZone(DateTimeZone.getDefault())
                                     .extendedBounds(new ExtendedBounds(start.getMillis(), end.getMillis()))
-                                    .field(dataNameContract.getTimestamp_field())
+                                    .field(dataNameContract.getTimestampField())
                                     .format("yyyy-MM-dd'T'HH:mm:ssZ")
                                     .dateHistogramInterval(DateHistogramInterval.seconds(intervalInSeconds));
                     searchSourceBuilder.aggregation(dateHistogramAggregationBuilder);
@@ -112,7 +112,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         } catch (IOException ex) {
             throw new ProtocolException(520, "error when search elasticsearch data", ex);
         }
-        ElasticsearchDataResult elasticsearchDataResult = parseResult(searchResponse, dataNameContract.getTimestamp_field());
+        ElasticsearchDataResult elasticsearchDataResult = parseResult(searchResponse, dataNameContract.getTimestampField());
         if (Strings.isNullOrEmpty(scrollId) && elasticsearchDataResult.getTotal() == 0) {
             try {
                 long total = esRestClientContainer.totalCount(boolQueryBuilder, indices);
@@ -130,7 +130,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         EsRestClientContainer esRestClientContainer = elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
                 .must(new QueryStringQueryBuilder(metricContract.getQuery_string()))
-                .must(QueryBuilders.rangeQuery(metricContract.getDataNameContract().getTimestamp_field())
+                .must(QueryBuilders.rangeQuery(metricContract.getDataNameContract().getTimestampField())
                         .from(start.toDateTimeISO().toString())
                         .to(end.toDateTimeISO().toString())
                         .includeLower(true)
@@ -158,7 +158,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         searchSourceBuilder.trackScores(false);
         searchSourceBuilder.trackTotalHits(true);
         searchSourceBuilder.query(boolQueryBuilder).from(0).size(1)
-                .sort(metricContract.getDataNameContract().getTimestamp_field(), SortOrder.DESC);
+                .sort(metricContract.getDataNameContract().getTimestampField(), SortOrder.DESC);
         attachAggregation(metricContract, searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
         SearchResponse searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);

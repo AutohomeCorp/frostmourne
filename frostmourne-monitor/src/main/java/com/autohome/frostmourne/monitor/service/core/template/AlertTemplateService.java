@@ -156,16 +156,16 @@ public class AlertTemplateService implements IAlertTemplateService {
                 } else {
                     item.setTemplateTypeTreeValues(Arrays.asList(
                             TemplateType.DATA_NAME.name(),
-                            contract.getDatasource_type(),
+                            contract.getDatasourceType(),
                             String.valueOf(contract.getDataSourceId()),
-                            contract.getData_name()));
+                            contract.getDataName()));
                     item.setTemplateTypeTreeLabels(Arrays.asList(
                             TemplateType.DATA_NAME.getDisplanName(),
-                            contract.getDatasource_type(),
+                            contract.getDatasourceType(),
                             Optional.ofNullable(dataSourceMap.get(contract.getDataSourceId()))
-                                    .map(DataSource::getDatasource_name)
+                                    .map(DataSource::getDatasourceName)
                                     .orElse(String.valueOf(contract.getDataSourceId())),
-                            contract.getDisplay_name()));
+                            contract.getDisplayName()));
                 }
             }
         });

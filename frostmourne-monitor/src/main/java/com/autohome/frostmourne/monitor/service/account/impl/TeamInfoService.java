@@ -24,7 +24,7 @@ public class TeamInfoService implements ITeamInfoService {
 
     @Override
     public boolean insert(TeamInfo teamInfo, String account) {
-        Optional<TeamInfo> optionalTeamInfo = teamInfoRepository.findByName(teamInfo.getTeam_name());
+        Optional<TeamInfo> optionalTeamInfo = teamInfoRepository.findByName(teamInfo.getTeamName());
         if (optionalTeamInfo.isPresent()) {
             throw new ProtocolException(567, "团队名已经存在");
         }

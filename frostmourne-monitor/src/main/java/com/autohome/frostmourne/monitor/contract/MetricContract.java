@@ -50,15 +50,15 @@ public class MetricContract {
         return data_source_id;
     }
 
-    public void setData_source_id(Long data_source_id) {
+    public void setDataSourceId(Long data_source_id) {
         this.data_source_id = data_source_id;
     }
 
-    public String getData_name() {
+    public String getDataName() {
         return data_name;
     }
 
-    public void setData_name(String data_name) {
+    public void setDataName(String data_name) {
         this.data_name = data_name;
     }
 
@@ -94,11 +94,11 @@ public class MetricContract {
         this.dataNameContract = dataNameContract;
     }
 
-    public Long getData_name_id() {
+    public Long getDataName_id() {
         return data_name_id;
     }
 
-    public void setData_name_id(Long data_name_id) {
+    public void setDataName_id(Long data_name_id) {
         this.data_name_id = data_name_id;
     }
 

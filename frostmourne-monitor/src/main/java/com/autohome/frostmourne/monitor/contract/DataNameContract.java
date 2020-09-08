@@ -35,19 +35,19 @@ public class DataNameContract {
         this.id = id;
     }
 
-    public String getData_name() {
+    public String getDataName() {
         return data_name;
     }
 
-    public void setData_name(String data_name) {
+    public void setDataName(String data_name) {
         this.data_name = data_name;
     }
 
-    public String getDisplay_name() {
+    public String getDisplayName() {
         return display_name;
     }
 
-    public void setDisplay_name(String display_name) {
+    public void setDisplayName(String display_name) {
         this.display_name = display_name;
     }
 
@@ -55,15 +55,15 @@ public class DataNameContract {
         return data_source_id;
     }
 
-    public void setData_source_id(Long data_source_id) {
+    public void setDataSourceId(Long data_source_id) {
         this.data_source_id = data_source_id;
     }
 
-    public String getTimestamp_field() {
+    public String getTimestampField() {
         return timestamp_field;
     }
 
-    public void setTimestamp_field(String timestamp_field) {
+    public void setTimestampField(String timestamp_field) {
         this.timestamp_field = timestamp_field;
     }
 
@@ -75,7 +75,7 @@ public class DataNameContract {
         this.settings = settings;
     }
 
-    public String getDatasource_type() {
+    public String getDatasourceType() {
         return datasource_type;
     }
 
@@ -91,11 +91,11 @@ public class DataNameContract {
         this.creator = creator;
     }
 
-    public Date getCreate_at() {
+    public Date getCreateAt() {
         return create_at;
     }
 
-    public void setCreate_at(Date create_at) {
+    public void setCreateAt(Date create_at) {
         this.create_at = create_at;
     }
 
@@ -107,11 +107,11 @@ public class DataNameContract {
         this.modifier = modifier;
     }
 
-    public Date getModify_at() {
+    public Date getModifyAt() {
         return modify_at;
     }
 
-    public void setModify_at(Date modify_at) {
+    public void setModifyAt(Date modify_at) {
         this.modify_at = modify_at;
     }
 }

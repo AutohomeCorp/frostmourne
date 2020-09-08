@@ -39,9 +39,9 @@ class UserInfoRepositoryTest {
         insert.setTeam_id(1L);
         insert.setWxid("wxid");
         insert.setCreator("test");
-        insert.setCreate_at(DateTime.now().toDate());
+        insert.setCreateAt(DateTime.now().toDate());
         insert.setModifier("test");
-        insert.setModify_at(DateTime.now().toDate());
+        insert.setModifyAt(DateTime.now().toDate());
 
         boolean result = userInfoRepository.insert(insert);
         assertTrue(result);

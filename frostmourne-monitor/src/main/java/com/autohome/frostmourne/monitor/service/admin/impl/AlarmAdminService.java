@@ -190,10 +190,10 @@ public class AlarmAdminService implements IAlarmAdminService {
         metricContract.setAggregation_type(metric.getAggregationType());
         metricContract.setAggregation_field(metric.getAggregationField());
         metricContract.setQuery_string(metric.getQueryString());
-        metricContract.setData_source_id(metric.getDataSourceId());
-        metricContract.setData_name(metric.getDataName());
+        metricContract.setDataSourceId(metric.getDataSourceId());
+        metricContract.setDataName(metric.getDataName());
         metricContract.setMetric_type(metric.getMetricType());
-        metricContract.setData_name_id(metric.getDataNameId());
+        metricContract.setDataName_id(metric.getDataNameId());
         metricContract.setAlarm_id(alarmId);
         metricContract.setPost_data(metric.getPostData());
         metricContract.setProperties(JacksonUtil.deSerialize(metric.getProperties(), new TypeReference<Map<String, Object>>() {
@@ -247,7 +247,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertContract.setDing_robot_hook(alert.getDingRobotHook());
         alertContract.setHttp_post_url(alert.getHttpPostUrl());
         alertContract.setWechat_robot_hook(alert.getWechatRobotHook());
-        alertContract.setCreate_at(alert.getCreateAt());
+        alertContract.setCreateAt(alert.getCreateAt());
 
         List<Recipient> recipientList = this.recipientRepository.findByAlarm(alarmId);
         alertContract.setRecipients(recipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
@@ -299,7 +299,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setAlarmType(alarmContract.getAlarm_type());
         alarm.setCreator(alarmContract.getOperator());
         alarm.setCron(alarmContract.getCron());
-        alarm.setTeamName(alarmContract.getTeam_name());
+        alarm.setTeamName(alarmContract.getTeamName());
         alarm.setDescription(alarmContract.getDescription());
         alarm.setModifier(alarmContract.getOperator());
         alarm.setOwnerKey(alarmContract.getOwner_key());
@@ -330,7 +330,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setCron(alarmContract.getCron());
         alarm.setModifyAt(now);
         alarm.setModifier(alarmContract.getOperator());
-        alarm.setTeamName(alarmContract.getTeam_name());
+        alarm.setTeamName(alarmContract.getTeamName());
         alarm.setServiceId(Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
 
         alarmRepository.updateByPrimaryKeySelective(alarm);
@@ -408,9 +408,9 @@ public class AlarmAdminService implements IAlarmAdminService {
         metric.setRuleId(ruleId);
         metric.setAggregationType(metricContract.getAggregation_type());
         metric.setAggregationField(metricContract.getAggregation_field());
-        metric.setDataName(metricContract.getData_name());
+        metric.setDataName(metricContract.getDataName());
         metric.setDataSourceId(metricContract.getDataSourceId());
-        metric.setDataNameId(metricContract.getData_name_id());
+        metric.setDataNameId(metricContract.getDataName_id());
         metric.setMetricType(metricContract.getMetric_type());
         metric.setQueryString(metricContract.getQuery_string());
         metric.setPostData(metricContract.getPost_data());
@@ -420,19 +420,19 @@ public class AlarmAdminService implements IAlarmAdminService {
     }
 
     public void padAlarm(AlarmContract alarmContract) {
-        alarmContract.setAlarm_type(alarmContract.getMetricContract().getData_name());
+        alarmContract.setAlarm_type(alarmContract.getMetricContract().getDataName());
         String ruleType = metricRuleMap.get(alarmContract.getMetricContract().getMetric_type());
         alarmContract.getRuleContract().setRule_type(ruleType);
 
-        if (!alarmContract.getMetricContract().getData_name().equalsIgnoreCase("http")) {
-            Optional<DataName> optionalDataName = dataNameRepository.findByName(alarmContract.getMetricContract().getData_name());
+        if (!alarmContract.getMetricContract().getDataName().equalsIgnoreCase("http")) {
+            Optional<DataName> optionalDataName = dataNameRepository.findByName(alarmContract.getMetricContract().getDataName());
             if (!optionalDataName.isPresent()) {
-                throw new ProtocolException(1290, "dataName not exist. " + alarmContract.getMetricContract().getData_name());
+                throw new ProtocolException(1290, "dataName not exist. " + alarmContract.getMetricContract().getDataName());
             }
             DataName dataName = optionalDataName.get();
-            alarmContract.getMetricContract().setData_name_id(dataName.getId());
+            alarmContract.getMetricContract().setDataName_id(dataName.getId());
             alarmContract.getMetricContract().setDataNameContract(DataAdminService.toDataNameContract(dataName));
-            alarmContract.getMetricContract().setData_source_id(dataName.getDataSourceId());
+            alarmContract.getMetricContract().setDataSourceId(dataName.getDataSourceId());
 
             Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(dataName.getDataSourceId());
             DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)

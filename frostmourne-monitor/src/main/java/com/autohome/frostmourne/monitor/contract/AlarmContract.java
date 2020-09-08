@@ -150,7 +150,7 @@ public class AlarmContract {
         this.alertContract = alertContract;
     }
 
-    public String getTeam_name() {
+    public String getTeamName() {
         return team_name;
     }
 

@@ -31,7 +31,7 @@ public class DataSourceContract {
         this.id = id;
     }
 
-    public String getDatasource_name() {
+    public String getDatasourceName() {
         return datasource_name;
     }
 
@@ -39,7 +39,7 @@ public class DataSourceContract {
         this.datasource_name = datasource_name;
     }
 
-    public String getDatasource_type() {
+    public String getDatasourceType() {
         return datasource_type;
     }
 
@@ -47,7 +47,7 @@ public class DataSourceContract {
         this.datasource_type = datasource_type;
     }
 
-    public String getService_address() {
+    public String getServiceAddress() {
         return service_address;
     }
 
@@ -71,11 +71,11 @@ public class DataSourceContract {
         this.creator = creator;
     }
 
-    public Date getCreate_at() {
+    public Date getCreateAt() {
         return create_at;
     }
 
-    public void setCreate_at(Date create_at) {
+    public void setCreateAt(Date create_at) {
         this.create_at = create_at;
     }
 
@@ -87,11 +87,11 @@ public class DataSourceContract {
         this.modifier = modifier;
     }
 
-    public Date getModify_at() {
+    public Date getModifyAt() {
         return modify_at;
     }
 
-    public void setModify_at(Date modify_at) {
+    public void setModifyAt(Date modify_at) {
         this.modify_at = modify_at;
     }
 }

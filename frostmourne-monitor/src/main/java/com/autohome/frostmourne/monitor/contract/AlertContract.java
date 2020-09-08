@@ -59,11 +59,11 @@ public class AlertContract {
         this.creator = creator;
     }
 
-    public Date getCreate_at() {
+    public Date getCreateAt() {
         return create_at;
     }
 
-    public void setCreate_at(Date create_at) {
+    public void setCreateAt(Date create_at) {
         this.create_at = create_at;
     }
 
