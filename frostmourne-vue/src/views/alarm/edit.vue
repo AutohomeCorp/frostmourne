@@ -5,8 +5,8 @@
         <el-tab-pane label="基础信息">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="监控名称:" prop="alarm_name">
-                <el-input v-model="form.alarm_name" />
+              <el-form-item label="监控名称:" prop="alarmName">
+                <el-input v-model="form.alarmName" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -25,7 +25,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="风险等级:">
-                <el-select v-model="form.risk_level" size="small" style="width:100px" placeholder="风险等级">
+                <el-select v-model="form.riskLevel" size="small" style="width:100px" placeholder="风险等级">
                   <el-option label="提示" value="info" />
                   <el-option label="重要" value="important" />
                   <el-option label="紧急" value="emergency" />
@@ -37,12 +37,12 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="所属对象:">
-                <el-input v-model="form.owner_key" placeholder="表示这个监控的归属对象关系" />
+                <el-input v-model="form.ownerKey" placeholder="表示这个监控的归属对象关系" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="所属团队:" prop="team_name">
-                <el-select v-model="form.team_name" placeholder="选择团队">
+              <el-form-item label="所属团队:" prop="teamName">
+                <el-select v-model="form.teamName" placeholder="选择团队">
                   <el-option v-for="item in teamList" :key="item.name" :label="item.fullName" :value="item.name" />
                 </el-select>
               </el-form-item>
@@ -63,13 +63,13 @@
         <el-tab-pane label="数据配置">
           <el-row>
             <el-col :span="6">
-              <el-form-item label="数据:" prop="metricContract.data_name">
+              <el-form-item label="数据:" prop="metricContract.dataName">
                 <el-cascader v-model="dataValue" width="100" size="medium" :show-all-levels="false" :options="dataOptions" @change="dataChange" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item v-if="dataSourceType === 'elasticsearch'" label="聚合类型:">
-                <el-select v-model="form.metricContract.aggregation_type">
+                <el-select v-model="form.metricContract.aggregationType">
                   <el-option label="count" value="count" />
                   <el-option label="avg" value="avg" />
                   <el-option label="min" value="min" />
@@ -82,19 +82,19 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregation_type === 'percentiles'" label="百分比:">
+              <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregationType === 'percentiles'" label="百分比:">
                 <el-input v-model="form.metricContract.properties.percent" placeholder="例如: 90" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregation_type !== 'count'" label="聚合字段:">
-                <el-input v-model="form.metricContract.aggregation_field" />
+              <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregationType !== 'count'" label="聚合字段:">
+                <el-input v-model="form.metricContract.aggregationField" />
               </el-form-item>
             </el-col>
           </el-row>
 
-          <el-form-item label="查询语句:" prop="metricContract.query_string">
-            <el-input v-model="form.metricContract.query_string" />
+          <el-form-item label="查询语句:" prop="metricContract.queryString">
+            <el-input v-model="form.metricContract.queryString" />
           </el-form-item>
           <el-form-item v-if="dataSourceType === 'http'" label="HTTP头:">
             <template v-if="httpHeaders.length === 0">
@@ -111,13 +111,13 @@
             </template>
           </el-form-item>
           <el-form-item v-if="dataSourceType === 'http'" label="POST数据:">
-            <el-input v-model="form.metricContract.post_data" type="textarea" />
+            <el-input v-model="form.metricContract.postData" type="textarea" />
             <el-button type="primary" @click="handleHttpTest">测试请求</el-button>
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="报警规则">
-          <el-form-item label="判断类型:" prop="metricContract.metric_type">
-            <el-select v-model="form.metricContract.metric_type" @change="metricTypeChangeHandler">
+          <el-form-item label="判断类型:" prop="metricContract.metricType">
+            <el-select v-model="form.metricContract.metricType" @change="metricTypeChangeHandler">
               <el-option v-if="dataSourceType !== 'http'" label="数值比较" value="numeric" />
               <el-option v-if="dataSourceType === 'http'" label="Javascript表达式" value="object" />
               <!--<el-option label="环比" value="ring_than"/>-->
@@ -125,7 +125,7 @@
             </el-select>
           </el-form-item>
           <el-row>
-            <el-form-item v-if="form.metricContract.metric_type === 'numeric'" label="判断规则:">
+            <el-form-item v-if="form.metricContract.metricType === 'numeric'" label="判断规则:">
               最近
               <el-input-number v-model="form.ruleContract.settings.TIME_WINDOW" size="small" :min="1" label="间隔分钟" />分钟；指标数值
               <el-select v-model="form.ruleContract.settings.OPERATOR" size="small" style="width:100px" placeholder="比较类型">
@@ -136,10 +136,10 @@
               <el-input-number v-model="form.ruleContract.settings.THRESHOLD" :precision="2" size="small" label="阈值" />
             </el-form-item>
           </el-row>
-          <el-form-item v-if="form.metricContract.metric_type === 'object'" label="判断表达式:">
+          <el-form-item v-if="form.metricContract.metricType === 'object'" label="判断表达式:">
             <el-input v-model="form.ruleContract.settings.EXPRESSION" type="textarea" />
           </el-form-item>
-          <el-form-item v-if="form.metricContract.metric_type === 'ring_than'" label="判断规则:">
+          <el-form-item v-if="form.metricContract.metricType === 'ring_than'" label="判断规则:">
             <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
               <el-option label="周" value="week" />
               <el-option label="日" value="day" />
@@ -152,7 +152,7 @@
             </el-select>百分之
             <el-input v-model="form.ruleContract.settings.PERCENT_THRESHOLD" style="width: 150px" />
           </el-form-item>
-          <el-form-item v-if="form.metricContract.metric_type === 'same_time'" label="判断规则:">
+          <el-form-item v-if="form.metricContract.metricType === 'same_time'" label="判断规则:">
             <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
               <el-option label="小时" value="hour" />
               <el-option label="天" value="day" />
@@ -187,8 +187,8 @@
             </el-select>
             <el-button type="primary" :disabled="alertTemplateOption==null" @click="importAlertTemplate">导入模板</el-button>
           </el-form-item>
-          <el-form-item label="消息模板:" prop="ruleContract.alert_template">
-            <el-input v-model="form.ruleContract.alert_template" type="textarea" rows="5" />
+          <el-form-item label="消息模板:" prop="ruleContract.alertTemplate">
+            <el-input v-model="form.ruleContract.alertTemplate" type="textarea" rows="5" />
           </el-form-item>
         </el-tab-pane>
       </el-tabs>
@@ -205,13 +205,13 @@
             </el-checkbox-group>
           </el-form-item>
           <el-form-item v-if="form.alertContract.ways.includes('dingding')" label="钉钉机器人:">
-            <el-input v-model="form.alertContract.ding_robot_hook" size="small" placeholder="选填" />
+            <el-input v-model="form.alertContract.dingRobotHook" size="small" placeholder="选填" />
           </el-form-item>
           <el-form-item v-if="form.alertContract.ways.includes('wechat')" label="微信机器人:">
-            <el-input v-model="form.alertContract.wechat_robot_hook" size="small" placeholder="选填" />
+            <el-input v-model="form.alertContract.wechatRobotHook" size="small" placeholder="选填" />
           </el-form-item>
           <el-form-item v-if="form.alertContract.ways.includes('http_post')" label="HTTP地址:">
-            <el-input v-model="form.alertContract.http_post_url" size="small" placeholder="必填" />
+            <el-input v-model="form.alertContract.httpPostUrl" size="small" placeholder="必填" />
           </el-form-item>
           <el-form-item label="静默时间:">
             <el-input-number v-model="form.alertContract.silence" size="small" :min="1" label="静默时间" />分钟
@@ -308,26 +308,26 @@ export default {
       loading: false,
       recipientList: [],
       form: {
-        alarm_name: '',
-        owner_key: '',
+        alarmName: '',
+        ownerKey: '',
         status: 'OPEN',
-        team_name: '',
+        teamName: '',
         description: '',
         cron: '',
         metricContract: {
-          query_string: '',
-          post_data: null,
-          aggregation_type: '',
-          aggregation_field: '',
-          metric_type: '',
-          data_source_id: 0,
-          data_name_id: 0,
-          data_name: '',
+          queryString: '',
+          postData: null,
+          aggregationType: '',
+          aggregationField: '',
+          metricType: '',
+          dataSourceId: 0,
+          dataNameId: 0,
+          dataName: '',
           properties: {}
         },
         ruleContract: {
-          rule_type: '',
-          alert_template: '${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一条异常信息:\r\n' +
+          ruleType: '',
+          alertTemplate: '${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一条异常信息:\r\n' +
             '服务器IP: ${ServerIP}\r\n' +
             '异常类型: ${ExceptionType}\r\n' +
             '自定义信息: ${CustomMessage}\r\n' +
@@ -344,25 +344,25 @@ export default {
         }
       },
       rules: {
-        alarm_name: [
+        alarmName: [
           { required: true, message: '请输入监控名称', trigger: 'blur' }
         ],
-        team_name: [
+        teamName: [
           { required: true, message: '请选择团队', trigger: 'change' }
         ],
         description: [
           { required: true, message: '请输入描述', trigger: 'blur' }
         ],
-        'metricContract.data_name': [
+        'metricContract.dataName': [
           { required: true, message: '请选择数据', trigger: 'change' }
         ],
-        'metricContract.query_string': [
+        'metricContract.queryString': [
           { required: true, message: '请输入查询语句', trigger: 'blur' }
         ],
-        'metricContract.metric_type': [
+        'metricContract.metricType': [
           { required: true, message: '请选择判断类型', trigger: 'change' }
         ],
-        'ruleContract.alert_template': [
+        'ruleContract.alertTemplate': [
           { required: true, message: '请输入消息模板', trigger: 'blur' }
         ],
         'alertContract.ways': [
@@ -410,12 +410,12 @@ export default {
       this.recipientList = response.result
     })
 
-    if (this.$route.query.data_name) {
-      this.dataValue.push(this.$route.query.datasource_type)
-      this.dataValue.push(this.$route.query.datasource_id)
-      this.dataValue.push(this.$route.query.data_name)
-      this.dataSourceType = this.$route.query.datasource_type
-      this.form.metricContract.query_string = this.$route.query.query_string
+    if (this.$route.query.dataName) {
+      this.dataValue.push(this.$route.query.datasourceType)
+      this.dataValue.push(this.$route.query.datasourceId)
+      this.dataValue.push(this.$route.query.dataName)
+      this.dataSourceType = this.$route.query.datasourceType
+      this.form.metricContract.queryString = this.$route.query.queryString
       this.dataChange(this.dataValue)
     } else {
       this.initAlertTemplateOptions()
@@ -460,7 +460,7 @@ export default {
     },
     onSaveAnother () {
       this.copyToProperties()
-      this.form.alarm_name = this.form.alarm_name + '(copy)'
+      this.form.alarmName = this.form.alarmName + '(copy)'
       adminApi.saveAnother(this.form)
         .then(response => this.success('另存成功！'))
         .catch(error => {
@@ -532,14 +532,14 @@ export default {
           this.form = response.result
           this.copyToHeaders(this.form.metricContract.properties)
 
-          if (response.result.metricContract.data_name === 'http') {
+          if (response.result.metricContract.dataName === 'http') {
             this.dataValue.push('http')
             this.dataSourceType = 'http'
           } else {
-            this.dataValue.push(response.result.metricContract.dataSourceContract.datasource_type)
+            this.dataValue.push(response.result.metricContract.dataSourceContract.datasourceType)
             this.dataValue.push(response.result.metricContract.dataSourceContract.id)
-            this.dataValue.push(response.result.metricContract.data_name)
-            this.dataSourceType = response.result.metricContract.dataSourceContract.datasource_type
+            this.dataValue.push(response.result.metricContract.dataName)
+            this.dataSourceType = response.result.metricContract.dataSourceContract.datasourceType
           }
           if (callback) {
             callback()
@@ -548,23 +548,23 @@ export default {
     },
     dataChange (value) {
       if (value.length === 0) {
-        this.form.metricContract.data_source_id = 0
-        this.form.metricContract.data_name = ''
+        this.form.metricContract.dataSourceId = 0
+        this.form.metricContract.dataName = ''
         this.initAlertTemplateOptions()
         return
       }
       this.dataSourceType = value[0]
       if (this.dataSourceType === 'http') {
-        this.form.metricContract.data_source_id = 0
-        this.form.metricContract.data_name = 'http'
-        this.form.metricContract.metric_type = 'object'
-        this.form.ruleContract.rule_type = 'expression'
+        this.form.metricContract.dataSourceId = 0
+        this.form.metricContract.dataName = 'http'
+        this.form.metricContract.metricType = 'object'
+        this.form.ruleContract.ruleType = 'expression'
         this.initAlertTemplateOptions()
         return
       }
-      this.form.metricContract.data_source_id = value[1]
-      this.form.metricContract.data_name = value[2]
-      this.form.metricContract.metric_type = ''
+      this.form.metricContract.dataSourceId = value[1]
+      this.form.metricContract.dataName = value[2]
+      this.form.metricContract.metricType = ''
       this.initAlertTemplateOptions()
     },
     tabClick (tab, event) {
@@ -619,15 +619,15 @@ export default {
           }
           for (var j = 0; j < remoteOptions[i].dataSourceOptionList.length; j++) {
             var dataSource = {
-              label: remoteOptions[i].dataSourceOptionList[j].dataSource.datasource_name,
+              label: remoteOptions[i].dataSourceOptionList[j].dataSource.datasourceMame,
               value: remoteOptions[i].dataSourceOptionList[j].dataSource.id,
               children: []
             }
 
             for (var k = 0; k < remoteOptions[i].dataSourceOptionList[j].dataNameContractList.length; k++) {
               dataSource.children.push({
-                label: remoteOptions[i].dataSourceOptionList[j].dataNameContractList[k].display_name,
-                value: remoteOptions[i].dataSourceOptionList[j].dataNameContractList[k].data_name
+                label: remoteOptions[i].dataSourceOptionList[j].dataNameContractList[k].displayName,
+                value: remoteOptions[i].dataSourceOptionList[j].dataNameContractList[k].dataName
               })
             }
             dataOption.children.push(dataSource)
@@ -647,7 +647,7 @@ export default {
     },
     metricTypeChangeHandler (newValue) {
       if (newValue === 'same_time') {
-        this.form.ruleContract.alert_template = '自然${PERIOD_UNIT_DESCRIPTION}\r\n' +
+        this.form.ruleContract.alertTemplate = '自然${PERIOD_UNIT_DESCRIPTION}\r\n' +
         '<#list REFERENCE_LIST as item>\n' +
         '指标同比${item.description}变化${item.percentage}%,超过阈值${PERCENTAGE_THRESHOLD}%, 当前值: ${CURRENT}, 对比值：${item.value};\r\n' +
         '</#list>'
@@ -661,9 +661,9 @@ export default {
         pageIndex: 1,
         pageSize: 1000
       }
-      var dataName = this.form.metricContract.data_name
+      var dataName = this.form.metricContract.dataName
       if (dataName != null && dataName !== '') {
-        condition.templateTypeUnionCodes.push('DATA_NAME|' + dataName)
+        condition.templateTypeUnionCodes.push('dataName|' + dataName)
       }
       alerttemplateApi.findAlertTemplate(condition)
         .then(response => {
@@ -691,7 +691,7 @@ export default {
           cancelButtonText: '取消',
           type: 'info'
         }).then(() => {
-          this.form.ruleContract.alert_template = this.alertTemplateOption.content
+          this.form.ruleContract.alertTemplate = this.alertTemplateOption.content
         }).catch(() => {})
       } else {
         this.$alert('请选择一个消息模板', '提示').catch(() => {})

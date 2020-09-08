@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-select v-model="form.dataName" placeholder="选择数据名" style="width: 150px" class="filter-item" @change="dataNameChangeHandler">
-        <el-option v-for="item in dataNameList" :key="item.data_name" :label="item.display_name" :value="item.data_name" />
+        <el-option v-for="item in dataNameList" :key="item.dataName" :label="item.displayName" :value="item.dataName" />
       </el-select>
       <el-select v-model="form.sortOrder" placeholder="选择排序" style="width: 120px" class="filter-item">
         <el-option label="时间倒序" value="desc" />
@@ -180,7 +180,7 @@ export default {
     dataApi.findDataNameByType('elasticsearch').then(response => {
       this.dataNameList = response.result
       if (this.form.dataName === null && this.dataNameList.length > 0) {
-        this.form.dataName = this.dataNameList[0].data_name
+        this.form.dataName = this.dataNameList[0].dataName
       }
     })
 
@@ -311,7 +311,7 @@ export default {
       this.charOptions.series = [{ name: '次数', type: 'bar', data: statItem.values }]
     },
     dataNameChangeHandler (selectedName) {
-      this.selectedDataName = this.dataNameList.filter(d => d.data_name === selectedName)[0]
+      this.selectedDataName = this.dataNameList.filter(d => d.dataName === selectedName)[0]
     },
     loadMore () {
       if(!this.form.scrollId) {
@@ -336,14 +336,14 @@ export default {
         this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
         return
       }
-      this.selectedDataName = this.dataNameList.filter(d => d.data_name === this.form.dataName)[0]
+      this.selectedDataName = this.dataNameList.filter(d => d.dataName === this.form.dataName)[0]
       this.$router.push({
         name: 'alarm-edit',
         query: {
-          datasource_type: this.selectedDataName.datasource_type,
-          datasource_id: this.selectedDataName.data_source_id,
-          data_name: this.selectedDataName.data_name,
-          query_string: this.form.esQuery
+          datasourceType: this.selectedDataName.datasourceType,
+          datasourceId: this.selectedDataName.dataSourceId,
+          dataName: this.selectedDataName.dataName,
+          queryString: this.form.esQuery
         }
       })
     },

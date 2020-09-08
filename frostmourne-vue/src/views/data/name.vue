@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select v-model="form.datasource_type" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item" @change="formSourceTypeChangeHandler">
+      <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item" @change="formSourceTypeChangeHandler">
         <el-option label="elasticsearch" value="elasticsearch" />
       </el-select>
-      <el-select v-model="form.data_source_id" placeholder="选择数据源" clearable class="filter-item">
-        <el-option v-for="item in formDatasourceList" :key="item.datasource_name" :label="item.datasource_name" :value="item.id" />
+      <el-select v-model="form.dataSourceId" placeholder="选择数据源" clearable class="filter-item">
+        <el-option v-for="item in formDatasourceList" :key="item.datasourceMame" :label="item.datasourceMame" :value="item.id" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="edit(null)">新增</el-button>
@@ -13,13 +13,13 @@
 
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="60" align="center" />
-      <el-table-column prop="data_name" label="名称" align="center" />
-      <el-table-column prop="display_name" label="说明" align="center" />
-      <el-table-column prop="datasource_type" label="类型" align="center" />
-      <el-table-column prop="timestamp_field" label="时间字段" align="center" />
-      <el-table-column prop="modify_at" label="最近修改" align="center">
+      <el-table-column prop="dataName" label="名称" align="center" />
+      <el-table-column prop="displayName" label="说明" align="center" />
+      <el-table-column prop="datasourceType" label="类型" align="center" />
+      <el-table-column prop="timestampField" label="时间字段" align="center" />
+      <el-table-column prop="modifyAt" label="最近修改" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.modify_at | timeFormat }}</span>
+          <span>{{ scope.row.modifyAt | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="modifier" label="修改人" align="center" />
@@ -42,13 +42,13 @@
 
     <el-dialog title="保存数据名" :visible.sync="dialogFormVisible" width="30%">
       <el-form ref="form" :model="editData" :rules="rules">
-        <el-form-item label="名称" :label-width="formLabelWidth" prop="data_name">
-          <el-input v-model="editData.data_name" :disabled="disableEdit" autocomplete="off" />
+        <el-form-item label="名称" :label-width="formLabelWidth" prop="dataName">
+          <el-input v-model="editData.dataName" :disabled="disableEdit" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item label="类型" :label-width="formLabelWidth" prop="datasource_type">
+        <el-form-item label="类型" :label-width="formLabelWidth" prop="datasourceType">
           <el-select
-            v-model="editData.datasource_type"
+            v-model="editData.datasourceType"
             :disabled="disableEdit"
             placeholder="类型"
             clearable
@@ -59,24 +59,24 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="数据源" :label-width="formLabelWidth" prop="data_source_id">
-          <el-select v-model="editData.data_source_id" :disabled="disableEdit" placeholder="选择数据源" class="filter-item">
-            <el-option v-for="item in dialogDatasourceList" :key="item.datasource_name" :label="item.datasource_name" :value="item.id" />
+        <el-form-item label="数据源" :label-width="formLabelWidth" prop="dataSourceId">
+          <el-select v-model="editData.dataSourceId" :disabled="disableEdit" placeholder="选择数据源" class="filter-item">
+            <el-option v-for="item in dialogDatasourceList" :key="item.datasourceMame" :label="item.datasourceMame" :value="item.id" />
           </el-select>
         </el-form-item>
 
-        <el-form-item label="说明" :label-width="formLabelWidth" prop="display_name">
-          <el-input v-model="editData.display_name" autocomplete="off" />
+        <el-form-item label="说明" :label-width="formLabelWidth" prop="displayName">
+          <el-input v-model="editData.displayName" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item label="时间字段" :label-width="formLabelWidth" prop="timestamp_field">
-          <el-input v-model="editData.timestamp_field" autocomplete="off" />
+        <el-form-item label="时间字段" :label-width="formLabelWidth" prop="timestampField">
+          <el-input v-model="editData.timestampField" autocomplete="off" />
         </el-form-item>
-        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="索引前缀" :label-width="formLabelWidth" prop="indexPrefix">
+        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="索引前缀" :label-width="formLabelWidth" prop="indexPrefix">
           <el-input v-model="editData.settings.indexPrefix" placeholder="applog-" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item v-if="editData.datasource_type == 'elasticsearch'" label="时间后缀" :label-width="formLabelWidth">
+        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="时间后缀" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.timePattern" placeholder="可空。举例: yyyyMMdd。最小单位到天, 小于天请用*表示" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -107,17 +107,17 @@ export default {
       form: {
         pageIndex: 1,
         pageSize: 10,
-        data_name: '',
-        datasource_type: '',
-        data_source_id: null
+        dataName: '',
+        datasourceType: '',
+        dataSourceId: null
       },
       editData: {
         id: 0,
-        data_name: null,
-        data_source_id: null,
-        datasource_type: null,
-        display_name: null,
-        timestamp_field: null,
+        dataName: null,
+        dataSourceId: null,
+        datasourceType: null,
+        displayName: null,
+        timestampField: null,
         settings: {}
       },
       dialogDatasourceList: [],
@@ -125,16 +125,16 @@ export default {
       dialogFormVisible: false,
       disableEdit: true,
       rules: {
-        data_name: [
+        dataName: [
           { required: true, message: '请输入数据名称', trigger: 'blur' }
         ],
-        display_name: [
+        displayName: [
           { required: true, message: '请输入数据说明', trigger: 'blur' }
         ],
-        data_source_id: [
+        dataSourceId: [
           { required: true, message: '请选择数据源', trigger: 'change' }
         ],
-        datasource_type: [
+        datasourceType: [
           { required: true, message: '请选择数据类型', trigger: 'change' }
         ]
       }
@@ -146,7 +146,7 @@ export default {
   methods: {
     fetchData () {
       this.listLoading = true
-      dataApi.findDataName(this.form.pageIndex, this.form.pageSize, this.form.datasource_type, this.form.data_source_id)
+      dataApi.findDataName(this.form.pageIndex, this.form.pageSize, this.form.datasourceType, this.form.dataSourceId)
         .then(response => {
           this.list = response.result.list || []
           this.rowcount = response.result.rowcount
@@ -169,26 +169,26 @@ export default {
       if (row != null) {
         console.log(row)
         this.disableEdit = true
-        dataApi.findDataSourceByType(row.datasource_type).then(response => {
+        dataApi.findDataSourceByType(row.datasourceType).then(response => {
           this.dialogDatasourceList = response.result
         })
         this.editData.id = row.id
-        this.editData.data_name = row.data_name
-        this.editData.datasource_type = row.datasource_type
-        this.editData.timestamp_field = row.timestamp_field
-        this.editData.display_name = row.display_name
-        this.editData.data_source_id = row.data_source_id
+        this.editData.dataName = row.dataName
+        this.editData.datasourceType = row.datasourceType
+        this.editData.timestampField = row.timestampField
+        this.editData.displayName = row.displayName
+        this.editData.dataSourceId = row.dataSourceId
         this.editData.settings = row.settings
         this.disableTypeSelect = true
       } else {
         this.disableEdit = false
         this.editData = {
           id: 0,
-          data_name: null,
-          data_source_id: null,
-          datasource_type: '',
-          display_name: '',
-          timestamp_field: '',
+          dataName: null,
+          dataSourceId: null,
+          datasourceType: '',
+          displayName: '',
+          timestampField: '',
           settings: {}
         }
         this.disableTypeSelect = false
@@ -212,7 +212,7 @@ export default {
       })
     },
     formSourceTypeChangeHandler (selectedValue) {
-      this.form.data_source_id = null
+      this.form.dataSourceId = null
       if (selectedValue) {
         dataApi.findDataSourceByType(selectedValue).then(response => {
           this.formDatasourceList = response.result
@@ -222,7 +222,7 @@ export default {
       }
     },
     dialogSourceTypeChangeHandler (selectedValue) {
-      this.editData.data_source_id = null
+      this.editData.dataSourceId = null
       if (selectedValue) {
         dataApi.findDataSourceByType(selectedValue).then(response => {
           this.dialogDatasourceList = response.result

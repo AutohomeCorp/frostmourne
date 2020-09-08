@@ -1,22 +1,22 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select v-model="form.datasource_type" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item">
+      <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item">
         <el-option label="elasticsearch" value="elasticsearch" />
       </el-select>
-      <!-- <el-input v-model="form.datasource_name" placeholder="名称" style="width: 300px;" class="filter-item" /> -->
+      <!-- <el-input v-model="form.datasourceMame" placeholder="名称" style="width: 300px;" class="filter-item" /> -->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="edit(null)">新增</el-button>
     </div>
 
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="60" align="center" />
-      <el-table-column prop="datasource_name" label="名称" align="center" />
-      <el-table-column prop="datasource_type" label="类型" align="center" />
+      <el-table-column prop="datasourceMame" label="名称" align="center" />
+      <el-table-column prop="datasourceType" label="类型" align="center" />
       <el-table-column prop="service_address" label="服务地址" align="center" />
-      <el-table-column prop="modify_at" label="最近修改时间" align="center">
+      <el-table-column prop="modifyAt" label="最近修改时间" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.modify_at | timeFormat }}</span>
+          <span>{{ scope.row.modifyAt | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="creator" label="创建人" align="center" />
@@ -40,10 +40,10 @@
     <el-dialog title="保存数据源" :visible.sync="dialogFormVisible" width="30%">
       <el-form :model="editData">
         <el-form-item label="名称" :label-width="formLabelWidth">
-          <el-input v-model="editData.datasource_name" autocomplete="off" />
+          <el-input v-model="editData.datasourceMame" autocomplete="off" />
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
-          <el-select v-model="editData.datasource_type" :disabled="disableTypeSelect" placeholder="数据源类型">
+          <el-select v-model="editData.datasourceType" :disabled="disableTypeSelect" placeholder="数据源类型">
             <el-option label="elasticsearch" value="elasticsearch" />
           </el-select>
         </el-form-item>
@@ -53,10 +53,10 @@
             <i class="el-icon-question" />
           </el-tooltip>-->
         </el-form-item>
-        <el-form-item v-if="editData.datasource_type === 'elasticsearch'" label="认证用户" :label-width="formLabelWidth">
+        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="认证用户" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.username" placeholder="无认证不需要填写" autocomplete="off" />
         </el-form-item>
-        <el-form-item v-if="editData.datasource_type === 'elasticsearch'" label="密码" :label-width="formLabelWidth">
+        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="密码" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.password" placeholder="无认证不需要填写" :type="passwordType" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -86,13 +86,13 @@ export default {
       form: {
         pageIndex: 1,
         pageSize: 10,
-        datasource_name: '',
-        datasource_type: ''
+        datasourceMame: '',
+        datasourceType: ''
       },
       editData: {
         id: 0,
-        datasource_name: '',
-        datasource_type: '',
+        datasourceMame: '',
+        datasourceType: '',
         service_address: '',
         settings: {}
       },
@@ -112,7 +112,7 @@ export default {
         .findDataSource(
           this.form.pageIndex,
           this.form.pageSize,
-          this.form.datasource_type
+          this.form.datasourceType
         )
         .then(response => {
           this.list = response.result.list || []
@@ -136,8 +136,8 @@ export default {
       if (row != null) {
         this.passwordType = 'password'
         this.editData.id = row.id
-        this.editData.datasource_name = row.datasource_name
-        this.editData.datasource_type = row.datasource_type
+        this.editData.datasourceMame = row.datasourceMame
+        this.editData.datasourceType = row.datasourceType
         this.editData.service_address = row.service_address
         this.disableTypeSelect = true
         this.editData.settings = row.settings
@@ -157,7 +157,7 @@ export default {
       this.fetchData()
     },
     save () {
-      if (this.editData.datasource_type === 'elasticsearch') {
+      if (this.editData.datasourceType === 'elasticsearch') {
         if (this.editData.service_address.indexOf(':') < 0) {
           this.$message({ type: 'warning', message: 'elasticsearch地址必须指定端口', duration: 2000 })
           return
