@@ -46,7 +46,7 @@ public class MetricContract {
         this.rule_id = rule_id;
     }
 
-    public Long getData_source_id() {
+    public Long getDataSourceId() {
         return data_source_id;
     }
 

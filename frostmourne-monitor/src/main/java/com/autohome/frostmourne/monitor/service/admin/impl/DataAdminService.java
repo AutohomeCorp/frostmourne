@@ -57,10 +57,10 @@ public class DataAdminService implements IDataAdminService {
     @Override
     public boolean saveDataSource(String account, DataSourceContract dataSourceContract) {
         DataSource dataSource = new DataSource();
-        dataSource.setDatasource_name(dataSourceContract.getDatasource_name());
-        dataSource.setDatasource_type(dataSourceContract.getDatasource_type());
+        dataSource.setDatasourceName(dataSourceContract.getDatasource_name());
+        dataSource.setDatasourceType(dataSourceContract.getDatasource_type());
         dataSource.setModifier(account);
-        dataSource.setService_address(dataSourceContract.getService_address());
+        dataSource.setServiceAddress(dataSourceContract.getService_address());
         dataSource.setModify_at(new Date());
         if (dataSourceContract.getSettings() != null && dataSourceContract.getSettings().size() > 0) {
             dataSource.setProperties(JacksonUtil.serialize(dataSourceContract.getSettings()));
@@ -125,7 +125,7 @@ public class DataAdminService implements IDataAdminService {
             DataSourceOption dataSourceOption = new DataSourceOption();
             dataSourceOption.setDataSource(dataSource);
             dataSourceOption.setDataNameContractList(dataNameList.stream()
-                    .filter(dataName -> dataName.getData_source_id().equals(dataSource.getId()))
+                    .filter(dataName -> dataName.getDataSourceId().equals(dataSource.getId()))
                     .map(DataAdminService::toDataNameContract)
                     .collect(Collectors.toList()));
             if (dataOptionMap.containsKey(dataSource.getDatasource_type())) {
@@ -199,8 +199,8 @@ public class DataAdminService implements IDataAdminService {
         dataName.setData_name(dataNameContract.getData_name());
         dataName.setModifier(account);
         dataName.setModify_at(now);
-        dataName.setData_source_id(dataNameContract.getData_source_id());
-        dataName.setDatasource_type(dataNameContract.getDatasource_type());
+        dataName.setData_source_id(dataNameContract.getDataSourceId());
+        dataName.setDatasourceType(dataNameContract.getDatasource_type());
         dataName.setDisplay_name(dataNameContract.getDisplay_name());
         dataName.setProperties(JacksonUtil.serialize(dataNameContract.getSettings()));
         dataName.setTimestamp_field(dataNameContract.getTimestamp_field());
@@ -259,8 +259,8 @@ public class DataAdminService implements IDataAdminService {
     static DataNameContract toDataNameContract(DataName dataName) {
         DataNameContract dataNameContract = new DataNameContract();
         dataNameContract.setId(dataName.getId());
-        dataNameContract.setData_source_id(dataName.getData_source_id());
-        dataNameContract.setDatasource_type(dataName.getDatasource_type());
+        dataNameContract.setData_source_id(dataName.getDataSourceId());
+        dataNameContract.setDatasourceType(dataName.getDatasource_type());
         dataNameContract.setData_name(dataName.getData_name());
         dataNameContract.setDisplay_name(dataName.getDisplay_name());
         dataNameContract.setTimestamp_field(dataName.getTimestamp_field());

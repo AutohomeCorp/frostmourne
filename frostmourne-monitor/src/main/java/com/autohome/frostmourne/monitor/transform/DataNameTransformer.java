@@ -11,14 +11,14 @@ public class DataNameTransformer {
 
     public static DataNameContract model2Contract(DataName dataName) {
         DataNameContract dataNameContract = new DataNameContract();
-        dataNameContract.setData_name(dataName.getData_name());
-        dataNameContract.setData_source_id(dataName.getData_source_id());
-        dataNameContract.setDisplay_name(dataName.getDisplay_name());
-        dataNameContract.setDatasource_type(dataName.getDatasource_type());
+        dataNameContract.setData_name(dataName.getDataName());
+        dataNameContract.setData_source_id(dataName.getDataSourceId());
+        dataNameContract.setDisplay_name(dataName.getDisplayName());
+        dataNameContract.setDatasourceType(dataName.getDatasourceType());
         dataNameContract.setCreator(dataName.getCreator());
         dataNameContract.setSettings(JacksonUtil.deSerialize(dataName.getProperties(), new TypeReference<Map<String, String>>() {
         }));
-        dataNameContract.setTimestamp_field(dataName.getTimestamp_field());
+        dataNameContract.setTimestamp_field(dataName.getTimestampField());
         return dataNameContract;
     }
 }

@@ -139,7 +139,7 @@ public class AlertTemplateService implements IAlertTemplateService {
         Map<String, DataNameContract> dataNameMap = dataAdminService.mapDataNameByNames(unionCodes);
         // 获取数据源名称
         List<Long> dataSourceIds = dataNameMap.values().stream()
-                .map(DataNameContract::getData_source_id)
+                .map(DataNameContract::getDataSourceId)
                 .collect(Collectors.toList());
         Map<Long, DataSource> dataSourceMap = dataAdminService.mapDataSourceByIds(dataSourceIds);
 
@@ -157,14 +157,14 @@ public class AlertTemplateService implements IAlertTemplateService {
                     item.setTemplateTypeTreeValues(Arrays.asList(
                             TemplateType.DATA_NAME.name(),
                             contract.getDatasource_type(),
-                            String.valueOf(contract.getData_source_id()),
+                            String.valueOf(contract.getDataSourceId()),
                             contract.getData_name()));
                     item.setTemplateTypeTreeLabels(Arrays.asList(
                             TemplateType.DATA_NAME.getDisplanName(),
                             contract.getDatasource_type(),
-                            Optional.ofNullable(dataSourceMap.get(contract.getData_source_id()))
+                            Optional.ofNullable(dataSourceMap.get(contract.getDataSourceId()))
                                     .map(DataSource::getDatasource_name)
-                                    .orElse(String.valueOf(contract.getData_source_id())),
+                                    .orElse(String.valueOf(contract.getDataSourceId())),
                             contract.getDisplay_name()));
                 }
             }

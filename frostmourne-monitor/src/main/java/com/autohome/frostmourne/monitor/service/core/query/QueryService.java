@@ -50,7 +50,7 @@ public class QueryService implements IQueryService {
             intervalInSeconds = rangeMap.get(timeGap);
         }
         DataNameContract dataNameContract = dataAdminService.findDataNameByName(dataName);
-        DataSourceContract dataSourceContract = dataAdminService.findDatasourceById(dataNameContract.getData_source_id());
+        DataSourceContract dataSourceContract = dataAdminService.findDatasourceById(dataNameContract.getDataSourceId());
         ElasticsearchDataResult elasticsearchDataResult = elasticsearchDataQuery.query(dataNameContract, dataSourceContract,
                 new DateTime(startTime), new DateTime(endTime), esQuery, scrollId, sortOrder, intervalInSeconds);
         return elasticsearchDataResult;
@@ -60,7 +60,7 @@ public class QueryService implements IQueryService {
     public void exportToCsv(CSVWriter csvWriter, String dataName, DateTime startTime, DateTime endTime, String esQuery,
                             String scrollId, String sortOrder) {
         DataNameContract dataNameContract = dataAdminService.findDataNameByName(dataName);
-        DataSourceContract dataSourceContract = dataAdminService.findDatasourceById(dataNameContract.getData_source_id());
+        DataSourceContract dataSourceContract = dataAdminService.findDatasourceById(dataNameContract.getDataSourceId());
         ElasticsearchDataResult elasticsearchDataResult = elasticsearchDataQuery.query(dataNameContract, dataSourceContract,
                 startTime, endTime, esQuery, scrollId, sortOrder, null);
         String[] heads = elasticsearchDataResult.getFlatFields().toArray(new String[0]);

@@ -51,7 +51,7 @@ public class DataNameContract {
         this.display_name = display_name;
     }
 
-    public Long getData_source_id() {
+    public Long getDataSourceId() {
         return data_source_id;
     }
 
@@ -79,7 +79,7 @@ public class DataNameContract {
         return datasource_type;
     }
 
-    public void setDatasource_type(String datasource_type) {
+    public void setDatasourceType(String datasource_type) {
         this.datasource_type = datasource_type;
     }
 

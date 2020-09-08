@@ -13,10 +13,10 @@ public class DataSourceTransformer {
 
     public static DataSourceContract model2Contract(DataSource dataSource) {
         DataSourceContract dataSourceContract = new DataSourceContract();
-        dataSourceContract.setDatasource_name(dataSource.getDatasource_name());
-        dataSourceContract.setDatasource_type(dataSource.getDatasource_type());
+        dataSourceContract.setDatasourceName(dataSource.getDatasource_name());
+        dataSourceContract.setDatasourceType(dataSource.getDatasource_type());
         dataSourceContract.setId(dataSource.getId());
-        dataSourceContract.setService_address(dataSource.getService_address());
+        dataSourceContract.setServiceAddress(dataSource.getService_address());
         if (!Strings.isNullOrEmpty(dataSource.getProperties())) {
             dataSourceContract.setSettings(JacksonUtil.deSerialize(dataSource.getProperties(), new TypeReference<Map<String, String>>() {
             }));

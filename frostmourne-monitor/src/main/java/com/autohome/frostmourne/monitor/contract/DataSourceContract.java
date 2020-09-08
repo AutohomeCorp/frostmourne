@@ -35,7 +35,7 @@ public class DataSourceContract {
         return datasource_name;
     }
 
-    public void setDatasource_name(String datasource_name) {
+    public void setDatasourceName(String datasource_name) {
         this.datasource_name = datasource_name;
     }
 
@@ -43,7 +43,7 @@ public class DataSourceContract {
         return datasource_type;
     }
 
-    public void setDatasource_type(String datasource_type) {
+    public void setDatasourceType(String datasource_type) {
         this.datasource_type = datasource_type;
     }
 
@@ -51,7 +51,7 @@ public class DataSourceContract {
         return service_address;
     }
 
-    public void setService_address(String service_address) {
+    public void setServiceAddress(String service_address) {
         this.service_address = service_address;
     }
 

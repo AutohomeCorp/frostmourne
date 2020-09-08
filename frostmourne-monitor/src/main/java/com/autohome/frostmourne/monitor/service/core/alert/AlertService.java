@@ -108,15 +108,15 @@ public class AlertService implements IAlertService {
         for (MessageResult messageResult : messageResults) {
             for (AccountInfo accountInfo : accountInfos) {
                 AlertLog alertLog = new AlertLog();
-                alertLog.setAlarm_id(alarmId);
+                alertLog.setAlarmId(alarmId);
                 alertLog.setContent(content);
-                alertLog.setExecute_id(executeId);
-                alertLog.setCreate_at(new Date());
+                alertLog.setExecuteId(executeId);
+                alertLog.setCreateAt(new Date());
                 alertLog.setRecipient(accountInfo.getAccount());
-                alertLog.setSend_status(messageResult.getSuccess() == 1 ? SendStatus.SUCCESS : SendStatus.FAIL);
+                alertLog.setSendStatus(messageResult.getSuccess() == 1 ? SendStatus.SUCCESS : SendStatus.FAIL);
                 alertLog.setWay(messageResult.getWay());
-                alertLog.setAlert_type(alertType);
-                alertLog.setIn_silence(SilenceStatus.NO);
+                alertLog.setAlertType(alertType);
+                alertLog.setInSilence(SilenceStatus.NO);
                 alertLogRepository.insert(alertLog);
             }
         }
@@ -124,7 +124,7 @@ public class AlertService implements IAlertService {
 
     private void checkRecover(Optional<AlarmLog> latestAlarmLog, AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients) {
         //if not alert, check if send recover message
-        if (latestAlarmLog.isPresent() && latestAlarmLog.get().getVerify_result().equalsIgnoreCase(VerifyResult.TRUE)) {
+        if (latestAlarmLog.isPresent() && latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.TRUE)) {
             //this is recover message
             sendAlert(alarmProcessLogger, recipients, AlertType.RECOVER);
         } else {
@@ -137,12 +137,12 @@ public class AlertService implements IAlertService {
         Optional<AlarmLog> latestNoProblemAlarmLog = alarmLogRepository.selectLatest(alarmId, VerifyResult.FALSE);
         Long current = System.currentTimeMillis();
         Long silenceThreshold = alarmProcessLogger.getAlarmContract().getAlertContract().getSilence() * 60 * 1000;
-        if (latestNoProblemAlarmLog.isPresent() && current - latestNoProblemAlarmLog.get().getCreate_at().getTime() < silenceThreshold) {
+        if (latestNoProblemAlarmLog.isPresent() && current - latestNoProblemAlarmLog.get().getCreateAt().getTime() < silenceThreshold) {
             return true;
         }
         //find latest problem and not silence alert time
         Optional<AlertLog> latestAlertLog = alertLogRepository.selectLatest(alarmId, AlertType.PROBLEM, SilenceStatus.NO);
-        if (latestAlertLog.isPresent() && current - latestAlertLog.get().getCreate_at().getTime() < silenceThreshold) {
+        if (latestAlertLog.isPresent() && current - latestAlertLog.get().getCreateAt().getTime() < silenceThreshold) {
             return true;
         }
 
@@ -156,22 +156,22 @@ public class AlertService implements IAlertService {
         for (String way : alertContract.getWays()) {
             for (AccountInfo accountInfo : recipients) {
                 AlertLog alertLog = new AlertLog();
-                alertLog.setAlarm_id(alarmId);
+                alertLog.setAlarmId(alarmId);
                 alertLog.setContent(alarmProcessLogger.getAlertMessage());
-                alertLog.setExecute_id(alarmProcessLogger.getAlarmLog().getId());
-                alertLog.setCreate_at(new Date());
+                alertLog.setExecuteId(alarmProcessLogger.getAlarmLog().getId());
+                alertLog.setCreateAt(new Date());
                 alertLog.setRecipient(accountInfo.getAccount());
-                alertLog.setSend_status(SendStatus.NONE);
+                alertLog.setSendStatus(SendStatus.NONE);
                 alertLog.setWay(way);
-                alertLog.setAlert_type(AlertType.PROBLEM);
-                alertLog.setIn_silence(SilenceStatus.YES);
+                alertLog.setAlertType(AlertType.PROBLEM);
+                alertLog.setInSilence(SilenceStatus.YES);
                 alertLogRepository.insert(alertLog);
             }
         }
     }
 
     private void processProblem(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, Optional<AlarmLog> latestAlarmLog) {
-        if (!latestAlarmLog.isPresent() || latestAlarmLog.get().getVerify_result().equalsIgnoreCase(VerifyResult.FALSE)) {
+        if (!latestAlarmLog.isPresent() || latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.FALSE)) {
             sendAlert(alarmProcessLogger, recipients, AlertType.PROBLEM);
             return;
         }
@@ -186,15 +186,15 @@ public class AlertService implements IAlertService {
     @Override
     public void alarmLog(AlarmProcessLogger alarmProcessLogger) {
         AlarmLog alarmLog = new AlarmLog();
-        alarmLog.setAlarm_id(alarmProcessLogger.getAlarmContract().getId());
+        alarmLog.setAlarmId(alarmProcessLogger.getAlarmContract().getId());
         alarmLog.setCost((int) (alarmProcessLogger.getEnd().getMillis() - alarmProcessLogger.getStart().getMillis()));
-        alarmLog.setCreate_at(new Date());
-        alarmLog.setExe_start(alarmProcessLogger.getStart().toDate());
-        alarmLog.setExe_end(alarmProcessLogger.getEnd().toDate());
-        alarmLog.setExecute_result(alarmProcessLogger.getExecuteStatus().getName());
+        alarmLog.setCreateAt(new Date());
+        alarmLog.setExeStart(alarmProcessLogger.getStart().toDate());
+        alarmLog.setExeEnd(alarmProcessLogger.getEnd().toDate());
+        alarmLog.setExecuteResult(alarmProcessLogger.getExecuteStatus().getName());
         alarmLog.setMessage(alarmProcessLogger.traceInfo());
         Boolean alert = alarmProcessLogger.getAlert();
-        alarmLog.setVerify_result(alert != null && alert ? VerifyResult.TRUE : VerifyResult.FALSE);
+        alarmLog.setVerifyResult(alert != null && alert ? VerifyResult.TRUE : VerifyResult.FALSE);
         alarmLogRepository.insert(alarmLog);
         alarmProcessLogger.setAlarmLog(alarmLog);
     }

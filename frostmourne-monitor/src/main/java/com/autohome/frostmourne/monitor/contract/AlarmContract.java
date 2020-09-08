@@ -102,7 +102,7 @@ public class AlarmContract {
         this.execute_at = execute_at;
     }
 
-    public Long getJob_id() {
+    public Long getJobId() {
         return job_id;
     }
 
