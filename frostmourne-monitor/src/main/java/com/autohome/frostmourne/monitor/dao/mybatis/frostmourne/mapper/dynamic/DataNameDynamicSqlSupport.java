@@ -10,6 +10,8 @@ public final class DataNameDynamicSqlSupport {
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source Table: data_name")
     public static final DataName dataName = new DataName();
 
+    public static final SqlColumn<String> DATA_NAME = dataName.dataName;
+
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.id")
     public static final SqlColumn<Long> id = dataName.id;
 

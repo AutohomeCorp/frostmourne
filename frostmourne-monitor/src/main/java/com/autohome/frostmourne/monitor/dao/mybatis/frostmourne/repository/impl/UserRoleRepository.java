@@ -53,7 +53,7 @@ public class UserRoleRepository implements IUserRoleRepository {
             userRole.setAccount(contract.getAccount());
             userRole.setRole(role);
             userRole.setCreator(contract.getModifier());
-            userRole.setCreate_at(new Date());
+            userRole.setCreateAt(new Date());
             return userRole;
         }).collect(Collectors.toList());
         insertMultiple(roles);

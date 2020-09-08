@@ -50,12 +50,12 @@ public class RuleRepository implements IRuleRepository {
     @Override
     public int deleteByAlarm(Long alarmId) {
         return ruleDynamicMapper.delete(query -> query.where()
-                .and(RuleDynamicSqlSupport.alarm_id, isEqualTo(alarmId)));
+                .and(RuleDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 
     @Override
     public Optional<Rule> findOneByAlarm(Long alarmId) {
         return ruleDynamicMapper.selectOne(query -> query.where()
-                .and(RuleDynamicSqlSupport.alarm_id, isEqualTo(alarmId)));
+                .and(RuleDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 }
