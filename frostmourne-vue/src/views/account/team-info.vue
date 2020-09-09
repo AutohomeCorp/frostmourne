@@ -15,7 +15,7 @@
       <el-table-column prop="id" label="id" width="80" align="center" />
       <el-table-column prop="teamName" label="团队" width="160" align="center" />
       <el-table-column prop="fullName" label="全名" align="left" />
-      <el-table-column prop="department_id" label="部门ID" width="80" align="center" />
+      <el-table-column prop="departmentId" label="部门ID" width="80" align="center" />
       <el-table-column prop="modifier" label="修改人" width="160" align="center" />
       <el-table-column prop="modifyAt" label="修改时间" width="160" align="center">
         <template slot-scope="scope">
@@ -42,7 +42,7 @@
     <el-dialog title="保存团队" :visible.sync="dialogFormVisible" width="40%">
       <el-form :model="editData">
         <el-form-item label="部门" :label-width="formLabelWidth">
-          <el-select v-model="editData.department_id" placeholder="选择部门" class="filter-item">
+          <el-select v-model="editData.departmentId" placeholder="选择部门" class="filter-item">
             <el-option v-for="item in departmentList" :key="item.departmentName" :label="item.fullName" :value="item.id" />
           </el-select>
         </el-form-item>
@@ -86,7 +86,7 @@ export default {
       editData: {
         teamName: null,
         fullName: null,
-        department_id: null
+        departmentId: null
       },
       formLabelWidth: '100px',
       dialogFormVisible: false,
@@ -126,7 +126,7 @@ export default {
         this.editData.id = row.id
         this.editData.teamName = row.teamName
         this.editData.fullName = row.fullName
-        this.editData.department_id = row.department_id
+        this.editData.departmentId = row.departmentId
       } else {
         this.editData = {}
       }
