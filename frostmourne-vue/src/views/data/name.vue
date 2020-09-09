@@ -5,7 +5,7 @@
         <el-option label="elasticsearch" value="elasticsearch" />
       </el-select>
       <el-select v-model="form.dataSourceId" placeholder="选择数据源" clearable class="filter-item">
-        <el-option v-for="item in formDatasourceList" :key="item.datasourceMame" :label="item.datasourceMame" :value="item.id" />
+        <el-option v-for="item in formDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="edit(null)">新增</el-button>
@@ -61,7 +61,7 @@
 
         <el-form-item label="数据源" :label-width="formLabelWidth" prop="dataSourceId">
           <el-select v-model="editData.dataSourceId" :disabled="disableEdit" placeholder="选择数据源" class="filter-item">
-            <el-option v-for="item in dialogDatasourceList" :key="item.datasourceMame" :label="item.datasourceMame" :value="item.id" />
+            <el-option v-for="item in dialogDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
           </el-select>
         </el-form-item>
 

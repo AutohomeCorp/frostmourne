@@ -619,7 +619,7 @@ export default {
           }
           for (var j = 0; j < remoteOptions[i].dataSourceOptionList.length; j++) {
             var dataSource = {
-              label: remoteOptions[i].dataSourceOptionList[j].dataSource.datasourceMame,
+              label: remoteOptions[i].dataSourceOptionList[j].dataSource.datasourceName,
               value: remoteOptions[i].dataSourceOptionList[j].dataSource.id,
               children: []
             }

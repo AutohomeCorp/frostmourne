@@ -4,14 +4,14 @@
       <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item">
         <el-option label="elasticsearch" value="elasticsearch" />
       </el-select>
-      <!-- <el-input v-model="form.datasourceMame" placeholder="名称" style="width: 300px;" class="filter-item" /> -->
+      <!-- <el-input v-model="form.datasourceName" placeholder="名称" style="width: 300px;" class="filter-item" /> -->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="edit(null)">新增</el-button>
     </div>
 
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="60" align="center" />
-      <el-table-column prop="datasourceMame" label="名称" align="center" />
+      <el-table-column prop="datasourceName" label="名称" align="center" />
       <el-table-column prop="datasourceType" label="类型" align="center" />
       <el-table-column prop="serviceAddress" label="服务地址" align="center" />
       <el-table-column prop="modifyAt" label="最近修改时间" align="center">
@@ -40,7 +40,7 @@
     <el-dialog title="保存数据源" :visible.sync="dialogFormVisible" width="30%">
       <el-form :model="editData">
         <el-form-item label="名称" :label-width="formLabelWidth">
-          <el-input v-model="editData.datasourceMame" autocomplete="off" />
+          <el-input v-model="editData.datasourceName" autocomplete="off" />
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
           <el-select v-model="editData.datasourceType" :disabled="disableTypeSelect" placeholder="数据源类型">
@@ -86,12 +86,12 @@ export default {
       form: {
         pageIndex: 1,
         pageSize: 10,
-        datasourceMame: '',
+        datasourceName: '',
         datasourceType: ''
       },
       editData: {
         id: 0,
-        datasourceMame: '',
+        datasourceName: '',
         datasourceType: '',
         serviceAddress: '',
         settings: {}
@@ -136,7 +136,7 @@ export default {
       if (row != null) {
         this.passwordType = 'password'
         this.editData.id = row.id
-        this.editData.datasourceMame = row.datasourceMame
+        this.editData.datasourceName = row.datasourceName
         this.editData.datasourceType = row.datasourceType
         this.editData.serviceAddress = row.serviceAddress
         this.disableTypeSelect = true
