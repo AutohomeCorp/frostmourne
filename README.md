@@ -373,11 +373,11 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~bugfix: 解决数据查询页面，不查询可以直接点击加载更多的问题~~ [2020-09-05]
 * ~~document: 增加ORM选型的说明~~ [2020-09-05]
 * ~~替掉蛇形命名字段，全部改为驼峰，统一代码风格~~ [2020-09-08]
+* Elasticsearch索引字段自动获取
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
 * 集成测试，单元测试
 * 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
 * 发布0.3-RELEASE
-* Elasticsearch索引字段自动获取
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
 * 增加influxdb数值监控
