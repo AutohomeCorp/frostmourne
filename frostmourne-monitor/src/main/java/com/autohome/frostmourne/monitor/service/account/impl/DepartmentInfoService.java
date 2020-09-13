@@ -25,15 +25,15 @@ public class DepartmentInfoService implements IDepartmentInfoService {
 
     @Override
     public boolean insert(DepartmentInfo departmentInfo, String account) {
-        Optional<DepartmentInfo> optionalDepartmentInfo = departmentInfoRepository.findByDepartmentName(departmentInfo.getDepartment_name());
+        Optional<DepartmentInfo> optionalDepartmentInfo = departmentInfoRepository.findByDepartmentName(departmentInfo.getDepartmentName());
         if (optionalDepartmentInfo.isPresent()) {
             throw new ProtocolException(5101, "部门已经存在");
         }
         departmentInfo.setCreator(account);
         departmentInfo.setModifier(account);
         Date now = new Date();
-        departmentInfo.setCreate_at(now);
-        departmentInfo.setModify_at(now);
+        departmentInfo.setCreateAt(now);
+        departmentInfo.setModifyAt(now);
         return departmentInfoRepository.insert(departmentInfo);
     }
 
@@ -49,7 +49,7 @@ public class DepartmentInfoService implements IDepartmentInfoService {
     @Override
     public boolean update(DepartmentInfo departmentInfo, String account) {
         departmentInfo.setModifier(account);
-        departmentInfo.setModify_at(new Date());
+        departmentInfo.setModifyAt(new Date());
         return departmentInfoRepository.update(departmentInfo);
     }
 

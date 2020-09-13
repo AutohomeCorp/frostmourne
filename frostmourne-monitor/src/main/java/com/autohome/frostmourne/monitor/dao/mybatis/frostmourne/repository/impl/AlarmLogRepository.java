@@ -57,11 +57,11 @@ public class AlarmLogRepository implements IAlarmLogRepository {
     @Override
     public List<AlarmLog> find(Date startTime, Date endTime, Long alarmId, String verifyResult, String executeResult) {
         return alarmLogDynamicMapper.select(query -> {
-            query.where().and(create_at, isBetween(startTime).and(endTime).when((d1, d2) -> d1 != null && d2 != null))
-                    .and(alarm_id, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
-                    .and(verify_result, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
-                    .and(execute_result, isEqualTo(executeResult).when(MybatisTool::notNullAndEmpty))
-                    .orderBy(create_at.descending());
+            query.where().and(AlarmLogDynamicSqlSupport.createAt, isBetween(startTime).and(endTime).when((d1, d2) -> d1 != null && d2 != null))
+                    .and(AlarmLogDynamicSqlSupport.alarmId, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
+                    .and(AlarmLogDynamicSqlSupport.verifyResult, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
+                    .and(AlarmLogDynamicSqlSupport.executeResult, isEqualTo(executeResult).when(MybatisTool::notNullAndEmpty))
+                    .orderBy(createAt.descending());
             return query;
         });
     }
@@ -69,8 +69,8 @@ public class AlarmLogRepository implements IAlarmLogRepository {
     @Override
     public Optional<AlarmLog> selectLatest(Long alarmId, String verifyResult) {
         return alarmLogDynamicMapper.selectOne(query -> {
-            query.where().and(alarm_id, isEqualTo(alarmId))
-                    .and(verify_result, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
+            query.where().and(AlarmLogDynamicSqlSupport.alarmId, isEqualTo(alarmId))
+                    .and(AlarmLogDynamicSqlSupport.verifyResult, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
                     .orderBy(AlarmLogDynamicSqlSupport.id.descending())
                     .limit(1);
             return query;
@@ -80,7 +80,7 @@ public class AlarmLogRepository implements IAlarmLogRepository {
     @Override
     public void clearBefore(Date reserveLine) {
         alarmLogDynamicMapper.delete(query -> {
-            query.where().and(create_at, isLessThan(reserveLine));
+            query.where().and(createAt, isLessThan(reserveLine));
             return query;
         });
     }
@@ -88,8 +88,8 @@ public class AlarmLogRepository implements IAlarmLogRepository {
     @Override
     public long count(Date startTime, Date endTime, String verifyResult) {
         return alarmLogDynamicMapper.count(query -> {
-            query.where().and(create_at, isBetween(startTime).and(endTime))
-                    .and(verify_result, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty));
+            query.where().and(createAt, isBetween(startTime).and(endTime))
+                    .and(AlarmLogDynamicSqlSupport.verifyResult, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty));
             return query;
         });
     }

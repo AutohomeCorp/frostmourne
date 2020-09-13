@@ -24,15 +24,15 @@ public class TeamInfoService implements ITeamInfoService {
 
     @Override
     public boolean insert(TeamInfo teamInfo, String account) {
-        Optional<TeamInfo> optionalTeamInfo = teamInfoRepository.findByName(teamInfo.getTeam_name());
+        Optional<TeamInfo> optionalTeamInfo = teamInfoRepository.findByName(teamInfo.getTeamName());
         if (optionalTeamInfo.isPresent()) {
             throw new ProtocolException(567, "团队名已经存在");
         }
         teamInfo.setCreator(account);
         teamInfo.setModifier(account);
         Date now = new Date();
-        teamInfo.setCreate_at(now);
-        teamInfo.setModify_at(now);
+        teamInfo.setCreateAt(now);
+        teamInfo.setModifyAt(now);
         return teamInfoRepository.insert(teamInfo);
     }
 
@@ -45,7 +45,7 @@ public class TeamInfoService implements ITeamInfoService {
     @Override
     public boolean update(TeamInfo teamInfo, String account) {
         teamInfo.setModifier(account);
-        teamInfo.setModify_at(new Date());
+        teamInfo.setModifyAt(new Date());
         return teamInfoRepository.update(teamInfo);
     }
 

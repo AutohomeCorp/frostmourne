@@ -114,7 +114,7 @@ export default {
       },
       templateTypeOptions: [
         { code: 'COMMON', name: '通用' },
-        { code: 'DATA_NAME', name: '数据' }
+        { code: 'dataName', name: '数据' }
       ],
       templateTypeTreeProps: {
         value: 'code',

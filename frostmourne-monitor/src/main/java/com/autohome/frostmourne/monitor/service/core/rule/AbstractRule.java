@@ -33,7 +33,7 @@ public abstract class AbstractRule implements IRule {
     }
 
     public String alertMessage(RuleContract ruleContract, Map<String, Object> context) {
-        return this.templateService.format(ruleContract.getAlert_template(), context);
+        return this.templateService.format(ruleContract.getAlertTemplate(), context);
     }
 
 }

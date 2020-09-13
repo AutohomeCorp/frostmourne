@@ -4,36 +4,36 @@ import java.util.Map;
 
 public class RuleContract {
 
-    private String rule_type;
+    private String ruleType;
 
-    private Long alarm_id;
+    private Long alarmId;
 
-    private String alert_template;
+    private String alertTemplate;
 
     private Map<String, String> settings;
 
-    public String getRule_type() {
-        return rule_type;
+    public String getRuleType() {
+        return ruleType;
     }
 
-    public void setRule_type(String rule_type) {
-        this.rule_type = rule_type;
+    public void setRuleType(String ruleType) {
+        this.ruleType = ruleType;
     }
 
-    public Long getAlarm_id() {
-        return alarm_id;
+    public Long getAlarmId() {
+        return alarmId;
     }
 
-    public void setAlarm_id(Long alarm_id) {
-        this.alarm_id = alarm_id;
+    public void setAlarmId(Long alarmId) {
+        this.alarmId = alarmId;
     }
 
-    public String getAlert_template() {
-        return alert_template;
+    public String getAlertTemplate() {
+        return alertTemplate;
     }
 
-    public void setAlert_template(String alert_template) {
-        this.alert_template = alert_template;
+    public void setAlertTemplate(String alertTemplate) {
+        this.alertTemplate = alertTemplate;
     }
 
     public Map<String, String> getSettings() {

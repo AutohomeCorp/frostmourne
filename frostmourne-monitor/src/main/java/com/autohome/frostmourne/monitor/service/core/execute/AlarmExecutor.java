@@ -66,8 +66,8 @@ public class AlarmExecutor {
         String timeString = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
         String shortLink = generateShortLinkService.generate(alarmProcessLogger);
         stringBuilder.append("[").append(timeString).append("]");
-        if (!Strings.isNullOrEmpty(this.alarmProcessLogger.getAlarmContract().getRisk_level())) {
-            String risk = riskTranslation(this.alarmProcessLogger.getAlarmContract().getRisk_level());
+        if (!Strings.isNullOrEmpty(this.alarmProcessLogger.getAlarmContract().getRiskLevel())) {
+            String risk = riskTranslation(this.alarmProcessLogger.getAlarmContract().getRiskLevel());
             stringBuilder.append("[").append(risk).append("]").append("\n");
         }
         stringBuilder.append(alertMessage);

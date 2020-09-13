@@ -7,21 +7,21 @@ public class DataSourceContract {
 
     private Long id;
 
-    private String datasource_name;
+    private String datasourceName;
 
-    private String datasource_type;
+    private String datasourceType;
 
-    private String service_address;
+    private String serviceAddress;
 
     private Map<String, String> settings;
 
     private String creator;
 
-    private Date create_at;
+    private Date createAt;
 
     private String modifier;
 
-    private Date modify_at;
+    private Date modifyAt;
 
     public Long getId() {
         return id;
@@ -31,28 +31,28 @@ public class DataSourceContract {
         this.id = id;
     }
 
-    public String getDatasource_name() {
-        return datasource_name;
+    public String getDatasourceName() {
+        return datasourceName;
     }
 
-    public void setDatasource_name(String datasource_name) {
-        this.datasource_name = datasource_name;
+    public void setDatasourceName(String datasourceName) {
+        this.datasourceName = datasourceName;
     }
 
-    public String getDatasource_type() {
-        return datasource_type;
+    public String getDatasourceType() {
+        return datasourceType;
     }
 
-    public void setDatasource_type(String datasource_type) {
-        this.datasource_type = datasource_type;
+    public void setDatasourceType(String datasourceType) {
+        this.datasourceType = datasourceType;
     }
 
-    public String getService_address() {
-        return service_address;
+    public String getServiceAddress() {
+        return serviceAddress;
     }
 
-    public void setService_address(String service_address) {
-        this.service_address = service_address;
+    public void setServiceAddress(String serviceAddress) {
+        this.serviceAddress = serviceAddress;
     }
 
     public Map<String, String> getSettings() {
@@ -71,12 +71,12 @@ public class DataSourceContract {
         this.creator = creator;
     }
 
-    public Date getCreate_at() {
-        return create_at;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
     public String getModifier() {
@@ -87,11 +87,11 @@ public class DataSourceContract {
         this.modifier = modifier;
     }
 
-    public Date getModify_at() {
-        return modify_at;
+    public Date getModifyAt() {
+        return modifyAt;
     }
 
-    public void setModify_at(Date modify_at) {
-        this.modify_at = modify_at;
+    public void setModifyAt(Date modifyAt) {
+        this.modifyAt = modifyAt;
     }
 }

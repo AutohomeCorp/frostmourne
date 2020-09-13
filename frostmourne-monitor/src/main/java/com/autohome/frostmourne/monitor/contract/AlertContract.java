@@ -13,17 +13,17 @@ public class AlertContract {
 
     private String creator;
 
-    private Date create_at;
+    private Date createAt;
 
-    private Integer allow_sms_from;
+    private Integer allowSmsFrom;
 
-    private Integer allow_sms_to;
+    private Integer allowSmsTo;
 
-    private String ding_robot_hook;
+    private String dingRobotHook;
 
-    private String http_post_url;
+    private String httpPostUrl;
 
-    private String wechat_robot_hook;
+    private String wechatRobotHook;
 
     private List<String> recipients;
 
@@ -59,36 +59,52 @@ public class AlertContract {
         this.creator = creator;
     }
 
-    public Date getCreate_at() {
-        return create_at;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
-    public Integer getAllow_sms_from() {
-        return allow_sms_from;
+    public Integer getAllowSmsFrom() {
+        return allowSmsFrom;
     }
 
-    public void setAllow_sms_from(Integer allow_sms_from) {
-        this.allow_sms_from = allow_sms_from;
+    public void setAllowSmsFrom(Integer allowSmsFrom) {
+        this.allowSmsFrom = allowSmsFrom;
     }
 
-    public Integer getAllow_sms_to() {
-        return allow_sms_to;
+    public Integer getAllowSmsTo() {
+        return allowSmsTo;
     }
 
-    public void setAllow_sms_to(Integer allow_sms_to) {
-        this.allow_sms_to = allow_sms_to;
+    public void setAllowSmsTo(Integer allowSmsTo) {
+        this.allowSmsTo = allowSmsTo;
     }
 
-    public String getDing_robot_hook() {
-        return ding_robot_hook;
+    public String getDingRobotHook() {
+        return dingRobotHook;
     }
 
-    public void setDing_robot_hook(String ding_robot_hook) {
-        this.ding_robot_hook = ding_robot_hook;
+    public void setDingRobotHook(String dingRobotHook) {
+        this.dingRobotHook = dingRobotHook;
+    }
+
+    public String getHttpPostUrl() {
+        return httpPostUrl;
+    }
+
+    public void setHttpPostUrl(String httpPostUrl) {
+        this.httpPostUrl = httpPostUrl;
+    }
+
+    public String getWechatRobotHook() {
+        return wechatRobotHook;
+    }
+
+    public void setWechatRobotHook(String wechatRobotHook) {
+        this.wechatRobotHook = wechatRobotHook;
     }
 
     public List<String> getRecipients() {
@@ -97,21 +113,5 @@ public class AlertContract {
 
     public void setRecipients(List<String> recipients) {
         this.recipients = recipients;
-    }
-
-    public String getHttp_post_url() {
-        return http_post_url;
-    }
-
-    public void setHttp_post_url(String http_post_url) {
-        this.http_post_url = http_post_url;
-    }
-
-    public String getWechat_robot_hook() {
-        return wechat_robot_hook;
-    }
-
-    public void setWechat_robot_hook(String wechat_robot_hook) {
-        this.wechat_robot_hook = wechat_robot_hook;
     }
 }

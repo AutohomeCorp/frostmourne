@@ -19,8 +19,8 @@
 
     <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="80" align="center" />
-      <el-table-column prop="alarm_name" label="监控名称" align="left" />
-      <el-table-column prop="alarm_type" label="监控类型" width="160" align="center" />
+      <el-table-column prop="alarmName" label="监控名称" align="left" />
+      <el-table-column prop="alarmType" label="监控类型" width="160" align="center" />
       <el-table-column prop="cron" label="cron" width="120" align="center" />
       <el-table-column prop="status" label="是否开启" width="100" align="center">
         <template slot-scope="scope">
@@ -29,19 +29,19 @@
       </el-table-column>
       <el-table-column label="最后执行结果" width="110" class-name="status-col" align="center">
         <template slot-scope="scope">
-          <el-tag size="medium" :type="scope.row.execute_result|executeResultFilter">{{ scope.row.execute_result }}</el-tag>
+          <el-tag size="medium" :type="scope.row.executeResult|executeResultFilter">{{ scope.row.executeResult }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="execute_at" label="最后执行时间" width="160" align="center">
+      <el-table-column prop="executeAt" label="最后执行时间" width="160" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.execute_at|timeFormat }}</span>
+          <span>{{ scope.row.executeAt|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="owner_key" label="所属对象" width="160" align="center" />
+      <el-table-column prop="ownerKey" label="所属对象" width="160" align="center" />
       <el-table-column prop="modifier" label="最后修改人" width="160" align="center" />
-      <el-table-column prop="modify_at" label="最后修改时间" width="160" align="center">
+      <el-table-column prop="modifyAt" label="最后修改时间" width="160" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.modify_at|timeFormat }}</span>
+          <span>{{ scope.row.modifyAt|timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="300" align="center" fixed="right">

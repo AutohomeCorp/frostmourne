@@ -54,8 +54,8 @@ public class DataSourceRepository implements IDataSourceRepository {
     @Override
     public List<DataSource> find(String datasourceType) {
         return dataSourceDynamicMapper.select(query -> query.where()
-                .and(DataSourceDynamicSqlSupport.datasource_type, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
-                .orderBy(DataSourceDynamicSqlSupport.create_at.descending()));
+                .and(DataSourceDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
+                .orderBy(DataSourceDynamicSqlSupport.createAt.descending()));
     }
 
     @Override

@@ -312,8 +312,8 @@ xxl.job.executor.logretentiondays=3
 xxl.job.alarm.email=[your_email]
 ```
 
-启动frostmourne-spi项目，active profile设置为default, 测试地址: http://localhost:10053  
-启动frostmourne-monitor项目, active profile设置为local, 测试地址: http://localhost:10054   
+启动frostmourne-spi项目，启动参数增加：-Dlog.console.level=INFO，将active profile设置为default, 测试地址: http://localhost:10053  
+启动frostmourne-monitor项目, 启动参数增加：-Dlog.console.level=INFO，active profile设置为local, 测试地址: http://localhost:10054   
 使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
 
 ```bash
@@ -367,21 +367,26 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~增加Elasticsearch数据监控使用指南~~ [2020-08-27]
 * ~~增加同比监控使用指南~~ [2020-08-29]
 * ~~增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件~~ [2020-09-03]
-* ~~如果监控关联了服务，报警接收人增加对应的服务负责人~~ [2020-09-03]
+* ~~如果监控关联了服务，报警接收人自动增加对应的服务负责人~~ [2020-09-03]
 * ~~bugfix: 解决部分浏览器下表头和表内容有点错位的问题~~ [2020-09-05]
 * ~~监控增加风险等级设置(提示，重要，紧急，我崩了),报警消息添加风险等级信息~~ [2020-09-05]
 * ~~bugfix: 解决数据查询页面，不查询可以直接点击加载更多的问题~~ [2020-09-05]
 * ~~document: 增加ORM选型的说明~~ [2020-09-05]
+* ~~替掉蛇形命名字段，全部改为驼峰，统一代码风格~~ [2020-09-08]
+* Elasticsearch索引字段自动获取
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
-* 替掉蛇形命名字段，全部改为驼峰，统一代码风格
 * 集成测试，单元测试
+* 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
 * 发布0.3-RELEASE
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
+* 增加influxdb数值监控
+* 增加influxdb数值同比，环比监控
+* 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成
+* 发布0.4-RELEASE
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * Elasticsearch监控数值实现环比监控
-* 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)
 * 更多报警方式补充（欢迎PR）
 * 后端接口增加数据校验并返回合适的提示信息
@@ -389,12 +394,9 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 监控列表增加一个开关选项，只显示我的监控
 * 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
-* Elasticsearch索引字段自动获取
 * 数据源增加连接测试功能
 * 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
 基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
-* 增加influxdb数值监控
-* 增加influxdb数值同比，环比监控
 * 增加prometheus数据监控报警支持
 * 增加skywalking数据监控报警支持
 * 增加mysql数据监控报警支持
@@ -445,7 +447,7 @@ The project is licensed under the [MIT](LICENSE).
 
 * 顺手star一下
 * 帮忙扩散推广
-* 部署本项目并使用起来
+* 部署本项目使用起来并通过[issue#17](https://github.com/AutohomeCorp/frostmourne/issues/17)告知
 * 在issue提出你的宝贵建议
 * 对文档进行必要补充
 * 加入交流群，解答一些问题

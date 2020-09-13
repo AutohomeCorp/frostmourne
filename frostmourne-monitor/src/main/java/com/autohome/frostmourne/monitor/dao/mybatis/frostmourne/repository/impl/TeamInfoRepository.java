@@ -43,7 +43,7 @@ public class TeamInfoRepository implements ITeamInfoRepository {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<TeamInfo> list = teamInfoDynamicMapper.select(query -> {
             query.where().and(TeamInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull))
-                    .and(TeamInfoDynamicSqlSupport.team_name, isLike(teamName).when(Objects::nonNull).then(s -> s + "%s"));
+                    .and(TeamInfoDynamicSqlSupport.teamName, isLike(teamName).when(Objects::nonNull).then(s -> s + "%s"));
             return query.orderBy(TeamInfoDynamicSqlSupport.id.descending());
         });
         return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
@@ -52,17 +52,17 @@ public class TeamInfoRepository implements ITeamInfoRepository {
     @Override
     public List<TeamInfo> find(Long departmentId) {
         return teamInfoDynamicMapper.select(query -> query.where()
-                .and(TeamInfoDynamicSqlSupport.department_id, isEqualTo(departmentId).when(Objects::nonNull)));
+                .and(TeamInfoDynamicSqlSupport.departmentId, isEqualTo(departmentId).when(Objects::nonNull)));
     }
 
     @Override
     public int deleteByDepartment(Long departmentId) {
-        return teamInfoDynamicMapper.delete(query -> query.where().and(TeamInfoDynamicSqlSupport.department_id, isEqualTo(departmentId)));
+        return teamInfoDynamicMapper.delete(query -> query.where().and(TeamInfoDynamicSqlSupport.departmentId, isEqualTo(departmentId)));
     }
 
     @Override
     public Optional<TeamInfo> findByName(String teamName) {
-        return teamInfoDynamicMapper.selectOne(query -> query.where().and(TeamInfoDynamicSqlSupport.team_name, isEqualTo(teamName)));
+        return teamInfoDynamicMapper.selectOne(query -> query.where().and(TeamInfoDynamicSqlSupport.teamName, isEqualTo(teamName)));
     }
 
     @Override
