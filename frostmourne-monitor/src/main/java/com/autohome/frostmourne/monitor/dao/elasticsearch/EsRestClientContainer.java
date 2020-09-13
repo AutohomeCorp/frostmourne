@@ -17,6 +17,8 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
+import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
+import org.elasticsearch.action.admin.indices.get.GetIndexResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
@@ -129,12 +131,12 @@ public class EsRestClientContainer {
 
     public boolean checkIndexExists(String index) {
         try {
-            /*GetIndexRequest request = new GetIndexRequest(index);
+            GetIndexRequest request = new GetIndexRequest();
             request.local(false);
+            request.indices(index);
             request.humanReadable(true);
             request.includeDefaults(false);
-            return this.restHighLevelClient.indices().exists(request, RequestOptions.DEFAULT);*/
-            return true;
+            return this.restHighLevelClient.indices().exists(request, RequestOptions.DEFAULT);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
