@@ -1,4 +1,4 @@
-package com.autohome.frostmourne.monitor.service.core.metric;
+package com.autohome.frostmourne.monitor.service.core.metric.elasticsearch;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,8 +8,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.contract.MetricContract;
-import com.autohome.frostmourne.monitor.service.core.domain.ElasticsearchMetric;
+import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import com.autohome.frostmourne.monitor.service.core.domain.ReferenceBag;
+import com.autohome.frostmourne.monitor.service.core.metric.AbstractSameTimeMetric;
 import com.autohome.frostmourne.monitor.service.core.query.IElasticsearchDataQuery;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class ElasticsearchSameTimeMetric extends AbstractSameTimeMetric {
         resultMap.put("PERIOD_UNIT_DESCRIPTION", findPeriodUnitDescription(periodUnit));
         Double current = null;
         try {
-            ElasticsearchMetric elasticsearchMetric = elasticsearchDataQuery.queryElasticsearchMetricValue(start, end, metricContract);
+            MetricData elasticsearchMetric = elasticsearchDataQuery.queryElasticsearchMetricValue(start, end, metricContract);
             current = toDouble(elasticsearchMetric.getMetricValue(), 0D);
             resultMap.put("CURRENT", current);
         } catch (IOException ex) {
@@ -76,7 +77,7 @@ public class ElasticsearchSameTimeMetric extends AbstractSameTimeMetric {
         } else {
             throw new IllegalArgumentException("unknown reference_type: " + referenceType);
         }
-        ElasticsearchMetric elasticsearchMetric = this.elasticsearchDataQuery.queryElasticsearchMetricValue(referenceStart, referenceEnd, metricContract);
+        MetricData elasticsearchMetric = this.elasticsearchDataQuery.queryElasticsearchMetricValue(referenceStart, referenceEnd, metricContract);
         Double metricValue = toDouble(elasticsearchMetric.getMetricValue(), 0D);
         Double percentage = calculatePercentage(current, metricValue);
         referenceBag.setValue(metricValue);

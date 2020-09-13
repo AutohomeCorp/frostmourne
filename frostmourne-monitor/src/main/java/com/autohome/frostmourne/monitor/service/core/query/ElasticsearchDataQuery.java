@@ -16,7 +16,7 @@ import com.autohome.frostmourne.monitor.contract.StatItem;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchInfo;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceManager;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.EsRestClientContainer;
-import com.autohome.frostmourne.monitor.service.core.domain.ElasticsearchMetric;
+import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchScrollRequest;
@@ -124,8 +124,8 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         return elasticsearchDataResult;
     }
 
-    public ElasticsearchMetric queryElasticsearchMetricValue(DateTime start, DateTime end, MetricContract metricContract) throws IOException {
-        ElasticsearchMetric elasticsearchMetric = new ElasticsearchMetric();
+    public MetricData queryElasticsearchMetricValue(DateTime start, DateTime end, MetricContract metricContract) throws IOException {
+        MetricData elasticsearchMetric = new MetricData();
         ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo(metricContract.getDataSourceContract());
         EsRestClientContainer esRestClientContainer = elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
