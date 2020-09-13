@@ -18,7 +18,8 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
-import org.elasticsearch.action.admin.indices.get.GetIndexResponse;
+import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest;
+import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
@@ -28,7 +29,9 @@ import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.client.sniff.Sniffer;
 import org.elasticsearch.cluster.health.ClusterHealthStatus;
+import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.Strings;
+import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -100,6 +103,14 @@ public class EsRestClientContainer {
             return false;
         }
         return response.getStatus() == ClusterHealthStatus.GREEN;
+    }
+
+    public MappingMetaData fetchMapping(String index) throws IOException {
+        GetMappingsRequest mappingsRequest = new GetMappingsRequest();
+        mappingsRequest.indices(index);
+        GetMappingsResponse mappingsResponse = restHighLevelClient.indices().getMapping(mappingsRequest, RequestOptions.DEFAULT);
+        ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetaData>> allMappings = mappingsResponse.getMappings();
+        return allMappings.values().iterator().next().value.values().iterator().next().value;
     }
 
     public void close() {
