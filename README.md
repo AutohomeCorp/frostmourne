@@ -350,33 +350,10 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 目前已知的规划有: 
 
-* ~~监控列表增加按团队查询，默认只显示自己团队的监控；监控按部门隔离~~ [2020-07-22]
-* ~~数据名保存表单数据提交增加前端验证~~ [2020-07-22]
-* ~~Elasticsearch监控数值实现同比监控~~ [2020-07-24]
-* ~~Elasticsearch数据源更新免重启加载~~ [2020-07-25]
-* ~~集成LDAP登录验证~~ [2020-07-25]
-* ~~菜单增加权限控制，部分页面(如：数据源配置)只对管理员开放~~ [2020-07-27]
-* ~~Elasticsearch查询增加历史语句自动提示~~ [2020-07-27]
-* ~~Elasticsearch查询数据柱状图可点击并自动变更时间范围~~ [2020-07-28]
-* ~~数据库访问层全部换成~~[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
-* ~~解决Elasticsearch数据嵌套时，数据值为undefine的问题~~ [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
-* ~~另存时，监控名称增加(copy)字样标识，名字和原监控区分开~~ [2020-08-01]
-* ~~报警消息模板管理功能~~ [2020-08-10]
-* ~~账号增加角色(管理员，普通用户)设置功能~~ [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
-* ~~Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles, standard deviation)数值监控~~ [2020-08-22]
-* ~~增加Elasticsearch数据监控使用指南~~ [2020-08-27]
-* ~~增加同比监控使用指南~~ [2020-08-29]
-* ~~增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件~~ [2020-09-03]
-* ~~如果监控关联了服务，报警接收人自动增加对应的服务负责人~~ [2020-09-03]
-* ~~bugfix: 解决部分浏览器下表头和表内容有点错位的问题~~ [2020-09-05]
-* ~~监控增加风险等级设置(提示，重要，紧急，我崩了),报警消息添加风险等级信息~~ [2020-09-05]
-* ~~bugfix: 解决数据查询页面，不查询可以直接点击加载更多的问题~~ [2020-09-05]
-* ~~document: 增加ORM选型的说明~~ [2020-09-05]
-* ~~替掉蛇形命名字段，全部改为驼峰，统一代码风格~~ [2020-09-08]
+* 发布0.3-RELEASE
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
 * 集成测试，单元测试
 * 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
-* 发布0.3-RELEASE
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
 * 增加influxdb数值监控
@@ -422,7 +399,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * jjwt
 * nashorn
 
-## Contribution
+## Contributors
 
 [@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91) 
 [@wxmclub](https://github.com/wxmclub)
