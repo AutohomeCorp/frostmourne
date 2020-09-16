@@ -22,7 +22,7 @@ public class InfluxdbDataQuery implements IInfluxdbDataQuery {
     @Override
     public MetricData queryMetricData(DateTime start, DateTime end, MetricContract metricContract) {
         String influxDbAddress = metricContract.getDataSourceContract().getServiceAddress();
-        String db = metricContract.getDataNameContract().getSettings().get("INFLUX_DB");
+        String db = metricContract.getDataNameContract().getSettings().get("measurement");
         String query = metricContract.getQueryString();
         InfluxdbResponse influxdbResponse = influxdbDao.query(influxDbAddress, db, query);
         MetricData metricData = new MetricData();
