@@ -34,7 +34,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 * 报警消息
 
-<img src="./doc/img/message.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/message.png" />
 
 * 数据源管理
 
@@ -360,6 +360,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 增加influxdb数值同比，环比监控
 * 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成
 * 监控配置增加是否发送恢复通知的开关选项
+* 报警消息格式增加类型: text, markdown选项
 * 发布0.4-RELEASE
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 内置实现一个短链接功能，移除外部短链接服务依赖
