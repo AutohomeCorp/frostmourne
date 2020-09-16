@@ -9,14 +9,17 @@ import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-public class InfluxdbDataQuery {
+@Service
+public class InfluxdbDataQuery implements IInfluxdbDataQuery {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(InfluxdbDataQuery.class);
 
     @Resource
     private IInfluxdbDao influxdbDao;
 
+    @Override
     public MetricData queryMetricData(DateTime start, DateTime end, MetricContract metricContract) {
         String influxDbAddress = metricContract.getDataSourceContract().getServiceAddress();
         String db = metricContract.getDataNameContract().getSettings().get("INFLUX_DB");

@@ -8,6 +8,9 @@ import com.autohome.frostmourne.monitor.service.core.metric.elasticsearch.Elasti
 import com.autohome.frostmourne.monitor.service.core.metric.elasticsearch.ElasticsearchSameTimeMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.HttpMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
+import com.autohome.frostmourne.monitor.service.core.metric.influxdb.InfluxdbNumericMetric;
+import com.autohome.frostmourne.monitor.service.core.metric.influxdb.InfluxdbSameTimeMetric;
+import com.autohome.frostmourne.monitor.service.core.query.IInfluxdbDataQuery;
 import com.autohome.frostmourne.monitor.service.core.rule.ExpressionRule;
 import com.autohome.frostmourne.monitor.service.core.rule.IRule;
 import com.autohome.frostmourne.monitor.service.core.rule.NumericRule;
@@ -47,7 +50,7 @@ public class CoreConfig {
         return new ExpressionRule(templateService);
     }
 
-    @Bean
+    @Bean(name = "elasticsearchMetricMap")
     public Map<String, IMetric> elasticsearchMetricMap() {
         Map<String, IMetric> metricMap = new HashMap<>();
         metricMap.put("numeric", elasticsearchNumericMetric());
@@ -68,5 +71,14 @@ public class CoreConfig {
     @Bean
     public HttpMetric httpMetric() {
         return new HttpMetric();
+    }
+
+
+    @Bean(name = "influxdbMetricMap")
+    public Map<String, IMetric> influxdbMetricMap(IInfluxdbDataQuery influxdbDataQuery) {
+        Map<String, IMetric> metricMap = new HashMap<>();
+        metricMap.put("metric", new InfluxdbNumericMetric(influxdbDataQuery));
+        metricMap.put("same_time", new InfluxdbSameTimeMetric(influxdbDataQuery));
+        return metricMap;
     }
 }
