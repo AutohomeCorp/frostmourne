@@ -38,37 +38,37 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 * 数据源管理
 
-<img src="./doc/img/datasource.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/datasource.png" />
 
 * 数据名管理
 
-<img src="./doc/img/dataname.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/dataname.png" />
 
 对于elasticsearch数据源来说，数据名等同于索引的概念
 
 * elasticsearch数据查询
 
-<img src="./doc/img/es.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/es.png" />
 
 配置完数据源和数据名，你就可以用查询页面验证数据配置是否正确了。
 
 * 新增或编辑监控
 
-<img src="./doc/img/edit.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/edit.png" />
 
 * HTTP数据监控
 
 以监控Elasticsearch集群健康状态为例。
 
-<img src="./doc/img/http_metric.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/http_metric.png" />
 
 检测条件为：集群状态字段status不为green，或者集群节点数量不等于11
 
-<img src="./doc/img/http_rule.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/http_rule.png" />
 
 * 监控列表
 
-<img src="./doc/img/list.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/list.png" />
 
 监控保存成功后，就可以在监控列表里看到了
 
@@ -229,7 +229,7 @@ xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql
 如果你觉得从xxl-job官方下载源码修改部署太麻烦，你可以使用我处理好了的jar包 <a href="./doc/xxl-job/xxl-job-admin-2.1.0.zip" target="_blank">xxl-job-admin-2.1.0.zip</a>，你可以下载直接解压使用
 xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一个名为frostmourne的执行器，注册方式为自动注册，如下图：
 
-<img src="./doc/img/executor.png"/>
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/executor.png"/>
 
 启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。  
 
