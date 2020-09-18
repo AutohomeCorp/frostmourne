@@ -354,12 +354,12 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * bugfix: 解决登录后跳转不正确的问题
 * enhancement: 保存监控填写不完整增加提示
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
+* 增加influxdb数值监控
+* 增加influxdb数值同比，环比监控
 * 集成测试，单元测试
 * 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
-* 增加influxdb数值监控
-* 增加influxdb数值同比，环比监控
 * 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成
 * 监控配置增加是否发送恢复通知的开关选项
 * 报警消息格式增加类型: text, markdown选项
