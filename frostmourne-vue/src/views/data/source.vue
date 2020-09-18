@@ -3,6 +3,7 @@
     <div class="filter-container">
       <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item">
         <el-option label="elasticsearch" value="elasticsearch" />
+        <el-option label="influxdb" value="influxdb" />
       </el-select>
       <!-- <el-input v-model="form.datasourceName" placeholder="名称" style="width: 300px;" class="filter-item" /> -->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
@@ -45,10 +46,11 @@
         <el-form-item label="类型" :label-width="formLabelWidth">
           <el-select v-model="editData.datasourceType" :disabled="disableTypeSelect" placeholder="数据源类型">
             <el-option label="elasticsearch" value="elasticsearch" />
+            <el-option label="influxdb" value="influxdb" />
           </el-select>
         </el-form-item>
         <el-form-item label="服务地址" :label-width="formLabelWidth">
-          <el-input v-model="editData.serviceAddress" autocomplete="off" placeholder="例如：127.0.0.1:9200，多地址英文逗号分隔" />
+          <el-input v-model="editData.serviceAddress" autocomplete="off" />
           <!--<el-tooltip content="地址更新后，下次重启后才生效" placement="bottom">
             <i class="el-icon-question" />
           </el-tooltip>-->
