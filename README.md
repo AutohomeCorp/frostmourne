@@ -350,9 +350,9 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 目前已知的规划有: 
 
-* bugfix: 解决登录后跳转不正确的问题
-* enhancement: 保存监控不完整增加提示
 * 发布0.3-RELEASE
+* bugfix: 解决登录后跳转不正确的问题
+* enhancement: 保存监控填写不完整增加提示
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
 * 集成测试，单元测试
 * 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
