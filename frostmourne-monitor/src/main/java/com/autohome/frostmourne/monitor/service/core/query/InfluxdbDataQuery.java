@@ -1,6 +1,5 @@
 package com.autohome.frostmourne.monitor.service.core.query;
 
-import java.util.Map;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.contract.MetricContract;
