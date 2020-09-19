@@ -77,10 +77,7 @@ docker-compose up
 ```
 
 启动成功后。frostmounre-monitor地址为： http://localhost:10054 ;  
-xxl-job-admin地址为: http://localhost:10052/xxl-job-admin ;
-
-注意：目前本项目的镜像制作主要用于本地快速启动搭建，并没有遵守docker和springboot项目部署的最佳实践，
-所以不能直接用于生产，用于生产的镜像请自己制作。  
+xxl-job-admin地址为: http://localhost:10052/xxl-job-admin ; 
 
 
 

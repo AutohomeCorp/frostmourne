@@ -13,13 +13,13 @@
 
     <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="id" width="80" align="center" />
-      <el-table-column prop="team_name" label="团队" width="160" align="center" />
-      <el-table-column prop="full_name" label="全名" align="left" />
-      <el-table-column prop="department_id" label="部门ID" width="80" align="center" />
+      <el-table-column prop="teamName" label="团队" width="160" align="center" />
+      <el-table-column prop="fullName" label="全名" align="left" />
+      <el-table-column prop="departmentId" label="部门ID" width="80" align="center" />
       <el-table-column prop="modifier" label="修改人" width="160" align="center" />
-      <el-table-column prop="modify_at" label="修改时间" width="160" align="center">
+      <el-table-column prop="modifyAt" label="修改时间" width="160" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.modify_at | timeFormat }}</span>
+          <span>{{ scope.row.modifyAt | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="210" align="center" fixed="right">
@@ -42,15 +42,15 @@
     <el-dialog title="保存团队" :visible.sync="dialogFormVisible" width="40%">
       <el-form :model="editData">
         <el-form-item label="部门" :label-width="formLabelWidth">
-          <el-select v-model="editData.department_id" placeholder="选择部门" class="filter-item">
-            <el-option v-for="item in departmentList" :key="item.department_name" :label="item.full_name" :value="item.id" />
+          <el-select v-model="editData.departmentId" placeholder="选择部门" class="filter-item">
+            <el-option v-for="item in departmentList" :key="item.departmentName" :label="item.fullName" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="名字" :label-width="formLabelWidth">
-          <el-input v-model="editData.team_name" autocomplete="off" />
+          <el-input v-model="editData.teamName" autocomplete="off" />
         </el-form-item>
         <el-form-item label="全称" :label-width="formLabelWidth">
-          <el-input v-model="editData.full_name" autocomplete="off" />
+          <el-input v-model="editData.fullName" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -84,9 +84,9 @@ export default {
         teamName: null
       },
       editData: {
-        team_name: null,
-        full_name: null,
-        department_id: null
+        teamName: null,
+        fullName: null,
+        departmentId: null
       },
       formLabelWidth: '100px',
       dialogFormVisible: false,
@@ -124,9 +124,9 @@ export default {
       console.log(row)
       if (row != null) {
         this.editData.id = row.id
-        this.editData.team_name = row.team_name
-        this.editData.full_name = row.full_name
-        this.editData.department_id = row.department_id
+        this.editData.teamName = row.teamName
+        this.editData.fullName = row.fullName
+        this.editData.departmentId = row.departmentId
       } else {
         this.editData = {}
       }

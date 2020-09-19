@@ -1,4 +1,6 @@
-# 0.3-SNAPSHOT(开发中未发布)
+# 0.4-SNAPSHOT(开发中未发布)
+
+# 0.3-RELEASE
 
 ### Feature
 
@@ -15,7 +17,7 @@
 * 账号增加角色(管理员，普通用户)设置功能 [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
 * 聚合类型(unique_count, percentiles, standard deviation)数值监控
 * 增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件 [2020-09-03]
-* 如果监控关联了服务，报警接收人增加对应的服务负责人 [2020-09-05]
+* 如果监控关联了服务，报警接收人自动增加对应的服务负责人 [2020-09-05]
 * 监控增加风险等级设置(提示，重要，紧急，我崩了),报警消息添加风险等级信息 [2020-09-05]
 
 ### Bugfix
@@ -43,6 +45,7 @@
 * mybatis-generator-maven-plugin依赖的mysql-connector升级为8.0.20
 * 默认镜像服务改用阿里云
 * 数据库访问层全部换成[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
+* 替掉蛇形命名字段，全部改为驼峰，统一代码风格 [2020-09-08]
 
 # 0.2-RELEASE
 

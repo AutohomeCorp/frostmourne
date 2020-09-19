@@ -6,29 +6,29 @@ public class AlarmContract {
 
     private Long id;
 
-    private String alarm_name;
+    private String alarmName;
 
-    private String alarm_type;
+    private String alarmType;
 
     private String description;
 
-    private String owner_key;
+    private String ownerKey;
 
     private String status;
 
-    private String execute_result;
+    private String executeResult;
 
-    private Date execute_at;
+    private Date executeAt;
 
-    private Long job_id;
+    private Long jobId;
 
     private String cron;
 
     private String operator;
 
-    private String team_name;
+    private String teamName;
 
-    private String risk_level;
+    private String riskLevel;
 
     private MetricContract metricContract;
 
@@ -46,20 +46,20 @@ public class AlarmContract {
         this.id = id;
     }
 
-    public String getAlarm_name() {
-        return alarm_name;
+    public String getAlarmName() {
+        return alarmName;
     }
 
-    public void setAlarm_name(String alarm_name) {
-        this.alarm_name = alarm_name;
+    public void setAlarmName(String alarmName) {
+        this.alarmName = alarmName;
     }
 
-    public String getAlarm_type() {
-        return alarm_type;
+    public String getAlarmType() {
+        return alarmType;
     }
 
-    public void setAlarm_type(String alarm_type) {
-        this.alarm_type = alarm_type;
+    public void setAlarmType(String alarmType) {
+        this.alarmType = alarmType;
     }
 
     public String getDescription() {
@@ -70,12 +70,12 @@ public class AlarmContract {
         this.description = description;
     }
 
-    public String getOwner_key() {
-        return owner_key;
+    public String getOwnerKey() {
+        return ownerKey;
     }
 
-    public void setOwner_key(String owner_key) {
-        this.owner_key = owner_key;
+    public void setOwnerKey(String ownerKey) {
+        this.ownerKey = ownerKey;
     }
 
     public String getStatus() {
@@ -86,28 +86,28 @@ public class AlarmContract {
         this.status = status;
     }
 
-    public String getExecute_result() {
-        return execute_result;
+    public String getExecuteResult() {
+        return executeResult;
     }
 
-    public void setExecute_result(String execute_result) {
-        this.execute_result = execute_result;
+    public void setExecuteResult(String executeResult) {
+        this.executeResult = executeResult;
     }
 
-    public Date getExecute_at() {
-        return execute_at;
+    public Date getExecuteAt() {
+        return executeAt;
     }
 
-    public void setExecute_at(Date execute_at) {
-        this.execute_at = execute_at;
+    public void setExecuteAt(Date executeAt) {
+        this.executeAt = executeAt;
     }
 
-    public Long getJob_id() {
-        return job_id;
+    public Long getJobId() {
+        return jobId;
     }
 
-    public void setJob_id(Long job_id) {
-        this.job_id = job_id;
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
     }
 
     public String getCron() {
@@ -116,6 +116,30 @@ public class AlarmContract {
 
     public void setCron(String cron) {
         this.cron = cron;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public String getRiskLevel() {
+        return riskLevel;
+    }
+
+    public void setRiskLevel(String riskLevel) {
+        this.riskLevel = riskLevel;
     }
 
     public MetricContract getMetricContract() {
@@ -134,14 +158,6 @@ public class AlarmContract {
         this.ruleContract = ruleContract;
     }
 
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
     public AlertContract getAlertContract() {
         return alertContract;
     }
@@ -150,27 +166,11 @@ public class AlarmContract {
         this.alertContract = alertContract;
     }
 
-    public String getTeam_name() {
-        return team_name;
-    }
-
-    public void setTeam_name(String team_name) {
-        this.team_name = team_name;
-    }
-
     public ServiceInfoSimpleContract getServiceInfo() {
         return serviceInfo;
     }
 
     public void setServiceInfo(ServiceInfoSimpleContract serviceInfo) {
         this.serviceInfo = serviceInfo;
-    }
-
-    public String getRisk_level() {
-        return risk_level;
-    }
-
-    public void setRisk_level(String risk_level) {
-        this.risk_level = risk_level;
     }
 }

@@ -52,12 +52,12 @@ public class RulePropertyRepository implements IRulePropertyRepository {
     @Override
     public int deleteByAlarm(Long alarmId) {
         return rulePropertyDynamicMapper.delete(query -> query.where()
-                .and(RulePropertyDynamicSqlSupport.alarm_id, isEqualTo(alarmId)));
+                .and(RulePropertyDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 
     @Override
     public List<RuleProperty> findByRuleId(Long ruleId) {
         return rulePropertyDynamicMapper.select(query -> query.where()
-                .and(RulePropertyDynamicSqlSupport.rule_id, isEqualTo(ruleId)));
+                .and(RulePropertyDynamicSqlSupport.ruleId, isEqualTo(ruleId)));
     }
 }

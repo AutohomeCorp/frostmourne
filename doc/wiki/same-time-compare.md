@@ -24,7 +24,7 @@
 
 先看同比监控报警规则需要填写哪些配置：
 
-<img src="../img/same-time-rule.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/same-time-rule.png" />
 
 假设离当前时间点最近的自然小时的数值为current, 前一天相同自然小时的数值为reference。那么报警的触发条件是
 

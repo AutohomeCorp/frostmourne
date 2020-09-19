@@ -32,8 +32,8 @@ public class DefaultAccountService implements IAccountService {
 
     private static Team transformTeam(TeamInfo teamInfo) {
         Team team = new Team();
-        team.setName(teamInfo.getTeam_name());
-        team.setFullName(teamInfo.getFull_name());
+        team.setName(teamInfo.getTeamName());
+        team.setFullName(teamInfo.getFullName());
         team.setId(teamInfo.getId());
         return team;
     }
@@ -63,8 +63,8 @@ public class DefaultAccountService implements IAccountService {
             throw new ProtocolException(5009, "用户所属团队不存在");
         }
         accountInfo.setTeamId(optionalTeamInfo.get().getId());
-        accountInfo.setTeamName(optionalTeamInfo.get().getTeam_name());
-        accountInfo.setDepartmentId(optionalTeamInfo.get().getDepartment_id());
+        accountInfo.setTeamName(optionalTeamInfo.get().getTeamName());
+        accountInfo.setDepartmentId(optionalTeamInfo.get().getDepartmentId());
         return Optional.of(accountInfo);
     }
 

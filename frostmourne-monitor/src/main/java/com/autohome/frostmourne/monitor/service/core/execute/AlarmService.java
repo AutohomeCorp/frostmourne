@@ -42,14 +42,14 @@ public class AlarmService implements IAlarmService {
     }
 
     public AlarmProcessLogger run(AlarmContract alarmContract, boolean test) {
-        IRule rule = this.ruleService.findRule(alarmContract.getRuleContract().getRule_type());
+        IRule rule = this.ruleService.findRule(alarmContract.getRuleContract().getRuleType());
         String dataSourceType = null;
-        if (alarmContract.getMetricContract().getData_name_id() != null && alarmContract.getMetricContract().getData_name_id() > 0) {
-            dataSourceType = alarmContract.getMetricContract().getDataSourceContract().getDatasource_type();
+        if (alarmContract.getMetricContract().getDataNameId() != null && alarmContract.getMetricContract().getDataNameId() > 0) {
+            dataSourceType = alarmContract.getMetricContract().getDataSourceContract().getDatasourceType();
         } else {
-            dataSourceType = alarmContract.getMetricContract().getData_name();
+            dataSourceType = alarmContract.getMetricContract().getDataName();
         }
-        IMetric metric = this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetric_type());
+        IMetric metric = this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetricType());
         AlarmExecutor alarmExecutor = new AlarmExecutor(alarmContract, rule, metric, generateShortLinkService);
         AlarmProcessLogger alarmProcessLogger = alarmExecutor.execute();
         if (!test) {
