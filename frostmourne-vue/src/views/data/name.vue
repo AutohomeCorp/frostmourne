@@ -56,6 +56,7 @@
             class="filter-item"
             @change="dialogSourceTypeChangeHandler">
             <el-option label="elasticsearch" value="elasticsearch" />
+            <el-option label="influxdb" value="influxdb" />
           </el-select>
         </el-form-item>
 
@@ -69,7 +70,7 @@
           <el-input v-model="editData.displayName" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item label="时间字段" :label-width="formLabelWidth" prop="timestampField">
+        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="时间字段" :label-width="formLabelWidth" prop="timestampField">
           <el-input v-model="editData.timestampField" autocomplete="off" />
         </el-form-item>
         <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="索引前缀" :label-width="formLabelWidth" prop="indexPrefix">
@@ -78,6 +79,10 @@
 
         <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="时间后缀" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.timePattern" placeholder="可空。举例: yyyyMMdd。最小单位到天, 小于天请用*表示" autocomplete="off" />
+        </el-form-item>
+
+        <el-form-item v-if="editData.datasourceType === 'influxdb'" label="Database" :label-width="formLabelWidth">
+          <el-input v-model="editData.settings.database" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
