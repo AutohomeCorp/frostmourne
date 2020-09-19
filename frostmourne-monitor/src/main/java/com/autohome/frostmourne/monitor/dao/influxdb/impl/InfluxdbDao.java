@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.dao.influxdb.impl;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.influxdb.IInfluxdbDao;
 import com.autohome.frostmourne.monitor.dao.influxdb.InfluxdbResponse;
 import com.google.common.collect.ImmutableMap;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 @Repository
-public class InfluxdbDao {
+public class InfluxdbDao implements IInfluxdbDao {
 
     @Resource
     private RestTemplate restTemplate;
