@@ -6,7 +6,7 @@
 
 打开页面：数据管理->数据源，点击新增按钮，弹出窗口，填写字段并保存。
 
-<img src="../img/add-datasource.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/add-datasource.png" />
 
 其中服务地址填写Elasticsearch服务的地址，如果有多个用英文逗号分隔。
 >注意服务地址端口不能缺省，就算是80端口也需要加上
@@ -15,7 +15,7 @@
 
 打开页面：数据管理->数据名，点击新增按钮，弹出窗口，填写字段并保存。
 
-<img src="../img/add-dataname.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/add-dataname.png" />
 
 数据名在elasticsearch场景可以理解为索引模式，之所以不直接用索引，是因为项目计划不只支持elasticsearch，还会
 支持influxdb等其它数据源类型。索引后缀如果不是标准的时间模式，可以用*号。
@@ -25,7 +25,7 @@
 添加完数据名，打开数据查询页面。下拉选择刚才保存的数据名，点击查询。如果查出来数据和你的索引数据对上了，说明数据信息都
 填写正确了。
 
-<img src="../img/es.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/es.png" />
 
 query string查询语句语法不清楚的，可以参考文档: <a href="./query-string.md" target="_blank">query string简易教程</a>，查询页面主要
 小特性列表
@@ -42,7 +42,7 @@ query string查询语句语法不清楚的，可以参考文档: <a href="./quer
 
 打开页面：监控管理->监控编辑。填入信息并保存，保存前可以先进行测试。
 
-<img src="../img/edit.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/edit.png" />
 
 查询语句如下，表示查询项目dbtree的错误日志
 
@@ -52,7 +52,7 @@ Team: dealer.arch AND Project: dbtree AND Level: ERROR
 
 #### 报警规则填写
 
-<img src="../img/rule.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/rule.png" />
 
 表示最近5分钟查出来的日志数量大于1就报警
 
@@ -76,11 +76,11 @@ ${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一�
 
 保存成功后，就可以运行一下试试看了。打开页面：监控管理->监控列表。
 
-<img src="../img/list.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/list.png" />
 
 点击运行按钮，就会弹出运行结果，如果产生报警的话，还会根据你配置的发送方式收到报警消息。我们的消息大概是这样子：
 
-<img src="../img/message.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/message.png" />
 
 监控每次运行都会产生一条执行日志，在页面监控管理->执行日志。能看到所有监控的执行日志。如果产生了报警发送，还会产生
 消息发送记录，在页面监控管理->我的消息。可以看到所有发送给你的消息。
