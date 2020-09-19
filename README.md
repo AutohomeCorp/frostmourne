@@ -8,7 +8,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 主要功能
 
-* Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
+* Elasticsearch数据， InfluxDB数据监控, 你只需要写一条查询就可以轻松搞定监控
 * 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
 * 数值同比监控
 * HTTP数据监控, js表达式判断是否报警
@@ -96,6 +96,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
  
 除了Elasticsearch数据监控，还提供了HTTP监控，使用起来非常灵活方便，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
 
+## InfluxDB数据监控使用指南
 
 ## 数值同比监控使用指南
 
@@ -350,13 +351,13 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 目前已知的规划有: 
 
+* ~~实现influxdb数值监控~~ [2020-09-19]
+* ~~增加influxdb数值同比监控~~ [2020-09-19]
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
 * 集成测试，单元测试
 * 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
-* 增加influxdb数值监控
-* 增加influxdb数值同比，环比监控
 * 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成
 * 监控配置增加是否发送恢复通知的开关选项
 * 报警消息格式增加类型: text, markdown选项
