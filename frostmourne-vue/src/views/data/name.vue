@@ -81,8 +81,8 @@
           <el-input v-model="editData.settings.timePattern" placeholder="可空。举例: yyyyMMdd。最小单位到天, 小于天请用*表示" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item v-if="editData.datasourceType === 'influxdb'" label="Measurement" :label-width="formLabelWidth">
-          <el-input v-model="editData.settings.measurement" autocomplete="off" />
+        <el-form-item v-if="editData.datasourceType === 'influxdb'" label="Database" :label-width="formLabelWidth">
+          <el-input v-model="editData.settings.database" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

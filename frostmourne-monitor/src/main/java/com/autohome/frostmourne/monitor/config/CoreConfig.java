@@ -77,7 +77,7 @@ public class CoreConfig {
     @Bean(name = "influxdbMetricMap")
     public Map<String, IMetric> influxdbMetricMap(IInfluxdbDataQuery influxdbDataQuery) {
         Map<String, IMetric> metricMap = new HashMap<>();
-        metricMap.put("metric", new InfluxdbNumericMetric(influxdbDataQuery));
+        metricMap.put("numeric", new InfluxdbNumericMetric(influxdbDataQuery));
         metricMap.put("same_time", new InfluxdbSameTimeMetric(influxdbDataQuery));
         return metricMap;
     }
