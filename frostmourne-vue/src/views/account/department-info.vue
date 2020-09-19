@@ -12,12 +12,12 @@
 
     <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="id" width="80" align="center" />
-      <el-table-column prop="department_name" label="部门" width="160" align="center" />
-      <el-table-column prop="full_name" label="部门全称" align="center" />
+      <el-table-column prop="departmentName" label="部门" width="160" align="center" />
+      <el-table-column prop="fullName" label="部门全称" align="center" />
       <el-table-column prop="modifier" label="修改人" width="160" align="center" />
-      <el-table-column prop="modify_at" label="修改时间" width="160" align="center">
+      <el-table-column prop="modifyAt" label="修改时间" width="160" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.modify_at | timeFormat }}</span>
+          <span>{{ scope.row.modifyAt | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="210" align="center" fixed="right">
@@ -40,10 +40,10 @@
     <el-dialog title="保存部门" :visible.sync="dialogFormVisible" width="40%">
       <el-form :model="editData">
         <el-form-item label="部门名" :label-width="formLabelWidth">
-          <el-input v-model="editData.department_name" autocomplete="off" />
+          <el-input v-model="editData.departmentName" autocomplete="off" />
         </el-form-item>
         <el-form-item label="全称" :label-width="formLabelWidth">
-          <el-input v-model="editData.full_name" autocomplete="off" />
+          <el-input v-model="editData.fullName" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -75,8 +75,8 @@ export default {
         id: null
       },
       editData: {
-        department_name: null,
-        full_name: null
+        departmentName: null,
+        fullName: null
       },
       formLabelWidth: '100px',
       dialogFormVisible: false
@@ -110,8 +110,8 @@ export default {
       console.log(row)
       if (row != null) {
         this.editData.id = row.id
-        this.editData.department_name = row.department_name
-        this.editData.full_name = row.full_name
+        this.editData.departmentName = row.departmentName
+        this.editData.fullName = row.fullName
       } else {
         this.editData = {}
       }

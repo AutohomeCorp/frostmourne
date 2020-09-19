@@ -49,11 +49,11 @@ public class AlertRepository implements IAlertRepository {
 
     @Override
     public int deleteByAlarm(Long alarmId) {
-        return alertDynamicMapper.delete(query -> query.where().and(AlertDynamicSqlSupport.alarm_id, isEqualTo(alarmId)));
+        return alertDynamicMapper.delete(query -> query.where().and(AlertDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 
     @Override
     public Optional<Alert> findOneByAlarm(Long alarmId) {
-        return alertDynamicMapper.selectOne(query -> query.where().and(AlertDynamicSqlSupport.alarm_id, isEqualTo(alarmId)).limit(1));
+        return alertDynamicMapper.selectOne(query -> query.where().and(AlertDynamicSqlSupport.alarmId, isEqualTo(alarmId)).limit(1));
     }
 }

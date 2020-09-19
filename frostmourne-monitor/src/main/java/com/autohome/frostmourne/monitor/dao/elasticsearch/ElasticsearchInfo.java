@@ -49,11 +49,11 @@ public class ElasticsearchInfo {
     }
 
     public ElasticsearchInfo(DataSourceContract dataSourceContract) {
-        this.name = dataSourceContract.getDatasource_name();
-        this.esHostList = dataSourceContract.getService_address();
+        this.name = dataSourceContract.getDatasourceName();
+        this.esHostList = dataSourceContract.getServiceAddress();
         this.sniff = false;
         this.settings = dataSourceContract.getSettings();
-        this.lastUpdateTime = dataSourceContract.getModify_at().getTime();
+        this.lastUpdateTime = dataSourceContract.getModifyAt().getTime();
     }
 
     public Long getLastUpdateTime() {

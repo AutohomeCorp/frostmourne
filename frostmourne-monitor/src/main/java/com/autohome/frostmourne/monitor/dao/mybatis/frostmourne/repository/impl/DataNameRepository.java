@@ -52,21 +52,21 @@ public class DataNameRepository implements IDataNameRepository {
 
     @Override
     public Optional<DataName> findByName(String dataName) {
-        return dataNameDynamicMapper.selectOne(query -> query.where().and(DataNameDynamicSqlSupport.data_name, isEqualTo(dataName)));
+        return dataNameDynamicMapper.selectOne(query -> query.where().and(DataNameDynamicSqlSupport.DATA_NAME, isEqualTo(dataName)));
     }
 
     @Override
     public List<DataName> findByNames(List<String> dataNames) {
         return dataNameDynamicMapper.select(query -> query.where()
-                .and(DataNameDynamicSqlSupport.data_name, isIn(dataNames))
-                .orderBy(DataNameDynamicSqlSupport.create_at.descending()));
+                .and(DataNameDynamicSqlSupport.DATA_NAME, isIn(dataNames))
+                .orderBy(DataNameDynamicSqlSupport.createAt.descending()));
     }
 
     @Override
     public List<DataName> find(String datasourceType, Long datasourceId) {
         return dataNameDynamicMapper.select(query -> query.where()
-                .and(DataNameDynamicSqlSupport.datasource_type, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
-                .and(DataNameDynamicSqlSupport.data_source_id, isEqualTo(datasourceId).when(MybatisTool::notNullAndZero))
-                .orderBy(DataNameDynamicSqlSupport.create_at.descending()));
+                .and(DataNameDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
+                .and(DataNameDynamicSqlSupport.dataSourceId, isEqualTo(datasourceId).when(MybatisTool::notNullAndZero))
+                .orderBy(DataNameDynamicSqlSupport.createAt.descending()));
     }
 }

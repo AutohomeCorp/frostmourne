@@ -50,24 +50,24 @@ public class MetricRepository implements IMetricRepository {
     @Override
     public int deleteByAlarm(Long alarmId) {
         return metricDynamicMapper.delete(query -> query.where()
-                .and(MetricDynamicSqlSupport.alarm_id, isEqualTo(alarmId)));
+                .and(MetricDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 
     @Override
     public Optional<Metric> findOneByAlarm(Long alarmId) {
         return metricDynamicMapper.selectOne(query -> query.where()
-                .and(MetricDynamicSqlSupport.alarm_id, isEqualTo(alarmId)));
+                .and(MetricDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 
     @Override
     public long datasourceCount(Long datasourceId) {
         return metricDynamicMapper.count(query -> query.where()
-                .and(MetricDynamicSqlSupport.data_source_id, isEqualTo(datasourceId)));
+                .and(MetricDynamicSqlSupport.dataSourceId, isEqualTo(datasourceId)));
     }
 
     @Override
     public long datanameCount(Long datanameId) {
         return metricDynamicMapper.count(query -> query.where()
-                .and(MetricDynamicSqlSupport.data_name_id, isEqualTo(datanameId)));
+                .and(MetricDynamicSqlSupport.dataNameId, isEqualTo(datanameId)));
     }
 }

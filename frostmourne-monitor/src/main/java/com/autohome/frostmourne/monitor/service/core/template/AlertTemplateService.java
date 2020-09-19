@@ -139,7 +139,7 @@ public class AlertTemplateService implements IAlertTemplateService {
         Map<String, DataNameContract> dataNameMap = dataAdminService.mapDataNameByNames(unionCodes);
         // 获取数据源名称
         List<Long> dataSourceIds = dataNameMap.values().stream()
-                .map(DataNameContract::getData_source_id)
+                .map(DataNameContract::getDataSourceId)
                 .collect(Collectors.toList());
         Map<Long, DataSource> dataSourceMap = dataAdminService.mapDataSourceByIds(dataSourceIds);
 
@@ -156,16 +156,16 @@ public class AlertTemplateService implements IAlertTemplateService {
                 } else {
                     item.setTemplateTypeTreeValues(Arrays.asList(
                             TemplateType.DATA_NAME.name(),
-                            contract.getDatasource_type(),
-                            String.valueOf(contract.getData_source_id()),
-                            contract.getData_name()));
+                            contract.getDatasourceType(),
+                            String.valueOf(contract.getDataSourceId()),
+                            contract.getDataName()));
                     item.setTemplateTypeTreeLabels(Arrays.asList(
                             TemplateType.DATA_NAME.getDisplanName(),
-                            contract.getDatasource_type(),
-                            Optional.ofNullable(dataSourceMap.get(contract.getData_source_id()))
-                                    .map(DataSource::getDatasource_name)
-                                    .orElse(String.valueOf(contract.getData_source_id())),
-                            contract.getDisplay_name()));
+                            contract.getDatasourceType(),
+                            Optional.ofNullable(dataSourceMap.get(contract.getDataSourceId()))
+                                    .map(DataSource::getDatasourceName)
+                                    .orElse(String.valueOf(contract.getDataSourceId())),
+                            contract.getDisplayName()));
                 }
             }
         });

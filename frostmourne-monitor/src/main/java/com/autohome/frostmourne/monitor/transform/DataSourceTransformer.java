@@ -13,20 +13,20 @@ public class DataSourceTransformer {
 
     public static DataSourceContract model2Contract(DataSource dataSource) {
         DataSourceContract dataSourceContract = new DataSourceContract();
-        dataSourceContract.setDatasource_name(dataSource.getDatasource_name());
-        dataSourceContract.setDatasource_type(dataSource.getDatasource_type());
+        dataSourceContract.setDatasourceName(dataSource.getDatasourceName());
+        dataSourceContract.setDatasourceType(dataSource.getDatasourceType());
         dataSourceContract.setId(dataSource.getId());
-        dataSourceContract.setService_address(dataSource.getService_address());
+        dataSourceContract.setServiceAddress(dataSource.getServiceAddress());
         if (!Strings.isNullOrEmpty(dataSource.getProperties())) {
             dataSourceContract.setSettings(JacksonUtil.deSerialize(dataSource.getProperties(), new TypeReference<Map<String, String>>() {
             }));
         } else {
             dataSourceContract.setSettings(new HashMap<>());
         }
-        dataSourceContract.setCreate_at(dataSource.getCreate_at());
+        dataSourceContract.setCreateAt(dataSource.getCreateAt());
         dataSourceContract.setCreator(dataSource.getCreator());
         dataSourceContract.setModifier(dataSource.getModifier());
-        dataSourceContract.setModify_at(dataSource.getModify_at());
+        dataSourceContract.setModifyAt(dataSource.getModifyAt());
         return dataSourceContract;
     }
 }

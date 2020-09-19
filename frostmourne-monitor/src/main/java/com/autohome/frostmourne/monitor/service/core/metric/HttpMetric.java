@@ -39,15 +39,15 @@ public class HttpMetric implements IMetric {
                     }
                 }
             }
-            if (Strings.isNullOrEmpty(metricContract.getPost_data())) {
+            if (Strings.isNullOrEmpty(metricContract.getPostData())) {
                 HttpEntity requestGet = new HttpEntity(headers);
-                responseEntity = restTemplate.exchange(metricContract.getQuery_string(), HttpMethod.GET, requestGet, String.class);
+                responseEntity = restTemplate.exchange(metricContract.getQueryString(), HttpMethod.GET, requestGet, String.class);
             } else {
                 MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
                 headers.setContentType(type);
                 headers.add("Accept", MediaType.APPLICATION_JSON.toString());
-                HttpEntity<String> request = new HttpEntity<>(metricContract.getPost_data(), headers);
-                responseEntity = restTemplate.postForEntity(metricContract.getQuery_string(), request, String.class);
+                HttpEntity<String> request = new HttpEntity<>(metricContract.getPostData(), headers);
+                responseEntity = restTemplate.postForEntity(metricContract.getQueryString(), request, String.class);
             }
             Long end = System.currentTimeMillis();
             result.put("HTTP_STATUS", responseEntity.getStatusCodeValue());

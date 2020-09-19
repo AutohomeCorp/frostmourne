@@ -19,14 +19,14 @@ public class AlertTemplateTransformer {
         }
         AlertTemplateContract alertTemplateContract = new AlertTemplateContract();
         alertTemplateContract.setId(alertTemplate.getId());
-        alertTemplateContract.setTemplateName(alertTemplate.getTemplate_name());
-        alertTemplateContract.setTemplateType(alertTemplate.getTemplate_type());
-        alertTemplateContract.setTemplateUnionCode(alertTemplate.getTemplate_union_code());
+        alertTemplateContract.setTemplateName(alertTemplate.getTemplateName());
+        alertTemplateContract.setTemplateType(alertTemplate.getTemplateType());
+        alertTemplateContract.setTemplateUnionCode(alertTemplate.getTemplateUnionCode());
         alertTemplateContract.setContent(alertTemplate.getContent());
         alertTemplateContract.setCreator(alertTemplate.getCreator());
-        alertTemplateContract.setCreateAt(alertTemplate.getCreate_at());
+        alertTemplateContract.setCreateAt(alertTemplate.getCreateAt());
         alertTemplateContract.setModifier(alertTemplate.getModifier());
-        alertTemplateContract.setModifyAt(alertTemplate.getModify_at());
+        alertTemplateContract.setModifyAt(alertTemplate.getModifyAt());
         return alertTemplateContract;
     }
 
@@ -45,9 +45,9 @@ public class AlertTemplateTransformer {
         }
         AlertTemplate alertTemplate = new AlertTemplate();
         alertTemplate.setId(alertTemplateSaveForm.getId());
-        alertTemplate.setTemplate_name(alertTemplateSaveForm.getTemplateName());
-        alertTemplate.setTemplate_type(Optional.ofNullable(alertTemplateSaveForm.getTemplateType()).map(TemplateType::name).orElse(null));
-        alertTemplate.setTemplate_union_code(alertTemplateSaveForm.getTemplateUnionCode());
+        alertTemplate.setTemplateName(alertTemplateSaveForm.getTemplateName());
+        alertTemplate.setTemplateType(Optional.ofNullable(alertTemplateSaveForm.getTemplateType()).map(TemplateType::name).orElse(null));
+        alertTemplate.setTemplateUnionCode(alertTemplateSaveForm.getTemplateUnionCode());
         alertTemplate.setContent(alertTemplateSaveForm.getContent());
         return alertTemplate;
     }
