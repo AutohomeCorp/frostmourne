@@ -381,11 +381,11 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 增加skywalking数据监控报警支持
 * 增加mysql数据监控报警支持
 * 国际化
-* 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
 * 发布1.0-RELEASE
 * 增加frostmourne程序日志格式采集方案
 * 增加frostmourne程序日志查询和分析功能
 * 加入更为智能的时序数据异常检测算法规则(需要实验可行性)
+* 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
 
 ## 发版历史
 
