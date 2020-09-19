@@ -353,6 +353,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 * ~~实现influxdb数值监控~~ [2020-09-19]
 * ~~增加influxdb数值同比监控~~ [2020-09-19]
+* 增加skywalking数据监控报警支持
 * doc: 增加influxdb数据监控使用指南
 * 监控列表增加"执行日志"操作按钮，点击跳转到对应监控执行日志列表页
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
@@ -379,7 +380,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
 基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
 * 增加prometheus数据监控报警支持
-* 增加skywalking数据监控报警支持
 * 增加mysql数据监控报警支持
 * 国际化
 * 发布1.0-RELEASE
