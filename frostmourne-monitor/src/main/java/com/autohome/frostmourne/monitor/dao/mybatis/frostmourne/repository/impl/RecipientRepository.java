@@ -52,12 +52,12 @@ public class RecipientRepository implements IRecipientRepository {
     @Override
     public int deleteByAlarm(Long alarmId) {
         return recipientDynamicMapper.delete(query -> query.where()
-                .and(RecipientDynamicSqlSupport.alarm_id, isEqualTo(alarmId)));
+                .and(RecipientDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 
     @Override
     public List<Recipient> findByAlarm(Long alarmId) {
         return recipientDynamicMapper.select(query -> query.where()
-                .and(RecipientDynamicSqlSupport.alarm_id, isEqualTo(alarmId)));
+                .and(RecipientDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 }

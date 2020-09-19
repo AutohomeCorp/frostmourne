@@ -29,11 +29,11 @@ public class DataMapping {
         this.id = id;
     }
 
-    public String getData_name() {
+    public String getDataName() {
         return data_name;
     }
 
-    public void setData_name(String data_name) {
+    public void setDataName(String data_name) {
         this.data_name = data_name == null ? null : data_name.trim();
     }
 
@@ -69,11 +69,11 @@ public class DataMapping {
         this.creator = creator == null ? null : creator.trim();
     }
 
-    public Date getCreate_at() {
+    public Date getCreateAt() {
         return create_at;
     }
 
-    public void setCreate_at(Date create_at) {
+    public void setCreateAt(Date create_at) {
         this.create_at = create_at;
     }
 
@@ -85,11 +85,11 @@ public class DataMapping {
         this.modifier = modifier == null ? null : modifier.trim();
     }
 
-    public Date getModify_at() {
+    public Date getModifyAt() {
         return modify_at;
     }
 
-    public void setModify_at(Date modify_at) {
+    public void setModifyAt(Date modify_at) {
         this.modify_at = modify_at;
     }
 }

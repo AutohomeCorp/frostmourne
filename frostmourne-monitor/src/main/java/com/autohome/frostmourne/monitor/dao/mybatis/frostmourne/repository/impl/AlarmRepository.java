@@ -1,10 +1,5 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl;
 
-import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.alarm_name;
-import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.create_at;
-import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.id;
-import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.service_id;
-import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.team_name;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 
@@ -72,12 +67,12 @@ public class AlarmRepository implements IAlarmRepository {
     public PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serviceId) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<Alarm> list = alarmDynamicMapper.select(query -> {
-            query.where().and(id, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
-                    .and(alarm_name, isLike(name).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
-                    .and(team_name, isEqualTo(teamName).when(MybatisTool::notNullAndEmpty))
+            query.where().and(AlarmDynamicSqlSupport.id, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
+                    .and(AlarmDynamicSqlSupport.alarmName, isLike(name).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
+                    .and(AlarmDynamicSqlSupport.teamName, isEqualTo(teamName).when(MybatisTool::notNullAndEmpty))
                     .and(AlarmDynamicSqlSupport.status, isEqualTo(status).when(MybatisTool::notNullAndEmpty))
-                    .and(service_id, isEqualTo(serviceId).when(MybatisTool::notNullAndZero))
-                    .orderBy(create_at.descending());
+                    .and(AlarmDynamicSqlSupport.serviceId, isEqualTo(serviceId).when(MybatisTool::notNullAndZero))
+                    .orderBy(AlarmDynamicSqlSupport.createAt.descending());
             return query;
         });
         return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
@@ -87,8 +82,8 @@ public class AlarmRepository implements IAlarmRepository {
     public void updateAlarmLastExecuteInfo(Long alarmId, Date executeTime, String executeResult) {
         Alarm record = new Alarm();
         record.setId(alarmId);
-        record.setExecute_at(executeTime);
-        record.setExecute_result(executeResult);
+        record.setExecuteAt(executeTime);
+        record.setExecuteResult(executeResult);
         alarmDynamicMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -96,7 +91,7 @@ public class AlarmRepository implements IAlarmRepository {
     public int updateJobId(Long alarmId, Long jobId) {
         Alarm record = new Alarm();
         record.setId(alarmId);
-        record.setJob_id(jobId);
+        record.setJobId(jobId);
         return alarmDynamicMapper.updateByPrimaryKeySelective(record);
     }
 

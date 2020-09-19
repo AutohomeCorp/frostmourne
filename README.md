@@ -34,41 +34,41 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 * 报警消息
 
-<img src="./doc/img/message.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/message.png" />
 
 * 数据源管理
 
-<img src="./doc/img/datasource.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/datasource.png" />
 
 * 数据名管理
 
-<img src="./doc/img/dataname.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/dataname.png" />
 
 对于elasticsearch数据源来说，数据名等同于索引的概念
 
 * elasticsearch数据查询
 
-<img src="./doc/img/es.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/es.png" />
 
 配置完数据源和数据名，你就可以用查询页面验证数据配置是否正确了。
 
 * 新增或编辑监控
 
-<img src="./doc/img/edit.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/edit.png" />
 
 * HTTP数据监控
 
 以监控Elasticsearch集群健康状态为例。
 
-<img src="./doc/img/http_metric.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/http_metric.png" />
 
 检测条件为：集群状态字段status不为green，或者集群节点数量不等于11
 
-<img src="./doc/img/http_rule.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/http_rule.png" />
 
 * 监控列表
 
-<img src="./doc/img/list.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/list.png" />
 
 监控保存成功后，就可以在监控列表里看到了
 
@@ -229,7 +229,7 @@ xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql
 如果你觉得从xxl-job官方下载源码修改部署太麻烦，你可以使用我处理好了的jar包 <a href="./doc/xxl-job/xxl-job-admin-2.1.0.zip" target="_blank">xxl-job-admin-2.1.0.zip</a>，你可以下载直接解压使用
 xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一个名为frostmourne的执行器，注册方式为自动注册，如下图：
 
-<img src="./doc/img/executor.png"/>
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/executor.png"/>
 
 启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。  
 
@@ -312,8 +312,8 @@ xxl.job.executor.logretentiondays=3
 xxl.job.alarm.email=[your_email]
 ```
 
-启动frostmourne-spi项目，active profile设置为default, 测试地址: http://localhost:10053  
-启动frostmourne-monitor项目, active profile设置为local, 测试地址: http://localhost:10054   
+启动frostmourne-spi项目，启动参数增加：-Dlog.console.level=INFO，将active profile设置为default, 测试地址: http://localhost:10053  
+启动frostmourne-monitor项目, 启动参数增加：-Dlog.console.level=INFO，active profile设置为local, 测试地址: http://localhost:10054   
 使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
 
 ```bash
@@ -350,51 +350,31 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 目前已知的规划有: 
 
-* ~~监控列表增加按团队查询，默认只显示自己团队的监控；监控按部门隔离~~ [2020-07-22]
-* ~~数据名保存表单数据提交增加前端验证~~ [2020-07-22]
-* ~~Elasticsearch监控数值实现同比监控~~ [2020-07-24]
-* ~~Elasticsearch数据源更新免重启加载~~ [2020-07-25]
-* ~~集成LDAP登录验证~~ [2020-07-25]
-* ~~菜单增加权限控制，部分页面(如：数据源配置)只对管理员开放~~ [2020-07-27]
-* ~~Elasticsearch查询增加历史语句自动提示~~ [2020-07-27]
-* ~~Elasticsearch查询数据柱状图可点击并自动变更时间范围~~ [2020-07-28]
-* ~~数据库访问层全部换成~~[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql) [2020-07-30]
-* ~~解决Elasticsearch数据嵌套时，数据值为undefine的问题~~ [issue#11](https://github.com/AutohomeCorp/frostmourne/issues/11) [2020-08-01]
-* ~~另存时，监控名称增加(copy)字样标识，名字和原监控区分开~~ [2020-08-01]
-* ~~报警消息模板管理功能~~ [2020-08-10]
-* ~~账号增加角色(管理员，普通用户)设置功能~~ [issue#18](https://github.com/AutohomeCorp/frostmourne/issues/18) [2020-08-18]
-* ~~Elasticsearch数据监控增加更多聚合类型(unique_count, percentiles, standard deviation)数值监控~~ [2020-08-22]
-* ~~增加Elasticsearch数据监控使用指南~~ [2020-08-27]
-* ~~增加同比监控使用指南~~ [2020-08-29]
-* ~~增加服务管理，监控可以和服务关联,监控列表增加按服务查询条件~~ [2020-09-03]
-* ~~如果监控关联了服务，报警接收人自动增加对应的服务负责人~~ [2020-09-03]
-* ~~bugfix: 解决部分浏览器下表头和表内容有点错位的问题~~ [2020-09-05]
-* ~~监控增加风险等级设置(提示，重要，紧急，我崩了),报警消息添加风险等级信息~~ [2020-09-05]
-* ~~bugfix: 解决数据查询页面，不查询可以直接点击加载更多的问题~~ [2020-09-05]
-* ~~document: 增加ORM选型的说明~~ [2020-09-05]
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
-* 替掉蛇形命名字段，全部改为驼峰，统一代码风格
 * 集成测试，单元测试
-* 发布0.3-RELEASE
+* 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
+* 增加influxdb数值监控
+* 增加influxdb数值同比，环比监控
+* 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成
+* 监控配置增加是否发送恢复通知的开关选项
+* 报警消息格式增加类型: text, markdown选项
+* 发布0.4-RELEASE
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * Elasticsearch监控数值实现环比监控
-* 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)
 * 更多报警方式补充（欢迎PR）
 * 后端接口增加数据校验并返回合适的提示信息
+* Elasticsearch索引字段自动获取
 * 更新在线demo至最新
 * 监控列表增加一个开关选项，只显示我的监控
 * 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
-* Elasticsearch索引字段自动获取
 * 数据源增加连接测试功能
 * 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
 基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
-* 增加influxdb数值监控
-* 增加influxdb数值同比，环比监控
 * 增加prometheus数据监控报警支持
 * 增加skywalking数据监控报警支持
 * 增加mysql数据监控报警支持
@@ -420,7 +400,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * jjwt
 * nashorn
 
-## Contribution
+## Contributors
 
 [@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91) 
 [@wxmclub](https://github.com/wxmclub)
@@ -445,7 +425,7 @@ The project is licensed under the [MIT](LICENSE).
 
 * 顺手star一下
 * 帮忙扩散推广
-* 部署本项目并使用起来并通过[issue#17](https://github.com/AutohomeCorp/frostmourne/issues/17)告知
+* 部署本项目使用起来并通过[issue#17](https://github.com/AutohomeCorp/frostmourne/issues/17)告知
 * 在issue提出你的宝贵建议
 * 对文档进行必要补充
 * 加入交流群，解答一些问题

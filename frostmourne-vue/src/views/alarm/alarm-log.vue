@@ -43,20 +43,20 @@
     </div>
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="80" align="center" />
-      <el-table-column prop="alarm_id" label="监控id" align="center" />
+      <el-table-column prop="alarmId" label="监控id" align="center" />
       <el-table-column prop="cost" label="耗时(毫秒)" align="center" />
-      <el-table-column prop="exe_start" label="开始时间" align="center">
+      <el-table-column prop="exeStart" label="开始时间" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.exe_start|timeFormat }}</span>
+          <span>{{ scope.row.exeStart|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="exe_end" label="结束时间" align="center">
+      <el-table-column prop="exeEnd" label="结束时间" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.exe_end|timeFormat }}</span>
+          <span>{{ scope.row.exeEnd|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="execute_result" label="执行结果" align="center" />
-      <el-table-column prop="verify_result" label="是否报警" align="center" />
+      <el-table-column prop="executeResult" label="执行结果" align="center" />
+      <el-table-column prop="verifyResult" label="是否报警" align="center" />
       <el-table-column label="操作" width="210" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" @click="showMessage(scope.row)">详细>></el-button>

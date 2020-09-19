@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RuleMapper" >
-  <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="rule_type" property="rule_type" jdbcType="VARCHAR" />
-    <result column="alarm_id" property="alarm_id" jdbcType="BIGINT" />
-    <result column="alert_template" property="alert_template" jdbcType="VARCHAR" />
-    <result column="creator" property="creator" jdbcType="VARCHAR" />
-    <result column="create_at" property="create_at" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.RuleMapper">
+  <resultMap id="BaseResultMap" type="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="rule_type" jdbcType="VARCHAR" property="ruleType" />
+    <result column="alarm_id" jdbcType="BIGINT" property="alarmId" />
+    <result column="alert_template" jdbcType="VARCHAR" property="alertTemplate" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, rule_type, alarm_id, alert_template, creator, create_at
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from rule

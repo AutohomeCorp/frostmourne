@@ -4,7 +4,7 @@
       <el-input v-model="form.id" placeholder="id" clearable style="width: 200px;" class="filter-item" />
       <el-input v-model="form.account" placeholder="账号" clearable style="width: 200px;" class="filter-item" />
       <el-select v-model="form.teamId" placeholder="选择团队" clearable style="width: 200px" class="filter-item">
-        <el-option v-for="item in teamList" :key="item.team_name" :label="item.full_name" :value="item.id" />
+        <el-option v-for="item in teamList" :key="item.teamName" :label="item.fullName" :value="item.id" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">
         查询
@@ -57,7 +57,7 @@
       <el-form :model="editData">
         <el-form-item label="团队" :label-width="formLabelWidth">
           <el-select v-model="editData.teamId" placeholder="选择团队" class="filter-item">
-            <el-option v-for="item in teamList" :key="item.team_name" :label="item.full_name" :value="item.id" />
+            <el-option v-for="item in teamList" :key="item.teamName" :label="item.fullName" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="角色" :label-width="formLabelWidth">
@@ -217,7 +217,7 @@ export default {
     findTeamName (id) {
       for (var team of this.teamList) {
         if (team.id === id) {
-          return team.full_name
+          return team.fullName
         }
       }
       return null

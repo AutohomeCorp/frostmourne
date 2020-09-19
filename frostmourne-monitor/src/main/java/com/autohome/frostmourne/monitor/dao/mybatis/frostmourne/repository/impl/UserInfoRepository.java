@@ -43,7 +43,7 @@ public class UserInfoRepository implements IUserInfoRepository {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<UserInfo> list = userInfoDynamicMapper.select(query -> {
             query.where().and(UserInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull))
-                    .and(UserInfoDynamicSqlSupport.team_id, isEqualTo(teamId).when(s -> teamId != null && teamId > 0))
+                    .and(UserInfoDynamicSqlSupport.teamId, isEqualTo(teamId).when(s -> teamId != null && teamId > 0))
                     .and(UserInfoDynamicSqlSupport.account, isLike(account).when(Objects::nonNull).then(s -> s + "%"));
             return query.orderBy(UserInfoDynamicSqlSupport.id.descending());
         });
@@ -52,7 +52,7 @@ public class UserInfoRepository implements IUserInfoRepository {
 
     @Override
     public int deleteByTeam(Long teamId) {
-        return userInfoDynamicMapper.delete(query -> query.where().and(UserInfoDynamicSqlSupport.team_id, isEqualTo(teamId)));
+        return userInfoDynamicMapper.delete(query -> query.where().and(UserInfoDynamicSqlSupport.teamId, isEqualTo(teamId)));
     }
 
     @Override

@@ -39,7 +39,7 @@
                enableDeleteByPrimaryKey="false"
                enableUpdateByPrimaryKey="false"
                enableSelectByPrimaryKey="true">
-            <property name="useActualColumnNames" value="true"/>
+            <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
     </context>

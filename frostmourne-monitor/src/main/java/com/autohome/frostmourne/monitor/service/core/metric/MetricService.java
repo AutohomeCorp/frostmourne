@@ -12,6 +12,9 @@ public class MetricService implements IMetricService {
     private Map<String, IMetric> elasticsearchMetricMap;
 
     @Resource
+    private Map<String, IMetric> influxdbMetricMap;
+
+    @Resource
     private HttpMetric httpMetric;
 
     public IMetric findMetric(String dataSourceType, String metricType) {
@@ -20,8 +23,15 @@ public class MetricService implements IMetricService {
                 throw new RuntimeException("not support elasticsearch metricType: " + metricType);
             }
             return elasticsearchMetricMap.get(metricType);
-        } else if (dataSourceType.equalsIgnoreCase("http")) {
+        }
+        if (dataSourceType.equalsIgnoreCase("http")) {
             return httpMetric;
+        }
+        if (dataSourceType.equalsIgnoreCase("influxdb")) {
+            if (!influxdbMetricMap.containsKey(metricType)) {
+                throw new IllegalArgumentException("not supported influxdb metricType: " + metricType);
+            }
+            return influxdbMetricMap.get(metricType);
         }
 
         throw new IllegalArgumentException(String.format("unknown dataSourceType:  %s, metricType: %s", dataSourceType, metricType));

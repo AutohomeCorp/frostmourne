@@ -38,8 +38,8 @@ public class UserInfoService implements IUserInfoService {
         userInfo.setCreator(contract.getCreator());
         userInfo.setModifier(contract.getModifier());
         Date now = new Date();
-        userInfo.setCreate_at(now);
-        userInfo.setModify_at(now);
+        userInfo.setCreateAt(now);
+        userInfo.setModifyAt(now);
         boolean success = userInfoRepository.insert(userInfo);
         if (success) {
             userRoleRepository.modifyByContract(contract);
@@ -56,7 +56,7 @@ public class UserInfoService implements IUserInfoService {
     public boolean update(UserContract contract) {
         UserInfo userInfo = toInfo(contract);
         userInfo.setModifier(contract.getModifier());
-        userInfo.setModify_at(new Date());
+        userInfo.setModifyAt(new Date());
         boolean success = userInfoRepository.update(userInfo);
         if (success) {
             userRoleRepository.modifyByContract(contract);
@@ -116,15 +116,15 @@ public class UserInfoService implements IUserInfoService {
         UserContract contract = new UserContract();
         contract.setId(info.getId());
         contract.setAccount(info.getAccount());
-        contract.setFullName(info.getFull_name());
-        contract.setTeamId(info.getTeam_id());
+        contract.setFullName(info.getFullName());
+        contract.setTeamId(info.getTeamId());
         contract.setMobile(info.getMobile());
         contract.setEmail(info.getEmail());
         contract.setWxid(info.getWxid());
         contract.setCreator(info.getCreator());
-        contract.setCreateAt(info.getCreate_at());
+        contract.setCreateAt(info.getCreateAt());
         contract.setModifier(info.getModifier());
-        contract.setModifyAt(info.getModify_at());
+        contract.setModifyAt(info.getModifyAt());
 
         return contract;
     }
@@ -133,8 +133,8 @@ public class UserInfoService implements IUserInfoService {
         UserInfo info = new UserInfo();
         info.setId(contract.getId());
         info.setAccount(contract.getAccount());
-        info.setFull_name(contract.getFullName());
-        info.setTeam_id(contract.getTeamId());
+        info.setFullName(contract.getFullName());
+        info.setTeamId(contract.getTeamId());
         info.setMobile(contract.getMobile());
         info.setEmail(contract.getEmail());
         info.setWxid(contract.getWxid());

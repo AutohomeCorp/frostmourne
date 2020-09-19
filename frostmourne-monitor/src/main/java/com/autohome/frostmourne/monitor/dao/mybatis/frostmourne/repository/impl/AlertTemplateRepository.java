@@ -60,18 +60,18 @@ public class AlertTemplateRepository implements IAlertTemplateRepository {
             templateTypeConditions = form.getTemplateTypeUnionCodes().stream()
                     .filter(value -> !StringUtils.isEmpty(value))
                     .map(SPLITTER_TEMPLATE_TYPE_UNION_CODE::splitToList)
-                    .map(list -> SqlBuilder.or(AlertTemplateDynamicSqlSupport.template_type, isEqualTo(list.get(0)).when(MybatisTool::notNullAndEmpty),
-                            and(AlertTemplateDynamicSqlSupport.template_union_code,
+                    .map(list -> SqlBuilder.or(AlertTemplateDynamicSqlSupport.templateType, isEqualTo(list.get(0)).when(MybatisTool::notNullAndEmpty),
+                            and(AlertTemplateDynamicSqlSupport.templateUnionCode,
                                     isIn(list.size() > 1 ? SPLITTER_TEMPLATE_UNION_CODE.splitToList(list.get(1)) : Collections.emptyList())
                                             .then(s -> s.filter(MybatisTool::notNullAndEmpty)))))
                     .collect(Collectors.toList());
         }
         PageHelper.startPage(form.getPageIndex(), form.getPageSize());
         List<AlertTemplate> records = alertTemplateDynamicMapper.select(query -> query.where()
-                .and(AlertTemplateDynamicSqlSupport.template_name, isLike(form.getTemplateName()).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
-                .and(AlertTemplateDynamicSqlSupport.template_type, isEqualTo(form.getTemplateType()).when(MybatisTool::notNullAndEmpty))
-                .and(AlertTemplateDynamicSqlSupport.template_type, isNotNull().when(() -> false), templateTypeConditions)
-                .orderBy(AlertTemplateDynamicSqlSupport.create_at.descending()));
+                .and(AlertTemplateDynamicSqlSupport.templateName, isLike(form.getTemplateName()).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
+                .and(AlertTemplateDynamicSqlSupport.templateType, isEqualTo(form.getTemplateType()).when(MybatisTool::notNullAndEmpty))
+                .and(AlertTemplateDynamicSqlSupport.templateType, isNotNull().when(() -> false), templateTypeConditions)
+                .orderBy(AlertTemplateDynamicSqlSupport.createAt.descending()));
         return new PageInfo<>(records);
     }
 
