@@ -353,6 +353,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 * ~~实现influxdb数值监控~~ [2020-09-19]
 * ~~增加influxdb数值同比监控~~ [2020-09-19]
+* doc: 增加influxdb数据监控使用指南
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
 * 集成测试，单元测试
 * 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
