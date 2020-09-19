@@ -34,6 +34,9 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
             return null;
         }
         String datasourceType = alarmContract.getMetricContract().getDataNameContract().getDatasourceType();
+        if (datasourceType.equalsIgnoreCase("influxdb")) {
+            return null;
+        }
         String url = null;
         List<String> queryParameters = new ArrayList<>();
         try {
