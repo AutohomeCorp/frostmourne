@@ -366,6 +366,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 报警消息格式增加类型: text, markdown选项
 * 报警增加持续周期设置，可以配置为连续X次触发报警才发送消息，否则只记录不发送
 * 发布0.4-RELEASE
+* 增加prometheus数据监控报警支持
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * Elasticsearch监控数值实现环比监控
@@ -380,7 +381,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 数据源增加连接测试功能
 * 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
 基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
-* 增加prometheus数据监控报警支持
 * 增加mysql数据监控报警支持
 * 国际化
 * 发布1.0-RELEASE
