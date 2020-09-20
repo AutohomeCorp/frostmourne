@@ -58,7 +58,7 @@ Team: dealer.arch AND Project: dbtree AND Level: ERROR
 
 #### 消息模板填写
 
-<img src="../img/template1.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/template1.png" />
 
 以我们的日志格式为例，我们定制的消息模板为：
 
