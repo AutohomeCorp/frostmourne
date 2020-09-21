@@ -1,4 +1,4 @@
-package com.autohome.frostmourne.monitor.service.core.query;
+package com.autohome.frostmourne.monitor.service.core.query.impl;
 
 import javax.annotation.Resource;
 
@@ -6,6 +6,7 @@ import com.autohome.frostmourne.monitor.contract.MetricContract;
 import com.autohome.frostmourne.monitor.dao.influxdb.IInfluxdbDao;
 import com.autohome.frostmourne.monitor.dao.influxdb.InfluxdbResponse;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
+import com.autohome.frostmourne.monitor.service.core.query.IInfluxdbDataQuery;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
