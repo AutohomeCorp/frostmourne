@@ -21,4 +21,4 @@ CREATE TABLE IF NOT EXISTS accesslog_config
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
-    COMMENT = '用户信息';
+    COMMENT = 'web访问日志字段映射配置表';
