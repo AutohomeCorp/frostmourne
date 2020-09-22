@@ -86,7 +86,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 快速启动
 
 提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
-详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+详细请看文档：<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
 ## Elasticsearch数据监控指南
 
@@ -104,15 +104,15 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 消息模板配置
 
-消息模板采用freemarker语法，详细使用方法请参考文档：[消息模板配置](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/template.md)
+消息模板采用freemarker语法，详细使用方法请参考文档：[消息模板配置](./doc/wiki/template.md)
 
 ## 报警发送
 
-提供了多种报警消息发送方式，详细请看文档： [报警发送](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/ways.md)
+提供了多种报警消息发送方式，详细请看文档： [报警发送](./doc/wiki/ways.md)
 
 ## 报警抑制
 
-为了防止消息轰炸，提供报警抑制机制，详细请看文档： [报警抑制](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/supress.md)
+为了防止消息轰炸，提供报警抑制机制，详细请看文档： [报警抑制](./doc/wiki/supress.md)
 
 ## 调度配置
 
@@ -150,7 +150,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 ## 用户管理和登录认证
 
-请参考文档：[用户管理和登录认证](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/auth.md)
+请参考文档：[用户管理和登录认证](./doc/wiki/auth.md)
 
 ## 主要项目结构
 
@@ -187,7 +187,7 @@ com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况
 
 ## 为什么设计frostmourne-spi模块
 
-请参考文档: <a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/frostmourne-spi.md" target="_blank">为什么设计frostmourne-spi</a>
+请参考文档: <a href="./doc/wiki/frostmourne-spi.md" target="_blank">为什么设计frostmourne-spi</a>
 
 ## 调试环境要求
 
@@ -244,7 +244,7 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 ./scripts/shutdown.sh
 ```
 
-如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+如果嫌包部署麻烦，测试环境也可以直接用<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 docker里启动一个xxl-job服务，供本地调用
 
 ## 为什么需要xxl-job
