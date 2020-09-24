@@ -44,3 +44,5 @@ InfluxDB现在不会查询最近一个point数据出来，所以报警模板里�
 ```
 项目test接口/api/test最近${TIME_WINDOW}分钟内流量${NUMBER}条，超过报警阈值: ${THRESHOLD}
 ```
+
+配置完就可以进行测试，和保存运行了。
