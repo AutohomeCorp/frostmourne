@@ -3,6 +3,7 @@
     <div class="filter-container">
       <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item" @change="formSourceTypeChangeHandler">
         <el-option label="elasticsearch" value="elasticsearch" />
+        <el-option label="influxdb" value="influxdb" />
       </el-select>
       <el-select v-model="form.dataSourceId" placeholder="选择数据源" clearable class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
