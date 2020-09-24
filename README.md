@@ -96,7 +96,9 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
  
 除了Elasticsearch数据监控，还提供了HTTP监控，使用起来非常灵活方便，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
 
-## InfluxDB数据监控使用指南
+## InfluxDB数据监控指南
+
+<a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
 
 ## 数值同比监控使用指南
 
