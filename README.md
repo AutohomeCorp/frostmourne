@@ -355,8 +355,8 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 * ~~实现influxdb数值监控~~ [2020-09-19]
 * ~~增加influxdb数值同比监控~~ [2020-09-19]
+* ~~doc: 增加influxdb数据监控使用指南~~ [2020-09-24]
 * 增加skywalking数据监控报警支持
-* doc: 增加influxdb数据监控使用指南
 * influxDB数据查询除了返回count，另外返回最新一个point详细数据
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面
