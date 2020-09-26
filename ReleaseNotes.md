@@ -1,5 +1,14 @@
 # 0.4-SNAPSHOT(开发中未发布)
 
+### Feature
+
+* 实现influxdb数值监控 [2020-09-19]
+* 增加influxdb数值同比监控 [2020-09-19]
+
+### Document
+
+* doc: 增加influxdb数据监控使用指南 [2020-09-24]
+
 # 0.3-RELEASE
 
 ### Feature

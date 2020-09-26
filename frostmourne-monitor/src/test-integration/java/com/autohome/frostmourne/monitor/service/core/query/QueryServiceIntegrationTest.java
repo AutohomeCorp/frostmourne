@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.service.core.query;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
-import com.autohome.frostmourne.monitor.service.core.query.QueryService;
+import com.autohome.frostmourne.monitor.service.core.query.impl.QueryService;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -121,6 +121,15 @@ ___________________________________
 
 <img src="./img/program_log_query.png" />  
 
+其中TraceId的值使用skywalking生成的TraceId，给TraceId加上链接，可以跳转到skywalking对应的调用链页面，这样将程序日志和skywalking的调用
+链日志打通，形成互补，可以达到非常好的体验。
+
+<img src="./img/program-trace.png" />
+
+点击上图的TraceId链接，可以跳转到如下页面：
+
+<img src="./img/skywalking.png" />
+
 + 慢方法分析；  
 
 可以针对项目分析，哪些方法执行超过阈值次数最多，方法耗时各区间数量的分布。  
