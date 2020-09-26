@@ -1,4 +1,4 @@
-package com.autohome.frostmourne.monitor.service.core.query;
+package com.autohome.frostmourne.monitor.service.core.query.impl;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -12,6 +12,8 @@ import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
 import com.autohome.frostmourne.monitor.service.admin.IDataAdminService;
+import com.autohome.frostmourne.monitor.service.core.query.IElasticsearchDataQuery;
+import com.autohome.frostmourne.monitor.service.core.query.IQueryService;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;

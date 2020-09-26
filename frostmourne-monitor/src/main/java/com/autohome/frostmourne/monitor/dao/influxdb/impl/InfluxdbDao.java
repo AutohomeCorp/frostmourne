@@ -17,7 +17,7 @@ public class InfluxdbDao implements IInfluxdbDao {
     private RestTemplate restTemplate;
 
     public InfluxdbResponse query(String influxdbAddress, String db, String query) {
-        ResponseEntity<InfluxdbResponse> responseEntity = restTemplate.getForEntity(influxdbAddress + "?db={db}&q={q}", InfluxdbResponse.class,
+        ResponseEntity<InfluxdbResponse> responseEntity = restTemplate.getForEntity(influxdbAddress + "/query?db={db}&q={q}", InfluxdbResponse.class,
                 ImmutableMap.of("db", db, "q", query));
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
             throw new RuntimeException(String.format("error when request influxdb. db: %s, query: %s, response code: %s", db, query, responseEntity.getStatusCode().value()));

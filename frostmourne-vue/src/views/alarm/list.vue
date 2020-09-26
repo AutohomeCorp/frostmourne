@@ -177,6 +177,7 @@ export default {
         this.$alert('<pre style="overflow: auto">' + response.result + '</pre>', '执行成功', {
           dangerouslyUseHTMLString: true
         })
+        this.fetchData()
       })
     },
     remove (id) {

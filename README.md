@@ -8,7 +8,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 主要功能
 
-* Elasticsearch数据监控, 你只需要写一条查询就可以轻松搞定监控
+* Elasticsearch数据， InfluxDB数据监控, 你只需要写一条查询就可以轻松搞定监控
 * 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
 * 数值同比监控
 * HTTP数据监控, js表达式判断是否报警
@@ -16,7 +16,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 监控管理，测试，另存。执行日志，历史消息。
 * 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), HTTP请求)
-* 多数据源(Elasticsearch集群)支持
+* 多数据源(Elasticsearch, InfluxDB)支持
 * Elasticsearch数据查询,分享,下载
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
@@ -76,7 +76,10 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 在用ELK建立起日志系统之后，我们发现应用日志监控这块除了ElastAlert之外，没有其他方案。我们初期使用ElastAlert来解决日志监控的问题，
 但是随着配置的增加，管理成本，使用成本较高和，配置文件多了之后，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
-来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
+来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。  
+
+但是项目并不仅限于elasticsearch数据，还有HTTP数据监控和InfluxDB数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking, mysql, 
+clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
 
 ## 联系我们
 
@@ -86,7 +89,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 ## 快速启动
 
 提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
-详细请看文档：<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+详细请看文档：<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
 ## Elasticsearch数据监控指南
 
@@ -96,6 +99,9 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
  
 除了Elasticsearch数据监控，还提供了HTTP监控，使用起来非常灵活方便，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
 
+## InfluxDB数据监控指南
+
+<a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
 
 ## 数值同比监控使用指南
 
@@ -103,15 +109,15 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 消息模板配置
 
-消息模板采用freemarker语法，详细使用方法请参考文档：[消息模板配置](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/template.md)
+消息模板采用freemarker语法，详细使用方法请参考文档：[消息模板配置](./doc/wiki/template.md)
 
 ## 报警发送
 
-提供了多种报警消息发送方式，详细请看文档： [报警发送](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/ways.md)
+提供了多种报警消息发送方式，详细请看文档： [报警发送](./doc/wiki/ways.md)
 
 ## 报警抑制
 
-为了防止消息轰炸，提供报警抑制机制，详细请看文档： [报警抑制](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/supress.md)
+为了防止消息轰炸，提供报警抑制机制，详细请看文档： [报警抑制](./doc/wiki/supress.md)
 
 ## 调度配置
 
@@ -149,7 +155,7 @@ dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 
 ## 用户管理和登录认证
 
-请参考文档：[用户管理和登录认证](https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/auth.md)
+请参考文档：[用户管理和登录认证](./doc/wiki/auth.md)
 
 ## 主要项目结构
 
@@ -186,7 +192,7 @@ com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况
 
 ## 为什么设计frostmourne-spi模块
 
-请参考文档: <a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/frostmourne-spi.md" target="_blank">为什么设计frostmourne-spi</a>
+请参考文档: <a href="./doc/wiki/frostmourne-spi.md" target="_blank">为什么设计frostmourne-spi</a>
 
 ## 调试环境要求
 
@@ -243,7 +249,7 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 ./scripts/shutdown.sh
 ```
 
-如果嫌包部署麻烦，测试环境也可以直接用<a href="https://github.com/AutohomeCorp/frostmourne/blob/master/doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+如果嫌包部署麻烦，测试环境也可以直接用<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 docker里启动一个xxl-job服务，供本地调用
 
 ## 为什么需要xxl-job
@@ -350,20 +356,29 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 目前已知的规划有: 
 
+* ~~实现influxdb数值监控~~ [2020-09-19]
+* ~~增加influxdb数值同比监控~~ [2020-09-19]
+* ~~doc: 增加influxdb数据监控使用指南~~ [2020-09-24]
+* 增加skywalking数据监控报警支持
+* influxDB数据查询除了返回count，另外返回最新一个point详细数据
+* 增加influxDB数据查询页面
+* influxdb数据监控增加短链接，跳转到influxdb数据查询页面
+* 监控列表增加"执行日志"操作按钮，点击跳转到对应监控执行日志列表页
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
 * 集成测试，单元测试
-* 制作符合docker和springboot应用容器部署最佳实践的可用于生产的标准docker镜像(欢迎PR)
+* 制作符合docker和springboot应用容器部署最佳实践的docker镜像(欢迎PR)
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
-* 增加influxdb数值监控
-* 增加influxdb数值同比，环比监控
 * 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成
 * 监控配置增加是否发送恢复通知的开关选项
 * 报警消息格式增加类型: text, markdown选项
-* 发布0.4-RELEASE
-* 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
-* 内置实现一个短链接功能，移除外部短链接服务依赖
+* 报警增加持续周期设置，可以配置为连续X次触发报警才发送消息，否则只记录不发送。用在不想收到那种偶发性的
+抖动产生报警消息的情况
 * Elasticsearch监控数值实现环比监控
+* 发布0.4-RELEASE
+* 增加prometheus数据监控报警支持
+* 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
+* 内置实现一个短链接功能，移除外部短链接服务依赖(欢迎PR)
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)
 * 更多报警方式补充（欢迎PR）
 * 后端接口增加数据校验并返回合适的提示信息
@@ -375,15 +390,13 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 数据源增加连接测试功能
 * 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
 基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
-* 增加prometheus数据监控报警支持
-* 增加skywalking数据监控报警支持
 * 增加mysql数据监控报警支持
 * 国际化
-* 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
 * 发布1.0-RELEASE
 * 增加frostmourne程序日志格式采集方案
 * 增加frostmourne程序日志查询和分析功能
-* 加入更为智能的时序数据异常检测算法规则(需要实验可行性)
+* 加入更为智能的时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
+* 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
 
 ## 发版历史
 
