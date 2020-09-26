@@ -8,6 +8,8 @@ public class MetricData {
 
     private Map<String, Object> latestDocument;
 
+    private Map<String, String> context;
+
     public Object getMetricValue() {
         return metricValue;
     }
@@ -22,5 +24,13 @@ public class MetricData {
 
     public void setLatestDocument(Map<String, Object> latestDocument) {
         this.latestDocument = latestDocument;
+    }
+
+    public Map<String, String> getContext() {
+        return context;
+    }
+
+    public void setContext(Map<String, String> context) {
+        this.context = context;
     }
 }
