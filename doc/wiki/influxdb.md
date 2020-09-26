@@ -6,7 +6,7 @@
 
 打开页面：数据管理->数据源，点击新增按钮，弹出窗口，填写字段并保存。
 
-<img src="../img/influxdb-source.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/influxdb-source.png" />
 
 服务地址为influxdb http服务地址
 
@@ -14,7 +14,7 @@
 
 打开页面：数据管理->数据名，点击新增按钮，弹出窗口，填写字段并保存。
 
-<img src="../img/influxdb-dataname.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/influxdb-dataname.png" />
 
 数据名在influxDB场景可以理解为influxDB数据库
 
@@ -22,7 +22,7 @@
 
 打开页面：监控管理->监控编辑。填入信息并保存，保存前可以先进行测试。
 
-<img src="../img/influxdb-alarm.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/influxdb-alarm.png" />
 
 查询语句如下，表示查询项目项目test的接口/api/test的pv
 
