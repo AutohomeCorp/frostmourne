@@ -408,9 +408,11 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * springboot 2.x
 * element ui
 * vue-admin-template
+* xxl-job
 * mybatis
 * freemarker
 * elasticsearch
+* InfluxDB
 * jjwt
 * nashorn
 
