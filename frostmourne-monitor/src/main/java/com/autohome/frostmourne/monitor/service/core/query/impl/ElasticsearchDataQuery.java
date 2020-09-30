@@ -163,6 +163,10 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         attachAggregation(metricContract, searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
         SearchResponse searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
+        if (searchResponse.getHits().getHits().length == 0) {
+            LOGGER.error("totalCount {}, but hits length is 0, query: {}, start: {}, end: {}", count, metricContract.getQueryString(), start.toString(), end.toString());
+            return elasticsearchMetric;
+        }
         SearchHit latestDoc = searchResponse.getHits().getAt(0);
         elasticsearchMetric.setLatestDocument(latestDoc.getSourceAsMap());
         if (metricContract.getAggregationType().equalsIgnoreCase("count")) {
