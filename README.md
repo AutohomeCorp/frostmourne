@@ -175,15 +175,15 @@ UI项目，使用vue-element-template实现，打包时会打到frostmourne-moni
 钉钉机器人消息发送，企业微信消息发送和HTTP请求消息发送已经实现好了，其中邮箱配置和企业微信需要修改为自己的
 
 ```
-email.smtp.host=${your.email.smtp.host:#{null}}
-email.smtp.port=${your.email.smtp.port:#{null}}
+email.smtp.host=${your.email.smtp.host:}
+email.smtp.port=${your.email.smtp.port:}
 email.smtp.auth=${your.email.smtp.auth:true}
-email.sender=${your.email.sender:#{null}}
-email.sender.password=${your.email.sender.password:#{null}}
+email.sender=${your.email.sender:}
+email.sender.password=${your.email.sender.password:}
 
-wechat.corpid=${your.wechat.corpid:#{null}}
-wechat.agentid=${your.wechat.agentid:#{null}}
-wechat.secret=${your.wechat.secret:#{null}}
+wechat.corpid=${your.wechat.corpid:}
+wechat.agentid=${your.wechat.agentid:}
+wechat.secret=${your.wechat.secret:}
 ```
 
 com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况实现。
