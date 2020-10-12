@@ -460,4 +460,4 @@ The project is licensed under the [MIT](LICENSE).
 * 2020-07-15: 重新公开github
 * 2020-08-23: 上gitee推荐
 * 2020-08-27: gitee star破百
-* 2020-10-12: github star破百
+* 2020-10-12: github star破百，收录到开源中国
