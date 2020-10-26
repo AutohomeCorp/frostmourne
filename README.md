@@ -363,6 +363,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~doc: 增加influxdb数据监控使用指南~~ [2020-09-24]
 * ~~bugfix: 解决登录跳转链接没有带上参数的问题~~ [2020-09-26]
 * 增加skywalking数据监控报警支持
+* 监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面
