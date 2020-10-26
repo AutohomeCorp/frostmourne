@@ -191,7 +191,7 @@ public class EsRestClientContainer {
 
         while (cursor.getMillis() < to.getMillis()) {
             String index = prefix + cursor.toString(datePattern);
-            if (prefix.contains("*")) {
+            if (index.contains("*")) {
                 if (!indiceList.contains(index)) {
                     indiceList.add(index);
                 }
