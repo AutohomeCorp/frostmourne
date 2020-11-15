@@ -48,7 +48,7 @@ public class MysqlDataQuery implements IMysqlDataQuery {
         result.setMetricValue(collectResult);
 
         // 查询第一条
-        if (collectResult > 1L) {
+        if (collectResult > 0L) {
             Map<String, Object> lastDocument = this.queryLatestDocument(metricContract, sql, args);
             result.setLatestDocument(lastDocument);
         }
