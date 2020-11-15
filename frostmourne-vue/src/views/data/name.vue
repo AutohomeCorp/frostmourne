@@ -44,10 +44,6 @@
 
     <el-dialog title="保存数据名" :visible.sync="dialogFormVisible" width="30%">
       <el-form ref="form" :model="editData" :rules="rules">
-        <el-form-item label="名称" :label-width="formLabelWidth" prop="dataName">
-          <el-input v-model="editData.dataName" :disabled="disableEdit" autocomplete="off" />
-        </el-form-item>
-
         <el-form-item label="类型" :label-width="formLabelWidth" prop="datasourceType">
           <el-select
             v-model="editData.datasourceType"
@@ -62,7 +58,9 @@
             <el-option label="mysql" value="mysql" />
           </el-select>
         </el-form-item>
-
+        <el-form-item label="名称" :label-width="formLabelWidth" prop="dataName">
+          <el-input v-model="editData.dataName" :disabled="disableEdit" autocomplete="off" />
+        </el-form-item>
         <el-form-item label="数据源" :label-width="formLabelWidth" prop="dataSourceId">
           <el-select v-model="editData.dataSourceId" :disabled="disableEdit" placeholder="选择数据源" class="filter-item">
             <el-option v-for="item in dialogDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
