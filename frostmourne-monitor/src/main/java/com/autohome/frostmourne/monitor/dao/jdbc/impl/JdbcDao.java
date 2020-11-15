@@ -1,4 +1,4 @@
-package com.autohome.frostmourne.monitor.service.core.query.impl;
+package com.autohome.frostmourne.monitor.dao.jdbc.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,16 +15,16 @@ import javax.sql.DataSource;
 import com.autohome.frostmourne.monitor.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.dao.jdbc.IDataSourceJdbcManager;
-import com.autohome.frostmourne.monitor.service.core.query.IJdbcDataQuery;
+import com.autohome.frostmourne.monitor.dao.jdbc.IJdbcDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service
-public class JdbcDataQuery implements IJdbcDataQuery {
+@Repository
+public class JdbcDao implements IJdbcDao {
 
-    private static final Logger log = LoggerFactory.getLogger(JdbcDataQuery.class);
+    private static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
 
     @Autowired
     private IDataSourceJdbcManager dataSourceJdbcManager;
@@ -32,14 +32,15 @@ public class JdbcDataQuery implements IJdbcDataQuery {
     @Override
     public List<Map<String, Object>> query(DataNameContract dataNameContract,
                                            DataSourceContract dataSourceContract,
-                                           String sql) {
+                                           String sql,
+                                           Object[] args) {
         try {
             DataSource dataSource = dataSourceJdbcManager.getDataSource(dataSourceContract);
             if (dataSource == null) {
                 log.error("JdbcDataQuery.query error: dataSource={}, createFailed!", dataSourceContract);
                 return Collections.emptyList();
             }
-            return this.query(dataSource, sql);
+            return this.query(dataSource, sql, args);
         } catch (Exception e) {
             log.error("JdbcDataQuery.query error: dataSource={}, sql={}, {}", dataSourceContract, sql, e.getMessage(), e);
             return Collections.emptyList();
@@ -47,10 +48,18 @@ public class JdbcDataQuery implements IJdbcDataQuery {
     }
 
     public List<Map<String, Object>> query(DataSource dataSource,
-                                           String sql) throws SQLException {
+                                           String sql,
+                                           Object[] args) throws SQLException {
+        ResultSet resultSet = null;
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery(sql)) {
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+            if (args != null && args.length > 0) {
+                for (int i = 0; i < args.length; i++) {
+                    statement.setObject(i + 1, args[i]);
+                }
+            }
+            log.debug("execute query: sql={}, args={}", sql, args);
+            resultSet = statement.executeQuery();
             List<Map<String, Object>> list = new ArrayList<>(resultSet.getRow());
             ResultSetMetaData metaData = resultSet.getMetaData();
             int columnCount = metaData.getColumnCount();
@@ -62,6 +71,19 @@ public class JdbcDataQuery implements IJdbcDataQuery {
                 list.add(row);
             }
             return list;
+        } finally {
+            this.close(resultSet);
+        }
+    }
+
+    private void close(AutoCloseable closeable) {
+        if (closeable == null) {
+            return;
+        }
+        try {
+            closeable.close();
+        } catch (Exception e) {
+            log.error("close error: {}", e.getMessage(), e);
         }
     }
 

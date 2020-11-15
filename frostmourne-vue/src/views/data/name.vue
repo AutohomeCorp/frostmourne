@@ -73,7 +73,7 @@
           <el-input v-model="editData.displayName" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="时间字段" :label-width="formLabelWidth" prop="timestampField">
+        <el-form-item v-if="showEditDataTimestampField()" label="时间字段" :label-width="formLabelWidth" prop="timestampField">
           <el-input v-model="editData.timestampField" autocomplete="off" />
         </el-form-item>
         <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="索引前缀" :label-width="formLabelWidth" prop="indexPrefix">
@@ -254,6 +254,9 @@ export default {
           this.fetchData()
         })
       })
+    },
+    showEditDataTimestampField () {
+      return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql'
     }
   }
 }
