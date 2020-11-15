@@ -31,6 +31,9 @@ public class MysqlDataQuery implements IMysqlDataQuery {
         StringBuilder sb = new StringBuilder();
         sb.append(metricContract.getQueryString());
         List<Object> argList = new ArrayList<>();
+        if (!metricContract.getQueryString().toLowerCase().contains("where")) {
+            sb.append(" where 1=1");
+        }
         if (start != null) {
             sb.append(" and ").append(timeField).append(">=?");
             argList.add(start.toDate());
