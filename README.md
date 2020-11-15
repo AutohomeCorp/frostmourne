@@ -352,7 +352,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 为了兼顾方便和灵活，我同时在项目里引入了mybatis-dynamic-sql和xml-sql两种方式，让他们互补配合一起完成数据访问。
 大部分(90%以上)查询直接用mybatis-dynamic-sql，对于一些很少的需要灵活的稍复杂sql使用xml-sql来完成。既提高了
-编码效率，又保留了原来的灵活强大的xml-sql。我们只需要按需选择使用，非常舒适。
+编码效率，又保留了原来的灵活强大的xml-sql。我们只需要按需选择使用。
 
 ## 后续规划
 
@@ -362,6 +362,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~增加influxdb数值同比监控~~ [2020-09-19]
 * ~~doc: 增加influxdb数据监控使用指南~~ [2020-09-24]
 * ~~bugfix: 解决登录跳转链接没有带上参数的问题~~ [2020-09-26]
+* ~~增加mysql数据监控报警支持~~ [2020-11-15]
 * 增加skywalking数据监控报警支持
 * 监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
@@ -394,7 +395,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 数据源增加连接测试功能
 * 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
 基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
-* 增加mysql数据监控报警支持
 * 国际化
 * 发布1.0-RELEASE
 * 增加frostmourne程序日志格式采集方案
