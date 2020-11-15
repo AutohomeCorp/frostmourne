@@ -434,6 +434,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 - [45短网址](https://45dwz.cn/)
 - [jjwt](https://github.com/jwtk/jjwt)
 - [mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
+- [JetBrains](https://www.jetbrains.com/)
 
 ## License
 
