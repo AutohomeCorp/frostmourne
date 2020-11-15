@@ -23,7 +23,6 @@ public class MysqlDataQuery implements IMysqlDataQuery {
     public MetricData queryMetricValue(DateTime start,
                                        DateTime end,
                                        MetricContract metricContract) {
-        // 准备时间字段，要求查询必须包含where条件: select * from table where 1=1
         String timeField = metricContract.getDataNameContract().getTimestampField();
         if (StringUtils.isEmpty(metricContract.getDataNameContract().getTimestampField())) {
             throw new RuntimeException("数据名时间字段不能为空: " + metricContract.getDataNameContract().getDataName());
