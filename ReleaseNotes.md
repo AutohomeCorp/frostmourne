@@ -13,6 +13,7 @@
 ### Document
 
 * doc: 增加influxdb数据监控使用指南 [2020-09-24]
+* doc: 增加mysql数据监控使用指南 [2020-09-24]
 
 # 0.3-RELEASE
 
