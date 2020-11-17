@@ -70,4 +70,10 @@ public class BeanConfig {
         return new DefaultAuthService(initialPassword);
 
     }
+
+    @Bean(initMethod = "init", destroyMethod = "close")
+    public IDataSourceJdbcManager dataSourceJdbcManager() {
+        return new DataSourceJdbcManager();
+    }
+
 }

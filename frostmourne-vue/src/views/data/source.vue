@@ -4,6 +4,7 @@
       <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item">
         <el-option label="elasticsearch" value="elasticsearch" />
         <el-option label="influxdb" value="influxdb" />
+        <el-option label="mysql" value="mysql" />
       </el-select>
       <!-- <el-input v-model="form.datasourceName" placeholder="名称" style="width: 300px;" class="filter-item" /> -->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
@@ -47,6 +48,7 @@
           <el-select v-model="editData.datasourceType" :disabled="disableTypeSelect" placeholder="数据源类型">
             <el-option label="elasticsearch" value="elasticsearch" />
             <el-option label="influxdb" value="influxdb" />
+            <el-option label="mysql" value="mysql" />
           </el-select>
         </el-form-item>
         <el-form-item label="服务地址" :label-width="formLabelWidth">
@@ -55,10 +57,10 @@
             <i class="el-icon-question" />
           </el-tooltip>-->
         </el-form-item>
-        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="认证用户" :label-width="formLabelWidth">
+        <el-form-item v-if="editDataShowUsername()" label="认证用户" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.username" placeholder="无认证不需要填写" autocomplete="off" />
         </el-form-item>
-        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="密码" :label-width="formLabelWidth">
+        <el-form-item v-if="editDataShowPassword()" label="密码" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.password" placeholder="无认证不需要填写" :type="passwordType" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -192,6 +194,12 @@ export default {
       } else {
         this.passwordType = 'password'
       }
+    },
+    editDataShowUsername () {
+      return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql'
+    },
+    editDataShowPassword () {
+      return this.editDataShowUsername()
     }
   }
 }

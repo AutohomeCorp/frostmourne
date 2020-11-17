@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.influxdb;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -7,6 +8,8 @@ import java.util.List;
  */
 public class Series {
     private String name;
+
+    private HashMap<String, String> tags;
 
     private List<String> columns;
 
@@ -34,5 +37,13 @@ public class Series {
 
     public void setValues(List<List<Object>> values) {
         this.values = values;
+    }
+
+    public HashMap<String, String> getTags() {
+        return tags;
+    }
+
+    public void setTags(HashMap<String, String> tags) {
+        this.tags = tags;
     }
 }

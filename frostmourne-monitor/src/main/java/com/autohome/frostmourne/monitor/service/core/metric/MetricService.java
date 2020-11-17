@@ -13,6 +13,8 @@ public class MetricService implements IMetricService {
 
     @Resource
     private Map<String, IMetric> influxdbMetricMap;
+    @Resource
+    private Map<String, IMetric> mysqlMetricMap;
 
     @Resource
     private HttpMetric httpMetric;
@@ -32,6 +34,12 @@ public class MetricService implements IMetricService {
                 throw new IllegalArgumentException("not supported influxdb metricType: " + metricType);
             }
             return influxdbMetricMap.get(metricType);
+        }
+        if (dataSourceType.equalsIgnoreCase("mysql")) {
+            if (!mysqlMetricMap.containsKey(metricType)) {
+                throw new IllegalArgumentException("not supported mysql metricType: " + metricType);
+            }
+            return mysqlMetricMap.get(metricType);
         }
 
         throw new IllegalArgumentException(String.format("unknown dataSourceType:  %s, metricType: %s", dataSourceType, metricType));
