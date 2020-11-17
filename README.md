@@ -8,7 +8,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 主要功能
 
-* Elasticsearch数据， InfluxDB数据监控, 你只需要写一条查询就可以轻松搞定监控
+* Elasticsearch数据， InfluxDB数据, Mysql监控, 你只需要写一条查询就可以轻松搞定监控
 * 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
 * 数值同比监控
 * HTTP数据监控, js表达式判断是否报警
@@ -16,7 +16,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 监控管理，测试，另存。执行日志，历史消息。
 * 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), HTTP请求)
-* 多数据源(Elasticsearch, InfluxDB)支持
+* 多数据源(Elasticsearch, InfluxDB, Mysql)支持
 * Elasticsearch数据查询,分享,下载
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
@@ -78,13 +78,15 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 但是随着配置的增加，管理成本，使用成本较高和，配置文件多了之后，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。  
 
-但是项目并不仅限于elasticsearch数据，还有HTTP数据监控和InfluxDB数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking, mysql, 
+但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
 clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
 
 ## 联系我们
 
 有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。 
+
+<img src="./doc/img/frostmourne-qq.png" />
 
 ## 快速启动
 
@@ -102,6 +104,10 @@ clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多
 ## InfluxDB数据监控指南
 
 <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
+
+## Mysql数据监控指南
+
+<a href="./doc/wiki/jdbc-mysql.md" target="_blank">Mysql数据监控指南</a>
 
 ## 数值同比监控使用指南
 
@@ -173,15 +179,15 @@ UI项目，使用vue-element-template实现，打包时会打到frostmourne-moni
 钉钉机器人消息发送，企业微信消息发送和HTTP请求消息发送已经实现好了，其中邮箱配置和企业微信需要修改为自己的
 
 ```
-email.smtp.host=${your.email.smtp.host:#{null}}
-email.smtp.port=${your.email.smtp.port:#{null}}
+email.smtp.host=${your.email.smtp.host:}
+email.smtp.port=${your.email.smtp.port:}
 email.smtp.auth=${your.email.smtp.auth:true}
-email.sender=${your.email.sender:#{null}}
-email.sender.password=${your.email.sender.password:#{null}}
+email.sender=${your.email.sender:}
+email.sender.password=${your.email.sender.password:}
 
-wechat.corpid=${your.wechat.corpid:#{null}}
-wechat.agentid=${your.wechat.agentid:#{null}}
-wechat.secret=${your.wechat.secret:#{null}}
+wechat.corpid=${your.wechat.corpid:}
+wechat.agentid=${your.wechat.agentid:}
+wechat.secret=${your.wechat.secret:}
 ```
 
 com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况实现。
@@ -350,7 +356,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 为了兼顾方便和灵活，我同时在项目里引入了mybatis-dynamic-sql和xml-sql两种方式，让他们互补配合一起完成数据访问。
 大部分(90%以上)查询直接用mybatis-dynamic-sql，对于一些很少的需要灵活的稍复杂sql使用xml-sql来完成。既提高了
-编码效率，又保留了原来的灵活强大的xml-sql。我们只需要按需选择使用，非常舒适。
+编码效率，又保留了原来的灵活强大的xml-sql。我们只需要按需选择使用。
 
 ## 后续规划
 
@@ -359,8 +365,11 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~实现influxdb数值监控~~ [2020-09-19]
 * ~~增加influxdb数值同比监控~~ [2020-09-19]
 * ~~doc: 增加influxdb数据监控使用指南~~ [2020-09-24]
+* ~~bugfix: 解决登录跳转链接没有带上参数的问题~~ [2020-09-26]
+* ~~增加mysql数据监控报警支持~~ [2020-11-15]
 * 增加skywalking数据监控报警支持
-* influxDB数据查询除了返回count，另外返回最新一个point详细数据
+* 监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存
+* influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面
 * 监控列表增加"执行日志"操作按钮，点击跳转到对应监控执行日志列表页
@@ -390,12 +399,12 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 数据源增加连接测试功能
 * 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
 基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
-* 增加mysql数据监控报警支持
 * 国际化
 * 发布1.0-RELEASE
 * 增加frostmourne程序日志格式采集方案
 * 增加frostmourne程序日志查询和分析功能
-* 加入更为智能的时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
+* 3-sigma离群点检测报警规则
+* 加入更为复杂的时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
 * 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
 
 ## 发版历史
@@ -407,9 +416,11 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * springboot 2.x
 * element ui
 * vue-admin-template
+* xxl-job
 * mybatis
 * freemarker
 * elasticsearch
+* InfluxDB
 * jjwt
 * nashorn
 
@@ -427,6 +438,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 - [45短网址](https://45dwz.cn/)
 - [jjwt](https://github.com/jwtk/jjwt)
 - [mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)
+- [JetBrains](https://www.jetbrains.com/)
 
 ## License
 
@@ -454,3 +466,4 @@ The project is licensed under the [MIT](LICENSE).
 * 2020-07-15: 重新公开github
 * 2020-08-23: 上gitee推荐
 * 2020-08-27: gitee star破百
+* 2020-10-12: github star破百

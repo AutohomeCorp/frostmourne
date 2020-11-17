@@ -4,6 +4,7 @@
       <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item" @change="formSourceTypeChangeHandler">
         <el-option label="elasticsearch" value="elasticsearch" />
         <el-option label="influxdb" value="influxdb" />
+        <el-option label="mysql" value="mysql" />
       </el-select>
       <el-select v-model="form.dataSourceId" placeholder="选择数据源" clearable class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
@@ -43,10 +44,6 @@
 
     <el-dialog title="保存数据名" :visible.sync="dialogFormVisible" width="30%">
       <el-form ref="form" :model="editData" :rules="rules">
-        <el-form-item label="名称" :label-width="formLabelWidth" prop="dataName">
-          <el-input v-model="editData.dataName" :disabled="disableEdit" autocomplete="off" />
-        </el-form-item>
-
         <el-form-item label="类型" :label-width="formLabelWidth" prop="datasourceType">
           <el-select
             v-model="editData.datasourceType"
@@ -58,9 +55,12 @@
             @change="dialogSourceTypeChangeHandler">
             <el-option label="elasticsearch" value="elasticsearch" />
             <el-option label="influxdb" value="influxdb" />
+            <el-option label="mysql" value="mysql" />
           </el-select>
         </el-form-item>
-
+        <el-form-item label="名称" :label-width="formLabelWidth" prop="dataName">
+          <el-input v-model="editData.dataName" :disabled="disableEdit" autocomplete="off" />
+        </el-form-item>
         <el-form-item label="数据源" :label-width="formLabelWidth" prop="dataSourceId">
           <el-select v-model="editData.dataSourceId" :disabled="disableEdit" placeholder="选择数据源" class="filter-item">
             <el-option v-for="item in dialogDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
@@ -71,7 +71,7 @@
           <el-input v-model="editData.displayName" autocomplete="off" />
         </el-form-item>
 
-        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="时间字段" :label-width="formLabelWidth" prop="timestampField">
+        <el-form-item v-if="showEditDataTimestampField()" label="时间字段" :label-width="formLabelWidth" prop="timestampField">
           <el-input v-model="editData.timestampField" autocomplete="off" />
         </el-form-item>
         <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="索引前缀" :label-width="formLabelWidth" prop="indexPrefix">
@@ -252,6 +252,9 @@ export default {
           this.fetchData()
         })
       })
+    },
+    showEditDataTimestampField () {
+      return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql'
     }
   }
 }
