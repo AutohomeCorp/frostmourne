@@ -20,6 +20,7 @@ import com.autohome.frostmourne.monitor.contract.DataSourceOption;
 import com.autohome.frostmourne.monitor.contract.TreeDataOption;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchInfo;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceManager;
+import com.autohome.frostmourne.monitor.dao.jdbc.IDataSourceJdbcManager;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
@@ -48,6 +49,8 @@ public class DataAdminService implements IDataAdminService {
 
     @Resource
     private ElasticsearchSourceManager elasticsearchSourceManager;
+    @Resource
+    private IDataSourceJdbcManager dataSourceJdbcManager;
 
     public DataSourceContract findDatasourceById(Long id) {
         Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(id);
@@ -69,6 +72,11 @@ public class DataAdminService implements IDataAdminService {
             dataSource.setId(dataSourceContract.getId());
             if (dataSource.getDatasourceType().equalsIgnoreCase("elasticsearch")) {
                 boolean reloadResult = elasticsearchSourceManager.reloadEsRestClientContainer(new ElasticsearchInfo(dataSourceContract));
+                if (!reloadResult) {
+                    return false;
+                }
+            } else if (dataSource.getDatasourceType().equalsIgnoreCase("mysql")) {
+                boolean reloadResult = dataSourceJdbcManager.putDataSource(dataSourceContract);
                 if (!reloadResult) {
                     return false;
                 }

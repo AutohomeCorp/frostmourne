@@ -63,7 +63,7 @@
         <el-form-item label="角色" :label-width="formLabelWidth">
           <el-radio-group v-model="editData.role" size="small">
             <el-radio-button label="admin">管理员</el-radio-button>
-            <el-radio-button label="user">租户</el-radio-button>
+            <el-radio-button label="user">用户</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="账号" :label-width="formLabelWidth">
