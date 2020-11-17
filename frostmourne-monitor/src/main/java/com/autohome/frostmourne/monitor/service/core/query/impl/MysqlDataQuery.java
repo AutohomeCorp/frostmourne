@@ -76,9 +76,7 @@ public class MysqlDataQuery implements IMysqlDataQuery {
                                                     Object[] args) {
         String querySql = sql + " order by " + metricContract.getDataNameContract().getTimestampField() + " desc limit 1";
         List<Map<String, Object>> collectResult = jdbcDao.query(metricContract.getDataNameContract(),
-                metricContract.getDataSourceContract(),
-                querySql,
-                args);
+                metricContract.getDataSourceContract(), querySql, args);
         if (collectResult != null && collectResult.size() > 0) {
             return collectResult.get(0);
         }
