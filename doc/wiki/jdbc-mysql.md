@@ -27,7 +27,7 @@
 * 查询语句如下，表示查询某表的数据
 
     ```sql
-    select * from table1 where 1=1
+    select * from table1
     ```
 
 * 根据选择的数据名的时间字段以及报警规则，实际执行sql如下
