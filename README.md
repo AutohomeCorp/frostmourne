@@ -105,6 +105,10 @@ clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多
 
 <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
 
+## Mysql数据监控指南
+
+<a href="./doc/wiki/jdbc-mysql.md" target="_blank">Mysql数据监控指南</a>
+
 ## 数值同比监控使用指南
 
 <a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
