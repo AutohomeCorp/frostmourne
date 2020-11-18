@@ -8,7 +8,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 主要功能
 
-* Elasticsearch数据， InfluxDB数据, Mysql监控, 你只需要写一条查询就可以轻松搞定监控
+* Elasticsearch数据， InfluxDB数据, Mysql数据监控, 你只需要写一条查询就可以轻松搞定监控
 * 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
 * 数值同比监控
 * HTTP数据监控, js表达式判断是否报警
