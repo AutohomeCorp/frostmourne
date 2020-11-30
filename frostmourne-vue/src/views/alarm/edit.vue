@@ -36,6 +36,13 @@
           </el-row>
           <el-row>
             <el-col :span="12">
+              <el-form-item label="恢复通知:">
+                <el-switch v-model="form.recoverNoticeStatus" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
               <el-form-item label="所属对象:">
                 <el-input v-model="form.ownerKey" placeholder="表示这个监控的归属对象关系" />
               </el-form-item>
