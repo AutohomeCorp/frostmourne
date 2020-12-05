@@ -36,13 +36,6 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="恢复通知:">
-                <el-switch v-model="form.recoverNoticeStatus" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
               <el-form-item label="所属对象:">
                 <el-input v-model="form.ownerKey" placeholder="表示这个监控的归属对象关系" />
               </el-form-item>
@@ -220,9 +213,18 @@
           <el-form-item v-if="form.alertContract.ways.includes('http_post')" label="HTTP地址:">
             <el-input v-model="form.alertContract.httpPostUrl" size="small" placeholder="必填" />
           </el-form-item>
-          <el-form-item label="静默时间:">
-            <el-input-number v-model="form.alertContract.silence" size="small" :min="1" label="静默时间" />分钟
-          </el-form-item>
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label="静默时间:">
+                <el-input-number v-model="form.alertContract.silence" size="small" :min="1" label="静默时间" />分钟
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="恢复通知:">
+                <el-switch v-model="form.recoverNoticeStatus" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-form-item label="报警接收人:" prop="alertContract.recipients">
             <el-select v-model="form.alertContract.recipients" style="width:100%;" multiple filterable remote
                        placeholder="请输入关键词" :remote-method="findRecipient" :loading="loading">
