@@ -320,6 +320,7 @@ export default {
         alarmName: '',
         ownerKey: '',
         status: 'OPEN',
+        recoverNoticeStatus: 'OPEN',
         teamName: '',
         description: '',
         cron: '',
