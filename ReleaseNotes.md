@@ -5,14 +5,21 @@
 * 实现influxdb数值监控 [2020-09-19]
 * 增加influxdb数值同比监控 [2020-09-19]
 * 增加mysql数据监控报警支持 [2020-11-15]
+* 重构: 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成 [2020-11-20]
+* 监控配置增加是否发送恢复通知的开关选项 [issue#24](https://github.com/AutohomeCorp/frostmourne/issues/24) [2020-12-05]
 
 ### Bugfix
 
 * 解决登录跳转链接没有带上参数的问题 [2020-09-26]
 
+### Mysql
+
+* mysql: alarm表增加字段recover_notice_status，表示是否开启恢复通知 - [SQL](./doc/mysql-schema/2020-11-29/change.sql) [2020-12-05]
+
 ### Document
 
 * doc: 增加influxdb数据监控使用指南 [2020-09-24]
+* doc: 增加mysql数据监控使用指南 [2020-09-24]
 
 # 0.3-RELEASE
 
