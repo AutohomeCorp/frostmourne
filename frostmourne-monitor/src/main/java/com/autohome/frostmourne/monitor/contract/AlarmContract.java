@@ -30,6 +30,8 @@ public class AlarmContract {
 
     private String riskLevel;
 
+    private String recoverNoticeStatus;
+
     private MetricContract metricContract;
 
     private RuleContract ruleContract;
@@ -140,6 +142,14 @@ public class AlarmContract {
 
     public void setRiskLevel(String riskLevel) {
         this.riskLevel = riskLevel;
+    }
+
+    public String getRecoverNoticeStatus() {
+        return recoverNoticeStatus;
+    }
+
+    public void setRecoverNoticeStatus(String recoverNoticeStatus) {
+        this.recoverNoticeStatus = recoverNoticeStatus;
     }
 
     public MetricContract getMetricContract() {
