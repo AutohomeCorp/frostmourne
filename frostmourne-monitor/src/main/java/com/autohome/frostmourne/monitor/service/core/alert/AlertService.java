@@ -11,6 +11,7 @@ import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.contract.AlertContract;
 import com.autohome.frostmourne.monitor.contract.ServiceInfoSimpleContract;
 import com.autohome.frostmourne.monitor.contract.enums.AlertType;
+import com.autohome.frostmourne.monitor.contract.enums.RecoverNoticeStatus;
 import com.autohome.frostmourne.monitor.contract.enums.SendStatus;
 import com.autohome.frostmourne.monitor.contract.enums.SilenceStatus;
 import com.autohome.frostmourne.monitor.contract.enums.VerifyResult;
@@ -126,7 +127,11 @@ public class AlertService implements IAlertService {
         //if not alert, check if send recover message
         if (latestAlarmLog.isPresent() && latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.TRUE)) {
             //this is recover message
-            sendAlert(alarmProcessLogger, recipients, AlertType.RECOVER);
+            if (RecoverNoticeStatus.OPEN.name().equalsIgnoreCase(alarmProcessLogger.getAlarmContract().getRecoverNoticeStatus())) {
+                // 开启恢复通知
+                sendAlert(alarmProcessLogger, recipients, AlertType.RECOVER);
+            }
+
         } else {
             alarmLog(alarmProcessLogger);
         }
