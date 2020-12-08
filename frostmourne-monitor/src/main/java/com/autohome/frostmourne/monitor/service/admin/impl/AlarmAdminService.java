@@ -180,6 +180,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmContract.setExecuteAt(alarm.getExecuteAt());
         alarmContract.setJobId(alarm.getJobId());
         alarmContract.setRiskLevel(alarm.getRiskLevel());
+        alarmContract.setRecoverNoticeStatus(alarm.getRecoverNoticeStatus());
 
         MetricContract metricContract = new MetricContract();
         Optional<Metric> optionalMetric = this.metricRepository.findOneByAlarm(alarmId);
@@ -305,6 +306,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setOwnerKey(alarmContract.getOwnerKey());
         alarm.setStatus(alarmContract.getStatus());
         alarm.setRiskLevel(alarmContract.getRiskLevel());
+        alarm.setRecoverNoticeStatus(alarmContract.getRecoverNoticeStatus());
         Date now = new Date();
         alarm.setCreateAt(now);
         alarm.setModifyAt(now);
@@ -327,6 +329,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setOwnerKey(alarmContract.getOwnerKey());
         alarm.setStatus(alarmContract.getStatus());
         alarm.setRiskLevel(alarmContract.getRiskLevel());
+        alarm.setRecoverNoticeStatus(alarmContract.getRecoverNoticeStatus());
         alarm.setCron(alarmContract.getCron());
         alarm.setModifyAt(now);
         alarm.setModifier(alarmContract.getOperator());

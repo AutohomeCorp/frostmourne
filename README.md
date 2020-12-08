@@ -8,7 +8,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 主要功能
 
-* Elasticsearch数据， InfluxDB数据, Mysql监控, 你只需要写一条查询就可以轻松搞定监控
+* Elasticsearch数据， InfluxDB数据, Mysql数据监控, 你只需要写一条查询就可以轻松搞定监控
 * 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
 * 数值同比监控
 * HTTP数据监控, js表达式判断是否报警
@@ -76,7 +76,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 在用ELK建立起日志系统之后，我们发现应用日志监控这块除了ElastAlert之外，没有其他方案。我们初期使用ElastAlert来解决日志监控的问题，
 但是随着配置的增加，管理成本，使用成本较高和，配置文件多了之后，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
-来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。  
+来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
 但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
 clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
@@ -84,7 +84,7 @@ clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多
 ## 联系我们
 
 有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
-特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。 
+特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
 
 <img src="./doc/img/frostmourne-qq.png" />
 
@@ -98,7 +98,7 @@ clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多
 <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
 
 ## HTTP类型监控指南
- 
+
 除了Elasticsearch数据监控，还提供了HTTP监控，使用起来非常灵活方便，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
 
 ## InfluxDB数据监控指南
@@ -243,7 +243,7 @@ xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/executor.png"/>
 
-启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。  
+启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。
 
 ```bash
 ./scripts/startup.sh
@@ -261,7 +261,7 @@ docker里启动一个xxl-job服务，供本地调用
 ## 为什么需要xxl-job
 
 引入xxl-job是为了让每个监控任务都可以独立调度，在创建监控的同时，会调用xxl-job的服务的接口创建一个调度任务。引入xxl-job确实给部署带来了
-一定的难度，但是也带来了如下好处: 
+一定的难度，但是也带来了如下好处:
 
 * 节约很多开发成本，让项目可以很快完成
 * 将调度作为一个服务独立出去，大大降低了主体功能项目的复杂度
@@ -283,7 +283,7 @@ frostmourne.spi.service-addr=http://${frostmourne-spi-address}
 frostmourne.monitor.address=http://${frostmourne-monitor-address}
 ```
 
-其中frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。**注意：直接使用ip是无法生成短链接的**  
+其中frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。**注意：直接使用ip是无法生成短链接的**
 
 ### 打包和zip包部署
 
@@ -324,8 +324,8 @@ xxl.job.executor.logretentiondays=3
 xxl.job.alarm.email=[your_email]
 ```
 
-启动frostmourne-spi项目，启动参数增加：-Dlog.console.level=INFO，将active profile设置为default, 测试地址: http://localhost:10053  
-启动frostmourne-monitor项目, 启动参数增加：-Dlog.console.level=INFO，active profile设置为local, 测试地址: http://localhost:10054   
+启动frostmourne-spi项目，启动参数增加：-Dlog.console.level=INFO，将active profile设置为default, 测试地址: http://localhost:10053
+启动frostmourne-monitor项目, 启动参数增加：-Dlog.console.level=INFO，active profile设置为local, 测试地址: http://localhost:10054
 使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
 
 ```bash
@@ -339,7 +339,7 @@ npm install --registry=https://registry.npm.taobao.org
 npm run dev
 ```
 
-会自动打开： http://localhost:9528  
+会自动打开： http://localhost:9528
 
 搭建本地开发调试环境或者需要做二次开发遇到什么困难的都可以加群沟通，欢迎各路英雄多多PR
 
@@ -352,7 +352,7 @@ npm run dev
 * 太灵活了，稍不注意sql就会写得很复杂，后面维护艰难
 
 mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)，代码即sql
-的查询，大部分基于生成的代码可以直接写代码完成，不需要写任何sql。  
+的查询，大部分基于生成的代码可以直接写代码完成，不需要写任何sql。
 
 为了兼顾方便和灵活，我同时在项目里引入了mybatis-dynamic-sql和xml-sql两种方式，让他们互补配合一起完成数据访问。
 大部分(90%以上)查询直接用mybatis-dynamic-sql，对于一些很少的需要灵活的稍复杂sql使用xml-sql来完成。既提高了
@@ -360,15 +360,19 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 ## 后续规划
 
-目前已知的规划有: 
+目前已知的规划有:
 
 * ~~实现influxdb数值监控~~ [2020-09-19]
 * ~~增加influxdb数值同比监控~~ [2020-09-19]
 * ~~doc: 增加influxdb数据监控使用指南~~ [2020-09-24]
 * ~~bugfix: 解决登录跳转链接没有带上参数的问题~~ [2020-09-26]
 * ~~增加mysql数据监控报警支持~~ [2020-11-15]
-* 增加skywalking数据监控报警支持
+* ~~doc: 增加mysql数据监控报警使用指南~~ [2020-11-15]
+* ~~重构: 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成~~ [2020-11-20]
+* ~~监控配置增加是否发送恢复通知的开关选项~~ [issue#24](https://github.com/AutohomeCorp/frostmourne/issues/24) [2020-12-05]
+* 报警消息格式增加类型: text, markdown选项
 * 监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存
+* 增加skywalking数据监控报警支持
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面
@@ -378,9 +382,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 制作符合docker和springboot应用容器部署最佳实践的docker镜像(欢迎PR)
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
-* 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成
-* 监控配置增加是否发送恢复通知的开关选项
-* 报警消息格式增加类型: text, markdown选项
 * 报警增加持续周期设置，可以配置为连续X次触发报警才发送消息，否则只记录不发送。用在不想收到那种偶发性的
 抖动产生报警消息的情况
 * Elasticsearch监控数值实现环比监控
@@ -426,7 +427,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 ## Contributors
 
-[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91) 
+[@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91)
 [@wxmclub](https://github.com/wxmclub)
 
 ## 致谢
