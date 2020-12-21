@@ -511,6 +511,7 @@ export default {
     onTest () {
       this.$refs['form'].validate((validate) => {
         if (validate) {
+          this.copyToProperties()
           alarmApi.test(this.form)
             .then(response => {
               this.$alert('<pre style="overflow: auto">' + response.result + '</pre>', '测试运行成功', {
@@ -650,6 +651,7 @@ export default {
       })
     },
     handleHttpTest () {
+      this.copyToProperties()
       alarmApi.httpTest(this.form.metricContract).then(response => {
         this.httpResonseData = response.result
         this.httpResponseDialogVisible = true

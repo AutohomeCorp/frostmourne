@@ -11,6 +11,7 @@
 ### Bugfix
 
 * 解决登录跳转链接没有带上参数的问题 [2020-09-26]
+* 解决http请求没有正确带上头信息的问题 [issue#30](https://github.com/AutohomeCorp/frostmourne/issues/30) [2020-12-17]
 
 ### Mysql
 
