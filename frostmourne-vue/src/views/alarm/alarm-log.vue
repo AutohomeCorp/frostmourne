@@ -29,7 +29,7 @@
               <el-select v-model="form.executeResult" placeholder="执行结果">
                 <el-option label="全部" value="" />
                 <el-option label="SUCCESS" value="SUCCESS" />
-                <el-option label="FAIL" value="FAIL" />
+                <el-option label="ERROR" value="ERROR" />
               </el-select>
             </el-form-item>
           </el-col>

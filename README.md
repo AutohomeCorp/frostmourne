@@ -370,8 +370,9 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~doc: 增加mysql数据监控报警使用指南~~ [2020-11-15]
 * ~~重构: 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成~~ [2020-11-20]
 * ~~监控配置增加是否发送恢复通知的开关选项~~ [issue#24](https://github.com/AutohomeCorp/frostmourne/issues/24) [2020-12-05]
-* 报警消息格式增加类型: text, markdown选项
 * 监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存
+* 报警消息格式增加类型: text, markdown选项
+* 监控编辑页面：增加查询数据预览功能
 * 增加skywalking数据监控报警支持
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
