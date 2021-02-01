@@ -114,6 +114,9 @@
             <el-input v-model="form.metricContract.postData" type="textarea" />
             <el-button type="primary" @click="handleHttpTest">测试请求</el-button>
           </el-form-item>
+          <el-form-item v-if="dataSourceType === 'elasticsearch'" label="">
+            <el-button type="primary" @click="onPreview">预览</el-button>
+          </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="报警规则">
           <el-form-item label="判断类型:" prop="metricContract.metricType">
@@ -454,17 +457,47 @@ export default {
         if (validate) {
           this.disableSave = false
           this.copyToProperties()
-          adminApi.save(this.form)
-            .then(response => this.success('保存成功！'))
+
+          alarmApi.test(this.form)
+            .then(response => {
+              // 测试通过
+              adminApi.save(this.form)
+                .then(response => this.success('保存成功！'))
+                .catch(error => {
+                  this.$message({
+                    type: 'success',
+                    message: '保存失败: ' + error,
+                    duration: 500
+                  })
+                })
+            })
             .catch(error => {
+              console.log('测试运行失败: ' + error)
               this.$message({
                 type: 'success',
-                message: '保存失败: ' + error,
-                duration: 500
+                message: '测试运行失败',
+                duration: 1500
               })
             })
         } else {
           return false
+        }
+      })
+    },
+    onPreview () {
+      if (this.form.metricContract.dataName == null) {
+        this.$message({ type: 'warning', message: '请先选择一个数据名', duration: 2000 })
+        return
+      }
+      if (this.form.metricContract.queryString == null || this.form.metricContract.queryString === '') {
+        this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
+        return
+      }
+      this.$router.push({
+        name: 'query',
+        query: {
+          dataName: this.form.metricContract.dataName,
+          esQuery: this.form.metricContract.queryString
         }
       })
     },

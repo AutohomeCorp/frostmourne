@@ -16,7 +16,6 @@ import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +35,7 @@ public class DataQueryController {
     private IFrostmourneSpiApi frostmourneSpiApi;
 
     @ResponseBody
-    @RequestMapping(value = "/elasticsearchData", method = RequestMethod.GET)
+    @RequestMapping(value = "/elasticsearchData")
     public Protocol<ElasticsearchDataResult> elasticsearchData(@RequestParam(value = "_appId", required = true) String _appId,
                                                                @RequestParam(value = "dataName", required = true) String dataName,
                                                                @RequestParam(value = "startTime", required = true) Date startTime,
@@ -59,8 +58,8 @@ public class DataQueryController {
         return frostmourneSpiApi.shortenLink("frostmourne-monitor", longUrl);
     }
 
-    @RequestMapping(value = "/downloadData", method = RequestMethod.GET)
-    public void downloadData(HttpServletResponse response, @RequestParam(value = "_appId", required = true) String _appId,
+    @RequestMapping(value = "/downloadData")
+    public void downloadData(HttpServletResponse response, @RequestParam(value = "_appId", required = false) String _appId,
                              @RequestParam(value = "dataName", required = true) String dataName,
                              @RequestParam(value = "startTime", required = true) Date startTime,
                              @RequestParam(value = "endTime", required = true) Date endTime,

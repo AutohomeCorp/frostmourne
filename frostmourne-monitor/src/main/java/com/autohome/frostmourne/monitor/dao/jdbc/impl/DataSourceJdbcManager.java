@@ -100,6 +100,8 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
         dataSource.setUrl(dataSourceContract.getServiceAddress());
         dataSource.setUsername(dataSourceContract.getSettings().get("username"));
         dataSource.setPassword(dataSourceContract.getSettings().get("password"));
+        // 密码默认是明文
+        dataSource.getConnectProperties().setProperty("config.decrypt", "false");
         // 初始化连接
         dataSource.init();
         return dataSource;
