@@ -7,11 +7,14 @@
 * 增加mysql数据监控报警支持 [2020-11-15]
 * 重构: 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成 [2020-11-20]
 * 监控配置增加是否发送恢复通知的开关选项 [issue#24](https://github.com/AutohomeCorp/frostmourne/issues/24) [2020-12-05]
+* 监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存 [2021-01-11]
 
 ### Bugfix
 
 * 解决登录跳转链接没有带上参数的问题 [2020-09-26]
 * 解决http请求没有正确带上头信息的问题 [issue#30](https://github.com/AutohomeCorp/frostmourne/issues/30) [2020-12-17]
+* es数据查询，下载请求改为post，解决可能由于scrollid过长导致请求非法的问题 [2021-01-11]
+* 解决mysql监控，语句执行报错的问题 [issue#32](https://github.com/AutohomeCorp/frostmourne/issues/32) [2021-02-01]
 
 ### Mysql
 
