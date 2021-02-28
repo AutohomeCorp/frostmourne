@@ -5,7 +5,7 @@ const baseUrl = '/api/monitor-api/query'
 const dataQueryApi = {
 
   elasticsearchData (condition) {
-    return query.get(baseUrl + '/elasticsearchData', condition)
+    return query.post(baseUrl + '/elasticsearchData', condition)
   },
 
   shortenLink (longUrl) {
@@ -13,12 +13,7 @@ const dataQueryApi = {
   },
 
   downloadData (condition, fileName) {
-    return request({
-      url: baseUrl + '/downloadData',
-      method: 'get',
-      params: condition,
-      responseType: 'blob'
-    })
+    return query.postBlob(baseUrl + '/downloadData', condition)
   }
 
 }

@@ -370,7 +370,9 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~doc: 增加mysql数据监控报警使用指南~~ [2020-11-15]
 * ~~重构: 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成~~ [2020-11-20]
 * ~~监控配置增加是否发送恢复通知的开关选项~~ [issue#24](https://github.com/AutohomeCorp/frostmourne/issues/24) [2020-12-05]
-* 监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存
+* ~~监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存~~ [2021-01-11]
+* ~~es数据查询，下载请求改为post，解决可能由于scrollid过长导致请求非法的问题~~ [2021-01-11]
+* ~~解决mysql监控，语句执行报错的问题~~ [issue#32](https://github.com/AutohomeCorp/frostmourne/issues/32) [2021-02-01]
 * 报警消息格式增加类型: text, markdown选项
 * 监控编辑页面：增加查询数据预览功能
 * 增加skywalking数据监控报警支持

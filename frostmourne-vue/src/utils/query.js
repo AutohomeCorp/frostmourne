@@ -30,6 +30,12 @@ const service = {
     return this.query({ method: 'post', url: url, data: qs.stringify(params), headers: this.MediaType.application_form_urlencoded })
   },
   /**
+   * post form
+   */
+  postBlob (url, params) {
+    return this.query({ method: 'post', url: url, data: qs.stringify(params), headers: this.MediaType.application_form_urlencoded, responseType: 'blob' })
+  },
+  /**
    * post json
    */
   json (url, params) {

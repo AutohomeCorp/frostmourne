@@ -31,6 +31,4 @@ public abstract class AbstractNumericMetric implements IMetric {
         result.put("endTime", end.toDateTimeISO().toString());
         return result;
     }
-
-
 }

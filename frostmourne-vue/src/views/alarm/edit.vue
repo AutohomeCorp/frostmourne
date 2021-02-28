@@ -112,7 +112,6 @@
           </el-form-item>
           <el-form-item v-if="dataSourceType === 'http'" label="POST数据:">
             <el-input v-model="form.metricContract.postData" type="textarea" />
-            <el-button type="primary" @click="handleHttpTest">测试请求</el-button>
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="报警规则">
@@ -192,7 +191,7 @@
           </el-form-item>
         </el-tab-pane>
       </el-tabs>
-
+      <el-button type="primary" @click="onPreview">预览数据</el-button>
       <el-tabs>
         <el-tab-pane label="报警发送">
           <el-form-item label="报警方式:" prop="alertContract.ways">
@@ -276,9 +275,9 @@
       </el-form-item>
     </el-form>
 
-    <el-dialog title="响应数据" :visible.sync="httpResponseDialogVisible">
+    <el-dialog title="响应数据" :visible.sync="previewResponseDialogVisible">
       <div>
-        <vue-json-pretty :data="httpResonseData" />
+        <vue-json-pretty :data="previewResonseData" />
       </div>
     </el-dialog>
   </div>
@@ -311,8 +310,8 @@ export default {
       disableSave: false,
       activeName: 'datasource_tab',
       id: this.$route.query.id,
-      httpResonseData: {},
-      httpResponseDialogVisible: false,
+      previewResonseData: {},
+      previewResponseDialogVisible: false,
       httpHeaders: [],
       loading: false,
       recipientList: [],
@@ -454,18 +453,46 @@ export default {
         if (validate) {
           this.disableSave = false
           this.copyToProperties()
-          adminApi.save(this.form)
-            .then(response => this.success('保存成功！'))
+
+          alarmApi.test(this.form)
+            .then(response => {
+              // 测试通过
+              adminApi.save(this.form)
+                .then(response => this.success('保存成功！'))
+                .catch(error => {
+                  this.$message({
+                    type: 'success',
+                    message: '保存失败: ' + error,
+                    duration: 500
+                  })
+                })
+            })
             .catch(error => {
+              console.log('测试运行失败: ' + error)
               this.$message({
                 type: 'success',
-                message: '保存失败: ' + error,
-                duration: 500
+                message: '测试运行失败',
+                duration: 1500
               })
             })
         } else {
           return false
         }
+      })
+    },
+    onPreview () {
+      if (this.form.metricContract.dataName == null) {
+        this.$message({ type: 'warning', message: '请先选择一个数据名', duration: 2000 })
+        return
+      }
+      if (this.form.metricContract.queryString == null || this.form.metricContract.queryString === '') {
+        this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
+        return
+      }
+      this.copyToProperties()
+      alarmApi.previewData(this.form).then(response => {
+        this.previewResonseData = response.result
+        this.previewResponseDialogVisible = true
       })
     },
     onSaveAnother () {
@@ -558,6 +585,7 @@ export default {
         })
     },
     dataChange (value) {
+      this.form.ruleContract.settings = {}
       if (value.length === 0) {
         this.form.metricContract.dataSourceId = 0
         this.form.metricContract.dataName = ''
@@ -653,8 +681,8 @@ export default {
     handleHttpTest () {
       this.copyToProperties()
       alarmApi.httpTest(this.form.metricContract).then(response => {
-        this.httpResonseData = response.result
-        this.httpResponseDialogVisible = true
+        this.previewResonseData = response.result
+        this.previewResponseDialogVisible = true
       })
     },
     metricTypeChangeHandler (newValue) {
