@@ -13,6 +13,7 @@ public class MetricService implements IMetricService {
 
     @Resource
     private Map<String, IMetric> influxdbMetricMap;
+
     @Resource
     private Map<String, IMetric> mysqlMetricMap;
 
