@@ -6,5 +6,5 @@ import com.autohome.frostmourne.monitor.contract.MetricContract;
 
 public interface IMetric {
 
-    Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> settings);
+    Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings);
 }

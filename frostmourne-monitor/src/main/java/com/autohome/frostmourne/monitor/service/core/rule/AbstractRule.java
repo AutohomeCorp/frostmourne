@@ -20,10 +20,9 @@ public abstract class AbstractRule implements IRule {
 
     public Map<String, Object> context(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract,
                                        MetricContract metricContract, IMetric metric) {
-        Map<String, Object> context = new HashMap<>();
         alarmProcessLogger.trace("start pull metric");
         Map<String, Object> metricData = metric.pullMetric(metricContract, ruleContract.getSettings());
-        context.putAll(metricData);
+        Map<String, Object> context = new HashMap<>(metricData);
         if (ruleContract.getSettings() != null) {
             context.putAll(ruleContract.getSettings());
         }

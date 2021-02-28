@@ -38,7 +38,8 @@ spring_ldap_auth_searchFilter=uid={0}
 例外情况自己修改
 
 
-> 注意： 开启了LDAP认证，admin账号仍然可以用方式1来登录
+> 注意： 1. 开启了LDAP认证，admin账号仍然可以用方式1来登录。
+> 2. 即使接入ldap登录，也需要在系统有对应的用户才能登录。
 
 ### 账号信息
 
