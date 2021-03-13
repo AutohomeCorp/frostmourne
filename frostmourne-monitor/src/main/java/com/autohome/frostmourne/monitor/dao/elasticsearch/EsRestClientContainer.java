@@ -217,9 +217,11 @@ public class EsRestClientContainer {
 
     private List<HttpHost> parseHttpHost(List<String> esHosts) {
         List<HttpHost> hostList = new ArrayList<>();
+        String httpsOption = this.settings.get("https");
+        String scheme = !Strings.isNullOrEmpty(httpsOption) && httpsOption.equalsIgnoreCase("YES") ? "https" : "http";
         for (String hostString : esHosts) {
             List<String> hostAndPort = Splitter.on(":").trimResults().splitToList(hostString);
-            hostList.add(new HttpHost(hostAndPort.get(0), Integer.parseInt(hostAndPort.get(1)), "http"));
+            hostList.add(new HttpHost(hostAndPort.get(0), Integer.parseInt(hostAndPort.get(1)), scheme));
         }
         return hostList;
     }

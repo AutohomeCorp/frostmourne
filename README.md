@@ -373,8 +373,9 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存~~ [2021-01-11]
 * ~~es数据查询，下载请求改为post，解决可能由于scrollid过长导致请求非法的问题~~ [2021-01-11]
 * ~~解决mysql监控，语句执行报错的问题~~ [issue#32](https://github.com/AutohomeCorp/frostmourne/issues/32) [2021-02-01]
+* ~~监控编辑页面：增加查询数据预览功能~~ [2021-02-28]
+* ~~Elasticsearch数据源增加https选项设置~~ [2021-03-13]
 * 报警消息格式增加类型: text, markdown选项
-* 监控编辑页面：增加查询数据预览功能
 * 增加skywalking数据监控报警支持
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
