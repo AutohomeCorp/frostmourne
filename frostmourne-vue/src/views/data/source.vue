@@ -57,6 +57,9 @@
             <i class="el-icon-question" />
           </el-tooltip>-->
         </el-form-item>
+        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="是否HTTPS:">
+          <el-switch v-model="editData.settings.https" active-value="YES" active-text="是" inactive-value="NO" inactive-text="否" />
+        </el-form-item>
         <el-form-item v-if="editDataShowUsername()" label="认证用户" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.username" placeholder="无认证不需要填写" autocomplete="off" />
         </el-form-item>
