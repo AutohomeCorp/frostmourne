@@ -147,17 +147,27 @@ clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多
 
 ## 短链接服务
 
-为了方便使用者快速查看产生报警的日志，报警消息最后会有一个日志查询地址的短链接，打开即可看到产生报警的日志。默认短链接实现使用
-的是四五短网址免费版，网址: <a href="http://www.45dwz.cn/" target="_blank">45短网址</a>, 默认申请的token限制很大，
+为了方便使用者快速查看产生报警的日志，报警消息最后会有一个日志查询地址的短链接，打开即可看到产生报警的日志。目前默认支持的短链接
+有两种：四五短网址和百度短网址。默认短链接实现使用的是四五短网址免费版，网址: <a href="http://www.45dwz.cn/" target="_blank">45短网址</a>, 默认申请的token限制很大，
 调用次数有限制，你可以去45短网址申请自己token，或者你可以自己选择换别的短网址服务都行，只需要自己实现简单适配即可。
 
 如果你自己申请了token，请修改配置文件 frostmourne-spi/src/main/resources/application.properties 如下配置值：
 
 ```
+dwz.type=dwz45
 dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
 ```
 
-如果短链接服务出错或者不使用，报警消息里的链接将使用原链接，会比较长。
+如果想切换使用<a href="https://dwz.cn/console/apidoc/v3" target="_blank">百度短网址</a>，请通过修改如下配置：
+
+```
+dwz.type=baidu
+dwz.baidu.token=
+```
+
+token需要自己申请。
+
+> 说明：如果短链接服务出错或者不使用，报警消息里的链接将使用原链接，会比较长。
 
 ## 用户管理和登录认证
 
@@ -375,8 +385,16 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~解决mysql监控，语句执行报错的问题~~ [issue#32](https://github.com/AutohomeCorp/frostmourne/issues/32) [2021-02-01]
 * ~~监控编辑页面：增加查询数据预览功能~~ [2021-02-28]
 * ~~Elasticsearch数据源增加https选项设置~~ [2021-03-13]
+* ~~报警消息头文字支持自定义配置~~ [2021-04-17]
+* ~~短链接增加百度短链接支持~~ [2021-04-17]
+* ~~修复用户编辑输入无效的问题~~ [2021-04-17]
+* Elasticsearch数据源支持HTTPS [issue#35](https://github.com/AutohomeCorp/frostmourne/issues/35)
+* InfluxDB支持用户名密码
 * 报警消息格式增加类型: text, markdown选项
+* Elasticsearch数据名增加查询显示字段配置
+* 内置实现一个短链接功能，移除外部短链接服务依赖
 * 增加skywalking数据监控报警支持
+* 增加本监控平台使用案例文档
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面
@@ -392,7 +410,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 发布0.4-RELEASE
 * 增加prometheus数据监控报警支持
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
-* 内置实现一个短链接功能，移除外部短链接服务依赖(欢迎PR)
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)
 * 更多报警方式补充（欢迎PR）
 * 后端接口增加数据校验并返回合适的提示信息

@@ -17,7 +17,7 @@ const alarmApi = {
   httpTest (metricContract) {
     return query.json(baseUrl + '/httpTest', metricContract)
   },
-  previewData(alarmContract) {
+  previewData (alarmContract) {
     return query.json(baseUrl + '/previewData', alarmContract)
   }
 }

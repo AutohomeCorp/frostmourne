@@ -25,14 +25,19 @@ import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
 import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.AlarmMessage;
 import com.autohome.frostmourne.spi.starter.model.MessageResult;
+import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AlertService implements IAlertService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(AlertService.class);
+
+    @Value("${frostmourne.message.title}")
+    private String messageTitle;
 
     @Resource
     private IFrostmourneSpiApi frostmourneSpiApi;
@@ -77,7 +82,7 @@ public class AlertService implements IAlertService {
             alertContent = "消息类型: [恢复] 请自己检查问题是否解决,上次报警内容如下\n" + alertLog.getContent();
             alarmMessage.setContent(alertContent);
         }
-        alarmMessage.setTitle(String.format("[霜之哀伤监控平台][id:%s]%s", alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
+        alarmMessage.setTitle(String.format("[%s][id:%s]%s", Strings.isNullOrEmpty(messageTitle) ? "霜之哀伤监控平台" : messageTitle, alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
         alarmMessage.setRecipients(recipients);
         alarmMessage.setWays(alertContract.getWays());
         alarmMessage.setDingHook(alertContract.getDingRobotHook());

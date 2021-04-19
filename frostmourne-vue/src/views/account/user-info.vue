@@ -117,7 +117,16 @@ export default {
         account: null,
         teamId: null
       },
-      editData: { role: 'user' },
+      editData: { 
+        role: 'user',
+        id: null,
+        account: null,
+        fullName: null,
+        teamId: null,
+        mobile: null,
+        email: null,
+        wxid: null 
+      },
       formLabelWidth: '100px',
       dialogFormVisible: false,
       teamList: []

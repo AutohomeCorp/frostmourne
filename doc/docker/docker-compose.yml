@@ -31,7 +31,9 @@ services:
       email.smtp.auth: 'true'
       email.sender: xxx@qq.com
       email.sender.password: xxx
+      dwz.type: dwz45
       dwz45.token: t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
+      dwz.baidu.token:
       wechat.corpid:
       wechat.agentid:
       wechat.secret:
@@ -67,6 +69,7 @@ services:
       spring_ldap_password:
       spring_ldap_base:
       spring_ldap_auth_searchFilter:
+      frostmourne_message_title:
     ports:
       - '10054:10054'
       - '9999:9999'

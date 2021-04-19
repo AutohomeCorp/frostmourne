@@ -79,4 +79,8 @@ public class JacksonUtil {
     public static JavaType getCollectionType(ObjectMapper objectMapper, Class<?> collectionClass, Class<?>... elementClasses) {
         return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
+
+    public static ObjectMapper mapper() {
+        return COMMON_DEFINE_OBJECT_MAPPER;
+    }
 }
