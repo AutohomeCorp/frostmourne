@@ -10,6 +10,8 @@
 * 监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存 [2021-01-11]
 * 监控编辑页面：增加查询数据预览功能 [2021-02-28]
 * Elasticsearch数据源增加https选项设置 [2021-03-13]
+* 报警消息头文字支持自定义配置 [2021-04-17]
+* 短链接增加百度短链接支持 [2021-04-17]
 
 ### Bugfix
 
@@ -17,6 +19,7 @@
 * 解决http请求没有正确带上头信息的问题 [issue#30](https://github.com/AutohomeCorp/frostmourne/issues/30) [2020-12-17]
 * es数据查询，下载请求改为post，解决可能由于scrollid过长导致请求非法的问题 [2021-01-11]
 * 解决mysql监控，语句执行报错的问题 [issue#32](https://github.com/AutohomeCorp/frostmourne/issues/32) [2021-02-01]
+* 修复用户编辑输入无效的问题 [2021-04-17]
 
 ### Mysql
 
