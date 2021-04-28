@@ -60,6 +60,21 @@
         <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="是否HTTPS:">
           <el-switch v-model="editData.settings.https" active-value="YES" active-text="是" inactive-value="NO" inactive-text="否" />
         </el-form-item>
+        <template v-if="editData.settings.https === 'YES'">
+          <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="SSL证书:" :label-width="formLabelWidth">
+            <el-upload
+              action="#"
+              :on-change="handleCertChange"
+              :on-remove="handleCertRemove"
+              :file-list="fileList"
+              :auto-upload="false">
+              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            </el-upload>
+          </el-form-item>
+          <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="证书密码:" :label-width="formLabelWidth">
+            <el-input v-model="editData.settings.sslCertPassword" placeholder="填写证书密码" :type="passwordType" autocomplete="off" />
+          </el-form-item>
+        </template>
         <el-form-item v-if="editDataShowUsername()" label="认证用户" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.username" placeholder="无认证不需要填写" autocomplete="off" />
         </el-form-item>
@@ -106,7 +121,8 @@ export default {
       formLabelWidth: '80px',
       dialogFormVisible: false,
       disableTypeSelect: true,
-      passwordType: 'password'
+      passwordType: 'password',
+      fileList: []
     }
   },
   created () {
@@ -139,6 +155,24 @@ export default {
       this.form.pageIndex = curr
       this.fetchData()
     },
+    handleCertChange (file, filelist) {
+      // 变更事件：添加文件
+      var tmpEditData = this.editData
+      var reader = new FileReader()
+      reader.onload = function (e) {
+        var base64Result = this.result
+        // console.log(base64Result)
+        // 去掉头部
+        var sslCert = base64Result.replace(/\r|\n/g, '').replace(/data:[^;]+;base64,/g, '')
+        // console.log(cert)
+        tmpEditData.settings.sslCert = sslCert
+      }
+      reader.readAsDataURL(file.raw)
+    },
+    handleCertRemove (file) {
+      // 移除文件
+      this.editData.settings.sslCert = null
+    },
     edit (row) {
       if (row != null) {
         this.passwordType = 'password'
@@ -147,7 +181,8 @@ export default {
         this.editData.datasourceType = row.datasourceType
         this.editData.serviceAddress = row.serviceAddress
         this.disableTypeSelect = true
-        this.editData.settings = row.settings
+        // 深度拷贝
+        this.editData.settings = row.settings ? JSON.parse(JSON.stringify(row.settings)) : {}
       } else {
         this.passwordType = ''
         this.editData = {
@@ -155,6 +190,7 @@ export default {
         }
         this.disableTypeSelect = false
       }
+      this.fileList = []
 
       this.dialogFormVisible = true
     },
