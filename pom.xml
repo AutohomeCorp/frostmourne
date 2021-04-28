@@ -30,7 +30,7 @@
 
         <slf4j-api.version>1.7.12</slf4j-api.version>
         <jackson.version>2.12.1</jackson.version>
-        <guava.version>29.0-jre</guava.version>
+        <guava.version>30.0-jre</guava.version>
     </properties>
 
     <dependencyManagement>
