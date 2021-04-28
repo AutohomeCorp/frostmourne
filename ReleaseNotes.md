@@ -12,6 +12,7 @@
 * Elasticsearch数据源增加https选项设置 [2021-03-13]
 * 报警消息头文字支持自定义配置 [2021-04-17]
 * 短链接增加百度短链接支持 [2021-04-17]
+* Elasticsearch数据源支持HTTPS [2021-04-28] [issue#35](https://github.com/AutohomeCorp/frostmourne/issues/35)
 
 ### Bugfix
 
@@ -24,6 +25,7 @@
 ### Mysql
 
 * mysql: alarm表增加字段recover_notice_status，表示是否开启恢复通知 - [SQL](./doc/mysql-schema/2020-11-29/change.sql) [2020-12-05]
+* mysql: data_source表字段properties类型改为text - [SQL](./doc/mysql-schema/20210421/change.sql) [2021-04-28]
 
 ### Document
 

@@ -1,20 +1,28 @@
 package com.autohome.frostmourne.monitor.dao.elasticsearch;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.net.ssl.SSLContext;
 
 import com.google.common.base.Splitter;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContexts;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
@@ -69,18 +77,18 @@ public class EsRestClientContainer {
         RestClientBuilder restClientBuilder = RestClient.builder(parseHttpHost(esHosts)
                 .toArray(new HttpHost[0]));
 
-        if (this.settings != null && this.settings.size() > 0 &&
-                !Strings.isNullOrEmpty(this.settings.get("username"))
-                && !Strings.isNullOrEmpty(this.settings.get("password"))) {
-            String userName = this.settings.get("username");
-            String password = this.settings.get("password");
-            final CredentialsProvider credentialsProvider =
-                    new BasicCredentialsProvider();
-            credentialsProvider.setCredentials(AuthScope.ANY,
-                    new UsernamePasswordCredentials(userName, password));
+        if (this.settings != null && !this.settings.isEmpty()) {
+            final CredentialsProvider credentialsProvider = this.createCredentialsProvider(restClientBuilder, this.settings);
+            final SSLContext sslContext = this.createSslContext(restClientBuilder, this.settings);
             restClientBuilder.setHttpClientConfigCallback(httpAsyncClientBuilder -> {
-                httpAsyncClientBuilder.disableAuthCaching();
-                return httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                if (credentialsProvider != null) {
+                    httpAsyncClientBuilder.disableAuthCaching()
+                            .setDefaultCredentialsProvider(credentialsProvider);
+                }
+                if (sslContext != null) {
+                    httpAsyncClientBuilder.setSSLContext(sslContext);
+                }
+                return httpAsyncClientBuilder;
             });
         }
         restHighLevelClient = new RestHighLevelClient(restClientBuilder);
@@ -90,6 +98,42 @@ public class EsRestClientContainer {
         }
 
         this.initTimestamp = System.currentTimeMillis();
+    }
+
+    private CredentialsProvider createCredentialsProvider(RestClientBuilder restClientBuilder,
+                                                          Map<String, String> settings) {
+        if (Strings.isNullOrEmpty(this.settings.get("username"))
+                || Strings.isNullOrEmpty(this.settings.get("password"))) {
+            return null;
+        }
+        String userName = settings.get("username");
+        String password = settings.get("password");
+        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
+        return credentialsProvider;
+    }
+
+    private SSLContext createSslContext(RestClientBuilder restClientBuilder,
+                                        Map<String, String> settings) {
+        if (!isHttpsHost(settings)) {
+            return null;
+        }
+        String certBase64 = settings.get("sslCert");
+        if (Strings.isNullOrEmpty(certBase64)) {
+            LOGGER.error("sslCert could not be null when use https");
+            return null;
+        }
+        try {
+            KeyStore truststore = KeyStore.getInstance("jks");
+            try (InputStream is = new ByteArrayInputStream(Base64.decodeBase64(certBase64))) {
+                truststore.load(is, Optional.ofNullable(settings.get("sslCertPassword")).map(String::toCharArray).orElse(null));
+            }
+            SSLContextBuilder sslBuilder = SSLContexts.custom()
+                    .loadTrustMaterial(truststore, null);
+            return sslBuilder.build();
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     public boolean health() {
@@ -217,13 +261,17 @@ public class EsRestClientContainer {
 
     private List<HttpHost> parseHttpHost(List<String> esHosts) {
         List<HttpHost> hostList = new ArrayList<>();
-        String httpsOption = this.settings.get("https");
-        String scheme = !Strings.isNullOrEmpty(httpsOption) && httpsOption.equalsIgnoreCase("YES") ? "https" : "http";
+        String scheme = this.isHttpsHost(this.settings) ? "https" : "http";
         for (String hostString : esHosts) {
             List<String> hostAndPort = Splitter.on(":").trimResults().splitToList(hostString);
             hostList.add(new HttpHost(hostAndPort.get(0), Integer.parseInt(hostAndPort.get(1)), scheme));
         }
         return hostList;
+    }
+
+    private boolean isHttpsHost(Map<String, String> settings) {
+        String httpsOption = Optional.ofNullable(settings).map(v -> v.get("https")).orElse(null);
+        return "YES".equalsIgnoreCase(httpsOption);
     }
 
     public Long getInitTimestamp() {

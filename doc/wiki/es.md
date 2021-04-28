@@ -11,7 +11,8 @@
 其中服务地址填写Elasticsearch服务的地址，如果有多个用英文逗号分隔。其中服务地址格式为: ${ip}:${port}, 注意
 不需要带scheme，举个栗子： 127.0.0.1:80,127.0.0.2:80
 
->注意服务地址端口不能缺省，就算是80端口也需要加上, 而且不能带scheme(http, https)
+> * 注意服务地址端口不能缺省，就算是80端口也需要加上, 而且不能带scheme(http, https)
+> * es开启http-ssl认证时，需要上传`.p12`扩展名ssl证书以及证书密码，如：`elastic-certificates.p12`
 
 ### 2. 添加elasticsearch数据名
 
@@ -20,7 +21,7 @@
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/add-dataname.png" />
 
 数据名在elasticsearch场景可以理解为索引模式，之所以不直接用索引，是因为项目计划不只支持elasticsearch，还会
-支持influxdb等其它数据源类型。索引后缀如果不是标准的时间模式，可以用*号。
+支持influxdb等其它数据源类型。索引后缀如果不是标准的时间模式或者单位小于天的时间模式，可以用*号。
 
 ### 3. 验证查询
 

@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS data_source
     datasource_name VARCHAR(500) NOT NULL COMMENT '数据源名称',
     datasource_type VARCHAR(500) NOT NULL COMMENT '数据源类型。(Elasticsearch, Influxdb)',
     service_address VARCHAR(500) NOT NULL COMMENT '数据源服务地址',
-    properties      VARCHAR(2000) COMMENT '附加属性。json格式',
+    properties      text                  COMMENT '附加属性。json格式',
     creator         VARCHAR(200) NOT NULL COMMENT '创建人',
     create_at       DATETIME     NOT NULL COMMENT '创建时间',
     modifier        VARCHAR(200) NOT NULL COMMENT '修改人',

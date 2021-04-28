@@ -388,10 +388,11 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~报警消息头文字支持自定义配置~~ [2021-04-17]
 * ~~短链接增加百度短链接支持~~ [2021-04-17]
 * ~~修复用户编辑输入无效的问题~~ [2021-04-17]
-* Elasticsearch数据源支持HTTPS [issue#35](https://github.com/AutohomeCorp/frostmourne/issues/35)
+* ~~Elasticsearch数据源支持HTTPS~~ [2021-04-28] [issue#35](https://github.com/AutohomeCorp/frostmourne/issues/35)
 * InfluxDB支持用户名密码
 * 报警消息格式增加类型: text, markdown选项
 * Elasticsearch数据名增加查询显示字段配置
+* 增加clickhouse数据监控报警支持
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * 增加skywalking数据监控报警支持
 * 增加本监控平台使用案例文档
