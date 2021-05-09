@@ -10,6 +10,8 @@ import com.autohome.frostmourne.monitor.service.core.metric.elasticsearch.Elasti
 import com.autohome.frostmourne.monitor.service.core.metric.elasticsearch.ElasticsearchSameTimeMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.influxdb.InfluxdbNumericMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.influxdb.InfluxdbSameTimeMetric;
+import com.autohome.frostmourne.monitor.service.core.metric.jdbc.ClickhouseNumericMetric;
+import com.autohome.frostmourne.monitor.service.core.metric.jdbc.ClickhouseSameTimeMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.jdbc.MysqlNumericMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.jdbc.MysqlSameTimeMetric;
 import com.autohome.frostmourne.monitor.service.core.query.IInfluxdbDataQuery;
@@ -32,6 +34,10 @@ public class CoreConfig {
     private MysqlNumericMetric mysqlNumericMetric;
     @Autowired
     private MysqlSameTimeMetric mysqlSameTimeMetric;
+    @Autowired
+    private ClickhouseNumericMetric clickhouseNumericMetric;
+    @Autowired
+    private ClickhouseSameTimeMetric clickhouseSameTimeMetric;
 
     @Bean
     public Map<String, IRule> ruleMap() {
@@ -94,6 +100,14 @@ public class CoreConfig {
         Map<String, IMetric> metricMap = new HashMap<>();
         metricMap.put("numeric", mysqlNumericMetric);
         metricMap.put("same_time", mysqlSameTimeMetric);
+        return metricMap;
+    }
+
+    @Bean(name = "clickhouseMetricMap")
+    public Map<String, IMetric> clickhouseMetricMap() {
+        Map<String, IMetric> metricMap = new HashMap<>();
+        metricMap.put("numeric", clickhouseNumericMetric);
+        metricMap.put("same_time", clickhouseSameTimeMetric);
         return metricMap;
     }
 

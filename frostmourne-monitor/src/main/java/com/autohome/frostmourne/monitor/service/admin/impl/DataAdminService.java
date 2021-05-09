@@ -75,7 +75,8 @@ public class DataAdminService implements IDataAdminService {
                 if (!reloadResult) {
                     return false;
                 }
-            } else if (dataSource.getDatasourceType().equalsIgnoreCase("mysql")) {
+            } else if (dataSource.getDatasourceType().equalsIgnoreCase("mysql")
+                    || dataSource.getDatasourceType().equalsIgnoreCase("clickhouse")) {
                 boolean reloadResult = dataSourceJdbcManager.putDataSource(dataSourceContract);
                 if (!reloadResult) {
                     return false;

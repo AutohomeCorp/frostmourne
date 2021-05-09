@@ -19,6 +19,7 @@
         <mybatis-spring-boot-starter.version>2.1.1</mybatis-spring-boot-starter.version>
         <feign-okhttp.version>10.1.0</feign-okhttp.version>
         <opencsv.version>2.3</opencsv.version>
+        <clickhouse-jdbc.version>0.3.1</clickhouse-jdbc.version>
     </properties>
 
     <dependencies>
@@ -86,6 +87,12 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>ru.yandex.clickhouse</groupId>
+            <artifactId>clickhouse-jdbc</artifactId>
+            <version>${clickhouse-jdbc.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
