@@ -18,6 +18,9 @@ public class MetricService implements IMetricService {
     private Map<String, IMetric> mysqlMetricMap;
 
     @Resource
+    private Map<String, IMetric> clickhouseMetricMap;
+
+    @Resource
     private HttpMetric httpMetric;
 
     public IMetric findMetric(String dataSourceType, String metricType) {
@@ -41,6 +44,12 @@ public class MetricService implements IMetricService {
                 throw new IllegalArgumentException("not supported mysql metricType: " + metricType);
             }
             return mysqlMetricMap.get(metricType);
+        }
+        if (dataSourceType.equalsIgnoreCase("clickhouse")) {
+            if (!clickhouseMetricMap.containsKey(metricType)) {
+                throw new IllegalArgumentException("not supported clickhouse metricType: " + metricType);
+            }
+            return clickhouseMetricMap.get(metricType);
         }
 
         throw new IllegalArgumentException(String.format("unknown dataSourceType:  %s, metricType: %s", dataSourceType, metricType));

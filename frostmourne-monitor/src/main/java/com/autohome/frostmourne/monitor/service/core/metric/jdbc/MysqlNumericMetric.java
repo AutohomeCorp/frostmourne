@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class MysqlNumericMetric extends AbstractNumericMetric {
 
     @Autowired
-    private IMysqlDataQuery mysqlDataQuery;
+    protected IMysqlDataQuery mysqlDataQuery;
 
     @Override
     public MetricData pullMetricData(DateTime start,

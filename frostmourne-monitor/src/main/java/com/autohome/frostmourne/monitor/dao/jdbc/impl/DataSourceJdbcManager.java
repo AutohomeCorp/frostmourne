@@ -15,8 +15,6 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
 
     private static final Logger log = LoggerFactory.getLogger(DataSourceJdbcManager.class);
 
-    private static final String DRIVER_MYSQL = "com.mysql.cj.jdbc.Driver";
-
     private ConcurrentHashMap<String, DruidDataSource> dataSourceCache;
 
     @Override
@@ -96,7 +94,11 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
 
     private DruidDataSource createDataSource(DataSourceContract dataSourceContract) throws SQLException {
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setDriverClassName(DataSourceJdbcType.MYSQL.getDriverClassName());
+        if ("clickhouse".equalsIgnoreCase(dataSourceContract.getDatasourceType())) {
+            dataSource.setDriverClassName(DataSourceJdbcType.CLICKHOUSE.getDriverClassName());
+        } else {
+            dataSource.setDriverClassName(DataSourceJdbcType.MYSQL.getDriverClassName());
+        }
         dataSource.setUrl(dataSourceContract.getServiceAddress());
         dataSource.setUsername(dataSourceContract.getSettings().get("username"));
         dataSource.setPassword(dataSourceContract.getSettings().get("password"));
