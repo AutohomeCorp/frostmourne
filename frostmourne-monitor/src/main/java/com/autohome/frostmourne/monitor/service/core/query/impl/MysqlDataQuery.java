@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 public class MysqlDataQuery implements IMysqlDataQuery {
 
     @Autowired
-    private IJdbcDao jdbcDao;
+    protected IJdbcDao jdbcDao;
 
     @Override
     public MetricData queryMetricValue(DateTime start,
@@ -35,11 +35,11 @@ public class MysqlDataQuery implements IMysqlDataQuery {
         }
         if (start != null) {
             sb.append(" and ").append(timeField).append(">=?");
-            argList.add(start.toDate());
+            argList.add(this.formatDateParam(start));
         }
         if (end != null) {
             sb.append(" and ").append(timeField).append("<?");
-            argList.add(end.toDate());
+            argList.add(this.formatDateParam(end));
         }
         String sql = sb.toString();
         Object[] args = argList.toArray();
@@ -57,9 +57,19 @@ public class MysqlDataQuery implements IMysqlDataQuery {
         return result;
     }
 
-    private long collectResult(MetricContract metricContract,
-                               String sql,
-                               Object[] args) {
+    /**
+     * 格式化日期类型参数
+     *
+     * @param date 日期参数
+     * @return 格式化后的参数
+     */
+    protected Object formatDateParam(DateTime date) {
+        return date.toDate();
+    }
+
+    protected long collectResult(MetricContract metricContract,
+                                 String sql,
+                                 Object[] args) {
         String collectSql = "select count(*) cnt from (" + sql + ") t";
         List<Map<String, Object>> collectResult = jdbcDao.query(metricContract.getDataNameContract(),
                 metricContract.getDataSourceContract(),
@@ -71,9 +81,9 @@ public class MysqlDataQuery implements IMysqlDataQuery {
         return 0L;
     }
 
-    private Map<String, Object> queryLatestDocument(MetricContract metricContract,
-                                                    String sql,
-                                                    Object[] args) {
+    protected Map<String, Object> queryLatestDocument(MetricContract metricContract,
+                                                      String sql,
+                                                      Object[] args) {
         String querySql = sql + " order by " + metricContract.getDataNameContract().getTimestampField() + " desc limit 1";
         List<Map<String, Object>> collectResult = jdbcDao.query(metricContract.getDataNameContract(),
                 metricContract.getDataSourceContract(), querySql, args);

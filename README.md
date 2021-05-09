@@ -8,7 +8,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 主要功能
 
-* Elasticsearch数据， InfluxDB数据, Mysql数据监控, 你只需要写一条查询就可以轻松搞定监控
+* Elasticsearch,InfluxDB,Mysql,ClickHouse数据监控,, 你只需要写一条查询就可以轻松搞定监控
 * 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
 * 数值同比监控
 * HTTP数据监控, js表达式判断是否报警
@@ -16,7 +16,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 监控管理，测试，另存。执行日志，历史消息。
 * 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), HTTP请求)
-* 多数据源(Elasticsearch, InfluxDB, Mysql)支持
+* 多数据源(Elasticsearch, InfluxDB, Mysql, ClickHouse)支持
 * Elasticsearch数据查询,分享,下载
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
@@ -389,10 +389,10 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~短链接增加百度短链接支持~~ [2021-04-17]
 * ~~修复用户编辑输入无效的问题~~ [2021-04-17]
 * ~~Elasticsearch数据源支持HTTPS~~ [2021-04-28] [issue#35](https://github.com/AutohomeCorp/frostmourne/issues/35)
+* ~~增加clickhouse数据监控报警支持~~ [2021-05-09]
 * InfluxDB支持用户名密码
 * 报警消息格式增加类型: text, markdown选项
 * Elasticsearch数据名增加查询显示字段配置
-* 增加clickhouse数据监控报警支持
 * 内置实现一个短链接功能，移除外部短链接服务依赖
 * 增加skywalking数据监控报警支持
 * 增加本监控平台使用案例文档
@@ -471,7 +471,7 @@ The project is licensed under the [MIT](LICENSE).
 
 如果你觉得这个项目对你有所帮助想有所回馈，非常欢迎参与贡献。可以通过如下方式：
 
-* 顺手star一下
+* 顺手star表示鼓励
 * 帮忙扩散推广
 * 部署本项目使用起来并通过[issue#17](https://github.com/AutohomeCorp/frostmourne/issues/17)告知
 * 在issue提出你的宝贵建议

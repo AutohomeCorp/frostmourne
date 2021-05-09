@@ -4,24 +4,24 @@ import java.util.Map;
 
 import com.autohome.frostmourne.monitor.contract.MetricContract;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
-import com.autohome.frostmourne.monitor.service.core.metric.AbstractSameTimeMetric;
-import com.autohome.frostmourne.monitor.service.core.query.IMysqlDataQuery;
+import com.autohome.frostmourne.monitor.service.core.metric.AbstractNumericMetric;
+import com.autohome.frostmourne.monitor.service.core.query.IClickhouseDataQuery;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MysqlSameTimeMetric extends AbstractSameTimeMetric {
+public class ClickhouseNumericMetric extends AbstractNumericMetric {
 
     @Autowired
-    protected IMysqlDataQuery mysqlDataQuery;
+    private IClickhouseDataQuery dataQuery;
 
     @Override
     public MetricData pullMetricData(DateTime start,
                                      DateTime end,
                                      MetricContract metricContract,
                                      Map<String, String> ruleSettings) {
-        return mysqlDataQuery.queryMetricValue(start, end, metricContract);
+        return dataQuery.queryMetricValue(start, end, metricContract);
     }
 
 }
