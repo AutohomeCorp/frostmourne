@@ -3,7 +3,9 @@ package com.autohome.frostmourne.monitor.controller;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,6 +51,19 @@ public class DataQueryController {
         }
         ElasticsearchDataResult elasticsearchDataResult = queryService.elasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, intervalInSeconds);
         return new Protocol<>(elasticsearchDataResult);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/elasticsearchFields")
+    public Protocol<List<String>> elasticsearchFields(@RequestParam(value = "_appId", required = true) String _appId,
+                                                      @RequestParam(value = "dataName", required = true) String dataName) {
+        try {
+            List<String> fields = queryService.elasticsearchFields(dataName);
+            return new Protocol<>(fields);
+        } catch (Exception e) {
+            LOGGER.error("获取es索引字段列表失败: dataName={}, error={}", dataName, e.getMessage(), e);
+            return new Protocol<>(Collections.emptyList(), 0, "数据读取失败");
+        }
     }
 
     @ResponseBody

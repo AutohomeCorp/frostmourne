@@ -56,9 +56,61 @@ status == "yellow" || status == "red" || number_of_nodes != 5
 日志elasticsearch集群状态异常。status: red， number_of_nodes: 2
 ```
 
-### 创建一个简单的HTTP监控作为第一个监控，对熟悉项目功能非常有帮助
+### 利用HTTP监控prometheus数据举例
 
-上面是一个非常简单的使用案例，HTTP可以有更为复杂的使用方法，比如：elasticsearch 有丰富的 rest api，都是可以用HTTP方式
+prometheus自带HTTP API，可以非常方便得使用HTTP监控里面得数据。下面举例说明。
+
+假设local.prometheus.com是prometheus使用的域名。那么查询语句可以这么写
+```
+http://local.prometheus.com/api/v1/query?query=sum by(cluster_name,cluster_env,pod) (kube_pod_info{pod_ip="127.0.0.1"})
+```
+
+点击预览数据可以看到返回的数据。
+
+```
+{
+    "data": {
+        "resultType": "vector",
+        "result": [
+            {
+                "metric": {
+                    "cluster_env": "prod",
+                    "cluster_name": "cluster-1",
+                    "pod": "my-api-fsfsf-fbbp"
+                },
+                "value": [
+                    1621938928.222,
+                    "1"
+                ]
+            }
+        ]
+    },
+    "HTTP_STATUS": 200,
+    "HTTP_COST": 65,
+    "status": "success"
+}
+```
+
+这样返回的json数据就可以用表达式来判断是否报警了
+
+```
+data.result[0].value[1] > 0
+```
+
+报警模板也可以根据返回的json定制消息。例如：
+
+```
+存在不合法的pod。
+环境: ${data.result[0].metric.cluster_env}
+集群名称: ${data.result[0].metric.cluster_name}
+pod: ${data.result[0].metric.pod}
+```
+
+这样一个prometheus数据监控就完成了，非常简便而且强大，快点试试。
+
+### 用HTTP监控复杂Elasticsearch Aggregation数据
+
+HTTP可以有更为复杂的使用方法，比如：elasticsearch 有丰富的 rest api，都是可以用HTTP方式
 来获取到结果然后监控报警的。例如：
 
 ```
@@ -143,7 +195,7 @@ POST http://localhost:9200/applog-*/_search
 hits.total > 1
 ```
 
-influxdb和prometheus都自带HTTP API支持，都可以用HTTP监控。
+InfluxDb也有自带HTTP服务，同样可以使用HTTP来实现InfluxDB数据监控，非常方便，自己试试吧。
 
 ### 自定义HTTP监控
 

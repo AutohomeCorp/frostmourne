@@ -84,6 +84,28 @@
           <el-input v-model="editData.settings.timePattern" placeholder="可空。举例: yyyyMMdd。最小单位到天, 小于天请用*表示" autocomplete="off" />
         </el-form-item>
 
+        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="显示字段" :label-width="formLabelWidth">
+          <el-tag
+            :key="tag"
+            v-for="tag in esFieldTags.dynamicTags"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)">
+            {{tag}}
+          </el-tag>
+          <el-input
+            class="input-new-tag"
+            v-if="esFieldTags.inputVisible"
+            v-model="esFieldTags.inputValue"
+            ref="saveTagInput"
+            size="mini"
+            @keyup.enter.native="handleInputConfirm"
+            @blur="handleInputConfirm"
+          >
+          </el-input>
+          <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加</el-button>
+        </el-form-item>
+
         <el-form-item v-if="editData.datasourceType === 'influxdb'" label="Database" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.database" autocomplete="off" />
         </el-form-item>
@@ -145,6 +167,11 @@ export default {
         datasourceType: [
           { required: true, message: '请选择数据类型', trigger: 'change' }
         ]
+      },
+      esFieldTags: {
+        dynamicTags: [],
+        inputVisible: false,
+        inputValue: ''
       }
     }
   },
@@ -175,7 +202,6 @@ export default {
     },
     edit (row) {
       if (row != null) {
-        console.log(row)
         this.disableEdit = true
         dataApi.findDataSourceByType(row.datasourceType).then(response => {
           this.dialogDatasourceList = response.result
@@ -188,6 +214,12 @@ export default {
         this.editData.dataSourceId = row.dataSourceId
         this.editData.settings = row.settings
         this.disableTypeSelect = true
+        if(row.settings.headFields) {
+          this.esFieldTags.dynamicTags = row.settings.headFields.split(',')
+        } else {
+          this.esFieldTags.dynamicTags = []
+        }
+        
       } else {
         this.disableEdit = false
         this.editData = {
@@ -200,6 +232,9 @@ export default {
           settings: {}
         }
         this.disableTypeSelect = false
+        this.esFieldTags.dynamicTags = []
+        this.esFieldTags.inputVisible = false
+        this.esFieldTags.inputValue = ''
       }
 
       this.dialogFormVisible = true
@@ -213,6 +248,7 @@ export default {
         if (!validate) {
           return false
         }
+        this.editData.settings.headFields = this.esFieldTags.dynamicTags.join(',')
         dataApi.saveDataName(this.editData).then(response => {
           this.dialogFormVisible = false
           this.fetchData()
@@ -257,6 +293,25 @@ export default {
     },
     showEditDataTimestampField () {
       return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql' || this.editData.datasourceType === 'clickhouse'
+    },
+    handleClose(tag) {
+        this.esFieldTags.dynamicTags.splice(this.esFieldTags.dynamicTags.indexOf(tag), 1);
+    },
+
+    showInput() {
+      this.esFieldTags.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+
+    handleInputConfirm() {
+      let inputValue = this.esFieldTags.inputValue;
+      if (inputValue) {
+        this.esFieldTags.dynamicTags.push(inputValue);
+      }
+      this.esFieldTags.inputVisible = false;
+      this.esFieldTags.inputValue = '';
     }
   }
 }

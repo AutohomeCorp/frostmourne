@@ -18,6 +18,7 @@ import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceMan
 import com.autohome.frostmourne.monitor.dao.elasticsearch.EsRestClientContainer;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import com.autohome.frostmourne.monitor.service.core.query.IElasticsearchDataQuery;
+import com.google.common.base.Splitter;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchScrollRequest;
@@ -58,11 +59,16 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
     @Resource
     private ElasticsearchSourceManager elasticsearchSourceManager;
 
+    EsRestClientContainer findEsRestClientContainer(DataSourceContract dataSourceContract) {
+        ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo(dataSourceContract);
+        return elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
+    }
+
+    @Override
     public ElasticsearchDataResult query(DataNameContract dataNameContract, DataSourceContract dataSourceContract,
                                          DateTime start, DateTime end, String esQuery, String scrollId,
                                          String sortOrder, Integer intervalInSeconds) {
-        ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo(dataSourceContract);
-        EsRestClientContainer esRestClientContainer = elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
+        EsRestClientContainer esRestClientContainer = this.findEsRestClientContainer(dataSourceContract);
         DateTime queryEnd = end;
         if (queryEnd.getMillis() > System.currentTimeMillis()) {
             queryEnd = DateTime.now();
@@ -113,7 +119,12 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         } catch (IOException ex) {
             throw new ProtocolException(520, "error when search elasticsearch data", ex);
         }
-        ElasticsearchDataResult elasticsearchDataResult = parseResult(searchResponse, dataNameContract.getTimestampField());
+        List<String> headFieldList = null;
+        if (dataNameContract.getSettings() != null && dataNameContract.getSettings().containsKey("headFields")) {
+            String headFieldStr = dataNameContract.getSettings().get("headFields");
+            headFieldList = Splitter.on(",").splitToList(headFieldStr);
+        }
+        ElasticsearchDataResult elasticsearchDataResult = parseResult(searchResponse, dataNameContract.getTimestampField(), headFieldList);
         if (Strings.isNullOrEmpty(scrollId) && elasticsearchDataResult.getTotal() == 0) {
             try {
                 long total = esRestClientContainer.totalCount(boolQueryBuilder, indices);
@@ -125,10 +136,23 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         return elasticsearchDataResult;
     }
 
+    @Override
+    public List<String> queryMappingFileds(DataNameContract dataNameContract,
+                                           DataSourceContract dataSourceContract) {
+        EsRestClientContainer esRestClientContainer = this.findEsRestClientContainer(dataSourceContract);
+
+        try {
+            String index = dataNameContract.getSettings().get("indexPrefix") + "*";
+            return esRestClientContainer.fetchAllMappingFields(index);
+        } catch (Exception e) {
+            throw new RuntimeException("getMapping error: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
     public MetricData queryElasticsearchMetricValue(DateTime start, DateTime end, MetricContract metricContract) throws IOException {
         MetricData elasticsearchMetric = new MetricData();
-        ElasticsearchInfo elasticsearchInfo = new ElasticsearchInfo(metricContract.getDataSourceContract());
-        EsRestClientContainer esRestClientContainer = elasticsearchSourceManager.findEsRestClientContainer(elasticsearchInfo);
+        EsRestClientContainer esRestClientContainer = this.findEsRestClientContainer(metricContract.getDataSourceContract());
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
                 .must(new QueryStringQueryBuilder(metricContract.getQueryString()))
                 .must(QueryBuilders.rangeQuery(metricContract.getDataNameContract().getTimestampField())
@@ -235,7 +259,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         throw new IllegalArgumentException("unsupported aggregation type: " + aggType);
     }
 
-    private ElasticsearchDataResult parseResult(SearchResponse searchResponse, String timestampField) {
+    private ElasticsearchDataResult parseResult(SearchResponse searchResponse, String timestampField, List<String> headFields) {
         ElasticsearchDataResult dataResult = new ElasticsearchDataResult();
         dataResult.setTimestampField(timestampField);
         dataResult.setScrollId(searchResponse.getScrollId());
@@ -244,14 +268,19 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         for (SearchHit hit : searchResponse.getHits()) {
             logs.add(hit.getSourceAsMap());
             if (dataResult.getFields() == null) {
-                List<String> flatFields = findFields(hit.getSourceAsMap(), null);
-                dataResult.setFlatFields(flatFields);
                 dataResult.setFields(new ArrayList<>(hit.getSourceAsMap().keySet()));
-                if (flatFields.size() > 7) {
-                    dataResult.setHeadFields(flatFields.subList(0, 6));
+                if (headFields == null || headFields.size() == 0) {
+                    List<String> flatFields = findFields(hit.getSourceAsMap(), null);
+                    dataResult.setFlatFields(flatFields);
+                    if (flatFields.size() > 7) {
+                        dataResult.setHeadFields(flatFields.subList(0, 6));
+                    } else {
+                        dataResult.setHeadFields(flatFields);
+                    }
                 } else {
-                    dataResult.setHeadFields(flatFields);
+                    dataResult.setHeadFields(headFields);
                 }
+
             }
         }
         dataResult.setLogs(logs);

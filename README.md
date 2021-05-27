@@ -8,15 +8,15 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 主要功能
 
-* Elasticsearch,InfluxDB,Mysql,ClickHouse数据监控,, 你只需要写一条查询就可以轻松搞定监控
-* 多种数值聚合类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
+* 只需要写一条数据查询就可以轻松搞定监控
+* 多数据源(Elasticsearch, InfluxDB, Mysql, ClickHouse)支持
+* 多种数值计算类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
 * 数值同比监控
 * HTTP数据监控, js表达式判断是否报警
 * UI功能，简单易用
 * 监控管理，测试，另存。执行日志，历史消息。
 * 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), HTTP请求)
-* 多数据源(Elasticsearch, InfluxDB, Mysql, ClickHouse)支持
 * Elasticsearch数据查询,分享,下载
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
@@ -78,15 +78,15 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 但是随着配置的增加，管理成本，使用成本较高和，配置文件多了之后，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
-但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
-clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
+但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控, ClickHouse数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
+iotdb等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
 
 ## 联系我们
 
 有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
 
-<img src="./doc/img/frostmourne-qq.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-qq.png" />
 
 ## 快速启动
 
@@ -99,7 +99,60 @@ clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多
 
 ## HTTP类型监控指南
 
-除了Elasticsearch数据监控，还提供了HTTP监控，使用起来非常灵活方便，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
+HTTP数据监控，非常灵活强大，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
+
+## 利用HTTP监控prometheus数据举例
+
+prometheus自带HTTP API，可以非常方便得使用HTTP监控数据。下面举例说明。
+
+假设local.prometheus.com是prometheus使用的域名。那么查询语句可以这么写
+
+```
+http://local.prometheus.com/api/v1/query?query=sum by(cluster_name,cluster_env,pod) (kube_pod_info{pod_ip="127.0.0.1"})
+```
+
+点击预览数据可以看到返回的数据。
+
+```
+{
+    "data": {
+        "resultType": "vector",
+        "result": [
+            {
+                "metric": {
+                    "cluster_env": "prod",
+                    "cluster_name": "cluster-1",
+                    "pod": "my-api-fsfsf-fbbp"
+                },
+                "value": [
+                    1621938928.222,
+                    "1"
+                ]
+            }
+        ]
+    },
+    "HTTP_STATUS": 200,
+    "HTTP_COST": 65,
+    "status": "success"
+}
+```
+
+这样返回的json数据就可以用表达式来判断是否报警了
+
+```
+data.result[0].value[1] > 0
+```
+
+报警模板也可以根据返回的json定制消息。例如：
+
+```
+存在不合法的pod。
+环境: ${data.result[0].metric.cluster_env}
+集群名称: ${data.result[0].metric.cluster_name}
+pod: ${data.result[0].metric.pod}
+```
+
+这样一个prometheus数据监控就完成了，非常简便而且强大，快点试试。
 
 ## InfluxDB数据监控指南
 
@@ -108,6 +161,10 @@ clickhouse等)纳入监控范畴，需要做的东西还有很多，需要更多
 ## Mysql数据监控指南
 
 <a href="./doc/wiki/jdbc-mysql.md" target="_blank">Mysql数据监控指南</a>
+
+## Clickhouse数据监控指南
+
+<a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">Clickhouse数据监控指南</a>
 
 ## 数值同比监控使用指南
 
@@ -390,11 +447,22 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~修复用户编辑输入无效的问题~~ [2021-04-17]
 * ~~Elasticsearch数据源支持HTTPS~~ [2021-04-28] [issue#35](https://github.com/AutohomeCorp/frostmourne/issues/35)
 * ~~增加clickhouse数据监控报警支持~~ [2021-05-09]
-* InfluxDB支持用户名密码
+* ~~InfluxDB支持用户名密码设置~~ [2021-05-09]
+* ~~doc: 增加clickhouse数据监控报警使用指南~~ [2021-05-11]
+* ~~http方式发送消息，post内容增加监控上下文数据字段context~~ [2021-05-11]
+* ~~Elasticsearch数据名增加查询显示字段配置~~ [2021-05-27]
+* 编辑Elasticsearch监控增加索引字段下拉提示
+* Elasticsearch数据名增加traceid字段配置，可以配置为skywalking的traceId，显示skywalking traceid的时候，增加连接，跳转到skywalking对应的调用链
 * 报警消息格式增加类型: text, markdown选项
-* Elasticsearch数据名增加查询显示字段配置
-* 内置实现一个短链接功能，移除外部短链接服务依赖
-* 增加skywalking数据监控报警支持
+* 数据配置支持数据分组，分组类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
+* 增加prometheus数据监控报警支持
+* 内置实现一个短链接功能，移除外部短链接服务依赖，外部短链接服务请求比较慢
+* 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
+* 增加[iotdb](https://github.com/apache/iotdb)数据监控
+* mysql数据监控增加除count外其他聚合类型支持
+* clickhouse数据监控增加除count外其他聚合类型支持
+* 报警增加持续周期设置，可以配置为连续X次触发报警才发送消息，否则只记录不发送。用在不想收到那种偶发性的
+抖动产生报警消息的情况
 * 增加本监控平台使用案例文档
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
@@ -405,17 +473,14 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 制作符合docker和springboot应用容器部署最佳实践的docker镜像(欢迎PR)
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
-* 报警增加持续周期设置，可以配置为连续X次触发报警才发送消息，否则只记录不发送。用在不想收到那种偶发性的
-抖动产生报警消息的情况
 * Elasticsearch监控数值实现环比监控
 * 发布0.4-RELEASE
-* 增加prometheus数据监控报警支持
+* 增加时序数据历史数据比较规则
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)
 * 更多报警方式补充（欢迎PR）
 * 后端接口增加数据校验并返回合适的提示信息
 * Elasticsearch索引字段自动获取
-* 更新在线demo至最新
 * 监控列表增加一个开关选项，只显示我的监控
 * 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
@@ -427,8 +492,8 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 增加frostmourne程序日志格式采集方案
 * 增加frostmourne程序日志查询和分析功能
 * 3-sigma离群点检测报警规则
-* 加入更为复杂的时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
-* 移除xxl-job依赖，内置实现监控调度，减小部署难度(待定)
+* 加入时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
+* 移除xxl-job依赖，内置实现分布式监控调度，减小部署难度(待定)
 
 ## 发版历史
 

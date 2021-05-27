@@ -25,8 +25,10 @@ public class InfluxdbDataQuery implements IInfluxdbDataQuery {
     public MetricData queryMetricData(DateTime start, DateTime end, MetricContract metricContract) {
         String influxDbAddress = metricContract.getDataSourceContract().getServiceAddress();
         String db = metricContract.getDataNameContract().getSettings().get("database");
+        String user = metricContract.getDataSourceContract().getSettings().get("username");
+        String password = metricContract.getDataSourceContract().getSettings().get("password");
         String query = buildQuery(start, end, metricContract);
-        InfluxdbResponse influxdbResponse = influxdbDao.query(influxDbAddress, db, query);
+        InfluxdbResponse influxdbResponse = influxdbDao.query(influxDbAddress, db, query, user, password);
         MetricData metricData = new MetricData();
         try {
             Object count = influxdbResponse.getResults().get(0).getSeries().get(0).getValues().get(0).get(1);

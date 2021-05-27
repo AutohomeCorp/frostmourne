@@ -1,12 +1,15 @@
 package com.autohome.frostmourne.spi.starter.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class AlarmMessage {
 
     private String title;
 
     private String content;
+
+    private Map<String, Object> context;
 
     private List<AccountInfo> recipients;
 
@@ -72,5 +75,13 @@ public class AlarmMessage {
 
     public void setWechatHook(String wechatHook) {
         this.wechatHook = wechatHook;
+    }
+
+    public Map<String, Object> getContext() {
+        return context;
+    }
+
+    public void setContext(Map<String, Object> context) {
+        this.context = context;
     }
 }
