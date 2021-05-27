@@ -8,12 +8,15 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.net.ssl.SSLContext;
 
+import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Splitter;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpHost;
@@ -23,11 +26,14 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest;
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.RequestExtendConverters;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
@@ -39,7 +45,6 @@ import org.elasticsearch.client.sniff.Sniffer;
 import org.elasticsearch.cluster.health.ClusterHealthStatus;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.Strings;
-import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -149,12 +154,46 @@ public class EsRestClientContainer {
         return response.getStatus() == ClusterHealthStatus.GREEN;
     }
 
+    public List<String> fetchAllMappingFields(String index) throws IOException {
+        Map<String, Map<String, Map<String, Map<String, Object>>>> mappings = this.fetchAllMappings(index);
+        if (mappings == null || mappings.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return mappings.entrySet().stream()
+                .flatMap(e -> e.getValue().values().stream())
+                .flatMap(e -> e.get("properties").keySet().stream())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public Map<String, Map<String, Map<String, Map<String, Object>>>> fetchAllMappings(String index) throws IOException {
+        GetMappingsRequest mappingsRequest = new GetMappingsRequest();
+        mappingsRequest.indices(index);
+
+        Request req = RequestExtendConverters.getMappings(mappingsRequest);
+        req.setOptions(RequestOptions.DEFAULT);
+        // 兼容低版本es服务端
+        Response resp = restLowLevelClient.performRequest(req);
+        return this.parseMappingsFromResponse(resp);
+    }
+
+    Map<String, Map<String, Map<String, Map<String, Object>>>> parseMappingsFromResponse(Response response) throws IOException {
+        String value = EntityUtils.toString(response.getEntity());
+        Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> result = JacksonUtil.deSerialize(value,
+                new TypeReference<Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>>>() {
+                });
+        // 取"mappings"节点组合
+        return result.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().get("mappings"), (v1, v2) -> v1));
+    }
+
     public MappingMetaData fetchMapping(String index) throws IOException {
         GetMappingsRequest mappingsRequest = new GetMappingsRequest();
         mappingsRequest.indices(index);
-        GetMappingsResponse mappingsResponse = restHighLevelClient.indices().getMapping(mappingsRequest, RequestOptions.DEFAULT);
-        ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetaData>> allMappings = mappingsResponse.getMappings();
-        return allMappings.values().iterator().next().value.values().iterator().next().value;
+        // 低版本es服务端可能不支持
+        GetMappingsResponse response = restHighLevelClient.indices().getMapping(mappingsRequest, RequestOptions.DEFAULT);
+        return response.mappings().values().iterator().next().value.values().iterator().next().value;
     }
 
     public void close() {

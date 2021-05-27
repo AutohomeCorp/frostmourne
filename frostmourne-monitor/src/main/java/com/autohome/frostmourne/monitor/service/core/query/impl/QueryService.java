@@ -45,6 +45,7 @@ public class QueryService implements IQueryService {
     @Resource
     private IDataAdminService dataAdminService;
 
+    @Override
     public ElasticsearchDataResult elasticsearchQuery(String dataName, Date startTime, Date endTime, String esQuery,
                                                       String scrollId, String sortOrder, Integer intervalInSeconds) {
         if (intervalInSeconds == null || intervalInSeconds == 0) {
@@ -56,6 +57,13 @@ public class QueryService implements IQueryService {
         ElasticsearchDataResult elasticsearchDataResult = elasticsearchDataQuery.query(dataNameContract, dataSourceContract,
                 new DateTime(startTime), new DateTime(endTime), esQuery, scrollId, sortOrder, intervalInSeconds);
         return elasticsearchDataResult;
+    }
+
+    @Override
+    public List<String> elasticsearchFields(String dataName) {
+        DataNameContract dataNameContract = dataAdminService.findDataNameByName(dataName);
+        DataSourceContract dataSourceContract = dataAdminService.findDatasourceById(dataNameContract.getDataSourceId());
+        return elasticsearchDataQuery.queryMappingFileds(dataNameContract, dataSourceContract);
     }
 
     @Override

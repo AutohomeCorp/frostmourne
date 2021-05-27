@@ -140,6 +140,7 @@ public class MessageService implements IMessageService {
             data.put("recipients", alarmMessage.getRecipients());
             data.put("content", alarmMessage.getContent());
             data.put("title", alarmMessage.getTitle());
+            data.put("context", alarmMessage.getContext());
             HttpEntity<Map<String, Object>> request = new HttpEntity<>(data, headers);
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(httpPostEndPoint, request, String.class);
             return responseEntity.getStatusCode() == HttpStatus.OK;

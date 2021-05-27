@@ -14,6 +14,9 @@
 * 短链接增加百度短链接支持 [2021-04-17]
 * Elasticsearch数据源支持HTTPS [2021-04-28] [issue#35](https://github.com/AutohomeCorp/frostmourne/issues/35)
 * 增加clickhouse数据监控报警支持 [2021-05-09]
+* InfluxDB支持用户名密码设置 [2021-05-09]
+* http方式发送消息，post内容增加监控上下文数据字段context [2021-05-11]
+* Elasticsearch数据名增加查询显示字段配置 [2021-05-27]
 
 ### Bugfix
 
@@ -32,6 +35,7 @@
 
 * doc: 增加influxdb数据监控使用指南 [2020-09-24]
 * doc: 增加mysql数据监控使用指南 [2020-09-24]
+* doc: 增加clickhouse数据监控报警使用指南 [2021-05-11]
 
 # 0.3-RELEASE
 

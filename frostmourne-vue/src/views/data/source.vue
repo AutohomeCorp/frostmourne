@@ -237,7 +237,8 @@ export default {
       }
     },
     editDataShowUsername () {
-      return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql' || this.editData.datasourceType === 'clickhouse'
+      return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql' ||
+       this.editData.datasourceType === 'clickhouse' || this.editData.datasourceType === 'influxdb'
     },
     editDataShowPassword () {
       return this.editDataShowUsername()
