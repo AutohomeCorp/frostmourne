@@ -8,6 +8,10 @@ const dataQueryApi = {
     return query.post(baseUrl + '/elasticsearchData', condition)
   },
 
+  elasticsearchFields (condition) {
+    return query.post(baseUrl + '/elasticsearchFields', condition)
+  },
+
   shortenLink (longUrl) {
     return query.get(baseUrl + '/shortenLink', { longUrl: longUrl })
   },

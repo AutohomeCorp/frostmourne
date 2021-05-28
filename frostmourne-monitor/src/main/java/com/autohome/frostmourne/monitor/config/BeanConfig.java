@@ -11,6 +11,7 @@ import com.autohome.frostmourne.monitor.service.account.IAuthService;
 import com.autohome.frostmourne.monitor.service.account.impl.DefaultAccountService;
 import com.autohome.frostmourne.monitor.service.account.impl.DefaultAuthService;
 import com.autohome.frostmourne.monitor.service.account.impl.LdapAuthService;
+import okhttp3.OkHttpClient;
 import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +77,12 @@ public class BeanConfig {
     @Bean(initMethod = "init", destroyMethod = "close")
     public IDataSourceJdbcManager dataSourceJdbcManager() {
         return new DataSourceJdbcManager();
+    }
+
+    @Bean(name = "okHttp3Client")
+    public OkHttpClient okHttp3Client() {
+        OkHttpClient client = new OkHttpClient();
+        return client;
     }
 
 }

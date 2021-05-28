@@ -88,7 +88,10 @@
             </el-col>
             <el-col :span="6">
               <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.aggregationType !== 'count'" label="聚合字段:">
-                <el-input v-model="form.metricContract.aggregationField" />
+                <el-autocomplete
+                  v-model="form.metricContract.aggregationField"
+                  class="inline-input"
+                  :fetch-suggestions="searchElasticsearchFields" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -290,6 +293,7 @@ import { teams, search } from '@/api/user'
 import dataApi from '@/api/data.js'
 import alerttemplateApi from '@/api/alert-template.js'
 import serviceinfoApi from '@/api/service-info.js'
+import dataQueryApi from '@/api/data-query.js'
 
 import VueJsonPretty from 'vue-json-pretty'
 
@@ -393,7 +397,8 @@ export default {
       alertTemplateOption: null,
       alertTemplateId: null,
       serviceOptionsLoading: false,
-      serviceOptions: []
+      serviceOptions: [],
+      aggregationFields: []
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -592,6 +597,7 @@ export default {
         this.initAlertTemplateOptions()
         return
       }
+      this.aggregationFields = []
       this.dataSourceType = value[0]
       if (this.dataSourceType === 'http') {
         this.form.metricContract.dataSourceId = 0
@@ -600,6 +606,14 @@ export default {
         this.form.ruleContract.ruleType = 'expression'
         this.initAlertTemplateOptions()
         return
+      } else if (this.dataSourceType === 'elasticsearch') {
+        dataQueryApi.elasticsearchFields({ dataName: value[2] }).then(response => {
+          if (response.returncode === 0 && response.result) {
+            // 转换结构
+            this.aggregationFields = []
+            response.result.forEach(v => this.aggregationFields.push({ value: v }))
+          }
+        })
       }
       this.form.metricContract.dataSourceId = value[1]
       this.form.metricContract.dataName = value[2]
@@ -754,6 +768,16 @@ export default {
           this.serviceOptionsLoading = false
         })
         .catch(e => {})
+    },
+    searchElasticsearchFields (queryString, cb) {
+      var restaurants = this.aggregationFields
+      var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants
+      cb(results)
+    },
+    createFilter (queryString) {
+      return (restaurant) => {
+        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+      }
     }
   }
 }

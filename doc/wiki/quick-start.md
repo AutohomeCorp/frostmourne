@@ -36,10 +36,10 @@ docker-compose up
 ### 第二步：配置参数
 
 请将本项目的[docker-compose.yml](../docker/docker-compose.yml)文件保存到本地目录frostmourne中，看情况修改其中的数据库连接。
-默认是我本地环境，我用的是docker for windows，容器之间通过host.docker.internal来访问主机，如果你和我环境一样，就不用任何改动。  
+默认是我本地环境，我用的是docker for windows，容器之间通过host.docker.internal来访问主机，如果你和我环境一样，就不用任何改动。
 
 如果你是自己的另外mysql实例，请将host.docker.internal修改为你的mysql服务地址，并同时修改mysql用户和密码。注意xxl-job和frostmourne-monitor两个服务都有
-mysql连接配置，都需要修改。  
+mysql连接配置，都需要修改。
 
 然后就是frostmourne-spi服务的邮箱配置和其他相关发送方式相关配置。你可以只先配置邮箱来测试一下，后面再加入其他配置
 
@@ -76,8 +76,10 @@ docker-compose up
 /opt/frostmourne/frostmourne-monitor/logs
 ```
 
-启动成功后。frostmounre-monitor地址为： http://localhost:10054 ;  
-xxl-job-admin地址为: http://localhost:10052/xxl-job-admin ; 
+启动成功后。frostmounre-monitor地址为： http://localhost:10054 ;
+xxl-job-admin地址为: http://localhost:10052/xxl-job-admin ;
+
+
 
 
 
