@@ -95,7 +95,7 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 
 ## 实现简易示意图
 
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/alarm-design.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/alarm_design.png" />
 
 ## Elasticsearch数据监控指南
 
