@@ -17,6 +17,7 @@
 * InfluxDB支持用户名密码设置 [2021-05-09]
 * http方式发送消息，post内容增加监控上下文数据字段context [2021-05-11]
 * Elasticsearch数据名增加查询显示字段配置 [2021-05-27]
+* 编辑Elasticsearch监控增加索引字段下拉提示 [2021-05-28]
 
 ### Bugfix
 

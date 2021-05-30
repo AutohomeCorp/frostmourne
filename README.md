@@ -79,7 +79,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
 但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控, ClickHouse数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
-iotdb等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
+iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
 
 ## 联系我们
 
@@ -92,6 +92,10 @@ iotdb等)纳入监控范畴，需要做的东西还有很多，需要更多相�
 
 提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
 详细请看文档：<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+
+## 实现简易示意图
+
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/alarm-design.png" />
 
 ## Elasticsearch数据监控指南
 
@@ -451,26 +455,25 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~doc: 增加clickhouse数据监控报警使用指南~~ [2021-05-11]
 * ~~http方式发送消息，post内容增加监控上下文数据字段context~~ [2021-05-11]
 * ~~Elasticsearch数据名增加查询显示字段配置~~ [2021-05-27]
-* 编辑Elasticsearch监控增加索引字段下拉提示
+* ~~编辑Elasticsearch监控增加索引字段下拉提示~~ [2021-05-28]
 * Elasticsearch数据名增加traceid字段配置，可以配置为skywalking的traceId，显示skywalking traceid的时候，增加连接，跳转到skywalking对应的调用链
 * 报警消息格式增加类型: text, markdown选项
 * 数据配置支持数据分组，分组类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
-* 增加prometheus数据监控报警支持
-* 内置实现一个短链接功能，移除外部短链接服务依赖，外部短链接服务请求比较慢
+* 内置实现一个短链接功能，移除外部短链接服务依赖，解决外部短链接服务请求比较慢的问题
+* 增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持
 * 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
-* 增加[iotdb](https://github.com/apache/iotdb)数据监控
+* 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
+* 增加[loki](https://github.com/grafana/loki)数据监控报警
 * mysql数据监控增加除count外其他聚合类型支持
 * clickhouse数据监控增加除count外其他聚合类型支持
 * 报警增加持续周期设置，可以配置为连续X次触发报警才发送消息，否则只记录不发送。用在不想收到那种偶发性的
 抖动产生报警消息的情况
-* 增加本监控平台使用案例文档
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面
 * 监控列表增加"执行日志"操作按钮，点击跳转到对应监控执行日志列表页
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
 * 集成测试，单元测试
-* 制作符合docker和springboot应用容器部署最佳实践的docker镜像(欢迎PR)
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
 * Elasticsearch监控数值实现环比监控
@@ -480,7 +483,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)
 * 更多报警方式补充（欢迎PR）
 * 后端接口增加数据校验并返回合适的提示信息
-* Elasticsearch索引字段自动获取
 * 监控列表增加一个开关选项，只显示我的监控
 * 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
