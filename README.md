@@ -433,29 +433,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 目前已知的规划有:
 
-* ~~实现influxdb数值监控~~ [2020-09-19]
-* ~~增加influxdb数值同比监控~~ [2020-09-19]
-* ~~doc: 增加influxdb数据监控使用指南~~ [2020-09-24]
-* ~~bugfix: 解决登录跳转链接没有带上参数的问题~~ [2020-09-26]
-* ~~增加mysql数据监控报警支持~~ [2020-11-15]
-* ~~doc: 增加mysql数据监控报警使用指南~~ [2020-11-15]
-* ~~重构: 抽象一层监控数据读取层，对接新的数据存储只需要实现抽象层接口就可以对接完成~~ [2020-11-20]
-* ~~监控配置增加是否发送恢复通知的开关选项~~ [issue#24](https://github.com/AutohomeCorp/frostmourne/issues/24) [2020-12-05]
-* ~~监控保存逻辑，增加测试运行步骤，测试运行通过后才可以保存~~ [2021-01-11]
-* ~~es数据查询，下载请求改为post，解决可能由于scrollid过长导致请求非法的问题~~ [2021-01-11]
-* ~~解决mysql监控，语句执行报错的问题~~ [issue#32](https://github.com/AutohomeCorp/frostmourne/issues/32) [2021-02-01]
-* ~~监控编辑页面：增加查询数据预览功能~~ [2021-02-28]
-* ~~Elasticsearch数据源增加https选项设置~~ [2021-03-13]
-* ~~报警消息头文字支持自定义配置~~ [2021-04-17]
-* ~~短链接增加百度短链接支持~~ [2021-04-17]
-* ~~修复用户编辑输入无效的问题~~ [2021-04-17]
-* ~~Elasticsearch数据源支持HTTPS~~ [2021-04-28] [issue#35](https://github.com/AutohomeCorp/frostmourne/issues/35)
-* ~~增加clickhouse数据监控报警支持~~ [2021-05-09]
-* ~~InfluxDB支持用户名密码设置~~ [2021-05-09]
-* ~~doc: 增加clickhouse数据监控报警使用指南~~ [2021-05-11]
-* ~~http方式发送消息，post内容增加监控上下文数据字段context~~ [2021-05-11]
-* ~~Elasticsearch数据名增加查询显示字段配置~~ [2021-05-27]
-* ~~编辑Elasticsearch监控增加索引字段下拉提示~~ [2021-05-28]
 * Elasticsearch数据名增加traceid字段配置，可以配置为skywalking的traceId，显示skywalking traceid的时候，增加连接，跳转到skywalking对应的调用链
 * 报警消息格式增加类型: text, markdown选项
 * 数据配置支持数据分组，分组类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
@@ -477,7 +454,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
 * Elasticsearch监控数值实现环比监控
-* 发布0.4-RELEASE
 * 增加时序数据历史数据比较规则
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)

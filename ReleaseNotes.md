@@ -1,4 +1,16 @@
-# 0.4-SNAPSHOT(开发中未发布)
+# 0.5-SNAPSHOT(开发中)
+
+### Feature
+
+### Bugfix
+
+### Mysql
+
+### Document
+
+###
+
+# 0.4-RELEASE
 
 ### Feature
 
