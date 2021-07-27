@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.spi.contract.DingAt;
 import com.autohome.frostmourne.spi.contract.DingMessageResponse;
 import com.autohome.frostmourne.spi.contract.DingRobotMessage;
@@ -123,7 +124,11 @@ public class MessageService implements IMessageService {
         HttpEntity<DingRobotMessage> request = new HttpEntity<>(dingRobotMessage, headers);
         try {
             DingMessageResponse dingMessageResponse = restTemplate.postForObject(hook, request, DingMessageResponse.class);
-            return dingMessageResponse != null && dingMessageResponse.getErrcode() != null && dingMessageResponse.getErrcode() == 0;
+            boolean result = dingMessageResponse != null && dingMessageResponse.getErrcode() != null && dingMessageResponse.getErrcode() == 0;
+            if (!result) {
+                LOGGER.error("error when send ding robot message, response: {}", JacksonUtil.serialize(dingMessageResponse));
+            }
+            return result;
         } catch (Exception ex) {
             LOGGER.error("error when send ding robot message", ex);
             return false;
