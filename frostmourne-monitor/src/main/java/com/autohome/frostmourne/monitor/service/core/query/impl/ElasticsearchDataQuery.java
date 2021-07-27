@@ -186,10 +186,19 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
                 .sort(metricContract.getDataNameContract().getTimestampField(), SortOrder.DESC);
         attachAggregation(metricContract, searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
-        SearchResponse searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
-        if (searchResponse.getHits().getHits().length == 0) {
-            LOGGER.error("totalCount {}, but hits length is 0, query: {}, start: {}, end: {}", count, metricContract.getQueryString(), start.toString(), end.toString());
-            return elasticsearchMetric;
+        SearchResponse searchResponse = null;
+        int tryCount = 3;
+        while (tryCount > 0) {
+            searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
+            int hits = searchResponse.getHits().getHits().length;
+            if (hits == 0 && tryCount == 1) {
+                LOGGER.error("totalCount {}, but hits length is 0, query: {}, start: {}, end: {}", count, metricContract.getQueryString(), start.toString(), end.toString());
+                return elasticsearchMetric;
+            }
+            if (hits > 0) {
+                break;
+            }
+            tryCount--;
         }
         SearchHit latestDoc = searchResponse.getHits().getAt(0);
         elasticsearchMetric.setLatestDocument(latestDoc.getSourceAsMap());
