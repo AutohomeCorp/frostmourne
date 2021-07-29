@@ -433,6 +433,8 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 
 目前已知的规划有:
 
+* ~~bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题~~ [issue#43](https://github.com/AutohomeCorp/frostmourne/issues/43) [2021-07-27]
+* 增加报警组支持
 * Elasticsearch数据名增加traceid字段配置，可以配置为skywalking的traceId，显示skywalking traceid的时候，增加连接，跳转到skywalking对应的调用链
 * 报警消息格式增加类型: text, markdown选项
 * 数据配置支持数据分组，分组类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
@@ -449,7 +451,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面
 * 监控列表增加"执行日志"操作按钮，点击跳转到对应监控执行日志列表页
-* bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题
 * 集成测试，单元测试
 * 增加web访问日志字段映射设置
 * 增加web访问日志常用分析图表
@@ -472,6 +473,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 3-sigma离群点检测报警规则
 * 加入时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
 * 移除xxl-job依赖，内置实现分布式监控调度，减小部署难度(待定)
+* 总结项目用到的知识点
 
 ## 发版历史
 

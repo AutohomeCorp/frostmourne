@@ -47,7 +47,7 @@ public class EmailHelper {
         properties.put("mail.smtp.host", smtpHost);
         properties.put("mail.smtp.port", smtpPort);
         properties.put("mail.smtp.auth", smtpAuth);
-        properties.put("mail.smtp.timeout", "2000");
+        properties.put("mail.smtp.timeout", "5000");
         properties.put("mail.smtp.connectiontimeout", "2000");
         properties.setProperty("mail.user", sender);
         properties.setProperty("mail.password", senderPassword);

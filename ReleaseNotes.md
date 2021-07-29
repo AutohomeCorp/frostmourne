@@ -4,6 +4,8 @@
 
 ### Bugfix
 
+* bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题 [issue#43](https://github.com/AutohomeCorp/frostmourne/issues/43) [2021-07-27]
+
 ### Mysql
 
 ### Document
