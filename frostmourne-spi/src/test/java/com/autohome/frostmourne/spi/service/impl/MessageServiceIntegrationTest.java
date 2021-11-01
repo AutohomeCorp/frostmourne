@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.spi.dao.impl.FeiShuSender;
 import com.autohome.frostmourne.spi.dao.impl.WeChatSender;
 import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import com.autohome.frostmourne.spi.starter.model.AlarmMessage;
@@ -26,6 +27,9 @@ class MessageServiceIntegrationTest {
     @Resource
     private WeChatSender weChatSender;
 
+    @Resource
+    private FeiShuSender feiShuSender;
+
     @Test
     void sendByDingRobot() {
         AlarmMessage alarmMessage = new AlarmMessage();
@@ -44,5 +48,11 @@ class MessageServiceIntegrationTest {
     public void sendWechatRobot() {
         boolean result = weChatSender.send(new ArrayList<>(), "[霜之哀伤]测试微信机器人", "测试微信机器人消息",
                 "http://weixin.com");
+    }
+
+    @Test
+    public void sendFeiShuRobot() {
+        boolean result = feiShuSender.send(new ArrayList<>(), "[霜之哀伤]测试飞书机器人", "测试飞书机器人消息",
+                "https://open.feishu.cn/open-apis/bot/v2/hook/token");
     }
 }

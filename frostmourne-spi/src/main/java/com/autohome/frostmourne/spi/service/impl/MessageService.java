@@ -13,6 +13,7 @@ import com.autohome.frostmourne.spi.contract.DingMessageResponse;
 import com.autohome.frostmourne.spi.contract.DingRobotMessage;
 import com.autohome.frostmourne.spi.contract.DingText;
 import com.autohome.frostmourne.spi.dao.IEmailSender;
+import com.autohome.frostmourne.spi.dao.IFeiShuSender;
 import com.autohome.frostmourne.spi.dao.IWeChatSender;
 import com.autohome.frostmourne.spi.plugin.IDingSenderPlugin;
 import com.autohome.frostmourne.spi.plugin.ISmsSenderPlugin;
@@ -41,6 +42,9 @@ public class MessageService implements IMessageService {
 
     @Resource
     private IWeChatSender weChatSender;
+
+    @Resource
+    private IFeiShuSender feiShuSender;
 
     @Resource
     private IDingSenderPlugin dingSenderPlugin;
@@ -94,6 +98,10 @@ public class MessageService implements IMessageService {
                     .filter(m -> !Strings.isNullOrEmpty(m.getWxid()))
                     .map(AccountInfo::getWxid).collect(Collectors.toList());
             return weChatSender.send(wxidList, alarmMessage.getTitle(), alarmMessage.getContent(), alarmMessage.getWechatHook());
+        }
+
+        if (way.equalsIgnoreCase("feishu")) {
+            return feiShuSender.send(null, alarmMessage.getTitle(), alarmMessage.getContent(), alarmMessage.getFeiShuHook());
         }
 
         throw new IllegalArgumentException("unknown way: " + way);

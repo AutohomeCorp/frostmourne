@@ -204,6 +204,7 @@
               <el-checkbox-button label="sms">短信</el-checkbox-button>
               <el-checkbox-button label="wechat">企业微信</el-checkbox-button>
               <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
+              <el-checkbox-button label="feishu">飞书</el-checkbox-button>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item v-if="form.alertContract.ways.includes('dingding')" label="钉钉机器人:">
@@ -215,10 +216,13 @@
           <el-form-item v-if="form.alertContract.ways.includes('http_post')" label="HTTP地址:">
             <el-input v-model="form.alertContract.httpPostUrl" size="small" placeholder="必填" />
           </el-form-item>
+          <el-form-item v-if="form.alertContract.ways.includes('feishu')" label="飞书机器人:">
+            <el-input v-model="form.alertContract.feishuRobotHook" size="small" placeholder="必填" />
+          </el-form-item>
           <el-row>
             <el-col :span="6">
               <el-form-item label="静默时间:">
-                <el-input-number v-model="form.alertContract.silence" size="small" :min="1" label="静默时间" />分钟
+                <el-input-number v-model="form.alertContract.silence" size="small" :min="0" label="静默时间" />分钟
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -453,9 +457,19 @@ export default {
         onClose: () => this.goBack()
       })
     },
+    validateInput () {
+      if(this.form.alertContract.ways.includes('feishu') && (this.form.alertContract.feishuRobotHook === null || this.form.alertContract.feishuRobotHook === '')) {
+        this.$message({ type: 'warn', message: '飞书机器人地址不能为空' });
+        return false;
+      }
+      return true;
+    },
     onSubmit () {
       this.$refs['form'].validate((validate) => {
         if (validate) {
+          if(!this.validateInput()) {
+            return false;
+          }
           this.disableSave = false
           this.copyToProperties()
 

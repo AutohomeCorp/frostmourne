@@ -7,11 +7,11 @@
 
 ### 发送方式
 
-现在支持短信,email, 钉钉(机器人), 企业微信(机器人)，HTTP 五种发送方式，其中email和钉钉机器人, 企业微信(机器人)， HTTP默认可用，短信和钉钉需要自己适配实现。。
+现在支持短信, email, 钉钉(机器人), 企业微信(机器人)，HTTP, 飞书机器人发送方式，其中email和钉钉机器人, 企业微信(机器人)，飞书机器人， HTTP默认可用，短信和钉钉需要自己适配实现。。
 
 * 钉钉机器人消息发送
 
-钉钉机器人使用说明请看钉钉官方文档: <a href="https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq/26eaddd5" target="_blank">钉钉机器人使用</a> ;
+钉钉机器人使用说明请看钉钉官方文档: <a href="https://developers.dingtalk.com/document/robots/custom-robot-access?spm=ding_open_doc.document.0.0.155d6573BLQXUd#topic-2026027" target="_blank">钉钉机器人使用</a> ;
 在钉钉群组里创建好机器人后，把地址复制到钉钉机器人地址输入栏即可。其中钉钉机器人的安全策略选择自定义关键词: 霜之哀伤
 
 * 邮件消息发送

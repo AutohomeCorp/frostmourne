@@ -2,11 +2,15 @@
 
 ### Feature
 
+* 报警方式增加飞书 [2021-10-30]
+
 ### Bugfix
 
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题 [issue#43](https://github.com/AutohomeCorp/frostmourne/issues/43) [2021-07-27]
 
 ### Mysql
+
+* mysql: alert表增加字段feishu_robot_hook，表示飞书机器人地址 - [SQL](./doc/mysql-schema/2021-10-30/change.sql) [2020-12-05]
 
 ### Document
 
@@ -44,7 +48,7 @@
 ### Mysql
 
 * mysql: alarm表增加字段recover_notice_status，表示是否开启恢复通知 - [SQL](./doc/mysql-schema/2020-11-29/change.sql) [2020-12-05]
-* mysql: data_source表字段properties类型改为text - [SQL](./doc/mysql-schema/20210421/change.sql) [2021-04-28]
+* mysql: data_source表字段properties类型改为text - [SQL](./doc/mysql-schema/2021-04-21/change.sql) [2021-04-28]
 
 ### Document
 

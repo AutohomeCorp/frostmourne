@@ -21,6 +21,8 @@ public class AlarmMessage {
 
     private String wechatHook;
 
+    private String feiShuHook;
+
     public String getContent() {
         return content;
     }
@@ -83,5 +85,13 @@ public class AlarmMessage {
 
     public void setContext(Map<String, Object> context) {
         this.context = context;
+    }
+
+    public String getFeiShuHook() {
+        return feiShuHook;
+    }
+
+    public void setFeiShuHook(String feiShuHook) {
+        this.feiShuHook = feiShuHook;
     }
 }
