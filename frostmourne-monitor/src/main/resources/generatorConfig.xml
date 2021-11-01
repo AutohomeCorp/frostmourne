@@ -14,7 +14,7 @@
         <javaClientGenerator
                 targetPackage="com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic"
                 targetProject="src/main/java"/>
-        <table tableName="alarm" mapperName="AlarmDynamicMapper">
+        <!--<table tableName="alarm" mapperName="AlarmDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
@@ -75,6 +75,10 @@
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
         <table tableName="service_info" mapperName="ServiceInfoDynamicMapper">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+        </table>-->
+        <table tableName="alert" mapperName="AlertDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>

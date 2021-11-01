@@ -25,6 +25,8 @@ public class AlertContract {
 
     private String wechatRobotHook;
 
+    private String feishuRobotHook;
+
     private List<String> recipients;
 
     public Long getAlarm_id() {
@@ -113,5 +115,13 @@ public class AlertContract {
 
     public void setRecipients(List<String> recipients) {
         this.recipients = recipients;
+    }
+
+    public String getFeishuRobotHook() {
+        return feishuRobotHook;
+    }
+
+    public void setFeishuRobotHook(String feishuRobotHook) {
+        this.feishuRobotHook = feishuRobotHook;
     }
 }

@@ -33,28 +33,28 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface AlertDynamicMapper {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
-    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, ways, silence, creator, createAt, allowSmsFrom, allowSmsTo, dingRobotHook, httpPostUrl, wechatRobotHook);
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.477+08:00", comments="Source Table: alert")
+    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, ways, silence, creator, createAt, allowSmsFrom, allowSmsTo, dingRobotHook, httpPostUrl, wechatRobotHook, feishuRobotHook);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.975+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.468+08:00", comments="Source Table: alert")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.975+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.468+08:00", comments="Source Table: alert")
     @DeleteProvider(type=SqlProviderAdapter.class, method="delete")
     int delete(DeleteStatementProvider deleteStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.975+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.469+08:00", comments="Source Table: alert")
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="record.id", before=false, resultType=Long.class)
     int insert(InsertStatementProvider<Alert> insertStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.975+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.471+08:00", comments="Source Table: alert")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("AlertResult")
     Optional<Alert> selectOne(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.975+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.471+08:00", comments="Source Table: alert")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="AlertResult", value = {
         @Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
@@ -67,32 +67,33 @@ public interface AlertDynamicMapper {
         @Result(column="allow_sms_to", property="allowSmsTo", jdbcType=JdbcType.INTEGER),
         @Result(column="ding_robot_hook", property="dingRobotHook", jdbcType=JdbcType.VARCHAR),
         @Result(column="http_post_url", property="httpPostUrl", jdbcType=JdbcType.VARCHAR),
-        @Result(column="wechat_robot_hook", property="wechatRobotHook", jdbcType=JdbcType.VARCHAR)
+        @Result(column="wechat_robot_hook", property="wechatRobotHook", jdbcType=JdbcType.VARCHAR),
+        @Result(column="feishu_robot_hook", property="feishuRobotHook", jdbcType=JdbcType.VARCHAR)
     })
     List<Alert> selectMany(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.975+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.473+08:00", comments="Source Table: alert")
     @UpdateProvider(type=SqlProviderAdapter.class, method="update")
     int update(UpdateStatementProvider updateStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.975+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.473+08:00", comments="Source Table: alert")
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, alert, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.975+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.474+08:00", comments="Source Table: alert")
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, alert, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.475+08:00", comments="Source Table: alert")
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.475+08:00", comments="Source Table: alert")
     default int insert(Alert record) {
         return MyBatis3Utils.insert(this::insert, record, alert, c ->
             c.map(alarmId).toProperty("alarmId")
@@ -105,10 +106,11 @@ public interface AlertDynamicMapper {
             .map(dingRobotHook).toProperty("dingRobotHook")
             .map(httpPostUrl).toProperty("httpPostUrl")
             .map(wechatRobotHook).toProperty("wechatRobotHook")
+            .map(feishuRobotHook).toProperty("feishuRobotHook")
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.476+08:00", comments="Source Table: alert")
     default int insertSelective(Alert record) {
         return MyBatis3Utils.insert(this::insert, record, alert, c ->
             c.map(alarmId).toPropertyWhenPresent("alarmId", record::getAlarmId)
@@ -121,37 +123,38 @@ public interface AlertDynamicMapper {
             .map(dingRobotHook).toPropertyWhenPresent("dingRobotHook", record::getDingRobotHook)
             .map(httpPostUrl).toPropertyWhenPresent("httpPostUrl", record::getHttpPostUrl)
             .map(wechatRobotHook).toPropertyWhenPresent("wechatRobotHook", record::getWechatRobotHook)
+            .map(feishuRobotHook).toPropertyWhenPresent("feishuRobotHook", record::getFeishuRobotHook)
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.478+08:00", comments="Source Table: alert")
     default Optional<Alert> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, alert, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.479+08:00", comments="Source Table: alert")
     default List<Alert> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, alert, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.479+08:00", comments="Source Table: alert")
     default List<Alert> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, alert, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.48+08:00", comments="Source Table: alert")
     default Optional<Alert> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.48+08:00", comments="Source Table: alert")
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, alert, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.48+08:00", comments="Source Table: alert")
     static UpdateDSL<UpdateModel> updateAllColumns(Alert record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(alarmId).equalTo(record::getAlarmId)
                 .set(ways).equalTo(record::getWays)
@@ -162,10 +165,11 @@ public interface AlertDynamicMapper {
                 .set(allowSmsTo).equalTo(record::getAllowSmsTo)
                 .set(dingRobotHook).equalTo(record::getDingRobotHook)
                 .set(httpPostUrl).equalTo(record::getHttpPostUrl)
-                .set(wechatRobotHook).equalTo(record::getWechatRobotHook);
+                .set(wechatRobotHook).equalTo(record::getWechatRobotHook)
+                .set(feishuRobotHook).equalTo(record::getFeishuRobotHook);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.481+08:00", comments="Source Table: alert")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(Alert record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(alarmId).equalToWhenPresent(record::getAlarmId)
                 .set(ways).equalToWhenPresent(record::getWays)
@@ -176,10 +180,11 @@ public interface AlertDynamicMapper {
                 .set(allowSmsTo).equalToWhenPresent(record::getAllowSmsTo)
                 .set(dingRobotHook).equalToWhenPresent(record::getDingRobotHook)
                 .set(httpPostUrl).equalToWhenPresent(record::getHttpPostUrl)
-                .set(wechatRobotHook).equalToWhenPresent(record::getWechatRobotHook);
+                .set(wechatRobotHook).equalToWhenPresent(record::getWechatRobotHook)
+                .set(feishuRobotHook).equalToWhenPresent(record::getFeishuRobotHook);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.481+08:00", comments="Source Table: alert")
     default int updateByPrimaryKey(Alert record) {
         return update(c ->
             c.set(alarmId).equalTo(record::getAlarmId)
@@ -192,11 +197,12 @@ public interface AlertDynamicMapper {
             .set(dingRobotHook).equalTo(record::getDingRobotHook)
             .set(httpPostUrl).equalTo(record::getHttpPostUrl)
             .set(wechatRobotHook).equalTo(record::getWechatRobotHook)
+            .set(feishuRobotHook).equalTo(record::getFeishuRobotHook)
             .where(id, isEqualTo(record::getId))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.976+08:00", comments="Source Table: alert")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.482+08:00", comments="Source Table: alert")
     default int updateByPrimaryKeySelective(Alert record) {
         return update(c ->
             c.set(alarmId).equalToWhenPresent(record::getAlarmId)
@@ -209,6 +215,7 @@ public interface AlertDynamicMapper {
             .set(dingRobotHook).equalToWhenPresent(record::getDingRobotHook)
             .set(httpPostUrl).equalToWhenPresent(record::getHttpPostUrl)
             .set(wechatRobotHook).equalToWhenPresent(record::getWechatRobotHook)
+            .set(feishuRobotHook).equalToWhenPresent(record::getFeishuRobotHook)
             .where(id, isEqualTo(record::getId))
         );
     }

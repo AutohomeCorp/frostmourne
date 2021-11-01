@@ -249,6 +249,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertContract.setHttpPostUrl(alert.getHttpPostUrl());
         alertContract.setWechatRobotHook(alert.getWechatRobotHook());
         alertContract.setCreateAt(alert.getCreateAt());
+        alertContract.setFeishuRobotHook(alert.getFeishuRobotHook());
 
         List<Recipient> recipientList = this.recipientRepository.findByAlarm(alarmId);
         alertContract.setRecipients(recipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
@@ -358,6 +359,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alert.setDingRobotHook(contract.getDingRobotHook());
         alert.setHttpPostUrl(contract.getHttpPostUrl());
         alert.setWechatRobotHook(contract.getWechatRobotHook());
+        alert.setFeishuRobotHook(contract.getFeishuRobotHook());
         alertRepository.insert(alert);
 
         for (String recipient : contract.getRecipients()) {
