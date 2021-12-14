@@ -2,7 +2,8 @@
 
 ### Feature
 
-* 报警方式增加飞书 [2021-10-30]
+* 报警方式增加飞书机器人 [2021-10-30]
+* http监控兼容异常状态码 [2021-11-06]
 
 ### Bugfix
 
@@ -10,7 +11,7 @@
 
 ### Mysql
 
-* mysql: alert表增加字段feishu_robot_hook，表示飞书机器人地址 - [SQL](./doc/mysql-schema/2021-10-30/change.sql) [2020-12-05]
+* mysql: alert表增加字段feishu_robot_hook，表示飞书机器人地址 - [SQL](./doc/mysql-schema/2021-10-30/change.sql) [2021-10-30]
 
 ### Document
 

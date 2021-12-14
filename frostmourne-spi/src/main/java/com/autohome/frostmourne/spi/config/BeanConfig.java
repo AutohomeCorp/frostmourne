@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.spi.config;
 
+import com.autohome.frostmourne.core.contract.MailConfig;
 import com.autohome.frostmourne.spi.dao.IEmailSender;
 import com.autohome.frostmourne.spi.dao.IFeiShuSender;
 import com.autohome.frostmourne.spi.dao.IWeChatSender;
@@ -29,6 +30,9 @@ public class BeanConfig {
     @Value("${email.sender.password}")
     private String senderPassword;
 
+    @Value("${email.tls.enable}")
+    private String tlsEnable;
+
     @Value("${wechat.corpid}")
     private String weChatCorpId;
 
@@ -39,8 +43,13 @@ public class BeanConfig {
     private String weChatSecret;
 
     @Bean
-    public IEmailSender emailSender() {
-        return new EmailSender(smtpHost, smtpPort, smtpAuth, sender, senderPassword);
+    public MailConfig mailConfig() {
+        return new MailConfig(smtpHost, smtpPort, smtpAuth, tlsEnable, sender, senderPassword);
+    }
+
+    @Bean
+    public IEmailSender emailSender(MailConfig mailConfig) {
+        return new EmailSender(mailConfig);
     }
 
     @Bean
