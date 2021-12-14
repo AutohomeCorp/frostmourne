@@ -56,22 +56,20 @@ public class HttpMetric implements IMetric {
                 Long end = System.currentTimeMillis();
                 result.put("HTTP_COST", end - start);
                 result.put("HTTP_STATUS", response.code());
-                if (response.isSuccessful()) {
-                    String responseBodyString = responseBody.string();
-                    String format = request.url().queryParameter("format");
-                    if (isJson(responseBody) || (!Strings.isNullOrEmpty(format) && format.equalsIgnoreCase("json"))) {
-                        if (responseBodyString.startsWith("[")) {
-                            List<Object> list = mapper.readValue(responseBodyString, new TypeReference<List<Object>>() {
-                            });
-                            result.put("ResponseBody", list);
-                        } else {
-                            Map<String, Object> map = mapper.readValue(responseBodyString, new TypeReference<Map<String, Object>>() {
-                            });
-                            result.putAll(map);
-                        }
+                String responseBodyString = responseBody.string();
+                String format = request.url().queryParameter("format");
+                if (isJson(responseBody) || (!Strings.isNullOrEmpty(format) && format.equalsIgnoreCase("json"))) {
+                    if (responseBodyString.startsWith("[")) {
+                        List<Object> list = mapper.readValue(responseBodyString, new TypeReference<List<Object>>() {
+                        });
+                        result.put("ResponseBody", list);
                     } else {
-                        result.put("ResponseBody", responseBodyString);
+                        Map<String, Object> map = mapper.readValue(responseBodyString, new TypeReference<Map<String, Object>>() {
+                        });
+                        result.putAll(map);
                     }
+                } else {
+                    result.put("ResponseBody", responseBodyString);
                 }
             }
             /*HttpHeaders headers = new HttpHeaders();

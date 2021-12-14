@@ -434,9 +434,12 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 目前已知的规划有:
 
 * ~~bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题~~ [issue#43](https://github.com/AutohomeCorp/frostmourne/issues/43) [2021-07-27]
-* ~~报警方式增加飞书~~ [2021-10-30]
-* http监控兼容异常状态码
+* ~~报警方式增加飞书机器人~~ [2021-10-30]
+* ~~http监控兼容异常状态码~~ [2021-11-06]
 * 解决邮箱报警不支持ssl的问题
+* 增加消息内容长度配置，超过长度配置部分将被截掉
+* 增加报警消息头设置
+* 增加报警消息是否附带查询链接配置
 * msyql监控增加表达式监控规则
 * 增加报警组支持
 * Elasticsearch数据名增加traceid字段配置，可以配置为skywalking的traceId，显示skywalking traceid的时候，增加连接，跳转到skywalking对应的调用链
