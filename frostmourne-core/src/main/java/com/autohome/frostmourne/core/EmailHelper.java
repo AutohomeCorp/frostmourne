@@ -20,12 +20,64 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
+import com.autohome.frostmourne.core.contract.MailConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EmailHelper {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailHelper.class);
+
+    public static boolean send(MailConfig mailConfig, List<String> to, String subject, String content,
+                               String contentType, List<MimeBodyPart> attachments) {
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", mailConfig.getSmtpHost());
+        properties.put("mail.smtp.port", mailConfig.getSmtpPort());
+        properties.put("mail.smtp.auth", mailConfig.getSmtpAuth());
+        properties.put("mail.smtp.timeout", "10000");
+        properties.put("mail.smtp.connectiontimeout", "2000");
+        properties.setProperty("mail.user", mailConfig.getSender());
+        properties.setProperty("mail.password", mailConfig.getSenderPassword());
+        Authenticator authenticator = null;
+        if (mailConfig.getSmtpAuth().equalsIgnoreCase("true")) {
+            authenticator = new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(mailConfig.getSender(), mailConfig.getSenderPassword());
+                }
+            };
+        }
+        Session session = Session.getDefaultInstance(properties, authenticator);
+
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(mailConfig.getSender()));
+            InternetAddress[] toInternetAddressList = new InternetAddress[to.size()];
+            for (int i = 0; i < to.size(); i++) {
+                toInternetAddressList[i] = new InternetAddress(to.get(i));
+            }
+            message.addRecipients(Message.RecipientType.TO, toInternetAddressList);
+            message.setSubject(subject, "UTF-8");
+
+            Multipart multipart = new MimeMultipart();
+            MimeBodyPart contentPart = new MimeBodyPart();
+            contentPart.setContent(content, contentType);
+            multipart.addBodyPart(contentPart);
+
+            if (attachments != null && attachments.size() > 0) {
+                for (MimeBodyPart attachBodyPart : attachments) {
+                    multipart.addBodyPart(attachBodyPart);
+                }
+            }
+            message.setContent(multipart);
+            message.saveChanges();
+            Transport.send(message);
+            return true;
+        } catch (MessagingException ex) {
+            LOGGER.error("error when send email.", ex);
+            return false;
+        }
+    }
 
     /**
      * 发送邮件
