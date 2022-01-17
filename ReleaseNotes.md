@@ -15,7 +15,9 @@
 
 ### Document
 
-###
+### Others
+
+* log4j2升级至2.17.1 [2022-01-14]
 
 # 0.4-RELEASE
 
