@@ -52,7 +52,9 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
             if (protocol.getReturncode() == 0 && !Strings.isNullOrEmpty(protocol.getResult())) {
                 return protocol.getResult();
             }
-            LOGGER.warn("error when generate short link. response: " + JacksonUtil.serialize(protocol));
+            if (protocol.getReturncode() != 0) {
+                LOGGER.warn("error when generate short link. response: " + JacksonUtil.serialize(protocol));
+            }
             return longUrl;
         } catch (Exception ex) {
             LOGGER.error("error when generate short link", ex);

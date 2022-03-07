@@ -132,16 +132,21 @@ public class AlertService implements IAlertService {
 
     private void checkRecover(Optional<AlarmLog> latestAlarmLog, AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients) {
         //if not alert, check if send recover message
-        if (latestAlarmLog.isPresent() && latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.TRUE)) {
-            //this is recover message
-            if (RecoverNoticeStatus.OPEN.name().equalsIgnoreCase(alarmProcessLogger.getAlarmContract().getRecoverNoticeStatus())) {
-                // 开启恢复通知
-                sendAlert(alarmProcessLogger, recipients, AlertType.RECOVER);
-            }
-
+        if (needRecover(latestAlarmLog, alarmProcessLogger)) {
+            sendAlert(alarmProcessLogger, recipients, AlertType.RECOVER);
         } else {
             alarmLog(alarmProcessLogger);
         }
+    }
+
+    private boolean needRecover(Optional<AlarmLog> latestAlarmLog, AlarmProcessLogger alarmProcessLogger) {
+        //if not alert, check if send recover message
+        if (latestAlarmLog.isPresent() && latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.TRUE)) {
+            //this is recover message
+            // 开启恢复通知
+            return RecoverNoticeStatus.OPEN.name().equalsIgnoreCase(alarmProcessLogger.getAlarmContract().getRecoverNoticeStatus());
+        }
+        return false;
     }
 
     private boolean checkSilence(AlarmProcessLogger alarmProcessLogger) {
@@ -182,7 +187,8 @@ public class AlertService implements IAlertService {
         }
     }
 
-    private void processProblem(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, Optional<AlarmLog> latestAlarmLog) {
+    private void processProblem(AlarmProcessLogger
+                                        alarmProcessLogger, List<AccountInfo> recipients, Optional<AlarmLog> latestAlarmLog) {
         if (!latestAlarmLog.isPresent() || latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.FALSE)) {
             sendAlert(alarmProcessLogger, recipients, AlertType.PROBLEM);
             return;

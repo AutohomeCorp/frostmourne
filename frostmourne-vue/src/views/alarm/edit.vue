@@ -327,7 +327,7 @@ export default {
         alarmName: '',
         ownerKey: '',
         status: 'OPEN',
-        recoverNoticeStatus: 'OPEN',
+        recoverNoticeStatus: 'CLOSE',
         teamName: '',
         description: '',
         cron: '',

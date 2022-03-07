@@ -4,10 +4,12 @@
 
 * 报警方式增加飞书机器人 [2021-10-30]
 * http监控兼容异常状态码 [2021-11-06]
+* 恢复通知默认改为关闭 [2022-02-16]
 
 ### Bugfix
 
 * bugfix: 解决某些情况下，从elasticsearch中查询数据count大于0，但是hit数组为空的问题 [issue#43](https://github.com/AutohomeCorp/frostmourne/issues/43) [2021-07-27]
+* bugfix: 解决不报警并且关闭恢复通知的时候，没有记录执行日志的问题。 [issue#53](https://github.com/AutohomeCorp/frostmourne/issues/53) [2022-03-07]
 
 ### Mysql
 
