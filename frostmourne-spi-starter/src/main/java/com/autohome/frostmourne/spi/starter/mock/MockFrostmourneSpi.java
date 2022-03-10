@@ -21,9 +21,4 @@ public class MockFrostmourneSpi implements IFrostmourneSpiApi {
         }
         return new Protocol<>(messageResults);
     }
-
-    @Override
-    public Protocol<String> shortenLink(String _appId, String longUrl) {
-        return new Protocol<>("");
-    }
 }

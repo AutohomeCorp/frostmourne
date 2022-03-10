@@ -192,6 +192,9 @@
           <el-form-item label="消息模板:" prop="ruleContract.alertTemplate">
             <el-input v-model="form.ruleContract.alertTemplate" type="textarea" rows="5" />
           </el-form-item>
+          <el-form-item label="自定义链接:">
+            <el-input v-model="form.metricContract.properties.dataLink" placeholder="选填，自定义链接不使用短链接" />
+          </el-form-item>
         </el-tab-pane>
       </el-tabs>
       <el-button type="primary" @click="onPreview">预览数据</el-button>

@@ -5,6 +5,8 @@
 * 报警方式增加飞书机器人 [2021-10-30]
 * http监控兼容异常状态码 [2021-11-06]
 * 恢复通知默认改为关闭 [2022-02-16]
+* elasticsearch数据监控增加查询链接配置，例如可以设置查询链接为kibana链接，查询链接将优先使用kibana链接。 [2022-03-09]
+* 内置实现一个短链接功能，移除外部短链接服务依赖，解决外部短链接服务请求比较慢的问题 [2022-03-09]
 
 ### Bugfix
 
@@ -14,8 +16,13 @@
 ### Mysql
 
 * mysql: alert表增加字段feishu_robot_hook，表示飞书机器人地址 - [SQL](./doc/mysql-schema/2021-10-30/change.sql) [2021-10-30]
+* mysql: 增加短链接表short_link - [SQL](./doc/mysql-schema/2022-03-08/short_link.sql) [2022-03-08]
+* mysql: 增加配置表config_map - [SQL](./doc/mysql-schema/2022-03-08/config_map.sql) [2022-03-08]
 
 ### Document
+
+* 修改短链接部分文档说明, 移除外部短链接依赖 [2022-03-10]
+* 增加如何配置报警消息头的方法说明 [2022-03-10]
 
 ### Others
 
