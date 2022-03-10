@@ -208,27 +208,8 @@ pod: ${data.result[0].metric.pod}
 
 ## 短链接服务
 
-为了方便使用者快速查看产生报警的日志，报警消息最后会有一个日志查询地址的短链接，打开即可看到产生报警的日志。目前默认支持的短链接
-有两种：四五短网址和百度短网址。默认短链接实现使用的是四五短网址免费版，网址: <a href="http://www.45dwz.cn/" target="_blank">45短网址</a>, 默认申请的token限制很大，
-调用次数有限制，你可以去45短网址申请自己token，或者你可以自己选择换别的短网址服务都行，只需要自己实现简单适配即可。
-
-如果你自己申请了token，请修改配置文件 frostmourne-spi/src/main/resources/application.properties 如下配置值：
-
-```
-dwz.type=dwz45
-dwz45.token=t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
-```
-
-如果想切换使用<a href="https://dwz.cn/console/apidoc/v3" target="_blank">百度短网址</a>，请通过修改如下配置：
-
-```
-dwz.type=baidu
-dwz.baidu.token=
-```
-
-token需要自己申请。
-
-> 说明：如果短链接服务出错或者不使用，报警消息里的链接将使用原链接，会比较长。
+为了方便使用者快速查看产生报警的日志，报警消息最后会有一个日志查询地址的短链接，打开即可看到产生报警的日志。在0.4版本之前支持的短链接有两种：四五短网址和百度短网址。
+在0.5版本之后，内置实现了短链接功能，所以不需要额外配置短链接服务了。
 
 ## 用户管理和登录认证
 
@@ -439,28 +420,33 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~log4j2升级至2.17.1~~ [2022-01-14]
 * ~~恢复通知默认改为关闭~~ [2022-02-16]
 * ~~解决不报警并且关闭恢复通知的时候，没有记录执行日志的问题。~~ [issue#53](https://github.com/AutohomeCorp/frostmourne/issues/53) [2022-03-07]
-* elasticsearch数据监控增加kibana链接设置，如果设置kibana短链，查询链接将优先使用kibana。
-* 解决邮箱报警不支持ssl的问题
+* ~~mysql: 增加短链接表 [short_link](./doc/mysql-schema/2022-03-08/short_link.sql)~~ [2022-03-08]
+* ~~elasticsearch数据监控增加查询链接配置，例如可以设置查询链接为kibana链接，查询链接将优先使用kibana链接。~~ [2022-03-09]
+* ~~内置实现一个短链接功能，移除外部短链接服务依赖，解决外部短链接服务请求比较慢的问题~~ [2022-03-09]
+* ~~修改短链接部分文档说明~~ [2022-03-10]
+* ~~mysql: 增加配置表[config_map](./doc/mysql-schema/2022-03-08/config_map.sql)~~ [2022-03-10]
+* ~~doc: 增加如何配置报警消息头的方法文档说明~~ [2022-03-10]
+* 增加邮箱在线配置页面功能
+* 增加企业微信在线配置页面功能
+* 将发送消息功能从spi移到monitor；
+* 移除spi模块，随着monitor功能完善，spi的存在已经成为鸡肋，移除掉可以降低调试和部署难度。
 * 增加消息内容长度配置，超过长度配置部分将被截掉
-* 增加报警消息头设置
-* 报警消息增加静默说明，如：请注意，未来10分钟此监控连续报警消息将被静默
-* 内置实现一个短链接功能，移除外部短链接服务依赖，解决外部短链接服务请求比较慢的问题
-* 增加报警消息是否附带查询链接配置
 * msyql监控增加表达式监控规则
-* 增加用户密码设置功能，方便没有部署ldap的团队
 * Elasticsearch监控数值实现环比监控
+* 解决邮箱报警不支持ssl的问题
+* 增加用户密码设置功能，方便没有部署ldap的团队使用。配置了ldap的将优先使用ldap认证。
+* 发布0.5-RELEASE
+* important breaking feature: 移除xxl-job依赖，内置实现分布式调度，减小部署难度
 * 解决firefox浏览器时间显示有问题的bug
 * 增加报警组支持
-* Elasticsearch数据名增加traceid字段配置，可以配置为skywalking的traceId，显示skywalking traceid的时候，增加连接，跳转到skywalking对应的调用链
+* Elasticsearch数据名增加traceid字段配置，可以配置跳转链接。例如: 配置skywalking的链接将跳转到skywalking对应的调用链
 * 报警消息格式增加类型: text, markdown选项
 * 数据配置支持数据分组，分组类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
 * 增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持
 * 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
-* 改进消息静默功能：对报警事件数据和静默时间内的事件数据对比，如果相似度很高就静默，如果和静默时间内事件相似度不高仍然报警。这样可以避免漏报同时防止报警消息过多导致疲劳。
-* mysql数据监控增加除count外其他聚合类型支持
-* clickhouse数据监控增加除count外其他聚合类型支持
+* 改进消息静默功能：对报警事件数据和静默时间内的事件数据对比，如果相似度很高就静默，如果和静默时间内事件相似度不高仍然报警。这样可以避免漏报同时防止报警消息过多。
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面
@@ -485,7 +471,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 增加frostmourne程序日志查询和分析功能
 * 3-sigma离群点检测报警规则
 * 加入时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
-* 移除xxl-job依赖，内置实现分布式调度，减小部署难度(待定)
 * 总结项目用到的知识点
 
 ## 发版历史

@@ -77,8 +77,17 @@
         <table tableName="service_info" mapperName="ServiceInfoDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
-        </table>-->
-        <table tableName="alert" mapperName="AlertDynamicMapper">
+        </table>
+        <table tableName="short_link" mapperName="ShortLinkDynamicMapper">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+        </table>
+        <table tableName="config_map" mapperName="ConfigMapDynamicMapper">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+        </table>
+        -->
+        <table tableName="config_map" mapperName="ConfigMapDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>

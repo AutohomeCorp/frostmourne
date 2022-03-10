@@ -17,9 +17,12 @@ import com.autohome.frostmourne.monitor.contract.enums.SilenceStatus;
 import com.autohome.frostmourne.monitor.contract.enums.VerifyResult;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ConfigMap;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IConfigMapRepository;
 import com.autohome.frostmourne.monitor.service.account.IAccountService;
+import com.autohome.frostmourne.monitor.service.core.domain.ConfigMapKeys;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
 import com.autohome.frostmourne.spi.starter.model.AccountInfo;
@@ -51,6 +54,9 @@ public class AlertService implements IAlertService {
     @Resource
     private IAlarmLogRepository alarmLogRepository;
 
+    @Resource
+    private IConfigMapRepository configMapRepository;
+
     public void alert(AlarmProcessLogger alarmProcessLogger) {
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
         List<AccountInfo> recipients = recipients(alertContract.getRecipients(), alarmProcessLogger.getAlarmContract().getServiceInfo());
@@ -74,7 +80,7 @@ public class AlertService implements IAlertService {
         AlarmMessage alarmMessage = new AlarmMessage();
         String alertContent = null;
         if (alertType.equalsIgnoreCase(AlertType.PROBLEM)) {
-            alarmMessage.setContent(String.format("消息类型: [问题] %s分钟内持续报警将不重复发送\n%s",
+            alarmMessage.setContent(String.format("消息类型: [问题] %s分钟内连续报警将不重复发送\n%s",
                     alertContract.getSilence(), alarmProcessLogger.getAlertMessage()));
             alertContent = alarmProcessLogger.getAlertMessage();
         } else if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
@@ -82,7 +88,7 @@ public class AlertService implements IAlertService {
             alertContent = "消息类型: [恢复] 请自己检查问题是否解决,上次报警内容如下\n" + alertLog.getContent();
             alarmMessage.setContent(alertContent);
         }
-        alarmMessage.setTitle(String.format("[%s][id:%s]%s", Strings.isNullOrEmpty(messageTitle) ? "霜之哀伤监控平台" : messageTitle, alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
+        alarmMessage.setTitle(String.format("[%s][id:%s]%s", Strings.isNullOrEmpty(messageTitle) ? alertTitle() : messageTitle, alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
         alarmMessage.setRecipients(recipients);
         alarmMessage.setWays(alertContract.getWays());
         alarmMessage.setDingHook(alertContract.getDingRobotHook());
@@ -215,5 +221,13 @@ public class AlertService implements IAlertService {
         alarmLog.setVerifyResult(alert != null && alert ? VerifyResult.TRUE : VerifyResult.FALSE);
         alarmLogRepository.insert(alarmLog);
         alarmProcessLogger.setAlarmLog(alarmLog);
+    }
+
+    private String alertTitle() {
+        Optional<ConfigMap> configMapOptional = configMapRepository.find(ConfigMapKeys.ALERT_TITLE);
+        if (configMapOptional.isPresent()) {
+            return configMapOptional.get().getConfigValue();
+        }
+        return "霜之哀伤监控平台";
     }
 }
