@@ -13,6 +13,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 import com.autohome.frostmourne.core.contract.Protocol;
 import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
 import com.autohome.frostmourne.monitor.service.core.query.IQueryService;
+import com.autohome.frostmourne.monitor.service.core.service.IShortLinkService;
 import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
 import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
@@ -35,6 +36,9 @@ public class DataQueryController {
 
     @Resource
     private IFrostmourneSpiApi frostmourneSpiApi;
+
+    @Resource
+    private IShortLinkService shortLinkService;
 
     @ResponseBody
     @RequestMapping(value = "/elasticsearchData")
@@ -70,7 +74,8 @@ public class DataQueryController {
     @RequestMapping(value = "/shortenLink", method = RequestMethod.GET)
     public Protocol<String> shortenLink(@RequestParam(value = "_appId", required = true) String _appId,
                                         @RequestParam(value = "longUrl", required = true) String longUrl) {
-        return frostmourneSpiApi.shortenLink("frostmourne-monitor", longUrl);
+        String shortLink = shortLinkService.shorten(longUrl);
+        return new Protocol<>(shortLink);
     }
 
     @RequestMapping(value = "/downloadData")
