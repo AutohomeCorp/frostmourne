@@ -3,9 +3,9 @@
 消息模板使用的语法是freemarker,具体用法参考freemarker官方文档。可用的变量分两部分。一部分是报警规则设置，一部分
 是查询出来的数据。不同规则可使用的变量如下表格。
 
- 字段名  | 类型     | 说明  | 适用的判断类型   
+ 字段名  | 类型     | 说明  | 适用的判断类型
 -------- |----------| ------- | -----
-TIME_WINDOW | int | 查询时间范围窗口大小(单位: 分钟) | 数值 
+TIME_WINDOW | int | 查询时间范围窗口大小(单位: 分钟) | 数值
 NUMBER | double | 数值类型值 | 数值
 THRESHOLD | double | 判断阈值 | 数值
 COUNT | long | 查询记录数量 | 数值
@@ -14,12 +14,12 @@ COUNT | long | 查询记录数量 | 数值
 
 ### HTTP数据内置变量
 
- 字段名  | 类型     | 说明  | 适用的数据源   
+ 字段名  | 类型     | 说明  | 适用的数据源
 -------- |----------| ------- | -----
-HTTP_STATUS | int | HTTP状态码 | HTTP 
+HTTP_STATUS | int | HTTP状态码 | HTTP
 HTTP_COST | long | 请求耗时 | HTTP
 
-查询的数据可用变量取决于你的数据格式。以我们部门程序日志数值监控为例，可用变量和我们日志格式是一致的。如下表格: 
+查询的数据可用变量取决于你的数据格式。以我们部门程序日志数值监控为例，可用变量和我们日志格式是一致的。如下表格:
 
 序号 | 字段名  | 类型     | 说明     | Elasticsearch存储
 ----|-------- |----------| ------- | -----
@@ -46,9 +46,9 @@ HTTP_COST | long | 请求耗时 | HTTP
 21  | ExceptionMessage | string   | 异常信息  | 分词
 22  | CustomMessage | string   | 自定义信息  | 分词
 23  | StackTrace | string   | 堆栈信息  | 分词
-24  | HawkKey  | string | Key  | 不分词 
+24  | HawkKey  | string | Key  | 不分词
 
-这样我们一般为程序日志报警定制的消息模板为: 
+这样我们一般为程序日志报警定制的消息模板为:
 
 ```
 ${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一条异常信息:
@@ -80,3 +80,26 @@ HttpCode: ${code}
 
 这里用我们内部使用的例子供大家参考使用，具体模板内容，你需要自己根据数据格式定制。如果你想使用我们的日志格式，请参考
 另外一个开源项目: autolog4j[https://github.com/AutohomeCorp/autolog4j]
+
+## Q: 报警字段值太长，如何处理？
+
+freemarker提供了字符串截取的操作，例如:
+
+```
+${userName?truncate(16)}
+```
+
+如果userName长度超过16，将被截取。更多使用方法请参考[freemarker文档](https://freemarker.apache.org/docs/ref_builtins_string.html#ref_builtin_truncate);
+
+## Q: 如何设置报警消息头？
+
+默认报警消息title是: 霜之哀伤监控平台。可以配置config_map表config_key为AlertTitle的行的config_value值来设置自定义报警消息头。例如：
+
+```sql
+INSERT INTO config_map(config_key, config_value, creator, create_at, modifier, modify_at)
+VALUES('AlertTitle', '霜之哀伤监控平台', 'admin', now(), 'admin', now());
+```
+
+同一个config_key禁止配置多条，对config_key建了唯一索引。
+
+注意如果你的报警机器人依赖报警消息头作为关键词，请记得同时改机器人配置，否则会导致机器人消息无法发送。
