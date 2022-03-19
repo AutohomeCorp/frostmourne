@@ -32,6 +32,7 @@ import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest;
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
+import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.RequestExtendConverters;
 import org.elasticsearch.client.RequestOptions;
@@ -53,6 +54,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EsRestClientContainer {
+
+    public static final IndicesOptions DEFAULT_INDICE_OPTIONS = IndicesOptions.fromOptions(true, false, true, false);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EsRestClientContainer.class);
 
@@ -274,14 +277,8 @@ public class EsRestClientContainer {
 
         while (cursor.getMillis() < to.getMillis()) {
             String index = prefix + cursor.toString(datePattern);
-            if (index.contains("*")) {
-                if (!indiceList.contains(index)) {
-                    indiceList.add(index);
-                }
-            } else if (checkIndexExists(index)) {
-                if (!indiceList.contains(index)) {
-                    indiceList.add(index);
-                }
+            if (!indiceList.contains(index)) {
+                indiceList.add(index);
             }
             cursor = cursor.minusDays(-1);
         }
@@ -290,6 +287,7 @@ public class EsRestClientContainer {
 
     public long totalCount(BoolQueryBuilder boolQueryBuilder, String[] indices) throws IOException {
         CountRequest countRequest = new CountRequest(indices);
+        countRequest.indicesOptions(EsRestClientContainer.DEFAULT_INDICE_OPTIONS);
         SearchSourceBuilder countSourceBuilder = new SearchSourceBuilder();
         countSourceBuilder.query(boolQueryBuilder);
         countRequest.source(countSourceBuilder);

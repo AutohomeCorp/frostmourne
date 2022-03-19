@@ -99,6 +99,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
                 SearchRequest searchRequest = new SearchRequest(indices);
                 searchRequest.source(searchSourceBuilder);
                 searchRequest.scroll(DEFAULT_TIME_VALUE);
+                searchRequest.indicesOptions(EsRestClientContainer.DEFAULT_INDICE_OPTIONS);
 
                 if (intervalInSeconds != null && intervalInSeconds > 0) {
                     DateHistogramAggregationBuilder dateHistogramAggregationBuilder =

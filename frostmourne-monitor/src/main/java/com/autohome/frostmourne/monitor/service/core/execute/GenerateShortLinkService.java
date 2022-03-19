@@ -3,13 +3,12 @@ package com.autohome.frostmourne.monitor.service.core.execute;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.contract.enums.DataSourceType;
-import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
+import com.autohome.frostmourne.monitor.service.core.service.IShortLinkService;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,7 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateShortLinkService.class);
 
     @Resource
-    private IFrostmourneSpiApi frostmourneSpiApi;
+    private IShortLinkService shortLinkService;
 
     @Value("${frostmourne.monitor.address}")
     private String frostmourneMonitorAddress;
@@ -37,6 +36,15 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
         if (datasourceType.equalsIgnoreCase("influxdb")) {
             return null;
         }
+
+        if (datasourceType.equalsIgnoreCase("elasticsearch")) {
+            Map<String, Object> metricProperties = alarmContract.getMetricContract().getProperties();
+            if (metricProperties != null && metricProperties.containsKey("dataLink") && metricProperties.get("dataLink") != null
+                    && !Strings.isNullOrEmpty(metricProperties.get("dataLink").toString())) {
+                return metricProperties.get("dataLink").toString();
+            }
+        }
+
         String url = null;
         List<String> queryParameters = new ArrayList<>();
         try {
@@ -48,12 +56,7 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
                 queryParameters.add("dataName=" + URLEncoder.encode(alarmContract.getMetricContract().getDataNameContract().getDataName(), "utf8"));
             }
             String longUrl = url + "?" + String.join("&", queryParameters);
-            Protocol<String> protocol = frostmourneSpiApi.shortenLink("frostmourne-monitor", URLEncoder.encode(longUrl, "utf8"));
-            if (protocol.getReturncode() == 0 && !Strings.isNullOrEmpty(protocol.getResult())) {
-                return protocol.getResult();
-            }
-            LOGGER.warn("error when generate short link. response: " + JacksonUtil.serialize(protocol));
-            return longUrl;
+            return shortLinkService.shorten(longUrl);
         } catch (Exception ex) {
             LOGGER.error("error when generate short link", ex);
             return null;
