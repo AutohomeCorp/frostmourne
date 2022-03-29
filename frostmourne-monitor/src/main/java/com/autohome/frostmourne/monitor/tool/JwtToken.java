@@ -5,7 +5,7 @@ import java.security.Key;
 import java.util.Date;
 
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.spi.starter.model.AccountInfo;
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

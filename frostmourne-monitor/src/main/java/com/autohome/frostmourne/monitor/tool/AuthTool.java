@@ -2,7 +2,7 @@ package com.autohome.frostmourne.monitor.tool;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.autohome.frostmourne.spi.starter.model.AccountInfo;
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
