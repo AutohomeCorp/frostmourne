@@ -1,10 +1,11 @@
 package com.autohome.frostmourne.monitor.service.account;
 
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
+import com.autohome.frostmourne.monitor.model.account.Team;
+
 import java.util.List;
 import java.util.Optional;
 
-import com.autohome.frostmourne.spi.starter.model.Team;
-import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 
 public interface IAccountService {
 

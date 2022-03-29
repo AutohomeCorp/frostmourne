@@ -1,3 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.autohome.frostmourne.spi.starter.config.FrostmourneSpiAutoConfiguration

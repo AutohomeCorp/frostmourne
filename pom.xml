@@ -18,8 +18,6 @@
     <modules>
         <module>frostmourne-vue</module>
         <module>frostmourne-core</module>
-        <module>frostmourne-spi-starter</module>
-        <module>frostmourne-spi</module>
         <module>frostmourne-monitor</module>
     </modules>
 
@@ -46,11 +44,6 @@
             <dependency>
                 <groupId>com.autohome</groupId>
                 <artifactId>frostmourne-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.autohome</groupId>
-                <artifactId>frostmourne-spi-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
