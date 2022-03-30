@@ -21,7 +21,7 @@ public abstract class MessageSenderChain {
             try {
                 send(alarmMessageBO);
             } catch (Exception e) {
-                LOGGER.error("catch exception when send alarm message", e);
+                LOGGER.error("catch exception when send {} alarm message", myWay(), e);
             }
         }
 
