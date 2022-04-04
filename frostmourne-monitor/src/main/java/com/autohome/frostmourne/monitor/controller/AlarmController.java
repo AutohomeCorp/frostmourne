@@ -27,9 +27,6 @@ public class AlarmController {
     private IAlarmService alarmService;
 
     @Resource
-    private HttpMetric httpMetric;
-
-    @Resource
     private IMetricService metricService;
 
     @Resource
@@ -51,7 +48,6 @@ public class AlarmController {
     @RequestMapping(value = "/previewData", method = RequestMethod.POST)
     public Protocol<Map<String, Object>> httpTest(@RequestParam(value = "_appId", required = true) String _appId,
                                                   @RequestBody AlarmContract alarmContract) {
-        //Map<String, Object> result = httpMetric.pullMetric(metricContract, null);
         alarmAdminService.padAlarm(alarmContract);
         String dataSourceType = null;
         if (alarmContract.getMetricContract().getDataNameId() != null && alarmContract.getMetricContract().getDataNameId() > 0) {
