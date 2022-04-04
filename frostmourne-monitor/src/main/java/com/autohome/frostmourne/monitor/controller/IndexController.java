@@ -24,7 +24,7 @@ public class IndexController {
     @PermissionLimit(limit = false)
     @RequestMapping(value = "/goto/{id}", method = RequestMethod.GET)
     public String jump(@PathVariable(value = "id") Long id) {
-        if (id == null || id <= 0) {
+        if (id == null) {
             LOGGER.error("invalid short link id: {}", id);
             return "redirect:/dashboard.view";
         }
