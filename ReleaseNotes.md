@@ -1,4 +1,8 @@
-# 0.5-SNAPSHOT(开发中)
+# 0.6-SNAPSHOT(开发中)
+
+* 移除spi模块，相关功能移至monitor
+
+# 0.5-RELEASE
 
 ### Feature
 
