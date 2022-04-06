@@ -41,7 +41,7 @@ docker-compose up
 如果你是自己的另外mysql实例，请将host.docker.internal修改为你的mysql服务地址，并同时修改mysql用户和密码。注意xxl-job和frostmourne-monitor两个服务都有
 mysql连接配置，都需要修改。
 
-然后就是frostmourne-spi服务的邮箱配置和其他相关发送方式相关配置。你可以只先配置邮箱来测试一下，后面再加入其他配置
+然后就是邮箱配置和其他相关发送方式相关配置。你可以只先配置邮箱来测试一下，后面再加入其他配置
 
 ```yaml
 environment:
@@ -72,7 +72,6 @@ docker-compose up
 
 ```
 /opt/frostmourne/xxl-job-admin/logs
-/opt/frostmourne/frostmourne-spi/logs
 /opt/frostmourne/frostmourne-monitor/logs
 ```
 

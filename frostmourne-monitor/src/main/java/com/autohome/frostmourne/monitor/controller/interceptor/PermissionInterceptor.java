@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.autohome.frostmourne.core.contract.Protocol;
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.controller.annotation.PermissionLimit;
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
 import com.autohome.frostmourne.monitor.tool.JwtToken;
-import com.autohome.frostmourne.spi.starter.model.AccountInfo;
 import io.jsonwebtoken.Claims;
 import org.elasticsearch.common.Strings;
 import org.springframework.stereotype.Component;
@@ -20,21 +20,22 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 @Component
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
-	/*@Resource
-	private LoginService loginService;*/
+    /*@Resource
+    private LoginService loginService;*/
 
     @Resource
     private JwtToken jwtToken;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+        throws Exception {
 
         if (!(handler instanceof HandlerMethod)) {
             return super.preHandle(request, response, handler);
         }
 
         boolean needLogin = true;
-        HandlerMethod method = (HandlerMethod) handler;
+        HandlerMethod method = (HandlerMethod)handler;
         PermissionLimit permission = method.getMethodAnnotation(PermissionLimit.class);
         if (permission != null) {
             needLogin = permission.limit();
@@ -52,7 +53,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
                 wrongTokenResponse(response);
                 return false;
             }
-            String json = (String) claims.get("userinfo");
+            String json = (String)claims.get("userinfo");
             AccountInfo accountInfo = JacksonUtil.deSerialize(json, AccountInfo.class);
             request.setAttribute(AuthTool.USER_ATTR, accountInfo);
         }

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.security.Key;
 import java.util.Date;
 
-import com.autohome.frostmourne.spi.starter.model.AccountInfo;
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

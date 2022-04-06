@@ -29,10 +29,6 @@
             <groupId>com.autohome</groupId>
             <artifactId>frostmourne-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.autohome</groupId>
-            <artifactId>frostmourne-spi-starter</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -226,6 +222,21 @@
             <artifactId>h2</artifactId>
             <version>2.0.202</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
 
