@@ -16,7 +16,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * UI功能，简单易用
 * 监控管理，测试，另存。执行日志，历史消息。
 * 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
-* 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), HTTP请求, 飞书机器人)
+* 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), WebHook, 飞书机器人)
 * Elasticsearch数据查询,分享,下载
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
@@ -223,12 +223,7 @@ UI项目，使用vue-element-template实现，打包时会打到frostmourne-moni
 
 * frostmourne-monitor
 
-监控运行主体项目, 依赖frostmourne-spi和xxl-job。监控调度模块依赖xxl-job[https://github.com/xuxueli/xxl-job] 实现。
-
-* frostmourne-spi
-
-需要根据各自情况适配实现的模块，包括用户相关接口，短链接生成接口, 消息发送(短信发送和钉钉消息发送)接口, 需要自己实现，邮件发送,
-钉钉机器人消息发送，企业微信消息发送和HTTP请求消息发送已经实现好了，其中邮箱配置和企业微信需要修改为自己的
+监控运行主体项目, 依赖xxl-job。监控调度模块依赖xxl-job[https://github.com/xuxueli/xxl-job] 实现。
 
 ```
 email.smtp.host=${your.email.smtp.host:}
@@ -241,16 +236,6 @@ wechat.corpid=${your.wechat.corpid:}
 wechat.agentid=${your.wechat.agentid:}
 wechat.secret=${your.wechat.secret:}
 ```
-
-com.autohome.frostmourne.spi.plugin包下的接口，需要你根据自己情况实现。
-
-* frostmourne-spi-starter
-
-为了方便frostmourne-monitor使用frostmourne-spi，增加了frostmourne-spi-starter, 里面主要是接口定义和feign接口的自动注入。
-
-## 为什么设计frostmourne-spi模块
-
-请参考文档: <a href="./doc/wiki/frostmourne-spi.md" target="_blank">为什么设计frostmourne-spi</a>
 
 ## 调试环境要求
 
@@ -327,19 +312,16 @@ docker里启动一个xxl-job服务，供本地调用
 
 ## 部署
 
-UI项目frostmourne-vue会自动把资源打到frostmourne-monitor的resources/dist下，所以你只需要独立部署frostmourne-spi和frostmourne-monitor，
-他们都是无状态的服务，分配好域名做负载均衡，其中frostmourne-monitor依赖frostomourne-spi。在frostmourne-monitor配置文件中配置frostomourne-spi地址:
+UI项目frostmourne-vue会自动把资源打到frostmourne-monitor的resources/dist下，所以你只需要部署frostmourne-monitor。
 
 ```
-frostmourne.spi.service-addr=http://${frostmourne-spi-address}
 frostmourne.monitor.address=http://${frostmourne-monitor-address}
 ```
-
-其中frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。**注意：直接使用ip是无法生成短链接的**
+frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。
 
 ### 打包和zip包部署
 
-frostmourne-spi和frostmourne-monitor已经配置了assembly打包，target目录下会生成zip包，你只需要将zip包解压，然后根据自己的
+frostmourne-monitor已经配置了assembly打包，target目录下会生成zip包，你只需要将zip包解压，然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
 
 ```bash
@@ -376,7 +358,6 @@ xxl.job.executor.logretentiondays=3
 xxl.job.alarm.email=[your_email]
 ```
 
-启动frostmourne-spi项目，启动参数增加：-Dlog.console.level=INFO，将active profile设置为default, 测试地址: http://localhost:10053
 启动frostmourne-monitor项目, 启动参数增加：-Dlog.console.level=INFO，active profile设置为local, 测试地址: http://localhost:10054
 使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
 
@@ -415,7 +396,11 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 目前已知的规划有:
 
 * ~~发布0.5-RELEASE~~ [2022-04-04]
-* 将发送消息功能从spi移到monitor；
+* ~~将发送消息功能从spi移到monitor~~ [2022-04-05]
+* ~~移除spi模块，随着monitor功能完善，spi的存在已经成为鸡肋，移除掉可以降低调试和部署难度~~[2022-04-05]
+* ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
+* 增加邮箱在线配置页面功能
+* 增加企业微信在线配置页面功能
 * 移除spi模块，随着monitor功能完善，spi的存在已经成为鸡肋，移除掉可以降低调试和部署难度。
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
 * 增加邮箱在线配置页面功能
@@ -480,7 +465,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 ## Contributors
 
 [@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91)
-[@wxmclub](https://github.com/wxmclub)
+[@wxmclub](https://github.com/wxmclub) [@wuaping](https://github.com/wuaping)
 
 ## 致谢
 - [springboot](https://github.com/spring-projects/spring-boot)

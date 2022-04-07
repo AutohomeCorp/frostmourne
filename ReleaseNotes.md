@@ -1,6 +1,12 @@
 # 0.6-SNAPSHOT(开发中)
 
+### Feature
+
 * 移除spi模块，相关功能移至monitor
+
+### Document
+
+* ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
 
 # 0.5-RELEASE
 

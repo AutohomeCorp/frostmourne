@@ -16,7 +16,7 @@
 
 * 邮件消息发送
 
-在frostmourne-spi中将邮件发送人相关配置填写正确即可
+在配置中将邮件发送人相关配置填写正确即可
 
 ```
 email.smtp.host=${your.email.smtp.host}
@@ -28,7 +28,7 @@ email.sender.password=${your.email.sender.password}
 
 * 企业微信消息发送
 
-在frostmourne-spi中将企业微信相关配置填写正确即可
+在配置中将企业微信相关配置填写正确即可
 
 ```
 wechat.corpid=${your.wechat.corpid}

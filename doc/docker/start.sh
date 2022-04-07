@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-        echo "first arg module_name(such as 'all', 'xxl-job', 'frostmourne-spi', 'frostmourne-monitor') could not be empty."
+        echo "first arg module_name(such as 'all', 'xxl-job', 'frostmourne-monitor') could not be empty."
         exit
 fi
 
@@ -17,15 +17,6 @@ startXxlJob() {
   /opt/frostmourne/xxl-job-admin/scripts/startup.sh
 }
 
-startFrostmourneSpi() {
-  echo "frostmourne-spi"
-  if [ ! -d "/opt/frostmourne/frostmourne-spi" ];then
-    mkdir -p /opt/frostmourne/frostmourne-spi
-    unzip /opt/frostmourne/frostmourne-spi.zip -d /opt/frostmourne/frostmourne-spi
-  fi
-  /opt/frostmourne/frostmourne-spi/scripts/startup.sh
-}
-
 startFrostmourneMonitor() {
   echo "frostmourne-monitor"
   if [ ! -d "/opt/frostmourne/frostmourne-monitor" ];then
@@ -39,17 +30,12 @@ if [ $MODULE_NAME == 'xxl-job' ];then
   startXxlJob
 fi
 
-if [ $MODULE_NAME == 'frostmourne-spi' ];then
-  startFrostmourneSpi
-fi
-
 if [ $MODULE_NAME == 'frostmourne-monitor' ];then
   startFrostmourneMonitor
 fi
 
 if [ $MODULE_NAME == 'all' ];then
   startXxlJob
-  startFrostmourneSpi
   startFrostmourneMonitor
 fi
 

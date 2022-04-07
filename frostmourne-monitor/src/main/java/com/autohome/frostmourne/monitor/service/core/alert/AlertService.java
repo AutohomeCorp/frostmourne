@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.contract.AlertContract;
 import com.autohome.frostmourne.monitor.contract.ServiceInfoSimpleContract;
 import com.autohome.frostmourne.monitor.contract.enums.AlertType;
@@ -21,13 +19,15 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ConfigMap
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IConfigMapRepository;
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
+import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 import com.autohome.frostmourne.monitor.service.account.IAccountService;
 import com.autohome.frostmourne.monitor.service.core.domain.ConfigMapKeys;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
-import com.autohome.frostmourne.spi.starter.api.IFrostmourneSpiApi;
-import com.autohome.frostmourne.spi.starter.model.AccountInfo;
-import com.autohome.frostmourne.spi.starter.model.AlarmMessage;
-import com.autohome.frostmourne.spi.starter.model.MessageResult;
+import com.autohome.frostmourne.monitor.service.message.MessageService;
+import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
+import com.autohome.frostmourne.monitor.model.message.MessageResult;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class AlertService implements IAlertService {
     private String messageTitle;
 
     @Resource
-    private IFrostmourneSpiApi frostmourneSpiApi;
+    private MessageService messageService;
 
     @Resource
     private IAlertLogRepository alertLogRepository;
@@ -57,6 +57,7 @@ public class AlertService implements IAlertService {
     @Resource
     private IConfigMapRepository configMapRepository;
 
+    @Override
     public void alert(AlarmProcessLogger alarmProcessLogger) {
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
         List<AccountInfo> recipients = recipients(alertContract.getRecipients(), alarmProcessLogger.getAlarmContract().getServiceInfo());
@@ -77,32 +78,66 @@ public class AlertService implements IAlertService {
     private void sendAlert(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, String alertType) {
         alarmLog(alarmProcessLogger);
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
-        AlarmMessage alarmMessage = new AlarmMessage();
+        AlarmMessageBO alarmMessageBO = new AlarmMessageBO();
         String alertContent = null;
         if (alertType.equalsIgnoreCase(AlertType.PROBLEM)) {
-            alarmMessage.setContent(String.format("消息类型: [问题] %s分钟内连续报警将不重复发送\n%s",
+            alarmMessageBO.setContent(String.format("消息类型: [问题] %s分钟内连续报警将不重复发送\n%s",
                     alertContract.getSilence(), alarmProcessLogger.getAlertMessage()));
             alertContent = alarmProcessLogger.getAlertMessage();
         } else if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
             AlertLog alertLog = this.alertLogRepository.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
             alertContent = "消息类型: [恢复] 请自己检查问题是否解决,上次报警内容如下\n" + alertLog.getContent();
-            alarmMessage.setContent(alertContent);
+            alarmMessageBO.setContent(alertContent);
         }
-        alarmMessage.setTitle(String.format("[%s][id:%s]%s", Strings.isNullOrEmpty(messageTitle) ? alertTitle() : messageTitle, alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
-        alarmMessage.setRecipients(recipients);
-        alarmMessage.setWays(alertContract.getWays());
-        alarmMessage.setDingHook(alertContract.getDingRobotHook());
-        alarmMessage.setHttpPostEndpoint(alertContract.getHttpPostUrl());
-        alarmMessage.setWechatHook(alertContract.getWechatRobotHook());
-        alarmMessage.setFeiShuHook(alertContract.getFeishuRobotHook());
-        alarmMessage.setContext(alarmProcessLogger.getContext());
-        Protocol<List<MessageResult>> protocol = frostmourneSpiApi.send(alarmMessage, "frostmourne-monitor");
-        if (protocol.getReturncode() != 0) {
-            LOGGER.error("error when send alert. protocol: " + JacksonUtil.serialize(protocol));
-            return;
-        }
-        saveAlertLog(alertType, protocol.getResult(), recipients, alarmProcessLogger.getAlarmContract().getId(),
+        alarmMessageBO.setTitle(String.format("[%s][id:%s]%s", Strings.isNullOrEmpty(messageTitle) ? alertTitle() : messageTitle, alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
+        alarmMessageBO.setRecipients(recipients);
+        alarmMessageBO.setWays(generateWays(alertContract));
+        alarmMessageBO.setDingHook(alertContract.getDingRobotHook());
+        alarmMessageBO.setHttpPostEndpoint(alertContract.getHttpPostUrl());
+        alarmMessageBO.setWechatHook(alertContract.getWechatRobotHook());
+        alarmMessageBO.setFeiShuHook(alertContract.getFeishuRobotHook());
+        alarmMessageBO.setContext(alarmProcessLogger.getContext());
+
+        messageService.send(alarmMessageBO);
+
+        saveAlertLog(alertType, alarmMessageBO.getResultList(), recipients, alarmProcessLogger.getAlarmContract().getId(),
                 alertContent, alarmProcessLogger.getAlarmLog().getId());
+    }
+
+    private List<MessageWay> generateWays(AlertContract alertContract) {
+        List<MessageWay> messageWays = new ArrayList<>();
+        for (String way : alertContract.getWays()) {
+            if ("email".equalsIgnoreCase(way)) {
+                messageWays.add(MessageWay.EMAIL);
+            }
+            if ("sms".equalsIgnoreCase(way)) {
+                messageWays.add(MessageWay.SMS);
+            }
+            if ("wechat".equalsIgnoreCase(way)) {
+                if (Strings.isNullOrEmpty(alertContract.getWechatRobotHook())) {
+                    messageWays.add(MessageWay.WECHAT);
+                } else {
+                    messageWays.add(MessageWay.WECHAT_ROBOT);
+                }
+            }
+            if ("dingding".equalsIgnoreCase(way)) {
+                if (Strings.isNullOrEmpty(alertContract.getDingRobotHook())) {
+                    messageWays.add(MessageWay.DING_DING);
+                } else {
+                    messageWays.add(MessageWay.DING_ROBOT);
+                }
+            }
+            if ("feishu".equalsIgnoreCase(way) && StringUtils.isNotBlank(alertContract.getFeishuRobotHook())) {
+                messageWays.add(MessageWay.FEI_SHU_ROBOT);
+            }
+            if ("http_post".equalsIgnoreCase(way) && StringUtils.isNotBlank(alertContract.getHttpPostUrl())) {
+                messageWays.add(MessageWay.HTTP_POST);
+            }
+        }
+        if (messageWays.isEmpty()) {
+            throw new IllegalArgumentException("require at least one message way");
+        }
+        return messageWays;
     }
 
     private List<AccountInfo> recipients(List<String> accounts, ServiceInfoSimpleContract serviceInfoSimpleContract) {
@@ -127,8 +162,8 @@ public class AlertService implements IAlertService {
                 alertLog.setExecuteId(executeId);
                 alertLog.setCreateAt(new Date());
                 alertLog.setRecipient(accountInfo.getAccount());
-                alertLog.setSendStatus(messageResult.getSuccess() == 1 ? SendStatus.SUCCESS : SendStatus.FAIL);
-                alertLog.setWay(messageResult.getWay());
+                alertLog.setSendStatus(messageResult.getSuccess() ? SendStatus.SUCCESS : SendStatus.FAIL);
+                alertLog.setWay(messageResult.getWay().name());
                 alertLog.setAlertType(alertType);
                 alertLog.setInSilence(SilenceStatus.NO);
                 alertLogRepository.insert(alertLog);
