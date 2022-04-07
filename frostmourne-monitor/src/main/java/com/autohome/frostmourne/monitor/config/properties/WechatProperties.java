@@ -15,8 +15,6 @@ import lombok.Setter;
 
 @Component
 @ConfigurationProperties(prefix = "wechat")
-@Getter
-@Setter
 public class WechatProperties {
 
     /**
@@ -33,4 +31,28 @@ public class WechatProperties {
      * 应用密钥
      */
     private String secret;
+
+    public String getCorpId() {
+        return corpId;
+    }
+
+    public void setCorpId(String corpId) {
+        this.corpId = corpId;
+    }
+
+    public String getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
 }

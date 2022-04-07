@@ -317,7 +317,7 @@ UI项目frostmourne-vue会自动把资源打到frostmourne-monitor的resources/d
 ```
 frostmourne.monitor.address=http://${frostmourne-monitor-address}
 ```
-frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。**注意：直接使用ip是无法生成短链接的**
+frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。
 
 ### 打包和zip包部署
 

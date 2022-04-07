@@ -15,8 +15,6 @@ import lombok.Setter;
 
 @Component
 @ConfigurationProperties(prefix = "email")
-@Getter
-@Setter
 public class MailConfigProperties {
 
     private String smtpHost;
@@ -31,4 +29,51 @@ public class MailConfigProperties {
 
     private String tlsEnable;
 
+    public String getSmtpHost() {
+        return smtpHost;
+    }
+
+    public void setSmtpHost(String smtpHost) {
+        this.smtpHost = smtpHost;
+    }
+
+    public String getSmtpPort() {
+        return smtpPort;
+    }
+
+    public void setSmtpPort(String smtpPort) {
+        this.smtpPort = smtpPort;
+    }
+
+    public String getSmtpAuth() {
+        return smtpAuth;
+    }
+
+    public void setSmtpAuth(String smtpAuth) {
+        this.smtpAuth = smtpAuth;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getSenderPassword() {
+        return senderPassword;
+    }
+
+    public void setSenderPassword(String senderPassword) {
+        this.senderPassword = senderPassword;
+    }
+
+    public String getTlsEnable() {
+        return tlsEnable;
+    }
+
+    public void setTlsEnable(String tlsEnable) {
+        this.tlsEnable = tlsEnable;
+    }
 }
