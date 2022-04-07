@@ -6,7 +6,7 @@
 
 ### Document
 
-* ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](../doc/wiki/upgrade-0.6.md) [2022-04-07]
+* ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
 
 # 0.5-RELEASE
 
