@@ -398,7 +398,7 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~发布0.5-RELEASE~~ [2022-04-04]
 * ~~将发送消息功能从spi移到monitor~~[2022-04-05]
 * ~~移除spi模块，随着monitor功能完善，spi的存在已经成为鸡肋，移除掉可以降低调试和部署难度~~[2022-04-05]
-* ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](../doc/wiki/upgrade-0.6.md) [2022-04-07]
+* ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将发送消息功能从spi移到monitor；
