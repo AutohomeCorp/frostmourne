@@ -53,7 +53,7 @@ environment:
       dwz45.token: t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
       wechat.corpid:
       wechat.agentid:
-      wechat.secret=:
+      wechat.secret:
 
 ```
 

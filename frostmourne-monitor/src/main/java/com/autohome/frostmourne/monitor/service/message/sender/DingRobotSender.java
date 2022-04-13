@@ -41,7 +41,7 @@ public class DingRobotSender extends MessageSenderChain {
 
         DingRobotMessage dingRobotMessage = new DingRobotMessage();
         DingAt dingAt = new DingAt();
-        dingAt.setIsAtAll(false);
+        dingAt.setAtAll(false);
         List<String> cellphoneList =
             alarmMessageBO.getRecipients().stream().map(AccountInfo::getMobile).collect(Collectors.toList());
         dingAt.setAtMobiles(cellphoneList);
@@ -50,8 +50,7 @@ public class DingRobotSender extends MessageSenderChain {
         DingText dingText = new DingText();
         List<String> atMobiles = cellphoneList.stream().map(m -> "@" + m).collect(Collectors.toList());
         String dingContent = null;
-        dingContent = String.format("%s%n%s%n%s", alarmMessageBO.getTitle(), String.join(" ", atMobiles),
-            alarmMessageBO.getContent());
+        dingContent = String.format("%s%n%s%n%s", alarmMessageBO.getTitle(), String.join(" ", atMobiles), alarmMessageBO.getContent());
         if (dingContent.length() > 18000) {
             dingContent = dingContent.substring(0, 18000);
         }

@@ -15,8 +15,6 @@ import java.util.Map;
  * @author Aping
  * @since 2022/3/28 13:21
  */
-@Getter
-@Setter
 public class AlarmMessageBO {
 
     private String title;
@@ -39,4 +37,83 @@ public class AlarmMessageBO {
 
     private List<MessageResult> resultList = new ArrayList<>();
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Map<String, Object> getContext() {
+        return context;
+    }
+
+    public void setContext(Map<String, Object> context) {
+        this.context = context;
+    }
+
+    public List<AccountInfo> getRecipients() {
+        return recipients;
+    }
+
+    public void setRecipients(List<AccountInfo> recipients) {
+        this.recipients = recipients;
+    }
+
+    public List<MessageWay> getWays() {
+        return ways;
+    }
+
+    public void setWays(List<MessageWay> ways) {
+        this.ways = ways;
+    }
+
+    public String getDingHook() {
+        return dingHook;
+    }
+
+    public void setDingHook(String dingHook) {
+        this.dingHook = dingHook;
+    }
+
+    public String getHttpPostEndpoint() {
+        return httpPostEndpoint;
+    }
+
+    public void setHttpPostEndpoint(String httpPostEndpoint) {
+        this.httpPostEndpoint = httpPostEndpoint;
+    }
+
+    public String getWechatHook() {
+        return wechatHook;
+    }
+
+    public void setWechatHook(String wechatHook) {
+        this.wechatHook = wechatHook;
+    }
+
+    public String getFeiShuHook() {
+        return feiShuHook;
+    }
+
+    public void setFeiShuHook(String feiShuHook) {
+        this.feiShuHook = feiShuHook;
+    }
+
+    public List<MessageResult> getResultList() {
+        return resultList;
+    }
+
+    public void setResultList(List<MessageResult> resultList) {
+        this.resultList = resultList;
+    }
 }

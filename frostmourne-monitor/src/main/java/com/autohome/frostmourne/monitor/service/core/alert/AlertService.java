@@ -114,16 +114,18 @@ public class AlertService implements IAlertService {
                 messageWays.add(MessageWay.SMS);
             }
             if ("wechat".equalsIgnoreCase(way)) {
-                messageWays.add(MessageWay.WECHAT);
-            }
-            if ("wechat".equalsIgnoreCase(way) && StringUtils.isNotBlank(alertContract.getWechatRobotHook())) {
-                messageWays.add(MessageWay.WECHAT_ROBOT);
+                if (Strings.isNullOrEmpty(alertContract.getWechatRobotHook())) {
+                    messageWays.add(MessageWay.WECHAT);
+                } else {
+                    messageWays.add(MessageWay.WECHAT_ROBOT);
+                }
             }
             if ("dingding".equalsIgnoreCase(way)) {
-                messageWays.add(MessageWay.DING_DING);
-            }
-            if ("dingding".equalsIgnoreCase(way) && StringUtils.isNotBlank(alertContract.getDingRobotHook())) {
-                messageWays.add(MessageWay.DING_ROBOT);
+                if (Strings.isNullOrEmpty(alertContract.getDingRobotHook())) {
+                    messageWays.add(MessageWay.DING_DING);
+                } else {
+                    messageWays.add(MessageWay.DING_ROBOT);
+                }
             }
             if ("feishu".equalsIgnoreCase(way) && StringUtils.isNotBlank(alertContract.getFeishuRobotHook())) {
                 messageWays.add(MessageWay.FEI_SHU_ROBOT);
