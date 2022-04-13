@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   xxl-job:
-    image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.6
+    image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.5
     container_name: xxl-job
     environment:
       spring_datasource_url: jdbc:mysql://host.docker.internal:3306/xxl_job?Unicode=true&characterEncoding=UTF-8
@@ -22,8 +22,33 @@ services:
 
     command: bash -c "/opt/frostmourne/start.sh xxl-job"
 
+  frostmourne-spi:
+    image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.5
+    container_name: frostmourne-spi
+    environment:
+      email.smtp.host: smtp.qq.com
+      email.smtp.port: 25
+      email.smtp.auth: 'true'
+      email.sender: xxx@qq.com
+      email.sender.password: xxx
+      dwz.type: dwz45
+      dwz45.token: t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
+      dwz.baidu.token:
+      wechat.corpid:
+      wechat.agentid:
+      wechat.secret:
+    ports:
+      - '10053:10053'
+    expose:
+      - '10053'
+    networks:
+      frostmourne_net:
+    depends_on:
+      - xxl-job
+    command: bash -c "/opt/frostmourne/start.sh frostmourne-spi"
+
   frostmourne-monitor:
-    image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.6
+    image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.5
     container_name: frostmourne-monitor
     environment:
       datasource_frostmourne_url: jdbc:mysql://host.docker.internal:3306/frostmourne?useSSL=false&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
@@ -34,6 +59,7 @@ services:
       xxljob_executor_logpath: /opt/frostmourne/frostmourne-monitor/10054/log
       xxljob_executor_logretentiondays: 3
       xxljob_alarm_email: your_eamil@163.com
+      frostmourne_spi_service: http://frostmourne-spi:10053
       frostmourne_monitor_address: http://localhost:10054
       initial_password:
       alarmlog_reserve_days: 30
@@ -44,14 +70,6 @@ services:
       spring_ldap_base:
       spring_ldap_auth_searchFilter:
       frostmourne_message_title:
-      email.smtp.host: smtp.qq.com
-      email.smtp.port: 25
-      email.smtp.auth: 'true'
-      email.sender: xxx@qq.com
-      email.sender.password: xxx
-      wechat.corpid:
-      wechat.agentid:
-      wechat.secret:
     ports:
       - '10054:10054'
       - '9999:9999'
@@ -59,7 +77,7 @@ services:
       - '10054'
       - '9999'
     depends_on:
-      - xxl-job
+      - frostmourne-spi
     networks:
       frostmourne_net:
 

@@ -39,7 +39,7 @@ public enum MessageWay {
     DING_ROBOT,
 
     /**
-     * 飞书
+     * 飞书机器人
      */
     FEI_SHU_ROBOT,
 

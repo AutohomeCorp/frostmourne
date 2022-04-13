@@ -16,6 +16,7 @@ import com.autohome.frostmourne.monitor.model.message.MessageResult;
  */
 @Component
 public class SmsSender extends MessageSenderChain {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SmsSender.class);
 
     @Override
