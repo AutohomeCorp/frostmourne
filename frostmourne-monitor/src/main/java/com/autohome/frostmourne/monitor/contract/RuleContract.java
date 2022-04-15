@@ -1,5 +1,7 @@
 package com.autohome.frostmourne.monitor.contract;
 
+import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
+
 import java.util.Map;
 
 public class RuleContract {
@@ -7,6 +9,8 @@ public class RuleContract {
     private String ruleType;
 
     private Long alarmId;
+
+    private AlertTemplateType alertTemplateType;
 
     private String alertTemplate;
 
@@ -26,6 +30,14 @@ public class RuleContract {
 
     public void setAlarmId(Long alarmId) {
         this.alarmId = alarmId;
+    }
+
+    public AlertTemplateType getAlertTemplateType() {
+        return alertTemplateType;
+    }
+
+    public void setAlertTemplateType(AlertTemplateType alertTemplateType) {
+        this.alertTemplateType = alertTemplateType;
     }
 
     public String getAlertTemplate() {

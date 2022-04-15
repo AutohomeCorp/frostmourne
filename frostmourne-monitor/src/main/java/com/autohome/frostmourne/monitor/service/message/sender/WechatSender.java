@@ -1,27 +1,29 @@
 package com.autohome.frostmourne.monitor.service.message.sender;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.monitor.config.properties.WechatProperties;
-import com.autohome.frostmourne.monitor.model.account.AccountInfo;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
+import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.monitor.config.properties.WechatProperties;
+import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
 import com.autohome.frostmourne.monitor.model.message.MessageResult;
-import org.springframework.web.client.RestTemplate;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * 企业微信消息发送器
@@ -86,16 +88,21 @@ public class WechatSender extends MessageSenderChain {
         MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
         headers.setContentType(type);
         headers.add("Accept", MediaType.APPLICATION_JSON.toString());
-        Map<String, Object> data = new HashMap<>(5);
-        data.put("touser", String.join("|", wxidList));
-        data.put("msgtype", "text");
-        data.put("agentid", wechatProperties.getAgentId());
-        data.put("safe", 0);
         String content = String.format("%s%n%s", alarmMessageBO.getTitle(), alarmMessageBO.getContent());
         if (content.length() > 2048) {
             content = content.substring(0, 2048);
         }
-        data.put("text", ImmutableMap.of("content", content));
+        Map<String, Object> data = new HashMap<>(5);
+        data.put("touser", String.join("|", wxidList));
+        if (AlertTemplateType.MARKDOWN.equals(alarmMessageBO.getAlertTemplateType())) {
+            data.put("msgtype", "markdown");
+            data.put("markdown", ImmutableMap.of("content", content));
+        } else {
+            data.put("msgtype", "text");
+            data.put("text", ImmutableMap.of("content", content));
+        }
+        data.put("agentid", wechatProperties.getAgentId());
+        data.put("safe", 0);
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(data, headers);
         ResponseEntity<String> messageResponseEntity = restTemplate.postForEntity(messageUrl, request, String.class);
         if (messageResponseEntity.getStatusCode() != HttpStatus.OK) {

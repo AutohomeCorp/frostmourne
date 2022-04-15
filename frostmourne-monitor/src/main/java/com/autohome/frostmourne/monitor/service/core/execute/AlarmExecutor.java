@@ -1,13 +1,15 @@
 package com.autohome.frostmourne.monitor.service.core.execute;
 
-import com.autohome.frostmourne.monitor.contract.AlarmContract;
-import com.autohome.frostmourne.monitor.contract.enums.ExecuteStatus;
-import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
-import com.autohome.frostmourne.monitor.service.core.rule.IRule;
 import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.autohome.frostmourne.monitor.contract.AlarmContract;
+import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
+import com.autohome.frostmourne.monitor.contract.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
+import com.autohome.frostmourne.monitor.service.core.rule.IRule;
 
 public class AlarmExecutor {
 
@@ -61,38 +63,18 @@ public class AlarmExecutor {
     }
 
     private String completeAlertMessage() {
-        String alertMessage = this.rule.alertMessage(alarmContract.getRuleContract(), this.alarmProcessLogger.getContext());
-        StringBuilder stringBuilder = new StringBuilder(alertMessage.length() * 2);
-        String timeString = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
+        StringBuilder messageBuilder = new StringBuilder(alarmContract.getRuleContract().getAlertTemplate());
+        // 链接前置，支持自定义链接占位符替换
         String shortLink = generateShortLinkService.generate(alarmProcessLogger);
-        stringBuilder.append("[").append(timeString).append("]");
-        if (!Strings.isNullOrEmpty(this.alarmProcessLogger.getAlarmContract().getRiskLevel())) {
-            String risk = riskTranslation(this.alarmProcessLogger.getAlarmContract().getRiskLevel());
-            stringBuilder.append("[").append(risk).append("]").append("\n");
-        }
-        stringBuilder.append(alertMessage);
         if (!Strings.isNullOrEmpty(shortLink)) {
-            stringBuilder.append("\n\n").append("详细请看: ").append(shortLink);
+            if (AlertTemplateType.MARKDOWN.equals(alarmContract.getRuleContract().getAlertTemplateType())) {
+                messageBuilder.append("\n\n").append("[查看全部](").append(shortLink).append(")");
+            } else {
+                messageBuilder.append("\n\n").append("详细请看: ").append(shortLink);
+            }
         }
-        return stringBuilder.toString();
+
+        return this.rule.alertMessage(messageBuilder.toString(), this.alarmProcessLogger.getContext());
     }
 
-    private String riskTranslation(String riskLevel) {
-        if (Strings.isNullOrEmpty(riskLevel)) {
-            return null;
-        }
-        if (riskLevel.equalsIgnoreCase("info")) {
-            return "通知";
-        }
-        if (riskLevel.equalsIgnoreCase("important")) {
-            return "重要";
-        }
-        if (riskLevel.equalsIgnoreCase("emergency")) {
-            return "紧急";
-        }
-        if (riskLevel.equalsIgnoreCase("crash")) {
-            return "我崩了";
-        }
-        throw new IllegalArgumentException("unknown risk level: " + riskLevel);
-    }
 }

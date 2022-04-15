@@ -224,6 +224,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             throw new ProtocolException(7292346, "alarm has no rule, alarmId: " + alarmId);
         }
         Rule rule = optionalRule.get();
+        ruleContract.setAlertTemplateType(rule.getAlertTemplateType());
         ruleContract.setAlertTemplate(rule.getAlertTemplate());
         ruleContract.setRuleType(rule.getRuleType());
         ruleContract.setAlarmId(alarmId);
@@ -380,6 +381,7 @@ public class AlarmAdminService implements IAlarmAdminService {
 
         Rule rule = new Rule();
         rule.setAlarmId(alarmId);
+        rule.setAlertTemplateType(ruleContract.getAlertTemplateType());
         rule.setAlertTemplate(ruleContract.getAlertTemplate());
         rule.setCreator(account);
         rule.setCreateAt(new Date());

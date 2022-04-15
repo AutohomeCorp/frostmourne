@@ -3,6 +3,8 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 import java.sql.JDBCType;
 import java.util.Date;
 import javax.annotation.Generated;
+
+import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
@@ -18,6 +20,9 @@ public final class RuleDynamicSqlSupport {
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source field: rule.alarm_id")
     public static final SqlColumn<Long> alarmId = rule.alarmId;
+
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source field: rule.alert_template_type")
+    public static final SqlColumn<AlertTemplateType> alertTemplateType = rule.alertTemplateType;
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source field: rule.alert_template")
     public static final SqlColumn<String> alertTemplate = rule.alertTemplate;
@@ -35,6 +40,8 @@ public final class RuleDynamicSqlSupport {
         public final SqlColumn<String> ruleType = column("rule_type", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> alarmId = column("alarm_id", JDBCType.BIGINT);
+
+        public final SqlColumn<AlertTemplateType> alertTemplateType = column("alert_template_type", JDBCType.VARCHAR);
 
         public final SqlColumn<String> alertTemplate = column("alert_template", JDBCType.VARCHAR);
 

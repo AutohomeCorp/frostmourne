@@ -34,7 +34,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 @Mapper
 public interface RuleDynamicMapper {
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.999+08:00", comments="Source Table: rule")
-    BasicColumn[] selectList = BasicColumn.columnList(id, ruleType, alarmId, alertTemplate, creator, createAt);
+    BasicColumn[] selectList = BasicColumn.columnList(id, ruleType, alarmId, alertTemplateType, alertTemplate, creator, createAt);
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source Table: rule")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
@@ -60,6 +60,7 @@ public interface RuleDynamicMapper {
         @Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
         @Result(column="rule_type", property="ruleType", jdbcType=JdbcType.VARCHAR),
         @Result(column="alarm_id", property="alarmId", jdbcType=JdbcType.BIGINT),
+        @Result(column="alert_template_type", property="alertTemplateType", jdbcType=JdbcType.VARCHAR),
         @Result(column="alert_template", property="alertTemplate", jdbcType=JdbcType.VARCHAR),
         @Result(column="creator", property="creator", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP)
@@ -92,6 +93,7 @@ public interface RuleDynamicMapper {
         return MyBatis3Utils.insert(this::insert, record, rule, c ->
             c.map(ruleType).toProperty("ruleType")
             .map(alarmId).toProperty("alarmId")
+            .map(alertTemplateType).toProperty("alertTemplateType")
             .map(alertTemplate).toProperty("alertTemplate")
             .map(creator).toProperty("creator")
             .map(createAt).toProperty("createAt")
@@ -103,6 +105,7 @@ public interface RuleDynamicMapper {
         return MyBatis3Utils.insert(this::insert, record, rule, c ->
             c.map(ruleType).toPropertyWhenPresent("ruleType", record::getRuleType)
             .map(alarmId).toPropertyWhenPresent("alarmId", record::getAlarmId)
+            .map(alertTemplateType).toPropertyWhenPresent("alertTemplateType", record::getAlertTemplateType)
             .map(alertTemplate).toPropertyWhenPresent("alertTemplate", record::getAlertTemplate)
             .map(creator).toPropertyWhenPresent("creator", record::getCreator)
             .map(createAt).toPropertyWhenPresent("createAt", record::getCreateAt)
@@ -140,6 +143,7 @@ public interface RuleDynamicMapper {
     static UpdateDSL<UpdateModel> updateAllColumns(Rule record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(ruleType).equalTo(record::getRuleType)
                 .set(alarmId).equalTo(record::getAlarmId)
+                .set(alertTemplateType).equalTo(record::getAlertTemplateType)
                 .set(alertTemplate).equalTo(record::getAlertTemplate)
                 .set(creator).equalTo(record::getCreator)
                 .set(createAt).equalTo(record::getCreateAt);
@@ -149,6 +153,7 @@ public interface RuleDynamicMapper {
     static UpdateDSL<UpdateModel> updateSelectiveColumns(Rule record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(ruleType).equalToWhenPresent(record::getRuleType)
                 .set(alarmId).equalToWhenPresent(record::getAlarmId)
+                .set(alertTemplateType).equalToWhenPresent(record::getAlertTemplateType)
                 .set(alertTemplate).equalToWhenPresent(record::getAlertTemplate)
                 .set(creator).equalToWhenPresent(record::getCreator)
                 .set(createAt).equalToWhenPresent(record::getCreateAt);
@@ -159,6 +164,7 @@ public interface RuleDynamicMapper {
         return update(c ->
             c.set(ruleType).equalTo(record::getRuleType)
             .set(alarmId).equalTo(record::getAlarmId)
+            .set(alertTemplateType).equalTo(record::getAlertTemplateType)
             .set(alertTemplate).equalTo(record::getAlertTemplate)
             .set(creator).equalTo(record::getCreator)
             .set(createAt).equalTo(record::getCreateAt)
@@ -171,6 +177,7 @@ public interface RuleDynamicMapper {
         return update(c ->
             c.set(ruleType).equalToWhenPresent(record::getRuleType)
             .set(alarmId).equalToWhenPresent(record::getAlarmId)
+            .set(alertTemplateType).equalToWhenPresent(record::getAlertTemplateType)
             .set(alertTemplate).equalToWhenPresent(record::getAlertTemplate)
             .set(creator).equalToWhenPresent(record::getCreator)
             .set(createAt).equalToWhenPresent(record::getCreateAt)

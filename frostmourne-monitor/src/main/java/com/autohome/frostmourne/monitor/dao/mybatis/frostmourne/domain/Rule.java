@@ -1,5 +1,7 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain;
 
+import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
+
 import java.util.Date;
 import javax.annotation.Generated;
 
@@ -12,6 +14,9 @@ public class Rule {
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.997+08:00", comments="Source field: rule.alarm_id")
     private Long alarmId;
+
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.997+08:00", comments="Source field: rule.alert_template_type")
+    private AlertTemplateType alertTemplateType;
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.997+08:00", comments="Source field: rule.alert_template")
     private String alertTemplate;
@@ -50,6 +55,16 @@ public class Rule {
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.997+08:00", comments="Source field: rule.alarm_id")
     public void setAlarmId(Long alarmId) {
         this.alarmId = alarmId;
+    }
+
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.997+08:00", comments="Source field: rule.alert_template_type")
+    public AlertTemplateType getAlertTemplateType() {
+        return alertTemplateType;
+    }
+
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.997+08:00", comments="Source field: rule.alert_template_type")
+    public void setAlertTemplateType(AlertTemplateType alertTemplateType) {
+        this.alertTemplateType = alertTemplateType;
     }
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.997+08:00", comments="Source field: rule.alert_template")
