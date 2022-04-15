@@ -9,6 +9,10 @@ TIME_WINDOW | int | 查询时间范围窗口大小(单位: 分钟) | 数值
 NUMBER | double | 数值类型值 | 数值
 THRESHOLD | double | 判断阈值 | 数值
 COUNT | long | 查询记录数量 | 数值
+ALERT_SILENCE | long | 静默时间 | 数值
+CURRENT_TIME | String | 当前时间 | 数值
+ALARM_ID | long | 监控ID | 数值
+ALARM_NAME | String | 监控名称 | 数值
 
 当聚合类型是avg时，NUMBER表示平均值；当聚合类型是count时，NUMBER表示数量；当聚合类型是sum时，NUMBER表示和；以此类推。
 

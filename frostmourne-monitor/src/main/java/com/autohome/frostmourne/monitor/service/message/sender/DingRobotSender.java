@@ -1,25 +1,25 @@
 package com.autohome.frostmourne.monitor.service.message.sender;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.monitor.model.account.AccountInfo;
-import com.autohome.frostmourne.monitor.model.message.*;
-import com.autohome.frostmourne.monitor.model.message.ding.DingAt;
-import com.autohome.frostmourne.monitor.model.message.ding.DingMessageResponse;
-import com.autohome.frostmourne.monitor.model.message.ding.DingRobotMessage;
-import com.autohome.frostmourne.monitor.model.message.ding.DingText;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-
-import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
+import com.autohome.frostmourne.monitor.model.enums.MessageWay;
+import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
+import com.autohome.frostmourne.monitor.model.message.MessageResult;
+import com.autohome.frostmourne.monitor.model.message.ding.*;
 
 /**
  * 钉钉机器人消息发送器
@@ -46,17 +46,29 @@ public class DingRobotSender extends MessageSenderChain {
             alarmMessageBO.getRecipients().stream().map(AccountInfo::getMobile).collect(Collectors.toList());
         dingAt.setAtMobiles(cellphoneList);
         dingRobotMessage.setAt(dingAt);
-
-        DingText dingText = new DingText();
         List<String> atMobiles = cellphoneList.stream().map(m -> "@" + m).collect(Collectors.toList());
-        String dingContent = null;
-        dingContent = String.format("%s%n%s%n%s", alarmMessageBO.getTitle(), String.join(" ", atMobiles), alarmMessageBO.getContent());
-        if (dingContent.length() > 18000) {
-            dingContent = dingContent.substring(0, 18000);
+
+        if (AlertTemplateType.MARKDOWN.equals(alarmMessageBO.getAlertTemplateType())) {
+            dingRobotMessage.setMsgtype("markdown");
+            String dingContent = String.format("%s%n%s", String.join(" ", atMobiles), alarmMessageBO.getContent());
+            if (dingContent.length() > 18000) {
+                dingContent = dingContent.substring(0, 18000);
+            }
+            DingMarkdown dingMarkdown = new DingMarkdown();
+            dingMarkdown.setTitle(alarmMessageBO.getTitle());
+            dingMarkdown.setText(dingContent);
+            dingRobotMessage.setMarkdown(dingMarkdown);
+        } else {
+            dingRobotMessage.setMsgtype("text");
+            String dingContent = String.format("%s%n%s%n%s", alarmMessageBO.getTitle(), String.join(" ", atMobiles),
+                alarmMessageBO.getContent());
+            if (dingContent.length() > 18000) {
+                dingContent = dingContent.substring(0, 18000);
+            }
+            DingText dingText = new DingText();
+            dingText.setContent(dingContent);
+            dingRobotMessage.setText(dingText);
         }
-        dingText.setContent(dingContent);
-        dingRobotMessage.setMsgtype("text");
-        dingRobotMessage.setText(dingText);
 
         HttpHeaders headers = new HttpHeaders();
         MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
