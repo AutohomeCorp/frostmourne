@@ -88,16 +88,21 @@ public class WechatSender extends MessageSenderChain {
         MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
         headers.setContentType(type);
         headers.add("Accept", MediaType.APPLICATION_JSON.toString());
-        String content = String.format("%s%n%s", alarmMessageBO.getTitle(), alarmMessageBO.getContent());
-        if (content.length() > 2048) {
-            content = content.substring(0, 2048);
-        }
+
         Map<String, Object> data = new HashMap<>(5);
         data.put("touser", String.join("|", wxidList));
         if (AlertTemplateType.MARKDOWN.equals(alarmMessageBO.getAlertTemplateType())) {
+            String content = alarmMessageBO.getContent();
+            if (content.length() > 2048) {
+                content = content.substring(0, 2048);
+            }
             data.put("msgtype", "markdown");
             data.put("markdown", ImmutableMap.of("content", content));
         } else {
+            String content = String.format("%s%n%s", alarmMessageBO.getTitle(), alarmMessageBO.getContent());
+            if (content.length() > 2048) {
+                content = content.substring(0, 2048);
+            }
             data.put("msgtype", "text");
             data.put("text", ImmutableMap.of("content", content));
         }
