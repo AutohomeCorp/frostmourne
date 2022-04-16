@@ -3,6 +3,7 @@
 ### Feature
 
 * 移除spi模块，相关功能移至monitor
+* 微信机器人、钉钉机器人和http报警消息格式支持markdown
 
 ### Document
 

@@ -1,18 +1,19 @@
 package com.autohome.frostmourne.monitor.service.message.sender;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
 import com.autohome.frostmourne.monitor.model.message.MessageResult;
-import org.springframework.web.client.RestTemplate;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * http post发送器
@@ -38,6 +39,7 @@ public class HttpPostSender extends MessageSenderChain {
             headers.add("Accept", MediaType.APPLICATION_JSON.toString());
             Map<String, Object> data = new HashMap<>();
             data.put("recipients", alarmMessageBO.getRecipients());
+            data.put("type", alarmMessageBO.getAlertTemplateType());
             data.put("content", alarmMessageBO.getContent());
             data.put("title", alarmMessageBO.getTitle());
             data.put("context", alarmMessageBO.getContext());

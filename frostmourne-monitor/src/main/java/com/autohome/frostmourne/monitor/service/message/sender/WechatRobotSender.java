@@ -1,25 +1,27 @@
 package com.autohome.frostmourne.monitor.service.message.sender;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.monitor.model.account.AccountInfo;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.collect.ImmutableMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
+import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
 import com.autohome.frostmourne.monitor.model.message.MessageResult;
-import org.springframework.web.client.RestTemplate;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * 企业微信机器人消息发送器
@@ -48,13 +50,30 @@ public class WechatRobotSender extends MessageSenderChain {
         MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
         headers.setContentType(type);
         headers.add("Accept", MediaType.APPLICATION_JSON.toString());
-        String content = String.format("%s%n%s", alarmMessageBO.getTitle(), alarmMessageBO.getContent());
-        if (content.length() > 2048) {
-            content = content.substring(0, 2048);
-        }
+        String content;
         Map<String, Object> data = new HashMap<>();
-        data.put("text", ImmutableMap.of("mentioned_list", wxidList, "content", content));
-        data.put("msgtype", "text");
+        if (AlertTemplateType.MARKDOWN.equals(alarmMessageBO.getAlertTemplateType())) {
+            content = alarmMessageBO.getContent();
+            if (!wxidList.isEmpty()) {
+                StringBuilder notify = new StringBuilder();
+                for (String id : wxidList) {
+                    notify.append("<@").append(id).append("> ");
+                }
+                content = content + "\n----------------\n" + notify;
+            }
+            if (content.length() > 2048) {
+                content = content.substring(0, 2048);
+            }
+            data.put("msgtype", "markdown");
+            data.put("markdown", ImmutableMap.of("content", content));
+        } else {
+            content = String.format("%s%n%s", alarmMessageBO.getTitle(), alarmMessageBO.getContent());
+            if (content.length() > 2048) {
+                content = content.substring(0, 2048);
+            }
+            data.put("msgtype", "text");
+            data.put("text", ImmutableMap.of("mentioned_list", wxidList, "content", content));
+        }
         // HttpEntity<Map<String, Object>> request = new HttpEntity<>(data, headers);
         String json = JacksonUtil.serialize(data);
         HttpEntity<String> request = new HttpEntity<>(json, headers);

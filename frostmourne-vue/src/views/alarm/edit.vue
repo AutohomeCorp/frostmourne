@@ -189,6 +189,12 @@
             </el-select>
             <el-button type="primary" :disabled="alertTemplateOption==null" @click="importAlertTemplate">导入模板</el-button>
           </el-form-item>
+          <el-form-item label="消息类型:" prop="ruleContract.alertTemplateType">
+            <el-select v-model="form.ruleContract.alertTemplateType" @change="alertTemplateTypeChangeHandler">
+              <el-option label="text" value="TEXT" />
+              <el-option label="markdown" value="MARKDOWN" />
+            </el-select>
+          </el-form-item>
           <el-form-item label="消息模板:" prop="ruleContract.alertTemplate">
             <el-input v-model="form.ruleContract.alertTemplate" type="textarea" rows="5" />
           </el-form-item>
@@ -347,7 +353,9 @@ export default {
         },
         ruleContract: {
           ruleType: '',
-          alertTemplate: '${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一条异常信息:\r\n' +
+          alertTemplateType: 'TEXT',
+          alertTemplate: '${ALERT_SILENCE}分钟内连续报警将不重复发送\r\n' +
+            '${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一条异常信息:\r\n' +
             '服务器IP: ${ServerIP}\r\n' +
             '异常类型: ${ExceptionType}\r\n' +
             '自定义信息: ${CustomMessage}\r\n' +
@@ -381,6 +389,9 @@ export default {
         ],
         'metricContract.metricType': [
           { required: true, message: '请选择判断类型', trigger: 'change' }
+        ],
+        'ruleContract.alertTemplateType': [
+          { required: true, message: '请选择消息类型', trigger: 'blur' }
         ],
         'ruleContract.alertTemplate': [
           { required: true, message: '请输入消息模板', trigger: 'blur' }
@@ -794,6 +805,23 @@ export default {
     createFilter (queryString) {
       return (restaurant) => {
         return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+      }
+    },
+    alertTemplateTypeChangeHandler (newValue) {
+      if (newValue === 'TEXT') {
+        this.form.ruleContract.alertTemplate = '消息类型: [${ALERT_TYPE}] ${ALERT_SILENCE}分钟内连续报警将不重复发送\r\n' +
+          '${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一条异常信息:\r\n' +
+          '服务器IP: ${ServerIP}\r\n' +
+          '异常类型: ${ExceptionType}\r\n' +
+          '自定义信息: ${CustomMessage}\r\n' +
+          '异常信息: ${ExceptionMessage}'
+      } else {
+        this.form.ruleContract.alertTemplate = '### [霜之哀伤监控平台][id:${ALARM_ID}]${ALARM_NAME}\r\n' +
+          '${Project}最近 ${TIME_WINDOW} 分钟内有异常日志 ${NUMBER} 条。最近一条异常信息:\r\n' +
+          '> 服务器IP: ${ServerIP}\r\n' +
+          '> 异常类型: ${ExceptionType}\r\n' +
+          '> 自定义信息: ${CustomMessage}\r\n' +
+          '> 异常信息: ${ExceptionMessage}'
       }
     }
   }

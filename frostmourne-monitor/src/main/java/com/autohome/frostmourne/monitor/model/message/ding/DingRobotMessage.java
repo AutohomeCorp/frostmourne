@@ -1,10 +1,9 @@
 package com.autohome.frostmourne.monitor.model.message.ding;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class DingRobotMessage {
     private String msgtype;
+
+    private DingMarkdown markdown;
 
     private DingText text;
 
@@ -16,6 +15,14 @@ public class DingRobotMessage {
 
     public void setMsgtype(String msgtype) {
         this.msgtype = msgtype;
+    }
+
+    public DingMarkdown getMarkdown() {
+        return markdown;
+    }
+
+    public void setMarkdown(DingMarkdown markdown) {
+        this.markdown = markdown;
     }
 
     public DingText getText() {
