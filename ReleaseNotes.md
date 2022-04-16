@@ -3,10 +3,15 @@
 ### Feature
 
 * 移除spi模块，相关功能移至monitor
+* 微信机器人、钉钉机器人和http报警消息格式支持markdown
+
+### Mysql
+
+* mysql: rule表增加消息模板内容类型字段：alert_template_type - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15]
 
 ### Document
 
-* ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
+* 增加0.5升级0.6的说明文档 [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
 
 # 0.5-RELEASE
 

@@ -17,6 +17,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 监控管理，测试，另存。执行日志，历史消息。
 * 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), WebHook, 飞书机器人)
+* 消息支持多种格式(text, markdown)
 * Elasticsearch数据查询,分享,下载
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
@@ -399,9 +400,10 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~将发送消息功能从spi移到monitor~~ [2022-04-05]
 * ~~移除spi模块，随着monitor功能完善，spi的存在已经成为鸡肋，移除掉可以降低调试和部署难度~~[2022-04-05]
 * ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
+* ~~rule表增加消息模板内容类型字段：alert_template_type~~ - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15] 
+* ~~报警消息格式增加类型: text, markdown选项~~ [2022-04-15]
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
-* 移除spi模块，随着monitor功能完善，spi的存在已经成为鸡肋，移除掉可以降低调试和部署难度。
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
@@ -415,7 +417,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 解决firefox浏览器时间显示有问题的bug
 * 增加报警组支持
 * Elasticsearch数据名增加traceid字段配置，可以配置跳转链接。例如: 配置skywalking的链接将跳转到skywalking对应的调用链
-* 报警消息格式增加类型: text, markdown选项
 * 数据配置支持数据分组，分组类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
 * 增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持
 * 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持

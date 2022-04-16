@@ -1,7 +1,10 @@
 ## 消息模板配置
 
-消息模板使用的语法是freemarker,具体用法参考freemarker官方文档。可用的变量分两部分。一部分是报警规则设置，一部分
-是查询出来的数据。不同规则可使用的变量如下表格。
+
+> 在0.6版本后，部分消息渠道支持markdown格式，详细使用方法请参考文档 [markdown格式消息](./template_markdown.md)
+
+
+消息模板使用的语法是freemarker，具体用法参考freemarker官方文档。可用的变量分两部分。一部分是报警规则设置，一部分是查询出来的数据。不同规则可使用的变量如下表格。
 
  字段名  | 类型     | 说明  | 适用的判断类型
 -------- |----------| ------- | -----
@@ -9,6 +12,10 @@ TIME_WINDOW | int | 查询时间范围窗口大小(单位: 分钟) | 数值
 NUMBER | double | 数值类型值 | 数值
 THRESHOLD | double | 判断阈值 | 数值
 COUNT | long | 查询记录数量 | 数值
+ALERT_SILENCE | long | 静默时间 | 数值
+CURRENT_TIME | String | 当前时间 | 数值
+ALARM_ID | long | 监控ID | 数值
+ALARM_NAME | String | 监控名称 | 数值
 
 当聚合类型是avg时，NUMBER表示平均值；当聚合类型是count时，NUMBER表示数量；当聚合类型是sum时，NUMBER表示和；以此类推。
 
