@@ -7,12 +7,11 @@
 
 ### Mysql
 
-* mysql: rule表增加字段alert_template_type，表示发送消息格式 - [SQL](./doc/mysql-schema/2021-04-14/change.sql) [2021-04-14]
+* mysql: rule表增加消息模板内容类型字段：alert_template_type - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15]
 
 ### Document
 
-* ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
-* 增加markdown使用说明文档 [template_markdown.md](./doc/wiki/template_markdown.md) [2022-04-14]
+* 增加0.5升级0.6的说明文档 [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
 
 # 0.5-RELEASE
 
