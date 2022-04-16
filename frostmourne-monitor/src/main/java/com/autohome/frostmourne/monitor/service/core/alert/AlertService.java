@@ -8,11 +8,7 @@ import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.contract.AlertContract;
 import com.autohome.frostmourne.monitor.contract.ServiceInfoSimpleContract;
-import com.autohome.frostmourne.monitor.contract.enums.AlertType;
-import com.autohome.frostmourne.monitor.contract.enums.RecoverNoticeStatus;
-import com.autohome.frostmourne.monitor.contract.enums.SendStatus;
-import com.autohome.frostmourne.monitor.contract.enums.SilenceStatus;
-import com.autohome.frostmourne.monitor.contract.enums.VerifyResult;
+import com.autohome.frostmourne.monitor.contract.enums.*;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ConfigMap;
@@ -29,6 +25,7 @@ import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
 import com.autohome.frostmourne.monitor.model.message.MessageResult;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.Strings;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,15 +77,33 @@ public class AlertService implements IAlertService {
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
         AlarmMessageBO alarmMessageBO = new AlarmMessageBO();
         String alertContent = null;
-        if (alertType.equalsIgnoreCase(AlertType.PROBLEM)) {
-            alarmMessageBO.setContent(String.format("消息类型: [问题] %s分钟内连续报警将不重复发送\n%s",
-                    alertContract.getSilence(), alarmProcessLogger.getAlertMessage()));
+        if (AlertTemplateType.MARKDOWN.equals(alarmProcessLogger.getAlarmContract().getRuleContract().getAlertTemplateType())){
             alertContent = alarmProcessLogger.getAlertMessage();
-        } else if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
-            AlertLog alertLog = this.alertLogRepository.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
-            alertContent = "消息类型: [恢复] 请自己检查问题是否解决,上次报警内容如下\n" + alertLog.getContent();
+            if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
+                AlertLog alertLog = this.alertLogRepository
+                        .selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
+                alertContent = "### [恢复] 请自己检查问题是否解决，上次报警内容如下\n" + alertLog.getContent();
+            }
             alarmMessageBO.setContent(alertContent);
+        }else {
+            String risk = "";
+            if (!Strings.isNullOrEmpty(alarmProcessLogger.getAlarmContract().getRiskLevel())) {
+                risk = "[" + riskTranslation(alarmProcessLogger.getAlarmContract().getRiskLevel()) + "] ";
+            }
+            String timeString = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
+            if (alertType.equalsIgnoreCase(AlertType.PROBLEM)) {
+                alertContent = alarmProcessLogger.getAlertMessage();
+                alarmMessageBO
+                        .setContent(String.format("[%s] [问题] %s\n%s", timeString, risk, alarmProcessLogger.getAlertMessage()));
+            } else if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
+                AlertLog alertLog = this.alertLogRepository
+                        .selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
+                alertContent = String.format("[%s] [恢复] %s请自己检查问题是否解决，上次报警内容如下\n%s",timeString, risk, alertLog.getContent());
+                alarmMessageBO.setContent(alertContent);
+            }
         }
+
+        alarmMessageBO.setAlertTemplateType(alarmProcessLogger.getAlarmContract().getRuleContract().getAlertTemplateType());
         alarmMessageBO.setTitle(String.format("[%s][id:%s]%s", Strings.isNullOrEmpty(messageTitle) ? alertTitle() : messageTitle, alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
         alarmMessageBO.setRecipients(recipients);
         alarmMessageBO.setWays(generateWays(alertContract));
@@ -102,6 +117,25 @@ public class AlertService implements IAlertService {
 
         saveAlertLog(alertType, alarmMessageBO.getResultList(), recipients, alarmProcessLogger.getAlarmContract().getId(),
                 alertContent, alarmProcessLogger.getAlarmLog().getId());
+    }
+    
+    private String riskTranslation(String riskLevel) {
+        if (Strings.isNullOrEmpty(riskLevel)) {
+            return null;
+        }
+        if (riskLevel.equalsIgnoreCase("info")) {
+            return "通知";
+        }
+        if (riskLevel.equalsIgnoreCase("important")) {
+            return "重要";
+        }
+        if (riskLevel.equalsIgnoreCase("emergency")) {
+            return "紧急";
+        }
+        if (riskLevel.equalsIgnoreCase("crash")) {
+            return "我崩了";
+        }
+        throw new IllegalArgumentException("unknown risk level: " + riskLevel);
     }
 
     private List<MessageWay> generateWays(AlertContract alertContract) {

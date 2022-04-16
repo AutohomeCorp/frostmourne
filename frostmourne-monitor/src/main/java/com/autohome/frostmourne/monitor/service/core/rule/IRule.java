@@ -11,5 +11,5 @@ public interface IRule {
 
     boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract, MetricContract metricContract, IMetric metric);
 
-    String alertMessage(RuleContract ruleContract, Map<String, Object> context);
+    String alertMessage(String alertTemplate, Map<String, Object> context);
 }

@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.model.message;
 
+import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 import lombok.Getter;
@@ -20,6 +21,8 @@ public class AlarmMessageBO {
     private String title;
 
     private String content;
+
+    private AlertTemplateType alertTemplateType;
 
     private Map<String, Object> context;
 
@@ -51,6 +54,14 @@ public class AlarmMessageBO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public AlertTemplateType getAlertTemplateType() {
+        return alertTemplateType;
+    }
+
+    public void setAlertTemplateType(AlertTemplateType alertTemplateType) {
+        this.alertTemplateType = alertTemplateType;
     }
 
     public Map<String, Object> getContext() {
