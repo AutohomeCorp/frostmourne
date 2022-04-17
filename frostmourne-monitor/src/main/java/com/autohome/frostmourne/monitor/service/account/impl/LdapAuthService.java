@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.HardcodedFilter;
 
-
 public class LdapAuthService implements IAuthService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(LdapAuthService.class);

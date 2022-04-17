@@ -402,6 +402,8 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
 * ~~rule表增加消息模板内容类型字段：alert_template_type~~ - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15] 
 * ~~报警消息格式增加类型: text, markdown选项~~ [2022-04-15]
+* ~~mysql: user_info表增加密码字段password~~ - [SQL](./doc/mysql-schema/2022-04-10/change.sql) [2022-04-10]
+* ~~增加用户密码设置功能，方便没有部署ldap的团队使用。配置了ldap的将优先使用ldap认证。~~ [2022-04-10]
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
@@ -412,7 +414,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * Elasticsearch监控数值实现环比监控
 * 增加ping监控报警,一个监控最多监控10个ping。
 * 解决邮箱报警不支持ssl的问题
-* 增加用户密码设置功能，方便没有部署ldap的团队使用。配置了ldap的将优先使用ldap认证。
 * important breaking feature: 移除xxl-job依赖，内置实现分布式调度，减小部署难度
 * 解决firefox浏览器时间显示有问题的bug
 * 增加报警组支持

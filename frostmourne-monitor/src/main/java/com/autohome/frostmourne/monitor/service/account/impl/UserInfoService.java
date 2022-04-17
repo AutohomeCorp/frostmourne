@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
@@ -16,7 +15,9 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IUserInfoRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IUserRoleRepository;
 import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class UserInfoService implements IUserInfoService {
@@ -98,6 +99,11 @@ public class UserInfoService implements IUserInfoService {
         return contract;
     }
 
+    @Override
+    public UserInfo findInfoByAccount(String account) {
+        return userInfoRepository.findByAccount(account).orElse(null);
+    }
+
     private void appendRoles(List<UserContract> list) {
         if (list == null || list.isEmpty()) {
             return;
@@ -120,6 +126,7 @@ public class UserInfoService implements IUserInfoService {
         contract.setMobile(info.getMobile());
         contract.setEmail(info.getEmail());
         contract.setWxid(info.getWxid());
+        // ignore password
         contract.setCreator(info.getCreator());
         contract.setCreateAt(info.getCreateAt());
         contract.setModifier(info.getModifier());
@@ -137,6 +144,10 @@ public class UserInfoService implements IUserInfoService {
         info.setMobile(contract.getMobile());
         info.setEmail(contract.getEmail());
         info.setWxid(contract.getWxid());
+        //MD5
+        if (!StringUtils.isEmpty(contract.getPassword())) {
+            info.setPassword(DigestUtils.md5Hex(contract.getPassword()));
+        }
         return info;
     }
 }
