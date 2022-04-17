@@ -8,9 +8,10 @@ import com.autohome.frostmourne.monitor.dao.jdbc.IDataSourceJdbcManager;
 import com.autohome.frostmourne.monitor.dao.jdbc.impl.DataSourceJdbcManager;
 import com.autohome.frostmourne.monitor.service.account.IAccountService;
 import com.autohome.frostmourne.monitor.service.account.IAuthService;
+import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
 import com.autohome.frostmourne.monitor.service.account.impl.DefaultAccountService;
-import com.autohome.frostmourne.monitor.service.account.impl.DefaultAuthService;
 import com.autohome.frostmourne.monitor.service.account.impl.LdapAuthService;
+import com.autohome.frostmourne.monitor.service.account.impl.UserAuthService;
 import okhttp3.OkHttpClient;
 import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
@@ -42,6 +43,9 @@ public class BeanConfig {
     @Resource
     private LdapTemplate ldapTemplate;
 
+    @Resource
+    private IUserInfoService userInfoService;
+
     @Bean(initMethod = "init", destroyMethod = "close")
     public ElasticsearchSourceManager elasticsearchSourceManager() {
         return new ElasticsearchSourceManager();
@@ -53,8 +57,7 @@ public class BeanConfig {
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().set(1,
-                new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
         return restTemplate;
     }
 
@@ -70,7 +73,7 @@ public class BeanConfig {
             return new LdapAuthService(searchFilter, ldapTemplate, initialPassword);
         }
         LOGGER.info("apply default auth");
-        return new DefaultAuthService(initialPassword);
+        return new UserAuthService(userInfoService, initialPassword);
 
     }
 
