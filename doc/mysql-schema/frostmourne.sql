@@ -308,7 +308,8 @@ CREATE TABLE IF NOT EXISTS user_info
     creator   VARCHAR(200) NOT NULL COMMENT '创建人',
     create_at DATETIME     NOT NULL COMMENT '创建时间',
     modify_at DATETIME     NOT NULL COMMENT '修改时间',
-    modifier  VARCHAR(200) NOT NULL COMMENT '最后修改人'
+    modifier  VARCHAR(200) NOT NULL COMMENT '最后修改人',
+    password  VARCHAR(200) NOT NULL DEFAULT '' COMMENT '密码'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -408,8 +409,8 @@ VALUES ('default', '默认部门', 'admin', now(), now(), 'admin');
 INSERT INTO team_info(team_name, full_name, department_id, creator, create_at, modify_at, modifier)
 VALUES ('default', '炒鸡赛亚人', 1, 'admin', now(), now(), 'admin');
 
-INSERT INTO user_info(account, full_name, team_id, mobile, email, wxid, creator, create_at, modify_at, modifier)
-VALUES ('admin', '管理员', 1, null, 'xxx@163.com', 'wxid1', 'admin', now(), now(), 'admin');
+INSERT INTO user_info(account, full_name, team_id, mobile, email, wxid, creator, create_at, modify_at, modifier, password)
+VALUES ('admin', '管理员', 1, null, 'xxx@163.com', 'wxid1', 'admin', now(), now(), 'admin', 'e10adc3949ba59abbe56e057f20f883e');
 
 INSERT INTO user_role(account, role, creator, create_at)
 VALUES ('admin', 'admin', 'admin', now());

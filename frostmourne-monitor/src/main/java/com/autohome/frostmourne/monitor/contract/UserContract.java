@@ -11,6 +11,7 @@ public class UserContract {
     private String mobile;
     private String email;
     private String wxid;
+    private String password;
     private String creator;
     private Date createAt;
     private String modifier;
@@ -71,6 +72,14 @@ public class UserContract {
 
     public void setWxid(String wxid) {
         this.wxid = wxid;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getCreator() {
