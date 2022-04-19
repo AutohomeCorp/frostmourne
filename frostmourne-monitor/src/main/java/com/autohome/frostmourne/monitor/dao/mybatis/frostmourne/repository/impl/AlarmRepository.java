@@ -1,6 +1,7 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static org.mybatis.dynamic.sql.SqlBuilder.isLessThanOrEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.monitor.contract.enums.AlarmStatus;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport;
@@ -98,5 +100,25 @@ public class AlarmRepository implements IAlarmRepository {
     @Override
     public long total() {
         return alarmDynamicMapper.count(CountDSL::where);
+    }
+
+    @Override
+    public List<Alarm> querySchedule(Long maxNextTime, Long size) {
+        List<Alarm> list = alarmDynamicMapper.select(query -> {
+            query.where().and(AlarmDynamicSqlSupport.status, isEqualTo(AlarmStatus.OPEN))
+                    .and(AlarmDynamicSqlSupport.triggerNextTime, isLessThanOrEqualTo(maxNextTime))
+                    .orderBy(AlarmDynamicSqlSupport.id.descending()).limit(size);
+            return query;
+        });
+        return list;
+    }
+
+    @Override
+    public int scheduleUpdate(long alarmId, long triggerLastTime, long triggerNextTime) {
+        return alarmDynamicMapper.update(dsl ->
+                dsl.set(AlarmDynamicSqlSupport.triggerLastTime).equalTo(triggerLastTime)
+                        .set(AlarmDynamicSqlSupport.triggerNextTime).equalTo(triggerNextTime)
+                        .where(AlarmDynamicSqlSupport.id, isEqualTo(alarmId))
+        );
     }
 }

@@ -21,7 +21,7 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * Elasticsearch数据查询,分享,下载
 * 报警消息附带日志查询短链接，直达报警原因
 * 报警消息抑制功能，防止消息轰炸
-* 每个监控都是独立调度，互不影响
+* 分布式调度实现，每个监控都是独立调度，互不影响
 * 自带账号,团队,部门信息管理模块，也可自己实现内部对接
 * 集成LDAP登录认证
 * 权限控制，数据隔离，各团队互不影响
@@ -224,7 +224,7 @@ UI项目，使用vue-element-template实现，打包时会打到frostmourne-moni
 
 * frostmourne-monitor
 
-监控运行主体项目, 依赖xxl-job。监控调度模块依赖xxl-job[https://github.com/xuxueli/xxl-job] 实现。
+监控运行主体项目。
 
 ```
 email.smtp.host=${your.email.smtp.host:}
@@ -241,8 +241,7 @@ wechat.secret=${your.wechat.secret:}
 ## 调试环境要求
 
 * JDK 1.8
-* xxl-job 2.1.0
-* nodejs
+* node
 * mysql
 * elasticsearch 6.3.2+
 
@@ -259,52 +258,6 @@ druid.datasource.frostmourne.password=[plain_password]
 ```
 
 密码默认使用明文，没有加密策略，如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
-
-* xxl-job库
-
-xxl-job库的创建语句在[/doc/xxl-job/xxl-job.sql](./doc/xxl-job/xxl-job.sql)
-
-## xxl-job服务
-
-本项目依赖xxl-job, 请自己部署xxl-job，并将相关接口权限认证去掉(在action上加注解 @PermissionLimit(limit=false) )，让frostmourne可以访问这些接口。需要了解xxl-job请
-查阅官方站点[https://www.xuxueli.com/xxl-job/]. 当前依赖版本为2.1.0，如果存在版本兼容问题，请自行修改适配, 建议单独部署一套新的xxl-job，能避免很多不必要的麻烦。
-依赖的xxl-job接口列表如下:
-
-* /jobinfo/add
-* /jobinfo/update
-* /jobinfo/remove
-* /jobinfo/start
-* /jobinfo/stop
-
-如果你觉得从xxl-job官方下载源码修改部署太麻烦，你可以使用我处理好了的jar包 <a href="./doc/xxl-job/xxl-job-admin-2.1.0.zip" target="_blank">xxl-job-admin-2.1.0.zip</a>，你可以下载直接解压使用
-xxl-job部署好之后，你需要在xxl-job-admin的执行器管理中创建一个名为frostmourne的执行器，注册方式为自动注册，如下图：
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/executor.png"/>
-
-启动脚本都已经写好，你只需要修改application.properties设置自己的应用配置，修改env设置环境变量配置。然后执行启动脚本即可。
-
-```bash
-./scripts/startup.sh
-```
-
-执行如下命令停止应用：
-
-```bash
-./scripts/shutdown.sh
-```
-
-如果嫌包部署麻烦，测试环境也可以直接用<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
-docker里启动一个xxl-job服务，供本地调用
-
-## 为什么需要xxl-job
-
-引入xxl-job是为了让每个监控任务都可以独立调度，在创建监控的同时，会调用xxl-job的服务的接口创建一个调度任务。引入xxl-job确实给部署带来了
-一定的难度，但是也带来了如下好处:
-
-* 节约很多开发成本，让项目可以很快完成
-* 将调度作为一个服务独立出去，大大降低了主体功能项目的复杂度
-
-所以在权衡利弊之后，还是决定好好利用优秀的国内开源项目xxl-job
 
 ## query string简易教程
 
@@ -335,31 +288,15 @@ frostmourne-monitor已经配置了assembly打包，target目录下会生成zip�
 ./scripts/shutdown.sh
 ```
 
-[xxl-job-admin-2.1.0.zip](./doc/xxl-job/xxl-job-admin-2.1.0.zip)的zip包也已经放在了仓库里，供下载使用，使用方式相同。
-
 ## 开发调试
 
-修改frostmourne-monitor里和xxl-job相关配置。其中xxl.job.executor.id配置为刚在xxl-job中创建的执行器id。一般执行器id是2。
+启动frostmourne-monitor项目, 启动参数增加：
 
 ```
-### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
-xxl.job.admin.addresses=http://[your_xxljob_address]/xxl-job-admin
-### xxl-job executor address
-xxl.job.executor.id=2
-xxl.job.executor.appname=frostmourne
-xxl.job.executor.ip=
-xxl.job.executor.port=-1
-### xxl-job, access token
-xxl.job.accessToken=
-### xxl-job log path
-xxl.job.executor.logpath=/data/applogs/xxl-job/jobhandler
-### xxl-job log retention days
-xxl.job.executor.logretentiondays=3
-### xxl-job alarm email
-xxl.job.alarm.email=[your_email]
+-Dmysql.host=localhost -Dmysql.user=root -Dmysql.password=example -Dlog.console.level=INFO
 ```
 
-启动frostmourne-monitor项目, 启动参数增加：-Dlog.console.level=INFO，active profile设置为local, 测试地址: http://localhost:10054
+mysql相关参数修改为自己环境的，active profile设置为local, 测试地址: http://localhost:10054
 使用VS Code打开frostmourne-vue目录，进行UI调试。执行如下命令:
 
 ```bash
@@ -400,25 +337,30 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~将发送消息功能从spi移到monitor~~ [2022-04-05]
 * ~~移除spi模块，随着monitor功能完善，spi的存在已经成为鸡肋，移除掉可以降低调试和部署难度~~[2022-04-05]
 * ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
-* ~~rule表增加消息模板内容类型字段：alert_template_type~~ - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15] 
+* ~~rule表增加消息模板内容类型字段：alert_template_type~~ - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15]
 * ~~报警消息格式增加类型: text, markdown选项~~ [2022-04-15]
 * ~~mysql: user_info表增加密码字段password~~ - [SQL](./doc/mysql-schema/2022-04-10/change.sql) [2022-04-10]
 * ~~增加用户密码设置功能，方便没有部署ldap的团队使用。配置了ldap的将优先使用ldap认证。~~ [2022-04-10]
+* ~~mysql: 增加数据库分布式锁表job_lock，alarm表增加两个字段：trigger_last_time, trigger_next_time~~ - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
+* ~~移除xxl-job依赖，内置实现分布式调度，减小部署难度~~ [2022-04-18]
+* ~~增加0.6升级0.6.1的说明文档~~ [upgrade-0.6.1.md](./doc/wiki/upgrade-0.6.1.md) [2022-04-19]
+* 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
+* Elasticsearch监控数值实现环比监控
+* msyql监控增加表达式监控规则
+* 优化dockerfile，增加k8s环境部署说明文档
+* 增加ping监控报警,一个监控最多监控10个ping。
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 增加消息内容长度配置，超过长度配置部分将被截掉
-* msyql监控增加表达式监控规则
-* Elasticsearch监控数值实现环比监控
-* 增加ping监控报警,一个监控最多监控10个ping。
 * 解决邮箱报警不支持ssl的问题
-* important breaking feature: 移除xxl-job依赖，内置实现分布式调度，减小部署难度
+* 增加本项目内程序日志采集至mysql并提供查询页面，方便排查问题和监控
+* 员工换组增加是否迁移监控至新组的选项，如果勾选将该员工创建的监控也转移至新组
 * 解决firefox浏览器时间显示有问题的bug
 * 增加报警组支持
 * Elasticsearch数据名增加traceid字段配置，可以配置跳转链接。例如: 配置skywalking的链接将跳转到skywalking对应的调用链
-* 数据配置支持数据分组，分组类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
 * 增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持
 * 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
