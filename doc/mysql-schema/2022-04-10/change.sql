@@ -1,0 +1,2 @@
+ALTER TABLE user_info
+  ADD COLUMN password VARCHAR(200) NOT NULL DEFAULT '' COMMENT '密码';

@@ -69,6 +69,10 @@
         <el-form-item label="账号" :label-width="formLabelWidth">
           <el-input v-model="editData.account" autocomplete="off" />
         </el-form-item>
+        <el-form-item label="密码" :label-width="formLabelWidth">
+          <el-input v-model="editData.password" autocomplete="off" type="password" />
+          <el-tag v-show="showPwdTip" type="info">为空时使用原密码</el-tag>
+        </el-form-item>
         <el-form-item label="名字" :label-width="formLabelWidth">
           <el-input v-model="editData.fullName" autocomplete="off" />
         </el-form-item>
@@ -117,18 +121,20 @@ export default {
         account: null,
         teamId: null
       },
-      editData: { 
+      editData: {
         role: 'user',
         id: null,
         account: null,
+        password: null,
         fullName: null,
         teamId: null,
         mobile: null,
         email: null,
-        wxid: null 
+        wxid: null
       },
       formLabelWidth: '100px',
       dialogFormVisible: false,
+      showPwdTip: false,
       teamList: []
     }
   },
@@ -167,8 +173,10 @@ export default {
     },
     edit (row) {
       if (row !== null) {
+        this.showPwdTip = true
         this.editData.id = row.id
         this.editData.account = row.account
+        this.editData.password = row.password
         this.editData.fullName = row.fullName
         this.editData.teamId = row.teamId
         this.editData.mobile = row.mobile
@@ -176,6 +184,7 @@ export default {
         this.editData.wxid = row.wxid
         this.editData.role = this.findRole(row.roles)
       } else {
+        this.showPwdTip = false
         this.editData = { role: 'user' }
       }
 
