@@ -33,28 +33,28 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface UserInfoDynamicMapper {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
-    BasicColumn[] selectList = BasicColumn.columnList(id, account, fullName, teamId, mobile, email, wxid, creator, createAt, modifyAt, modifier);
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.766+08:00", comments="Source Table: user_info")
+    BasicColumn[] selectList = BasicColumn.columnList(id, account, fullName, teamId, mobile, email, wxid, creator, createAt, modifyAt, modifier, password);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.755+08:00", comments="Source Table: user_info")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.757+08:00", comments="Source Table: user_info")
     @DeleteProvider(type=SqlProviderAdapter.class, method="delete")
     int delete(DeleteStatementProvider deleteStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.757+08:00", comments="Source Table: user_info")
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="record.id", before=false, resultType=Long.class)
     int insert(InsertStatementProvider<UserInfo> insertStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.76+08:00", comments="Source Table: user_info")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("UserInfoResult")
     Optional<UserInfo> selectOne(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.761+08:00", comments="Source Table: user_info")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="UserInfoResult", value = {
         @Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
@@ -67,32 +67,33 @@ public interface UserInfoDynamicMapper {
         @Result(column="creator", property="creator", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="modify_at", property="modifyAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="modifier", property="modifier", jdbcType=JdbcType.VARCHAR)
+        @Result(column="modifier", property="modifier", jdbcType=JdbcType.VARCHAR),
+        @Result(column="password", property="password", jdbcType=JdbcType.VARCHAR)
     })
     List<UserInfo> selectMany(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.762+08:00", comments="Source Table: user_info")
     @UpdateProvider(type=SqlProviderAdapter.class, method="update")
     int update(UpdateStatementProvider updateStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.762+08:00", comments="Source Table: user_info")
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, userInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.762+08:00", comments="Source Table: user_info")
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, userInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.763+08:00", comments="Source Table: user_info")
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.763+08:00", comments="Source Table: user_info")
     default int insert(UserInfo record) {
         return MyBatis3Utils.insert(this::insert, record, userInfo, c ->
             c.map(account).toProperty("account")
@@ -105,10 +106,11 @@ public interface UserInfoDynamicMapper {
             .map(createAt).toProperty("createAt")
             .map(modifyAt).toProperty("modifyAt")
             .map(modifier).toProperty("modifier")
+            .map(password).toProperty("password")
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.764+08:00", comments="Source Table: user_info")
     default int insertSelective(UserInfo record) {
         return MyBatis3Utils.insert(this::insert, record, userInfo, c ->
             c.map(account).toPropertyWhenPresent("account", record::getAccount)
@@ -121,37 +123,38 @@ public interface UserInfoDynamicMapper {
             .map(createAt).toPropertyWhenPresent("createAt", record::getCreateAt)
             .map(modifyAt).toPropertyWhenPresent("modifyAt", record::getModifyAt)
             .map(modifier).toPropertyWhenPresent("modifier", record::getModifier)
+            .map(password).toPropertyWhenPresent("password", record::getPassword)
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.767+08:00", comments="Source Table: user_info")
     default Optional<UserInfo> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, userInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.004+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.767+08:00", comments="Source Table: user_info")
     default List<UserInfo> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, userInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.005+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.767+08:00", comments="Source Table: user_info")
     default List<UserInfo> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, userInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.005+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.768+08:00", comments="Source Table: user_info")
     default Optional<UserInfo> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.005+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.768+08:00", comments="Source Table: user_info")
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, userInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.005+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.769+08:00", comments="Source Table: user_info")
     static UpdateDSL<UpdateModel> updateAllColumns(UserInfo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(account).equalTo(record::getAccount)
                 .set(fullName).equalTo(record::getFullName)
@@ -162,10 +165,11 @@ public interface UserInfoDynamicMapper {
                 .set(creator).equalTo(record::getCreator)
                 .set(createAt).equalTo(record::getCreateAt)
                 .set(modifyAt).equalTo(record::getModifyAt)
-                .set(modifier).equalTo(record::getModifier);
+                .set(modifier).equalTo(record::getModifier)
+                .set(password).equalTo(record::getPassword);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.005+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.769+08:00", comments="Source Table: user_info")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(UserInfo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(account).equalToWhenPresent(record::getAccount)
                 .set(fullName).equalToWhenPresent(record::getFullName)
@@ -176,10 +180,11 @@ public interface UserInfoDynamicMapper {
                 .set(creator).equalToWhenPresent(record::getCreator)
                 .set(createAt).equalToWhenPresent(record::getCreateAt)
                 .set(modifyAt).equalToWhenPresent(record::getModifyAt)
-                .set(modifier).equalToWhenPresent(record::getModifier);
+                .set(modifier).equalToWhenPresent(record::getModifier)
+                .set(password).equalToWhenPresent(record::getPassword);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.005+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.77+08:00", comments="Source Table: user_info")
     default int updateByPrimaryKey(UserInfo record) {
         return update(c ->
             c.set(account).equalTo(record::getAccount)
@@ -192,11 +197,12 @@ public interface UserInfoDynamicMapper {
             .set(createAt).equalTo(record::getCreateAt)
             .set(modifyAt).equalTo(record::getModifyAt)
             .set(modifier).equalTo(record::getModifier)
+            .set(password).equalTo(record::getPassword)
             .where(id, isEqualTo(record::getId))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.005+08:00", comments="Source Table: user_info")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-20T22:50:25.771+08:00", comments="Source Table: user_info")
     default int updateByPrimaryKeySelective(UserInfo record) {
         return update(c ->
             c.set(account).equalToWhenPresent(record::getAccount)
@@ -209,6 +215,7 @@ public interface UserInfoDynamicMapper {
             .set(createAt).equalToWhenPresent(record::getCreateAt)
             .set(modifyAt).equalToWhenPresent(record::getModifyAt)
             .set(modifier).equalToWhenPresent(record::getModifier)
+            .set(password).equalToWhenPresent(record::getPassword)
             .where(id, isEqualTo(record::getId))
         );
     }
