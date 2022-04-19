@@ -3,18 +3,21 @@
 ### Feature
 
 * 移除spi模块，相关功能移至monitor [2022-04-05]
-* 微信机器人、钉钉机器人和http报警消息格式支持markdown [2022-04-15]
-* 增加用户密码设置功能，方便没有部署ldap的团队使用。配置了ldap的将优先使用ldap认证。 [2022-04-10]
+* 微信机器人、钉钉机器人和http报警消息格式支持markdown - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15]
+* 增加用户密码设置功能，方便没有部署ldap的团队使用。配置了ldap的将优先使用ldap认证。 - [SQL](./doc/mysql-schema/2022-04-10/change.sql) [2022-04-10]
+* 移除xxl-job依赖，内置实现分布式调度，减小部署难度 - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
 
 ### Mysql
 
 * mysql: rule表增加消息模板内容类型字段：alert_template_type - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15]
 * mysql: user_info表增加密码字段password - [SQL](./doc/mysql-schema/2022-04-10/change.sql) [2022-04-10]
+* mysql: 增加数据库分布式锁表job_lock，alarm表增加两个字段：trigger_last_time, trigger_next_time - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
 
 ### Document
 
 * 增加0.5升级0.6的说明文档 [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
 * 增加markdown格式消息使用文档说明 [template_markdown.md](./doc/wiki/template_markdown.md)
+* 增加0.6升级0.6.1的说明文档 [upgrade-0.6.1.md](./doc/wiki/upgrade-0.6.1.md) [2022-04-19]
 
 # 0.5-RELEASE
 

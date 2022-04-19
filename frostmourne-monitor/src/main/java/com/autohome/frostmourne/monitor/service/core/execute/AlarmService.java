@@ -31,7 +31,7 @@ public class AlarmService implements IAlarmService {
     @Resource
     private IGenerateShortLinkService generateShortLinkService;
 
-    public AlarmProcessLogger run(String account, Long alarmId, boolean test) {
+    public AlarmProcessLogger run(Long alarmId, boolean test) {
         AlarmContract alarmContract = this.alarmAdminService.findById(alarmId);
         return run(alarmContract, test);
     }

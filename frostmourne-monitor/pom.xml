@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.autohome</groupId>
         <artifactId>frostmourne</artifactId>
-        <version>0.6-SNAPSHOT</version>
+        <version>0.6.1-SNAPSHOT</version>
     </parent>
     <artifactId>frostmourne-monitor</artifactId>
     <name>frostmourne-monitor</name>
@@ -242,6 +242,16 @@
 
     <build>
         <finalName>frostmourne-monitor-${project.version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>generatorConfig.xml</exclude>
+                    <!--<exclude>generatorConfig-dynamic.xml</exclude>
+                    <exclude>mybatis-generator-config.properties</exclude>-->
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
