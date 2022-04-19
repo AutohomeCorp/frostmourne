@@ -808,14 +808,14 @@ export default {
       }
     },
     alertTemplateTypeChangeHandler (newValue) {
-      if (newValue === 'TEXT') {
+      if (newValue === 'TEXT' && !this.form.ruleContract.alertTemplate.replace(/&nbsp;/g, '').trim()) {
         this.form.ruleContract.alertTemplate = '消息类型: [${ALERT_TYPE}] ${ALERT_SILENCE}分钟内连续报警将不重复发送\r\n' +
           '${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一条异常信息:\r\n' +
           '服务器IP: ${ServerIP}\r\n' +
           '异常类型: ${ExceptionType}\r\n' +
           '自定义信息: ${CustomMessage}\r\n' +
           '异常信息: ${ExceptionMessage}'
-      } else {
+      } else if (newValue === 'MARKDOWN' && !this.form.ruleContract.alertTemplate.replace(/&nbsp;/g, '').trim()) {
         this.form.ruleContract.alertTemplate = '### [霜之哀伤监控平台][id:${ALARM_ID}]${ALARM_NAME}\r\n' +
           '${Project}最近 ${TIME_WINDOW} 分钟内有异常日志 ${NUMBER} 条。最近一条异常信息:\r\n' +
           '> 服务器IP: ${ServerIP}\r\n' +
