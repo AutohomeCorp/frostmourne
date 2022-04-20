@@ -37,7 +37,6 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IReci
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRulePropertyRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRuleRepository;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
-import com.autohome.frostmourne.monitor.service.admin.IScheduleService;
 import com.autohome.frostmourne.monitor.service.core.service.IServiceInfoService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
 import com.autohome.frostmourne.monitor.transform.DataSourceTransformer;
@@ -96,9 +95,6 @@ public class AlarmAdminService implements IAlarmAdminService {
     private IDataNameRepository dataNameRepository;
 
     @Resource
-    private IScheduleService scheduleService;
-
-    @Resource
     private IServiceInfoService serviceInfoService;
 
     public boolean atomicSave(AlarmContract alarmContract) {
@@ -137,7 +133,6 @@ public class AlarmAdminService implements IAlarmAdminService {
             ruleRepository.deleteByAlarm(alarmId);
             rulePropertyRepository.deleteByAlarm(alarmId);
             recipientRepository.deleteByAlarm(alarmId);
-            scheduleService.removeJob(Math.toIntExact(alarm.getJobId()));
         } catch (Exception ex) {
             frostmourneTransactionManager.rollback(status);
         }
@@ -148,16 +143,12 @@ public class AlarmAdminService implements IAlarmAdminService {
     @Transactional(value = "frostmourneTransactionManager")
     public boolean open(Long alarmId) {
         boolean result = updateStatus(alarmId, AlarmStatus.OPEN);
-        Alarm alarm = this.alarmRepository.selectByPrimaryKey(alarmId).get();
-        this.scheduleService.openJob(Math.toIntExact(alarm.getJobId()));
         return result;
     }
 
     @Transactional(value = "frostmourneTransactionManager")
     public boolean close(Long alarmId) {
         boolean result = updateStatus(alarmId, AlarmStatus.CLOSE);
-        Alarm alarm = this.alarmRepository.selectByPrimaryKey(alarmId).get();
-        this.scheduleService.closeJob(Math.toIntExact(alarm.getJobId()));
         return result;
     }
 
@@ -292,7 +283,6 @@ public class AlarmAdminService implements IAlarmAdminService {
         Long ruleId = saveRule(alarmContract.getRuleContract(), alarmId, isNewAlarm, alarmContract.getOperator());
         saveMetric(alarmContract.getMetricContract(), alarmId, ruleId, isNewAlarm, alarmContract.getOperator());
 
-        saveJobSchedule(isNewAlarm, alarm);
     }
 
     private Alarm addAlarm(AlarmContract alarmContract) {
@@ -315,6 +305,8 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setJobId(0L);
         alarm.setExecuteResult(ExecuteStatus.WAITING.getName());
         alarm.setServiceId(Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
+        alarm.setTriggerLastTime(0L);
+        alarm.setTriggerNextTime(0L);
         alarmRepository.insert(alarm);
 
         return alarm;
@@ -337,7 +329,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setModifier(alarmContract.getOperator());
         alarm.setTeamName(alarmContract.getTeamName());
         alarm.setServiceId(Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
-
+        alarm.setTriggerNextTime(0L);
         alarmRepository.updateByPrimaryKeySelective(alarm);
 
         alarm = alarmRepository.selectByPrimaryKey(alarmContract.getId()).get();
@@ -445,15 +437,6 @@ public class AlarmAdminService implements IAlarmAdminService {
             DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)
                     .orElseThrow(() -> new ProtocolException(1900, "dataSource not exist. id: " + dataName.getDataSourceId()));
             alarmContract.getMetricContract().setDataSourceContract(dataSourceContract);
-        }
-    }
-
-    private void saveJobSchedule(boolean isNewAlarm, Alarm alarm) {
-        if (isNewAlarm || alarm.getJobId() <= 0) {
-            Integer jobId = this.scheduleService.addJob(alarm.getId(), alarm.getCron(), alarm.getStatus());
-            alarmRepository.updateJobId(alarm.getId(), new Long(jobId));
-        } else {
-            this.scheduleService.updateJob(alarm.getId(), Math.toIntExact(alarm.getJobId()), alarm.getCron(), alarm.getStatus());
         }
     }
 }

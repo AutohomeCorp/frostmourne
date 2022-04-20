@@ -5,14 +5,12 @@ import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.Protocol;
 import com.autohome.frostmourne.monitor.contract.AlarmContract;
-import com.autohome.frostmourne.monitor.contract.MetricContract;
+import com.autohome.frostmourne.monitor.controller.annotation.PermissionLimit;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.monitor.service.core.execute.IAlarmService;
-import com.autohome.frostmourne.monitor.service.core.metric.HttpMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetricService;
-import com.autohome.frostmourne.monitor.tool.AuthTool;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,9 +31,9 @@ public class AlarmController {
     private IAlarmAdminService alarmAdminService;
 
     @RequestMapping(value = "/run", method = RequestMethod.GET)
-    public Protocol<String> run(String _appId, Long alarmId) {
-        String account = AuthTool.currentUser().getAccount();
-        AlarmProcessLogger alarmProcessLogger = alarmService.run(account, alarmId, false);
+    @PermissionLimit(limit = false)
+    public Protocol<String> run(@RequestParam(value = "_appId", required = true) String _appId, Long alarmId) {
+        AlarmProcessLogger alarmProcessLogger = alarmService.run(alarmId, false);
         return new Protocol<>(alarmProcessLogger.traceInfo());
     }
 

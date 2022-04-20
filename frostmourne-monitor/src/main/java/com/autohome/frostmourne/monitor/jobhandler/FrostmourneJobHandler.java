@@ -8,11 +8,9 @@ import com.autohome.frostmourne.monitor.service.core.execute.IAlarmService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
-import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 
 /**
@@ -26,8 +24,8 @@ import org.springframework.stereotype.Component;
  *
  * @author xuxueli 2015-12-19 19:43:36
  */
-@JobHandler(value = "frostmourneJobHandler")
-@Component
+//@JobHandler(value = "frostmourneJobHandler")
+//@Component
 public class FrostmourneJobHandler extends IJobHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FrostmourneJobHandler.class);
@@ -42,7 +40,7 @@ public class FrostmourneJobHandler extends IJobHandler {
             };
             Map<String, Object> paramMap = JacksonObjectMapper.getCommonObjectMapper().readValue(param, typeRef);
             Long alarmId = new Long(paramMap.get("alarmId").toString());
-            alarmService.run("system", alarmId, false);
+            alarmService.run(alarmId, false);
             XxlJobLogger.log("frostmourne, job end.");
             return SUCCESS;
         } catch (Exception ex) {
