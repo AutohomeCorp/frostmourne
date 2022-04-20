@@ -4,7 +4,7 @@ import com.autohome.frostmourne.monitor.contract.AlarmContract;
 
 public interface IAlarmService {
 
-    AlarmProcessLogger run(String account, Long alarmId, boolean test);
+    AlarmProcessLogger run(Long alarmId, boolean test);
 
     AlarmProcessLogger test(AlarmContract alarmContract);
 

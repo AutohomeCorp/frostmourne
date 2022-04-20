@@ -1,6 +1,7 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
@@ -27,4 +28,8 @@ public interface IAlarmRepository {
     int updateJobId(Long alarmId, Long jobId);
 
     long total();
+
+    List<Alarm> querySchedule(Long maxNextTime, Long size);
+
+    int scheduleUpdate(long alarmId, long triggerLastTime, long triggerNextTime);
 }

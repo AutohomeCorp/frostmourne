@@ -93,8 +93,7 @@ public class AlertService implements IAlertService {
             String timeString = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
             if (alertType.equalsIgnoreCase(AlertType.PROBLEM)) {
                 alertContent = alarmProcessLogger.getAlertMessage();
-                alarmMessageBO
-                        .setContent(String.format("[%s] [问题] %s\n%s", timeString, risk, alarmProcessLogger.getAlertMessage()));
+                alarmMessageBO.setContent(String.format("[%s] [问题] %s\n%s", timeString, risk, alarmProcessLogger.getAlertMessage()));
             } else if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
                 AlertLog alertLog = this.alertLogRepository
                         .selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
@@ -118,7 +117,7 @@ public class AlertService implements IAlertService {
         saveAlertLog(alertType, alarmMessageBO.getResultList(), recipients, alarmProcessLogger.getAlarmContract().getId(),
                 alertContent, alarmProcessLogger.getAlarmLog().getId());
     }
-    
+
     private String riskTranslation(String riskLevel) {
         if (Strings.isNullOrEmpty(riskLevel)) {
             return null;
