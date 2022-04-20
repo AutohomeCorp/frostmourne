@@ -7,64 +7,70 @@ import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class AlarmDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:26.999+08:00", comments="Source Table: alarm")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.35+08:00", comments="Source Table: alarm")
     public static final Alarm alarm = new Alarm();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27+08:00", comments="Source field: alarm.id")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.351+08:00", comments="Source field: alarm.id")
     public static final SqlColumn<Long> id = alarm.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27+08:00", comments="Source field: alarm.alarm_name")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.351+08:00", comments="Source field: alarm.alarm_name")
     public static final SqlColumn<String> alarmName = alarm.alarmName;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27+08:00", comments="Source field: alarm.alarm_type")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.351+08:00", comments="Source field: alarm.alarm_type")
     public static final SqlColumn<String> alarmType = alarm.alarmType;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27+08:00", comments="Source field: alarm.description")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.352+08:00", comments="Source field: alarm.description")
     public static final SqlColumn<String> description = alarm.description;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27+08:00", comments="Source field: alarm.owner_key")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.352+08:00", comments="Source field: alarm.owner_key")
     public static final SqlColumn<String> ownerKey = alarm.ownerKey;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27+08:00", comments="Source field: alarm.status")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.352+08:00", comments="Source field: alarm.status")
     public static final SqlColumn<String> status = alarm.status;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27+08:00", comments="Source field: alarm.execute_result")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.352+08:00", comments="Source field: alarm.execute_result")
     public static final SqlColumn<String> executeResult = alarm.executeResult;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27+08:00", comments="Source field: alarm.execute_at")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.execute_at")
     public static final SqlColumn<Date> executeAt = alarm.executeAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27.001+08:00", comments="Source field: alarm.job_id")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.job_id")
     public static final SqlColumn<Long> jobId = alarm.jobId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27.001+08:00", comments="Source field: alarm.cron")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.cron")
     public static final SqlColumn<String> cron = alarm.cron;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27.001+08:00", comments="Source field: alarm.creator")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.creator")
     public static final SqlColumn<String> creator = alarm.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27.001+08:00", comments="Source field: alarm.create_at")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.create_at")
     public static final SqlColumn<Date> createAt = alarm.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27.001+08:00", comments="Source field: alarm.modifier")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.modifier")
     public static final SqlColumn<String> modifier = alarm.modifier;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27.001+08:00", comments="Source field: alarm.modify_at")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.modify_at")
     public static final SqlColumn<Date> modifyAt = alarm.modifyAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27.001+08:00", comments="Source field: alarm.team_name")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.team_name")
     public static final SqlColumn<String> teamName = alarm.teamName;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27.001+08:00", comments="Source field: alarm.risk_level")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.risk_level")
     public static final SqlColumn<String> riskLevel = alarm.riskLevel;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27.001+08:00", comments="Source field: alarm.service_id")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.service_id")
     public static final SqlColumn<Long> serviceId = alarm.serviceId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:27.001+08:00", comments="Source field: alarm.recover_notice_status")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.recover_notice_status")
     public static final SqlColumn<String> recoverNoticeStatus = alarm.recoverNoticeStatus;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-11-29T20:12:26.999+08:00", comments="Source Table: alarm")
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.trigger_last_time")
+    public static final SqlColumn<Long> triggerLastTime = alarm.triggerLastTime;
+
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.trigger_next_time")
+    public static final SqlColumn<Long> triggerNextTime = alarm.triggerNextTime;
+
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.35+08:00", comments="Source Table: alarm")
     public static final class Alarm extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
@@ -101,6 +107,10 @@ public final class AlarmDynamicSqlSupport {
         public final SqlColumn<Long> serviceId = column("service_id", JDBCType.BIGINT);
 
         public final SqlColumn<String> recoverNoticeStatus = column("recover_notice_status", JDBCType.VARCHAR);
+
+        public final SqlColumn<Long> triggerLastTime = column("trigger_last_time", JDBCType.BIGINT);
+
+        public final SqlColumn<Long> triggerNextTime = column("trigger_next_time", JDBCType.BIGINT);
 
         public Alarm() {
             super("alarm");

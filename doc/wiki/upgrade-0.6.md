@@ -1,6 +1,9 @@
 ## 升级到0.6说明
 
-0.6版本引入了破坏性的修改。将spi移除，相关功能转移至monitor，原因是随着monitor功能完善，spi显得很鸡肋了，移除spi可以降低部署难度。
+0.6版本引入了破坏性的修改。
+
+* (1) 将spi移除，相关功能转移至monitor，原因是随着monitor功能完善，spi显得很鸡肋了，移除spi可以降低部署难度。
+
 功能没有变化。全部修改内容只需要将原来配置在spi中的配置移动monitor即可。
 
 ### 变更内容：
@@ -48,3 +51,5 @@ services:
 ```
 
 删除spi服务所有配置，并移除frostmourne-monitor对frostmourne-spi的depends_on配置。
+
+
