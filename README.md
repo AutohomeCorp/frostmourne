@@ -82,6 +82,8 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 #### 预备环境准备：Mysql数据库表创建
 > frostmourne所有表的创建语句都在[frostmourne.sql](./doc/mysql-schema/frostmourne.sql)文件中。
 
+数据库密码默认使用明文，没有加密策略，如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
+
 <br/>
 
 #### 一、自构建部署方式
@@ -146,8 +148,6 @@ kubectl applt -f frostmourne-monitor-deployment.yaml
 kubectl apply -f frostmourne-monitor-service.yaml
 ```
 
-
-数据库密码默认使用明文，没有加密策略，如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
 
 ## 开发调试
 
