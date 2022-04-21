@@ -61,7 +61,7 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 * <a href="./doc/wiki/ways.md" target="_blank">报警发送</a>
 * <a href="./doc/wiki/supress.md" target="_blank">报警抑制</a>
 * <a href="./doc/wiki/auth.md" target="_blank">用户管理和登录认证</a>
-* <a href="./doc/wiki/node.md" target="_blank">注意事项</a>
+* <a href="./doc/wiki/note.md" target="_blank">注意事项</a>
 * <a href="./doc/wiki/other.md" target="_blank">其他</a>
 
 
@@ -118,7 +118,7 @@ frostmourne-monitor已经配置了assembly打包，target目录下会生成zip�
 依赖环境
 * JDK 1.8+
 
-需要将zip包解压，然后根据自己的
+需要将zip包解压，zip包下载地址：[frostmourne-monitor-0.6.1-SNAPSHOT.zip](./doc/wiki/zip/frostmourne-monitor-0.6.1-SNAPSHOT.zip) ;然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
 
 ```bash
@@ -203,9 +203,9 @@ npm run dev
 * ~~移除xxl-job依赖，内置实现分布式调度，减小部署难度~~ [2022-04-18]
 * ~~增加0.6升级0.6.1的说明文档~~ [upgrade-0.6.1.md](./doc/wiki/upgrade-0.6.1.md) [2022-04-19]
 * ~~msyql, influxdb, clickhouse监控增加表达式监控规则~~ [2022-04-20]
+* ~~增加k8s环境部署说明~~ [2022-04-21]
 * 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
 * Elasticsearch监控数值实现环比监控
-* 优化dockerfile，增加k8s环境部署说明文档
 * 增加ping监控报警,一个监控最多监控10个ping。
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
