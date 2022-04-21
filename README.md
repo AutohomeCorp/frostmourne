@@ -53,11 +53,7 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
 详细请看文档：<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
-## 实现简易示意图
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/alarm_design.png" />
-
-## mysql数据库表创建
+## Mysql数据库表创建
 
 * frostmourne库
 
@@ -299,6 +295,10 @@ The project is licensed under the [MIT](LICENSE).
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-qq.png" />
+
+## 实现简易示意图
+
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/alarm_design.png" />
 
 ## 项目事记
 
