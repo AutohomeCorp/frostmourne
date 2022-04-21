@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: frostmourne-monitor
+  name: frostmourne-monitor
+  namespace: frostmourne
+spec:
+  replicas: 3 # 启动pod数量
+  selector:
+    matchLabels:
+      run: frostmourne-monitor
+  template:
+    metadata:
+      labels:
+        run: frostmourne-monitor
+    spec:
+      containers:
+        - args:
+            - bash
+            - -c
+            - /opt/frostmourne/start.sh frostmourne-monitor
+          env:
+            # mysql
+            - name: datasource_frostmourne_url
+              value: jdbc:mysql://${mysql.host}/frostmourne?useSSL=false&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+            - name: datasource_frostmourne_username
+              value: 
+            - name: datasource_frostmourne_password
+              value:
+
+            # frostmourne
+            - name: frostmourne_message_title
+              value: "霜之哀伤监控平台"
+            - name: alarmlog_reserve_days
+              value: "30"
+            - name: frostmourne_monitor_address  # 配置用于生成日志查询地址和调度触发监控改运行
+              value: 
+            - name: initial_password
+              value:
+
+            # ldap（可选）
+            - name: ldap_enabled
+              value: "true"
+            - name: spring_ldap_urls
+              value:
+            - name: spring_ldap_username
+              value:
+            - name: spring_ldap_password
+              value:
+            - name: spring_ldap_base
+              value:
+            - name: spring_ldap_auth_searchFilter
+              value:
+            - name: spring_ldap_auth_searchFilter
+              value:
+
+            # email（可选）
+            - name: email.sender
+              value: 
+            - name: email.sender.password
+              value: 
+            - name: email.smtp.auth
+              value: "true"
+            - name: email.smtp.host
+              value: 
+            - name: email.smtp.port
+              value:
+
+            # wechat（可选）
+            - name: wechat.corpid
+              value:
+            - name: wechat.agentid
+              value:
+            - name: wechat.secret
+              value:
+
+          image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.6.1
+          name: frostmourne-monitor
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 2
+              memory: 4096Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          ports:
+            - containerPort: 10054
+      restartPolicy: Always

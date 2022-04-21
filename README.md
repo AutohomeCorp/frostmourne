@@ -6,6 +6,20 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 关于内部日志系统的设计实现感兴趣的话，请移步文章: <a href="./doc/wiki/design.md" target="_blank">之家经销商技术部基于Elasticsearch的日志系统设计与实现</a> 可以认为frostmoure是监控部分的实现。
 如果你现在使用Elastic stack(ELK)建立起了日志系统，却苦恼于没有一个配套日志监控系统，也许它能帮到你。
 
+### 项目初衷
+
+在用ELK建立起日志系统之后，我们发现应用日志监控这块除了ElastAlert之外，没有其他方案。我们初期使用ElastAlert来解决日志监控的问题，
+但是随着配置的增加，不仅管理成本和使用成本较高，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
+来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
+
+但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控, ClickHouse数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
+iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
+
+
+### 技术说明
+项目基于Java实现，详细请看：[技术说明](./doc/wiki/technical.md)
+
+
 ## 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
@@ -28,74 +42,12 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 
 ## 功能截图展示
 
-* 报警效果
+报警效果图如下：
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/message.png" />
 
-* <a href="./doc/wiki/feature_image.md" target="_blank">完整功能截图展示</a>
+查看<a href="./doc/wiki/feature_image.md" target="_blank">完整功能截图展示</a>
 
-## 在线demo
-
-为了更快的理解本项目的作用，提供了一个接口全mock的静态站点供大家预览功能: <a href="https://frostmourne-demo.github.io/">在线demo</a>
-在线demo更新不及时，请以项目实际运行效果为准，demo只是用于快速浏览
-
-## 项目初衷
-
-在用ELK建立起日志系统之后，我们发现应用日志监控这块除了ElastAlert之外，没有其他方案。我们初期使用ElastAlert来解决日志监控的问题，
-但是随着配置的增加，管理成本，使用成本较高和，配置文件多了之后，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
-来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
-
-但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控, ClickHouse数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
-iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
-
-## 快速启动
-
-提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
-详细请看文档：<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
-
-## Mysql数据库表创建
-
-* frostmourne库
-
-frostmourne所有表的创建语句在[doc/mysql-schema/frostmourne.sql](./doc/mysql-schema/frostmourne.sql)文件中。
-
-## 项目结构
-
-* frostmourne-vue
-
-UI项目，使用vue-element-template实现，打包时会把生成的资源文件打到frostmourne-monitor里
-
-* frostmourne-monitor
-
-监控运行主体项目。
-
-## 部署
-
-UI项目frostmourne-vue会自动把资源打到frostmourne-monitor的resources/dist下，所以你只需要部署frostmourne-monitor。
-
-```
-frostmourne.monitor.address=http://${frostmourne-monitor-address}
-```
-frostmourne.monitor.address配置用于生成日志查询地址和调度触发监控改运行。
-
-### zip包部署
-
-frostmourne-monitor已经配置了assembly打包，target目录下会生成zip包，你只需要将zip包解压，然后根据自己的
-环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
-
-```bash
-./scripts/startup.sh
-```
-
-执行如下命令停止应用：
-
-```bash
-./scripts/shutdown.sh
-```
-
-### k8s部署
-
-努力ing
 
 ## 功能使用指南
 
@@ -109,37 +61,102 @@ frostmourne-monitor已经配置了assembly打包，target目录下会生成zip�
 * <a href="./doc/wiki/ways.md" target="_blank">报警发送</a>
 * <a href="./doc/wiki/supress.md" target="_blank">报警抑制</a>
 * <a href="./doc/wiki/auth.md" target="_blank">用户管理和登录认证</a>
+* <a href="./doc/wiki/node.md" target="_blank">注意事项</a>
+* <a href="./doc/wiki/other.md" target="_blank">其他</a>
 
-## 调度配置说明
 
-调度配置有一个需要特别注意的地方，就是调度间隔和你的数据查询窗口有关系。一般日志系统采集日志多少都会有延迟，少的话几秒，多的话几分钟都
-是可以预见的，所以尽量保证两次调度之间查询的日志数据有一定的重叠是很明智的做法，切忌出现数据真空(两次调度之间有数据未被查询窗口覆盖)。
-举例：一般的程序错误日志监控配置调度间隔为每2分钟调度一次，查询数据窗口可以配置为3分钟。这样虽然因为1分钟数据重叠可能导致多报(事实上因为报警抑制
-的原因，你并不会受到多条报警消息的骚扰)，但是基本可以保证不会漏报。这里只是举一个常见的例子，具体如何配置，你需要根据自己的实际情况。
+## 在线demo
 
-## 监控测试
+为了更快的理解本项目的作用，提供了一个接口全mock的静态站点供大家预览功能: <a href="https://frostmourne-demo.github.io/">在线demo</a>
+在线demo更新不及时，请以项目实际运行效果为准，demo只是用于快速浏览
 
-一般在创建监控或者刚创建完监控的时候，你会想测试一下监控的执行。在监控保存页面有测试功能，你可以尝试不同的查询
-语句来验证你的想法。
 
-另外在监控列表页面，你可以点击运行按钮让监控立即运行而不必等待调度来验证你的想法。
+## 快速启动
 
-## 监控另存
+提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
+详细请看文档：<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
-在创建了很多监控之后，你会发现同一类型的大部分监控是非常相似的，这时候你就会想要监控另存功能。你可以在监控列表的已有监控
-中找一个和你想要创建的监控相似的监控，点编辑进入监控编辑页面后，直接另存，就会生成一个一模一样的新监控，然后你就可以安全的
-修改这个新监控了。之所以建议直接另存是因为你会非常容易忘记你是想另存一个监控，而去点了保存按钮。就会把现有监控覆盖掉。
 
-## 调试环境要求
+## 部署
 
-* JDK 1.8
-* node
-* mysql
-* elasticsearch 6.3.2+
+#### 预备环境准备：Mysql数据库表创建
+> frostmourne所有表的创建语句都在[frostmourne.sql](./doc/mysql-schema/frostmourne.sql)文件中。
+
+<br/>
+
+#### 一、自构建部署方式
+
+依赖环境
+* JDK 1.8+
+* Maven 3.2.x+
+* npm 6.9.0
+
+在项目frostmourne主目录下执maven构建命令：
+```bash
+mvn -U clean package -DskipTests=true
+```
+
+UI项目frostmourne-vue会自动把资源构建到frostmourne-monitor的resources/dist下，所以你只需要部署frostmourne-monitor。
+
+frostmourne-monitor已经配置了assembly打包，target目录下会生成zip包，你只需要将zip包解压，然后根据自己的
+环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
+
+```bash
+./scripts/startup.sh
+```
+
+执行如下命令停止应用：
+
+```bash
+./scripts/shutdown.sh
+```
+<br/>
+
+#### 二、zip包部署方式
+依赖环境
+* JDK 1.8+
+
+需要将zip包解压，然后根据自己的
+环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
+
+```bash
+./scripts/startup.sh
+```
+
+执行如下命令停止应用：
+
+```bash
+./scripts/shutdown.sh
+```
+
+<br/>
+
+#### 三、k8s部署方式
+k8s部署参考以下三个配置文件
+
+* [frostmourne-monitor-namespace.yaml](./doc/docker/k8s/frostmourne-monitor-namespace.yaml)
+* [frostmourne-monitor-deployment.yaml](./doc/docker/k8s/frostmourne-monitor-deployment.yaml)
+* [frostmourne-monitor-service.yaml](./doc/docker/k8s/frostmourne-monitor-service.yaml)
+
+相关参数在 frostmourne-monitor-deployment.yaml 文件里配置。需要注意的是在frostmourne-monitor-service.yaml里指定对外映射端口，默认nodePort=30054
+
+```bash
+kubectl applt -f frostmourne-monitor-namespace.yaml
+kubectl applt -f frostmourne-monitor-deployment.yaml
+kubectl apply -f frostmourne-monitor-service.yaml
+```
+
 
 数据库密码默认使用明文，没有加密策略，如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
 
 ## 开发调试
+
+调试环境要求
+
+* JDK 1.8+
+* npm 6.9.0
+* Mysql 5.6+
+* Elasticsearch 6.3.2+
 
 启动frostmourne-monitor项目, 启动参数增加：
 
@@ -169,21 +186,6 @@ npm run dev
 ## 发版历史
 
 [ReleaseNotes](./ReleaseNotes.md)
-
-## ORM选型说明
-
-项目的数据库ORM使用的是mybatis，一直以来mybatis的xml配置sql深受国内开发欢迎，因为
-它非常的灵活，能比较好的应付快速多变的的迭代需求。但是缺点也比较明显。
-
-* 对于一些简单的查询来说，xml定义过于繁琐
-* 太灵活了，稍不注意sql就会写得很复杂，后面维护艰难
-
-mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybatis/mybatis-dynamic-sql)，代码即sql
-的查询，大部分基于生成的代码可以直接写代码完成，不需要写任何sql。
-
-为了兼顾方便和灵活，我同时在项目里引入了mybatis-dynamic-sql和xml-sql两种方式，让他们互补配合一起完成数据访问。
-大部分(90%以上)查询直接用mybatis-dynamic-sql，对于一些很少的需要灵活的稍复杂sql使用xml-sql来完成。既提高了
-编码效率，又保留了原来的灵活强大的xml-sql。我们只需要按需选择使用。
 
 ## 后续规划
 
@@ -244,19 +246,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 加入时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
 * 总结项目用到的知识点
 
-## 主要技术栈
-
-* springboot 2.x
-* element ui
-* vue-admin-template
-* xxl-job
-* mybatis
-* freemarker
-* elasticsearch
-* InfluxDB
-* jjwt
-* nashorn
-
 ## Contributors
 
 [@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91)
@@ -296,9 +285,6 @@ The project is licensed under the [MIT](LICENSE).
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-qq.png" />
 
-## 实现简易示意图
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/alarm_design.png" />
 
 ## 项目事记
 
