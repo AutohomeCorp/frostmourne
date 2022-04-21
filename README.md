@@ -26,52 +26,18 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 * 集成LDAP登录认证
 * 权限控制，数据隔离，各团队互不影响
 
+## 功能截图展示
+
+* 报警效果
+
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/message.png" />
+
+* <a href="./doc/wiki/feature_image.md" target="_blank">完整功能截图展示</a>
+
 ## 在线demo
 
 为了更快的理解本项目的作用，提供了一个接口全mock的静态站点供大家预览功能: <a href="https://frostmourne-demo.github.io/">在线demo</a>
 在线demo更新不及时，请以项目实际运行效果为准，demo只是用于快速浏览
-
-## 功能截图
-
-* 报警消息
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/message.png" />
-
-* 数据源管理
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/datasource.png" />
-
-* 数据名管理
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/dataname.png" />
-
-对于elasticsearch数据源来说，数据名等同于索引的概念
-
-* elasticsearch数据查询
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/es.png" />
-
-配置完数据源和数据名，你就可以用查询页面验证数据配置是否正确了。
-
-* 新增或编辑监控
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/edit.png" />
-
-* HTTP数据监控
-
-以监控Elasticsearch集群健康状态为例。
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/http_metric.png" />
-
-检测条件为：集群状态字段status不为green，或者集群节点数量不等于11
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/http_rule.png" />
-
-* 监控列表
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/list.png" />
-
-监控保存成功后，就可以在监控列表里看到了
 
 ## 项目初衷
 
@@ -82,112 +48,69 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控, ClickHouse数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
 iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
 
-## 联系我们
-
-有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
-特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-qq.png" />
-
 ## 快速启动
 
 提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
 详细请看文档：<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
-## 实现简易示意图
+## Mysql数据库表创建
 
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/alarm_design.png" />
+* frostmourne库
 
-## Elasticsearch数据监控指南
+frostmourne所有表的创建语句在[doc/mysql-schema/frostmourne.sql](./doc/mysql-schema/frostmourne.sql)文件中。
 
-<a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
+## 项目结构
 
-## HTTP类型监控指南
+* frostmourne-vue
 
-HTTP数据监控，非常灵活强大，请参考说明： <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
+UI项目，使用vue-element-template实现，打包时会把生成的资源文件打到frostmourne-monitor里
 
-## 利用HTTP监控prometheus数据举例
+* frostmourne-monitor
 
-prometheus自带HTTP API，可以非常方便得使用HTTP监控数据。下面举例说明。
+监控运行主体项目。
 
-假设local.prometheus.com是prometheus使用的域名。那么查询语句可以这么写
+## 部署
 
-```
-http://local.prometheus.com/api/v1/query?query=sum by(cluster_name,cluster_env,pod) (kube_pod_info{pod_ip="127.0.0.1"})
-```
-
-点击预览数据可以看到返回的数据。
+UI项目frostmourne-vue会自动把资源打到frostmourne-monitor的resources/dist下，所以你只需要部署frostmourne-monitor。
 
 ```
-{
-    "data": {
-        "resultType": "vector",
-        "result": [
-            {
-                "metric": {
-                    "cluster_env": "prod",
-                    "cluster_name": "cluster-1",
-                    "pod": "my-api-fsfsf-fbbp"
-                },
-                "value": [
-                    1621938928.222,
-                    "1"
-                ]
-            }
-        ]
-    },
-    "HTTP_STATUS": 200,
-    "HTTP_COST": 65,
-    "status": "success"
-}
+frostmourne.monitor.address=http://${frostmourne-monitor-address}
+```
+frostmourne.monitor.address配置用于生成日志查询地址和调度触发监控改运行。
+
+### zip包部署
+
+frostmourne-monitor已经配置了assembly打包，target目录下会生成zip包，你只需要将zip包解压，然后根据自己的
+环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
+
+```bash
+./scripts/startup.sh
 ```
 
-这样返回的json数据就可以用表达式来判断是否报警了
+执行如下命令停止应用：
 
-```
-data.result[0].value[1] > 0
-```
-
-报警模板也可以根据返回的json定制消息。例如：
-
-```
-存在不合法的pod。
-环境: ${data.result[0].metric.cluster_env}
-集群名称: ${data.result[0].metric.cluster_name}
-pod: ${data.result[0].metric.pod}
+```bash
+./scripts/shutdown.sh
 ```
 
-这样一个prometheus数据监控就完成了，非常简便而且强大，快点试试。
+### k8s部署
 
-## InfluxDB数据监控指南
+努力ing
 
-<a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
+## 功能使用指南
 
-## Mysql数据监控指南
+* <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
+* <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
+* <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
+* <a href="./doc/wiki/jdbc-mysql.md" target="_blank">Mysql数据监控指南</a>
+* <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">Clickhouse数据监控指南</a>
+* <a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
+* <a href="./doc/wiki/template.md" target="_blank">消息模板配置</a>
+* <a href="./doc/wiki/ways.md" target="_blank">报警发送</a>
+* <a href="./doc/wiki/supress.md" target="_blank">报警抑制</a>
+* <a href="./doc/wiki/auth.md" target="_blank">用户管理和登录认证</a>
 
-<a href="./doc/wiki/jdbc-mysql.md" target="_blank">Mysql数据监控指南</a>
-
-## Clickhouse数据监控指南
-
-<a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">Clickhouse数据监控指南</a>
-
-## 数值同比监控使用指南
-
-<a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
-
-## 消息模板配置
-
-消息模板采用freemarker语法，详细使用方法请参考文档：[消息模板配置](./doc/wiki/template.md)
-
-## 报警发送
-
-提供了多种报警消息发送方式，详细请看文档： [报警发送](./doc/wiki/ways.md)
-
-## 报警抑制
-
-为了防止消息轰炸，提供报警抑制机制，详细请看文档： [报警抑制](./doc/wiki/supress.md)
-
-## 调度配置
+## 调度配置说明
 
 调度配置有一个需要特别注意的地方，就是调度间隔和你的数据查询窗口有关系。一般日志系统采集日志多少都会有延迟，少的话几秒，多的话几分钟都
 是可以预见的，所以尽量保证两次调度之间查询的日志数据有一定的重叠是很明智的做法，切忌出现数据真空(两次调度之间有数据未被查询窗口覆盖)。
@@ -207,37 +130,6 @@ pod: ${data.result[0].metric.pod}
 中找一个和你想要创建的监控相似的监控，点编辑进入监控编辑页面后，直接另存，就会生成一个一模一样的新监控，然后你就可以安全的
 修改这个新监控了。之所以建议直接另存是因为你会非常容易忘记你是想另存一个监控，而去点了保存按钮。就会把现有监控覆盖掉。
 
-## 短链接服务
-
-为了方便使用者快速查看产生报警的日志，报警消息最后会有一个日志查询地址的短链接，打开即可看到产生报警的日志。在0.4版本之前支持的短链接有两种：四五短网址和百度短网址。
-在0.5版本之后，内置实现了短链接功能，所以不需要额外配置短链接服务了。
-
-## 用户管理和登录认证
-
-请参考文档：[用户管理和登录认证](./doc/wiki/auth.md)
-
-## 主要项目结构
-
-* frostmourne-vue
-
-UI项目，使用vue-element-template实现，打包时会打到frostmourne-monitor下
-
-* frostmourne-monitor
-
-监控运行主体项目。
-
-```
-email.smtp.host=${your.email.smtp.host:}
-email.smtp.port=${your.email.smtp.port:}
-email.smtp.auth=${your.email.smtp.auth:true}
-email.sender=${your.email.sender:}
-email.sender.password=${your.email.sender.password:}
-
-wechat.corpid=${your.wechat.corpid:}
-wechat.agentid=${your.wechat.agentid:}
-wechat.secret=${your.wechat.secret:}
-```
-
 ## 调试环境要求
 
 * JDK 1.8
@@ -245,48 +137,7 @@ wechat.secret=${your.wechat.secret:}
 * mysql
 * elasticsearch 6.3.2+
 
-## 数据库相关
-
-* frostmourne库
-
-frostmourne所有表的创建语句在[doc/mysql-schema/frostmourne.sql](./doc/mysql-schema/frostmourne.sql)文件中，数据库开发使用druid + mybatis，创建好语句后，自己修改frostmourne-monitor模块的数据库配置
-
-```
-druid.datasource.frostmourne.url=jdbc:mysql://[mysql]:3306/frostmourne?characterEncoding=utf8
-druid.datasource.frostmourne.username=[username]
-druid.datasource.frostmourne.password=[plain_password]
-```
-
-密码默认使用明文，没有加密策略，如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
-
-## query string简易教程
-
-本项目elasticsearch查询语句使用的是query string语句，并非DSL query, 这里提供了一个<a href="./doc/wiki/query-string.md" target="_blank">简易教程</a>供不会的同学快速
-入门，英文水平可以的同学最好是看<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax" target="_blank">官方文档</a>
-
-## 部署
-
-UI项目frostmourne-vue会自动把资源打到frostmourne-monitor的resources/dist下，所以你只需要部署frostmourne-monitor。
-
-```
-frostmourne.monitor.address=http://${frostmourne-monitor-address}
-```
-frostmourne.monitor.address配置用于生成日志查询地址。最后以短链接的形式放在报警消息里。
-
-### 打包和zip包部署
-
-frostmourne-monitor已经配置了assembly打包，target目录下会生成zip包，你只需要将zip包解压，然后根据自己的
-环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
-
-```bash
-./scripts/startup.sh
-```
-
-执行如下命令停止应用：
-
-```bash
-./scripts/shutdown.sh
-```
+数据库密码默认使用明文，没有加密策略，如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
 
 ## 开发调试
 
@@ -313,6 +164,11 @@ npm run dev
 会自动打开： http://localhost:9528
 
 搭建本地开发调试环境或者需要做二次开发遇到什么困难的都可以加群沟通，欢迎各路英雄多多PR
+
+
+## 发版历史
+
+[ReleaseNotes](./ReleaseNotes.md)
 
 ## ORM选型说明
 
@@ -344,16 +200,15 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * ~~mysql: 增加数据库分布式锁表job_lock，alarm表增加两个字段：trigger_last_time, trigger_next_time~~ - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
 * ~~移除xxl-job依赖，内置实现分布式调度，减小部署难度~~ [2022-04-18]
 * ~~增加0.6升级0.6.1的说明文档~~ [upgrade-0.6.1.md](./doc/wiki/upgrade-0.6.1.md) [2022-04-19]
+* ~~msyql, influxdb, clickhouse监控增加表达式监控规则~~ [2022-04-20]
 * 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
 * Elasticsearch监控数值实现环比监控
-* msyql监控增加表达式监控规则
 * 优化dockerfile，增加k8s环境部署说明文档
 * 增加ping监控报警,一个监控最多监控10个ping。
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
 * 增加邮箱在线配置页面功能
-* 增加企业微信在线配置页面功能
 * 增加消息内容长度配置，超过长度配置部分将被截掉
 * 解决邮箱报警不支持ssl的问题
 * 增加本项目内程序日志采集至mysql并提供查询页面，方便排查问题和监控
@@ -388,10 +243,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 3-sigma离群点检测报警规则
 * 加入时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
 * 总结项目用到的知识点
-
-## 发版历史
-
-[ReleaseNotes](./ReleaseNotes.md)
 
 ## 主要技术栈
 
@@ -437,6 +288,17 @@ The project is licensed under the [MIT](LICENSE).
 * 加入交流群，解答交流问题。群内会不定时发布项目更新说明。
 * 从后续规划里选择合适的任务提交PR
 * 开源不易，需要鼓励。
+
+## 联系我们
+
+有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
+特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
+
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-qq.png" />
+
+## 实现简易示意图
+
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/alarm_design.png" />
 
 ## 项目事记
 

@@ -55,6 +55,9 @@ query string查询语句语法不清楚的，可以参考文档: <a href="./quer
 Team: dealer.arch AND Project: dbtree AND Level: ERROR
 ```
 
+本项目elasticsearch查询语句使用的是query string语句，并非DSL query, 这里提供了一个<a href="./query-string.md" target="_blank">简易教程</a>供不会的同学快速
+入门，英文水平可以的同学最好是看<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax" target="_blank">官方文档</a>
+
 #### 报警规则填写
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/rule.png" />
