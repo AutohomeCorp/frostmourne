@@ -15,11 +15,6 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控, ClickHouse数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
 iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
 
-
-### 技术说明
-项目基于Java实现，详细请看：[技术说明](./doc/wiki/technical.md)
-
-
 ## 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
@@ -186,6 +181,10 @@ npm run dev
 ## 发版历史
 
 [ReleaseNotes](./ReleaseNotes.md)
+
+### 技术说明
+
+项目基于Java实现，详细请看：[技术说明](./doc/wiki/technical.md)
 
 ## 后续规划
 
