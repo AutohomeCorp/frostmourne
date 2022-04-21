@@ -169,6 +169,11 @@ npm run dev
 
 搭建本地开发调试环境或者需要做二次开发遇到什么困难的都可以加群沟通，欢迎各路英雄多多PR
 
+
+## 发版历史
+
+[ReleaseNotes](./ReleaseNotes.md)
+
 ## ORM选型说明
 
 项目的数据库ORM使用的是mybatis，一直以来mybatis的xml配置sql深受国内开发欢迎，因为
@@ -242,10 +247,6 @@ mybatis最新推出了新的模块[mybatis-dynamic-sql](https://github.com/mybat
 * 3-sigma离群点检测报警规则
 * 加入时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
 * 总结项目用到的知识点
-
-## 发版历史
-
-[ReleaseNotes](./ReleaseNotes.md)
 
 ## 主要技术栈
 
