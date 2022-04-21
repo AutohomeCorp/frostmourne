@@ -48,13 +48,6 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控, ClickHouse数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
 iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
 
-## 联系我们
-
-有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
-特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
-
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-qq.png" />
-
 ## 快速启动
 
 提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
@@ -298,6 +291,13 @@ The project is licensed under the [MIT](LICENSE).
 * 加入交流群，解答交流问题。群内会不定时发布项目更新说明。
 * 从后续规划里选择合适的任务提交PR
 * 开源不易，需要鼓励。
+
+## 联系我们
+
+有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
+特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
+
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-qq.png" />
 
 ## 项目事记
 
