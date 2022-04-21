@@ -2,7 +2,7 @@
 
 ### 第一步：数据库准备
 
-依赖数据库有两个xxl-job和frostmourne，语句分别在[xxl-job.sql](../xxl-job/xxl-job.sql)和[frostmourne.sql](../mysql-schema/frostmourne.sql)
+依赖数据库frostmourne，语句[frostmourne.sql](../mysql-schema/frostmourne.sql)
 如果你已经有自己的测试库，你可以在自己的测试库中执行；如果没有，可以用mysql-docker启动一个，下面是一个mysql的docker-compose例子供参考使用：
 
 ```yaml
@@ -71,12 +71,10 @@ docker-compose up
 如果启动失败，请进入容器查看相关日志，日志目录为：
 
 ```
-/opt/frostmourne/xxl-job-admin/logs
 /opt/frostmourne/frostmourne-monitor/logs
 ```
 
 启动成功后。frostmounre-monitor地址为： http://localhost:10054 ;
-xxl-job-admin地址为: http://localhost:10052/xxl-job-admin ;
 
 
 
