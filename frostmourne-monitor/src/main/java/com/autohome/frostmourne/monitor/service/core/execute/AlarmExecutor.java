@@ -58,6 +58,7 @@ public class AlarmExecutor {
             return ExecuteStatus.SUCCESS;
         } catch (Exception ex) {
             LOGGER.error("error when doRule", ex);
+            alarmProcessLogger.trace("error: \r\n" + ex.getMessage());
             return ExecuteStatus.ERROR;
         }
     }
