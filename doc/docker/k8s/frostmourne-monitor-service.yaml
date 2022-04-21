@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: frostmourne-monitor
+  name: frostmourne-monitor
+  namespace: frostmourne
+spec:
+  type: NodePort
+  ports:
+    - name: 10054
+      port: 10054
+      targetPort: 10054
+      nodePort: 30054	# k8s对外访问端口
+  selector:
+    run: frostmourne-monitor
