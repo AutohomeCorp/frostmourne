@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.dao.jdbc;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 
-import com.autohome.frostmourne.monitor.contract.DataSourceContract;
+import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
 
 public interface IDataSourceJdbcManager {
 

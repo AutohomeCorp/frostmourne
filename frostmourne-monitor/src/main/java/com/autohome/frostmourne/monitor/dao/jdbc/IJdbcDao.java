@@ -3,8 +3,8 @@ package com.autohome.frostmourne.monitor.dao.jdbc;
 import java.util.List;
 import java.util.Map;
 
-import com.autohome.frostmourne.monitor.contract.DataNameContract;
-import com.autohome.frostmourne.monitor.contract.DataSourceContract;
+import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
+import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
 
 public interface IJdbcDao {
 

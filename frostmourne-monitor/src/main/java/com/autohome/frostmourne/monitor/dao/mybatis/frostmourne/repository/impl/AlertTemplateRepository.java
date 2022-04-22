@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.contract.AlertTemplateQueryForm;
+import com.autohome.frostmourne.monitor.model.contract.AlertTemplateQueryForm;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertTemplate;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlertTemplateDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlertTemplateDynamicSqlSupport;

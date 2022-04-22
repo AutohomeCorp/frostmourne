@@ -1,25 +1,19 @@
 package com.autohome.frostmourne.monitor.dao.jdbc.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
+
 import javax.sql.DataSource;
 
-import com.autohome.frostmourne.monitor.contract.DataNameContract;
-import com.autohome.frostmourne.monitor.contract.DataSourceContract;
-import com.autohome.frostmourne.monitor.dao.jdbc.IDataSourceJdbcManager;
-import com.autohome.frostmourne.monitor.dao.jdbc.IJdbcDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.autohome.frostmourne.monitor.dao.jdbc.IDataSourceJdbcManager;
+import com.autohome.frostmourne.monitor.dao.jdbc.IJdbcDao;
+import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
+import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
 
 @Repository
 public class JdbcDao implements IJdbcDao {
@@ -30,10 +24,8 @@ public class JdbcDao implements IJdbcDao {
     private IDataSourceJdbcManager dataSourceJdbcManager;
 
     @Override
-    public List<Map<String, Object>> query(DataNameContract dataNameContract,
-                                           DataSourceContract dataSourceContract,
-                                           String sql,
-                                           Object[] args) {
+    public List<Map<String, Object>> query(DataNameContract dataNameContract, DataSourceContract dataSourceContract,
+        String sql, Object[] args) {
         try {
             DataSource dataSource = dataSourceJdbcManager.getDataSource(dataSourceContract);
             if (dataSource == null) {
@@ -42,17 +34,15 @@ public class JdbcDao implements IJdbcDao {
             }
             return this.query(dataSource, sql, args);
         } catch (Exception e) {
-            log.error("JdbcDataQuery.query error: dataSource={}, sql={}, {}", dataSourceContract, sql, e.getMessage(), e);
+            log.error("JdbcDataQuery.query error: dataSource={}, sql={}, {}", dataSourceContract, sql, e.getMessage(),
+                e);
             return Collections.emptyList();
         }
     }
 
-    public List<Map<String, Object>> query(DataSource dataSource,
-                                           String sql,
-                                           Object[] args) throws SQLException {
+    public List<Map<String, Object>> query(DataSource dataSource, String sql, Object[] args) throws SQLException {
         ResultSet resultSet = null;
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement statement = conn.prepareStatement(sql)) {
             if (args != null && args.length > 0) {
                 for (int i = 0; i < args.length; i++) {
                     statement.setObject(i + 1, args[i]);

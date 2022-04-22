@@ -6,17 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.autohome.frostmourne.monitor.contract.MetricContract;
-import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
-import com.autohome.frostmourne.monitor.service.core.domain.ReferenceBag;
-import com.google.common.base.Splitter;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.autohome.frostmourne.monitor.model.contract.MetricContract;
+import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
+import com.autohome.frostmourne.monitor.service.core.domain.ReferenceBag;
+import com.google.common.base.Splitter;
+
 public abstract class AbstractSameTimeMetric implements IMetric {
 
-    public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings);
+    public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract,
+        Map<String, String> ruleSettings);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSameTimeMetric.class);
 
@@ -37,9 +39,9 @@ public abstract class AbstractSameTimeMetric implements IMetric {
      * @return period unit description
      */
     protected String findPeriodUnitDescription(String periodUnit) {
-        if (periodUnit.equalsIgnoreCase("HOUR")) {
+        if ("HOUR".equalsIgnoreCase(periodUnit)) {
             return "小时";
-        } else if (periodUnit.equalsIgnoreCase("DAY")) {
+        } else if ("DAY".equalsIgnoreCase(periodUnit)) {
             return "天";
         } else {
             throw new IllegalArgumentException("unknown period unit: " + periodUnit);
@@ -49,15 +51,15 @@ public abstract class AbstractSameTimeMetric implements IMetric {
     /**
      * 根据当前时间和间隔类型获取查询范围的结束时间
      *
-     * @param now        当前时间
+     * @param now 当前时间
      * @param periodUnit 时间间隔
      * @return 查询范围的结束时间
      */
     protected DateTime findEnd(DateTime now, String periodUnit) {
         DateTime end;
-        if (periodUnit.equalsIgnoreCase("HOUR")) {
+        if ("HOUR".equalsIgnoreCase(periodUnit)) {
             end = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(), now.getHourOfDay(), 0);
-        } else if (periodUnit.equalsIgnoreCase("DAY")) {
+        } else if ("DAY".equalsIgnoreCase(periodUnit)) {
             end = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(), 0, 0);
         } else {
             throw new IllegalArgumentException("unknown period unit: " + periodUnit);
@@ -68,15 +70,15 @@ public abstract class AbstractSameTimeMetric implements IMetric {
     /**
      * 根据结束时间和比较间隔类型获取开始时间
      *
-     * @param end        结束时间
+     * @param end 结束时间
      * @param periodUnit 间隔类型
      * @return start time
      */
     protected DateTime findStart(DateTime end, String periodUnit) {
         DateTime start;
-        if (periodUnit.equalsIgnoreCase("HOUR")) {
+        if ("HOUR".equalsIgnoreCase(periodUnit)) {
             start = end.minusMinutes(60);
-        } else if (periodUnit.equalsIgnoreCase("DAY")) {
+        } else if ("DAY".equalsIgnoreCase(periodUnit)) {
             start = end.minusDays(1);
         } else {
             throw new IllegalArgumentException("unknown period unit: " + periodUnit);
@@ -94,7 +96,6 @@ public abstract class AbstractSameTimeMetric implements IMetric {
         String referString = ruleSettings.get("REFERENCE_TYPE_LIST");
         return Splitter.on(',').splitToList(referString);
     }
-
 
     @Override
     public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) {
@@ -115,12 +116,12 @@ public abstract class AbstractSameTimeMetric implements IMetric {
         List<ReferenceBag> referenceDataList = new ArrayList<>();
         try {
             for (String referenceType : referenceTypeList) {
-                ReferenceBag referenceBag = calculateReference(start, end, referenceType, metricContract, current, ruleSettings);
+                ReferenceBag referenceBag =
+                    calculateReference(start, end, referenceType, metricContract, current, ruleSettings);
                 referenceDataList.add(referenceBag);
             }
             resultMap.put("REFERENCE_LIST", referenceDataList);
-        } catch (
-                IOException ex) {
+        } catch (IOException ex) {
             throw new RuntimeException("error when calculateReference", ex);
         }
 
@@ -128,20 +129,20 @@ public abstract class AbstractSameTimeMetric implements IMetric {
     }
 
     private ReferenceBag calculateReference(DateTime start, DateTime end, String referenceType,
-                                            MetricContract metricContract, Double current, Map<String, String> ruleSettings) throws IOException {
+        MetricContract metricContract, Double current, Map<String, String> ruleSettings) throws IOException {
         ReferenceBag referenceBag = new ReferenceBag();
         referenceBag.setReferenceType(referenceType);
         DateTime referenceStart;
         DateTime referenceEnd;
-        if (referenceType.equalsIgnoreCase("DAY")) {
+        if ("DAY".equalsIgnoreCase(referenceType)) {
             referenceStart = start.minusDays(1);
             referenceEnd = end.minusDays(1);
             referenceBag.setDescription("昨天");
-        } else if (referenceType.equalsIgnoreCase("WEEK")) {
+        } else if ("WEEK".equalsIgnoreCase(referenceType)) {
             referenceStart = start.minusDays(7);
             referenceEnd = end.minusDays(7);
             referenceBag.setDescription("上周");
-        } else if (referenceType.equalsIgnoreCase("MONTH")) {
+        } else if ("MONTH".equalsIgnoreCase(referenceType)) {
             referenceStart = start.minusMonths(1);
             referenceEnd = end.minusMonths(1);
             referenceBag.setDescription("上月");

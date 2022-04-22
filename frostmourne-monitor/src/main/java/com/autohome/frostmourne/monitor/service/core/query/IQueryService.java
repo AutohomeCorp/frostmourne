@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
+import com.autohome.frostmourne.monitor.model.contract.ElasticsearchDataResult;
 import org.joda.time.DateTime;
 
 public interface IQueryService {

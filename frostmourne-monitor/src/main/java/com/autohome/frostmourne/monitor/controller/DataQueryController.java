@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
+import com.autohome.frostmourne.monitor.model.contract.ElasticsearchDataResult;
 import com.autohome.frostmourne.monitor.service.core.query.IQueryService;
 import com.autohome.frostmourne.monitor.service.core.service.IShortLinkService;
 
@@ -41,14 +41,11 @@ public class DataQueryController {
 
     @ResponseBody
     @RequestMapping(value = "/elasticsearchData")
-    public Protocol<ElasticsearchDataResult> elasticsearchData(
-        @RequestParam(value = "_appId", required = true) String _appId,
-        @RequestParam(value = "dataName", required = true) String dataName,
-        @RequestParam(value = "startTime", required = true) Date startTime,
-        @RequestParam(value = "endTime", required = true) Date endTime,
+    public Protocol<ElasticsearchDataResult> elasticsearchData(@RequestParam(value = "dataName") String dataName,
+        @RequestParam(value = "startTime") Date startTime, @RequestParam(value = "endTime") Date endTime,
         @RequestParam(value = "esQuery", required = false) String esQuery,
         @RequestParam(value = "scrollId", required = false) String scrollId,
-        @RequestParam(value = "sortOrder", required = true) String sortOrder,
+        @RequestParam(value = "sortOrder") String sortOrder,
         @RequestParam(value = "intervalInSeconds", required = false) Integer intervalInSeconds) {
         if (Strings.isNullOrEmpty(esQuery)) {
             esQuery = "*";
@@ -60,8 +57,7 @@ public class DataQueryController {
 
     @ResponseBody
     @RequestMapping(value = "/elasticsearchFields")
-    public Protocol<List<String>> elasticsearchFields(@RequestParam(value = "_appId", required = true) String _appId,
-        @RequestParam(value = "dataName", required = true) String dataName) {
+    public Protocol<List<String>> elasticsearchFields(@RequestParam(value = "dataName") String dataName) {
         try {
             List<String> fields = queryService.elasticsearchFields(dataName);
             return new Protocol<>(fields);
@@ -73,21 +69,17 @@ public class DataQueryController {
 
     @ResponseBody
     @RequestMapping(value = "/shortenLink", method = RequestMethod.GET)
-    public Protocol<String> shortenLink(@RequestParam(value = "_appId", required = true) String _appId,
-        @RequestParam(value = "longUrl", required = true) String longUrl) {
+    public Protocol<String> shortenLink(@RequestParam(value = "longUrl") String longUrl) {
         String shortLink = shortLinkService.shorten(longUrl);
         return new Protocol<>(shortLink);
     }
 
     @RequestMapping(value = "/downloadData")
-    public void downloadData(HttpServletResponse response,
-        @RequestParam(value = "_appId", required = false) String _appId,
-        @RequestParam(value = "dataName", required = true) String dataName,
-        @RequestParam(value = "startTime", required = true) Date startTime,
-        @RequestParam(value = "endTime", required = true) Date endTime,
-        @RequestParam(value = "esQuery", required = true) String esQuery,
+    public void downloadData(HttpServletResponse response, @RequestParam(value = "dataName") String dataName,
+        @RequestParam(value = "startTime") Date startTime, @RequestParam(value = "endTime") Date endTime,
+        @RequestParam(value = "esQuery") String esQuery,
         @RequestParam(value = "scrollId", required = false) String scrollId,
-        @RequestParam(value = "sortOrder", required = true) String sortOrder) throws IOException {
+        @RequestParam(value = "sortOrder") String sortOrder) throws IOException {
         response.setContentType("application/octet-stream;charset=utf-8");
         String fileName = dataName + "-" + DateTime.now().toString("yyyyMMddHHmmssSSS") + ".csv";
         response.setHeader("Content-Disposition", "attachment; filename=" + fileName);

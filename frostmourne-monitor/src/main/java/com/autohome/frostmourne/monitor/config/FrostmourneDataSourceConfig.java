@@ -3,8 +3,6 @@ package com.autohome.frostmourne.monitor.config;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.github.pagehelper.PageInterceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -16,12 +14,16 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.github.pagehelper.PageInterceptor;
+
 /**
  * @author kcq
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan(value = "com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper", sqlSessionFactoryRef = "frostmourneSqlSessionFactory")
+@MapperScan(value = "com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper",
+    sqlSessionFactoryRef = "frostmourneSqlSessionFactory")
 public class FrostmourneDataSourceConfig {
     @Value("${druid.datasource.frostmourne.mapperLocations}")
     private String mapperLocations;

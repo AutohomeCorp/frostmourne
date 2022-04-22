@@ -34,8 +34,7 @@ public class Protocol<T> implements Serializable {
         this.result = result;
     }
 
-    public Protocol() {
-    }
+    public Protocol() {}
 
     public Protocol(T object) {
         this(object, 0, "ok");

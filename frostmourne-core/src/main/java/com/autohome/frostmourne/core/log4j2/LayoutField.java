@@ -14,8 +14,7 @@ import org.joda.time.DateTime;
  * Created by kcq on 2017/6/8.
  */
 public class LayoutField {
-    private static String LOCAL_IP_ADDR;
-
+    private static String LOCAL_IP_ADDRESS;
     private final String name;
     private AbstractFieldParser parser;
     private String value;
@@ -43,7 +42,6 @@ public class LayoutField {
     public String getName() {
         return this.name;
     }
-
 
     public static LayoutField create(String name, AbstractFieldParser fieldParser) {
         return new LayoutField(name, fieldParser);
@@ -98,7 +96,6 @@ public class LayoutField {
         }
     });
 
-
     public static final LayoutField STACK_TRACE = create(FieldName.STACK_TRACE, new AbstractFieldParser() {
         @Override
         public String parse(String fieldName, LogEvent logEvent) {
@@ -137,7 +134,7 @@ public class LayoutField {
                 return logEvent.getContextData().getValue("X-B3-TraceId");
             }
             if (logEvent.getContextData().containsKey("tid")) {
-                //skywalking traceid
+                // skywalking traceid
                 return logEvent.getContextData().getValue("tid");
             }
             if (logEvent.getContextData().containsKey("SW-TraceId")) {
@@ -193,7 +190,8 @@ public class LayoutField {
     public static final LayoutField FORM_STRING = create(FieldName.FORM_STRING, new AbstractFieldParser() {
         @Override
         public String parse(String fieldName, LogEvent logEvent) {
-            if (logEvent.getLevel().isMoreSpecificThan(Level.ERROR) && logEvent.getContextData().containsKey(fieldName)) {
+            if (logEvent.getLevel().isMoreSpecificThan(Level.ERROR)
+                && logEvent.getContextData().containsKey(fieldName)) {
                 String formString = logEvent.getContextData().getValue(fieldName);
                 if (formString.length() > 2000) {
                     return formString.substring(0, 2000);
@@ -245,15 +243,14 @@ public class LayoutField {
         }
     });
 
-
     public static String findServerIP() {
-        if (Strings.isNullOrEmpty(LOCAL_IP_ADDR)) {
+        if (Strings.isNullOrEmpty(LOCAL_IP_ADDRESS)) {
             try {
-                LOCAL_IP_ADDR = InetAddress.getLocalHost().getHostAddress();
+                LOCAL_IP_ADDRESS = InetAddress.getLocalHost().getHostAddress();
             } catch (UnknownHostException e) {
                 return null;
             }
         }
-        return LOCAL_IP_ADDR;
+        return LOCAL_IP_ADDRESS;
     }
 }

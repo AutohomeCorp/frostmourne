@@ -1,11 +1,9 @@
 package com.autohome.frostmourne.monitor.config;
 
 import java.util.List;
+
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.core.jackson.JacksonObjectMapper;
-import com.autohome.frostmourne.monitor.controller.interceptor.PermissionInterceptor;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -14,11 +12,11 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
+
+import com.autohome.frostmourne.core.jackson.JacksonObjectMapper;
+import com.autohome.frostmourne.monitor.controller.interceptor.PermissionInterceptor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author menong
@@ -39,29 +37,19 @@ public class WebAppConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowCredentials(true)
-                .allowedMethods("GET", "POST", "DELETE", "PUT")
-                .maxAge(3600 * 24);
+        registry.addMapping("/**").allowedOrigins("*").allowCredentials(true)
+            .allowedMethods("GET", "POST", "DELETE", "PUT").maxAge(3600 * 24);
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/index.html")
-                .addResourceLocations("classpath:/dist/index.html")
-                .setCacheControl(CacheControl.noCache())
-                .setCacheControl(CacheControl.noStore())
-                .resourceChain(true);
-        registry.addResourceHandler("/static/**")
-                .addResourceLocations("classpath:/dist/static/", "classpath:/static/")
-                .resourceChain(true);
-        registry.addResourceHandler("/dist/**")
-                .addResourceLocations("classpath:/dist/")
-                .resourceChain(true);
-        registry.addResourceHandler("/favicon.ico")
-                .addResourceLocations("classpath:/dist/favicon.ico")
-                .resourceChain(true);
+        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/dist/index.html")
+            .setCacheControl(CacheControl.noCache()).setCacheControl(CacheControl.noStore()).resourceChain(true);
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/dist/static/", "classpath:/static/")
+            .resourceChain(true);
+        registry.addResourceHandler("/dist/**").addResourceLocations("classpath:/dist/").resourceChain(true);
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/dist/favicon.ico")
+            .resourceChain(true);
     }
 
     @Override

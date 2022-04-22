@@ -10,7 +10,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.contract.enums.AlarmStatus;
+import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport;
