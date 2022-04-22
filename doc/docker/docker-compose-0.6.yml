@@ -44,11 +44,11 @@ services:
       spring_ldap_base:
       spring_ldap_auth_searchFilter:
       frostmourne_message_title:
-      email.smtp.host: smtp.qq.com
-      email.smtp.port: 25
-      email.smtp.auth: 'true'
+      email.smtp-host: smtp.qq.com
+      email.smtp-port: 25
+      email.smtp-auth: 'true'
       email.sender: xxx@qq.com
-      email.sender.password: xxx
+      email.sender-password: xxx
       wechat.corpid:
       wechat.agentid:
       wechat.secret:
