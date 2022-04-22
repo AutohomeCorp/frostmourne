@@ -58,13 +58,13 @@ spec:
             # email（可选）
             - name: email.sender
               value: 
-            - name: email.sender.password
+            - name: email.sender-password
               value: 
-            - name: email.smtp.auth
+            - name: email.smtp-auth
               value: "true"
-            - name: email.smtp.host
+            - name: email.smtp-host
               value: 
-            - name: email.smtp.port
+            - name: email.smtp-port
               value:
 
             # wechat（可选）
