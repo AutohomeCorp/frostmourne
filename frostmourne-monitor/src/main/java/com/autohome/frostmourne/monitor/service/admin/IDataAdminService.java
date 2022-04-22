@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.contract.DataNameContract;
-import com.autohome.frostmourne.monitor.contract.DataOption;
-import com.autohome.frostmourne.monitor.contract.DataSourceContract;
-import com.autohome.frostmourne.monitor.contract.TreeDataOption;
+import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
+import com.autohome.frostmourne.monitor.model.contract.DataOption;
+import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
+import com.autohome.frostmourne.monitor.model.contract.TreeDataOption;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
 
 public interface IDataAdminService {

@@ -1,7 +1,18 @@
 package com.autohome.frostmourne.monitor.config;
 
 import java.nio.charset.StandardCharsets;
+
 import javax.annotation.Resource;
+
+import org.elasticsearch.common.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.web.client.RestTemplate;
 
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceManager;
 import com.autohome.frostmourne.monitor.dao.jdbc.IDataSourceJdbcManager;
@@ -12,16 +23,8 @@ import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
 import com.autohome.frostmourne.monitor.service.account.impl.DefaultAccountService;
 import com.autohome.frostmourne.monitor.service.account.impl.LdapAuthService;
 import com.autohome.frostmourne.monitor.service.account.impl.UserAuthService;
+
 import okhttp3.OkHttpClient;
-import org.elasticsearch.common.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class BeanConfig {
@@ -84,8 +87,7 @@ public class BeanConfig {
 
     @Bean(name = "okHttp3Client")
     public OkHttpClient okHttp3Client() {
-        OkHttpClient client = new OkHttpClient();
-        return client;
+        return new OkHttpClient();
     }
 
 }

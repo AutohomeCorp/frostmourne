@@ -3,8 +3,6 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,7 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.contract.UserContract;
+import com.autohome.frostmourne.monitor.model.contract.UserContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserRole;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.UserRoleDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.UserRoleDynamicSqlSupport;

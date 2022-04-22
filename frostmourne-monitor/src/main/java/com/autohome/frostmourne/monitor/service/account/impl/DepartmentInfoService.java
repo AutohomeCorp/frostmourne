@@ -3,7 +3,10 @@ package com.autohome.frostmourne.monitor.service.account.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.ProtocolException;
@@ -12,7 +15,6 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.TeamInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDepartmentInfoRepository;
 import com.autohome.frostmourne.monitor.service.account.IDepartmentInfoService;
 import com.autohome.frostmourne.monitor.service.account.ITeamInfoService;
-import org.springframework.stereotype.Service;
 
 @Service
 public class DepartmentInfoService implements IDepartmentInfoService {
@@ -25,7 +27,8 @@ public class DepartmentInfoService implements IDepartmentInfoService {
 
     @Override
     public boolean insert(DepartmentInfo departmentInfo, String account) {
-        Optional<DepartmentInfo> optionalDepartmentInfo = departmentInfoRepository.findByDepartmentName(departmentInfo.getDepartmentName());
+        Optional<DepartmentInfo> optionalDepartmentInfo =
+            departmentInfoRepository.findByDepartmentName(departmentInfo.getDepartmentName());
         if (optionalDepartmentInfo.isPresent()) {
             throw new ProtocolException(5101, "部门已经存在");
         }
@@ -40,7 +43,7 @@ public class DepartmentInfoService implements IDepartmentInfoService {
     @Override
     public boolean delete(Long departmentId) {
         List<TeamInfo> teamInfoList = teamInfoService.find(departmentId);
-        if(teamInfoList != null && teamInfoList.size() > 0) {
+        if (teamInfoList != null && teamInfoList.size() > 0) {
             throw new ProtocolException(5239, "请先删除部门下的团队");
         }
         return departmentInfoRepository.delete(departmentId);

@@ -2,16 +2,17 @@ package com.autohome.frostmourne.monitor.service.core.query.impl;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.contract.MetricContract;
-import com.autohome.frostmourne.monitor.dao.influxdb.IInfluxdbDao;
-import com.autohome.frostmourne.monitor.dao.influxdb.InfluxdbResponse;
-import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
-import com.autohome.frostmourne.monitor.service.core.query.IInfluxdbDataQuery;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import com.autohome.frostmourne.monitor.dao.influxdb.IInfluxdbDao;
+import com.autohome.frostmourne.monitor.dao.influxdb.InfluxdbResponse;
+import com.autohome.frostmourne.monitor.model.contract.MetricContract;
+import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
+import com.autohome.frostmourne.monitor.service.core.query.IInfluxdbDataQuery;
 
 @Service
 public class InfluxdbDataQuery implements IInfluxdbDataQuery {
@@ -45,10 +46,10 @@ public class InfluxdbDataQuery implements IInfluxdbDataQuery {
         String completeQuery;
         if (queryWithoutTime.toLowerCase().contains("where")) {
             completeQuery = String.format("%s and time >= '%s' and time <= '%s'", queryWithoutTime,
-                    start.toDateTime(DateTimeZone.UTC).toString(), end.toDateTime(DateTimeZone.UTC).toString());
+                start.toDateTime(DateTimeZone.UTC).toString(), end.toDateTime(DateTimeZone.UTC).toString());
         } else {
             completeQuery = String.format("%s where time >= '%s' and time <= '%s'", queryWithoutTime,
-                    start.toDateTime(DateTimeZone.UTC).toString(), end.toDateTime(DateTimeZone.UTC).toString());
+                start.toDateTime(DateTimeZone.UTC).toString(), end.toDateTime(DateTimeZone.UTC).toString());
         }
         return completeQuery;
     }

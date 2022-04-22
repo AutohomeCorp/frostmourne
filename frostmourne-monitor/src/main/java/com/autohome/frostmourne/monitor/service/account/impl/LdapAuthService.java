@@ -2,32 +2,33 @@ package com.autohome.frostmourne.monitor.service.account.impl;
 
 import java.text.MessageFormat;
 
-import com.autohome.frostmourne.monitor.service.account.IAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.HardcodedFilter;
 
+import com.autohome.frostmourne.monitor.service.account.IAuthService;
+
 public class LdapAuthService implements IAuthService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(LdapAuthService.class);
 
-    private LdapTemplate ldapTemplate;
+    private final LdapTemplate ldapTemplate;
 
-    private String searchFilter;
+    private final String searchFilter;
 
-    private String initailPassword;
+    private final String initialPassword;
 
     public LdapAuthService(String searchFilter, LdapTemplate ldapTemplate, String initialPassword) {
         this.searchFilter = searchFilter;
         this.ldapTemplate = ldapTemplate;
-        this.initailPassword = initialPassword;
+        this.initialPassword = initialPassword;
     }
 
     @Override
     public boolean validate(String account, String password) {
-        if (account.equals("admin")) {
-            return password.equals(initailPassword);
+        if ("admin".equals(account)) {
+            return password.equals(initialPassword);
         }
         try {
             String filterString = MessageFormat.format(searchFilter, account);

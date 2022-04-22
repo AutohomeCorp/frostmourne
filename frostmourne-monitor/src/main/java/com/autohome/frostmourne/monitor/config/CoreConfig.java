@@ -2,7 +2,12 @@ package com.autohome.frostmourne.monitor.config;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import com.autohome.frostmourne.monitor.service.core.metric.HttpMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
@@ -20,9 +25,6 @@ import com.autohome.frostmourne.monitor.service.core.rule.IRule;
 import com.autohome.frostmourne.monitor.service.core.rule.NumericRule;
 import com.autohome.frostmourne.monitor.service.core.rule.PercentageRule;
 import com.autohome.frostmourne.monitor.service.core.template.ITemplateService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class CoreConfig {

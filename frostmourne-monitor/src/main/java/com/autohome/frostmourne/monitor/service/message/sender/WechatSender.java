@@ -16,8 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.config.properties.WechatProperties;
-import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
 import com.autohome.frostmourne.monitor.model.message.MessageResult;

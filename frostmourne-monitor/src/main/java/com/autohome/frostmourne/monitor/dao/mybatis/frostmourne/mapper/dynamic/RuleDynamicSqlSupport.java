@@ -4,7 +4,7 @@ import java.sql.JDBCType;
 import java.util.Date;
 import javax.annotation.Generated;
 
-import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 

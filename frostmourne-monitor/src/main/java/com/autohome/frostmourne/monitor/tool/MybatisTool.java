@@ -8,11 +8,11 @@ public class MybatisTool {
         return !Strings.isNullOrEmpty(value);
     }
 
-    public static  boolean notNullAndZero(Long value) {
+    public static boolean notNullAndZero(Long value) {
         return value != null && value > 0;
     }
 
-    public static  boolean notNullAndZero(Integer value) {
+    public static boolean notNullAndZero(Integer value) {
         return value != null && value > 0;
     }
 

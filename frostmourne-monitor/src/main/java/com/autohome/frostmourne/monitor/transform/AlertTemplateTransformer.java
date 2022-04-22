@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.autohome.frostmourne.monitor.contract.AlertTemplateContract;
-import com.autohome.frostmourne.monitor.contract.AlertTemplateSaveForm;
-import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateEnums.TemplateType;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertTemplate;
 import org.springframework.util.CollectionUtils;
+
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertTemplate;
+import com.autohome.frostmourne.monitor.model.contract.AlertTemplateContract;
+import com.autohome.frostmourne.monitor.model.contract.AlertTemplateSaveForm;
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateEnums.TemplateType;
 
 public class AlertTemplateTransformer {
 
@@ -34,9 +35,7 @@ public class AlertTemplateTransformer {
         if (CollectionUtils.isEmpty(alertTemplates)) {
             return Collections.emptyList();
         }
-        return alertTemplates.stream()
-                .map(AlertTemplateTransformer::model2Contract)
-                .collect(Collectors.toList());
+        return alertTemplates.stream().map(AlertTemplateTransformer::model2Contract).collect(Collectors.toList());
     }
 
     public static AlertTemplate saveForm2Model(AlertTemplateSaveForm alertTemplateSaveForm) {
@@ -46,7 +45,8 @@ public class AlertTemplateTransformer {
         AlertTemplate alertTemplate = new AlertTemplate();
         alertTemplate.setId(alertTemplateSaveForm.getId());
         alertTemplate.setTemplateName(alertTemplateSaveForm.getTemplateName());
-        alertTemplate.setTemplateType(Optional.ofNullable(alertTemplateSaveForm.getTemplateType()).map(TemplateType::name).orElse(null));
+        alertTemplate.setTemplateType(
+            Optional.ofNullable(alertTemplateSaveForm.getTemplateType()).map(TemplateType::name).orElse(null));
         alertTemplate.setTemplateUnionCode(alertTemplateSaveForm.getTemplateUnionCode());
         alertTemplate.setContent(alertTemplateSaveForm.getContent());
         return alertTemplate;

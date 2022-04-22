@@ -2,8 +2,8 @@ package com.autohome.frostmourne.monitor.service.core.execute;
 
 import java.util.Map;
 
-import com.autohome.frostmourne.monitor.contract.AlarmContract;
-import com.autohome.frostmourne.monitor.contract.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
+import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
 import org.joda.time.DateTime;
 
@@ -11,7 +11,7 @@ public class AlarmProcessLogger {
 
     private static final String LINE = System.getProperty("line.separator");
 
-    private StringBuilder trace = new StringBuilder();
+    private final StringBuilder trace = new StringBuilder();
 
     private ExecuteStatus executeStatus;
 
