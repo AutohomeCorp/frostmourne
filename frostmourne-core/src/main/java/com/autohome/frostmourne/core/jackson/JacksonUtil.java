@@ -16,8 +16,7 @@ public class JacksonUtil {
         COMMON_DEFINE_OBJECT_MAPPER = JacksonObjectMapper.getCommonObjectMapper();
     }
 
-    private JacksonUtil() {
-    }
+    private JacksonUtil() {}
 
     public static <T> String serialize(T object) {
         return serialize(object, COMMON_DEFINE_OBJECT_MAPPER);
@@ -73,10 +72,11 @@ public class JacksonUtil {
 
     public static <T> List<T> deSerializeList(String jsonString, Class<T> classT, ObjectMapper objectMapper) {
         JavaType javaType = getCollectionType(objectMapper, ArrayList.class, classT);
-        return (List<T>) deSerialize(jsonString, javaType, objectMapper);
+        return deSerialize(jsonString, javaType, objectMapper);
     }
 
-    public static JavaType getCollectionType(ObjectMapper objectMapper, Class<?> collectionClass, Class<?>... elementClasses) {
+    public static JavaType getCollectionType(ObjectMapper objectMapper, Class<?> collectionClass,
+        Class<?>... elementClasses) {
         return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
 

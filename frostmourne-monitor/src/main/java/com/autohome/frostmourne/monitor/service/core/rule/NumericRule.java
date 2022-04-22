@@ -2,8 +2,8 @@ package com.autohome.frostmourne.monitor.service.core.rule;
 
 import java.util.Map;
 
-import com.autohome.frostmourne.monitor.contract.MetricContract;
-import com.autohome.frostmourne.monitor.contract.RuleContract;
+import com.autohome.frostmourne.monitor.model.contract.MetricContract;
+import com.autohome.frostmourne.monitor.model.contract.RuleContract;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.template.ITemplateService;
@@ -15,19 +15,20 @@ public class NumericRule extends AbstractRule {
     }
 
     @Override
-    public boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract, MetricContract metricContract, IMetric metric) {
+    public boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract,
+        MetricContract metricContract, IMetric metric) {
         Map<String, Object> context = context(alarmProcessLogger, ruleContract, metricContract, metric);
         Double threshold = findThreshold(ruleContract);
         Double number = findNumber(context);
         String operator = findOperation(ruleContract);
 
-        if (operator.equalsIgnoreCase("gte")) {
+        if ("gte".equalsIgnoreCase(operator)) {
             return number >= threshold;
         }
-        if (operator.equalsIgnoreCase("lte")) {
+        if ("lte".equalsIgnoreCase(operator)) {
             return number <= threshold;
         }
-        if (operator.equalsIgnoreCase("equal")) {
+        if ("equal".equalsIgnoreCase(operator)) {
             return number.equals(threshold);
         }
 

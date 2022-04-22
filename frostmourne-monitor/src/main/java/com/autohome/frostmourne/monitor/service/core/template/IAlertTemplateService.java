@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.contract.AlertTemplateContract;
-import com.autohome.frostmourne.monitor.contract.AlertTemplateQueryForm;
-import com.autohome.frostmourne.monitor.contract.AlertTemplateSaveForm;
-import com.autohome.frostmourne.monitor.contract.TreeDataOption;
+import com.autohome.frostmourne.monitor.model.contract.AlertTemplateContract;
+import com.autohome.frostmourne.monitor.model.contract.AlertTemplateQueryForm;
+import com.autohome.frostmourne.monitor.model.contract.AlertTemplateSaveForm;
+import com.autohome.frostmourne.monitor.model.contract.TreeDataOption;
 
 public interface IAlertTemplateService {
 

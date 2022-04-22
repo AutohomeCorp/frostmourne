@@ -1,14 +1,12 @@
 package com.autohome.frostmourne.monitor.model.message;
 
-import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
-import com.autohome.frostmourne.monitor.model.account.AccountInfo;
-import com.autohome.frostmourne.monitor.model.enums.MessageWay;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
+import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 
 /**
  * 告警消息业务上下文

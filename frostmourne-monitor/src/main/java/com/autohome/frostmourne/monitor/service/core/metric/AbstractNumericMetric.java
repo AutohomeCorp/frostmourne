@@ -3,13 +3,15 @@ package com.autohome.frostmourne.monitor.service.core.metric;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.autohome.frostmourne.monitor.contract.MetricContract;
-import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import org.joda.time.DateTime;
+
+import com.autohome.frostmourne.monitor.model.contract.MetricContract;
+import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 
 public abstract class AbstractNumericMetric implements IMetric {
 
-    public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings);
+    public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract,
+        Map<String, String> ruleSettings);
 
     public Integer findTimeWindowInMinutes(Map<String, String> ruleSettings) {
         return Integer.parseInt(ruleSettings.get("TIME_WINDOW"));

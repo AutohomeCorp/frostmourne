@@ -5,9 +5,9 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.autohome.frostmourne.monitor.contract.AlarmContract;
-import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
-import com.autohome.frostmourne.monitor.contract.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
+import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.rule.IRule;
 
@@ -15,17 +15,18 @@ public class AlarmExecutor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AlarmExecutor.class);
 
-    private AlarmContract alarmContract;
+    private final AlarmContract alarmContract;
 
-    private IRule rule;
+    private final IRule rule;
 
-    private IMetric metric;
+    private final IMetric metric;
 
-    private IGenerateShortLinkService generateShortLinkService;
+    private final IGenerateShortLinkService generateShortLinkService;
 
-    private AlarmProcessLogger alarmProcessLogger;
+    private final AlarmProcessLogger alarmProcessLogger;
 
-    public AlarmExecutor(AlarmContract alarmContract, IRule rule, IMetric metric, IGenerateShortLinkService generateShortLinkService) {
+    public AlarmExecutor(AlarmContract alarmContract, IRule rule, IMetric metric,
+        IGenerateShortLinkService generateShortLinkService) {
         this.alarmContract = alarmContract;
         this.rule = rule;
         this.metric = metric;
@@ -47,7 +48,8 @@ public class AlarmExecutor {
 
     private ExecuteStatus doRule() {
         try {
-            boolean isAlert = this.rule.verify(this.alarmProcessLogger, alarmContract.getRuleContract(), alarmContract.getMetricContract(), metric);
+            boolean isAlert = this.rule.verify(this.alarmProcessLogger, alarmContract.getRuleContract(),
+                alarmContract.getMetricContract(), metric);
             this.alarmProcessLogger.setAlert(isAlert);
             this.alarmProcessLogger.trace("isAlert: " + isAlert);
             if (isAlert) {

@@ -1,14 +1,16 @@
 package com.autohome.frostmourne.monitor.service.message;
 
-import com.autohome.frostmourne.monitor.service.message.sender.MessageSenderChain;
-import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
+
+import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
+import com.autohome.frostmourne.monitor.service.message.sender.MessageSenderChain;
 
 /**
  * 消息通知层
@@ -26,7 +28,8 @@ public class MessageService {
 
     @PostConstruct
     private void buildChain() {
-        Map<String, MessageSenderChain> messageSenderChainMap = applicationContext.getBeansOfType(MessageSenderChain.class);
+        Map<String, MessageSenderChain> messageSenderChainMap =
+            applicationContext.getBeansOfType(MessageSenderChain.class);
         AtomicReference<MessageSenderChain> node = new AtomicReference<>();
         messageSenderChainMap.forEach((k, v) -> {
             if (node.get() == null) {

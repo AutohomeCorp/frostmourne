@@ -1,9 +1,10 @@
 package com.autohome.frostmourne.monitor.service.message.sender;
 
-import com.autohome.frostmourne.monitor.model.enums.MessageWay;
-import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.autohome.frostmourne.monitor.model.enums.MessageWay;
+import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
 
 /**
  * 消息通知责任链

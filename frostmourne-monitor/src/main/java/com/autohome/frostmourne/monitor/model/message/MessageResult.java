@@ -1,10 +1,6 @@
 package com.autohome.frostmourne.monitor.model.message;
 
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * 消息发送结果

@@ -1,6 +1,7 @@
 package com.autohome.frostmourne.monitor.service.core.rule;
 
 import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ public class RuleService implements IRuleService {
     @Resource
     private Map<String, IRule> ruleMap;
 
+    @Override
     public IRule findRule(String ruleType) {
         if (!ruleMap.containsKey(ruleType)) {
             throw new RuntimeException("unknown ruleType: " + ruleType);

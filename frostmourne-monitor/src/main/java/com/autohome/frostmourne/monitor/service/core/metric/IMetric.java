@@ -2,7 +2,7 @@ package com.autohome.frostmourne.monitor.service.core.metric;
 
 import java.util.Map;
 
-import com.autohome.frostmourne.monitor.contract.MetricContract;
+import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 
 public interface IMetric {
 

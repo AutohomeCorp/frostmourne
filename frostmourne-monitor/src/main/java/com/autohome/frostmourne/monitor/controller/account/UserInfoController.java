@@ -2,18 +2,14 @@ package com.autohome.frostmourne.monitor.controller.account;
 
 import javax.annotation.Resource;
 
+import org.springframework.web.bind.annotation.*;
+
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.monitor.contract.UserContract;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
+import com.autohome.frostmourne.monitor.model.contract.UserContract;
 import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = {"/userinfo", "/api/monitor-api/userinfo"})
@@ -42,11 +38,10 @@ public class UserInfoController {
     }
 
     @GetMapping(value = "/findPage")
-    public Protocol<PagerContract<UserContract>> findPage(@RequestParam(value = "pageIndex", required = true) int pageIndex,
-                                                          @RequestParam(value = "pageSize", required = true) int pageSize,
-                                                          @RequestParam(value = "id", required = false) Long id,
-                                                          @RequestParam(value = "account", required = false) String account,
-                                                          @RequestParam(value = "teamId", required = false) Long teamId) {
+    public Protocol<PagerContract<UserContract>> findPage(@RequestParam(value = "pageIndex") int pageIndex,
+        @RequestParam(value = "pageSize") int pageSize, @RequestParam(value = "id", required = false) Long id,
+        @RequestParam(value = "account", required = false) String account,
+        @RequestParam(value = "teamId", required = false) Long teamId) {
         return new Protocol<>(userInfoService.findPage(pageIndex, pageSize, id, account, teamId));
     }
 }

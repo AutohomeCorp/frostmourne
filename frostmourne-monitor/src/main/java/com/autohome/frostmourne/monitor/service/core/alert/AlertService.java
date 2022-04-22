@@ -4,25 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.contract.AlertContract;
-import com.autohome.frostmourne.monitor.contract.ServiceInfoSimpleContract;
-import com.autohome.frostmourne.monitor.contract.enums.*;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ConfigMap;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IConfigMapRepository;
-import com.autohome.frostmourne.monitor.model.account.AccountInfo;
-import com.autohome.frostmourne.monitor.model.enums.MessageWay;
-import com.autohome.frostmourne.monitor.service.account.IAccountService;
-import com.autohome.frostmourne.monitor.service.core.domain.ConfigMapKeys;
-import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
-import com.autohome.frostmourne.monitor.service.message.MessageService;
-import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
-import com.autohome.frostmourne.monitor.model.message.MessageResult;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
@@ -30,6 +14,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ConfigMap;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IConfigMapRepository;
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
+import com.autohome.frostmourne.monitor.model.contract.AlertContract;
+import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSimpleContract;
+import com.autohome.frostmourne.monitor.model.enums.*;
+import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
+import com.autohome.frostmourne.monitor.model.message.MessageResult;
+import com.autohome.frostmourne.monitor.service.account.IAccountService;
+import com.autohome.frostmourne.monitor.service.core.domain.ConfigMapKeys;
+import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
+import com.autohome.frostmourne.monitor.service.message.MessageService;
 
 @Service
 public class AlertService implements IAlertService {
@@ -57,7 +58,8 @@ public class AlertService implements IAlertService {
     @Override
     public void alert(AlarmProcessLogger alarmProcessLogger) {
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
-        List<AccountInfo> recipients = recipients(alertContract.getRecipients(), alarmProcessLogger.getAlarmContract().getServiceInfo());
+        List<AccountInfo> recipients =
+            recipients(alertContract.getRecipients(), alarmProcessLogger.getAlarmContract().getServiceInfo());
         if (recipients.size() == 0) {
             LOGGER.error("no recipients, alarmId: " + alarmProcessLogger.getAlarmContract().getId());
             return;
@@ -77,15 +79,17 @@ public class AlertService implements IAlertService {
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
         AlarmMessageBO alarmMessageBO = new AlarmMessageBO();
         String alertContent = null;
-        if (AlertTemplateType.MARKDOWN.equals(alarmProcessLogger.getAlarmContract().getRuleContract().getAlertTemplateType())){
+        if (AlertTemplateType.MARKDOWN
+            .equals(alarmProcessLogger.getAlarmContract().getRuleContract().getAlertTemplateType())) {
             alertContent = alarmProcessLogger.getAlertMessage();
             if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
                 AlertLog alertLog = this.alertLogRepository
-                        .selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
+                    .selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO)
+                    .get();
                 alertContent = "### [恢复] 请自己检查问题是否解决，上次报警内容如下\n" + alertLog.getContent();
             }
             alarmMessageBO.setContent(alertContent);
-        }else {
+        } else {
             String risk = "";
             if (!Strings.isNullOrEmpty(alarmProcessLogger.getAlarmContract().getRiskLevel())) {
                 risk = "[" + riskTranslation(alarmProcessLogger.getAlarmContract().getRiskLevel()) + "] ";
@@ -93,17 +97,23 @@ public class AlertService implements IAlertService {
             String timeString = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
             if (alertType.equalsIgnoreCase(AlertType.PROBLEM)) {
                 alertContent = alarmProcessLogger.getAlertMessage();
-                alarmMessageBO.setContent(String.format("[%s] [问题] %s\n%s", timeString, risk, alarmProcessLogger.getAlertMessage()));
+                alarmMessageBO.setContent(
+                    String.format("[%s] [问题] %s\n%s", timeString, risk, alarmProcessLogger.getAlertMessage()));
             } else if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
                 AlertLog alertLog = this.alertLogRepository
-                        .selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
-                alertContent = String.format("[%s] [恢复] %s请自己检查问题是否解决，上次报警内容如下\n%s",timeString, risk, alertLog.getContent());
+                    .selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO)
+                    .get();
+                alertContent =
+                    String.format("[%s] [恢复] %s请自己检查问题是否解决，上次报警内容如下\n%s", timeString, risk, alertLog.getContent());
                 alarmMessageBO.setContent(alertContent);
             }
         }
 
-        alarmMessageBO.setAlertTemplateType(alarmProcessLogger.getAlarmContract().getRuleContract().getAlertTemplateType());
-        alarmMessageBO.setTitle(String.format("[%s][id:%s]%s", Strings.isNullOrEmpty(messageTitle) ? alertTitle() : messageTitle, alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
+        alarmMessageBO
+            .setAlertTemplateType(alarmProcessLogger.getAlarmContract().getRuleContract().getAlertTemplateType());
+        alarmMessageBO
+            .setTitle(String.format("[%s][id:%s]%s", Strings.isNullOrEmpty(messageTitle) ? alertTitle() : messageTitle,
+                alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
         alarmMessageBO.setRecipients(recipients);
         alarmMessageBO.setWays(generateWays(alertContract));
         alarmMessageBO.setDingHook(alertContract.getDingRobotHook());
@@ -114,24 +124,24 @@ public class AlertService implements IAlertService {
 
         messageService.send(alarmMessageBO);
 
-        saveAlertLog(alertType, alarmMessageBO.getResultList(), recipients, alarmProcessLogger.getAlarmContract().getId(),
-                alertContent, alarmProcessLogger.getAlarmLog().getId());
+        saveAlertLog(alertType, alarmMessageBO.getResultList(), recipients,
+            alarmProcessLogger.getAlarmContract().getId(), alertContent, alarmProcessLogger.getAlarmLog().getId());
     }
 
     private String riskTranslation(String riskLevel) {
         if (Strings.isNullOrEmpty(riskLevel)) {
             return null;
         }
-        if (riskLevel.equalsIgnoreCase("info")) {
+        if ("info".equalsIgnoreCase(riskLevel)) {
             return "通知";
         }
-        if (riskLevel.equalsIgnoreCase("important")) {
+        if ("important".equalsIgnoreCase(riskLevel)) {
             return "重要";
         }
-        if (riskLevel.equalsIgnoreCase("emergency")) {
+        if ("emergency".equalsIgnoreCase(riskLevel)) {
             return "紧急";
         }
-        if (riskLevel.equalsIgnoreCase("crash")) {
+        if ("crash".equalsIgnoreCase(riskLevel)) {
             return "我崩了";
         }
         throw new IllegalArgumentException("unknown risk level: " + riskLevel);
@@ -185,8 +195,8 @@ public class AlertService implements IAlertService {
         return recipients;
     }
 
-    private void saveAlertLog(String alertType, List<MessageResult> messageResults,
-                              List<AccountInfo> accountInfos, Long alarmId, String content, Long executeId) {
+    private void saveAlertLog(String alertType, List<MessageResult> messageResults, List<AccountInfo> accountInfos,
+        Long alarmId, String content, Long executeId) {
         for (MessageResult messageResult : messageResults) {
             for (AccountInfo accountInfo : accountInfos) {
                 AlertLog alertLog = new AlertLog();
@@ -204,8 +214,9 @@ public class AlertService implements IAlertService {
         }
     }
 
-    private void checkRecover(Optional<AlarmLog> latestAlarmLog, AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients) {
-        //if not alert, check if send recover message
+    private void checkRecover(Optional<AlarmLog> latestAlarmLog, AlarmProcessLogger alarmProcessLogger,
+        List<AccountInfo> recipients) {
+        // if not alert, check if send recover message
         if (needRecover(latestAlarmLog, alarmProcessLogger)) {
             sendAlert(alarmProcessLogger, recipients, AlertType.RECOVER);
         } else {
@@ -214,11 +225,12 @@ public class AlertService implements IAlertService {
     }
 
     private boolean needRecover(Optional<AlarmLog> latestAlarmLog, AlarmProcessLogger alarmProcessLogger) {
-        //if not alert, check if send recover message
+        // if not alert, check if send recover message
         if (latestAlarmLog.isPresent() && latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.TRUE)) {
-            //this is recover message
+            // this is recover message
             // 开启恢复通知
-            return RecoverNoticeStatus.OPEN.name().equalsIgnoreCase(alarmProcessLogger.getAlarmContract().getRecoverNoticeStatus());
+            return RecoverNoticeStatus.OPEN.name()
+                .equalsIgnoreCase(alarmProcessLogger.getAlarmContract().getRecoverNoticeStatus());
         }
         return false;
     }
@@ -226,13 +238,15 @@ public class AlertService implements IAlertService {
     private boolean checkSilence(AlarmProcessLogger alarmProcessLogger) {
         Long alarmId = alarmProcessLogger.getAlarmContract().getId();
         Optional<AlarmLog> latestNoProblemAlarmLog = alarmLogRepository.selectLatest(alarmId, VerifyResult.FALSE);
-        Long current = System.currentTimeMillis();
-        Long silenceThreshold = alarmProcessLogger.getAlarmContract().getAlertContract().getSilence() * 60 * 1000;
-        if (latestNoProblemAlarmLog.isPresent() && current - latestNoProblemAlarmLog.get().getCreateAt().getTime() < silenceThreshold) {
+        long current = System.currentTimeMillis();
+        long silenceThreshold = alarmProcessLogger.getAlarmContract().getAlertContract().getSilence() * 60 * 1000;
+        if (latestNoProblemAlarmLog.isPresent()
+            && current - latestNoProblemAlarmLog.get().getCreateAt().getTime() < silenceThreshold) {
             return true;
         }
-        //find latest problem and not silence alert time
-        Optional<AlertLog> latestAlertLog = alertLogRepository.selectLatest(alarmId, AlertType.PROBLEM, SilenceStatus.NO);
+        // find latest problem and not silence alert time
+        Optional<AlertLog> latestAlertLog =
+            alertLogRepository.selectLatest(alarmId, AlertType.PROBLEM, SilenceStatus.NO);
         if (latestAlertLog.isPresent() && current - latestAlertLog.get().getCreateAt().getTime() < silenceThreshold) {
             return true;
         }
@@ -261,9 +275,10 @@ public class AlertService implements IAlertService {
         }
     }
 
-    private void processProblem(AlarmProcessLogger
-                                        alarmProcessLogger, List<AccountInfo> recipients, Optional<AlarmLog> latestAlarmLog) {
-        if (!latestAlarmLog.isPresent() || latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.FALSE)) {
+    private void processProblem(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients,
+        Optional<AlarmLog> latestAlarmLog) {
+        if (!latestAlarmLog.isPresent()
+            || latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.FALSE)) {
             sendAlert(alarmProcessLogger, recipients, AlertType.PROBLEM);
             return;
         }
@@ -279,7 +294,7 @@ public class AlertService implements IAlertService {
     public void alarmLog(AlarmProcessLogger alarmProcessLogger) {
         AlarmLog alarmLog = new AlarmLog();
         alarmLog.setAlarmId(alarmProcessLogger.getAlarmContract().getId());
-        alarmLog.setCost((int) (alarmProcessLogger.getEnd().getMillis() - alarmProcessLogger.getStart().getMillis()));
+        alarmLog.setCost((int)(alarmProcessLogger.getEnd().getMillis() - alarmProcessLogger.getStart().getMillis()));
         alarmLog.setCreateAt(new Date());
         alarmLog.setExeStart(alarmProcessLogger.getStart().toDate());
         alarmLog.setExeEnd(alarmProcessLogger.getEnd().toDate());

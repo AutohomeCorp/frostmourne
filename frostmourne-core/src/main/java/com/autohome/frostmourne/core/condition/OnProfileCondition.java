@@ -4,11 +4,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.Sets;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.MultiValueMap;
+
+import com.google.common.collect.Sets;
 
 public class OnProfileCondition implements Condition {
     @Override
@@ -16,11 +17,11 @@ public class OnProfileCondition implements Condition {
         Set<String> activeProfiles = Sets.newHashSet(context.getEnvironment().getActiveProfiles());
 
         Set<String> requiredActiveProfiles = retrieveAnnotatedProfiles(metadata, ConditionalOnProfile.class.getName());
-        Set<String> requiredInactiveProfiles = retrieveAnnotatedProfiles(metadata, ConditionalOnMissingProfile.class
-                .getName());
+        Set<String> requiredInactiveProfiles =
+            retrieveAnnotatedProfiles(metadata, ConditionalOnMissingProfile.class.getName());
 
         return Sets.difference(requiredActiveProfiles, activeProfiles).isEmpty()
-                && Sets.intersection(requiredInactiveProfiles, activeProfiles).isEmpty();
+            && Sets.intersection(requiredInactiveProfiles, activeProfiles).isEmpty();
     }
 
     private Set<String> retrieveAnnotatedProfiles(AnnotatedTypeMetadata metadata, String annotationType) {
@@ -40,9 +41,9 @@ public class OnProfileCondition implements Condition {
         if (values != null) {
             for (Object value : values) {
                 if (value instanceof String[]) {
-                    Collections.addAll(profiles, (String[]) value);
+                    Collections.addAll(profiles, (String[])value);
                 } else {
-                    profiles.add((String) value);
+                    profiles.add((String)value);
                 }
             }
         }

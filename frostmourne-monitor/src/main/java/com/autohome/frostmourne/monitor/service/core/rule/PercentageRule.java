@@ -3,8 +3,8 @@ package com.autohome.frostmourne.monitor.service.core.rule;
 import java.util.List;
 import java.util.Map;
 
-import com.autohome.frostmourne.monitor.contract.MetricContract;
-import com.autohome.frostmourne.monitor.contract.RuleContract;
+import com.autohome.frostmourne.monitor.model.contract.MetricContract;
+import com.autohome.frostmourne.monitor.model.contract.RuleContract;
 import com.autohome.frostmourne.monitor.service.core.domain.ReferenceBag;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
@@ -13,13 +13,13 @@ import com.google.common.base.Strings;
 
 public class PercentageRule extends AbstractRule {
 
-
     public PercentageRule(ITemplateService templateService) {
         super(templateService);
     }
 
     @Override
-    public boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract, MetricContract metricContract, IMetric metric) {
+    public boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract,
+        MetricContract metricContract, IMetric metric) {
         Map<String, Object> context = context(alarmProcessLogger, ruleContract, metricContract, metric);
         Map<String, String> ruleSettings = ruleContract.getSettings();
         List<ReferenceBag> referenceDataList = findReference(context);
@@ -55,11 +55,11 @@ public class PercentageRule extends AbstractRule {
     }
 
     protected List<ReferenceBag> findReference(Map<String, Object> context) {
-        return (List<ReferenceBag>) context.get("REFERENCE_LIST");
+        return (List<ReferenceBag>)context.get("REFERENCE_LIST");
     }
 
     protected Double findCurrent(Map<String, Object> context) {
-        return (Double) context.get("CURRENT");
+        return (Double)context.get("CURRENT");
     }
 
     protected Double findDiff(Map<String, Object> context, ReferenceBag referenceBag) {
@@ -81,17 +81,16 @@ public class PercentageRule extends AbstractRule {
         Double percentage = referenceBag.getPercentage();
         Double percentageThreshold = findPercentageThreshold(ruleSettings);
         String operationType = findOperationType(ruleSettings);
-        if (operationType.equalsIgnoreCase("INCREASE")) {
+        if ("INCREASE".equalsIgnoreCase(operationType)) {
             return percentage >= percentageThreshold;
-        } else if (operationType.equalsIgnoreCase("DECREASE")) {
+        } else if ("DECREASE".equalsIgnoreCase(operationType)) {
             return percentage <= -percentageThreshold;
-        } else if (operationType.equalsIgnoreCase("BOTH")) {
+        } else if ("BOTH".equalsIgnoreCase(operationType)) {
             return Math.abs(percentage) >= percentageThreshold;
         } else {
             throw new IllegalArgumentException("unknown operation_type: " + operationType);
         }
     }
-
 
     boolean verifyDiff(Map<String, Object> context, ReferenceBag referenceBag, Map<String, String> ruleSettings) {
         String diffCompareOp = findDiffCompareOp(ruleSettings);
@@ -101,13 +100,13 @@ public class PercentageRule extends AbstractRule {
 
         Double diff = findDiff(context, referenceBag);
         Double diffThreshold = findDiffThreshold(ruleSettings);
-        if (diffCompareOp.equalsIgnoreCase("gte")) {
+        if ("gte".equalsIgnoreCase(diffCompareOp)) {
             return diff >= diffThreshold;
-        } else if (diffCompareOp.equalsIgnoreCase("lte")) {
+        } else if ("lte".equalsIgnoreCase(diffCompareOp)) {
             return diff <= diffThreshold;
-        } else if (diffCompareOp.equalsIgnoreCase("abs_gte")) {
+        } else if ("abs_gte".equalsIgnoreCase(diffCompareOp)) {
             return Math.abs(diff) >= diffThreshold;
-        } else if (diffCompareOp.equalsIgnoreCase("abs_lte")) {
+        } else if ("abs_lte".equalsIgnoreCase(diffCompareOp)) {
             return Math.abs(diff) <= diffThreshold;
         }
         throw new IllegalArgumentException("unknown diff operation:" + diffCompareOp);

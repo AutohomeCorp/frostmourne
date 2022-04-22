@@ -19,10 +19,10 @@ public class RequestExtendConverters {
 
         Request request = new Request(HttpGet.METHOD_NAME, RequestConverters.endpoint(indices, "_mapping", types));
 
-        //RequestConverters.Params parameters = new RequestConverters.Params(request);
-        //parameters.withMasterTimeout(getMappingsRequest.masterNodeTimeout());
-        //parameters.withIndicesOptions(getMappingsRequest.indicesOptions());
-        //parameters.withLocal(getMappingsRequest.local());
+        // RequestConverters.Params parameters = new RequestConverters.Params(request);
+        // parameters.withMasterTimeout(getMappingsRequest.masterNodeTimeout());
+        // parameters.withIndicesOptions(getMappingsRequest.indicesOptions());
+        // parameters.withLocal(getMappingsRequest.local());
         return request;
     }
 

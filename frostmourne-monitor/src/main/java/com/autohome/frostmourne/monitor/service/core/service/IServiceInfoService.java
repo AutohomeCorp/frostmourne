@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.contract.ServiceInfoContract;
-import com.autohome.frostmourne.monitor.contract.ServiceInfoQueryForm;
-import com.autohome.frostmourne.monitor.contract.ServiceInfoSaveForm;
-import com.autohome.frostmourne.monitor.contract.ServiceInfoSimpleContract;
+import com.autohome.frostmourne.monitor.model.contract.ServiceInfoContract;
+import com.autohome.frostmourne.monitor.model.contract.ServiceInfoQueryForm;
+import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSaveForm;
+import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSimpleContract;
 
 public interface IServiceInfoService {
 

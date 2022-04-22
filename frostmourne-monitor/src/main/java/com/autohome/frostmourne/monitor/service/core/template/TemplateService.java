@@ -2,14 +2,17 @@ package com.autohome.frostmourne.monitor.service.core.template;
 
 import java.io.StringWriter;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
+
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import org.springframework.stereotype.Service;
 
 @Service
 public class TemplateService implements ITemplateService {
@@ -20,7 +23,7 @@ public class TemplateService implements ITemplateService {
     @Override
     public String format(String template, Map<String, Object> env) {
         String key = md5Key(template);
-        StringTemplateLoader loader = (StringTemplateLoader) dynamicConfig.getTemplateLoader();
+        StringTemplateLoader loader = (StringTemplateLoader)dynamicConfig.getTemplateLoader();
         loader.putTemplate(key, template);
 
         return process(dynamicConfig, key, env);

@@ -3,7 +3,6 @@ package com.autohome.frostmourne.core.log4j2;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.common.base.Splitter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.core.Filter;
@@ -17,6 +16,8 @@ import org.apache.logging.log4j.core.filter.AbstractFilter;
 import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 
+import com.google.common.base.Splitter;
+
 @Plugin(name = "EnumFilter", category = Node.CATEGORY, elementType = Filter.ELEMENT_TYPE, printObject = true)
 @PerformanceSensitive("allocation")
 public class EnumFilter extends AbstractFilter {
@@ -29,28 +30,27 @@ public class EnumFilter extends AbstractFilter {
     }
 
     @PluginFactory
-    public static EnumFilter createFilter(
-            @PluginAttribute("allowLevels") final String allowLevels) {
-        List<Level> allowLevelList = Splitter.on(",").trimResults().splitToList(allowLevels)
-                .stream().map(Level::getLevel).collect(Collectors.toList());
+    public static EnumFilter createFilter(@PluginAttribute("allowLevels") final String allowLevels) {
+        List<Level> allowLevelList = Splitter.on(",").trimResults().splitToList(allowLevels).stream()
+            .map(Level::getLevel).collect(Collectors.toList());
         return new EnumFilter(allowLevelList);
     }
 
     @Override
     public Result filter(final Logger logger, final Level level, final Marker marker, final String msg,
-                         final Object... params) {
+        final Object... params) {
         return filter(level);
     }
 
     @Override
     public Result filter(final Logger logger, final Level level, final Marker marker, final Object msg,
-                         final Throwable t) {
+        final Throwable t) {
         return filter(level);
     }
 
     @Override
     public Result filter(final Logger logger, final Level level, final Marker marker, final Message msg,
-                         final Throwable t) {
+        final Throwable t) {
         return filter(level);
     }
 
@@ -60,7 +60,7 @@ public class EnumFilter extends AbstractFilter {
     }
 
     private Result filter(final Level level) {
-        if(allowLevelList.contains(Level.OFF)) {
+        if (allowLevelList.contains(Level.OFF)) {
             return onMismatch;
         }
         if (allowLevelList.contains(level)) {

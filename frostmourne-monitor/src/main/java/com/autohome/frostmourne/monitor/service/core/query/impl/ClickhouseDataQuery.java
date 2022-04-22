@@ -1,10 +1,11 @@
 package com.autohome.frostmourne.monitor.service.core.query.impl;
 
-import com.autohome.frostmourne.monitor.service.core.query.IClickhouseDataQuery;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Service;
+
+import com.autohome.frostmourne.monitor.service.core.query.IClickhouseDataQuery;
 
 @Service
 public class ClickhouseDataQuery extends MysqlDataQuery implements IClickhouseDataQuery {

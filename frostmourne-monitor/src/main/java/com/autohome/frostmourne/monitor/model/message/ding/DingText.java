@@ -1,8 +1,5 @@
 package com.autohome.frostmourne.monitor.model.message.ding;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class DingText {
 
     private String content;

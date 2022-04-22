@@ -2,20 +2,22 @@ package com.autohome.frostmourne.monitor.dao.jdbc.impl;
 
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
+
 import javax.sql.DataSource;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.autohome.frostmourne.monitor.contract.DataSourceContract;
-import com.autohome.frostmourne.monitor.dao.jdbc.DataSourceJdbcType;
-import com.autohome.frostmourne.monitor.dao.jdbc.IDataSourceJdbcManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import com.autohome.frostmourne.monitor.dao.jdbc.DataSourceJdbcType;
+import com.autohome.frostmourne.monitor.dao.jdbc.IDataSourceJdbcManager;
+import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
 
 public class DataSourceJdbcManager implements IDataSourceJdbcManager {
 
     private static final Logger log = LoggerFactory.getLogger(DataSourceJdbcManager.class);
 
-    private ConcurrentHashMap<String, DruidDataSource> dataSourceCache;
+    private volatile ConcurrentHashMap<String, DruidDataSource> dataSourceCache;
 
     @Override
     public void init() {
@@ -69,8 +71,8 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
             dataSourceCache.put(key, this.createDataSource(dataSourceContract));
             return true;
         } catch (Exception e) {
-            log.error("DataSourceJdbcManager.addDataSource failed: dataSource={}, error={}",
-                    dataSourceContract, e.getMessage(), e);
+            log.error("DataSourceJdbcManager.addDataSource failed: dataSource={}, error={}", dataSourceContract,
+                e.getMessage(), e);
             return false;
         }
     }

@@ -43,8 +43,7 @@ public class PagerContract<T> implements Serializable {
         this.list = list;
     }
 
-    public PagerContract() {
-    }
+    public PagerContract() {}
 
     public PagerContract(List<T> list, int pageSize, int pageIndex, int rowCount) {
         this.list = list;

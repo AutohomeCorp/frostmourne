@@ -2,8 +2,9 @@ package com.autohome.frostmourne.monitor.dao.elasticsearch;
 
 import java.util.Map;
 
-import com.autohome.frostmourne.monitor.contract.DataSourceContract;
 import org.joda.time.DateTime;
+
+import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
 
 public class ElasticsearchInfo {
 
@@ -54,7 +55,7 @@ public class ElasticsearchInfo {
         this.esHostList = dataSourceContract.getServiceAddress();
         this.sniff = false;
         this.settings = dataSourceContract.getSettings();
-        if(dataSourceContract.getModifyAt() == null) {
+        if (dataSourceContract.getModifyAt() == null) {
             this.lastUpdateTime = DateTime.now().getMillis();
         } else {
             this.lastUpdateTime = dataSourceContract.getModifyAt().getTime();

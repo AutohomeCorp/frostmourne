@@ -3,10 +3,10 @@ package com.autohome.frostmourne.monitor.service.core.query;
 import java.io.IOException;
 import java.util.List;
 
-import com.autohome.frostmourne.monitor.contract.DataNameContract;
-import com.autohome.frostmourne.monitor.contract.DataSourceContract;
-import com.autohome.frostmourne.monitor.contract.ElasticsearchDataResult;
-import com.autohome.frostmourne.monitor.contract.MetricContract;
+import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
+import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
+import com.autohome.frostmourne.monitor.model.contract.ElasticsearchDataResult;
+import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import org.joda.time.DateTime;
 
