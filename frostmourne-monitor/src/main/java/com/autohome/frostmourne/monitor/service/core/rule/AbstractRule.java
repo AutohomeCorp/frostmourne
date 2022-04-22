@@ -3,18 +3,19 @@ package com.autohome.frostmourne.monitor.service.core.rule;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.monitor.contract.ContextConstant;
-import com.autohome.frostmourne.monitor.contract.MetricContract;
-import com.autohome.frostmourne.monitor.contract.RuleContract;
+import com.autohome.frostmourne.monitor.model.constant.ContextConstant;
+import com.autohome.frostmourne.monitor.model.contract.MetricContract;
+import com.autohome.frostmourne.monitor.model.contract.RuleContract;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.template.ITemplateService;
-import org.joda.time.DateTime;
 
 public abstract class AbstractRule implements IRule {
 
-    private ITemplateService templateService;
+    private final ITemplateService templateService;
 
     public AbstractRule(ITemplateService templateService) {
         this.templateService = templateService;
@@ -29,7 +30,8 @@ public abstract class AbstractRule implements IRule {
             context.putAll(ruleContract.getSettings());
         }
         // silence
-        context.put(ContextConstant.ALERT_SILENCE, alarmProcessLogger.getAlarmContract().getAlertContract().getSilence());
+        context.put(ContextConstant.ALERT_SILENCE,
+            alarmProcessLogger.getAlarmContract().getAlertContract().getSilence());
         context.put(ContextConstant.CURRENT_TIME, DateTime.now().toString("yyyy-MM-dd HH:mm:ss"));
         context.put(ContextConstant.ALARM_ID, alarmProcessLogger.getAlarmContract().getId());
         context.put(ContextConstant.ALARM_NAME, alarmProcessLogger.getAlarmContract().getAlarmName());
@@ -39,6 +41,7 @@ public abstract class AbstractRule implements IRule {
         return context;
     }
 
+    @Override
     public String alertMessage(String alertTemplate, Map<String, Object> context) {
         return this.templateService.format(alertTemplate, context);
     }

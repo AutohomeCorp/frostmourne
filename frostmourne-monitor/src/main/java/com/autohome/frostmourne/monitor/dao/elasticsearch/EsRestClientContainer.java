@@ -1,23 +1,13 @@
 package com.autohome.frostmourne.monitor.dao.elasticsearch;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
 import javax.net.ssl.SSLContext;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.base.Splitter;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -33,13 +23,7 @@ import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest;
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
 import org.elasticsearch.action.support.IndicesOptions;
-import org.elasticsearch.client.Request;
-import org.elasticsearch.client.RequestExtendConverters;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.Response;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
-import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.*;
 import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.client.sniff.Sniffer;
@@ -52,6 +36,10 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.base.Splitter;
 
 public class EsRestClientContainer {
 
@@ -82,16 +70,15 @@ public class EsRestClientContainer {
     }
 
     public void init() {
-        RestClientBuilder restClientBuilder = RestClient.builder(parseHttpHost(esHosts)
-                .toArray(new HttpHost[0]));
+        RestClientBuilder restClientBuilder = RestClient.builder(parseHttpHost(esHosts).toArray(new HttpHost[0]));
 
         if (this.settings != null && !this.settings.isEmpty()) {
-            final CredentialsProvider credentialsProvider = this.createCredentialsProvider(restClientBuilder, this.settings);
+            final CredentialsProvider credentialsProvider =
+                this.createCredentialsProvider(restClientBuilder, this.settings);
             final SSLContext sslContext = this.createSslContext(restClientBuilder, this.settings);
             restClientBuilder.setHttpClientConfigCallback(httpAsyncClientBuilder -> {
                 if (credentialsProvider != null) {
-                    httpAsyncClientBuilder.disableAuthCaching()
-                            .setDefaultCredentialsProvider(credentialsProvider);
+                    httpAsyncClientBuilder.disableAuthCaching().setDefaultCredentialsProvider(credentialsProvider);
                 }
                 if (sslContext != null) {
                     httpAsyncClientBuilder.setSSLContext(sslContext);
@@ -109,9 +96,9 @@ public class EsRestClientContainer {
     }
 
     private CredentialsProvider createCredentialsProvider(RestClientBuilder restClientBuilder,
-                                                          Map<String, String> settings) {
+        Map<String, String> settings) {
         if (Strings.isNullOrEmpty(this.settings.get("username"))
-                || Strings.isNullOrEmpty(this.settings.get("password"))) {
+            || Strings.isNullOrEmpty(this.settings.get("password"))) {
             return null;
         }
         String userName = settings.get("username");
@@ -121,8 +108,7 @@ public class EsRestClientContainer {
         return credentialsProvider;
     }
 
-    private SSLContext createSslContext(RestClientBuilder restClientBuilder,
-                                        Map<String, String> settings) {
+    private SSLContext createSslContext(RestClientBuilder restClientBuilder, Map<String, String> settings) {
         if (!isHttpsHost(settings)) {
             return null;
         }
@@ -134,10 +120,10 @@ public class EsRestClientContainer {
         try {
             KeyStore truststore = KeyStore.getInstance("jks");
             try (InputStream is = new ByteArrayInputStream(Base64.decodeBase64(certBase64))) {
-                truststore.load(is, Optional.ofNullable(settings.get("sslCertPassword")).map(String::toCharArray).orElse(null));
+                truststore.load(is,
+                    Optional.ofNullable(settings.get("sslCertPassword")).map(String::toCharArray).orElse(null));
             }
-            SSLContextBuilder sslBuilder = SSLContexts.custom()
-                    .loadTrustMaterial(truststore, null);
+            SSLContextBuilder sslBuilder = SSLContexts.custom().loadTrustMaterial(truststore, null);
             return sslBuilder.build();
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
@@ -147,7 +133,7 @@ public class EsRestClientContainer {
     public boolean health() {
         ClusterHealthRequest request = new ClusterHealthRequest();
         request.timeout(TimeValue.timeValueSeconds(5));
-        ClusterHealthResponse response = null;
+        ClusterHealthResponse response;
         try {
             response = restHighLevelClient.cluster().health(request, RequestOptions.DEFAULT);
         } catch (IOException ex) {
@@ -162,15 +148,12 @@ public class EsRestClientContainer {
         if (mappings == null || mappings.isEmpty()) {
             return Collections.emptyList();
         }
-        return mappings.entrySet().stream()
-                .flatMap(e -> e.getValue().values().stream())
-                .flatMap(e -> e.get("properties").keySet().stream())
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
+        return mappings.entrySet().stream().flatMap(e -> e.getValue().values().stream())
+            .flatMap(e -> e.get("properties").keySet().stream()).distinct().sorted().collect(Collectors.toList());
     }
 
-    public Map<String, Map<String, Map<String, Map<String, Object>>>> fetchAllMappings(String index) throws IOException {
+    public Map<String, Map<String, Map<String, Map<String, Object>>>> fetchAllMappings(String index)
+        throws IOException {
         GetMappingsRequest mappingsRequest = new GetMappingsRequest();
         mappingsRequest.indices(index);
 
@@ -181,21 +164,22 @@ public class EsRestClientContainer {
         return this.parseMappingsFromResponse(resp);
     }
 
-    Map<String, Map<String, Map<String, Map<String, Object>>>> parseMappingsFromResponse(Response response) throws IOException {
+    Map<String, Map<String, Map<String, Map<String, Object>>>> parseMappingsFromResponse(Response response)
+        throws IOException {
         String value = EntityUtils.toString(response.getEntity());
         Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> result = JacksonUtil.deSerialize(value,
-                new TypeReference<Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>>>() {
-                });
+            new TypeReference<Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>>>() {});
         // 取"mappings"节点组合
         return result.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().get("mappings"), (v1, v2) -> v1));
+            .collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().get("mappings"), (v1, v2) -> v1));
     }
 
     public MappingMetaData fetchMapping(String index) throws IOException {
         GetMappingsRequest mappingsRequest = new GetMappingsRequest();
         mappingsRequest.indices(index);
         // 低版本es服务端可能不支持
-        GetMappingsResponse response = restHighLevelClient.indices().getMapping(mappingsRequest, RequestOptions.DEFAULT);
+        GetMappingsResponse response =
+            restHighLevelClient.indices().getMapping(mappingsRequest, RequestOptions.DEFAULT);
         return response.mappings().values().iterator().next().value.values().iterator().next().value;
     }
 
@@ -222,8 +206,7 @@ public class EsRestClientContainer {
     }
 
     public boolean checkIndexOpenExists(String index) {
-        return checkIndexExists(index)
-                && checkIndexOpen(index);
+        return checkIndexExists(index) && checkIndexOpen(index);
     }
 
     public boolean checkIndexExists(String index) {
@@ -241,9 +224,11 @@ public class EsRestClientContainer {
 
     public boolean checkIndexOpen(String index) {
         try {
-            Response response = this.restLowLevelClient.performRequest("GET", String.format("/_cat/indices/%s?v", index));
+            Response response =
+                this.restLowLevelClient.performRequest("GET", String.format("/_cat/indices/%s?v", index));
             response.getEntity().getContent();
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8))) {
+            try (BufferedReader bufferedReader =
+                new BufferedReader(new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8))) {
                 List<String> lines = bufferedReader.lines().collect(Collectors.toList());
                 if (lines.size() <= 1) {
                     return false;
@@ -268,7 +253,7 @@ public class EsRestClientContainer {
             return indiceList.toArray(new String[0]);
         }
 
-        if (datePattern.equals("*")) {
+        if ("*".equals(datePattern)) {
             indiceList.add(prefix + "*");
             return indiceList.toArray(new String[0]);
         }

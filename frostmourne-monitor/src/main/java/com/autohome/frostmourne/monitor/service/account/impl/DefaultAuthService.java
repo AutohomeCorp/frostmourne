@@ -1,11 +1,12 @@
 package com.autohome.frostmourne.monitor.service.account.impl;
 
-import com.autohome.frostmourne.monitor.service.account.IAuthService;
 import org.elasticsearch.common.Strings;
+
+import com.autohome.frostmourne.monitor.service.account.IAuthService;
 
 public class DefaultAuthService implements IAuthService {
 
-    private String initialPassword;
+    private final String initialPassword;
 
     public DefaultAuthService(String initialPassword) {
         this.initialPassword = initialPassword;
@@ -16,7 +17,7 @@ public class DefaultAuthService implements IAuthService {
         if (Strings.isNullOrEmpty(initialPassword)) {
             return true;
         }
-        if(Strings.isNullOrEmpty(password)) {
+        if (Strings.isNullOrEmpty(password)) {
             return false;
         }
 

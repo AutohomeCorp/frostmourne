@@ -65,7 +65,8 @@ public class MailConfig {
         this.tlsEnable = tlsEnable;
     }
 
-    public MailConfig(String smtpHost, String smtpPort, String smtpAuth, String tlsEnable, String sender, String senderPassword) {
+    public MailConfig(String smtpHost, String smtpPort, String smtpAuth, String tlsEnable, String sender,
+        String senderPassword) {
         this.smtpHost = smtpHost;
         this.smtpPort = smtpPort;
         this.smtpAuth = smtpAuth;

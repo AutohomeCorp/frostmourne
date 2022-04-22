@@ -2,11 +2,12 @@ package com.autohome.frostmourne.monitor.config;
 
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import feign.Logger;
 import feign.Request;
 import feign.Retryer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FeignConfiguration {

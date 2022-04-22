@@ -5,21 +5,18 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.springframework.web.bind.annotation.*;
+
 import com.autohome.frostmourne.core.contract.Protocol;
 import com.autohome.frostmourne.core.contract.ProtocolException;
-import com.autohome.frostmourne.monitor.contract.LoginInfo;
 import com.autohome.frostmourne.monitor.controller.annotation.PermissionLimit;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.model.account.Team;
+import com.autohome.frostmourne.monitor.model.contract.LoginInfo;
 import com.autohome.frostmourne.monitor.service.account.IAccountService;
 import com.autohome.frostmourne.monitor.service.account.IAuthService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
 import com.autohome.frostmourne.monitor.tool.JwtToken;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = {"/user", "/api/monitor-api/user"})

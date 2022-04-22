@@ -1,33 +1,26 @@
 package com.autohome.frostmourne.monitor.service.core.template;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.core.contract.ProtocolException;
-import com.autohome.frostmourne.monitor.contract.AlertTemplateContract;
-import com.autohome.frostmourne.monitor.contract.AlertTemplateQueryForm;
-import com.autohome.frostmourne.monitor.contract.AlertTemplateSaveForm;
-import com.autohome.frostmourne.monitor.contract.DataNameContract;
-import com.autohome.frostmourne.monitor.contract.TreeDataOption;
-import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateEnums.TemplateType;
-import com.autohome.frostmourne.monitor.contract.enums.DataSourceType;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertTemplate;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertTemplateRepository;
-import com.autohome.frostmourne.monitor.service.admin.IDataAdminService;
-import com.autohome.frostmourne.monitor.transform.AlertTemplateTransformer;
-import com.github.pagehelper.PageInfo;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.core.contract.ProtocolException;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertTemplate;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertTemplateRepository;
+import com.autohome.frostmourne.monitor.model.contract.*;
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateEnums.TemplateType;
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
+import com.autohome.frostmourne.monitor.service.admin.IDataAdminService;
+import com.autohome.frostmourne.monitor.transform.AlertTemplateTransformer;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class AlertTemplateService implements IAlertTemplateService {
@@ -40,8 +33,7 @@ public class AlertTemplateService implements IAlertTemplateService {
     private IDataAdminService dataAdminService;
 
     @Override
-    public void save(AlertTemplateSaveForm form,
-                     String account) {
+    public void save(AlertTemplateSaveForm form, String account) {
         this.checkSaveParam(form, account);
         AlertTemplate record = AlertTemplateTransformer.saveForm2Model(form);
         record.setModifier(account);
@@ -54,8 +46,7 @@ public class AlertTemplateService implements IAlertTemplateService {
         }
     }
 
-    private void checkSaveParam(AlertTemplateSaveForm form,
-                                String account) {
+    private void checkSaveParam(AlertTemplateSaveForm form, String account) {
         // TODO 根据验证框架修改
         if (Objects.nonNull(form.getId()) && form.getId() < 0L) {
             throw new ProtocolException(-1, "id无效");
@@ -87,12 +78,11 @@ public class AlertTemplateService implements IAlertTemplateService {
 
     @Override
     public Optional<AlertTemplateContract> getContract(Long id) {
-        return alertTemplateRepository.getById(id)
-                .map(record -> {
-                    AlertTemplateContract contract = AlertTemplateTransformer.model2Contract(record);
-                    this.fillExtend2Contracts(Collections.singletonList(contract));
-                    return contract;
-                });
+        return alertTemplateRepository.getById(id).map(record -> {
+            AlertTemplateContract contract = AlertTemplateTransformer.model2Contract(record);
+            this.fillExtend2Contracts(Collections.singletonList(contract));
+            return contract;
+        });
     }
 
     @Override
@@ -100,7 +90,8 @@ public class AlertTemplateService implements IAlertTemplateService {
         PageInfo<AlertTemplate> recordPage = alertTemplateRepository.find(form);
         List<AlertTemplateContract> contracts = AlertTemplateTransformer.model2Contract(recordPage.getList());
         this.fillExtend2Contracts(contracts);
-        return new PagerContract<>(contracts, recordPage.getPageSize(), recordPage.getPageNum(), (int) recordPage.getTotal());
+        return new PagerContract<>(contracts, recordPage.getPageSize(), recordPage.getPageNum(),
+            (int)recordPage.getTotal());
     }
 
     private void fillExtend2Contracts(List<AlertTemplateContract> contracts) {
@@ -116,55 +107,48 @@ public class AlertTemplateService implements IAlertTemplateService {
     }
 
     private void fillTemplateTypeTreeCommonExtend2Contracts(List<AlertTemplateContract> contracts) {
-        contracts.stream()
-                .filter(item -> TemplateType.COMMON.name().equals(item.getTemplateType()))
-                .forEach(item -> {
-                    item.setTemplateTypeTreeValues(Collections.singletonList(TemplateType.COMMON.name()));
-                    item.setTemplateTypeTreeLabels(Collections.singletonList(TemplateType.COMMON.getDisplanName()));
-                });
+        contracts.stream().filter(item -> TemplateType.COMMON.name().equals(item.getTemplateType())).forEach(item -> {
+            item.setTemplateTypeTreeValues(Collections.singletonList(TemplateType.COMMON.name()));
+            item.setTemplateTypeTreeLabels(Collections.singletonList(TemplateType.COMMON.getDisplanName()));
+        });
     }
 
     private void fillTemplateTypeTreeDataNameExtend2Contracts(List<AlertTemplateContract> contracts) {
         // 关联数据名
         List<AlertTemplateContract> dataNameContracts = contracts.stream()
-                .filter(item -> TemplateType.DATA_NAME.name().equals(item.getTemplateType()))
-                .collect(Collectors.toList());
+            .filter(item -> TemplateType.DATA_NAME.name().equals(item.getTemplateType())).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(dataNameContracts)) {
             return;
         }
-        List<String> unionCodes = dataNameContracts.stream()
-                .map(AlertTemplateContract::getTemplateUnionCode)
-                .distinct()
-                .collect(Collectors.toList());
+        List<String> unionCodes = dataNameContracts.stream().map(AlertTemplateContract::getTemplateUnionCode).distinct()
+            .collect(Collectors.toList());
         Map<String, DataNameContract> dataNameMap = dataAdminService.mapDataNameByNames(unionCodes);
         // 获取数据源名称
-        List<Long> dataSourceIds = dataNameMap.values().stream()
-                .map(DataNameContract::getDataSourceId)
-                .collect(Collectors.toList());
+        List<Long> dataSourceIds =
+            dataNameMap.values().stream().map(DataNameContract::getDataSourceId).collect(Collectors.toList());
         Map<Long, DataSource> dataSourceMap = dataAdminService.mapDataSourceByIds(dataSourceIds);
 
         dataNameContracts.forEach(item -> {
             if (DataSourceType.HTTP.equals(item.getTemplateUnionCode())) {
                 // http
                 item.setTemplateTypeTreeValues(Arrays.asList(TemplateType.DATA_NAME.name(), DataSourceType.HTTP));
-                item.setTemplateTypeTreeLabels(Arrays.asList(TemplateType.DATA_NAME.getDisplanName(), DataSourceType.HTTP));
+                item.setTemplateTypeTreeLabels(
+                    Arrays.asList(TemplateType.DATA_NAME.getDisplanName(), DataSourceType.HTTP));
             } else {
                 DataNameContract contract = dataNameMap.get(item.getTemplateUnionCode());
                 if (contract == null) {
-                    item.setTemplateTypeTreeValues(Arrays.asList(TemplateType.DATA_NAME.name(), item.getTemplateUnionCode()));
-                    item.setTemplateTypeTreeLabels(Arrays.asList(TemplateType.DATA_NAME.getDisplanName(), item.getTemplateUnionCode()));
+                    item.setTemplateTypeTreeValues(
+                        Arrays.asList(TemplateType.DATA_NAME.name(), item.getTemplateUnionCode()));
+                    item.setTemplateTypeTreeLabels(
+                        Arrays.asList(TemplateType.DATA_NAME.getDisplanName(), item.getTemplateUnionCode()));
                 } else {
-                    item.setTemplateTypeTreeValues(Arrays.asList(
-                            TemplateType.DATA_NAME.name(),
-                            contract.getDatasourceType(),
-                            String.valueOf(contract.getDataSourceId()),
-                            contract.getDataName()));
-                    item.setTemplateTypeTreeLabels(Arrays.asList(
-                            TemplateType.DATA_NAME.getDisplanName(),
-                            contract.getDatasourceType(),
+                    item.setTemplateTypeTreeValues(
+                        Arrays.asList(TemplateType.DATA_NAME.name(), contract.getDatasourceType(),
+                            String.valueOf(contract.getDataSourceId()), contract.getDataName()));
+                    item.setTemplateTypeTreeLabels(
+                        Arrays.asList(TemplateType.DATA_NAME.getDisplanName(), contract.getDatasourceType(),
                             Optional.ofNullable(dataSourceMap.get(contract.getDataSourceId()))
-                                    .map(DataSource::getDatasourceName)
-                                    .orElse(String.valueOf(contract.getDataSourceId())),
+                                .map(DataSource::getDatasourceName).orElse(String.valueOf(contract.getDataSourceId())),
                             contract.getDisplayName()));
                 }
             }
@@ -173,9 +157,7 @@ public class AlertTemplateService implements IAlertTemplateService {
 
     @Override
     public List<TreeDataOption> listTemplateTypeOptions() {
-        return Arrays.stream(TemplateType.values())
-                .map(this::parseTemplateTypeOption)
-                .collect(Collectors.toList());
+        return Arrays.stream(TemplateType.values()).map(this::parseTemplateTypeOption).collect(Collectors.toList());
     }
 
     private TreeDataOption parseTemplateTypeOption(TemplateType templateType) {

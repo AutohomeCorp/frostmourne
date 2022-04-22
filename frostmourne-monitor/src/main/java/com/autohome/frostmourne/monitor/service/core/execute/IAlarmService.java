@@ -1,6 +1,6 @@
 package com.autohome.frostmourne.monitor.service.core.execute;
 
-import com.autohome.frostmourne.monitor.contract.AlarmContract;
+import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
 
 public interface IAlarmService {
 

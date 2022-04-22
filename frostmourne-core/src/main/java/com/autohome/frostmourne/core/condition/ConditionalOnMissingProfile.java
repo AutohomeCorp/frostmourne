@@ -15,8 +15,6 @@ import org.springframework.context.annotation.Conditional;
 public @interface ConditionalOnMissingProfile {
     /**
      * The profiles that should be inactive
-     *
-     * @return
      */
     String[] value() default {};
 }

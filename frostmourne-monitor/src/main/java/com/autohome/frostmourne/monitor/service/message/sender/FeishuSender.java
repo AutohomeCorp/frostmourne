@@ -1,21 +1,22 @@
 package com.autohome.frostmourne.monitor.service.message.sender;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.collect.ImmutableMap;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
+import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
 import com.autohome.frostmourne.monitor.model.message.MessageResult;
-import org.springframework.web.client.RestTemplate;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * 飞书消息发送器

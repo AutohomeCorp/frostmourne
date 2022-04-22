@@ -1,20 +1,21 @@
 package com.autohome.frostmourne.monitor.service.account.impl;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
-import com.autohome.frostmourne.monitor.service.account.IAuthService;
-import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
+import com.autohome.frostmourne.monitor.service.account.IAuthService;
+import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
+
 public class UserAuthService implements IAuthService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserAuthService.class);
 
-    private IUserInfoService userInfoService;
+    private final IUserInfoService userInfoService;
 
-    private String initialPassword;
+    private final String initialPassword;
 
     public UserAuthService(IUserInfoService userInfoService, String initialPassword) {
         this.userInfoService = userInfoService;

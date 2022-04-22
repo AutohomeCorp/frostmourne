@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
 import java.util.List;
 import java.util.Map;
 
-import com.autohome.frostmourne.monitor.contract.UserContract;
+import com.autohome.frostmourne.monitor.model.contract.UserContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserRole;
 
 public interface IUserRoleRepository {

@@ -4,11 +4,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.autohome.frostmourne.monitor.contract.ServiceInfoContract;
-import com.autohome.frostmourne.monitor.contract.ServiceInfoSaveForm;
-import com.autohome.frostmourne.monitor.contract.ServiceInfoSimpleContract;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ServiceInfo;
 import org.springframework.util.CollectionUtils;
+
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ServiceInfo;
+import com.autohome.frostmourne.monitor.model.contract.ServiceInfoContract;
+import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSaveForm;
+import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSimpleContract;
 
 public class ServiceInfoTransformer {
 
@@ -32,9 +33,7 @@ public class ServiceInfoTransformer {
         if (CollectionUtils.isEmpty(models)) {
             return Collections.emptyList();
         }
-        return models.stream()
-                .map(ServiceInfoTransformer::model2Contract)
-                .collect(Collectors.toList());
+        return models.stream().map(ServiceInfoTransformer::model2Contract).collect(Collectors.toList());
     }
 
     public static ServiceInfoSimpleContract model2SimpleContract(ServiceInfo model) {

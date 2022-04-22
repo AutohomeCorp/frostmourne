@@ -4,32 +4,24 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
+
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
+import javax.mail.*;
+import javax.mail.internet.*;
 
-import com.autohome.frostmourne.core.contract.MailConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.autohome.frostmourne.core.contract.MailConfig;
 
 public class EmailHelper {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailHelper.class);
 
     public static boolean send(MailConfig mailConfig, List<String> to, String subject, String content,
-                               String contentType, List<MimeBodyPart> attachments) {
+        String contentType, List<MimeBodyPart> attachments) {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", mailConfig.getSmtpHost());
         properties.put("mail.smtp.port", mailConfig.getSmtpPort());
@@ -39,7 +31,7 @@ public class EmailHelper {
         properties.setProperty("mail.user", mailConfig.getSender());
         properties.setProperty("mail.password", mailConfig.getSenderPassword());
         Authenticator authenticator = null;
-        if (mailConfig.getSmtpAuth().equalsIgnoreCase("true")) {
+        if ("true".equalsIgnoreCase(mailConfig.getSmtpAuth())) {
             authenticator = new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -82,19 +74,19 @@ public class EmailHelper {
     /**
      * 发送邮件
      *
-     * @param smtpHost       smtp服务地址
-     * @param smtpPort       smtp服务端口
-     * @param sender         发送人邮箱地址
+     * @param smtpHost smtp服务地址
+     * @param smtpPort smtp服务端口
+     * @param sender 发送人邮箱地址
      * @param senderPassword 发送人邮箱密码
-     * @param to             接收人邮件地址列表
-     * @param subject        邮件标题
-     * @param content        邮件内容
-     * @param contentType    邮件内容类型(text/html, text/plain)
-     * @param attachments    附件
+     * @param to 接收人邮件地址列表
+     * @param subject 邮件标题
+     * @param content 邮件内容
+     * @param contentType 邮件内容类型(text/html, text/plain)
+     * @param attachments 附件
      * @return 发送结果
      */
     public static boolean send(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword,
-                               List<String> to, String subject, String content, String contentType, List<MimeBodyPart> attachments) {
+        List<String> to, String subject, String content, String contentType, List<MimeBodyPart> attachments) {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", smtpHost);
         properties.put("mail.smtp.port", smtpPort);
@@ -104,7 +96,7 @@ public class EmailHelper {
         properties.setProperty("mail.user", sender);
         properties.setProperty("mail.password", senderPassword);
         Authenticator authenticator = null;
-        if (smtpAuth.equalsIgnoreCase("true")) {
+        if ("true".equalsIgnoreCase(smtpAuth)) {
             authenticator = new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -147,35 +139,37 @@ public class EmailHelper {
     /**
      * 发送html格式的邮件
      *
-     * @param smtpHost       smtp服务地址
-     * @param smtpPort       smtp服务端口
-     * @param sender         发送人邮箱地址
+     * @param smtpHost smtp服务地址
+     * @param smtpPort smtp服务端口
+     * @param sender 发送人邮箱地址
      * @param senderPassword 发送人邮箱密码
-     * @param to             接收人邮件地址列表
-     * @param subject        邮件标题
-     * @param content        邮件内容
+     * @param to 接收人邮件地址列表
+     * @param subject 邮件标题
+     * @param content 邮件内容
      * @return 发送结果
      */
-    public static boolean sendHtml(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword,
-                                   List<String> to, String subject, String content) {
-        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content, "text/html;charset=utf-8", null);
+    public static boolean sendHtml(String smtpHost, String smtpPort, String smtpAuth, String sender,
+        String senderPassword, List<String> to, String subject, String content) {
+        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content,
+            "text/html;charset=utf-8", null);
     }
 
     /**
      * 发送文本格式邮件
      *
-     * @param smtpHost       smtp服务地址
-     * @param smtpPort       smtp服务端口
-     * @param sender         发送人邮箱地址
+     * @param smtpHost smtp服务地址
+     * @param smtpPort smtp服务端口
+     * @param sender 发送人邮箱地址
      * @param senderPassword 发送人邮箱密码
-     * @param to             接收人邮件地址列表
-     * @param subject        邮件标题
-     * @param content        邮件内容
+     * @param to 接收人邮件地址列表
+     * @param subject 邮件标题
+     * @param content 邮件内容
      * @return 发送结果
      */
-    public static boolean sendText(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword,
-                                   List<String> to, String subject, String content) {
-        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content, "text/plain;charset=utf-8", null);
+    public static boolean sendText(String smtpHost, String smtpPort, String smtpAuth, String sender,
+        String senderPassword, List<String> to, String subject, String content) {
+        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content,
+            "text/plain;charset=utf-8", null);
     }
 
     /**
@@ -202,7 +196,8 @@ public class EmailHelper {
      * @return 邮件内容对象
      * @throws MessagingException
      */
-    public static MimeBodyPart wrapFilename2BodyPart(String fileName) throws MessagingException, UnsupportedEncodingException {
+    public static MimeBodyPart wrapFilename2BodyPart(String fileName)
+        throws MessagingException, UnsupportedEncodingException {
         File file = new File(fileName);
         return wrapFile2BodyPart(file);
     }

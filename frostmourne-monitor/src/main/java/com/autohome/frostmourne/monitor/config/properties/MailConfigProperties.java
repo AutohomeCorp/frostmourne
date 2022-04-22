@@ -3,9 +3,6 @@ package com.autohome.frostmourne.monitor.config.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * 邮件配置类
  *

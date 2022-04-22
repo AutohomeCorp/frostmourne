@@ -1,6 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain;
 
-import com.autohome.frostmourne.monitor.contract.enums.AlertTemplateType;
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
 
 import java.util.Date;
 import javax.annotation.Generated;

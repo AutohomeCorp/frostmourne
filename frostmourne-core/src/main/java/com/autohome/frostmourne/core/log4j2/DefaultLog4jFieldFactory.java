@@ -11,11 +11,9 @@ import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 /**
  * Created by kcq on 2018/1/3.
  */
-@Plugin(name = "DefaultLog4jFieldFactory",
-        category = Node.CATEGORY,
-        printObject = true)
+@Plugin(name = "DefaultLog4jFieldFactory", category = Node.CATEGORY, printObject = true)
 public class DefaultLog4jFieldFactory extends AbstractLifeCycle implements FieldFactory {
-    private static final Map<String, LayoutField> defaultFieldMap = new HashMap<String, LayoutField>() {
+    private static final Map<String, LayoutField> DEFAULT_FIELD_MAP = new HashMap<String, LayoutField>() {
         {
             put(FieldName.LOG_AT, LayoutField.LOG_AT);
             put(FieldName.TRACE_ID, LayoutField.TRACE_ID);
@@ -52,11 +50,10 @@ public class DefaultLog4jFieldFactory extends AbstractLifeCycle implements Field
     @Override
     public LayoutField fetchField(String name) {
         Map<String, LayoutField> customMaps = fetchCustomFieldMap();
-        if (customMaps != null && customMaps.size() > 0
-                && customMaps.containsKey(name)) {
+        if (customMaps != null && customMaps.size() > 0 && customMaps.containsKey(name)) {
             return customMaps.get(name);
         } else {
-            return defaultFieldMap.get(name);
+            return DEFAULT_FIELD_MAP.get(name);
         }
     }
 }

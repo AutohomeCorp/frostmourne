@@ -4,9 +4,9 @@ import javax.annotation.Resource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
-import com.autohome.frostmourne.monitor.service.core.schedule.IRemoteTriggerService;
-import com.autohome.frostmourne.monitor.service.core.schedule.JobScheduleHelper;
-import com.autohome.frostmourne.monitor.service.core.schedule.JobTriggerHelper;
+import com.autohome.frostmourne.monitor.schedule.IRemoteTriggerService;
+import com.autohome.frostmourne.monitor.schedule.JobScheduleHelper;
+import com.autohome.frostmourne.monitor.schedule.JobTriggerHelper;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,7 +58,7 @@ public class ScheduleConfig implements InitializingBean, DisposableBean {
     }
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
 
         if (this.scheduleEnabled) {
             JobScheduleHelper.getInstance().toStop();
@@ -68,7 +68,7 @@ public class ScheduleConfig implements InitializingBean, DisposableBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         scheduleConfig = this;
 
         if (this.scheduleEnabled) {

@@ -3,7 +3,10 @@ package com.autohome.frostmourne.monitor.service.account.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.ProtocolException;
@@ -11,7 +14,6 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.TeamInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.ITeamInfoRepository;
 import com.autohome.frostmourne.monitor.service.account.ITeamInfoService;
 import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
-import org.springframework.stereotype.Service;
 
 @Service
 public class TeamInfoService implements ITeamInfoService {

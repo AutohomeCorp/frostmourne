@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +12,10 @@ import org.springframework.stereotype.Component;
 
 import com.autohome.frostmourne.core.EmailHelper;
 import com.autohome.frostmourne.monitor.config.properties.MailConfigProperties;
+import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
 import com.autohome.frostmourne.monitor.model.message.MessageResult;
-
 
 /**
  * 邮件消息发送器

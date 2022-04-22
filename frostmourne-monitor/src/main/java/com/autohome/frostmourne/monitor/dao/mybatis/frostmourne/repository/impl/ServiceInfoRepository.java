@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.contract.ServiceInfoQueryForm;
+import com.autohome.frostmourne.monitor.model.contract.ServiceInfoQueryForm;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ServiceInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.ServiceInfoDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.ServiceInfoDynamicSqlSupport;

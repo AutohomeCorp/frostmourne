@@ -16,8 +16,6 @@ public @interface ConditionalOnProfile {
 
     /**
      * The profiles that should be active
-     *
-     * @return
      */
     String[] value() default {};
 }
