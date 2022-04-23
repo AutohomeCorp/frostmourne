@@ -2,75 +2,112 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class AlarmDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.35+08:00", comments="Source Table: alarm")
     public static final Alarm alarm = new Alarm();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.351+08:00", comments="Source field: alarm.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = alarm.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.351+08:00", comments="Source field: alarm.alarm_name")
+    /**
+     * 监控名称
+     */
     public static final SqlColumn<String> alarmName = alarm.alarmName;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.351+08:00", comments="Source field: alarm.alarm_type")
+    /**
+     * 监控数据类型。(http: http监控；其他值: 关联data_name表)
+     */
     public static final SqlColumn<String> alarmType = alarm.alarmType;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.352+08:00", comments="Source field: alarm.description")
+    /**
+     * 监控描述
+     */
     public static final SqlColumn<String> description = alarm.description;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.352+08:00", comments="Source field: alarm.owner_key")
+    /**
+     * 所属对象关键字
+     */
     public static final SqlColumn<String> ownerKey = alarm.ownerKey;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.352+08:00", comments="Source field: alarm.status")
+    /**
+     * 开关状态（OPEN,CLOSE）
+     */
     public static final SqlColumn<String> status = alarm.status;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.352+08:00", comments="Source field: alarm.execute_result")
+    /**
+     * 最近一次执行结果
+     */
     public static final SqlColumn<String> executeResult = alarm.executeResult;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.execute_at")
+    /**
+     * 最近一次执行时间
+     */
     public static final SqlColumn<Date> executeAt = alarm.executeAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.job_id")
+    /**
+     * 调度任务id
+     */
     public static final SqlColumn<Long> jobId = alarm.jobId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.cron")
+    /**
+     * cron表达式
+     */
     public static final SqlColumn<String> cron = alarm.cron;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.creator")
+    /**
+     * 创建人
+     */
     public static final SqlColumn<String> creator = alarm.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = alarm.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.modifier")
+    /**
+     * 修改人
+     */
     public static final SqlColumn<String> modifier = alarm.modifier;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.modify_at")
+    /**
+     * 修改时间
+     */
     public static final SqlColumn<Date> modifyAt = alarm.modifyAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.team_name")
+    /**
+     * 监控所属团队
+     */
     public static final SqlColumn<String> teamName = alarm.teamName;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.risk_level")
+    /**
+     * 风险等级。info: 提示；important: 重要；emergency: 紧急； crash: 我崩了
+     */
     public static final SqlColumn<String> riskLevel = alarm.riskLevel;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.service_id")
+    /**
+     * 服务ID
+     */
     public static final SqlColumn<Long> serviceId = alarm.serviceId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.recover_notice_status")
+    /**
+     * 恢复通知开关（OPEN,CLOSE）
+     */
     public static final SqlColumn<String> recoverNoticeStatus = alarm.recoverNoticeStatus;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.trigger_last_time")
+    /**
+     * 上次调度时间
+     */
     public static final SqlColumn<Long> triggerLastTime = alarm.triggerLastTime;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.353+08:00", comments="Source field: alarm.trigger_next_time")
+    /**
+     * 下次调度时间
+     */
     public static final SqlColumn<Long> triggerNextTime = alarm.triggerNextTime;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.35+08:00", comments="Source Table: alarm")
     public static final class Alarm extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

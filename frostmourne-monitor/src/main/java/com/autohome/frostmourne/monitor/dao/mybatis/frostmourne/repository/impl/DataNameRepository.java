@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataName;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DataNameDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DataNameDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
@@ -52,20 +52,19 @@ public class DataNameRepository implements IDataNameRepository {
 
     @Override
     public Optional<DataName> findByName(String dataName) {
-        return dataNameDynamicMapper.selectOne(query -> query.where().and(DataNameDynamicSqlSupport.DATA_NAME, isEqualTo(dataName)));
+        return dataNameDynamicMapper.selectOne(query -> query.where().and(DataNameDynamicSqlSupport.dataName.dataName, isEqualTo(dataName)));
     }
 
     @Override
     public List<DataName> findByNames(List<String> dataNames) {
-        return dataNameDynamicMapper.select(query -> query.where()
-                .and(DataNameDynamicSqlSupport.DATA_NAME, isIn(dataNames))
-                .orderBy(DataNameDynamicSqlSupport.createAt.descending()));
+        return dataNameDynamicMapper.select(
+            query -> query.where().and(DataNameDynamicSqlSupport.dataName.dataName, isIn(dataNames)).orderBy(DataNameDynamicSqlSupport.createAt.descending()));
     }
 
     @Override
     public List<DataName> find(String datasourceType, Long datasourceId) {
-        return dataNameDynamicMapper.select(query -> query.where()
-                .and(DataNameDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
+        return dataNameDynamicMapper
+            .select(query -> query.where().and(DataNameDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
                 .and(DataNameDynamicSqlSupport.dataSourceId, isEqualTo(datasourceId).when(MybatisTool::notNullAndZero))
                 .orderBy(DataNameDynamicSqlSupport.createAt.descending()));
     }

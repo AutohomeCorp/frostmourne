@@ -20,17 +20,16 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 * 只需要写一条数据查询就可以轻松搞定监控
 * 多数据源(Elasticsearch, InfluxDB, Mysql, ClickHouse)支持
 * 多种数值计算类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
-* 数值同比监控
-* HTTP数据监控, js表达式判断是否报警
-* UI功能，简单易用
-* 监控管理，测试，另存。执行日志，历史消息。
-* 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), WebHook, 飞书机器人)
 * 消息支持多种格式(text, markdown)
-* Elasticsearch数据查询,分享,下载
-* 报警消息附带日志查询短链接，直达报警原因
-* 报警消息抑制功能，防止消息轰炸
+* 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 分布式调度实现，每个监控都是独立调度，互不影响
+* 报警消息附带日志查询短链接，直达报警原因
+* 数值同比监控
+* HTTP数据监控, js表达式判断是否报警
+* UI功能，简单易用(监控管理，测试，另存。执行日志，历史消息)。
+* Elasticsearch数据查询,分享,下载
+* 报警消息抑制功能，防止消息轰炸
 * 自带账号,团队,部门信息管理模块，也可自己实现内部对接
 * 集成LDAP登录认证
 * 权限控制，数据隔离，各团队互不影响
@@ -201,11 +200,12 @@ npm run dev
 * ~~mysql: 增加数据库分布式锁表job_lock，alarm表增加两个字段：trigger_last_time, trigger_next_time~~ - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
 * ~~移除xxl-job依赖，内置实现分布式调度，减小部署难度~~ [2022-04-18]
 * ~~增加0.6升级0.6.1的说明文档~~ [upgrade-0.6.1.md](./doc/wiki/upgrade-0.6.1.md) [2022-04-19]
-* ~~msyql, influxdb, clickhouse监控增加表达式监控规则~~ [2022-04-20]
 * ~~增加k8s环境部署说明~~ [2022-04-21]
+* ~~增加项目代码规范说明文档~~ [code_format](./doc/wiki/code_format.md) [2022-04-23]
 * 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
 * Elasticsearch监控数值实现环比监控
 * 增加ping监控报警,一个监控最多监控10个ping。
+* msyql, influxdb, clickhouse监控增加表达式监控规则
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
@@ -297,3 +297,8 @@ The project is licensed under the [MIT](LICENSE).
 * 2020-08-23: 上gitee推荐
 * 2020-08-27: gitee star破百
 * 2020-10-12: github star破百
+
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/AutohomeCorp/frostmourne.svg)](https://starchart.cc/AutohomeCorp/frostmourne)

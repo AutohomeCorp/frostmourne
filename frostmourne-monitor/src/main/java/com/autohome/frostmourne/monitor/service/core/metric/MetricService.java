@@ -55,7 +55,6 @@ public class MetricService implements IMetricService {
             return clickhouseMetricMap.get(metricType);
         }
 
-        throw new IllegalArgumentException(
-            String.format("unknown dataSourceType:  %s, metricType: %s", dataSourceType, metricType));
+        throw new IllegalArgumentException(String.format("unknown dataSourceType:  %s, metricType: %s", dataSourceType, metricType));
     }
 }

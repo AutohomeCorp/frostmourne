@@ -28,8 +28,7 @@ public class ExpressionRule extends AbstractRule {
     }
 
     @Override
-    public boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract,
-        MetricContract metricContract, IMetric metric) {
+    public boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract, MetricContract metricContract, IMetric metric) {
         Map<String, Object> context = context(alarmProcessLogger, ruleContract, metricContract, metric);
 
         SimpleBindings simpleBindings = new SimpleBindings();

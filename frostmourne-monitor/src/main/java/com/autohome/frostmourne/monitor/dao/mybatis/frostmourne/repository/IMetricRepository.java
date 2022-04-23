@@ -2,7 +2,7 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
 
 import java.util.Optional;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Metric;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Metric;
 
 public interface IMetricRepository {
 

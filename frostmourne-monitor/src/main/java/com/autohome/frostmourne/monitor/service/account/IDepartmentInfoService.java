@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DepartmentInfo;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DepartmentInfo;
 
 public interface IDepartmentInfoService {
 

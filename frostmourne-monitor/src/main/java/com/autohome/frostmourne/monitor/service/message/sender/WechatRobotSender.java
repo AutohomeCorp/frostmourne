@@ -43,8 +43,7 @@ public class WechatRobotSender extends MessageSenderChain {
     public void send(AlarmMessageBO alarmMessageBO) {
         MessageResult messageResult = new MessageResult(myWay(), false);
 
-        List<String> wxidList = alarmMessageBO.getRecipients().stream().map(AccountInfo::getWxid)
-            .filter(StringUtils::isNotBlank).collect(Collectors.toList());
+        List<String> wxidList = alarmMessageBO.getRecipients().stream().map(AccountInfo::getWxid).filter(StringUtils::isNotBlank).collect(Collectors.toList());
 
         HttpHeaders headers = new HttpHeaders();
         MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
@@ -77,18 +76,16 @@ public class WechatRobotSender extends MessageSenderChain {
         // HttpEntity<Map<String, Object>> request = new HttpEntity<>(data, headers);
         String json = JacksonUtil.serialize(data);
         HttpEntity<String> request = new HttpEntity<>(json, headers);
-        ResponseEntity<String> messageResponseEntity =
-            restTemplate.postForEntity(alarmMessageBO.getWechatHook(), request, String.class);
+        ResponseEntity<String> messageResponseEntity = restTemplate.postForEntity(alarmMessageBO.getWechatHook(), request, String.class);
         // response like: {"errcode":0,"errmsg":"ok"}
         if (messageResponseEntity.getStatusCode() != HttpStatus.OK) {
-            LOGGER.error("error when send wechat robot message, code: {} response: {}",
-                messageResponseEntity.getStatusCodeValue(), messageResponseEntity.getBody());
+            LOGGER.error("error when send wechat robot message, code: {} response: {}", messageResponseEntity.getStatusCodeValue(),
+                messageResponseEntity.getBody());
             alarmMessageBO.getResultList().add(messageResult);
             return;
         }
         String responseJson = messageResponseEntity.getBody();
-        Map<String, Object> responseMap =
-            JacksonUtil.deSerialize(responseJson, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> responseMap = JacksonUtil.deSerialize(responseJson, new TypeReference<Map<String, Object>>() {});
 
         if (responseMap.containsKey("errcode")) {
             Integer errcode = (Integer)responseMap.get("errcode");

@@ -13,5 +13,4 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @ActiveProfiles({"local"})
 @EnabledIf(value = "#{'IntegrationTest'.equals(systemProperties['test-profile'])}")
-public class IntegrationTest {
-}
+public class IntegrationTest {}

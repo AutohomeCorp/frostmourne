@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.TeamInfo;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.TeamInfo;
 
 public interface ITeamInfoRepository {
 

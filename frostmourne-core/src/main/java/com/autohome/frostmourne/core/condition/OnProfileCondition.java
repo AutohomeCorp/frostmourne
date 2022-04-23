@@ -17,11 +17,9 @@ public class OnProfileCondition implements Condition {
         Set<String> activeProfiles = Sets.newHashSet(context.getEnvironment().getActiveProfiles());
 
         Set<String> requiredActiveProfiles = retrieveAnnotatedProfiles(metadata, ConditionalOnProfile.class.getName());
-        Set<String> requiredInactiveProfiles =
-            retrieveAnnotatedProfiles(metadata, ConditionalOnMissingProfile.class.getName());
+        Set<String> requiredInactiveProfiles = retrieveAnnotatedProfiles(metadata, ConditionalOnMissingProfile.class.getName());
 
-        return Sets.difference(requiredActiveProfiles, activeProfiles).isEmpty()
-            && Sets.intersection(requiredInactiveProfiles, activeProfiles).isEmpty();
+        return Sets.difference(requiredActiveProfiles, activeProfiles).isEmpty() && Sets.intersection(requiredInactiveProfiles, activeProfiles).isEmpty();
     }
 
     private Set<String> retrieveAnnotatedProfiles(AnnotatedTypeMetadata metadata, String annotationType) {

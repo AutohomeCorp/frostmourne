@@ -6,12 +6,12 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DepartmentInfo;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.TeamInfo;
 import org.springframework.stereotype.Service;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.ProtocolException;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DepartmentInfo;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.TeamInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDepartmentInfoRepository;
 import com.autohome.frostmourne.monitor.service.account.IDepartmentInfoService;
 import com.autohome.frostmourne.monitor.service.account.ITeamInfoService;
@@ -27,8 +27,7 @@ public class DepartmentInfoService implements IDepartmentInfoService {
 
     @Override
     public boolean insert(DepartmentInfo departmentInfo, String account) {
-        Optional<DepartmentInfo> optionalDepartmentInfo =
-            departmentInfoRepository.findByDepartmentName(departmentInfo.getDepartmentName());
+        Optional<DepartmentInfo> optionalDepartmentInfo = departmentInfoRepository.findByDepartmentName(departmentInfo.getDepartmentName());
         if (optionalDepartmentInfo.isPresent()) {
             throw new ProtocolException(5101, "部门已经存在");
         }

@@ -5,7 +5,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import java.util.Optional;
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Metric;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Metric;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.MetricDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.MetricDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
@@ -49,25 +49,21 @@ public class MetricRepository implements IMetricRepository {
 
     @Override
     public int deleteByAlarm(Long alarmId) {
-        return metricDynamicMapper.delete(query -> query.where()
-                .and(MetricDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
+        return metricDynamicMapper.delete(query -> query.where().and(MetricDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 
     @Override
     public Optional<Metric> findOneByAlarm(Long alarmId) {
-        return metricDynamicMapper.selectOne(query -> query.where()
-                .and(MetricDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
+        return metricDynamicMapper.selectOne(query -> query.where().and(MetricDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 
     @Override
     public long datasourceCount(Long datasourceId) {
-        return metricDynamicMapper.count(query -> query.where()
-                .and(MetricDynamicSqlSupport.dataSourceId, isEqualTo(datasourceId)));
+        return metricDynamicMapper.count(query -> query.where().and(MetricDynamicSqlSupport.dataSourceId, isEqualTo(datasourceId)));
     }
 
     @Override
     public long datanameCount(Long datanameId) {
-        return metricDynamicMapper.count(query -> query.where()
-                .and(MetricDynamicSqlSupport.dataNameId, isEqualTo(datanameId)));
+        return metricDynamicMapper.count(query -> query.where().and(MetricDynamicSqlSupport.dataNameId, isEqualTo(datanameId)));
     }
 }

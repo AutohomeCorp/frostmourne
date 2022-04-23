@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.RuleProperty;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.RuleProperty;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.RulePropertyDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.RulePropertyDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRulePropertyRepository;
@@ -51,13 +51,11 @@ public class RulePropertyRepository implements IRulePropertyRepository {
 
     @Override
     public int deleteByAlarm(Long alarmId) {
-        return rulePropertyDynamicMapper.delete(query -> query.where()
-                .and(RulePropertyDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
+        return rulePropertyDynamicMapper.delete(query -> query.where().and(RulePropertyDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 
     @Override
     public List<RuleProperty> findByRuleId(Long ruleId) {
-        return rulePropertyDynamicMapper.select(query -> query.where()
-                .and(RulePropertyDynamicSqlSupport.ruleId, isEqualTo(ruleId)));
+        return rulePropertyDynamicMapper.select(query -> query.where().and(RulePropertyDynamicSqlSupport.ruleId, isEqualTo(ruleId)));
     }
 }

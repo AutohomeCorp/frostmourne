@@ -38,9 +38,8 @@ public class UserInfoController {
     }
 
     @GetMapping(value = "/findPage")
-    public Protocol<PagerContract<UserContract>> findPage(@RequestParam(value = "pageIndex") int pageIndex,
-        @RequestParam(value = "pageSize") int pageSize, @RequestParam(value = "id", required = false) Long id,
-        @RequestParam(value = "account", required = false) String account,
+    public Protocol<PagerContract<UserContract>> findPage(@RequestParam(value = "pageIndex") int pageIndex, @RequestParam(value = "pageSize") int pageSize,
+        @RequestParam(value = "id", required = false) Long id, @RequestParam(value = "account", required = false) String account,
         @RequestParam(value = "teamId", required = false) Long teamId) {
         return new Protocol<>(userInfoService.findPage(pageIndex, pageSize, id, account, teamId));
     }

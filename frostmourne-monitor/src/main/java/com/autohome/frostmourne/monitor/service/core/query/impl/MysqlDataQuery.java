@@ -68,8 +68,7 @@ public class MysqlDataQuery implements IMysqlDataQuery {
 
     protected long collectResult(MetricContract metricContract, String sql, Object[] args) {
         String collectSql = "select count(*) cnt from (" + sql + ") t";
-        List<Map<String, Object>> collectResult = jdbcDao.query(metricContract.getDataNameContract(),
-            metricContract.getDataSourceContract(), collectSql, args);
+        List<Map<String, Object>> collectResult = jdbcDao.query(metricContract.getDataNameContract(), metricContract.getDataSourceContract(), collectSql, args);
         if (collectResult != null && collectResult.size() > 0) {
             return ((Number)collectResult.get(0).get("cnt")).longValue();
         }
@@ -77,10 +76,8 @@ public class MysqlDataQuery implements IMysqlDataQuery {
     }
 
     protected Map<String, Object> queryLatestDocument(MetricContract metricContract, String sql, Object[] args) {
-        String querySql =
-            sql + " order by " + metricContract.getDataNameContract().getTimestampField() + " desc limit 1";
-        List<Map<String, Object>> collectResult =
-            jdbcDao.query(metricContract.getDataNameContract(), metricContract.getDataSourceContract(), querySql, args);
+        String querySql = sql + " order by " + metricContract.getDataNameContract().getTimestampField() + " desc limit 1";
+        List<Map<String, Object>> collectResult = jdbcDao.query(metricContract.getDataNameContract(), metricContract.getDataSourceContract(), querySql, args);
         if (collectResult != null && collectResult.size() > 0) {
             return collectResult.get(0);
         }

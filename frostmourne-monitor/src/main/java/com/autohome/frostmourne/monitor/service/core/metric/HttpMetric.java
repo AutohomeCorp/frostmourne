@@ -38,8 +38,7 @@ public class HttpMetric implements IMetric {
                 }
             }
             Request request = requestBuilder.build();
-            try (Response response = okHttp3Client.newCall(request).execute();
-                ResponseBody responseBody = response.body()) {
+            try (Response response = okHttp3Client.newCall(request).execute(); ResponseBody responseBody = response.body()) {
                 Long end = System.currentTimeMillis();
                 result.put("HTTP_COST", end - start);
                 result.put("HTTP_STATUS", response.code());
@@ -51,8 +50,7 @@ public class HttpMetric implements IMetric {
                         List<Object> list = mapper.readValue(responseBodyString, new TypeReference<List<Object>>() {});
                         result.put("ResponseBody", list);
                     } else {
-                        Map<String, Object> map =
-                            mapper.readValue(responseBodyString, new TypeReference<Map<String, Object>>() {});
+                        Map<String, Object> map = mapper.readValue(responseBodyString, new TypeReference<Map<String, Object>>() {});
                         result.putAll(map);
                     }
                 } else {

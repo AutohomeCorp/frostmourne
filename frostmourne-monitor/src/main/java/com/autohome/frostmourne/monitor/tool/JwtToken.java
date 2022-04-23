@@ -22,9 +22,8 @@ public class JwtToken {
     private final static String SALT = "别杀我，我是鲁班7号";
 
     public String generateToken(AccountInfo accountInfo) {
-        return Jwts.builder().claim("salt", SALT).claim("userinfo", JacksonUtil.serialize(accountInfo))
-            .setSubject(accountInfo.getAccount()).setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
-            .signWith(KEY).compact();
+        return Jwts.builder().claim("salt", SALT).claim("userinfo", JacksonUtil.serialize(accountInfo)).setSubject(accountInfo.getAccount())
+            .setExpiration(new Date(System.currentTimeMillis() + EXPIRE)).signWith(KEY).compact();
     }
 
     public Claims parseToken(String token) {

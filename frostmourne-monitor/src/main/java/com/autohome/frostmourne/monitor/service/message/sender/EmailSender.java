@@ -35,19 +35,16 @@ public class EmailSender extends MessageSenderChain {
 
         MessageResult messageResult = new MessageResult(myWay(), false);
 
-        if (StringUtils.isAnyBlank(mailConfig.getSmtpHost(), mailConfig.getSmtpPort(), mailConfig.getSender(),
-            mailConfig.getSenderPassword())) {
+        if (StringUtils.isAnyBlank(mailConfig.getSmtpHost(), mailConfig.getSmtpPort(), mailConfig.getSender(), mailConfig.getSenderPassword())) {
             LOGGER.error("email config could not be null");
             alarmMessageBO.getResultList().add(messageResult);
             return;
         }
 
-        List<String> emails = alarmMessageBO.getRecipients().stream().map(AccountInfo::getEmail)
-            .filter(StringUtils::isNotBlank).collect(Collectors.toList());
+        List<String> emails = alarmMessageBO.getRecipients().stream().map(AccountInfo::getEmail).filter(StringUtils::isNotBlank).collect(Collectors.toList());
 
-        boolean result = EmailHelper.sendText(mailConfig.getSmtpHost(), mailConfig.getSmtpPort(),
-            mailConfig.getSmtpAuth(), mailConfig.getSender(), mailConfig.getSenderPassword(), emails,
-            alarmMessageBO.getTitle(), alarmMessageBO.getContent());
+        boolean result = EmailHelper.sendText(mailConfig.getSmtpHost(), mailConfig.getSmtpPort(), mailConfig.getSmtpAuth(), mailConfig.getSender(),
+            mailConfig.getSenderPassword(), emails, alarmMessageBO.getTitle(), alarmMessageBO.getContent());
 
         messageResult.setSuccess(result);
         alarmMessageBO.getResultList().add(messageResult);

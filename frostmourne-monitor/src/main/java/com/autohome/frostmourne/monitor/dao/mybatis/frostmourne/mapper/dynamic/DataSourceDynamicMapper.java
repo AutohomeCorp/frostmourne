@@ -3,10 +3,9 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DataSourceDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
 import java.util.List;
 import java.util.Optional;
-import javax.annotation.Generated;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,28 +32,22 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface DataSourceDynamicMapper {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     BasicColumn[] selectList = BasicColumn.columnList(id, datasourceName, datasourceType, serviceAddress, properties, creator, createAt, modifier, modifyAt);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.984+08:00", comments="Source Table: data_source")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.984+08:00", comments="Source Table: data_source")
     @DeleteProvider(type=SqlProviderAdapter.class, method="delete")
     int delete(DeleteStatementProvider deleteStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.984+08:00", comments="Source Table: data_source")
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="record.id", before=false, resultType=Long.class)
     int insert(InsertStatementProvider<DataSource> insertStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("DataSourceResult")
     Optional<DataSource> selectOne(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="DataSourceResult", value = {
         @Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
@@ -69,28 +62,23 @@ public interface DataSourceDynamicMapper {
     })
     List<DataSource> selectMany(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     @UpdateProvider(type=SqlProviderAdapter.class, method="update")
     int update(UpdateStatementProvider updateStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, dataSource, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, dataSource, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     default int insert(DataSource record) {
         return MyBatis3Utils.insert(this::insert, record, dataSource, c ->
             c.map(datasourceName).toProperty("datasourceName")
@@ -104,7 +92,6 @@ public interface DataSourceDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     default int insertSelective(DataSource record) {
         return MyBatis3Utils.insert(this::insert, record, dataSource, c ->
             c.map(datasourceName).toPropertyWhenPresent("datasourceName", record::getDatasourceName)
@@ -118,34 +105,28 @@ public interface DataSourceDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     default Optional<DataSource> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, dataSource, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     default List<DataSource> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, dataSource, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     default List<DataSource> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, dataSource, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     default Optional<DataSource> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, dataSource, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.985+08:00", comments="Source Table: data_source")
     static UpdateDSL<UpdateModel> updateAllColumns(DataSource record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(datasourceName).equalTo(record::getDatasourceName)
                 .set(datasourceType).equalTo(record::getDatasourceType)
@@ -157,7 +138,6 @@ public interface DataSourceDynamicMapper {
                 .set(modifyAt).equalTo(record::getModifyAt);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.986+08:00", comments="Source Table: data_source")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(DataSource record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(datasourceName).equalToWhenPresent(record::getDatasourceName)
                 .set(datasourceType).equalToWhenPresent(record::getDatasourceType)
@@ -169,7 +149,6 @@ public interface DataSourceDynamicMapper {
                 .set(modifyAt).equalToWhenPresent(record::getModifyAt);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.986+08:00", comments="Source Table: data_source")
     default int updateByPrimaryKey(DataSource record) {
         return update(c ->
             c.set(datasourceName).equalTo(record::getDatasourceName)
@@ -184,7 +163,6 @@ public interface DataSourceDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.986+08:00", comments="Source Table: data_source")
     default int updateByPrimaryKeySelective(DataSource record) {
         return update(c ->
             c.set(datasourceName).equalToWhenPresent(record::getDatasourceName)

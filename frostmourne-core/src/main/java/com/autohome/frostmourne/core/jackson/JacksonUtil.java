@@ -75,8 +75,7 @@ public class JacksonUtil {
         return deSerialize(jsonString, javaType, objectMapper);
     }
 
-    public static JavaType getCollectionType(ObjectMapper objectMapper, Class<?> collectionClass,
-        Class<?>... elementClasses) {
+    public static JavaType getCollectionType(ObjectMapper objectMapper, Class<?> collectionClass, Class<?>... elementClasses) {
         return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
 

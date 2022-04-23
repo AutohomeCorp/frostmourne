@@ -12,7 +12,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Test;
 
-
 public class JwtTokenTest {
 
     private final static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
@@ -28,16 +27,11 @@ public class JwtTokenTest {
 
     @Test
     public void parseTokenTest_with_token_expired_expect_expire_exception() throws InterruptedException {
-        String token = Jwts.builder()
-                .claim("salt", "salt")
-                .claim("TeamId", 1)
-                .setSubject("admin")
-                .setExpiration(new Date(System.currentTimeMillis() + 1000))
-                .signWith(key).compact();
+        String token = Jwts.builder().claim("salt", "salt").claim("TeamId", 1).setSubject("admin").setExpiration(new Date(System.currentTimeMillis() + 1000))
+            .signWith(key).compact();
 
         Thread.sleep(2000);
 
-        assertThrows(ExpiredJwtException.class, () -> Jwts.parser().require("salt", "salt")
-                .setSigningKey(key).parseClaimsJws(token).getBody());
+        assertThrows(ExpiredJwtException.class, () -> Jwts.parser().require("salt", "salt").setSigningKey(key).parseClaimsJws(token).getBody());
     }
 }

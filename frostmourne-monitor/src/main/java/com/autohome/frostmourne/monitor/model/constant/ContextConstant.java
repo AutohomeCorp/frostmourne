@@ -2,7 +2,7 @@ package com.autohome.frostmourne.monitor.model.constant;
 
 /**
  * 文本占位符
- * 
+ *
  * @author Aping
  * @since 2022/4/15 12:46
  */

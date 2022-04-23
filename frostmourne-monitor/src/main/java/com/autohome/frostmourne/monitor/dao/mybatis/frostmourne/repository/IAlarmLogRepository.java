@@ -4,8 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
 
 public interface IAlarmLogRepository {
 

@@ -42,8 +42,7 @@ public class DingRobotSender extends MessageSenderChain {
         DingRobotMessage dingRobotMessage = new DingRobotMessage();
         DingAt dingAt = new DingAt();
         dingAt.setAtAll(false);
-        List<String> cellphoneList =
-            alarmMessageBO.getRecipients().stream().map(AccountInfo::getMobile).collect(Collectors.toList());
+        List<String> cellphoneList = alarmMessageBO.getRecipients().stream().map(AccountInfo::getMobile).collect(Collectors.toList());
         dingAt.setAtMobiles(cellphoneList);
         dingRobotMessage.setAt(dingAt);
         List<String> atMobiles = cellphoneList.stream().map(m -> "@" + m).collect(Collectors.toList());
@@ -60,8 +59,7 @@ public class DingRobotSender extends MessageSenderChain {
             dingRobotMessage.setMarkdown(dingMarkdown);
         } else {
             dingRobotMessage.setMsgtype("text");
-            String dingContent = String.format("%s%n%s%n%s", alarmMessageBO.getTitle(), String.join(" ", atMobiles),
-                alarmMessageBO.getContent());
+            String dingContent = String.format("%s%n%s%n%s", alarmMessageBO.getTitle(), String.join(" ", atMobiles), alarmMessageBO.getContent());
             if (dingContent.length() > 18000) {
                 dingContent = dingContent.substring(0, 18000);
             }
@@ -76,13 +74,10 @@ public class DingRobotSender extends MessageSenderChain {
         headers.add("Accept", MediaType.APPLICATION_JSON.toString());
         HttpEntity<DingRobotMessage> request = new HttpEntity<>(dingRobotMessage, headers);
         try {
-            DingMessageResponse dingMessageResponse =
-                restTemplate.postForObject(alarmMessageBO.getDingHook(), request, DingMessageResponse.class);
-            boolean result = dingMessageResponse != null && dingMessageResponse.getErrcode() != null
-                && dingMessageResponse.getErrcode() == 0;
+            DingMessageResponse dingMessageResponse = restTemplate.postForObject(alarmMessageBO.getDingHook(), request, DingMessageResponse.class);
+            boolean result = dingMessageResponse != null && dingMessageResponse.getErrcode() != null && dingMessageResponse.getErrcode() == 0;
             if (!result) {
-                LOGGER.error("error when send ding robot message, response: {}",
-                    JacksonUtil.serialize(dingMessageResponse));
+                LOGGER.error("error when send ding robot message, response: {}", JacksonUtil.serialize(dingMessageResponse));
             }
             messageResult.setSuccess(result);
         } catch (Exception ex) {

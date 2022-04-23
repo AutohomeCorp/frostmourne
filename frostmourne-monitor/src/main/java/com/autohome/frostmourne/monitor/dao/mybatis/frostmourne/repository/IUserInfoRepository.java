@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
 import java.util.Optional;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.UserInfo;
 
 public interface IUserInfoRepository {
 

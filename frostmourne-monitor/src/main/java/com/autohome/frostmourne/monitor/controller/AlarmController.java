@@ -45,16 +45,13 @@ public class AlarmController {
     public Protocol<Map<String, Object>> httpTest(@RequestBody AlarmContract alarmContract) {
         alarmAdminService.padAlarm(alarmContract);
         String dataSourceType;
-        if (alarmContract.getMetricContract().getDataNameId() != null
-            && alarmContract.getMetricContract().getDataNameId() > 0) {
+        if (alarmContract.getMetricContract().getDataNameId() != null && alarmContract.getMetricContract().getDataNameId() > 0) {
             dataSourceType = alarmContract.getMetricContract().getDataSourceContract().getDatasourceType();
         } else {
             dataSourceType = alarmContract.getMetricContract().getDataName();
         }
-        IMetric metric =
-            this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetricType());
-        Map<String, Object> result =
-            metric.pullMetric(alarmContract.getMetricContract(), alarmContract.getRuleContract().getSettings());
+        IMetric metric = this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetricType());
+        Map<String, Object> result = metric.pullMetric(alarmContract.getMetricContract(), alarmContract.getRuleContract().getSettings());
         if (alarmContract.getRuleContract().getSettings() != null) {
             result.putAll(alarmContract.getRuleContract().getSettings());
         }
