@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl
 import java.util.Optional;
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ShortLink;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.ShortLink;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.ShortLinkDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IShortLinkRepository;
 import org.springframework.stereotype.Repository;

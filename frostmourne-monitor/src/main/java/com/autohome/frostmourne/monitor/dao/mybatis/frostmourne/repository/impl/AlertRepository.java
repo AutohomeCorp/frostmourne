@@ -5,7 +5,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import java.util.Optional;
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alert;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alert;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlertDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlertDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertRepository;

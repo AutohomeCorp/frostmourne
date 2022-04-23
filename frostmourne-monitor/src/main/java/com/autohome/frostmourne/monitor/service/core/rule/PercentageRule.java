@@ -18,8 +18,7 @@ public class PercentageRule extends AbstractRule {
     }
 
     @Override
-    public boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract,
-        MetricContract metricContract, IMetric metric) {
+    public boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract, MetricContract metricContract, IMetric metric) {
         Map<String, Object> context = context(alarmProcessLogger, ruleContract, metricContract, metric);
         Map<String, String> ruleSettings = ruleContract.getSettings();
         List<ReferenceBag> referenceDataList = findReference(context);

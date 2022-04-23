@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Recipient;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Recipient;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.RecipientDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.RecipientDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRecipientRepository;
@@ -51,13 +51,11 @@ public class RecipientRepository implements IRecipientRepository {
 
     @Override
     public int deleteByAlarm(Long alarmId) {
-        return recipientDynamicMapper.delete(query -> query.where()
-                .and(RecipientDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
+        return recipientDynamicMapper.delete(query -> query.where().and(RecipientDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 
     @Override
     public List<Recipient> findByAlarm(Long alarmId) {
-        return recipientDynamicMapper.select(query -> query.where()
-                .and(RecipientDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
+        return recipientDynamicMapper.select(query -> query.where().and(RecipientDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
     }
 }

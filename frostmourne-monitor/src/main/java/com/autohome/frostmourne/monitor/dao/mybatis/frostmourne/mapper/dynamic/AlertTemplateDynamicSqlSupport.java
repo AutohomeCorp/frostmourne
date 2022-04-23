@@ -2,42 +2,57 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class AlertTemplateDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source Table: alert_template")
     public static final AlertTemplate alertTemplate = new AlertTemplate();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source field: alert_template.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = alertTemplate.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source field: alert_template.template_name")
+    /**
+     * 模板名称
+     */
     public static final SqlColumn<String> templateName = alertTemplate.templateName;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source field: alert_template.template_type")
+    /**
+     * 模板类型
+     */
     public static final SqlColumn<String> templateType = alertTemplate.templateType;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source field: alert_template.template_union_code")
+    /**
+     * 模板类型关联code，根据不同模板类型关联不同的源
+     */
     public static final SqlColumn<String> templateUnionCode = alertTemplate.templateUnionCode;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source field: alert_template.content")
+    /**
+     * 模板内容
+     */
     public static final SqlColumn<String> content = alertTemplate.content;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source field: alert_template.creator")
+    /**
+     * 创建人
+     */
     public static final SqlColumn<String> creator = alertTemplate.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source field: alert_template.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = alertTemplate.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source field: alert_template.modifier")
+    /**
+     * 修改人
+     */
     public static final SqlColumn<String> modifier = alertTemplate.modifier;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source field: alert_template.modify_at")
+    /**
+     * 修改时间
+     */
     public static final SqlColumn<Date> modifyAt = alertTemplate.modifyAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source Table: alert_template")
     public static final class AlertTemplate extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

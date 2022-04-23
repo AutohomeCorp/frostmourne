@@ -22,16 +22,14 @@ public class InfluxdbDao implements IInfluxdbDao {
     public InfluxdbResponse query(String influxdbAddress, String db, String query, String user, String password) {
         ResponseEntity<InfluxdbResponse> responseEntity = null;
         if (Strings.isNullOrEmpty(user) && Strings.isNullOrEmpty(password)) {
-            responseEntity = restTemplate.getForEntity(influxdbAddress + "/query?db={db}&q={q}", InfluxdbResponse.class,
-                ImmutableMap.of("db", db, "q", query));
+            responseEntity = restTemplate.getForEntity(influxdbAddress + "/query?db={db}&q={q}", InfluxdbResponse.class, ImmutableMap.of("db", db, "q", query));
         } else {
-            responseEntity = restTemplate.getForEntity(influxdbAddress + "/query?u={u}&p={p}&db={db}&q={q}",
-                InfluxdbResponse.class, ImmutableMap.of("db", db, "q", query, "u", user, "p", password));
+            responseEntity = restTemplate.getForEntity(influxdbAddress + "/query?u={u}&p={p}&db={db}&q={q}", InfluxdbResponse.class,
+                ImmutableMap.of("db", db, "q", query, "u", user, "p", password));
         }
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
             throw new RuntimeException(
-                String.format("error when request influxdb. db: %s, query: %s, response code: %s", db, query,
-                    responseEntity.getStatusCode().value()));
+                String.format("error when request influxdb. db: %s, query: %s, response code: %s", db, query, responseEntity.getStatusCode().value()));
         }
         return responseEntity.getBody();
     }

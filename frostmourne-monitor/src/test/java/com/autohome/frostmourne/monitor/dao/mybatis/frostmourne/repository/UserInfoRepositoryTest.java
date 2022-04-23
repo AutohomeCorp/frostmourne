@@ -9,7 +9,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.UserInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl.UserInfoRepository;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;

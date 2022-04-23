@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DepartmentInfo;
 import org.springframework.web.bind.annotation.*;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DepartmentInfo;
 import com.autohome.frostmourne.monitor.service.account.IDepartmentInfoService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
 
@@ -35,9 +35,8 @@ public class DepartmentInfoController {
     }
 
     @GetMapping(value = "/findPage")
-    public Protocol<PagerContract<DepartmentInfo>> findPage(@RequestParam(value = "pageIndex") int pageIndex,
-        @RequestParam(value = "pageSize") int pageSize, @RequestParam(value = "id", required = false) Long id,
-        @RequestParam(value = "account", required = false) String account) {
+    public Protocol<PagerContract<DepartmentInfo>> findPage(@RequestParam(value = "pageIndex") int pageIndex, @RequestParam(value = "pageSize") int pageSize,
+        @RequestParam(value = "id", required = false) Long id, @RequestParam(value = "account", required = false) String account) {
         return new Protocol<>(departmentInfoService.findPage(pageIndex, pageSize, id, account));
     }
 

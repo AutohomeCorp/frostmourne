@@ -26,12 +26,10 @@ public class RemoteTriggerService implements IRemoteTriggerService {
     @Override
     public void trigger(Long alarmId) {
         try {
-            Protocol protocol = restTemplate.getForObject(
-                String.format("%s/alarm/run?_appId=frostmourne-monitor&alarmId={alarmId}", frostmourneMonitorAddress),
+            Protocol protocol = restTemplate.getForObject(String.format("%s/alarm/run?_appId=frostmourne-monitor&alarmId={alarmId}", frostmourneMonitorAddress),
                 Protocol.class, ImmutableMap.of("alarmId", alarmId));
             if (protocol.getReturncode() != 0) {
-                LOGGER.error("error when trigger remote, id: {}, response: {}", alarmId,
-                    JacksonUtil.serialize(protocol));
+                LOGGER.error("error when trigger remote, id: {}, response: {}", alarmId, JacksonUtil.serialize(protocol));
             }
         } catch (Exception ex) {
             LOGGER.error("error when trigger remote, id: {}", alarmId, ex);

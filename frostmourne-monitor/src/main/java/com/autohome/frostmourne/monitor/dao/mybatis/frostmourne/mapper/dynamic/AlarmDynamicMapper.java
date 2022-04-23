@@ -3,10 +3,9 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
 import java.util.List;
 import java.util.Optional;
-import javax.annotation.Generated;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,28 +32,22 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface AlarmDynamicMapper {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.364+08:00", comments="Source Table: alarm")
     BasicColumn[] selectList = BasicColumn.columnList(id, alarmName, alarmType, description, ownerKey, status, executeResult, executeAt, jobId, cron, creator, createAt, modifier, modifyAt, teamName, riskLevel, serviceId, recoverNoticeStatus, triggerLastTime, triggerNextTime);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.354+08:00", comments="Source Table: alarm")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.355+08:00", comments="Source Table: alarm")
     @DeleteProvider(type=SqlProviderAdapter.class, method="delete")
     int delete(DeleteStatementProvider deleteStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.356+08:00", comments="Source Table: alarm")
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="record.id", before=false, resultType=Long.class)
     int insert(InsertStatementProvider<Alarm> insertStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.358+08:00", comments="Source Table: alarm")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("AlarmResult")
     Optional<Alarm> selectOne(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.359+08:00", comments="Source Table: alarm")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="AlarmResult", value = {
         @Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
@@ -80,28 +73,23 @@ public interface AlarmDynamicMapper {
     })
     List<Alarm> selectMany(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.36+08:00", comments="Source Table: alarm")
     @UpdateProvider(type=SqlProviderAdapter.class, method="update")
     int update(UpdateStatementProvider updateStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.36+08:00", comments="Source Table: alarm")
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, alarm, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.36+08:00", comments="Source Table: alarm")
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, alarm, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.361+08:00", comments="Source Table: alarm")
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.361+08:00", comments="Source Table: alarm")
     default int insert(Alarm record) {
         return MyBatis3Utils.insert(this::insert, record, alarm, c ->
             c.map(alarmName).toProperty("alarmName")
@@ -126,7 +114,6 @@ public interface AlarmDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.362+08:00", comments="Source Table: alarm")
     default int insertSelective(Alarm record) {
         return MyBatis3Utils.insert(this::insert, record, alarm, c ->
             c.map(alarmName).toPropertyWhenPresent("alarmName", record::getAlarmName)
@@ -151,34 +138,28 @@ public interface AlarmDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.364+08:00", comments="Source Table: alarm")
     default Optional<Alarm> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, alarm, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.365+08:00", comments="Source Table: alarm")
     default List<Alarm> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, alarm, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.365+08:00", comments="Source Table: alarm")
     default List<Alarm> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, alarm, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.365+08:00", comments="Source Table: alarm")
     default Optional<Alarm> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.366+08:00", comments="Source Table: alarm")
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, alarm, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.366+08:00", comments="Source Table: alarm")
     static UpdateDSL<UpdateModel> updateAllColumns(Alarm record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(alarmName).equalTo(record::getAlarmName)
                 .set(alarmType).equalTo(record::getAlarmType)
@@ -201,7 +182,6 @@ public interface AlarmDynamicMapper {
                 .set(triggerNextTime).equalTo(record::getTriggerNextTime);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.367+08:00", comments="Source Table: alarm")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(Alarm record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(alarmName).equalToWhenPresent(record::getAlarmName)
                 .set(alarmType).equalToWhenPresent(record::getAlarmType)
@@ -224,7 +204,6 @@ public interface AlarmDynamicMapper {
                 .set(triggerNextTime).equalToWhenPresent(record::getTriggerNextTime);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.367+08:00", comments="Source Table: alarm")
     default int updateByPrimaryKey(Alarm record) {
         return update(c ->
             c.set(alarmName).equalTo(record::getAlarmName)
@@ -250,7 +229,6 @@ public interface AlarmDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-04-08T17:37:54.368+08:00", comments="Source Table: alarm")
     default int updateByPrimaryKeySelective(Alarm record) {
         return update(c ->
             c.set(alarmName).equalToWhenPresent(record::getAlarmName)

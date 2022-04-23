@@ -71,8 +71,7 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
             dataSourceCache.put(key, this.createDataSource(dataSourceContract));
             return true;
         } catch (Exception e) {
-            log.error("DataSourceJdbcManager.addDataSource failed: dataSource={}, error={}", dataSourceContract,
-                e.getMessage(), e);
+            log.error("DataSourceJdbcManager.addDataSource failed: dataSource={}, error={}", dataSourceContract, e.getMessage(), e);
             return false;
         }
     }

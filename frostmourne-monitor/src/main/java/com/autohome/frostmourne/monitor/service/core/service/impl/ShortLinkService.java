@@ -4,10 +4,10 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.ShortLink;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ShortLink;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IShortLinkRepository;
 import com.autohome.frostmourne.monitor.service.core.service.IShortLinkService;
 

@@ -29,8 +29,7 @@ public class MessageServiceTest {
     public void send() {
 
         AlarmMessageBO alarmMessageBO = new AlarmMessageBO();
-        alarmMessageBO.setContent(String.format("消息类型: [问题] %s分钟内连续报警将不重复发送\n%s",
-                1L, "test"));
+        alarmMessageBO.setContent(String.format("消息类型: [问题] %s分钟内连续报警将不重复发送\n%s", 1L, "test"));
         alarmMessageBO.setTitle("title");
         AccountInfo accountInfo = new AccountInfo();
         accountInfo.setEmail("your@qq.cn");

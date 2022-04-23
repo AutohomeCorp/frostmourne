@@ -43,15 +43,13 @@ public class DataQueryController {
     @RequestMapping(value = "/elasticsearchData")
     public Protocol<ElasticsearchDataResult> elasticsearchData(@RequestParam(value = "dataName") String dataName,
         @RequestParam(value = "startTime") Date startTime, @RequestParam(value = "endTime") Date endTime,
-        @RequestParam(value = "esQuery", required = false) String esQuery,
-        @RequestParam(value = "scrollId", required = false) String scrollId,
-        @RequestParam(value = "sortOrder") String sortOrder,
-        @RequestParam(value = "intervalInSeconds", required = false) Integer intervalInSeconds) {
+        @RequestParam(value = "esQuery", required = false) String esQuery, @RequestParam(value = "scrollId", required = false) String scrollId,
+        @RequestParam(value = "sortOrder") String sortOrder, @RequestParam(value = "intervalInSeconds", required = false) Integer intervalInSeconds) {
         if (Strings.isNullOrEmpty(esQuery)) {
             esQuery = "*";
         }
-        ElasticsearchDataResult elasticsearchDataResult = queryService.elasticsearchQuery(dataName, startTime, endTime,
-            esQuery, scrollId, sortOrder, intervalInSeconds);
+        ElasticsearchDataResult elasticsearchDataResult =
+            queryService.elasticsearchQuery(dataName, startTime, endTime, esQuery, scrollId, sortOrder, intervalInSeconds);
         return new Protocol<>(elasticsearchDataResult);
     }
 
@@ -75,23 +73,18 @@ public class DataQueryController {
     }
 
     @RequestMapping(value = "/downloadData")
-    public void downloadData(HttpServletResponse response, @RequestParam(value = "dataName") String dataName,
-        @RequestParam(value = "startTime") Date startTime, @RequestParam(value = "endTime") Date endTime,
-        @RequestParam(value = "esQuery") String esQuery,
-        @RequestParam(value = "scrollId", required = false) String scrollId,
-        @RequestParam(value = "sortOrder") String sortOrder) throws IOException {
+    public void downloadData(HttpServletResponse response, @RequestParam(value = "dataName") String dataName, @RequestParam(value = "startTime") Date startTime,
+        @RequestParam(value = "endTime") Date endTime, @RequestParam(value = "esQuery") String esQuery,
+        @RequestParam(value = "scrollId", required = false) String scrollId, @RequestParam(value = "sortOrder") String sortOrder) throws IOException {
         response.setContentType("application/octet-stream;charset=utf-8");
         String fileName = dataName + "-" + DateTime.now().toString("yyyyMMddHHmmssSSS") + ".csv";
         response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
         response.setHeader("attachment-filename", fileName);
         byte[] bom = {(byte)0xEF, (byte)0xBB, (byte)0xBF};
         response.getOutputStream().write(bom);
-        try (
-            OutputStreamWriter outputStreamWriter =
-                new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
+        try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8);
             CSVWriter csvWriter = new CSVWriter(outputStreamWriter, ',')) {
-            queryService.exportToCsv(csvWriter, dataName, new DateTime(startTime), new DateTime(endTime), esQuery, null,
-                sortOrder);
+            queryService.exportToCsv(csvWriter, dataName, new DateTime(startTime), new DateTime(endTime), esQuery, null, sortOrder);
         } finally {
             response.getOutputStream().flush();
             response.getOutputStream().close();

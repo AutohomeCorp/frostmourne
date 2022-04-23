@@ -7,12 +7,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.autohome.frostmourne.monitor.config.ScheduleConfig;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
-import com.autohome.frostmourne.monitor.service.core.cron.CronExpression;
 
 public class JobScheduleHelper {
 
@@ -65,8 +64,7 @@ public class JobScheduleHelper {
                     connAutoCommit = conn.getAutoCommit();
                     conn.setAutoCommit(false);
 
-                    preparedStatement =
-                        conn.prepareStatement("select * from job_lock where lock_name = 'schedule_lock' for update");
+                    preparedStatement = conn.prepareStatement("select * from job_lock where lock_name = 'schedule_lock' for update");
                     preparedStatement.execute();
 
                     // tx start
@@ -76,8 +74,7 @@ public class JobScheduleHelper {
                     // List<Alarm> scheduleList =
                     // XxlJobAdminConfig.getAdminConfig().getXxlJobInfoDao().scheduleJobQuery(nowTime + PRE_READ_MS,
                     // preReadCount);
-                    List<Alarm> scheduleList = ScheduleConfig.getInstance().getAlarmRepository()
-                        .querySchedule(nowTime + PRE_READ_MS, PRE_READ_COUNT);
+                    List<Alarm> scheduleList = ScheduleConfig.getInstance().getAlarmRepository().querySchedule(nowTime + PRE_READ_MS, PRE_READ_COUNT);
                     if (scheduleList != null && scheduleList.size() > 0) {
                         // 2、push time-ring
                         for (Alarm alarm : scheduleList) {
@@ -136,8 +133,8 @@ public class JobScheduleHelper {
 
                         // 3、update trigger info
                         for (Alarm jobInfo : scheduleList) {
-                            ScheduleConfig.getInstance().getAlarmRepository().scheduleUpdate(jobInfo.getId(),
-                                jobInfo.getTriggerLastTime(), jobInfo.getTriggerNextTime());
+                            ScheduleConfig.getInstance().getAlarmRepository().scheduleUpdate(jobInfo.getId(), jobInfo.getTriggerLastTime(),
+                                jobInfo.getTriggerNextTime());
                         }
 
                     } else {
@@ -192,8 +189,7 @@ public class JobScheduleHelper {
                 if (cost < 1000) { // scan-overtime, not wait
                     try {
                         // pre-read period: success > scan each second; fail > skip this period;
-                        TimeUnit.MILLISECONDS
-                            .sleep((preReadSuccess ? 1000 : PRE_READ_MS) - System.currentTimeMillis() % 1000);
+                        TimeUnit.MILLISECONDS.sleep((preReadSuccess ? 1000 : PRE_READ_MS) - System.currentTimeMillis() % 1000);
                     } catch (InterruptedException e) {
                         if (!scheduleThreadToStop) {
                             LOGGER.error(e.getMessage(), e);
@@ -233,8 +229,7 @@ public class JobScheduleHelper {
                     }
 
                     // ring trigger
-                    LOGGER.debug(
-                        ">>>>>>>>>>> time-ring beat : " + nowSecond + " = " + Collections.singletonList(ringItemData));
+                    LOGGER.debug(">>>>>>>>>>> time-ring beat : " + nowSecond + " = " + Collections.singletonList(ringItemData));
                     if (ringItemData.size() > 0) {
                         // do trigger
                         for (long jobId : ringItemData) {
@@ -334,8 +329,7 @@ public class JobScheduleHelper {
         List<Long> ringItemData = RING_DATA.computeIfAbsent(ringSecond, k -> new ArrayList<>());
         ringItemData.add(jobId);
 
-        LOGGER.debug(
-            ">>>>>>>>>>> schedule push time-ring : " + ringSecond + " = " + Collections.singletonList(ringItemData));
+        LOGGER.debug(">>>>>>>>>>> schedule push time-ring : " + ringSecond + " = " + Collections.singletonList(ringItemData));
     }
 
     public static Date generateNextValidTime(String cron, Date fromTime) throws Exception {

@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.TeamInfo;
 import org.springframework.web.bind.annotation.*;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.TeamInfo;
 import com.autohome.frostmourne.monitor.service.account.ITeamInfoService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
 
@@ -35,10 +35,8 @@ public class TeamInfoController {
     }
 
     @GetMapping(value = "/findPage")
-    public Protocol<PagerContract<TeamInfo>> findPage(@RequestParam(value = "pageIndex") int pageIndex,
-        @RequestParam(value = "pageSize") int pageSize,
-        @RequestParam(value = "id", required = false) Long id,
-        @RequestParam(value = "teamName", required = false) String teamName) {
+    public Protocol<PagerContract<TeamInfo>> findPage(@RequestParam(value = "pageIndex") int pageIndex, @RequestParam(value = "pageSize") int pageSize,
+        @RequestParam(value = "id", required = false) Long id, @RequestParam(value = "teamName", required = false) String teamName) {
         return new Protocol<>(teamInfoService.findPage(pageIndex, pageSize, id, teamName));
     }
 

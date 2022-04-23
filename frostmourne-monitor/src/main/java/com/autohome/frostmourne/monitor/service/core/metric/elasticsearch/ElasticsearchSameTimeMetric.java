@@ -17,8 +17,7 @@ public class ElasticsearchSameTimeMetric extends AbstractSameTimeMetric {
     private IElasticsearchDataQuery elasticsearchDataQuery;
 
     @Override
-    public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract,
-        Map<String, String> ruleSettings) {
+    public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) {
         try {
             return elasticsearchDataQuery.queryElasticsearchMetricValue(start, end, metricContract);
         } catch (IOException ex) {

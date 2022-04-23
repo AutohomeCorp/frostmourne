@@ -1,11 +1,11 @@
 package com.autohome.frostmourne.monitor.service.account.impl;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.UserInfo;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
 import com.autohome.frostmourne.monitor.service.account.IAuthService;
 import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
 

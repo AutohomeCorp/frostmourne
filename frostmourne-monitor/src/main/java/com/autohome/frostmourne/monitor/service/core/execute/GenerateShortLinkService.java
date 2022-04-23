@@ -42,8 +42,7 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
 
         if ("elasticsearch".equalsIgnoreCase(datasourceType)) {
             Map<String, Object> metricProperties = alarmContract.getMetricContract().getProperties();
-            if (metricProperties != null && metricProperties.containsKey("dataLink")
-                && metricProperties.get("dataLink") != null
+            if (metricProperties != null && metricProperties.containsKey("dataLink") && metricProperties.get("dataLink") != null
                 && !Strings.isNullOrEmpty(metricProperties.get("dataLink").toString())) {
                 return metricProperties.get("dataLink").toString();
             }
@@ -54,14 +53,10 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
         try {
             if (datasourceType.equalsIgnoreCase(DataSourceType.ELASTICSEARCH)) {
                 url = frostmourneMonitorAddress + "/query/elasticsearch.view";
-                queryParameters
-                    .add("esQuery=" + URLEncoder.encode(alarmContract.getMetricContract().getQueryString(), "utf8"));
-                queryParameters.add("startTime="
-                    + URLEncoder.encode(alarmProcessLogger.getContext().get("startTime").toString(), "utf8"));
-                queryParameters.add(
-                    "endTime=" + URLEncoder.encode(alarmProcessLogger.getContext().get("endTime").toString(), "utf8"));
-                queryParameters.add("dataName="
-                    + URLEncoder.encode(alarmContract.getMetricContract().getDataNameContract().getDataName(), "utf8"));
+                queryParameters.add("esQuery=" + URLEncoder.encode(alarmContract.getMetricContract().getQueryString(), "utf8"));
+                queryParameters.add("startTime=" + URLEncoder.encode(alarmProcessLogger.getContext().get("startTime").toString(), "utf8"));
+                queryParameters.add("endTime=" + URLEncoder.encode(alarmProcessLogger.getContext().get("endTime").toString(), "utf8"));
+                queryParameters.add("dataName=" + URLEncoder.encode(alarmContract.getMetricContract().getDataNameContract().getDataName(), "utf8"));
             }
             String longUrl = url + "?" + String.join("&", queryParameters);
             return shortLinkService.shorten(longUrl);

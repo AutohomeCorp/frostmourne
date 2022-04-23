@@ -2,7 +2,7 @@ package com.autohome.frostmourne.monitor.model.contract;
 
 import java.util.List;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
 
 public class DataSourceOption {
 

@@ -3,10 +3,9 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlertLogDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertLog;
 import java.util.List;
 import java.util.Optional;
-import javax.annotation.Generated;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,28 +32,22 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface AlertLogDynamicMapper {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.979+08:00", comments="Source Table: alert_log")
     BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, executeId, way, recipient, inSilence, sendStatus, alertType, createAt, content);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     @DeleteProvider(type=SqlProviderAdapter.class, method="delete")
     int delete(DeleteStatementProvider deleteStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="record.id", before=false, resultType=Long.class)
     int insert(InsertStatementProvider<AlertLog> insertStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("AlertLogResult")
     Optional<AlertLog> selectOne(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="AlertLogResult", value = {
         @Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
@@ -70,28 +63,23 @@ public interface AlertLogDynamicMapper {
     })
     List<AlertLog> selectMany(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     @UpdateProvider(type=SqlProviderAdapter.class, method="update")
     int update(UpdateStatementProvider updateStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, alertLog, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, alertLog, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     default int insert(AlertLog record) {
         return MyBatis3Utils.insert(this::insert, record, alertLog, c ->
             c.map(alarmId).toProperty("alarmId")
@@ -106,7 +94,6 @@ public interface AlertLogDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     default int insertSelective(AlertLog record) {
         return MyBatis3Utils.insert(this::insert, record, alertLog, c ->
             c.map(alarmId).toPropertyWhenPresent("alarmId", record::getAlarmId)
@@ -121,34 +108,28 @@ public interface AlertLogDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.979+08:00", comments="Source Table: alert_log")
     default Optional<AlertLog> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, alertLog, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.979+08:00", comments="Source Table: alert_log")
     default List<AlertLog> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, alertLog, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.979+08:00", comments="Source Table: alert_log")
     default List<AlertLog> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, alertLog, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.979+08:00", comments="Source Table: alert_log")
     default Optional<AlertLog> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.979+08:00", comments="Source Table: alert_log")
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, alertLog, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.979+08:00", comments="Source Table: alert_log")
     static UpdateDSL<UpdateModel> updateAllColumns(AlertLog record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(alarmId).equalTo(record::getAlarmId)
                 .set(executeId).equalTo(record::getExecuteId)
@@ -161,7 +142,6 @@ public interface AlertLogDynamicMapper {
                 .set(content).equalTo(record::getContent);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.979+08:00", comments="Source Table: alert_log")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(AlertLog record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(alarmId).equalToWhenPresent(record::getAlarmId)
                 .set(executeId).equalToWhenPresent(record::getExecuteId)
@@ -174,7 +154,6 @@ public interface AlertLogDynamicMapper {
                 .set(content).equalToWhenPresent(record::getContent);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.979+08:00", comments="Source Table: alert_log")
     default int updateByPrimaryKey(AlertLog record) {
         return update(c ->
             c.set(alarmId).equalTo(record::getAlarmId)
@@ -190,7 +169,6 @@ public interface AlertLogDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.979+08:00", comments="Source Table: alert_log")
     default int updateByPrimaryKeySelective(AlertLog record) {
         return update(c ->
             c.set(alarmId).equalToWhenPresent(record::getAlarmId)

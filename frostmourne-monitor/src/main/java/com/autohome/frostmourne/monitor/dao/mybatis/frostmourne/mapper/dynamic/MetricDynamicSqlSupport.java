@@ -2,57 +2,82 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class MetricDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.988+08:00", comments="Source Table: metric")
     public static final Metric metric = new Metric();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.988+08:00", comments="Source field: metric.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = metric.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.988+08:00", comments="Source field: metric.aggregation_type")
+    /**
+     * 数据源为http类型时无效。指标聚合类型. (count, spike, sum, avg)
+     */
     public static final SqlColumn<String> aggregationType = metric.aggregationType;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.988+08:00", comments="Source field: metric.aggregation_field")
+    /**
+     * 聚合字段
+     */
     public static final SqlColumn<String> aggregationField = metric.aggregationField;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.988+08:00", comments="Source field: metric.metric_type")
+    /**
+     * 指标类型(numeric：数值; ring_than: 环比; same_time: 同比; object: 对象)
+     */
     public static final SqlColumn<String> metricType = metric.metricType;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.988+08:00", comments="Source field: metric.alarm_id")
+    /**
+     * 监控ID
+     */
     public static final SqlColumn<Long> alarmId = metric.alarmId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.989+08:00", comments="Source field: metric.rule_id")
+    /**
+     * 规则ID
+     */
     public static final SqlColumn<Long> ruleId = metric.ruleId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.989+08:00", comments="Source field: metric.data_source_id")
+    /**
+     * 数据源id
+     */
     public static final SqlColumn<Long> dataSourceId = metric.dataSourceId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.989+08:00", comments="Source field: metric.data_name_id")
+    /**
+     * 数据名id
+     */
     public static final SqlColumn<Long> dataNameId = metric.dataNameId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.989+08:00", comments="Source field: metric.data_name")
+    /**
+     * 监控数据名。(http：表示静态http数据; 其他data_name关联data_name表)
+     */
     public static final SqlColumn<String> dataName = metric.dataName;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.989+08:00", comments="Source field: metric.query_string")
+    /**
+     * 查询语句
+     */
     public static final SqlColumn<String> queryString = metric.queryString;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.99+08:00", comments="Source field: metric.post_data")
+    /**
+     * http数据监控，post数据内容
+     */
     public static final SqlColumn<String> postData = metric.postData;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.99+08:00", comments="Source field: metric.properties")
+    /**
+     * 附加属性JSON格式
+     */
     public static final SqlColumn<String> properties = metric.properties;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.99+08:00", comments="Source field: metric.creator")
+    /**
+     * 创建人
+     */
     public static final SqlColumn<String> creator = metric.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.99+08:00", comments="Source field: metric.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = metric.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.988+08:00", comments="Source Table: metric")
     public static final class Metric extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

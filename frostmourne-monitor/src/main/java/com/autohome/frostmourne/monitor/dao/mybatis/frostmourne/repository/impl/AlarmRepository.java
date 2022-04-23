@@ -10,8 +10,8 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
 import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
@@ -70,14 +70,14 @@ public class AlarmRepository implements IAlarmRepository {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<Alarm> list = alarmDynamicMapper.select(query -> {
             query.where().and(AlarmDynamicSqlSupport.id, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
-                    .and(AlarmDynamicSqlSupport.alarmName, isLike(name).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
-                    .and(AlarmDynamicSqlSupport.teamName, isEqualTo(teamName).when(MybatisTool::notNullAndEmpty))
-                    .and(AlarmDynamicSqlSupport.status, isEqualTo(status).when(MybatisTool::notNullAndEmpty))
-                    .and(AlarmDynamicSqlSupport.serviceId, isEqualTo(serviceId).when(MybatisTool::notNullAndZero))
-                    .orderBy(AlarmDynamicSqlSupport.createAt.descending());
+                .and(AlarmDynamicSqlSupport.alarmName, isLike(name).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
+                .and(AlarmDynamicSqlSupport.teamName, isEqualTo(teamName).when(MybatisTool::notNullAndEmpty))
+                .and(AlarmDynamicSqlSupport.status, isEqualTo(status).when(MybatisTool::notNullAndEmpty))
+                .and(AlarmDynamicSqlSupport.serviceId, isEqualTo(serviceId).when(MybatisTool::notNullAndZero))
+                .orderBy(AlarmDynamicSqlSupport.createAt.descending());
             return query;
         });
-        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
+        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int)page.getTotal());
     }
 
     @Override
@@ -106,8 +106,7 @@ public class AlarmRepository implements IAlarmRepository {
     public List<Alarm> querySchedule(Long maxNextTime, Long size) {
         List<Alarm> list = alarmDynamicMapper.select(query -> {
             query.where().and(AlarmDynamicSqlSupport.status, isEqualTo(AlarmStatus.OPEN))
-                    .and(AlarmDynamicSqlSupport.triggerNextTime, isLessThanOrEqualTo(maxNextTime))
-                    .orderBy(AlarmDynamicSqlSupport.id.descending()).limit(size);
+                .and(AlarmDynamicSqlSupport.triggerNextTime, isLessThanOrEqualTo(maxNextTime)).orderBy(AlarmDynamicSqlSupport.id.descending()).limit(size);
             return query;
         });
         return list;
@@ -115,10 +114,7 @@ public class AlarmRepository implements IAlarmRepository {
 
     @Override
     public int scheduleUpdate(long alarmId, long triggerLastTime, long triggerNextTime) {
-        return alarmDynamicMapper.update(dsl ->
-                dsl.set(AlarmDynamicSqlSupport.triggerLastTime).equalTo(triggerLastTime)
-                        .set(AlarmDynamicSqlSupport.triggerNextTime).equalTo(triggerNextTime)
-                        .where(AlarmDynamicSqlSupport.id, isEqualTo(alarmId))
-        );
+        return alarmDynamicMapper.update(dsl -> dsl.set(AlarmDynamicSqlSupport.triggerLastTime).equalTo(triggerLastTime)
+            .set(AlarmDynamicSqlSupport.triggerNextTime).equalTo(triggerNextTime).where(AlarmDynamicSqlSupport.id, isEqualTo(alarmId)));
     }
 }

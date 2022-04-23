@@ -2,11 +2,11 @@ package com.autohome.frostmourne.monitor.controller;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
 import org.springframework.web.bind.annotation.*;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Alarm;
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
@@ -61,10 +61,8 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Protocol<PagerContract<Alarm>> list(int pageIndex, int pageSize, Long alarmId, String name, String teamName,
-        String status, Long serviceId) {
-        PagerContract<Alarm> pagerContract =
-            this.alarmAdminService.find(pageIndex, pageSize, alarmId, name, teamName, status, serviceId);
+    public Protocol<PagerContract<Alarm>> list(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serviceId) {
+        PagerContract<Alarm> pagerContract = this.alarmAdminService.find(pageIndex, pageSize, alarmId, name, teamName, status, serviceId);
         return new Protocol<>(pagerContract);
     }
 }

@@ -2,36 +2,47 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class RulePropertyDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33+08:00", comments="Source Table: rule_property")
     public static final RuleProperty ruleProperty = new RuleProperty();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.001+08:00", comments="Source field: rule_property.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = ruleProperty.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.001+08:00", comments="Source field: rule_property.alarm_id")
+    /**
+     * 监控Id
+     */
     public static final SqlColumn<Long> alarmId = ruleProperty.alarmId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.001+08:00", comments="Source field: rule_property.rule_id")
+    /**
+     * 报警规则ID
+     */
     public static final SqlColumn<Long> ruleId = ruleProperty.ruleId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.001+08:00", comments="Source field: rule_property.prop_key")
+    /**
+     * 属性key
+     */
     public static final SqlColumn<String> propKey = ruleProperty.propKey;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.001+08:00", comments="Source field: rule_property.prop_value")
+    /**
+     * 属性value
+     */
     public static final SqlColumn<String> propValue = ruleProperty.propValue;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.001+08:00", comments="Source field: rule_property.creator")
+    /**
+     * 创建人
+     */
     public static final SqlColumn<String> creator = ruleProperty.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.001+08:00", comments="Source field: rule_property.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = ruleProperty.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.001+08:00", comments="Source Table: rule_property")
     public static final class RuleProperty extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

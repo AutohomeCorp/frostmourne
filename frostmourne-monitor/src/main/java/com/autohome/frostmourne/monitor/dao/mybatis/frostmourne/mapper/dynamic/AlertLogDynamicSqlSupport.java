@@ -2,45 +2,62 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class AlertLogDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     public static final AlertLog alertLog = new AlertLog();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source field: alert_log.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = alertLog.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source field: alert_log.alarm_id")
+    /**
+     * 监控ID
+     */
     public static final SqlColumn<Long> alarmId = alertLog.alarmId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source field: alert_log.execute_id")
+    /**
+     * 监控执行ID
+     */
     public static final SqlColumn<Long> executeId = alertLog.executeId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source field: alert_log.way")
+    /**
+     * 报警方式
+     */
     public static final SqlColumn<String> way = alertLog.way;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source field: alert_log.recipient")
+    /**
+     * 报警接收人
+     */
     public static final SqlColumn<String> recipient = alertLog.recipient;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source field: alert_log.in_silence")
+    /**
+     * 是否在静默期(YES,NO)
+     */
     public static final SqlColumn<String> inSilence = alertLog.inSilence;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source field: alert_log.send_status")
+    /**
+     * 发送状态(NONE,SUCCESS,FAIL,FORBID)
+     */
     public static final SqlColumn<String> sendStatus = alertLog.sendStatus;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source field: alert_log.alert_type")
+    /**
+     * 消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)
+     */
     public static final SqlColumn<String> alertType = alertLog.alertType;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source field: alert_log.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = alertLog.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source field: alert_log.content")
+    /**
+     * 报警内容
+     */
     public static final SqlColumn<String> content = alertLog.content;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.978+08:00", comments="Source Table: alert_log")
     public static final class AlertLog extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
