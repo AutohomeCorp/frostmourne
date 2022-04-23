@@ -80,7 +80,41 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 
 <br/>
 
-#### 一、自构建部署方式
+#### 一、k8s部署方式
+k8s部署参考以下三个配置文件
+
+* [frostmourne-monitor-namespace.yaml](./doc/docker/k8s/frostmourne-monitor-namespace.yaml)
+* [frostmourne-monitor-deployment.yaml](./doc/docker/k8s/frostmourne-monitor-deployment.yaml)
+* [frostmourne-monitor-service.yaml](./doc/docker/k8s/frostmourne-monitor-service.yaml)
+
+相关参数在 frostmourne-monitor-deployment.yaml 文件里配置。需要注意的是在frostmourne-monitor-service.yaml里指定对外映射端口，默认nodePort=30054
+
+```bash
+kubectl applt -f frostmourne-monitor-namespace.yaml
+kubectl applt -f frostmourne-monitor-deployment.yaml
+kubectl apply -f frostmourne-monitor-service.yaml
+```
+
+#### 二、zip包部署方式
+依赖环境
+* JDK 1.8+
+
+需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.6.1-SNAPSHOT.zip" download>frostmourne-monitor-0.6.1-SNAPSHOT.zip</a> ;然后根据自己的
+环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
+
+```bash
+./scripts/startup.sh
+```
+
+执行如下命令停止应用：
+
+```bash
+./scripts/shutdown.sh
+```
+
+<br/>
+
+#### 三、自构建部署方式
 
 依赖环境
 * JDK 1.8+
@@ -107,41 +141,6 @@ frostmourne-monitor已经配置了assembly打包，target目录下会生成zip�
 ./scripts/shutdown.sh
 ```
 <br/>
-
-#### 二、zip包部署方式
-依赖环境
-* JDK 1.8+
-
-需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.6.1-SNAPSHOT.zip" download>frostmourne-monitor-0.6.1-SNAPSHOT.zip</a> ;然后根据自己的
-环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
-
-```bash
-./scripts/startup.sh
-```
-
-执行如下命令停止应用：
-
-```bash
-./scripts/shutdown.sh
-```
-
-<br/>
-
-#### 三、k8s部署方式
-k8s部署参考以下三个配置文件
-
-* [frostmourne-monitor-namespace.yaml](./doc/docker/k8s/frostmourne-monitor-namespace.yaml)
-* [frostmourne-monitor-deployment.yaml](./doc/docker/k8s/frostmourne-monitor-deployment.yaml)
-* [frostmourne-monitor-service.yaml](./doc/docker/k8s/frostmourne-monitor-service.yaml)
-
-相关参数在 frostmourne-monitor-deployment.yaml 文件里配置。需要注意的是在frostmourne-monitor-service.yaml里指定对外映射端口，默认nodePort=30054
-
-```bash
-kubectl applt -f frostmourne-monitor-namespace.yaml
-kubectl applt -f frostmourne-monitor-deployment.yaml
-kubectl apply -f frostmourne-monitor-service.yaml
-```
-
 
 ## 开发调试
 
@@ -269,12 +268,12 @@ The project is licensed under the [MIT](LICENSE).
 
 如果你觉得这个项目对你有所帮助想有所回馈，非常欢迎参与贡献。可以通过如下方式：
 
+* 从后续规划里选择合适的任务提交PR
+* 对文档进行必要补充
 * 部署本项目使用起来并通过[issue#17](https://github.com/AutohomeCorp/frostmourne/issues/17)告知
 * 帮忙扩散推广
 * 在issue提出你的宝贵建议
-* 对文档进行必要补充
 * 加入交流群，解答交流问题。群内会不定时发布项目更新说明
-* 从后续规划里选择合适的任务提交PR
 * 开源不易，需要鼓励
 * [代码规范说明](./doc/wiki/code_format.md)
 
