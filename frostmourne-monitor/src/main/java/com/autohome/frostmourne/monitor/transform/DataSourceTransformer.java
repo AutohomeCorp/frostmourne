@@ -3,10 +3,10 @@ package com.autohome.frostmourne.monitor.transform;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
 import org.elasticsearch.common.Strings;
 
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
 import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -19,8 +19,7 @@ public class DataSourceTransformer {
         dataSourceContract.setId(dataSource.getId());
         dataSourceContract.setServiceAddress(dataSource.getServiceAddress());
         if (!Strings.isNullOrEmpty(dataSource.getProperties())) {
-            dataSourceContract.setSettings(
-                JacksonUtil.deSerialize(dataSource.getProperties(), new TypeReference<Map<String, String>>() {}));
+            dataSourceContract.setSettings(JacksonUtil.deSerialize(dataSource.getProperties(), new TypeReference<Map<String, String>>() {}));
         } else {
             dataSourceContract.setSettings(new HashMap<>());
         }

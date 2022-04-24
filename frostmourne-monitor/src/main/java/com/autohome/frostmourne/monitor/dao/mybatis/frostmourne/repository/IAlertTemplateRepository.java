@@ -2,8 +2,8 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
 
 import java.util.Optional;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertTemplate;
 import com.autohome.frostmourne.monitor.model.contract.AlertTemplateQueryForm;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertTemplate;
 import com.github.pagehelper.PageInfo;
 
 public interface IAlertTemplateRepository {

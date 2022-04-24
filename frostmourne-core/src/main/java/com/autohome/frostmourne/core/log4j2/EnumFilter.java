@@ -31,26 +31,22 @@ public class EnumFilter extends AbstractFilter {
 
     @PluginFactory
     public static EnumFilter createFilter(@PluginAttribute("allowLevels") final String allowLevels) {
-        List<Level> allowLevelList = Splitter.on(",").trimResults().splitToList(allowLevels).stream()
-            .map(Level::getLevel).collect(Collectors.toList());
+        List<Level> allowLevelList = Splitter.on(",").trimResults().splitToList(allowLevels).stream().map(Level::getLevel).collect(Collectors.toList());
         return new EnumFilter(allowLevelList);
     }
 
     @Override
-    public Result filter(final Logger logger, final Level level, final Marker marker, final String msg,
-        final Object... params) {
+    public Result filter(final Logger logger, final Level level, final Marker marker, final String msg, final Object... params) {
         return filter(level);
     }
 
     @Override
-    public Result filter(final Logger logger, final Level level, final Marker marker, final Object msg,
-        final Throwable t) {
+    public Result filter(final Logger logger, final Level level, final Marker marker, final Object msg, final Throwable t) {
         return filter(level);
     }
 
     @Override
-    public Result filter(final Logger logger, final Level level, final Marker marker, final Message msg,
-        final Throwable t) {
+    public Result filter(final Logger logger, final Level level, final Marker marker, final Message msg, final Throwable t) {
         return filter(level);
     }
 

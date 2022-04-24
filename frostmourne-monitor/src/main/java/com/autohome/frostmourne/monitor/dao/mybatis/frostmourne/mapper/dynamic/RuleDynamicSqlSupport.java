@@ -2,38 +2,47 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
-
-import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class RuleDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source Table: rule")
     public static final Rule rule = new Rule();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source field: rule.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = rule.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source field: rule.rule_type")
+    /**
+     * 规则类型(numeric,percentage,expression)
+     */
     public static final SqlColumn<String> ruleType = rule.ruleType;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source field: rule.alarm_id")
+    /**
+     * 报警ID
+     */
     public static final SqlColumn<Long> alarmId = rule.alarmId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source field: rule.alert_template_type")
-    public static final SqlColumn<AlertTemplateType> alertTemplateType = rule.alertTemplateType;
-
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source field: rule.alert_template")
+    /**
+     * 报警内容模板
+     */
     public static final SqlColumn<String> alertTemplate = rule.alertTemplate;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source field: rule.creator")
+    /**
+     * 创建人
+     */
     public static final SqlColumn<String> creator = rule.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source field: rule.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = rule.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.998+08:00", comments="Source Table: rule")
+    /**
+     * 报警消息类型(TEXT,MARKDOWN)
+     */
+    public static final SqlColumn<String> alertTemplateType = rule.alertTemplateType;
+
     public static final class Rule extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
@@ -41,13 +50,13 @@ public final class RuleDynamicSqlSupport {
 
         public final SqlColumn<Long> alarmId = column("alarm_id", JDBCType.BIGINT);
 
-        public final SqlColumn<AlertTemplateType> alertTemplateType = column("alert_template_type", JDBCType.VARCHAR);
-
         public final SqlColumn<String> alertTemplate = column("alert_template", JDBCType.VARCHAR);
 
         public final SqlColumn<String> creator = column("creator", JDBCType.VARCHAR);
 
         public final SqlColumn<Date> createAt = column("create_at", JDBCType.TIMESTAMP);
+
+        public final SqlColumn<String> alertTemplateType = column("alert_template_type", JDBCType.VARCHAR);
 
         public Rule() {
             super("rule");

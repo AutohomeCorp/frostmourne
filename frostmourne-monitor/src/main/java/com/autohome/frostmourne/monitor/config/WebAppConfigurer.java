@@ -37,19 +37,16 @@ public class WebAppConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*").allowCredentials(true)
-            .allowedMethods("GET", "POST", "DELETE", "PUT").maxAge(3600 * 24);
+        registry.addMapping("/**").allowedOrigins("*").allowCredentials(true).allowedMethods("GET", "POST", "DELETE", "PUT").maxAge(3600 * 24);
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/dist/index.html")
-            .setCacheControl(CacheControl.noCache()).setCacheControl(CacheControl.noStore()).resourceChain(true);
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/dist/static/", "classpath:/static/")
-            .resourceChain(true);
+        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/dist/index.html").setCacheControl(CacheControl.noCache())
+            .setCacheControl(CacheControl.noStore()).resourceChain(true);
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/dist/static/", "classpath:/static/").resourceChain(true);
         registry.addResourceHandler("/dist/**").addResourceLocations("classpath:/dist/").resourceChain(true);
-        registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/dist/favicon.ico")
-            .resourceChain(true);
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/dist/favicon.ico").resourceChain(true);
     }
 
     @Override

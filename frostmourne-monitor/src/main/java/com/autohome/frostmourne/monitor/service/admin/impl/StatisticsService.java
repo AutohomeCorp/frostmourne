@@ -8,8 +8,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogMapper;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogMapper;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlarmLogExtendMapper;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.AlertLogExtendMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
@@ -20,10 +20,10 @@ import com.autohome.frostmourne.monitor.service.admin.IStatisticsService;
 public class StatisticsService implements IStatisticsService {
 
     @Resource
-    private AlarmLogMapper alarmLogMapper;
+    private AlarmLogExtendMapper alarmLogExtendMapper;
 
     @Resource
-    private AlertLogMapper alertLogMapper;
+    private AlertLogExtendMapper alertLogExtendMapper;
 
     @Resource
     private IAlertLogRepository alertLogRepository;
@@ -51,7 +51,7 @@ public class StatisticsService implements IStatisticsService {
 
     @Override
     public List<AggregationDate> aggregationAlarm(Date startTime, Date endTime) {
-        return alarmLogMapper.aggregation(startTime, endTime, VerifyResult.TRUE);
+        return alarmLogExtendMapper.aggregation(startTime, endTime, VerifyResult.TRUE);
     }
 
     @Override
@@ -61,6 +61,6 @@ public class StatisticsService implements IStatisticsService {
 
     @Override
     public List<AggregationDate> aggregationAlert(Date startTime, Date endTime, String recipient) {
-        return alertLogMapper.aggregation(startTime, endTime, "SUCCESS", recipient);
+        return alertLogExtendMapper.aggregation(startTime, endTime, "SUCCESS", recipient);
     }
 }

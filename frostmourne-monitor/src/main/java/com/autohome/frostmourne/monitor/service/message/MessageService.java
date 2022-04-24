@@ -28,8 +28,7 @@ public class MessageService {
 
     @PostConstruct
     private void buildChain() {
-        Map<String, MessageSenderChain> messageSenderChainMap =
-            applicationContext.getBeansOfType(MessageSenderChain.class);
+        Map<String, MessageSenderChain> messageSenderChainMap = applicationContext.getBeansOfType(MessageSenderChain.class);
         AtomicReference<MessageSenderChain> node = new AtomicReference<>();
         messageSenderChainMap.forEach((k, v) -> {
             if (node.get() == null) {

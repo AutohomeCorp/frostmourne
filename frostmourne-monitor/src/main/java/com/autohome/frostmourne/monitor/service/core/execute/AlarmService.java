@@ -49,19 +49,16 @@ public class AlarmService implements IAlarmService {
     public AlarmProcessLogger run(AlarmContract alarmContract, boolean test) {
         IRule rule = this.ruleService.findRule(alarmContract.getRuleContract().getRuleType());
         String dataSourceType;
-        if (alarmContract.getMetricContract().getDataNameId() != null
-            && alarmContract.getMetricContract().getDataNameId() > 0) {
+        if (alarmContract.getMetricContract().getDataNameId() != null && alarmContract.getMetricContract().getDataNameId() > 0) {
             dataSourceType = alarmContract.getMetricContract().getDataSourceContract().getDatasourceType();
         } else {
             dataSourceType = alarmContract.getMetricContract().getDataName();
         }
-        IMetric metric =
-            this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetricType());
+        IMetric metric = this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetricType());
         AlarmExecutor alarmExecutor = new AlarmExecutor(alarmContract, rule, metric, generateShortLinkService);
         AlarmProcessLogger alarmProcessLogger = alarmExecutor.execute();
         if (!test) {
-            updateAlarmLastExecuteInfo(alarmContract.getId(), alarmProcessLogger.getStart().toDate(),
-                alarmProcessLogger.getExecuteStatus());
+            updateAlarmLastExecuteInfo(alarmContract.getId(), alarmProcessLogger.getStart().toDate(), alarmProcessLogger.getExecuteStatus());
             if (alarmProcessLogger.getExecuteStatus() == ExecuteStatus.ERROR) {
                 alarmLog(alarmProcessLogger);
             } else {

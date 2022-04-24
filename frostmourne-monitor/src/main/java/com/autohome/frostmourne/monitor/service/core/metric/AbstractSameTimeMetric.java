@@ -17,8 +17,7 @@ import com.google.common.base.Splitter;
 
 public abstract class AbstractSameTimeMetric implements IMetric {
 
-    public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract,
-        Map<String, String> ruleSettings);
+    public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSameTimeMetric.class);
 
@@ -116,8 +115,7 @@ public abstract class AbstractSameTimeMetric implements IMetric {
         List<ReferenceBag> referenceDataList = new ArrayList<>();
         try {
             for (String referenceType : referenceTypeList) {
-                ReferenceBag referenceBag =
-                    calculateReference(start, end, referenceType, metricContract, current, ruleSettings);
+                ReferenceBag referenceBag = calculateReference(start, end, referenceType, metricContract, current, ruleSettings);
                 referenceDataList.add(referenceBag);
             }
             resultMap.put("REFERENCE_LIST", referenceDataList);
@@ -128,8 +126,8 @@ public abstract class AbstractSameTimeMetric implements IMetric {
         return resultMap;
     }
 
-    private ReferenceBag calculateReference(DateTime start, DateTime end, String referenceType,
-        MetricContract metricContract, Double current, Map<String, String> ruleSettings) throws IOException {
+    private ReferenceBag calculateReference(DateTime start, DateTime end, String referenceType, MetricContract metricContract, Double current,
+        Map<String, String> ruleSettings) throws IOException {
         ReferenceBag referenceBag = new ReferenceBag();
         referenceBag.setReferenceType(referenceType);
         DateTime referenceStart;

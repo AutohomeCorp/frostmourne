@@ -20,8 +20,7 @@ public class EmailHelper {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailHelper.class);
 
-    public static boolean send(MailConfig mailConfig, List<String> to, String subject, String content,
-        String contentType, List<MimeBodyPart> attachments) {
+    public static boolean send(MailConfig mailConfig, List<String> to, String subject, String content, String contentType, List<MimeBodyPart> attachments) {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", mailConfig.getSmtpHost());
         properties.put("mail.smtp.port", mailConfig.getSmtpPort());
@@ -85,8 +84,8 @@ public class EmailHelper {
      * @param attachments 附件
      * @return 发送结果
      */
-    public static boolean send(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword,
-        List<String> to, String subject, String content, String contentType, List<MimeBodyPart> attachments) {
+    public static boolean send(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword, List<String> to, String subject,
+        String content, String contentType, List<MimeBodyPart> attachments) {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", smtpHost);
         properties.put("mail.smtp.port", smtpPort);
@@ -148,10 +147,9 @@ public class EmailHelper {
      * @param content 邮件内容
      * @return 发送结果
      */
-    public static boolean sendHtml(String smtpHost, String smtpPort, String smtpAuth, String sender,
-        String senderPassword, List<String> to, String subject, String content) {
-        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content,
-            "text/html;charset=utf-8", null);
+    public static boolean sendHtml(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword, List<String> to, String subject,
+        String content) {
+        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content, "text/html;charset=utf-8", null);
     }
 
     /**
@@ -166,10 +164,9 @@ public class EmailHelper {
      * @param content 邮件内容
      * @return 发送结果
      */
-    public static boolean sendText(String smtpHost, String smtpPort, String smtpAuth, String sender,
-        String senderPassword, List<String> to, String subject, String content) {
-        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content,
-            "text/plain;charset=utf-8", null);
+    public static boolean sendText(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword, List<String> to, String subject,
+        String content) {
+        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content, "text/plain;charset=utf-8", null);
     }
 
     /**
@@ -196,8 +193,7 @@ public class EmailHelper {
      * @return 邮件内容对象
      * @throws MessagingException
      */
-    public static MimeBodyPart wrapFilename2BodyPart(String fileName)
-        throws MessagingException, UnsupportedEncodingException {
+    public static MimeBodyPart wrapFilename2BodyPart(String fileName) throws MessagingException, UnsupportedEncodingException {
         File file = new File(fileName);
         return wrapFile2BodyPart(file);
     }

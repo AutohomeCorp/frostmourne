@@ -2,42 +2,57 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class AlarmLogDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.97+08:00", comments="Source Table: alarm_log")
     public static final AlarmLog alarmLog = new AlarmLog();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.97+08:00", comments="Source field: alarm_log.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = alarmLog.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.97+08:00", comments="Source field: alarm_log.alarm_id")
+    /**
+     * 监控ID
+     */
     public static final SqlColumn<Long> alarmId = alarmLog.alarmId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.97+08:00", comments="Source field: alarm_log.exe_start")
+    /**
+     * 监控任务执行开始时间
+     */
     public static final SqlColumn<Date> exeStart = alarmLog.exeStart;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.97+08:00", comments="Source field: alarm_log.exe_end")
+    /**
+     * 监控任务执行结束时间
+     */
     public static final SqlColumn<Date> exeEnd = alarmLog.exeEnd;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.97+08:00", comments="Source field: alarm_log.cost")
+    /**
+     * 监控任务执行耗时，单位：毫秒
+     */
     public static final SqlColumn<Integer> cost = alarmLog.cost;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.97+08:00", comments="Source field: alarm_log.execute_result")
+    /**
+     * 执行结果(SUCCESS,ERROR)
+     */
     public static final SqlColumn<String> executeResult = alarmLog.executeResult;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.97+08:00", comments="Source field: alarm_log.verify_result")
+    /**
+     * NONE,TRUE,FALSE
+     */
     public static final SqlColumn<String> verifyResult = alarmLog.verifyResult;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.971+08:00", comments="Source field: alarm_log.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = alarmLog.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.971+08:00", comments="Source field: alarm_log.message")
+    /**
+     * 日志消息
+     */
     public static final SqlColumn<String> message = alarmLog.message;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.97+08:00", comments="Source Table: alarm_log")
     public static final class AlarmLog extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

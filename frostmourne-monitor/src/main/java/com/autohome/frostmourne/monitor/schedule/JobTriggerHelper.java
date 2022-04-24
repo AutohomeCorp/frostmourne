@@ -24,13 +24,11 @@ public class JobTriggerHelper {
     private volatile ConcurrentMap<Long, AtomicInteger> jobTimeoutCountMap = new ConcurrentHashMap<>();
 
     public void start() {
-        this.fastTriggerPool = new ThreadPoolExecutor(10, ScheduleConfig.getInstance().getTriggerPoolFastMax(), 60L,
-            TimeUnit.SECONDS, new LinkedBlockingDeque<>(1000),
-            runnable -> new Thread(runnable, "JobTriggerHelper-fastTriggerPool" + runnable.hashCode()));
+        this.fastTriggerPool = new ThreadPoolExecutor(10, ScheduleConfig.getInstance().getTriggerPoolFastMax(), 60L, TimeUnit.SECONDS,
+            new LinkedBlockingDeque<>(1000), runnable -> new Thread(runnable, "JobTriggerHelper-fastTriggerPool" + runnable.hashCode()));
 
-        slowTriggerPool = new ThreadPoolExecutor(10, ScheduleConfig.getInstance().getTriggerPoolSlowMax(), 60L,
-            TimeUnit.SECONDS, new LinkedBlockingQueue<>(2000),
-            r -> new Thread(r, "JobTriggerHelper-slowTriggerPool-" + r.hashCode()));
+        slowTriggerPool = new ThreadPoolExecutor(10, ScheduleConfig.getInstance().getTriggerPoolSlowMax(), 60L, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>(2000), r -> new Thread(r, "JobTriggerHelper-slowTriggerPool-" + r.hashCode()));
     }
 
     public void stop() {
@@ -77,8 +75,6 @@ public class JobTriggerHelper {
             }
         });
     }
-
-
 
     public static void toStart() {
         INSTANCE.start();

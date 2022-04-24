@@ -6,8 +6,6 @@ import org.joda.time.DateTime;
 
 public interface IMysqlDataQuery {
 
-    MetricData queryMetricValue(DateTime start,
-                                DateTime end,
-                                MetricContract metricContract);
+    MetricData queryMetricValue(DateTime start, DateTime end, MetricContract metricContract);
 
 }

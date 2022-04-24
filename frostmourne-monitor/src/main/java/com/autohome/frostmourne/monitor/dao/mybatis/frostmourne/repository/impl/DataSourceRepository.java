@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DataSourceDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DataSourceDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
@@ -53,8 +53,8 @@ public class DataSourceRepository implements IDataSourceRepository {
 
     @Override
     public List<DataSource> find(String datasourceType) {
-        return dataSourceDynamicMapper.select(query -> query.where()
-                .and(DataSourceDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
+        return dataSourceDynamicMapper
+            .select(query -> query.where().and(DataSourceDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
                 .orderBy(DataSourceDynamicSqlSupport.createAt.descending()));
     }
 

@@ -3,10 +3,9 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.MetricDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Metric;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Metric;
 import java.util.List;
 import java.util.Optional;
-import javax.annotation.Generated;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,28 +32,22 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface MetricDynamicMapper {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.992+08:00", comments="Source Table: metric")
     BasicColumn[] selectList = BasicColumn.columnList(id, aggregationType, aggregationField, metricType, alarmId, ruleId, dataSourceId, dataNameId, dataName, queryString, postData, properties, creator, createAt);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.99+08:00", comments="Source Table: metric")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.991+08:00", comments="Source Table: metric")
     @DeleteProvider(type=SqlProviderAdapter.class, method="delete")
     int delete(DeleteStatementProvider deleteStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.991+08:00", comments="Source Table: metric")
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="record.id", before=false, resultType=Long.class)
     int insert(InsertStatementProvider<Metric> insertStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.991+08:00", comments="Source Table: metric")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("MetricResult")
     Optional<Metric> selectOne(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.991+08:00", comments="Source Table: metric")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="MetricResult", value = {
         @Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
@@ -74,28 +67,23 @@ public interface MetricDynamicMapper {
     })
     List<Metric> selectMany(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.991+08:00", comments="Source Table: metric")
     @UpdateProvider(type=SqlProviderAdapter.class, method="update")
     int update(UpdateStatementProvider updateStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.991+08:00", comments="Source Table: metric")
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, metric, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.991+08:00", comments="Source Table: metric")
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, metric, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.991+08:00", comments="Source Table: metric")
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.992+08:00", comments="Source Table: metric")
     default int insert(Metric record) {
         return MyBatis3Utils.insert(this::insert, record, metric, c ->
             c.map(aggregationType).toProperty("aggregationType")
@@ -114,7 +102,6 @@ public interface MetricDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.992+08:00", comments="Source Table: metric")
     default int insertSelective(Metric record) {
         return MyBatis3Utils.insert(this::insert, record, metric, c ->
             c.map(aggregationType).toPropertyWhenPresent("aggregationType", record::getAggregationType)
@@ -133,34 +120,28 @@ public interface MetricDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.992+08:00", comments="Source Table: metric")
     default Optional<Metric> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, metric, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.993+08:00", comments="Source Table: metric")
     default List<Metric> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, metric, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.993+08:00", comments="Source Table: metric")
     default List<Metric> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, metric, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.993+08:00", comments="Source Table: metric")
     default Optional<Metric> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.993+08:00", comments="Source Table: metric")
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, metric, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.993+08:00", comments="Source Table: metric")
     static UpdateDSL<UpdateModel> updateAllColumns(Metric record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(aggregationType).equalTo(record::getAggregationType)
                 .set(aggregationField).equalTo(record::getAggregationField)
@@ -177,7 +158,6 @@ public interface MetricDynamicMapper {
                 .set(createAt).equalTo(record::getCreateAt);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.993+08:00", comments="Source Table: metric")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(Metric record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(aggregationType).equalToWhenPresent(record::getAggregationType)
                 .set(aggregationField).equalToWhenPresent(record::getAggregationField)
@@ -194,7 +174,6 @@ public interface MetricDynamicMapper {
                 .set(createAt).equalToWhenPresent(record::getCreateAt);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.993+08:00", comments="Source Table: metric")
     default int updateByPrimaryKey(Metric record) {
         return update(c ->
             c.set(aggregationType).equalTo(record::getAggregationType)
@@ -214,7 +193,6 @@ public interface MetricDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.994+08:00", comments="Source Table: metric")
     default int updateByPrimaryKeySelective(Metric record) {
         return update(c ->
             c.set(aggregationType).equalToWhenPresent(record::getAggregationType)

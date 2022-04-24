@@ -9,11 +9,10 @@ import org.joda.time.DateTime;
 
 public interface IQueryService {
 
-    ElasticsearchDataResult elasticsearchQuery(String dataName, Date startTime, Date endTime, String esQuery,
-                                               String scrollId, String sortOrder, Integer intervalInSeconds);
+    ElasticsearchDataResult elasticsearchQuery(String dataName, Date startTime, Date endTime, String esQuery, String scrollId, String sortOrder,
+        Integer intervalInSeconds);
 
     List<String> elasticsearchFields(String dataName);
 
-    void exportToCsv(CSVWriter csvWriter, String dataName, DateTime startTime, DateTime endTime, String esQuery,
-                     String scrollId, String sortOrder);
+    void exportToCsv(CSVWriter csvWriter, String dataName, DateTime startTime, DateTime endTime, String esQuery, String scrollId, String sortOrder);
 }

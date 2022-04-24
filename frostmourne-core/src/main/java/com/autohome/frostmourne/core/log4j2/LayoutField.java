@@ -190,8 +190,7 @@ public class LayoutField {
     public static final LayoutField FORM_STRING = create(FieldName.FORM_STRING, new AbstractFieldParser() {
         @Override
         public String parse(String fieldName, LogEvent logEvent) {
-            if (logEvent.getLevel().isMoreSpecificThan(Level.ERROR)
-                && logEvent.getContextData().containsKey(fieldName)) {
+            if (logEvent.getLevel().isMoreSpecificThan(Level.ERROR) && logEvent.getContextData().containsKey(fieldName)) {
                 String formString = logEvent.getContextData().getValue(fieldName);
                 if (formString.length() > 2000) {
                     return formString.substring(0, 2000);

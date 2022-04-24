@@ -22,8 +22,7 @@ import com.github.pagehelper.PageInterceptor;
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan(value = "com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper",
-    sqlSessionFactoryRef = "frostmourneSqlSessionFactory")
+@MapperScan(value = "com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper", sqlSessionFactoryRef = "frostmourneSqlSessionFactory")
 public class FrostmourneDataSourceConfig {
     @Value("${druid.datasource.frostmourne.mapperLocations}")
     private String mapperLocations;

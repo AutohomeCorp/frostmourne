@@ -9,7 +9,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DepartmentInfo;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DepartmentInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DepartmentInfoDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DepartmentInfoDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDepartmentInfoRepository;
@@ -43,11 +43,11 @@ public class DepartmentInfoRepository implements IDepartmentInfoRepository {
     public PagerContract<DepartmentInfo> findPage(int pageIndex, int pageSize, Long id, String departmentName) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<DepartmentInfo> list = departmentInfoDynamicMapper.select(query -> {
-            query.where().and(DepartmentInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull))
-                    .and(DepartmentInfoDynamicSqlSupport.departmentName, isLike(departmentName).when(Objects::nonNull).then(s -> s + "%s"));
+            query.where().and(DepartmentInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull)).and(DepartmentInfoDynamicSqlSupport.departmentName,
+                isLike(departmentName).when(Objects::nonNull).then(s -> s + "%s"));
             return query.orderBy(DepartmentInfoDynamicSqlSupport.id.descending());
         });
-        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
+        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int)page.getTotal());
     }
 
     @Override

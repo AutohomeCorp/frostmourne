@@ -63,17 +63,16 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
     }
 
     @Override
-    public ElasticsearchDataResult query(DataNameContract dataNameContract, DataSourceContract dataSourceContract,
-        DateTime start, DateTime end, String esQuery, String scrollId, String sortOrder, Integer intervalInSeconds) {
+    public ElasticsearchDataResult query(DataNameContract dataNameContract, DataSourceContract dataSourceContract, DateTime start, DateTime end, String esQuery,
+        String scrollId, String sortOrder, Integer intervalInSeconds) {
         EsRestClientContainer esRestClientContainer = this.findEsRestClientContainer(dataSourceContract);
         DateTime queryEnd = end;
         if (queryEnd.getMillis() > System.currentTimeMillis()) {
             queryEnd = DateTime.now();
         }
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery().must(new QueryStringQueryBuilder(esQuery))
-            .must(QueryBuilders.rangeQuery(dataNameContract.getTimestampField()).from(start.toDateTimeISO().toString())
-                .to(queryEnd.toDateTimeISO().toString()).includeLower(true).includeUpper(false)
-                .format("date_optional_time"));
+            .must(QueryBuilders.rangeQuery(dataNameContract.getTimestampField()).from(start.toDateTimeISO().toString()).to(queryEnd.toDateTimeISO().toString())
+                .includeLower(true).includeUpper(false).format("date_optional_time"));
 
         Map<String, String> dataNameProperties = dataNameContract.getSettings();
 
@@ -98,18 +97,15 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
                 if (intervalInSeconds != null && intervalInSeconds > 0) {
                     DateHistogramAggregationBuilder dateHistogramAggregationBuilder =
                         AggregationBuilders.dateHistogram("date_hist").timeZone(DateTimeZone.getDefault())
-                            .extendedBounds(new ExtendedBounds(start.getMillis(), end.getMillis()))
-                            .field(dataNameContract.getTimestampField()).format("yyyy-MM-dd'T'HH:mm:ssZ")
-                            .dateHistogramInterval(DateHistogramInterval.seconds(intervalInSeconds));
+                            .extendedBounds(new ExtendedBounds(start.getMillis(), end.getMillis())).field(dataNameContract.getTimestampField())
+                            .format("yyyy-MM-dd'T'HH:mm:ssZ").dateHistogramInterval(DateHistogramInterval.seconds(intervalInSeconds));
                     searchSourceBuilder.aggregation(dateHistogramAggregationBuilder);
                 }
-                searchResponse =
-                    esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
+                searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
             } else {
                 SearchScrollRequest searchScrollRequest = new SearchScrollRequest(scrollId);
                 searchScrollRequest.scroll(DEFAULT_TIME_VALUE);
-                searchResponse =
-                    esRestClientContainer.fetchHighLevelClient().scroll(searchScrollRequest, RequestOptions.DEFAULT);
+                searchResponse = esRestClientContainer.fetchHighLevelClient().scroll(searchScrollRequest, RequestOptions.DEFAULT);
             }
         } catch (IOException ex) {
             throw new ProtocolException(520, "error when search elasticsearch data", ex);
@@ -119,8 +115,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
             String headFieldStr = dataNameContract.getSettings().get("headFields");
             headFieldList = Splitter.on(",").splitToList(headFieldStr);
         }
-        ElasticsearchDataResult elasticsearchDataResult =
-            parseResult(searchResponse, dataNameContract.getTimestampField(), headFieldList);
+        ElasticsearchDataResult elasticsearchDataResult = parseResult(searchResponse, dataNameContract.getTimestampField(), headFieldList);
         if (Strings.isNullOrEmpty(scrollId) && elasticsearchDataResult.getTotal() == 0) {
             try {
                 long total = esRestClientContainer.totalCount(boolQueryBuilder, indices);
@@ -145,16 +140,12 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
     }
 
     @Override
-    public MetricData queryElasticsearchMetricValue(DateTime start, DateTime end, MetricContract metricContract)
-        throws IOException {
+    public MetricData queryElasticsearchMetricValue(DateTime start, DateTime end, MetricContract metricContract) throws IOException {
         MetricData elasticsearchMetric = new MetricData();
-        EsRestClientContainer esRestClientContainer =
-            this.findEsRestClientContainer(metricContract.getDataSourceContract());
-        BoolQueryBuilder boolQueryBuilder =
-            QueryBuilders.boolQuery().must(new QueryStringQueryBuilder(metricContract.getQueryString()))
-                .must(QueryBuilders.rangeQuery(metricContract.getDataNameContract().getTimestampField())
-                    .from(start.toDateTimeISO().toString()).to(end.toDateTimeISO().toString()).includeLower(true)
-                    .includeUpper(false).format("date_optional_time"));
+        EsRestClientContainer esRestClientContainer = this.findEsRestClientContainer(metricContract.getDataSourceContract());
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery().must(new QueryStringQueryBuilder(metricContract.getQueryString()))
+            .must(QueryBuilders.rangeQuery(metricContract.getDataNameContract().getTimestampField()).from(start.toDateTimeISO().toString())
+                .to(end.toDateTimeISO().toString()).includeLower(true).includeUpper(false).format("date_optional_time"));
         Map<String, String> dataNameProperties = metricContract.getDataNameContract().getSettings();
         String indexPrefix = dataNameProperties.get("indexPrefix");
         String datePattern = dataNameProperties.get("timePattern");
@@ -176,8 +167,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.trackScores(false);
         searchSourceBuilder.trackTotalHits(true);
-        searchSourceBuilder.query(boolQueryBuilder).from(0).size(1)
-            .sort(metricContract.getDataNameContract().getTimestampField(), SortOrder.DESC);
+        searchSourceBuilder.query(boolQueryBuilder).from(0).size(1).sort(metricContract.getDataNameContract().getTimestampField(), SortOrder.DESC);
         attachAggregation(metricContract, searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
         SearchResponse searchResponse = null;
@@ -186,8 +176,8 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
             searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
             int hits = searchResponse.getHits().getHits().length;
             if (hits == 0 && tryCount == 1) {
-                LOGGER.error("totalCount {}, but hits length is 0, query: {}, start: {}, end: {}", count,
-                    metricContract.getQueryString(), start.toString(), end.toString());
+                LOGGER.error("totalCount {}, but hits length is 0, query: {}, start: {}, end: {}", count, metricContract.getQueryString(), start.toString(),
+                    end.toString());
                 return elasticsearchMetric;
             }
             if (hits > 0) {
@@ -225,8 +215,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
             searchSourceBuilder.aggregation(AggregationBuilders.extendedStats("extend").field(aggField));
         } else if ("percentiles".equalsIgnoreCase(aggType)) {
             searchSourceBuilder.aggregation(AggregationBuilders.percentiles("percentiles")
-                .percentiles(Double.parseDouble(metricContract.getProperties().get("percent").toString()))
-                .field(aggField));
+                .percentiles(Double.parseDouble(metricContract.getProperties().get("percent").toString())).field(aggField));
         }
     }
 
@@ -264,8 +253,7 @@ public class ElasticsearchDataQuery implements IElasticsearchDataQuery {
         throw new IllegalArgumentException("unsupported aggregation type: " + aggType);
     }
 
-    private ElasticsearchDataResult parseResult(SearchResponse searchResponse, String timestampField,
-        List<String> headFields) {
+    private ElasticsearchDataResult parseResult(SearchResponse searchResponse, String timestampField, List<String> headFields) {
         ElasticsearchDataResult dataResult = new ElasticsearchDataResult();
         dataResult.setTimestampField(timestampField);
         dataResult.setScrollId(searchResponse.getScrollId());

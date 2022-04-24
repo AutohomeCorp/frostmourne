@@ -3,10 +3,9 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DepartmentInfoDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DepartmentInfo;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DepartmentInfo;
 import java.util.List;
 import java.util.Optional;
-import javax.annotation.Generated;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,28 +32,22 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface DepartmentInfoDynamicMapper {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     BasicColumn[] selectList = BasicColumn.columnList(id, departmentName, fullName, creator, createAt, modifyAt, modifier);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     @DeleteProvider(type=SqlProviderAdapter.class, method="delete")
     int delete(DeleteStatementProvider deleteStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="record.id", before=false, resultType=Long.class)
     int insert(InsertStatementProvider<DepartmentInfo> insertStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("DepartmentInfoResult")
     Optional<DepartmentInfo> selectOne(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="DepartmentInfoResult", value = {
         @Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
@@ -67,28 +60,23 @@ public interface DepartmentInfoDynamicMapper {
     })
     List<DepartmentInfo> selectMany(SelectStatementProvider selectStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     @UpdateProvider(type=SqlProviderAdapter.class, method="update")
     int update(UpdateStatementProvider updateStatement);
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, departmentInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, departmentInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     default int deleteByPrimaryKey(Long id_) {
         return delete(c -> 
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     default int insert(DepartmentInfo record) {
         return MyBatis3Utils.insert(this::insert, record, departmentInfo, c ->
             c.map(departmentName).toProperty("departmentName")
@@ -100,7 +88,6 @@ public interface DepartmentInfoDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     default int insertSelective(DepartmentInfo record) {
         return MyBatis3Utils.insert(this::insert, record, departmentInfo, c ->
             c.map(departmentName).toPropertyWhenPresent("departmentName", record::getDepartmentName)
@@ -112,34 +99,28 @@ public interface DepartmentInfoDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     default Optional<DepartmentInfo> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, departmentInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     default List<DepartmentInfo> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, departmentInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.012+08:00", comments="Source Table: department_info")
     default List<DepartmentInfo> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, departmentInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source Table: department_info")
     default Optional<DepartmentInfo> selectByPrimaryKey(Long id_) {
         return selectOne(c ->
             c.where(id, isEqualTo(id_))
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source Table: department_info")
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, departmentInfo, completer);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source Table: department_info")
     static UpdateDSL<UpdateModel> updateAllColumns(DepartmentInfo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(departmentName).equalTo(record::getDepartmentName)
                 .set(fullName).equalTo(record::getFullName)
@@ -149,7 +130,6 @@ public interface DepartmentInfoDynamicMapper {
                 .set(modifier).equalTo(record::getModifier);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source Table: department_info")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(DepartmentInfo record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(departmentName).equalToWhenPresent(record::getDepartmentName)
                 .set(fullName).equalToWhenPresent(record::getFullName)
@@ -159,7 +139,6 @@ public interface DepartmentInfoDynamicMapper {
                 .set(modifier).equalToWhenPresent(record::getModifier);
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source Table: department_info")
     default int updateByPrimaryKey(DepartmentInfo record) {
         return update(c ->
             c.set(departmentName).equalTo(record::getDepartmentName)
@@ -172,7 +151,6 @@ public interface DepartmentInfoDynamicMapper {
         );
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.013+08:00", comments="Source Table: department_info")
     default int updateByPrimaryKeySelective(DepartmentInfo record) {
         return update(c ->
             c.set(departmentName).equalToWhenPresent(record::getDepartmentName)

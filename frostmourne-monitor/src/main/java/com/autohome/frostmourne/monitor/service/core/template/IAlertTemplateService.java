@@ -11,8 +11,7 @@ import com.autohome.frostmourne.monitor.model.contract.TreeDataOption;
 
 public interface IAlertTemplateService {
 
-    void save(AlertTemplateSaveForm form,
-              String account);
+    void save(AlertTemplateSaveForm form, String account);
 
     Optional<AlertTemplateContract> getContract(Long id);
 

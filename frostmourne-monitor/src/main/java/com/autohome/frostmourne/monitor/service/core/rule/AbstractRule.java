@@ -21,8 +21,7 @@ public abstract class AbstractRule implements IRule {
         this.templateService = templateService;
     }
 
-    public Map<String, Object> context(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract,
-        MetricContract metricContract, IMetric metric) {
+    public Map<String, Object> context(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract, MetricContract metricContract, IMetric metric) {
         alarmProcessLogger.trace("start pull metric");
         Map<String, Object> metricData = metric.pullMetric(metricContract, ruleContract.getSettings());
         Map<String, Object> context = new HashMap<>(metricData);
@@ -30,8 +29,7 @@ public abstract class AbstractRule implements IRule {
             context.putAll(ruleContract.getSettings());
         }
         // silence
-        context.put(ContextConstant.ALERT_SILENCE,
-            alarmProcessLogger.getAlarmContract().getAlertContract().getSilence());
+        context.put(ContextConstant.ALERT_SILENCE, alarmProcessLogger.getAlarmContract().getAlertContract().getSilence());
         context.put(ContextConstant.CURRENT_TIME, DateTime.now().toString("yyyy-MM-dd HH:mm:ss"));
         context.put(ContextConstant.ALARM_ID, alarmProcessLogger.getAlarmContract().getId());
         context.put(ContextConstant.ALARM_NAME, alarmProcessLogger.getAlarmContract().getAlarmName());

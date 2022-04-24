@@ -73,8 +73,7 @@ public class EsRestClientContainer {
         RestClientBuilder restClientBuilder = RestClient.builder(parseHttpHost(esHosts).toArray(new HttpHost[0]));
 
         if (this.settings != null && !this.settings.isEmpty()) {
-            final CredentialsProvider credentialsProvider =
-                this.createCredentialsProvider(restClientBuilder, this.settings);
+            final CredentialsProvider credentialsProvider = this.createCredentialsProvider(restClientBuilder, this.settings);
             final SSLContext sslContext = this.createSslContext(restClientBuilder, this.settings);
             restClientBuilder.setHttpClientConfigCallback(httpAsyncClientBuilder -> {
                 if (credentialsProvider != null) {
@@ -95,10 +94,8 @@ public class EsRestClientContainer {
         this.initTimestamp = System.currentTimeMillis();
     }
 
-    private CredentialsProvider createCredentialsProvider(RestClientBuilder restClientBuilder,
-        Map<String, String> settings) {
-        if (Strings.isNullOrEmpty(this.settings.get("username"))
-            || Strings.isNullOrEmpty(this.settings.get("password"))) {
+    private CredentialsProvider createCredentialsProvider(RestClientBuilder restClientBuilder, Map<String, String> settings) {
+        if (Strings.isNullOrEmpty(this.settings.get("username")) || Strings.isNullOrEmpty(this.settings.get("password"))) {
             return null;
         }
         String userName = settings.get("username");
@@ -120,8 +117,7 @@ public class EsRestClientContainer {
         try {
             KeyStore truststore = KeyStore.getInstance("jks");
             try (InputStream is = new ByteArrayInputStream(Base64.decodeBase64(certBase64))) {
-                truststore.load(is,
-                    Optional.ofNullable(settings.get("sslCertPassword")).map(String::toCharArray).orElse(null));
+                truststore.load(is, Optional.ofNullable(settings.get("sslCertPassword")).map(String::toCharArray).orElse(null));
             }
             SSLContextBuilder sslBuilder = SSLContexts.custom().loadTrustMaterial(truststore, null);
             return sslBuilder.build();
@@ -148,12 +144,11 @@ public class EsRestClientContainer {
         if (mappings == null || mappings.isEmpty()) {
             return Collections.emptyList();
         }
-        return mappings.entrySet().stream().flatMap(e -> e.getValue().values().stream())
-            .flatMap(e -> e.get("properties").keySet().stream()).distinct().sorted().collect(Collectors.toList());
+        return mappings.entrySet().stream().flatMap(e -> e.getValue().values().stream()).flatMap(e -> e.get("properties").keySet().stream()).distinct().sorted()
+            .collect(Collectors.toList());
     }
 
-    public Map<String, Map<String, Map<String, Map<String, Object>>>> fetchAllMappings(String index)
-        throws IOException {
+    public Map<String, Map<String, Map<String, Map<String, Object>>>> fetchAllMappings(String index) throws IOException {
         GetMappingsRequest mappingsRequest = new GetMappingsRequest();
         mappingsRequest.indices(index);
 
@@ -164,22 +159,19 @@ public class EsRestClientContainer {
         return this.parseMappingsFromResponse(resp);
     }
 
-    Map<String, Map<String, Map<String, Map<String, Object>>>> parseMappingsFromResponse(Response response)
-        throws IOException {
+    Map<String, Map<String, Map<String, Map<String, Object>>>> parseMappingsFromResponse(Response response) throws IOException {
         String value = EntityUtils.toString(response.getEntity());
-        Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> result = JacksonUtil.deSerialize(value,
-            new TypeReference<Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>>>() {});
+        Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> result =
+            JacksonUtil.deSerialize(value, new TypeReference<Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>>>() {});
         // 取"mappings"节点组合
-        return result.entrySet().stream()
-            .collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().get("mappings"), (v1, v2) -> v1));
+        return result.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().get("mappings"), (v1, v2) -> v1));
     }
 
     public MappingMetaData fetchMapping(String index) throws IOException {
         GetMappingsRequest mappingsRequest = new GetMappingsRequest();
         mappingsRequest.indices(index);
         // 低版本es服务端可能不支持
-        GetMappingsResponse response =
-            restHighLevelClient.indices().getMapping(mappingsRequest, RequestOptions.DEFAULT);
+        GetMappingsResponse response = restHighLevelClient.indices().getMapping(mappingsRequest, RequestOptions.DEFAULT);
         return response.mappings().values().iterator().next().value.values().iterator().next().value;
     }
 
@@ -224,11 +216,9 @@ public class EsRestClientContainer {
 
     public boolean checkIndexOpen(String index) {
         try {
-            Response response =
-                this.restLowLevelClient.performRequest("GET", String.format("/_cat/indices/%s?v", index));
+            Response response = this.restLowLevelClient.performRequest("GET", String.format("/_cat/indices/%s?v", index));
             response.getEntity().getContent();
-            try (BufferedReader bufferedReader =
-                new BufferedReader(new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8))) {
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8))) {
                 List<String> lines = bufferedReader.lines().collect(Collectors.toList());
                 if (lines.size() <= 1) {
                     return false;

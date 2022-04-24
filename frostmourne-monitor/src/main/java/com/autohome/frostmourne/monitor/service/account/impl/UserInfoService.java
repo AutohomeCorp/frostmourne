@@ -5,13 +5,13 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.UserInfo;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.ProtocolException;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IUserInfoRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IUserRoleRepository;
 import com.autohome.frostmourne.monitor.model.contract.UserContract;
@@ -111,8 +111,7 @@ public class UserInfoService implements IUserInfoService {
         if (map == null || map.isEmpty()) {
             return;
         }
-        list.forEach(user -> user.setRoles(
-            map.containsKey(user.getAccount()) ? map.get(user.getAccount()) : Collections.singletonList("user")));
+        list.forEach(user -> user.setRoles(map.containsKey(user.getAccount()) ? map.get(user.getAccount()) : Collections.singletonList("user")));
     }
 
     private UserContract toContract(UserInfo info) {

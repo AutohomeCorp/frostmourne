@@ -27,8 +27,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
     private JwtToken jwtToken;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-        throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         if (!(handler instanceof HandlerMethod)) {
             return super.preHandle(request, response, handler);

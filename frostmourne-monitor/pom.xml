@@ -235,8 +235,7 @@
                 <directory>src/main/resources</directory>
                 <excludes>
                     <exclude>generatorConfig.xml</exclude>
-                    <!--<exclude>generatorConfig-dynamic.xml</exclude>
-                    <exclude>mybatis-generator-config.properties</exclude>-->
+                    <exclude>mybatis-generator-config.properties</exclude>
                 </excludes>
             </resource>
         </resources>
@@ -251,10 +250,15 @@
                         <artifactId>mysql-connector-java</artifactId>
                         <version>8.0.20</version>
                     </dependency>
+                    <dependency>
+                        <groupId>com.autohome</groupId>
+                        <artifactId>frostmourne-core</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
                 </dependencies>
                 <configuration>
                     <configurationFile>${basedir}/src/main/resources/generatorConfig.xml</configurationFile>
-                    <contexts>dsql</contexts>
+                    <contexts>dynamic,mybatis3</contexts>
                     <overwrite>true</overwrite>
                 </configuration>
             </plugin>

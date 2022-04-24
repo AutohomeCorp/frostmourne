@@ -2,30 +2,37 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class UserRoleDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.015+08:00", comments="Source Table: user_role")
     public static final UserRole userRole = new UserRole();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.015+08:00", comments="Source field: user_role.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = userRole.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.015+08:00", comments="Source field: user_role.account")
+    /**
+     * 账号
+     */
     public static final SqlColumn<String> account = userRole.account;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.015+08:00", comments="Source field: user_role.role")
+    /**
+     * 角色
+     */
     public static final SqlColumn<String> role = userRole.role;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.015+08:00", comments="Source field: user_role.creator")
+    /**
+     * 创建人
+     */
     public static final SqlColumn<String> creator = userRole.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.015+08:00", comments="Source field: user_role.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = userRole.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.015+08:00", comments="Source Table: user_role")
     public static final class UserRole extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

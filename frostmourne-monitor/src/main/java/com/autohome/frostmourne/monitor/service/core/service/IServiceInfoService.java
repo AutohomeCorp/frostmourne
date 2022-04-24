@@ -12,8 +12,7 @@ import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSimpleContract
 
 public interface IServiceInfoService {
 
-    void save(ServiceInfoSaveForm form,
-              String account);
+    void save(ServiceInfoSaveForm form, String account);
 
     Optional<ServiceInfoContract> getContract(Long id);
 

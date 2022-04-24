@@ -2,36 +2,47 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class ConfigMapDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-10T11:15:14.847+08:00", comments="Source Table: config_map")
     public static final ConfigMap configMap = new ConfigMap();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-10T11:15:14.848+08:00", comments="Source field: config_map.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = configMap.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-10T11:15:14.848+08:00", comments="Source field: config_map.config_key")
+    /**
+     * 配置key
+     */
     public static final SqlColumn<String> configKey = configMap.configKey;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-10T11:15:14.848+08:00", comments="Source field: config_map.config_value")
+    /**
+     * 配置value
+     */
     public static final SqlColumn<String> configValue = configMap.configValue;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-10T11:15:14.848+08:00", comments="Source field: config_map.creator")
+    /**
+     * 创建人
+     */
     public static final SqlColumn<String> creator = configMap.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-10T11:15:14.848+08:00", comments="Source field: config_map.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = configMap.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-10T11:15:14.848+08:00", comments="Source field: config_map.modify_at")
+    /**
+     * 修改时间
+     */
     public static final SqlColumn<Date> modifyAt = configMap.modifyAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-10T11:15:14.848+08:00", comments="Source field: config_map.modifier")
+    /**
+     * 最后修改人
+     */
     public static final SqlColumn<String> modifier = configMap.modifier;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2022-03-10T11:15:14.847+08:00", comments="Source Table: config_map")
     public static final class ConfigMap extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

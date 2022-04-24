@@ -2,51 +2,72 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class AlertDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.466+08:00", comments="Source Table: alert")
     public static final Alert alert = new Alert();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.466+08:00", comments="Source field: alert.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = alert.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.466+08:00", comments="Source field: alert.alarm_id")
+    /**
+     * 监控ID
+     */
     public static final SqlColumn<Long> alarmId = alert.alarmId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.466+08:00", comments="Source field: alert.ways")
+    /**
+     * 报警方式(sms,dingding,email,http_post,wechat)
+     */
     public static final SqlColumn<String> ways = alert.ways;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.467+08:00", comments="Source field: alert.silence")
+    /**
+     * 静默时间，单位：分钟
+     */
     public static final SqlColumn<Long> silence = alert.silence;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.467+08:00", comments="Source field: alert.creator")
+    /**
+     * 创建人
+     */
     public static final SqlColumn<String> creator = alert.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.467+08:00", comments="Source field: alert.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = alert.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.467+08:00", comments="Source field: alert.allow_sms_from")
+    /**
+     * 短信允许发送开始时间，[0,23]
+     */
     public static final SqlColumn<Integer> allowSmsFrom = alert.allowSmsFrom;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.467+08:00", comments="Source field: alert.allow_sms_to")
+    /**
+     * 短信允许发送结束时间，[0,23]
+     */
     public static final SqlColumn<Integer> allowSmsTo = alert.allowSmsTo;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.467+08:00", comments="Source field: alert.ding_robot_hook")
+    /**
+     * 钉钉机器人hook地址
+     */
     public static final SqlColumn<String> dingRobotHook = alert.dingRobotHook;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.467+08:00", comments="Source field: alert.http_post_url")
+    /**
+     * http post报警方式地址
+     */
     public static final SqlColumn<String> httpPostUrl = alert.httpPostUrl;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.467+08:00", comments="Source field: alert.wechat_robot_hook")
+    /**
+     * 企业微信机器人hook地址
+     */
     public static final SqlColumn<String> wechatRobotHook = alert.wechatRobotHook;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.467+08:00", comments="Source field: alert.feishu_robot_hook")
+    /**
+     * 飞书机器人hook地址
+     */
     public static final SqlColumn<String> feishuRobotHook = alert.feishuRobotHook;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2021-10-30T15:40:15.466+08:00", comments="Source Table: alert")
     public static final class Alert extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

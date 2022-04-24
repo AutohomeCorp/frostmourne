@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.ServiceInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ServiceInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IServiceInfoRepository;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoContract;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoQueryForm;
@@ -50,8 +50,7 @@ public class ServiceInfoService implements IServiceInfoService {
     public PagerContract<ServiceInfoContract> findContract(ServiceInfoQueryForm form) {
         PageInfo<ServiceInfo> recordPage = serviceInfoRepository.find(form);
         List<ServiceInfoContract> contracts = ServiceInfoTransformer.model2Contract(recordPage.getList());
-        return new PagerContract<>(contracts, recordPage.getPageSize(), recordPage.getPageNum(),
-            (int)recordPage.getTotal());
+        return new PagerContract<>(contracts, recordPage.getPageSize(), recordPage.getPageNum(), (int)recordPage.getTotal());
     }
 
     @Override
@@ -68,8 +67,7 @@ public class ServiceInfoService implements IServiceInfoService {
         if (CollectionUtils.isEmpty(list)) {
             return Collections.emptyMap();
         }
-        return list.stream().collect(
-            Collectors.toMap(ServiceInfo::getId, ServiceInfoTransformer::model2SimpleContract, (v1, v2) -> v1));
+        return list.stream().collect(Collectors.toMap(ServiceInfo::getId, ServiceInfoTransformer::model2SimpleContract, (v1, v2) -> v1));
     }
 
 }

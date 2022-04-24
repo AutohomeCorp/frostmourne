@@ -2,9 +2,9 @@ package com.autohome.frostmourne.monitor.service.core.execute;
 
 import java.util.Map;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
 import org.joda.time.DateTime;
 
 public class AlarmProcessLogger {
