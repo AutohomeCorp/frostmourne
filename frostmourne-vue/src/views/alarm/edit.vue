@@ -148,7 +148,7 @@
               <el-option label="小时" value="hour" />
               <el-option label="分钟" value="minute" />
             </el-select>环比
-            <el-select v-model="form.ruleContract.settings.OPERATOR">
+            <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
               <el-option label="增加" value="increase" />
               <el-option label="减少" value="decrease" />
             </el-select>百分之

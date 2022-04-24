@@ -9,7 +9,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserInfo;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.UserInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.UserInfoDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.UserInfoDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IUserInfoRepository;
@@ -43,11 +43,11 @@ public class UserInfoRepository implements IUserInfoRepository {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<UserInfo> list = userInfoDynamicMapper.select(query -> {
             query.where().and(UserInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull))
-                    .and(UserInfoDynamicSqlSupport.teamId, isEqualTo(teamId).when(s -> teamId != null && teamId > 0))
-                    .and(UserInfoDynamicSqlSupport.account, isLike(account).when(Objects::nonNull).then(s -> s + "%"));
+                .and(UserInfoDynamicSqlSupport.teamId, isEqualTo(teamId).when(s -> teamId != null && teamId > 0))
+                .and(UserInfoDynamicSqlSupport.account, isLike(account).when(Objects::nonNull).then(s -> s + "%"));
             return query.orderBy(UserInfoDynamicSqlSupport.id.descending());
         });
-        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
+        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int)page.getTotal());
     }
 
     @Override

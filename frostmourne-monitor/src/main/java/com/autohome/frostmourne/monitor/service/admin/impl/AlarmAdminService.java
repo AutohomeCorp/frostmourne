@@ -5,6 +5,14 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alert;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataName;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Metric;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Recipient;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Rule;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.RuleProperty;
 import org.apache.logging.log4j.core.util.CronExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +26,6 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.*;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.*;
 import com.autohome.frostmourne.monitor.model.contract.*;
 import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
@@ -168,13 +175,11 @@ public class AlarmAdminService implements IAlarmAdminService {
         metricContract.setDataNameId(metric.getDataNameId());
         metricContract.setAlarmId(alarmId);
         metricContract.setPostData(metric.getPostData());
-        metricContract.setProperties(
-            JacksonUtil.deSerialize(metric.getProperties(), new TypeReference<Map<String, Object>>() {}));
+        metricContract.setProperties(JacksonUtil.deSerialize(metric.getProperties(), new TypeReference<Map<String, Object>>() {}));
         if (metric.getDataSourceId() != null && metric.getDataSourceId() > 0) {
             Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(metric.getDataSourceId());
-            DataSourceContract dataSourceContract =
-                optionalDataSource.map(DataSourceTransformer::model2Contract).orElseThrow(
-                    () -> new ProtocolException(1890, "datasource not exist. id: " + metric.getDataSourceId()));
+            DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)
+                .orElseThrow(() -> new ProtocolException(1890, "datasource not exist. id: " + metric.getDataSourceId()));
             metricContract.setDataSourceContract(dataSourceContract);
         }
 
@@ -235,8 +240,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     }
 
     @Override
-    public PagerContract<Alarm> find(int pageIndex, int pageSize, Long alarmId, String name, String teamName,
-                                     String status, Long serviceId) {
+    public PagerContract<Alarm> find(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serviceId) {
         return alarmRepository.findPage(pageIndex, pageSize, alarmId, name, teamName, status, serviceId);
     }
 
@@ -285,8 +289,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setModifyAt(now);
         alarm.setJobId(0L);
         alarm.setExecuteResult(ExecuteStatus.WAITING.getName());
-        alarm.setServiceId(
-            Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
+        alarm.setServiceId(Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
         alarm.setTriggerLastTime(0L);
         alarm.setTriggerNextTime(0L);
         alarmRepository.insert(alarm);
@@ -310,8 +313,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setModifyAt(now);
         alarm.setModifier(alarmContract.getOperator());
         alarm.setTeamName(alarmContract.getTeamName());
-        alarm.setServiceId(
-            Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
+        alarm.setServiceId(Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
         alarm.setTriggerNextTime(0L);
         alarmRepository.updateByPrimaryKeySelective(alarm);
 
@@ -379,8 +381,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         return ruleId;
     }
 
-    private void saveMetric(MetricContract metricContract, Long alarmId, Long ruleId, boolean isNewAlarm,
-        String account) {
+    private void saveMetric(MetricContract metricContract, Long alarmId, Long ruleId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
             metricRepository.deleteByAlarm(alarmId);
         }
@@ -409,22 +410,18 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmContract.getRuleContract().setRuleType(ruleType);
 
         if (!alarmContract.getMetricContract().getDataName().equalsIgnoreCase("http")) {
-            Optional<DataName> optionalDataName =
-                dataNameRepository.findByName(alarmContract.getMetricContract().getDataName());
+            Optional<DataName> optionalDataName = dataNameRepository.findByName(alarmContract.getMetricContract().getDataName());
             if (!optionalDataName.isPresent()) {
-                throw new ProtocolException(1290,
-                    "dataName not exist. " + alarmContract.getMetricContract().getDataName());
+                throw new ProtocolException(1290, "dataName not exist. " + alarmContract.getMetricContract().getDataName());
             }
             DataName dataName = optionalDataName.get();
             alarmContract.getMetricContract().setDataNameId(dataName.getId());
             alarmContract.getMetricContract().setDataNameContract(DataAdminService.toDataNameContract(dataName));
             alarmContract.getMetricContract().setDataSourceId(dataName.getDataSourceId());
 
-            Optional<DataSource> optionalDataSource =
-                dataSourceRepository.selectByPrimaryKey(dataName.getDataSourceId());
-            DataSourceContract dataSourceContract =
-                optionalDataSource.map(DataSourceTransformer::model2Contract).orElseThrow(
-                    () -> new ProtocolException(1900, "dataSource not exist. id: " + dataName.getDataSourceId()));
+            Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(dataName.getDataSourceId());
+            DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)
+                .orElseThrow(() -> new ProtocolException(1900, "dataSource not exist. id: " + dataName.getDataSourceId()));
             alarmContract.getMetricContract().setDataSourceContract(dataSourceContract);
         }
     }

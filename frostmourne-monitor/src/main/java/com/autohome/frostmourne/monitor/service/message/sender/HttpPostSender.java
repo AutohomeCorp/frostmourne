@@ -44,8 +44,7 @@ public class HttpPostSender extends MessageSenderChain {
             data.put("title", alarmMessageBO.getTitle());
             data.put("context", alarmMessageBO.getContext());
             HttpEntity<Map<String, Object>> request = new HttpEntity<>(data, headers);
-            ResponseEntity<String> responseEntity =
-                restTemplate.postForEntity(alarmMessageBO.getHttpPostEndpoint(), request, String.class);
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(alarmMessageBO.getHttpPostEndpoint(), request, String.class);
             boolean result = responseEntity.getStatusCode() == HttpStatus.OK;
 
             messageResult.setSuccess(result);

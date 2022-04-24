@@ -25,8 +25,7 @@ public class AlarmExecutor {
 
     private final AlarmProcessLogger alarmProcessLogger;
 
-    public AlarmExecutor(AlarmContract alarmContract, IRule rule, IMetric metric,
-        IGenerateShortLinkService generateShortLinkService) {
+    public AlarmExecutor(AlarmContract alarmContract, IRule rule, IMetric metric, IGenerateShortLinkService generateShortLinkService) {
         this.alarmContract = alarmContract;
         this.rule = rule;
         this.metric = metric;
@@ -48,8 +47,7 @@ public class AlarmExecutor {
 
     private ExecuteStatus doRule() {
         try {
-            boolean isAlert = this.rule.verify(this.alarmProcessLogger, alarmContract.getRuleContract(),
-                alarmContract.getMetricContract(), metric);
+            boolean isAlert = this.rule.verify(this.alarmProcessLogger, alarmContract.getRuleContract(), alarmContract.getMetricContract(), metric);
             this.alarmProcessLogger.setAlert(isAlert);
             this.alarmProcessLogger.trace("isAlert: " + isAlert);
             if (isAlert) {

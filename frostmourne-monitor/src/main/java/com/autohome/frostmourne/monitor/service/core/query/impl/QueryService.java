@@ -48,16 +48,16 @@ public class QueryService implements IQueryService {
     private IDataAdminService dataAdminService;
 
     @Override
-    public ElasticsearchDataResult elasticsearchQuery(String dataName, Date startTime, Date endTime, String esQuery,
-        String scrollId, String sortOrder, Integer intervalInSeconds) {
+    public ElasticsearchDataResult elasticsearchQuery(String dataName, Date startTime, Date endTime, String esQuery, String scrollId, String sortOrder,
+        Integer intervalInSeconds) {
         if (intervalInSeconds == null || intervalInSeconds == 0) {
             Long timeGap = endTime.getTime() - startTime.getTime();
             intervalInSeconds = rangeMap.get(timeGap);
         }
         DataNameContract dataNameContract = dataAdminService.findDataNameByName(dataName);
         DataSourceContract dataSourceContract = dataAdminService.findDatasourceById(dataNameContract.getDataSourceId());
-        return elasticsearchDataQuery.query(dataNameContract, dataSourceContract, new DateTime(startTime),
-            new DateTime(endTime), esQuery, scrollId, sortOrder, intervalInSeconds);
+        return elasticsearchDataQuery.query(dataNameContract, dataSourceContract, new DateTime(startTime), new DateTime(endTime), esQuery, scrollId, sortOrder,
+            intervalInSeconds);
     }
 
     @Override
@@ -68,12 +68,11 @@ public class QueryService implements IQueryService {
     }
 
     @Override
-    public void exportToCsv(CSVWriter csvWriter, String dataName, DateTime startTime, DateTime endTime, String esQuery,
-        String scrollId, String sortOrder) {
+    public void exportToCsv(CSVWriter csvWriter, String dataName, DateTime startTime, DateTime endTime, String esQuery, String scrollId, String sortOrder) {
         DataNameContract dataNameContract = dataAdminService.findDataNameByName(dataName);
         DataSourceContract dataSourceContract = dataAdminService.findDatasourceById(dataNameContract.getDataSourceId());
-        ElasticsearchDataResult elasticsearchDataResult = elasticsearchDataQuery.query(dataNameContract,
-            dataSourceContract, startTime, endTime, esQuery, scrollId, sortOrder, null);
+        ElasticsearchDataResult elasticsearchDataResult =
+            elasticsearchDataQuery.query(dataNameContract, dataSourceContract, startTime, endTime, esQuery, scrollId, sortOrder, null);
         String[] heads = elasticsearchDataResult.getFlatFields().toArray(new String[0]);
         csvWriter.writeNext(heads);
         while (true) {
@@ -91,8 +90,8 @@ public class QueryService implements IQueryService {
                 csvWriter.writeNext(data);
             }
             scrollId = elasticsearchDataResult.getScrollId();
-            elasticsearchDataResult = elasticsearchDataQuery.query(dataNameContract, dataSourceContract, startTime,
-                endTime, esQuery, scrollId, sortOrder, null);
+            elasticsearchDataResult =
+                elasticsearchDataQuery.query(dataNameContract, dataSourceContract, startTime, endTime, esQuery, scrollId, sortOrder, null);
         }
     }
 

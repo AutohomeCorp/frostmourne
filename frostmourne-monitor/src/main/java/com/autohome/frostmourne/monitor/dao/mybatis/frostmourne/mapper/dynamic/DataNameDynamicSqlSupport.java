@@ -2,47 +2,62 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class DataNameDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source Table: data_name")
     public static final DataName dataName = new DataName();
 
-    public static final SqlColumn<String> DATA_NAME = dataName.dataName;
-
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = dataName.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.display_name")
+    /**
+     * 名称描述
+     */
     public static final SqlColumn<String> displayName = dataName.displayName;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.data_source_id")
+    /**
+     * 所属数据源id
+     */
     public static final SqlColumn<Long> dataSourceId = dataName.dataSourceId;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.datasource_type")
+    /**
+     * 数据源类型。(Elasticsearch, Influxdb)
+     */
     public static final SqlColumn<String> datasourceType = dataName.datasourceType;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.timestamp_field")
+    /**
+     * 时间字段名
+     */
     public static final SqlColumn<String> timestampField = dataName.timestampField;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.properties")
+    /**
+     * 不同数据的附加属性
+     */
     public static final SqlColumn<String> properties = dataName.properties;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.creator")
+    /**
+     * 创建人
+     */
     public static final SqlColumn<String> creator = dataName.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = dataName.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.modifier")
+    /**
+     * 修改人
+     */
     public static final SqlColumn<String> modifier = dataName.modifier;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source field: data_name.modify_at")
+    /**
+     * 修改时间
+     */
     public static final SqlColumn<Date> modifyAt = dataName.modifyAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:32.981+08:00", comments="Source Table: data_name")
     public static final class DataName extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

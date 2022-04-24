@@ -1,6 +1,5 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl;
 
-import static com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmLogDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isBetween;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLessThan;
@@ -11,7 +10,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlarmLog;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmLogDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmLogDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
@@ -58,10 +57,10 @@ public class AlarmLogRepository implements IAlarmLogRepository {
     public List<AlarmLog> find(Date startTime, Date endTime, Long alarmId, String verifyResult, String executeResult) {
         return alarmLogDynamicMapper.select(query -> {
             query.where().and(AlarmLogDynamicSqlSupport.createAt, isBetween(startTime).and(endTime).when((d1, d2) -> d1 != null && d2 != null))
-                    .and(AlarmLogDynamicSqlSupport.alarmId, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
-                    .and(AlarmLogDynamicSqlSupport.verifyResult, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
-                    .and(AlarmLogDynamicSqlSupport.executeResult, isEqualTo(executeResult).when(MybatisTool::notNullAndEmpty))
-                    .orderBy(createAt.descending());
+                .and(AlarmLogDynamicSqlSupport.alarmId, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
+                .and(AlarmLogDynamicSqlSupport.verifyResult, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
+                .and(AlarmLogDynamicSqlSupport.executeResult, isEqualTo(executeResult).when(MybatisTool::notNullAndEmpty))
+                .orderBy(AlarmLogDynamicSqlSupport.createAt.descending());
             return query;
         });
     }
@@ -70,9 +69,8 @@ public class AlarmLogRepository implements IAlarmLogRepository {
     public Optional<AlarmLog> selectLatest(Long alarmId, String verifyResult) {
         return alarmLogDynamicMapper.selectOne(query -> {
             query.where().and(AlarmLogDynamicSqlSupport.alarmId, isEqualTo(alarmId))
-                    .and(AlarmLogDynamicSqlSupport.verifyResult, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
-                    .orderBy(AlarmLogDynamicSqlSupport.id.descending())
-                    .limit(1);
+                .and(AlarmLogDynamicSqlSupport.verifyResult, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty))
+                .orderBy(AlarmLogDynamicSqlSupport.id.descending()).limit(1);
             return query;
         });
     }
@@ -80,7 +78,7 @@ public class AlarmLogRepository implements IAlarmLogRepository {
     @Override
     public void clearBefore(Date reserveLine) {
         alarmLogDynamicMapper.delete(query -> {
-            query.where().and(createAt, isLessThan(reserveLine));
+            query.where().and(AlarmLogDynamicSqlSupport.createAt, isLessThan(reserveLine));
             return query;
         });
     }
@@ -88,8 +86,8 @@ public class AlarmLogRepository implements IAlarmLogRepository {
     @Override
     public long count(Date startTime, Date endTime, String verifyResult) {
         return alarmLogDynamicMapper.count(query -> {
-            query.where().and(createAt, isBetween(startTime).and(endTime))
-                    .and(AlarmLogDynamicSqlSupport.verifyResult, isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty));
+            query.where().and(AlarmLogDynamicSqlSupport.createAt, isBetween(startTime).and(endTime)).and(AlarmLogDynamicSqlSupport.verifyResult,
+                isEqualTo(verifyResult).when(MybatisTool::notNullAndEmpty));
             return query;
         });
     }

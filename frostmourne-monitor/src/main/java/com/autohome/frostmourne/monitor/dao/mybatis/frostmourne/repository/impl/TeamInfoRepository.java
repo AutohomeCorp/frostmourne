@@ -9,7 +9,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.TeamInfo;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.TeamInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.TeamInfoDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.TeamInfoDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.ITeamInfoRepository;
@@ -42,17 +42,16 @@ public class TeamInfoRepository implements ITeamInfoRepository {
     public PagerContract<TeamInfo> findPage(int pageIndex, int pageSize, Long id, String teamName) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<TeamInfo> list = teamInfoDynamicMapper.select(query -> {
-            query.where().and(TeamInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull))
-                    .and(TeamInfoDynamicSqlSupport.teamName, isLike(teamName).when(Objects::nonNull).then(s -> s + "%s"));
+            query.where().and(TeamInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull)).and(TeamInfoDynamicSqlSupport.teamName,
+                isLike(teamName).when(Objects::nonNull).then(s -> s + "%s"));
             return query.orderBy(TeamInfoDynamicSqlSupport.id.descending());
         });
-        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
+        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int)page.getTotal());
     }
 
     @Override
     public List<TeamInfo> find(Long departmentId) {
-        return teamInfoDynamicMapper.select(query -> query.where()
-                .and(TeamInfoDynamicSqlSupport.departmentId, isEqualTo(departmentId).when(Objects::nonNull)));
+        return teamInfoDynamicMapper.select(query -> query.where().and(TeamInfoDynamicSqlSupport.departmentId, isEqualTo(departmentId).when(Objects::nonNull)));
     }
 
     @Override

@@ -1,4 +1,4 @@
-# 0.6-SNAPSHOT(开发中)
+# 0.6.1-SNAPSHOT(开发中)
 
 ### Feature
 
@@ -18,6 +18,8 @@
 * 增加0.5升级0.6的说明文档 [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
 * 增加markdown格式消息使用文档说明 [template_markdown.md](./doc/wiki/template_markdown.md)
 * 增加0.6升级0.6.1的说明文档 [upgrade-0.6.1.md](./doc/wiki/upgrade-0.6.1.md) [2022-04-19]
+* 增加k8s环境部署说明 [2022-04-21]
+* 增加项目代码规范说明文档 [code_format](./doc/wiki/code_format.md) [2022-04-23]
 
 # 0.5-RELEASE
 

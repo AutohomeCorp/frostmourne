@@ -13,29 +13,23 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
 但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控, ClickHouse数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
-iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们。
-
-
-### 技术说明
-项目基于Java实现，详细请看：[技术说明](./doc/wiki/technical.md)
-
+iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，我们一起做大做强。
 
 ## 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
 * 多数据源(Elasticsearch, InfluxDB, Mysql, ClickHouse)支持
 * 多种数值计算类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
-* 数值同比监控
-* HTTP数据监控, js表达式判断是否报警
-* UI功能，简单易用
-* 监控管理，测试，另存。执行日志，历史消息。
-* 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), WebHook, 飞书机器人)
 * 消息支持多种格式(text, markdown)
-* Elasticsearch数据查询,分享,下载
-* 报警消息附带日志查询短链接，直达报警原因
-* 报警消息抑制功能，防止消息轰炸
+* 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
 * 分布式调度实现，每个监控都是独立调度，互不影响
+* 报警消息附带日志查询短链接，直达报警原因
+* 数值同比监控
+* HTTP数据监控, js表达式判断是否报警
+* UI功能，简单易用(监控管理，测试，另存。执行日志，历史消息)。
+* Elasticsearch数据查询,分享,下载
+* 报警消息抑制功能，防止消息轰炸
 * 自带账号,团队,部门信息管理模块，也可自己实现内部对接
 * 集成LDAP登录认证
 * 权限控制，数据隔离，各团队互不影响
@@ -61,7 +55,7 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 * <a href="./doc/wiki/ways.md" target="_blank">报警发送</a>
 * <a href="./doc/wiki/supress.md" target="_blank">报警抑制</a>
 * <a href="./doc/wiki/auth.md" target="_blank">用户管理和登录认证</a>
-* <a href="./doc/wiki/node.md" target="_blank">注意事项</a>
+* <a href="./doc/wiki/note.md" target="_blank">注意事项</a>
 * <a href="./doc/wiki/other.md" target="_blank">其他</a>
 
 
@@ -86,7 +80,41 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 
 <br/>
 
-#### 一、自构建部署方式
+#### 一、k8s部署方式
+k8s部署参考以下三个配置文件
+
+* [frostmourne-monitor-namespace.yaml](./doc/docker/k8s/frostmourne-monitor-namespace.yaml)
+* [frostmourne-monitor-deployment.yaml](./doc/docker/k8s/frostmourne-monitor-deployment.yaml)
+* [frostmourne-monitor-service.yaml](./doc/docker/k8s/frostmourne-monitor-service.yaml)
+
+相关参数在 frostmourne-monitor-deployment.yaml 文件里配置。需要注意的是在frostmourne-monitor-service.yaml里指定对外映射端口，默认nodePort=30054
+
+```bash
+kubectl applt -f frostmourne-monitor-namespace.yaml
+kubectl applt -f frostmourne-monitor-deployment.yaml
+kubectl apply -f frostmourne-monitor-service.yaml
+```
+
+#### 二、zip包部署方式
+依赖环境
+* JDK 1.8+
+
+需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.6.1-SNAPSHOT.zip" download>frostmourne-monitor-0.6.1-SNAPSHOT.zip</a> ;然后根据自己的
+环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
+
+```bash
+./scripts/startup.sh
+```
+
+执行如下命令停止应用：
+
+```bash
+./scripts/shutdown.sh
+```
+
+<br/>
+
+#### 三、自构建部署方式
 
 依赖环境
 * JDK 1.8+
@@ -113,41 +141,6 @@ frostmourne-monitor已经配置了assembly打包，target目录下会生成zip�
 ./scripts/shutdown.sh
 ```
 <br/>
-
-#### 二、zip包部署方式
-依赖环境
-* JDK 1.8+
-
-需要将zip包解压，然后根据自己的
-环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
-
-```bash
-./scripts/startup.sh
-```
-
-执行如下命令停止应用：
-
-```bash
-./scripts/shutdown.sh
-```
-
-<br/>
-
-#### 三、k8s部署方式
-k8s部署参考以下三个配置文件
-
-* [frostmourne-monitor-namespace.yaml](./doc/docker/k8s/frostmourne-monitor-namespace.yaml)
-* [frostmourne-monitor-deployment.yaml](./doc/docker/k8s/frostmourne-monitor-deployment.yaml)
-* [frostmourne-monitor-service.yaml](./doc/docker/k8s/frostmourne-monitor-service.yaml)
-
-相关参数在 frostmourne-monitor-deployment.yaml 文件里配置。需要注意的是在frostmourne-monitor-service.yaml里指定对外映射端口，默认nodePort=30054
-
-```bash
-kubectl applt -f frostmourne-monitor-namespace.yaml
-kubectl applt -f frostmourne-monitor-deployment.yaml
-kubectl apply -f frostmourne-monitor-service.yaml
-```
-
 
 ## 开发调试
 
@@ -187,6 +180,10 @@ npm run dev
 
 [ReleaseNotes](./ReleaseNotes.md)
 
+### 技术说明
+
+项目基于Java实现，详细请看：[技术说明](./doc/wiki/technical.md)
+
 ## 后续规划
 
 目前已知的规划有:
@@ -202,11 +199,12 @@ npm run dev
 * ~~mysql: 增加数据库分布式锁表job_lock，alarm表增加两个字段：trigger_last_time, trigger_next_time~~ - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
 * ~~移除xxl-job依赖，内置实现分布式调度，减小部署难度~~ [2022-04-18]
 * ~~增加0.6升级0.6.1的说明文档~~ [upgrade-0.6.1.md](./doc/wiki/upgrade-0.6.1.md) [2022-04-19]
-* ~~msyql, influxdb, clickhouse监控增加表达式监控规则~~ [2022-04-20]
+* ~~增加k8s环境部署说明~~ [2022-04-21]
+* ~~增加项目代码规范说明文档~~ [code_format](./doc/wiki/code_format.md) [2022-04-23]
 * 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
 * Elasticsearch监控数值实现环比监控
-* 优化dockerfile，增加k8s环境部署说明文档
 * 增加ping监控报警,一个监控最多监控10个ping。
+* msyql, influxdb, clickhouse监控增加表达式监控规则
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
@@ -270,12 +268,12 @@ The project is licensed under the [MIT](LICENSE).
 
 如果你觉得这个项目对你有所帮助想有所回馈，非常欢迎参与贡献。可以通过如下方式：
 
+* 从后续规划里选择合适的任务提交PR
+* 对文档进行必要补充
 * 部署本项目使用起来并通过[issue#17](https://github.com/AutohomeCorp/frostmourne/issues/17)告知
 * 帮忙扩散推广
 * 在issue提出你的宝贵建议
-* 对文档进行必要补充
 * 加入交流群，解答交流问题。群内会不定时发布项目更新说明
-* 从后续规划里选择合适的任务提交PR
 * 开源不易，需要鼓励
 * [代码规范说明](./doc/wiki/code_format.md)
 
@@ -298,3 +296,8 @@ The project is licensed under the [MIT](LICENSE).
 * 2020-08-23: 上gitee推荐
 * 2020-08-27: gitee star破百
 * 2020-10-12: github star破百
+
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/AutohomeCorp/frostmourne.svg)](https://starchart.cc/AutohomeCorp/frostmourne)

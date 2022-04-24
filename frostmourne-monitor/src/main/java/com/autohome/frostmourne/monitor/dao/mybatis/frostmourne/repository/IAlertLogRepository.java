@@ -4,9 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AlertLog;
-import org.apache.ibatis.annotations.Param;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertLog;
 
 public interface IAlertLogRepository {
 
@@ -22,8 +20,8 @@ public interface IAlertLogRepository {
 
     int updateByPrimaryKey(AlertLog record);
 
-    List<AlertLog> find(Date startTime, Date endTime, Long executeId, Long alarmId, String recipient,
-                        String way, String sendStatus, String inSilence, String alertType);
+    List<AlertLog> find(Date startTime, Date endTime, Long executeId, Long alarmId, String recipient, String way, String sendStatus, String inSilence,
+        String alertType);
 
     Optional<AlertLog> selectLatest(Long alarmId, String alertType, String inSilence);
 

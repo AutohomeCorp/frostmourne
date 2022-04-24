@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataName;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -14,8 +16,6 @@ import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchInfo;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceManager;
 import com.autohome.frostmourne.monitor.dao.jdbc.IDataSourceJdbcManager;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataName;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.DataSource;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
@@ -63,13 +63,11 @@ public class DataAdminService implements IDataAdminService {
         if (dataSourceContract.getId() != null && dataSourceContract.getId() > 0) {
             dataSource.setId(dataSourceContract.getId());
             if ("elasticsearch".equalsIgnoreCase(dataSource.getDatasourceType())) {
-                boolean reloadResult =
-                    elasticsearchSourceManager.reloadEsRestClientContainer(new ElasticsearchInfo(dataSourceContract));
+                boolean reloadResult = elasticsearchSourceManager.reloadEsRestClientContainer(new ElasticsearchInfo(dataSourceContract));
                 if (!reloadResult) {
                     return false;
                 }
-            } else if ("mysql".equalsIgnoreCase(dataSource.getDatasourceType())
-                || "clickhouse".equalsIgnoreCase(dataSource.getDatasourceType())) {
+            } else if ("mysql".equalsIgnoreCase(dataSource.getDatasourceType()) || "clickhouse".equalsIgnoreCase(dataSource.getDatasourceType())) {
                 boolean reloadResult = dataSourceJdbcManager.putDataSource(dataSourceContract);
                 if (!reloadResult) {
                     return false;
@@ -96,9 +94,8 @@ public class DataAdminService implements IDataAdminService {
     public PagerContract<DataSourceContract> findDatasource(int pageIndex, int pageSize, String datasourceType) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<DataSource> list = this.dataSourceRepository.find(datasourceType);
-        return new PagerContract<>(
-            list.stream().map(DataSourceTransformer::model2Contract).collect(Collectors.toList()), page.getPageSize(),
-            page.getPageNum(), (int)page.getTotal());
+        return new PagerContract<>(list.stream().map(DataSourceTransformer::model2Contract).collect(Collectors.toList()), page.getPageSize(), page.getPageNum(),
+            (int)page.getTotal());
     }
 
     @Override
@@ -126,9 +123,8 @@ public class DataAdminService implements IDataAdminService {
         for (DataSource dataSource : dataSourceList) {
             DataSourceOption dataSourceOption = new DataSourceOption();
             dataSourceOption.setDataSource(dataSource);
-            dataSourceOption.setDataNameContractList(
-                dataNameList.stream().filter(dataName -> dataName.getDataSourceId().equals(dataSource.getId()))
-                    .map(DataAdminService::toDataNameContract).collect(Collectors.toList()));
+            dataSourceOption.setDataNameContractList(dataNameList.stream().filter(dataName -> dataName.getDataSourceId().equals(dataSource.getId()))
+                .map(DataAdminService::toDataNameContract).collect(Collectors.toList()));
             if (dataOptionMap.containsKey(dataSource.getDatasourceType())) {
                 dataOptionMap.get(dataSource.getDatasourceType()).add(dataSourceOption);
             } else {
@@ -174,8 +170,7 @@ public class DataAdminService implements IDataAdminService {
             return Collections.emptyList();
         }
         return items.stream().map(item -> {
-            TreeDataOption option = new TreeDataOption(String.valueOf(item.getDataSource().getId()),
-                item.getDataSource().getDatasourceName());
+            TreeDataOption option = new TreeDataOption(String.valueOf(item.getDataSource().getId()), item.getDataSource().getDatasourceName());
             option.setChildren(this.parseTreeDataOptionByDataNameContracts(item.getDataNameContractList()));
             return option;
         }).collect(Collectors.toList());
@@ -185,8 +180,7 @@ public class DataAdminService implements IDataAdminService {
         if (CollectionUtils.isEmpty(items)) {
             return Collections.emptyList();
         }
-        return items.stream().map(item -> new TreeDataOption(item.getDataName(), item.getDisplayName()))
-            .collect(Collectors.toList());
+        return items.stream().map(item -> new TreeDataOption(item.getDataName(), item.getDisplayName())).collect(Collectors.toList());
     }
 
     @Override
@@ -224,12 +218,11 @@ public class DataAdminService implements IDataAdminService {
     }
 
     @Override
-    public PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, String datasourceType,
-        Long datasourceId) {
+    public PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, String datasourceType, Long datasourceId) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<DataName> list = this.dataNameRepository.find(datasourceType, datasourceId);
-        return new PagerContract<>(list.stream().map(DataAdminService::toDataNameContract).collect(Collectors.toList()),
-            page.getPageSize(), page.getPageNum(), (int)page.getTotal());
+        return new PagerContract<>(list.stream().map(DataAdminService::toDataNameContract).collect(Collectors.toList()), page.getPageSize(), page.getPageNum(),
+            (int)page.getTotal());
     }
 
     @Override
@@ -265,8 +258,7 @@ public class DataAdminService implements IDataAdminService {
         dataNameContract.setCreateAt(dataName.getCreateAt());
         dataNameContract.setModifier(dataName.getModifier());
         dataNameContract.setModifyAt(dataName.getModifyAt());
-        dataNameContract.setSettings(
-            JacksonUtil.deSerialize(dataName.getProperties(), new TypeReference<Map<String, String>>() {}));
+        dataNameContract.setSettings(JacksonUtil.deSerialize(dataName.getProperties(), new TypeReference<Map<String, String>>() {}));
 
         return dataNameContract;
     }

@@ -45,11 +45,11 @@ public class InfluxdbDataQuery implements IInfluxdbDataQuery {
         String queryWithoutTime = metricContract.getQueryString();
         String completeQuery;
         if (queryWithoutTime.toLowerCase().contains("where")) {
-            completeQuery = String.format("%s and time >= '%s' and time <= '%s'", queryWithoutTime,
-                start.toDateTime(DateTimeZone.UTC).toString(), end.toDateTime(DateTimeZone.UTC).toString());
+            completeQuery = String.format("%s and time >= '%s' and time <= '%s'", queryWithoutTime, start.toDateTime(DateTimeZone.UTC).toString(),
+                end.toDateTime(DateTimeZone.UTC).toString());
         } else {
-            completeQuery = String.format("%s where time >= '%s' and time <= '%s'", queryWithoutTime,
-                start.toDateTime(DateTimeZone.UTC).toString(), end.toDateTime(DateTimeZone.UTC).toString());
+            completeQuery = String.format("%s where time >= '%s' and time <= '%s'", queryWithoutTime, start.toDateTime(DateTimeZone.UTC).toString(),
+                end.toDateTime(DateTimeZone.UTC).toString());
         }
         return completeQuery;
     }

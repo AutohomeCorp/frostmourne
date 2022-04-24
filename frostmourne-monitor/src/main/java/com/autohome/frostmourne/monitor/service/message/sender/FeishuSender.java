@@ -46,17 +46,15 @@ public class FeishuSender extends MessageSenderChain {
         data.put("content", ImmutableMap.of("text", content));
         String json = JacksonUtil.serialize(data);
         HttpEntity<String> request = new HttpEntity<>(json, headers);
-        ResponseEntity<String> messageResponseEntity =
-            restTemplate.postForEntity(alarmMessageBO.getFeiShuHook(), request, String.class);
+        ResponseEntity<String> messageResponseEntity = restTemplate.postForEntity(alarmMessageBO.getFeiShuHook(), request, String.class);
         if (messageResponseEntity.getStatusCode() != HttpStatus.OK) {
-            LOGGER.error("error when send feishu robot message, code: {} response: {}",
-                messageResponseEntity.getStatusCodeValue(), messageResponseEntity.getBody());
+            LOGGER.error("error when send feishu robot message, code: {} response: {}", messageResponseEntity.getStatusCodeValue(),
+                messageResponseEntity.getBody());
             alarmMessageBO.getResultList().add(messageResult);
             return;
         }
         String responseJson = messageResponseEntity.getBody();
-        Map<String, Object> responseMap =
-            JacksonUtil.deSerialize(responseJson, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> responseMap = JacksonUtil.deSerialize(responseJson, new TypeReference<Map<String, Object>>() {});
         if (responseMap.containsKey("code")) {
             if ((Integer)responseMap.get("code") != 0) {
                 LOGGER.error("error when send feishu robot message, response: {}", responseJson);

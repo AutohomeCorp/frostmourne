@@ -598,6 +598,6 @@
         <setting id="org.eclipse.jdt.core.formatter.brace_position_for_type_declaration" value="end_of_line"/>
 
         <!--org.eclipse.jdt.core.formatter.lineSplit=RIGHT_MARGIN-->
-        <setting id="org.eclipse.jdt.core.formatter.lineSplit" value="120"/>
+        <setting id="org.eclipse.jdt.core.formatter.lineSplit" value="160"/>
     </profile>
 </profiles>

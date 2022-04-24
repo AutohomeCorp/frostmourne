@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.UserRole;
 import com.autohome.frostmourne.monitor.model.contract.UserContract;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.UserRole;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.UserRoleDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.UserRoleDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IUserRoleRepository;
@@ -35,8 +35,7 @@ public class UserRoleRepository implements IUserRoleRepository {
 
     @Override
     public int deleteByAccount(String account) {
-        return userRoleDynamicMapper.delete(
-                query -> query.where(UserRoleDynamicSqlSupport.account, isEqualTo(account)));
+        return userRoleDynamicMapper.delete(query -> query.where(UserRoleDynamicSqlSupport.account, isEqualTo(account)));
     }
 
     @Override
@@ -59,8 +58,7 @@ public class UserRoleRepository implements IUserRoleRepository {
 
     @Override
     public List<String> findByAccount(String account) {
-        List<UserRole> list = userRoleDynamicMapper.select(
-                query -> query.where().and(UserRoleDynamicSqlSupport.account, isEqualTo(account)));
+        List<UserRole> list = userRoleDynamicMapper.select(query -> query.where().and(UserRoleDynamicSqlSupport.account, isEqualTo(account)));
         if (list == null || list.isEmpty()) {
             return Collections.singletonList("user");
         }
@@ -69,16 +67,12 @@ public class UserRoleRepository implements IUserRoleRepository {
 
     @Override
     public Map<String, List<String>> findByAccountList(List<String> accountList) {
-        List<UserRole> list = userRoleDynamicMapper.select(
-                query -> query.where().and(UserRoleDynamicSqlSupport.account, isIn(accountList)));
+        List<UserRole> list = userRoleDynamicMapper.select(query -> query.where().and(UserRoleDynamicSqlSupport.account, isIn(accountList)));
         if (list == null || list.isEmpty()) {
             return new HashMap<>();
         }
 
-        return list.stream().collect(Collectors.groupingBy(
-                UserRole::getAccount,
-                HashMap::new,
-                Collectors.mapping(UserRole::getRole, Collectors.toList())));
+        return list.stream().collect(Collectors.groupingBy(UserRole::getAccount, HashMap::new, Collectors.mapping(UserRole::getRole, Collectors.toList())));
     }
 
 }

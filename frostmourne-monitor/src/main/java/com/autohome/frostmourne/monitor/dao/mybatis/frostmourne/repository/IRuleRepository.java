@@ -2,7 +2,7 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository;
 
 import java.util.Optional;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.Rule;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Rule;
 
 public interface IRuleRepository {
 

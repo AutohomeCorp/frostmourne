@@ -24,8 +24,7 @@ public class JdbcDao implements IJdbcDao {
     private IDataSourceJdbcManager dataSourceJdbcManager;
 
     @Override
-    public List<Map<String, Object>> query(DataNameContract dataNameContract, DataSourceContract dataSourceContract,
-        String sql, Object[] args) {
+    public List<Map<String, Object>> query(DataNameContract dataNameContract, DataSourceContract dataSourceContract, String sql, Object[] args) {
         try {
             DataSource dataSource = dataSourceJdbcManager.getDataSource(dataSourceContract);
             if (dataSource == null) {
@@ -34,8 +33,7 @@ public class JdbcDao implements IJdbcDao {
             }
             return this.query(dataSource, sql, args);
         } catch (Exception e) {
-            log.error("JdbcDataQuery.query error: dataSource={}, sql={}, {}", dataSourceContract, sql, e.getMessage(),
-                e);
+            log.error("JdbcDataQuery.query error: dataSource={}, sql={}, {}", dataSourceContract, sql, e.getMessage(), e);
             return Collections.emptyList();
         }
     }

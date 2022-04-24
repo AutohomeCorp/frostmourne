@@ -29,8 +29,7 @@ public class ElasticsearchSourceManager {
             if (currentEsRestClientContainer.getInitTimestamp() >= elasticsearchInfo.getLastUpdateTime()) {
                 return currentEsRestClientContainer;
             } else {
-                LOGGER.warn("elasticsearch updated after init, start reload. info: {}",
-                    JacksonUtil.serialize(elasticsearchInfo));
+                LOGGER.warn("elasticsearch updated after init, start reload. info: {}", JacksonUtil.serialize(elasticsearchInfo));
                 reloadEsRestClientContainer(elasticsearchInfo);
             }
         } else {
@@ -44,8 +43,8 @@ public class ElasticsearchSourceManager {
         if (!containerMap.containsKey(elasticsearchInfo.getName())) {
             return true;
         }
-        EsRestClientContainer newEsRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(),
-            elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
+        EsRestClientContainer newEsRestClientContainer =
+            new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
         newEsRestClientContainer.init();
         if (!newEsRestClientContainer.health()) {
             LOGGER.warn("elasticsearch not health when reload. info: {}", JacksonUtil.serialize(elasticsearchInfo));
@@ -61,8 +60,8 @@ public class ElasticsearchSourceManager {
     }
 
     public synchronized void addEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
-        EsRestClientContainer esRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(),
-            elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
+        EsRestClientContainer esRestClientContainer =
+            new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
         esRestClientContainer.init();
         containerMap.put(elasticsearchInfo.getName(), esRestClientContainer);
     }

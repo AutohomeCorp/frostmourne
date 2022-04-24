@@ -55,20 +55,17 @@ public class WechatSender extends MessageSenderChain {
     public void send(AlarmMessageBO alarmMessageBO) {
 
         MessageResult messageResult = new MessageResult(myWay(), false);
-        if (StringUtils.isAnyBlank(wechatProperties.getCorpId(), wechatProperties.getAgentId(),
-            wechatProperties.getSecret())) {
+        if (StringUtils.isAnyBlank(wechatProperties.getCorpId(), wechatProperties.getAgentId(), wechatProperties.getSecret())) {
             LOGGER.error("corpId, agentId or secret could not be null when send by wechat");
             alarmMessageBO.getResultList().add(messageResult);
             return;
         }
 
         if (StringUtils.isBlank(tokenUrl)) {
-            tokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=" + wechatProperties.getCorpId()
-                + "&corpsecret=" + wechatProperties.getSecret();
+            tokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=" + wechatProperties.getCorpId() + "&corpsecret=" + wechatProperties.getSecret();
         }
 
-        List<String> wxidList = alarmMessageBO.getRecipients().stream().map(AccountInfo::getWxid)
-            .filter(StringUtils::isNotBlank).collect(Collectors.toList());
+        List<String> wxidList = alarmMessageBO.getRecipients().stream().map(AccountInfo::getWxid).filter(StringUtils::isNotBlank).collect(Collectors.toList());
 
         if (wxidList.isEmpty()) {
             LOGGER.error("user could not be empty when send wechat message");

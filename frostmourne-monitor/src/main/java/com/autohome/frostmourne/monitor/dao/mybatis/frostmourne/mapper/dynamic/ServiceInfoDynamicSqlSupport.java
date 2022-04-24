@@ -2,39 +2,52 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class ServiceInfoDynamicSqlSupport {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.016+08:00", comments="Source Table: service_info")
     public static final ServiceInfo serviceInfo = new ServiceInfo();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.017+08:00", comments="Source field: service_info.id")
+    /**
+     * 自增主键
+     */
     public static final SqlColumn<Long> id = serviceInfo.id;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.017+08:00", comments="Source field: service_info.service_name")
+    /**
+     * 服务名称
+     */
     public static final SqlColumn<String> serviceName = serviceInfo.serviceName;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.017+08:00", comments="Source field: service_info.remark")
+    /**
+     * 备注
+     */
     public static final SqlColumn<String> remark = serviceInfo.remark;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.017+08:00", comments="Source field: service_info.owner")
+    /**
+     * 负责人
+     */
     public static final SqlColumn<String> owner = serviceInfo.owner;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.017+08:00", comments="Source field: service_info.creator")
+    /**
+     * 创建人
+     */
     public static final SqlColumn<String> creator = serviceInfo.creator;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.017+08:00", comments="Source field: service_info.create_at")
+    /**
+     * 创建时间
+     */
     public static final SqlColumn<Date> createAt = serviceInfo.createAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.017+08:00", comments="Source field: service_info.modifier")
+    /**
+     * 修改人
+     */
     public static final SqlColumn<String> modifier = serviceInfo.modifier;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.017+08:00", comments="Source field: service_info.modify_at")
+    /**
+     * 修改时间
+     */
     public static final SqlColumn<Date> modifyAt = serviceInfo.modifyAt;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", date="2020-09-07T18:59:33.016+08:00", comments="Source Table: service_info")
     public static final class ServiceInfo extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 

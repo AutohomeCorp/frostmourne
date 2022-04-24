@@ -4,9 +4,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.ServiceInfo;
 import org.springframework.util.CollectionUtils;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.ServiceInfo;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoContract;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSaveForm;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSimpleContract;

@@ -6,7 +6,6 @@ import com.autohome.frostmourne.monitor.model.account.Team;
 import java.util.List;
 import java.util.Optional;
 
-
 public interface IAccountService {
 
     Optional<AccountInfo> findByAccount(String account);

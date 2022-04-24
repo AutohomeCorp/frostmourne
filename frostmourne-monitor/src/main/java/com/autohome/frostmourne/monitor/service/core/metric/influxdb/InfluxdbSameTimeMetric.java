@@ -18,8 +18,7 @@ public class InfluxdbSameTimeMetric extends AbstractSameTimeMetric {
     }
 
     @Override
-    public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract,
-        Map<String, String> ruleSettings) {
+    public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) {
         return influxdbDataQuery.queryMetricData(start, end, metricContract);
     }
 }
