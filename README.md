@@ -13,12 +13,12 @@ frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源�
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
 但是项目并不仅限于elasticsearch数据，还有HTTP数据监控，InfluxDB数据监控，Mysql数据监控, ClickHouse数据监控，后面还会加入更多的常用数据源(如：prometheus, skywalking,
-iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，我们一起做大做强。
+iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
 
 ## 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多数据源(Elasticsearch, InfluxDB, Mysql, ClickHouse)支持
+* 多种数据源(Elasticsearch, InfluxDB, Mysql, ClickHouse)支持
 * 多种数值计算类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), WebHook, 飞书机器人)
 * 消息支持多种格式(text, markdown)
@@ -78,7 +78,6 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 
 数据库密码默认使用明文，没有加密策略，如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
 
-<br/>
 
 #### 一、k8s部署方式
 k8s部署参考以下三个配置文件
@@ -112,14 +111,11 @@ kubectl apply -f frostmourne-monitor-service.yaml
 ./scripts/shutdown.sh
 ```
 
-<br/>
-
 #### 三、自构建部署方式
 
 依赖环境
 * JDK 1.8+
 * Maven 3.2.x+
-* npm 6.9.0
 
 在项目frostmourne主目录下执maven构建命令：
 ```bash
@@ -140,14 +136,14 @@ frostmourne-monitor已经配置了assembly打包，target目录下会生成zip�
 ```bash
 ./scripts/shutdown.sh
 ```
-<br/>
 
 ## 开发调试
 
 调试环境要求
 
-* JDK 1.8+
-* npm 6.9.0
+* JDK 1.8
+* Node 16.14.2 (推荐)
+* Yarn 1.22.10 (推荐) 或 Npm 8.7.0
 * Mysql 5.6+
 * Elasticsearch 6.3.2+
 
@@ -201,6 +197,8 @@ npm run dev
 * ~~增加0.6升级0.6.1的说明文档~~ [upgrade-0.6.1.md](./doc/wiki/upgrade-0.6.1.md) [2022-04-19]
 * ~~增加k8s环境部署说明~~ [2022-04-21]
 * ~~增加项目代码规范说明文档~~ [code_format](./doc/wiki/code_format.md) [2022-04-23]
+* ~~elasticsearch数据源https支持pkcs12证书~~ [issue#71](https://github.com/AutohomeCorp/frostmourne/issues/71) [2022-04-25]
+* ~~优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件~~ [2022-04-25]
 * 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
 * Elasticsearch监控数值实现环比监控
 * 增加ping监控报警,一个监控最多监控10个ping。
@@ -213,7 +211,6 @@ npm run dev
 * 解决邮箱报警不支持ssl的问题
 * 增加本项目内程序日志采集至mysql并提供查询页面，方便排查问题和监控
 * 员工换组增加是否迁移监控至新组的选项，如果勾选将该员工创建的监控也转移至新组
-* 解决firefox浏览器时间显示有问题的bug
 * 增加报警组支持
 * Elasticsearch数据名增加traceid字段配置，可以配置跳转链接。例如: 配置skywalking的链接将跳转到skywalking对应的调用链
 * 增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持

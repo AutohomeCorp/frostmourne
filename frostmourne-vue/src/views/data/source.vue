@@ -42,9 +42,6 @@
 
     <el-dialog title="保存数据源" :visible.sync="dialogFormVisible" width="30%">
       <el-form :model="editData">
-        <el-form-item label="名称" :label-width="formLabelWidth">
-          <el-input v-model="editData.datasourceName" autocomplete="off" />
-        </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
           <el-select v-model="editData.datasourceType" :disabled="disableTypeSelect" placeholder="数据源类型">
             <el-option label="elasticsearch" value="elasticsearch" />
@@ -52,6 +49,9 @@
             <el-option label="mysql" value="mysql" />
             <el-option label="clickhouse" value="clickhouse" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="名称" :label-width="formLabelWidth">
+          <el-input v-model="editData.datasourceName" autocomplete="off" />
         </el-form-item>
         <el-form-item label="服务地址" :label-width="formLabelWidth">
           <el-input v-model="editData.serviceAddress" autocomplete="off" />
@@ -72,6 +72,12 @@
               :auto-upload="false">
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
             </el-upload>
+          </el-form-item>
+          <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="证书格式:" :label-width="formLabelWidth">
+            <el-select v-model="editData.settings.sslFormat">
+              <el-option label="jks" value="jks"/>
+              <el-option label="pkcs12" value="pkcs12"/>
+            </el-select>
           </el-form-item>
           <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="证书密码:" :label-width="formLabelWidth">
             <el-input v-model="editData.settings.sslCertPassword" placeholder="填写证书密码" :type="passwordType" autocomplete="off" />

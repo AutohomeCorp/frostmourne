@@ -114,8 +114,12 @@ public class EsRestClientContainer {
             LOGGER.error("sslCert could not be null when use https");
             return null;
         }
+        String sslFormat = settings.get("sslFormat");
         try {
-            KeyStore truststore = KeyStore.getInstance("jks");
+            if (Strings.isNullOrEmpty(sslFormat)) {
+                sslFormat = "jks";
+            }
+            KeyStore truststore = KeyStore.getInstance(sslFormat);
             try (InputStream is = new ByteArrayInputStream(Base64.decodeBase64(certBase64))) {
                 truststore.load(is, Optional.ofNullable(settings.get("sslCertPassword")).map(String::toCharArray).orElse(null));
             }
