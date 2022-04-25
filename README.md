@@ -198,7 +198,7 @@ npm run dev
 * ~~增加k8s环境部署说明~~ [2022-04-21]
 * ~~增加项目代码规范说明文档~~ [code_format](./doc/wiki/code_format.md) [2022-04-23]
 * ~~elasticsearch数据源https支持pkcs12证书~~ [issue#71](https://github.com/AutohomeCorp/frostmourne/issues/71) [2022-04-25]
-* ~~优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件~~ [2022-04-25]
+* ~~优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件,自动管理node和yarn版本~~ [2022-04-25]
 * 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
 * Elasticsearch监控数值实现环比监控
 * 增加ping监控报警,一个监控最多监控10个ping。

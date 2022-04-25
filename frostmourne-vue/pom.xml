@@ -60,7 +60,8 @@
                             <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <npmRegistryURL>https://registry.npmmirror.com/</npmRegistryURL>
+                            <!--<npmRegistryURL>https://registry.npmmirror.com/</npmRegistryURL>-->
+                            <npmRegistryURL>https://registry.npm.taobao.org</npmRegistryURL>
                             <arguments>install</arguments>
                         </configuration>
                     </execution>

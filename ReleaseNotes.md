@@ -24,7 +24,7 @@
 
 ### Others
 
-* 优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件 [2022-04-25]
+* 优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件，自动管理node和yarn版本 [2022-04-25]
 
 # 0.5-RELEASE
 
