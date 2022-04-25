@@ -38,24 +38,7 @@ docker-compose up
 请将本项目的[docker-compose.yml](../docker/docker-compose.yml)文件保存到本地目录frostmourne中，看情况修改其中的数据库连接。
 默认是我本地环境，我用的是docker for windows，容器之间通过host.docker.internal来访问主机，如果你和我环境一样，就不用任何改动。
 
-如果你是自己的另外mysql实例，请将host.docker.internal修改为你的mysql服务地址，并同时修改mysql用户和密码。注意xxl-job和frostmourne-monitor两个服务都有
-mysql连接配置，都需要修改。
-
-然后就是邮箱配置和其他相关发送方式相关配置。你可以只先配置邮箱来测试一下，后面再加入其他配置
-
-```yaml
-environment:
-      email.smtp.host: smtp.qq.com
-      email.smtp.port: 25
-      email.smtp.auth: 'true'
-      email.sender: xxx@qq.com
-      email.sender.password: xxx
-      dwz45.token: t8HGzRNv9TmvqUFICNoW3SaYNA1C9OAC
-      wechat.corpid:
-      wechat.agentid:
-      wechat.secret:
-
-```
+如果你是自己的另外mysql实例，请将host.docker.internal修改为你的mysql服务地址，并同时修改mysql用户和密码。
 
 > 镜像服务说明：由于dockerhub推送镜像太难受，所以用阿里云的镜像管理代替，dockerhub也会更新，但是由于经常失败，可能不会那么及时。所以尽可能
 使用阿里云。dockerhub的镜像地址为：frostmourne2020/frostmourne:tag

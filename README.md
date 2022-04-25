@@ -96,7 +96,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 
 #### 二、zip包部署方式
 依赖环境
-* JDK 1.8+
+* JDK 1.8
 
 需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.6.1-SNAPSHOT.zip" download>frostmourne-monitor-0.6.1-SNAPSHOT.zip</a> ;然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
@@ -114,7 +114,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 #### 三、自构建部署方式
 
 依赖环境
-* JDK 1.8+
+* JDK 1.8
 * Maven 3.2.x+
 
 在项目frostmourne主目录下执maven构建命令：
@@ -158,13 +158,13 @@ mysql相关参数修改为自己环境的，active profile设置为local, 测试
 
 ```bash
 # install dependency
-npm install
+yarn install
 
 # 建议不要直接使用 cnpm 安装以来，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
-npm install --registry=https://registry.npm.taobao.org
+yarn install --registry=https://registry.npm.taobao.org
 
 # develop
-npm run dev
+yarn dev
 ```
 
 会自动打开： http://localhost:9528
@@ -198,11 +198,14 @@ npm run dev
 * ~~增加k8s环境部署说明~~ [2022-04-21]
 * ~~增加项目代码规范说明文档~~ [code_format](./doc/wiki/code_format.md) [2022-04-23]
 * ~~elasticsearch数据源https支持pkcs12证书~~ [issue#71](https://github.com/AutohomeCorp/frostmourne/issues/71) [2022-04-25]
-* ~~优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件,自动管理node和yarn版本~~ [2022-04-25]
+* ~~优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件，打包自动管理node和yarn使用特定版本~~ [2022-04-25]
+* 解决elasticsearch8数据查询报错的问题
 * 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
-* Elasticsearch监控数值实现环比监控
+* 数据预览前端增加参数校验提示
 * 增加ping监控报警,一个监控最多监控10个ping。
 * msyql, influxdb, clickhouse监控增加表达式监控规则
+* Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
+* Elasticsearch监控数值实现环比监控
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
