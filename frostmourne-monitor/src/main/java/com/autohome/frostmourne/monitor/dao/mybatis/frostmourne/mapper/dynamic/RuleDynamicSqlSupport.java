@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
 import java.sql.JDBCType;
 import java.util.Date;
 import org.mybatis.dynamic.sql.SqlColumn;
@@ -41,7 +42,7 @@ public final class RuleDynamicSqlSupport {
     /**
      * 报警消息类型(TEXT,MARKDOWN)
      */
-    public static final SqlColumn<String> alertTemplateType = rule.alertTemplateType;
+    public static final SqlColumn<AlertTemplateType> alertTemplateType = rule.alertTemplateType;
 
     public static final class Rule extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
@@ -56,7 +57,7 @@ public final class RuleDynamicSqlSupport {
 
         public final SqlColumn<Date> createAt = column("create_at", JDBCType.TIMESTAMP);
 
-        public final SqlColumn<String> alertTemplateType = column("alert_template_type", JDBCType.VARCHAR);
+        public final SqlColumn<AlertTemplateType> alertTemplateType = column("alert_template_type", JDBCType.VARCHAR);
 
         public Rule() {
             super("rule");
