@@ -309,6 +309,7 @@ import serviceinfoApi from '@/api/service-info.js'
 import dataQueryApi from '@/api/data-query.js'
 
 import VueJsonPretty from 'vue-json-pretty'
+import 'vue-json-pretty/lib/styles.css';
 
 export default {
   components: {

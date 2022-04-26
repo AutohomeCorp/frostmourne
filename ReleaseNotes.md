@@ -6,6 +6,7 @@
 * 微信机器人、钉钉机器人和http报警消息格式支持markdown - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15]
 * 增加用户密码设置功能，方便没有部署ldap的团队使用。配置了ldap的将优先使用ldap认证。 - [SQL](./doc/mysql-schema/2022-04-10/change.sql) [2022-04-10]
 * 移除xxl-job依赖，内置实现分布式调度，减小部署难度 - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
+* elasticsearch数据源https支持pkcs12证书 [issue#71](https://github.com/AutohomeCorp/frostmourne/issues/71) [2022-04-25]
 
 ### Mysql
 
@@ -20,6 +21,10 @@
 * 增加0.6升级0.6.1的说明文档 [upgrade-0.6.1.md](./doc/wiki/upgrade-0.6.1.md) [2022-04-19]
 * 增加k8s环境部署说明 [2022-04-21]
 * 增加项目代码规范说明文档 [code_format](./doc/wiki/code_format.md) [2022-04-23]
+
+### Others
+
+* 优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件，打包自动管理node和yarn使用特定版本 [2022-04-25]
 
 # 0.5-RELEASE
 

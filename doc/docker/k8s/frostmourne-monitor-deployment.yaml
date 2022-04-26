@@ -6,7 +6,7 @@ metadata:
   name: frostmourne-monitor
   namespace: frostmourne
 spec:
-  replicas: 3 # 启动pod数量
+  replicas: 2 # 启动pod数量
   selector:
     matchLabels:
       run: frostmourne-monitor
