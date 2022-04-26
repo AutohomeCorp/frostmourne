@@ -103,7 +103,7 @@ public class AlertService implements IAlertService {
             }
         }
 
-        alarmMessageBO.setAlertTemplateType(AlertTemplateType.valueOf(alarmProcessLogger.getAlarmContract().getRuleContract().getAlertTemplateType()));
+        alarmMessageBO.setAlertTemplateType(alarmProcessLogger.getAlarmContract().getRuleContract().getAlertTemplateType());
         alarmMessageBO.setTitle(String.format("[%s][id:%s]%s", Strings.isNullOrEmpty(messageTitle) ? alertTitle() : messageTitle,
             alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
         alarmMessageBO.setRecipients(recipients);

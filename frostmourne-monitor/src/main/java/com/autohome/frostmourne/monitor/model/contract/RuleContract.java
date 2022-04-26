@@ -10,7 +10,7 @@ public class RuleContract {
 
     private Long alarmId;
 
-    private String alertTemplateType;
+    private AlertTemplateType alertTemplateType;
 
     private String alertTemplate;
 
@@ -32,11 +32,11 @@ public class RuleContract {
         this.alarmId = alarmId;
     }
 
-    public String getAlertTemplateType() {
+    public AlertTemplateType getAlertTemplateType() {
         return alertTemplateType;
     }
 
-    public void setAlertTemplateType(String alertTemplateType) {
+    public void setAlertTemplateType(AlertTemplateType alertTemplateType) {
         this.alertTemplateType = alertTemplateType;
     }
 

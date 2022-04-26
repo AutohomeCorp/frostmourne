@@ -84,6 +84,7 @@
         <table tableName="rule" mapperName="RuleDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="alert_template_type" javaType="com.autohome.frostmourne.monitor.model.enums.AlertTemplateType"/>
         </table>
         <table tableName="rule_property" mapperName="RulePropertyDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
