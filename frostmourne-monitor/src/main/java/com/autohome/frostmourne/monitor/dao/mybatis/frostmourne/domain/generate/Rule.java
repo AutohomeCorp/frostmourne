@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate;
 
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -42,7 +43,7 @@ public class Rule implements Serializable {
     /**
      * 报警消息类型(TEXT,MARKDOWN)
      */
-    private String alertTemplateType;
+    private AlertTemplateType alertTemplateType;
 
     private static final long serialVersionUID = 1L;
 
@@ -94,12 +95,12 @@ public class Rule implements Serializable {
         this.createAt = createAt;
     }
 
-    public String getAlertTemplateType() {
+    public AlertTemplateType getAlertTemplateType() {
         return alertTemplateType;
     }
 
-    public void setAlertTemplateType(String alertTemplateType) {
-        this.alertTemplateType = alertTemplateType == null ? null : alertTemplateType.trim();
+    public void setAlertTemplateType(AlertTemplateType alertTemplateType) {
+        this.alertTemplateType = alertTemplateType;
     }
 
     @Override
