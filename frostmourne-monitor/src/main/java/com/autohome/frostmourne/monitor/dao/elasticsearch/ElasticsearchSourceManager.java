@@ -15,7 +15,7 @@ public class ElasticsearchSourceManager {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ElasticsearchSourceManager.class);
 
-    private ConcurrentHashMap<String, EsRestClientContainer> containerMap;
+    private ConcurrentHashMap<String, AbstractElasticClientContainer> containerMap;
 
     private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
@@ -23,9 +23,9 @@ public class ElasticsearchSourceManager {
         this.containerMap = new ConcurrentHashMap<>();
     }
 
-    public EsRestClientContainer findEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
+    public AbstractElasticClientContainer findEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
         if (containerMap.containsKey(elasticsearchInfo.getName())) {
-            EsRestClientContainer currentEsRestClientContainer = containerMap.get(elasticsearchInfo.getName());
+            AbstractElasticClientContainer currentEsRestClientContainer = containerMap.get(elasticsearchInfo.getName());
             if (currentEsRestClientContainer.getInitTimestamp() >= elasticsearchInfo.getLastUpdateTime()) {
                 return currentEsRestClientContainer;
             } else {
@@ -51,7 +51,7 @@ public class ElasticsearchSourceManager {
             return false;
         }
 
-        EsRestClientContainer oldEsRestClientContainer = containerMap.get(elasticsearchInfo.getName());
+        AbstractElasticClientContainer oldEsRestClientContainer = containerMap.get(elasticsearchInfo.getName());
         containerMap.put(elasticsearchInfo.getName(), newEsRestClientContainer);
         Runnable task = oldEsRestClientContainer::close;
         executor.schedule(task, 5, TimeUnit.MINUTES);
@@ -60,16 +60,27 @@ public class ElasticsearchSourceManager {
     }
 
     public synchronized void addEsRestClientContainer(ElasticsearchInfo elasticsearchInfo) {
-        EsRestClientContainer esRestClientContainer =
-            new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
+        AbstractElasticClientContainer esRestClientContainer = null;
+        if (elasticsearchInfo.getVersion().startsWith("6.") || elasticsearchInfo.getVersion().startsWith("7.")) {
+            esRestClientContainer = new EsRestClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
+        } else if (elasticsearchInfo.getVersion().startsWith("8.")) {
+            esRestClientContainer =
+                new Elasticsearch8ClientContainer(elasticsearchInfo.getEsHostList(), elasticsearchInfo.getSniff(), elasticsearchInfo.getSettings());
+        } else {
+            throw new RuntimeException("not support es version: " + elasticsearchInfo.getVersion());
+        }
         esRestClientContainer.init();
         containerMap.put(elasticsearchInfo.getName(), esRestClientContainer);
     }
 
     public void close() {
         executor.shutdown();
-        for (Map.Entry<String, EsRestClientContainer> entry : containerMap.entrySet()) {
-            entry.getValue().close();
+        for (Map.Entry<String, AbstractElasticClientContainer> entry : containerMap.entrySet()) {
+            try {
+                entry.getValue().close();
+            } catch (Exception ex) {
+                LOGGER.error("error when close es client", ex);
+            }
         }
     }
 }

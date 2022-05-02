@@ -7,6 +7,12 @@
 * 增加用户密码设置功能，方便没有部署ldap的团队使用。配置了ldap的将优先使用ldap认证。 - [SQL](./doc/mysql-schema/2022-04-10/change.sql) [2022-04-10]
 * 移除xxl-job依赖，内置实现分布式调度，减小部署难度 - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
 * elasticsearch数据源https支持pkcs12证书 [issue#71](https://github.com/AutohomeCorp/frostmourne/issues/71) [2022-04-25]
+* 数据预览前端增加参数校验提示 [2022-04-28]
+* 数据源增加Elasticsearch8支持 [2022-05-02]
+
+### Bugfix
+
+* 解决查询elasticsearch索引字段查询报错的问题 [2022-04-27]
 
 ### Mysql
 
