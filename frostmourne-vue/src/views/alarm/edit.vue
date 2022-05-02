@@ -309,7 +309,7 @@ import serviceinfoApi from '@/api/service-info.js'
 import dataQueryApi from '@/api/data-query.js'
 
 import VueJsonPretty from 'vue-json-pretty'
-import 'vue-json-pretty/lib/styles.css';
+import 'vue-json-pretty/lib/styles.css'
 
 export default {
   components: {
@@ -473,17 +473,18 @@ export default {
       })
     },
     validateInput () {
-      if(this.form.alertContract.ways.includes('feishu') && (this.form.alertContract.feishuRobotHook === null || this.form.alertContract.feishuRobotHook === '')) {
-        this.$message({ type: 'warn', message: '飞书机器人地址不能为空' });
-        return false;
+      if (this.form.alertContract.ways.includes('feishu') &&
+      (this.form.alertContract.feishuRobotHook === null || this.form.alertContract.feishuRobotHook === '')) {
+        this.$message({ type: 'warn', message: '飞书机器人地址不能为空' })
+        return false
       }
-      return true;
+      return true
     },
     onSubmit () {
       this.$refs['form'].validate((validate) => {
         if (validate) {
-          if(!this.validateInput()) {
-            return false;
+          if (!this.validateInput()) {
+            return false
           }
           this.disableSave = false
           this.copyToProperties()
@@ -523,6 +524,11 @@ export default {
         this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
         return
       }
+      if (this.form.dataSourceType !== 'http' && (this.form.metricContract.metricType == null || this.form.metricContract.metricType === '')) {
+        this.$message({ type: 'warning', message: '请先设置报警规则', duration: 2000 })
+        return
+      }
+
       this.copyToProperties()
       alarmApi.previewData(this.form).then(response => {
         this.previewResonseData = response.result
