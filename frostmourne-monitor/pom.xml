@@ -15,7 +15,7 @@
         <java.version>1.8</java.version>
         <log4j2.version>2.17.1</log4j2.version>
 
-        <elasticsearch.rest.version>6.6.2</elasticsearch.rest.version>
+        <elasticsearch.rest.version>6.8.17</elasticsearch.rest.version>
         <elasticsearch.client.version>8.1.3</elasticsearch.client.version>
         <druid.version>1.0.15</druid.version>
         <pagehelper.version>5.0.0</pagehelper.version>
