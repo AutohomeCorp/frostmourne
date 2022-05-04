@@ -64,6 +64,14 @@
         <table tableName="alert_log" mapperName="AlertLogDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="alert_type" javaType="com.autohome.frostmourne.monitor.model.enums.AlertType"/>
+        </table>
+        <table tableName="alert_event" mapperName="AlertEventDynamicMapper">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="alert_type" javaType="com.autohome.frostmourne.monitor.model.enums.AlertType"/>
+            <columnOverride column="in_silence" javaType="java.lang.Boolean"/>
+            <columnOverride column="create_at" javaType="java.time.LocalDateTime"/>
         </table>
         <table tableName="data_name" mapperName="DataNameDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
@@ -124,54 +132,54 @@
         </table>
     </context>
 
-    <context id="mybatis3" targetRuntime="MyBatis3">
-        <!-- Java文件编码 -->
+    <!--<context id="mybatis3" targetRuntime="MyBatis3">
+        &lt;!&ndash; Java文件编码 &ndash;&gt;
         <property name="javaFileEncoding" value="UTF-8"/>
         <property name="mergeable" value="false"/>
 
-        <!-- model类序列化 -->
+        &lt;!&ndash; model类序列化 &ndash;&gt;
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
-        <!-- model类equals和hashCode方法 -->
+        &lt;!&ndash; model类equals和hashCode方法 &ndash;&gt;
         <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
 
-        <!-- 不合并xmlMapper -->
+        &lt;!&ndash; 不合并xmlMapper &ndash;&gt;
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
 
-        <!-- 注释配置: 简化注解 -->
+        &lt;!&ndash; 注释配置: 简化注解 &ndash;&gt;
         <commentGenerator type="com.autohome.frostmourne.core.mybatis.BarnCommentGenerator"/>
 
-        <!-- 数据库连接配置 -->
+        &lt;!&ndash; 数据库连接配置 &ndash;&gt;
         <jdbcConnection driverClass="${jdbc.driverClass}" connectionURL="${jdbc.connectionURL}"
                         userId="${jdbc.userId}" password="${jdbc.password}">
             <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
         <javaTypeResolver>
-            <!-- 数字是否强制转化为BigDecimals(DECIMAL and NUMERIC) -->
+            &lt;!&ndash; 数字是否强制转化为BigDecimals(DECIMAL and NUMERIC) &ndash;&gt;
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
-        <!--生成Model类存放位置-->
+        &lt;!&ndash;生成Model类存放位置&ndash;&gt;
         <javaModelGenerator targetPackage="${project.domain.class.package}"
                             targetProject="${project.domain.class.path}">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
-        <!--生成XML映射文件存放位置-->
+        &lt;!&ndash;生成XML映射文件存放位置&ndash;&gt;
         <sqlMapGenerator targetPackage="${project.dao.mapper.xml.package}"
                          targetProject="${project.dao.mapper.xml.path}">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
-        <!--生成Mapper类存放位置-->
+        &lt;!&ndash;生成Mapper类存放位置&ndash;&gt;
         <javaClientGenerator targetPackage="${project.dao.mapper.class.package}"
                              targetProject="${project.dao.mapper.class.path}"
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <!--生成对应表及类名-->
+        &lt;!&ndash;生成对应表及类名&ndash;&gt;
         <table tableName="alarm_log"
                enableCountByExample="false"
                enableUpdateByExample="false"
@@ -198,5 +206,5 @@
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-    </context>
+    </context>-->
 </generatorConfiguration>

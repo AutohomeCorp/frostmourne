@@ -75,8 +75,8 @@
           </el-form-item>
           <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="证书格式:" :label-width="formLabelWidth">
             <el-select v-model="editData.settings.sslFormat">
-              <el-option label="jks" value="jks"/>
-              <el-option label="pkcs12" value="pkcs12"/>
+              <el-option label="jks" value="jks" />
+              <el-option label="pkcs12" value="pkcs12" />
             </el-select>
           </el-form-item>
           <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="证书密码:" :label-width="formLabelWidth">

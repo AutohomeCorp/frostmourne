@@ -4,6 +4,10 @@ import org.elasticsearch.common.Strings;
 
 public class MybatisTool {
 
+    public static boolean notNull(Object value) {
+        return value != null;
+    }
+
     public static boolean notNullAndEmpty(String value) {
         return !Strings.isNullOrEmpty(value);
     }

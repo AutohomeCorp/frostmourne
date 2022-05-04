@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate;
 
+import com.autohome.frostmourne.monitor.model.enums.AlertType;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -47,7 +48,7 @@ public class AlertLog implements Serializable {
     /**
      * 消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)
      */
-    private String alertType;
+    private AlertType alertType;
 
     /**
      * 创建时间
@@ -117,12 +118,12 @@ public class AlertLog implements Serializable {
         this.sendStatus = sendStatus == null ? null : sendStatus.trim();
     }
 
-    public String getAlertType() {
+    public AlertType getAlertType() {
         return alertType;
     }
 
-    public void setAlertType(String alertType) {
-        this.alertType = alertType == null ? null : alertType.trim();
+    public void setAlertType(AlertType alertType) {
+        this.alertType = alertType;
     }
 
     public Date getCreateAt() {
