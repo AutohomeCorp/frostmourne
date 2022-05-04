@@ -206,16 +206,26 @@
       <el-button type="primary" @click="onPreview">预览数据</el-button>
       <el-tabs>
         <el-tab-pane label="报警发送">
-          <el-form-item label="报警方式:" prop="alertContract.ways">
-            <el-checkbox-group v-model="form.alertContract.ways" size="small">
-              <el-checkbox-button label="dingding">钉钉</el-checkbox-button>
-              <el-checkbox-button label="email">Email</el-checkbox-button>
-              <el-checkbox-button label="sms">短信</el-checkbox-button>
-              <el-checkbox-button label="wechat">企业微信</el-checkbox-button>
-              <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
-              <el-checkbox-button label="feishu">飞书</el-checkbox-button>
-            </el-checkbox-group>
-          </el-form-item>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="报警方式:" prop="alertContract.ways">
+                <el-checkbox-group v-model="form.alertContract.ways" size="small">
+                  <el-checkbox-button label="dingding">钉钉</el-checkbox-button>
+                  <el-checkbox-button label="email">Email</el-checkbox-button>
+                  <el-checkbox-button label="sms">短信</el-checkbox-button>
+                  <el-checkbox-button label="wechat">企业微信</el-checkbox-button>
+                  <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
+                  <el-checkbox-button label="feishu">飞书</el-checkbox-button>
+                </el-checkbox-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="16">
+              <el-form-item label="恢复通知:">
+                <el-switch v-model="form.recoverNoticeStatus" active-value="OPEN" active-text="开启"
+                           inactive-value="CLOSE" inactive-text="关闭" />
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-form-item v-if="form.alertContract.ways.includes('dingding')" label="钉钉机器人:">
             <el-input v-model="form.alertContract.dingRobotHook" size="small" placeholder="选填" />
           </el-form-item>
@@ -229,20 +239,35 @@
             <el-input v-model="form.alertContract.feishuRobotHook" size="small" placeholder="必填" />
           </el-form-item>
           <el-row>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="静默时间:">
-                <el-input-number v-model="form.alertContract.silence" size="small" :min="0" label="静默时间" />分钟
+                <el-input-number v-model="form.alertContract.silence" size="small" :min="0" label="静默时间" />
+                分钟
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="恢复通知:">
-                <el-switch v-model="form.recoverNoticeStatus" active-value="OPEN" active-text="开启" inactive-value="CLOSE" inactive-text="关闭" />
+            <el-col :span="16">
+              <el-form-item label="静默判断:" prop="alertContract.silenceExpression">
+                <span slot="label">
+                  <el-tooltip class="item" effect="light" placement="right-start">
+                    <div slot="content">
+                      说明：支持多个数据字段比对，可使用逻辑运算符 '&&'，'||' 和 '()'<br /><br />
+                      举例：<br />
+                      &nbsp;&nbsp;&nbsp;&nbsp;1、日志链路和日志堆栈字段有一个值相同则静默：TraceId || StackTrace<br />
+                      &nbsp;&nbsp;&nbsp;&nbsp;2、数据字段A和数据字段B的值都相同则静默：A && B<br /><br />
+                      注：非必填，为空则默认静默时间内只会报警一次<br />
+                    </div>
+                    <i class="el-icon-question"></i>
+                  </el-tooltip>
+                  静默判断:
+                </span>
+                <el-input v-model="form.alertContract.silenceExpression"
+                          placeholder="指定字段进行值相同判断，多个字段支持 '&&'，'||' 和 '()' 逻辑语法" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-form-item label="报警接收人:" prop="alertContract.recipients">
             <el-select v-model="form.alertContract.recipients" style="width:100%;" multiple filterable remote
-                       placeholder="请输入关键词" :remote-method="findRecipient" :loading="loading">
+                       placeholder="支持关键词模糊搜索" :remote-method="findRecipient" :loading="loading">
               <el-option v-for="item in recipientList" :key="item.account" :label="item.account" :value="item.account" />
             </el-select>
           </el-form-item>
@@ -268,7 +293,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="8">或者</el-col>
+            <el-col :span="3">或者</el-col>
             <el-col :span="8">
               <el-form-item label="每天:">
                 <el-select v-model="dayCron" @change="dayCronChangeHandler">
@@ -293,7 +318,7 @@
 
     <el-dialog title="响应数据" :visible.sync="previewResponseDialogVisible">
       <div>
-        <vue-json-pretty :data="previewResonseData" />
+        <vue-json-pretty :data="previewResponseData" />
       </div>
     </el-dialog>
   </div>
@@ -309,13 +334,31 @@ import serviceinfoApi from '@/api/service-info.js'
 import dataQueryApi from '@/api/data-query.js'
 
 import VueJsonPretty from 'vue-json-pretty'
-import 'vue-json-pretty/lib/styles.css';
+import 'vue-json-pretty/lib/styles.css'
 
 export default {
   components: {
     VueJsonPretty
   },
   data () {
+    const validatorSilenceExpression = (rule, value, callback) => {
+      if (value !== '') {
+        if (value.includes('（') || value.includes('）')) {
+          callback(new Error('请使用英文括号'))
+        }
+        if (value.includes('｜')) {
+          callback(new Error('或语法请使用英文双管道符号 \'||\''))
+        }
+        if (value.startsWith(' ') || value.endsWith(' ')) {
+          callback(new Error('表达式不能以空格开头或结尾'))
+        }
+        const pattern = new RegExp('^[(]*[^&|]+[)]*(\\s{1}(&&|\\|\\|)\\s+[(]*[^&|]+[)]*)*$')
+        if (!pattern.test(value)) {
+          callback(new Error('逻辑表达式语法错误'))
+        }
+      }
+      callback()
+    }
     return {
       referer: null,
       intervalCron: '',
@@ -328,7 +371,7 @@ export default {
       disableSave: false,
       activeName: 'datasource_tab',
       id: this.$route.query.id,
-      previewResonseData: {},
+      previewResponseData: {},
       previewResponseDialogVisible: false,
       httpHeaders: [],
       loading: false,
@@ -366,7 +409,8 @@ export default {
         alertContract: {
           ways: [],
           recipients: [],
-          silence: 60
+          silence: 60,
+          silenceExpression: ''
         },
         serviceInfo: {
           id: 0
@@ -399,6 +443,10 @@ export default {
         ],
         'alertContract.ways': [
           { type: 'array', required: true, message: '请至少选择一种报警方式', trigger: 'change' }
+        ],
+        'alertContract.silenceExpression': [
+          { validator: validatorSilenceExpression, trigger: 'blur' },
+          { max: 500, message: '长度限制在500个字符以内', trigger: 'blur' }
         ],
         'alertContract.recipients': [
           { type: 'array', required: true, message: '请配置报警接收人', trigger: 'blur' }
@@ -473,26 +521,26 @@ export default {
       })
     },
     validateInput () {
-      if(this.form.alertContract.ways.includes('feishu') && (this.form.alertContract.feishuRobotHook === null || this.form.alertContract.feishuRobotHook === '')) {
-        this.$message({ type: 'warn', message: '飞书机器人地址不能为空' });
-        return false;
+      if (this.form.alertContract.ways.includes('feishu') && (this.form.alertContract.feishuRobotHook === null || this.form.alertContract.feishuRobotHook === '')) {
+        this.$message({ type: 'warn', message: '飞书机器人地址不能为空' })
+        return false
       }
-      return true;
+      return true
     },
     onSubmit () {
       this.$refs['form'].validate((validate) => {
         if (validate) {
-          if(!this.validateInput()) {
-            return false;
+          if (!this.validateInput()) {
+            return false
           }
           this.disableSave = false
           this.copyToProperties()
 
           alarmApi.test(this.form)
-            .then(response => {
+            .then(() => {
               // 测试通过
               adminApi.save(this.form)
-                .then(response => this.success('保存成功！'))
+                .then(() => this.success('保存成功！'))
                 .catch(error => {
                   this.$message({
                     type: 'success',
@@ -525,7 +573,7 @@ export default {
       }
       this.copyToProperties()
       alarmApi.previewData(this.form).then(response => {
-        this.previewResonseData = response.result
+        this.previewResponseData = response.result
         this.previewResponseDialogVisible = true
       })
     },
@@ -724,7 +772,7 @@ export default {
     handleHttpTest () {
       this.copyToProperties()
       alarmApi.httpTest(this.form.metricContract).then(response => {
-        this.previewResonseData = response.result
+        this.previewResponseData = response.result
         this.previewResponseDialogVisible = true
       })
     },

@@ -219,6 +219,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         AlertContract alertContract = new AlertContract();
         Alert alert = this.alertRepository.findOneByAlarm(alarmId).get();
         alertContract.setSilence(alert.getSilence());
+        alertContract.setSilenceExpression(alert.getSilenceExpression());
         alertContract.setWays(Splitter.on(",").splitToList(alert.getWays()));
         alertContract.setAlarm_id(alarmId);
         alertContract.setAllowSmsFrom(alert.getAllowSmsFrom());
@@ -330,6 +331,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alert.setWays(String.join(",", contract.getWays()));
         alert.setAlarmId(alarmId);
         alert.setSilence(contract.getSilence());
+        alert.setSilenceExpression(contract.getSilenceExpression());
         alert.setAllowSmsFrom(contract.getAllowSmsFrom());
         alert.setAllowSmsTo(contract.getAllowSmsTo());
         alert.setCreator(account);

@@ -199,6 +199,7 @@ yarn dev
 * ~~增加项目代码规范说明文档~~ [code_format](./doc/wiki/code_format.md) [2022-04-23]
 * ~~elasticsearch数据源https支持pkcs12证书~~ [issue#71](https://github.com/AutohomeCorp/frostmourne/issues/71) [2022-04-25]
 * ~~优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件，打包自动管理node和yarn使用特定版本~~ [2022-04-25]
+* ~~改进消息静默功能：对报警事件数据和静默时间内的事件数据对比，如果相似度很高就静默，如果和静默时间内事件相似度不高仍然报警。这样可以避免漏报同时防止报警消息过多。~~ [2022-05-04]
 * 解决elasticsearch8数据查询报错的问题
 * 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
 * 数据预览前端增加参数校验提示
@@ -220,7 +221,6 @@ yarn dev
 * 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
-* 改进消息静默功能：对报警事件数据和静默时间内的事件数据对比，如果相似度很高就静默，如果和静默时间内事件相似度不高仍然报警。这样可以避免漏报同时防止报警消息过多。
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面

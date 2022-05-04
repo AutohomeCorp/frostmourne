@@ -1,15 +1,10 @@
 package com.autohome.frostmourne.monitor.service.core.alert;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertLog;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.ConfigMap;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
@@ -17,10 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertEvent;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertLog;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.ConfigMap;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IConfigMapRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl.AlertEventRepository;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.model.contract.AlertContract;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSimpleContract;
@@ -31,6 +32,9 @@ import com.autohome.frostmourne.monitor.service.account.IAccountService;
 import com.autohome.frostmourne.monitor.service.core.domain.ConfigMapKeys;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.monitor.service.message.MessageService;
+import com.autohome.frostmourne.monitor.tool.ExpressionParser;
+import com.autohome.frostmourne.monitor.tool.JacksonUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
 public class AlertService implements IAlertService {
@@ -55,6 +59,9 @@ public class AlertService implements IAlertService {
     @Resource
     private IConfigMapRepository configMapRepository;
 
+    @Resource
+    private AlertEventRepository alertEventRepository;
+
     @Override
     public void alert(AlarmProcessLogger alarmProcessLogger) {
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
@@ -73,14 +80,17 @@ public class AlertService implements IAlertService {
         }
     }
 
-    private void sendAlert(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, String alertType) {
+    private void sendAlert(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, AlertType alertType) {
         alarmLog(alarmProcessLogger);
+        // save alert event
+        saveAlertEvent(alarmProcessLogger, alertType, false);
+
         AlertContract alertContract = alarmProcessLogger.getAlarmContract().getAlertContract();
         AlarmMessageBO alarmMessageBO = new AlarmMessageBO();
         String alertContent = null;
         if (AlertTemplateType.MARKDOWN.equals(alarmProcessLogger.getAlarmContract().getRuleContract().getAlertTemplateType())) {
             alertContent = alarmProcessLogger.getAlertMessage();
-            if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
+            if (AlertType.RECOVER.equals(alertType)) {
                 AlertLog alertLog =
                     this.alertLogRepository.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
                 alertContent = "### [恢复] 请自己检查问题是否解决，上次报警内容如下\n" + alertLog.getContent();
@@ -92,10 +102,10 @@ public class AlertService implements IAlertService {
                 risk = "[" + riskTranslation(alarmProcessLogger.getAlarmContract().getRiskLevel()) + "] ";
             }
             String timeString = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
-            if (alertType.equalsIgnoreCase(AlertType.PROBLEM)) {
+            if (AlertType.PROBLEM.equals(alertType)) {
                 alertContent = alarmProcessLogger.getAlertMessage();
                 alarmMessageBO.setContent(String.format("[%s] [问题] %s\n%s", timeString, risk, alarmProcessLogger.getAlertMessage()));
-            } else if (alertType.equalsIgnoreCase(AlertType.RECOVER)) {
+            } else if (AlertType.RECOVER.equals(alertType)) {
                 AlertLog alertLog =
                     this.alertLogRepository.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
                 alertContent = String.format("[%s] [恢复] %s请自己检查问题是否解决，上次报警内容如下\n%s", timeString, risk, alertLog.getContent());
@@ -118,6 +128,16 @@ public class AlertService implements IAlertService {
 
         saveAlertLog(alertType, alarmMessageBO.getResultList(), recipients, alarmProcessLogger.getAlarmContract().getId(), alertContent,
             alarmProcessLogger.getAlarmLog().getId());
+    }
+
+    private void saveAlertEvent(AlarmProcessLogger alarmProcessLogger, AlertType alertType, boolean inSilence) {
+        AlertEvent alertEvent = new AlertEvent();
+        alertEvent.setAlarmId(alarmProcessLogger.getAlarmContract().getId());
+        alertEvent.setAlertType(alertType);
+        alertEvent.setInSilence(inSilence);
+        alertEvent.setEventMd5(JacksonUtils.toJson(alarmProcessLogger.getEventMd5()));
+        alertEvent.setCreateAt(LocalDateTime.now());
+        alertEventRepository.insert(alertEvent);
     }
 
     private String riskTranslation(String riskLevel) {
@@ -187,7 +207,7 @@ public class AlertService implements IAlertService {
         return recipients;
     }
 
-    private void saveAlertLog(String alertType, List<MessageResult> messageResults, List<AccountInfo> accountInfos, Long alarmId, String content,
+    private void saveAlertLog(AlertType alertType, List<MessageResult> messageResults, List<AccountInfo> accountInfos, Long alarmId, String content,
         Long executeId) {
         for (MessageResult messageResult : messageResults) {
             for (AccountInfo accountInfo : accountInfos) {
@@ -219,27 +239,34 @@ public class AlertService implements IAlertService {
         // if not alert, check if send recover message
         if (latestAlarmLog.isPresent() && latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.TRUE)) {
             // this is recover message
-            // 开启恢复通知
             return RecoverNoticeStatus.OPEN.name().equalsIgnoreCase(alarmProcessLogger.getAlarmContract().getRecoverNoticeStatus());
         }
         return false;
     }
 
     private boolean checkSilence(AlarmProcessLogger alarmProcessLogger) {
-        Long alarmId = alarmProcessLogger.getAlarmContract().getId();
-        Optional<AlarmLog> latestNoProblemAlarmLog = alarmLogRepository.selectLatest(alarmId, VerifyResult.FALSE);
-        long current = System.currentTimeMillis();
-        long silenceThreshold = alarmProcessLogger.getAlarmContract().getAlertContract().getSilence() * 60 * 1000;
-        if (latestNoProblemAlarmLog.isPresent() && current - latestNoProblemAlarmLog.get().getCreateAt().getTime() < silenceThreshold) {
-            return true;
+        Long silence = alarmProcessLogger.getAlarmContract().getAlertContract().getSilence();
+        if (silence == 0L) {
+            return false;
         }
-        // find latest problem and not silence alert time
-        Optional<AlertLog> latestAlertLog = alertLogRepository.selectLatest(alarmId, AlertType.PROBLEM, SilenceStatus.NO);
-        if (latestAlertLog.isPresent() && current - latestAlertLog.get().getCreateAt().getTime() < silenceThreshold) {
-            return true;
-        }
+        LocalDateTime now = LocalDateTime.now();
+        // query all alert_event where create at now-silence to now
+        List<AlertEvent> alertEventList =
+                alertEventRepository.selectAllByTime(alarmProcessLogger.getAlarmContract().getId(), false, AlertType.PROBLEM, now.minusMinutes(silence), now);
 
-        return false;
+        if (StringUtils.isBlank(alarmProcessLogger.getAlarmContract().getAlertContract().getSilenceExpression())) {
+            return !CollectionUtils.isEmpty(alertEventList);
+        } else {
+            Optional<AlertEvent> optional = alertEventList.stream().filter(alertEvent -> {
+                // if event md5 is blank，should not silence
+                if (StringUtils.isBlank(alertEvent.getEventMd5())) {
+                    return false;
+                }
+                Map<String, String> oldEventMd5 = JacksonUtils.toObj(alertEvent.getEventMd5(), new TypeReference<HashMap<String, String>>() {});
+                return ExpressionParser.calculate(alarmProcessLogger.getAlarmContract().getAlertContract().getSilenceExpression(), alarmProcessLogger.getEventMd5(), oldEventMd5);
+            }).findAny();
+            return optional.isPresent();
+        }
     }
 
     private void saveSilenceAlertLog(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients) {
@@ -261,6 +288,8 @@ public class AlertService implements IAlertService {
                 alertLogRepository.insert(alertLog);
             }
         }
+        // save alert event
+        saveAlertEvent(alarmProcessLogger, AlertType.PROBLEM, true);
     }
 
     private void processProblem(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, Optional<AlarmLog> latestAlarmLog) {

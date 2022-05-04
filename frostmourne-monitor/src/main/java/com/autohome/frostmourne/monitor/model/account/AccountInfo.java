@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.model.account;
 import java.util.List;
 
 /**
- * 用户帐号信息
+ * user account info
  *
  * @author Aping
  * @since 2022/3/28 13:22

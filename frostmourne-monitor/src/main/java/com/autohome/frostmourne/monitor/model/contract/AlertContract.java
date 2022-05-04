@@ -11,6 +11,8 @@ public class AlertContract {
 
     private Long silence;
 
+    private String silenceExpression;
+
     private String creator;
 
     private Date createAt;
@@ -51,6 +53,14 @@ public class AlertContract {
 
     public void setSilence(Long silence) {
         this.silence = silence;
+    }
+
+    public String getSilenceExpression() {
+        return silenceExpression;
+    }
+
+    public void setSilenceExpression(String silenceExpression) {
+        this.silenceExpression = silenceExpression;
     }
 
     public String getCreator() {
