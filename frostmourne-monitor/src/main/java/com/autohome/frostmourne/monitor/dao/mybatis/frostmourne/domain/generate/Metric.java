@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 监控指标配置
+ * metric
  *
  * @author mybatis-generator
  */
@@ -78,6 +78,16 @@ public class Metric implements Serializable {
      * 创建时间
      */
     private Date createAt;
+
+    /**
+     * 分桶类型。terms: 字段值分组; date_histogram: 时间分组
+     */
+    private String bucketType;
+
+    /**
+     * 分桶字段
+     */
+    private String bucketField;
 
     private static final long serialVersionUID = 1L;
 
@@ -193,6 +203,22 @@ public class Metric implements Serializable {
         this.createAt = createAt;
     }
 
+    public String getBucketType() {
+        return bucketType;
+    }
+
+    public void setBucketType(String bucketType) {
+        this.bucketType = bucketType == null ? null : bucketType.trim();
+    }
+
+    public String getBucketField() {
+        return bucketField;
+    }
+
+    public void setBucketField(String bucketField) {
+        this.bucketField = bucketField == null ? null : bucketField.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -218,7 +244,9 @@ public class Metric implements Serializable {
             && (this.getPostData() == null ? other.getPostData() == null : this.getPostData().equals(other.getPostData()))
             && (this.getProperties() == null ? other.getProperties() == null : this.getProperties().equals(other.getProperties()))
             && (this.getCreator() == null ? other.getCreator() == null : this.getCreator().equals(other.getCreator()))
-            && (this.getCreateAt() == null ? other.getCreateAt() == null : this.getCreateAt().equals(other.getCreateAt()));
+            && (this.getCreateAt() == null ? other.getCreateAt() == null : this.getCreateAt().equals(other.getCreateAt()))
+            && (this.getBucketType() == null ? other.getBucketType() == null : this.getBucketType().equals(other.getBucketType()))
+            && (this.getBucketField() == null ? other.getBucketField() == null : this.getBucketField().equals(other.getBucketField()));
     }
 
     @Override
@@ -239,6 +267,8 @@ public class Metric implements Serializable {
         result = prime * result + ((getProperties() == null) ? 0 : getProperties().hashCode());
         result = prime * result + ((getCreator() == null) ? 0 : getCreator().hashCode());
         result = prime * result + ((getCreateAt() == null) ? 0 : getCreateAt().hashCode());
+        result = prime * result + ((getBucketType() == null) ? 0 : getBucketType().hashCode());
+        result = prime * result + ((getBucketField() == null) ? 0 : getBucketField().hashCode());
         return result;
     }
 }

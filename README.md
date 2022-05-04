@@ -20,6 +20,7 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 * 只需要写一条数据查询就可以轻松搞定监控
 * 多种数据源(Elasticsearch, InfluxDB, Mysql, ClickHouse)支持
 * 多种数值计算类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
+* 支持数据分桶统计
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), WebHook, 飞书机器人)
 * 消息支持多种格式(text, markdown)
 * 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
@@ -98,7 +99,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 依赖环境
 * JDK 1.8
 
-需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.6.1-SNAPSHOT.zip" download>frostmourne-monitor-0.6.1-SNAPSHOT.zip</a> ;然后根据自己的
+需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.6.2-SNAPSHOT.zip" download>frostmourne-monitor-0.6.2-SNAPSHOT.zip</a> ;然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
 
 ```bash
@@ -201,10 +202,12 @@ yarn dev
 * ~~优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件，打包自动管理node和yarn使用特定版本~~ [2022-04-25]
 * ~~解决查询elasticsearch索引字段查询报错的问题~~ [2022-04-27]
 * ~~数据预览前端增加参数校验提示~~ [2022-04-28]
-* ~~数据源增加Elasticsearch8支持~~ [2022-05-02]
-* 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
+* ~~数据源增加Elasticsearch8支持~~ [issue#73](https://github.com/AutohomeCorp/frostmourne/issues/73) [2022-05-02]
+* ~~Elasticsearch数据配置支持数据分桶，分桶类型支持：1. 按字段值分组，相当于ES里的Terms Aggregation~~ [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) - [SQL](./doc/mysql-schema/2022-05-03/change.sql)  [2022-05-04]
+* ~~Elasticsearch数据配置支持数据分桶，分桶类型支持：2. 按时间分组,相当于ES里的DateHistogramAggregation~~ [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) [2022-05-04]
 * 解决邮箱报警不支持ssl的问题
 * 增加ping监控报警,一个监控最多监控10个ping。
+* 发布0.6.2-RELEASE，开始0.7版本开发
 * msyql, influxdb, clickhouse监控增加表达式监控规则
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * Elasticsearch监控数值实现环比监控
@@ -223,6 +226,7 @@ yarn dev
 * 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
+* 增加[tidb](https://github.com/pingcap/tidb)数据监控报警
 * 改进消息静默功能：对报警事件数据和静默时间内的事件数据对比，如果相似度很高就静默，如果和静默时间内事件相似度不高仍然报警。这样可以避免漏报同时防止报警消息过多。
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面

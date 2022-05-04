@@ -30,6 +30,10 @@ public class MetricContract {
 
     private DataNameContract dataNameContract;
 
+    private String bucketType;
+
+    private String bucketField;
+
     public String getMetricType() {
         return metricType;
     }
@@ -132,5 +136,21 @@ public class MetricContract {
 
     public void setDataNameContract(DataNameContract dataNameContract) {
         this.dataNameContract = dataNameContract;
+    }
+
+    public String getBucketType() {
+        return bucketType;
+    }
+
+    public void setBucketType(String bucketType) {
+        this.bucketType = bucketType;
+    }
+
+    public String getBucketField() {
+        return bucketField;
+    }
+
+    public void setBucketField(String bucketField) {
+        this.bucketField = bucketField;
     }
 }

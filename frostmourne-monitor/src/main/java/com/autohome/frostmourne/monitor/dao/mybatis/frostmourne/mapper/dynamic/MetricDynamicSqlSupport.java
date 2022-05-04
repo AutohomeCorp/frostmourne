@@ -78,6 +78,16 @@ public final class MetricDynamicSqlSupport {
      */
     public static final SqlColumn<Date> createAt = metric.createAt;
 
+    /**
+     * 分桶类型。terms: 字段值分组; date_histogram: 时间分组
+     */
+    public static final SqlColumn<String> bucketType = metric.bucketType;
+
+    /**
+     * 分桶字段
+     */
+    public static final SqlColumn<String> bucketField = metric.bucketField;
+
     public static final class Metric extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
@@ -106,6 +116,10 @@ public final class MetricDynamicSqlSupport {
         public final SqlColumn<String> creator = column("creator", JDBCType.VARCHAR);
 
         public final SqlColumn<Date> createAt = column("create_at", JDBCType.TIMESTAMP);
+
+        public final SqlColumn<String> bucketType = column("bucket_type", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> bucketField = column("bucket_field", JDBCType.VARCHAR);
 
         public Metric() {
             super("metric");

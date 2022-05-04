@@ -14,7 +14,9 @@ CREATE TABLE IF NOT EXISTS metric
     properties        VARCHAR(2000) COMMENT '附加属性JSON格式',
     post_data         VARCHAR(2000) COMMENT 'http数据监控，post数据内容',
     creator           VARCHAR(200) NOT NULL COMMENT '创建人',
-    create_at         DATETIME     NOT NULL COMMENT '创建时间'
+    create_at         DATETIME     NOT NULL COMMENT '创建时间',
+    bucket_type  VARCHAR(100) COMMENT '分桶类型。terms: 字段值分组; date_histogram: 时间分组',
+    bucket_field  VARCHAR(100) COMMENT '分桶字段'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
