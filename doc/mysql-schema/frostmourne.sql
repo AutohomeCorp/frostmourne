@@ -186,7 +186,9 @@ CREATE TABLE IF NOT EXISTS metric
     post_data         VARCHAR(2000) COMMENT 'http数据监控，post数据内容',
     properties        VARCHAR(2000) COMMENT '附加属性JSON格式',
     creator           VARCHAR(200) NOT NULL COMMENT '创建人',
-    create_at         DATETIME     NOT NULL COMMENT '创建时间'
+    create_at         DATETIME     NOT NULL COMMENT '创建时间',
+    bucket_type       VARCHAR(100) COMMENT '分桶类型。terms: 字段值分组; date_histogram: 时间分组',
+    bucket_field      VARCHAR(100) COMMENT '分桶字段'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -446,3 +448,6 @@ INSERT INTO user_role(account, role, creator, create_at)
 VALUES ('admin', 'admin', 'admin', now());
 
 INSERT INTO `job_lock` ( `lock_name`) VALUES ( 'schedule_lock');
+
+INSERT INTO `alert_template`(`template_name`, `template_type`, `template_union_code`, `content`, `creator`, `create_at`, `modifier`, `modify_at`)
+VALUES ('bucket','COMMON','','<#list VERIFIED_BUCKETS as bucket>\n${bucket.key}数量${bucket.value}超过${THRESHOLD};\n</#list>','admin',now(),'admin',now());

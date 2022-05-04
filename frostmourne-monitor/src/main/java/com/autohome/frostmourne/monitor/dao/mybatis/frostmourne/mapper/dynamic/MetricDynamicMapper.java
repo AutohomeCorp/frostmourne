@@ -32,7 +32,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface MetricDynamicMapper {
-    BasicColumn[] selectList = BasicColumn.columnList(id, aggregationType, aggregationField, metricType, alarmId, ruleId, dataSourceId, dataNameId, dataName, queryString, postData, properties, creator, createAt);
+    BasicColumn[] selectList = BasicColumn.columnList(id, aggregationType, aggregationField, metricType, alarmId, ruleId, dataSourceId, dataNameId, dataName, queryString, postData, properties, creator, createAt, bucketType, bucketField);
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
@@ -63,7 +63,9 @@ public interface MetricDynamicMapper {
         @Result(column="post_data", property="postData", jdbcType=JdbcType.VARCHAR),
         @Result(column="properties", property="properties", jdbcType=JdbcType.VARCHAR),
         @Result(column="creator", property="creator", jdbcType=JdbcType.VARCHAR),
-        @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="bucket_type", property="bucketType", jdbcType=JdbcType.VARCHAR),
+        @Result(column="bucket_field", property="bucketField", jdbcType=JdbcType.VARCHAR)
     })
     List<Metric> selectMany(SelectStatementProvider selectStatement);
 
@@ -99,6 +101,8 @@ public interface MetricDynamicMapper {
             .map(properties).toProperty("properties")
             .map(creator).toProperty("creator")
             .map(createAt).toProperty("createAt")
+            .map(bucketType).toProperty("bucketType")
+            .map(bucketField).toProperty("bucketField")
         );
     }
 
@@ -117,6 +121,8 @@ public interface MetricDynamicMapper {
             .map(properties).toPropertyWhenPresent("properties", record::getProperties)
             .map(creator).toPropertyWhenPresent("creator", record::getCreator)
             .map(createAt).toPropertyWhenPresent("createAt", record::getCreateAt)
+            .map(bucketType).toPropertyWhenPresent("bucketType", record::getBucketType)
+            .map(bucketField).toPropertyWhenPresent("bucketField", record::getBucketField)
         );
     }
 
@@ -155,7 +161,9 @@ public interface MetricDynamicMapper {
                 .set(postData).equalTo(record::getPostData)
                 .set(properties).equalTo(record::getProperties)
                 .set(creator).equalTo(record::getCreator)
-                .set(createAt).equalTo(record::getCreateAt);
+                .set(createAt).equalTo(record::getCreateAt)
+                .set(bucketType).equalTo(record::getBucketType)
+                .set(bucketField).equalTo(record::getBucketField);
     }
 
     static UpdateDSL<UpdateModel> updateSelectiveColumns(Metric record, UpdateDSL<UpdateModel> dsl) {
@@ -171,7 +179,9 @@ public interface MetricDynamicMapper {
                 .set(postData).equalToWhenPresent(record::getPostData)
                 .set(properties).equalToWhenPresent(record::getProperties)
                 .set(creator).equalToWhenPresent(record::getCreator)
-                .set(createAt).equalToWhenPresent(record::getCreateAt);
+                .set(createAt).equalToWhenPresent(record::getCreateAt)
+                .set(bucketType).equalToWhenPresent(record::getBucketType)
+                .set(bucketField).equalToWhenPresent(record::getBucketField);
     }
 
     default int updateByPrimaryKey(Metric record) {
@@ -189,6 +199,8 @@ public interface MetricDynamicMapper {
             .set(properties).equalTo(record::getProperties)
             .set(creator).equalTo(record::getCreator)
             .set(createAt).equalTo(record::getCreateAt)
+            .set(bucketType).equalTo(record::getBucketType)
+            .set(bucketField).equalTo(record::getBucketField)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -208,6 +220,8 @@ public interface MetricDynamicMapper {
             .set(properties).equalToWhenPresent(record::getProperties)
             .set(creator).equalToWhenPresent(record::getCreator)
             .set(createAt).equalToWhenPresent(record::getCreateAt)
+            .set(bucketType).equalToWhenPresent(record::getBucketType)
+            .set(bucketField).equalToWhenPresent(record::getBucketField)
             .where(id, isEqualTo(record::getId))
         );
     }

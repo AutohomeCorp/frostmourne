@@ -59,6 +59,13 @@
             <i class="el-icon-question" />
           </el-tooltip>-->
         </el-form-item>
+        <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="版本" :label-width="formLabelWidth">
+          <el-select v-model="editData.settings.version" placeholder="选择版本">
+            <el-option label="6.x" value="6.x" />
+            <el-option label="7.x" value="7.x" />
+            <el-option label="8.x" value="8.x" />
+          </el-select>
+        </el-form-item>
         <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="是否HTTPS:">
           <el-switch v-model="editData.settings.https" active-value="YES" active-text="是" inactive-value="NO" inactive-text="否" />
         </el-form-item>

@@ -18,6 +18,8 @@ public class ElasticsearchInfo {
 
     private Long lastUpdateTime;
 
+    private String version;
+
     public String getName() {
         return name;
     }
@@ -50,6 +52,22 @@ public class ElasticsearchInfo {
         this.settings = settings;
     }
 
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public Long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Long lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+
     public ElasticsearchInfo(DataSourceContract dataSourceContract) {
         this.name = dataSourceContract.getDatasourceName();
         this.esHostList = dataSourceContract.getServiceAddress();
@@ -60,13 +78,6 @@ public class ElasticsearchInfo {
         } else {
             this.lastUpdateTime = dataSourceContract.getModifyAt().getTime();
         }
-    }
-
-    public Long getLastUpdateTime() {
-        return lastUpdateTime;
-    }
-
-    public void setLastUpdateTime(Long lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
+        this.version = dataSourceContract.getSettings().getOrDefault("version", "7.x");
     }
 }

@@ -40,14 +40,14 @@ public class NumericRule extends AbstractRule {
 
     private Double findThreshold(RuleContract ruleContract) {
         if (!ruleContract.getSettings().containsKey("THRESHOLD")) {
-            throw new RuntimeException("FrequencyRule中THRESHOLD属性不存在。");
+            throw new RuntimeException("NumericRule中THRESHOLD属性不存在。");
         }
         return Double.parseDouble(ruleContract.getSettings().get("THRESHOLD"));
     }
 
     private String findOperation(RuleContract ruleContract) {
         if (!ruleContract.getSettings().containsKey("OPERATOR")) {
-            throw new RuntimeException("FrequencyRule中OPERATOR属性不存在。");
+            throw new RuntimeException("NumericRule中OPERATOR属性不存在。");
         }
         return ruleContract.getSettings().get("OPERATOR");
     }

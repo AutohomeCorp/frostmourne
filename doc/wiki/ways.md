@@ -1,10 +1,5 @@
 ## 报警发送
 
-### 关于消息头
-
-消息头可以通过配置变量frostmourne_message_title进行自定义，不过中文需要转成unicode，否则发出来会乱码。自定义了消息头，钉钉机器人等有关的关键词设置也需要
-修改。
-
 ### 发送方式
 
 现在支持短信, email, 钉钉(机器人), 企业微信(机器人)，HTTP, 飞书机器人发送方式，其中email和钉钉机器人, 企业微信(机器人)，飞书机器人， HTTP默认可用，短信和钉钉需要自己适配实现。。
@@ -79,3 +74,16 @@ HTTP消息发送方式，需要使用者自己实现一个用于接收消息发�
 ```
 
 context是监控运行的上下文数据，所有需要用到的数据都在这里面，自己按需使用即可。其中wxid是企业微信的userid。如果现有的发送方式不能满足你的需求，你就可以使用HTTP方式自己扩展一下，还是很方便的。
+
+### 关于消息头
+
+默认报警消息title是: 霜之哀伤监控平台。可以配置config_map表config_key为AlertTitle的行的config_value值来设置自定义报警消息头。例如：
+
+```sql
+INSERT INTO config_map(config_key, config_value, creator, create_at, modifier, modify_at)
+VALUES('AlertTitle', '霜之哀伤监控平台', 'admin', now(), 'admin', now());
+```
+
+同一个config_key禁止配置多条，对config_key建了唯一索引。
+
+注意如果你的报警机器人依赖报警消息头作为关键词，请记得同时改机器人配置，否则会导致机器人消息无法发送。

@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   frostmourne-monitor:
-    image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.6.1
+    image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.6.2
     container_name: frostmourne-monitor
     environment:
       datasource_frostmourne_url: jdbc:mysql://host.docker.internal:3306/frostmourne?useSSL=false&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
