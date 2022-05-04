@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.autohome</groupId>
     <artifactId>frostmourne</artifactId>
-    <version>0.6.1-SNAPSHOT</version>
+    <version>0.6.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>frostmourne</name>
     <description>frostmourne for Spring Boot</description>
@@ -27,7 +27,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <slf4j-api.version>1.7.12</slf4j-api.version>
-        <jackson.version>2.12.1</jackson.version>
+        <jackson.version>2.12.3</jackson.version>
         <guava.version>30.0-jre</guava.version>
         <log4j2.version>2.17.1</log4j2.version>
     </properties>
@@ -99,6 +99,18 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <updatePolicy>interval:1</updatePolicy>
+            </releases>
         </repository>
     </repositories>
 

@@ -20,7 +20,7 @@ public class JobTriggerHelper {
     /**
      * job timeout count, ms > min
      */
-    private volatile long minTim = System.currentTimeMillis() / 60000;
+    private volatile long minTim = System.currentTimeMillis() / (5 * 60000);
     private volatile ConcurrentMap<Long, AtomicInteger> jobTimeoutCountMap = new ConcurrentHashMap<>();
 
     public void start() {
@@ -41,7 +41,7 @@ public class JobTriggerHelper {
         // choose thread pool
         ThreadPoolExecutor triggerPool = fastTriggerPool;
         AtomicInteger jobTimeoutCount = jobTimeoutCountMap.get(alarmId);
-        if (jobTimeoutCount != null && jobTimeoutCount.get() > 10) { // job-timeout 10 times in 1 min
+        if (jobTimeoutCount != null && jobTimeoutCount.get() > 15) { // job-timeout 15 times in 5 min
             triggerPool = slowTriggerPool;
         }
 
@@ -58,7 +58,7 @@ public class JobTriggerHelper {
             } finally {
 
                 // check timeout-count-map
-                long minTimNow = System.currentTimeMillis() / 60000;
+                long minTimNow = System.currentTimeMillis() / (5 * 60000);
                 if (minTim != minTimNow) {
                     minTim = minTimNow;
                     jobTimeoutCountMap.clear();

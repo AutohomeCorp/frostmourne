@@ -94,10 +94,39 @@
                   :fetch-suggestions="searchElasticsearchFields" />
               </el-form-item>
             </el-col>
+            <el-col :span="6">
+              <el-form-item v-if="dataSourceType === 'elasticsearch'" label="分桶类型:">
+                <el-select v-model="form.metricContract.bucketType">
+                  <el-option label="无" value="none" />
+                  <el-option label="terms" value="terms" />
+                  <el-option label="date_histogram" value="date_histogram" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType !== 'none'" label="分桶字段:">
+                <el-autocomplete
+                  v-model="form.metricContract.bucketField"
+                  class="inline-input"
+                  :fetch-suggestions="searchElasticsearchFields" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType === 'date_histogram'" label="时间统计间隔:">
+                <el-select v-model="form.metricContract.properties.dateHistogramInterval">
+                  <el-option label="小时" value="3600000" />
+                  <el-option label="天" value="86400000" />
+                  <el-option label="分钟" value="60000" />
+                  <el-option label="30分钟" value="1800000" />
+                  <el-option label="5分钟" value="300000" />
+                  <el-option label="周" value="604800000" />
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
 
           <el-form-item label="查询语句:" prop="metricContract.queryString">
-            <el-input v-model="form.metricContract.queryString" />
+            <el-input v-model="form.metricContract.queryString" type="textarea" rows="3" />
           </el-form-item>
           <el-form-item v-if="dataSourceType === 'http'" label="HTTP头:">
             <template v-if="httpHeaders.length === 0">
@@ -124,10 +153,11 @@
               <el-option v-if="dataSourceType === 'http'" label="Javascript表达式" value="object" />
               <!--<el-option label="环比" value="ring_than"/>-->
               <el-option v-if="dataSourceType !== 'http'" label="同比" value="same_time" />
+              <el-option v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType !== 'none'" label="分桶数值比较" value="bucket_numeric" />
             </el-select>
           </el-form-item>
           <el-row>
-            <el-form-item v-if="form.metricContract.metricType === 'numeric'" label="判断规则:">
+            <el-form-item v-if="form.metricContract.metricType === 'numeric' || form.metricContract.metricType === 'bucket_numeric'" label="判断规则:">
               最近
               <el-input-number v-model="form.ruleContract.settings.TIME_WINDOW" size="small" :min="1" label="间隔分钟" />分钟；指标数值
               <el-select v-model="form.ruleContract.settings.OPERATOR" size="small" style="width:100px" placeholder="比较类型">
@@ -211,11 +241,12 @@
               <el-form-item label="报警方式:" prop="alertContract.ways">
                 <el-checkbox-group v-model="form.alertContract.ways" size="small">
                   <el-checkbox-button label="dingding">钉钉</el-checkbox-button>
+                  <el-checkbox-button label="feishu">飞书</el-checkbox-button>
+                  <el-checkbox-button label="wechat">企业微信</el-checkbox-button>
                   <el-checkbox-button label="email">Email</el-checkbox-button>
                   <el-checkbox-button label="sms">短信</el-checkbox-button>
-                  <el-checkbox-button label="wechat">企业微信</el-checkbox-button>
                   <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
-                  <el-checkbox-button label="feishu">飞书</el-checkbox-button>
+
                 </el-checkbox-group>
               </el-form-item>
             </el-col>
@@ -393,7 +424,9 @@ export default {
           dataSourceId: 0,
           dataNameId: 0,
           dataName: '',
-          properties: {}
+          properties: {},
+          bucketType: 'none',
+          bucketField: ''
         },
         ruleContract: {
           ruleType: '',
@@ -537,10 +570,10 @@ export default {
           this.copyToProperties()
 
           alarmApi.test(this.form)
-            .then(() => {
+            .then(response => {
               // 测试通过
               adminApi.save(this.form)
-                .then(() => this.success('保存成功！'))
+                .then(response => this.success('保存成功！'))
                 .catch(error => {
                   this.$message({
                     type: 'success',
@@ -569,6 +602,10 @@ export default {
       }
       if (this.form.metricContract.queryString == null || this.form.metricContract.queryString === '') {
         this.$message({ type: 'warning', message: '查询语句不能为空', duration: 2000 })
+        return
+      }
+      if (this.form.dataSourceType !== 'http' && (this.form.metricContract.metricType == null || this.form.metricContract.metricType === '')) {
+        this.$message({ type: 'warning', message: '请先设置报警规则', duration: 2000 })
         return
       }
       this.copyToProperties()

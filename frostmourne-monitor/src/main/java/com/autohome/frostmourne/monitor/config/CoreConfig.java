@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.service.core.rule.BucketNumbericRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +48,7 @@ public class CoreConfig {
         ruleMap.put("numeric", numericRule());
         ruleMap.put("expression", expressionRule());
         ruleMap.put("percentage", percentageRule());
+        ruleMap.put("bucket_numeric", bucketNumbericRule());
 
         return ruleMap;
     }
@@ -66,11 +68,17 @@ public class CoreConfig {
         return new ExpressionRule(templateService);
     }
 
+    @Bean
+    public BucketNumbericRule bucketNumbericRule() {
+        return new BucketNumbericRule(templateService);
+    }
+
     @Bean(name = "elasticsearchMetricMap")
     public Map<String, IMetric> elasticsearchMetricMap() {
         Map<String, IMetric> metricMap = new HashMap<>();
         metricMap.put("numeric", elasticsearchNumericMetric());
         metricMap.put("same_time", elasticsearchSameTimeMetric());
+        metricMap.put("bucket_numeric", elasticsearchNumericMetric());
         return metricMap;
     }
 

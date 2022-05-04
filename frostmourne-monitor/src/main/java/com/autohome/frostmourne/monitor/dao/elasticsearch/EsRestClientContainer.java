@@ -1,47 +1,62 @@
 package com.autohome.frostmourne.monitor.dao.elasticsearch;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.security.KeyStore;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import javax.net.ssl.SSLContext;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.ssl.SSLContexts;
-import org.apache.http.util.EntityUtils;
+import com.autohome.frostmourne.core.contract.ProtocolException;
+import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
+import com.autohome.frostmourne.monitor.model.contract.ElasticsearchDataResult;
+import com.autohome.frostmourne.monitor.model.contract.MetricContract;
+import com.autohome.frostmourne.monitor.model.contract.StatItem;
+import com.autohome.frostmourne.monitor.service.core.domain.BucketInfo;
+import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
+import com.google.common.base.Splitter;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
-import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
-import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest;
-import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
+import org.elasticsearch.action.main.MainResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchScrollRequest;
 import org.elasticsearch.action.support.IndicesOptions;
-import org.elasticsearch.client.*;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.client.core.CountResponse;
-import org.elasticsearch.client.sniff.Sniffer;
 import org.elasticsearch.cluster.health.ClusterHealthStatus;
-import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramAggregationBuilder;
+import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
+import org.elasticsearch.search.aggregations.bucket.histogram.ExtendedBounds;
+import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
+import org.elasticsearch.search.aggregations.metrics.avg.Avg;
+import org.elasticsearch.search.aggregations.metrics.cardinality.Cardinality;
+import org.elasticsearch.search.aggregations.metrics.max.Max;
+import org.elasticsearch.search.aggregations.metrics.min.Min;
+import org.elasticsearch.search.aggregations.metrics.percentiles.Percentiles;
+import org.elasticsearch.search.aggregations.metrics.stats.extended.ExtendedStats;
+import org.elasticsearch.search.aggregations.metrics.sum.Sum;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.base.Splitter;
-
-public class EsRestClientContainer {
+/**
+ * elasticsearch 6, 7 client container
+ */
+public class EsRestClientContainer extends AbstractElasticClientContainer {
 
     public static final IndicesOptions DEFAULT_INDICE_OPTIONS = IndicesOptions.fromOptions(true, false, true, false);
 
@@ -49,87 +64,19 @@ public class EsRestClientContainer {
 
     private RestHighLevelClient restHighLevelClient;
 
-    private RestClient restLowLevelClient;
-
-    private List<String> esHosts;
-
-    private boolean sniff;
-
-    private Sniffer sniffer;
-
-    private String name;
-
-    private Map<String, String> settings;
-
-    private Long initTimestamp;
-
     public EsRestClientContainer(String esHostList, boolean sniff, Map<String, String> settings) {
-        esHosts = Splitter.on(",").splitToList(esHostList);
-        this.sniff = sniff;
-        this.settings = settings;
+        super(esHostList, settings);
     }
 
+    @Override
     public void init() {
-        RestClientBuilder restClientBuilder = RestClient.builder(parseHttpHost(esHosts).toArray(new HttpHost[0]));
-
-        if (this.settings != null && !this.settings.isEmpty()) {
-            final CredentialsProvider credentialsProvider = this.createCredentialsProvider(restClientBuilder, this.settings);
-            final SSLContext sslContext = this.createSslContext(restClientBuilder, this.settings);
-            restClientBuilder.setHttpClientConfigCallback(httpAsyncClientBuilder -> {
-                if (credentialsProvider != null) {
-                    httpAsyncClientBuilder.disableAuthCaching().setDefaultCredentialsProvider(credentialsProvider);
-                }
-                if (sslContext != null) {
-                    httpAsyncClientBuilder.setSSLContext(sslContext);
-                }
-                return httpAsyncClientBuilder;
-            });
-        }
+        RestClientBuilder restClientBuilder = initRestClientBuilder();
         restHighLevelClient = new RestHighLevelClient(restClientBuilder);
         this.restLowLevelClient = restHighLevelClient.getLowLevelClient();
-        if (sniff) {
-            sniffer = Sniffer.builder(restLowLevelClient).setSniffIntervalMillis(5 * 60 * 1000).build();
-        }
-
         this.initTimestamp = System.currentTimeMillis();
     }
 
-    private CredentialsProvider createCredentialsProvider(RestClientBuilder restClientBuilder, Map<String, String> settings) {
-        if (Strings.isNullOrEmpty(this.settings.get("username")) || Strings.isNullOrEmpty(this.settings.get("password"))) {
-            return null;
-        }
-        String userName = settings.get("username");
-        String password = settings.get("password");
-        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
-        return credentialsProvider;
-    }
-
-    private SSLContext createSslContext(RestClientBuilder restClientBuilder, Map<String, String> settings) {
-        if (!isHttpsHost(settings)) {
-            return null;
-        }
-        String certBase64 = settings.get("sslCert");
-        if (Strings.isNullOrEmpty(certBase64)) {
-            LOGGER.error("sslCert could not be null when use https");
-            return null;
-        }
-        String sslFormat = settings.get("sslFormat");
-        try {
-            if (Strings.isNullOrEmpty(sslFormat)) {
-                sslFormat = "jks";
-            }
-            KeyStore truststore = KeyStore.getInstance(sslFormat);
-            try (InputStream is = new ByteArrayInputStream(Base64.decodeBase64(certBase64))) {
-                truststore.load(is, Optional.ofNullable(settings.get("sslCertPassword")).map(String::toCharArray).orElse(null));
-            }
-            SSLContextBuilder sslBuilder = SSLContexts.custom().loadTrustMaterial(truststore, null);
-            return sslBuilder.build();
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
-
+    @Override
     public boolean health() {
         ClusterHealthRequest request = new ClusterHealthRequest();
         request.timeout(TimeValue.timeValueSeconds(5));
@@ -143,51 +90,18 @@ public class EsRestClientContainer {
         return response.getStatus() == ClusterHealthStatus.GREEN;
     }
 
-    public List<String> fetchAllMappingFields(String index) throws IOException {
-        Map<String, Map<String, Map<String, Map<String, Object>>>> mappings = this.fetchAllMappings(index);
-        if (mappings == null || mappings.isEmpty()) {
-            return Collections.emptyList();
+    @Override
+    public String number() {
+        try {
+            MainResponse mainResponse = restHighLevelClient.info(RequestOptions.DEFAULT);
+            return mainResponse.getVersion().toString();
+        } catch (IOException ex) {
+            LOGGER.error("error when check cluster version", ex);
+            throw new RuntimeException(ex);
         }
-        return mappings.entrySet().stream().flatMap(e -> e.getValue().values().stream()).flatMap(e -> e.get("properties").keySet().stream()).distinct().sorted()
-            .collect(Collectors.toList());
-    }
-
-    public Map<String, Map<String, Map<String, Map<String, Object>>>> fetchAllMappings(String index) throws IOException {
-        GetMappingsRequest mappingsRequest = new GetMappingsRequest();
-        mappingsRequest.indices(index);
-
-        Request req = RequestExtendConverters.getMappings(mappingsRequest);
-        req.setOptions(RequestOptions.DEFAULT);
-        // 兼容低版本es服务端
-        Response resp = restLowLevelClient.performRequest(req);
-        return this.parseMappingsFromResponse(resp);
-    }
-
-    Map<String, Map<String, Map<String, Map<String, Object>>>> parseMappingsFromResponse(Response response) throws IOException {
-        String value = EntityUtils.toString(response.getEntity());
-        Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> result =
-            JacksonUtil.deSerialize(value, new TypeReference<Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>>>() {});
-        // 取"mappings"节点组合
-        return result.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().get("mappings"), (v1, v2) -> v1));
-    }
-
-    public MappingMetaData fetchMapping(String index) throws IOException {
-        GetMappingsRequest mappingsRequest = new GetMappingsRequest();
-        mappingsRequest.indices(index);
-        // 低版本es服务端可能不支持
-        GetMappingsResponse response = restHighLevelClient.indices().getMapping(mappingsRequest, RequestOptions.DEFAULT);
-        return response.mappings().values().iterator().next().value.values().iterator().next().value;
     }
 
     public void close() {
-        if (this.sniffer != null) {
-            try {
-                this.sniffer.close();
-            } catch (Exception ex) {
-                LOGGER.error("error when close elasticsearch sniffer", ex);
-            }
-        }
-
         if (this.restHighLevelClient != null) {
             try {
                 this.restHighLevelClient.close();
@@ -201,69 +115,6 @@ public class EsRestClientContainer {
         return this.restHighLevelClient;
     }
 
-    public boolean checkIndexOpenExists(String index) {
-        return checkIndexExists(index) && checkIndexOpen(index);
-    }
-
-    public boolean checkIndexExists(String index) {
-        try {
-            GetIndexRequest request = new GetIndexRequest();
-            request.local(false);
-            request.indices(index);
-            request.humanReadable(true);
-            request.includeDefaults(false);
-            return this.restHighLevelClient.indices().exists(request, RequestOptions.DEFAULT);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    public boolean checkIndexOpen(String index) {
-        try {
-            Response response = this.restLowLevelClient.performRequest("GET", String.format("/_cat/indices/%s?v", index));
-            response.getEntity().getContent();
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8))) {
-                List<String> lines = bufferedReader.lines().collect(Collectors.toList());
-                if (lines.size() <= 1) {
-                    return false;
-                }
-                List<String> list = Splitter.on(" ").splitToList(lines.get(1));
-                return list.contains("open");
-            }
-
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    public String[] buildIndices(DateTime from, DateTime to, String prefix, String datePattern) {
-        DateTime now = DateTime.now();
-        if (now.getMillis() < to.getMillis()) {
-            to = now;
-        }
-        List<String> indiceList = new ArrayList<>();
-        if (Strings.isNullOrEmpty(datePattern)) {
-            indiceList.add(prefix);
-            return indiceList.toArray(new String[0]);
-        }
-
-        if ("*".equals(datePattern)) {
-            indiceList.add(prefix + "*");
-            return indiceList.toArray(new String[0]);
-        }
-
-        DateTime cursor = DateTime.parse(from.minusDays(1).toString("yyyy-MM-dd"));
-
-        while (cursor.getMillis() < to.getMillis()) {
-            String index = prefix + cursor.toString(datePattern);
-            if (!indiceList.contains(index)) {
-                indiceList.add(index);
-            }
-            cursor = cursor.minusDays(-1);
-        }
-        return indiceList.toArray(new String[0]);
-    }
-
     public long totalCount(BoolQueryBuilder boolQueryBuilder, String[] indices) throws IOException {
         CountRequest countRequest = new CountRequest(indices);
         countRequest.indicesOptions(EsRestClientContainer.DEFAULT_INDICE_OPTIONS);
@@ -275,22 +126,289 @@ public class EsRestClientContainer {
         return countResponse.getCount();
     }
 
-    private List<HttpHost> parseHttpHost(List<String> esHosts) {
-        List<HttpHost> hostList = new ArrayList<>();
-        String scheme = this.isHttpsHost(this.settings) ? "https" : "http";
-        for (String hostString : esHosts) {
-            List<String> hostAndPort = Splitter.on(":").trimResults().splitToList(hostString);
-            hostList.add(new HttpHost(hostAndPort.get(0), Integer.parseInt(hostAndPort.get(1)), scheme));
-        }
-        return hostList;
-    }
-
-    private boolean isHttpsHost(Map<String, String> settings) {
-        String httpsOption = Optional.ofNullable(settings).map(v -> v.get("https")).orElse(null);
-        return "YES".equalsIgnoreCase(httpsOption);
-    }
-
+    @Override
     public Long getInitTimestamp() {
         return initTimestamp;
+    }
+
+    @Override
+    public ElasticsearchDataResult query(DataNameContract dataNameContract, DateTime start, DateTime end, String esQuery,
+                                         String scrollId, String sortOrder, Integer intervalInSeconds) {
+        EsRestClientContainer esRestClientContainer = this;
+        DateTime queryEnd = end;
+        if (queryEnd.getMillis() > System.currentTimeMillis()) {
+            queryEnd = DateTime.now();
+        }
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery().must(new QueryStringQueryBuilder(esQuery))
+                .must(QueryBuilders.rangeQuery(dataNameContract.getTimestampField()).from(start.toDateTimeISO().toString()).to(queryEnd.toDateTimeISO().toString())
+                        .includeLower(true).includeUpper(false).format("date_optional_time"));
+
+        Map<String, String> dataNameProperties = dataNameContract.getSettings();
+
+        String indexPrefix = dataNameProperties.get("indexPrefix");
+        String datePattern = dataNameProperties.get("timePattern");
+        String[] indices = esRestClientContainer.buildIndices(start, end, indexPrefix, datePattern);
+
+        SearchResponse searchResponse;
+        try {
+            if (Strings.isNullOrEmpty(scrollId)) {
+                SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+                searchSourceBuilder.query(boolQueryBuilder);
+                searchSourceBuilder.sort(dataNameContract.getTimestampField(), SortOrder.fromString(sortOrder));
+                searchSourceBuilder.size(50);
+                searchSourceBuilder.trackTotalHits(true);
+                searchSourceBuilder.trackScores(false);
+                SearchRequest searchRequest = new SearchRequest(indices);
+                searchRequest.source(searchSourceBuilder);
+                searchRequest.scroll(DEFAULT_TIME_VALUE);
+                searchRequest.indicesOptions(EsRestClientContainer.DEFAULT_INDICE_OPTIONS);
+
+                if (intervalInSeconds != null && intervalInSeconds > 0) {
+                    DateHistogramAggregationBuilder dateHistogramAggregationBuilder =
+                            AggregationBuilders.dateHistogram("date_hist").timeZone(DateTimeZone.getDefault())
+                                    .extendedBounds(new ExtendedBounds(start.getMillis(), end.getMillis())).field(dataNameContract.getTimestampField())
+                                    .format("yyyy-MM-dd'T'HH:mm:ssZ").dateHistogramInterval(DateHistogramInterval.seconds(intervalInSeconds));
+                    searchSourceBuilder.aggregation(dateHistogramAggregationBuilder);
+                }
+                searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
+            } else {
+                SearchScrollRequest searchScrollRequest = new SearchScrollRequest(scrollId);
+                searchScrollRequest.scroll(DEFAULT_TIME_VALUE);
+                searchResponse = esRestClientContainer.fetchHighLevelClient().scroll(searchScrollRequest, RequestOptions.DEFAULT);
+            }
+        } catch (IOException ex) {
+            LOGGER.error("error when search elasticsearch data", ex);
+            throw new ProtocolException(520, "error when search elasticsearch data", ex);
+        }
+        List<String> headFieldList = null;
+        if (dataNameContract.getSettings() != null && dataNameContract.getSettings().containsKey("headFields")) {
+            String headFieldStr = dataNameContract.getSettings().get("headFields");
+            headFieldList = Splitter.on(",").splitToList(headFieldStr);
+        }
+        ElasticsearchDataResult elasticsearchDataResult = parseResult(searchResponse, dataNameContract.getTimestampField(), headFieldList);
+        if (Strings.isNullOrEmpty(scrollId) && elasticsearchDataResult.getTotal() == 0) {
+            try {
+                long total = esRestClientContainer.totalCount(boolQueryBuilder, indices);
+                elasticsearchDataResult.setTotal(total);
+            } catch (Exception ex) {
+                LOGGER.error("error when get count", ex);
+            }
+        }
+        return elasticsearchDataResult;
+    }
+
+    @Override
+    public MetricData queryElasticsearchMetricValue(DateTime start, DateTime end, MetricContract metricContract) throws IOException {
+        MetricData elasticsearchMetric = new MetricData();
+        EsRestClientContainer esRestClientContainer = this;
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery().must(new QueryStringQueryBuilder(metricContract.getQueryString()))
+                .must(QueryBuilders.rangeQuery(metricContract.getDataNameContract().getTimestampField()).from(start.toDateTimeISO().toString())
+                        .to(end.toDateTimeISO().toString()).includeLower(true).includeUpper(false).format("date_optional_time"));
+        Map<String, String> dataNameProperties = metricContract.getDataNameContract().getSettings();
+        String indexPrefix = dataNameProperties.get("indexPrefix");
+        String datePattern = dataNameProperties.get("timePattern");
+        String[] indices = esRestClientContainer.buildIndices(start, end, indexPrefix, datePattern);
+        Long count = null;
+        try {
+            count = esRestClientContainer.totalCount(boolQueryBuilder, indices);
+        } catch (Exception ex) {
+            throw new RuntimeException("error when totalCount", ex);
+        }
+        if ("count".equalsIgnoreCase(metricContract.getAggregationType())) {
+            elasticsearchMetric.setMetricValue(count);
+        }
+        if (count == 0) {
+            elasticsearchMetric.setMetricValue(0);
+            return elasticsearchMetric;
+        }
+        SearchRequest searchRequest = new SearchRequest(indices);
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.trackScores(false);
+        searchSourceBuilder.trackTotalHits(true);
+        searchSourceBuilder.query(boolQueryBuilder).from(0).size(1).sort(metricContract.getDataNameContract().getTimestampField(), SortOrder.DESC);
+        attachAggregation(metricContract, searchSourceBuilder);
+        attachBucket(start, end, metricContract, searchSourceBuilder);
+        searchRequest.source(searchSourceBuilder);
+        searchRequest.indicesOptions(DEFAULT_INDICE_OPTIONS);
+        SearchResponse searchResponse = null;
+        int tryCount = 3;
+        while (tryCount > 0) {
+            searchResponse = esRestClientContainer.fetchHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
+            int hits = searchResponse.getHits().getHits().length;
+            if (hits == 0 && tryCount == 1) {
+                LOGGER.error("totalCount {}, but hits length is 0, query: {}, start: {}, end: {}", count, metricContract.getQueryString(), start.toString(),
+                        end.toString());
+                return elasticsearchMetric;
+            }
+            if (hits > 0) {
+                break;
+            }
+            tryCount--;
+        }
+        SearchHit latestDoc = searchResponse.getHits().getAt(0);
+        elasticsearchMetric.setLatestDocument(latestDoc.getSourceAsMap());
+        if ("count".equalsIgnoreCase(metricContract.getAggregationType())) {
+            if (searchResponse.getHits().getTotalHits() > 0) {
+                elasticsearchMetric.setMetricValue(searchResponse.getHits().getTotalHits());
+            }
+        } else {
+            Double numericValue = findAggregationValue(metricContract, searchResponse);
+            elasticsearchMetric.setMetricValue(numericValue);
+        }
+        List<BucketInfo> bucketInfos = findBucketValue(metricContract, searchResponse);
+        elasticsearchMetric.setBuckets(bucketInfos);
+        return elasticsearchMetric;
+    }
+
+    private ElasticsearchDataResult parseResult(SearchResponse searchResponse, String timestampField, List<String> headFields) {
+        ElasticsearchDataResult dataResult = new ElasticsearchDataResult();
+        dataResult.setTimestampField(timestampField);
+        dataResult.setScrollId(searchResponse.getScrollId());
+        dataResult.setTotal(searchResponse.getHits().getTotalHits());
+        List<Map<String, Object>> logs = new ArrayList<>();
+        for (SearchHit hit : searchResponse.getHits()) {
+            logs.add(hit.getSourceAsMap());
+            int size = hit.getSourceAsMap().keySet().size();
+            if (dataResult.getFields() == null || size > dataResult.getFields().size()) {
+                dataResult.setFields(new ArrayList<>(hit.getSourceAsMap().keySet()));
+                if (headFields == null || headFields.size() == 0) {
+                    List<String> flatFields = findFields(hit.getSourceAsMap(), null);
+                    dataResult.setFlatFields(flatFields);
+                    if (flatFields.size() > 7) {
+                        dataResult.setHeadFields(flatFields.subList(0, 6));
+                    } else {
+                        dataResult.setHeadFields(flatFields);
+                    }
+                } else {
+                    dataResult.setHeadFields(headFields);
+                }
+
+            }
+        }
+        dataResult.setLogs(logs);
+        if (searchResponse.getAggregations() == null) {
+            return dataResult;
+        }
+        Histogram dateHistogram = searchResponse.getAggregations().get("date_hist");
+        if (dateHistogram != null) {
+            StatItem statItem = new StatItem();
+            for (Histogram.Bucket bucket : dateHistogram.getBuckets()) {
+                statItem.getKeys().add(bucket.getKeyAsString());
+                statItem.getValues().add((double)bucket.getDocCount());
+            }
+            dataResult.setStatItem(statItem);
+        }
+
+        return dataResult;
+    }
+
+    private void attachBucket(DateTime start, DateTime end, MetricContract metricContract, SearchSourceBuilder searchSourceBuilder) {
+        String bucketType = metricContract.getBucketType();
+        String bucketField = metricContract.getBucketField();
+        if(Strings.isNullOrEmpty(bucketType) || Strings.isNullOrEmpty(bucketField)) {
+            return;
+        }
+
+        if("none".equalsIgnoreCase(bucketType)) {
+            return;
+        }
+        if(bucketType.equalsIgnoreCase("terms")) {
+            searchSourceBuilder.aggregation(AggregationBuilders
+                    .terms("terms")
+                    .size(50)
+                    .field(bucketField));
+        } else if (bucketType.equalsIgnoreCase("date_histogram")) {
+            searchSourceBuilder.aggregation(AggregationBuilders
+                    .dateHistogram("date_histogram")
+                    .timeZone(DateTimeZone.getDefault())
+                    .extendedBounds(new ExtendedBounds(start.getMillis(), end.getMillis()))
+                    .field(bucketField)
+                    .interval(Long.parseLong(metricContract.getProperties().getOrDefault("dateHistogramInterval", "3600000").toString()))
+                    .format("yyyy-MM-dd'T'HH:mm:ssZ"));
+        } else {
+            throw new RuntimeException("unknown bucket type: " + bucketType);
+        }
+    }
+
+    private List<BucketInfo> findBucketValue(MetricContract metricContract, SearchResponse searchResponse) {
+        String bucketType = metricContract.getBucketType();
+        if(Strings.isNullOrEmpty(bucketType) || "none".equalsIgnoreCase(bucketType)) {
+            return new ArrayList<>();
+        }
+        List<BucketInfo> bucketInfos = new ArrayList<>();
+        if(bucketType.equalsIgnoreCase("terms")) {
+            Terms terms = searchResponse.getAggregations().get("terms");
+            for (Terms.Bucket bucket : terms.getBuckets()) {
+                BucketInfo bucketInfo = new BucketInfo();
+                bucketInfo.setKey(bucket.getKeyAsString());
+                bucketInfo.setValue(bucket.getDocCount());
+                bucketInfos.add(bucketInfo);
+            }
+        } else if(bucketType.equalsIgnoreCase("date_histogram")) {
+            Histogram dateHistogram = searchResponse.getAggregations().get("date_histogram");
+            for (Histogram.Bucket bucket : dateHistogram.getBuckets()) {
+                BucketInfo bucketInfo = new BucketInfo();
+                bucketInfo.setKey(bucket.getKeyAsString());
+                bucketInfo.setValue(bucket.getDocCount());
+                bucketInfos.add(bucketInfo);
+            }
+        }
+
+        return bucketInfos;
+    }
+
+    private void attachAggregation(MetricContract metricContract, SearchSourceBuilder searchSourceBuilder) {
+        String aggType = metricContract.getAggregationType();
+        String aggField = metricContract.getAggregationField();
+        if ("max".equalsIgnoreCase(aggType)) {
+            searchSourceBuilder.aggregation(AggregationBuilders.max("maxNumber").field(aggField));
+        } else if ("min".equalsIgnoreCase(aggType)) {
+            searchSourceBuilder.aggregation(AggregationBuilders.min("minNumber").field(aggField));
+        } else if ("avg".equalsIgnoreCase(aggType)) {
+            searchSourceBuilder.aggregation(AggregationBuilders.avg("avgNumber").field(aggField));
+        } else if ("sum".equalsIgnoreCase(aggType)) {
+            searchSourceBuilder.aggregation(AggregationBuilders.sum("sumNumber").field(aggField));
+        } else if ("cardinality".equalsIgnoreCase(aggType)) {
+            searchSourceBuilder.aggregation(AggregationBuilders.cardinality("cardinality").field(aggField));
+        } else if ("standard_deviation".equalsIgnoreCase(aggType)) {
+            searchSourceBuilder.aggregation(AggregationBuilders.extendedStats("extend").field(aggField));
+        } else if ("percentiles".equalsIgnoreCase(aggType)) {
+            searchSourceBuilder.aggregation(AggregationBuilders.percentiles("percentiles")
+                    .percentiles(Double.parseDouble(metricContract.getProperties().get("percent").toString())).field(aggField));
+        }
+    }
+
+    private Double findAggregationValue(MetricContract metricContract, SearchResponse searchResponse) {
+        String aggType = metricContract.getAggregationType();
+        if ("max".equalsIgnoreCase(aggType)) {
+            Max max = searchResponse.getAggregations().get("maxNumber");
+            return max.getValue();
+        }
+        if ("min".equalsIgnoreCase(aggType)) {
+            Min min = searchResponse.getAggregations().get("minNumber");
+            return min.getValue();
+        }
+        if ("avg".equalsIgnoreCase(aggType)) {
+            Avg avg = searchResponse.getAggregations().get("avgNumber");
+            return avg.getValue();
+        }
+        if ("sum".equalsIgnoreCase(aggType)) {
+            Sum sum = searchResponse.getAggregations().get("sumNumber");
+            return sum.getValue();
+        }
+        if ("cardinality".equalsIgnoreCase(aggType)) {
+            Cardinality cardinality = searchResponse.getAggregations().get("cardinality");
+            return (double)cardinality.getValue();
+        }
+        if ("standard_deviation".equalsIgnoreCase(aggType)) {
+            ExtendedStats extendedStats = searchResponse.getAggregations().get("extend");
+            return extendedStats.getStdDeviation();
+        }
+        if ("percentiles".equalsIgnoreCase(aggType)) {
+            Percentiles percentiles = searchResponse.getAggregations().get("percentiles");
+            return percentiles.percentile(Double.parseDouble(metricContract.getProperties().get("percent").toString()));
+        }
+
+        throw new IllegalArgumentException("unsupported aggregation type: " + aggType);
     }
 }

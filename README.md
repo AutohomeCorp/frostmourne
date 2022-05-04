@@ -20,6 +20,7 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 * 只需要写一条数据查询就可以轻松搞定监控
 * 多种数据源(Elasticsearch, InfluxDB, Mysql, ClickHouse)支持
 * 多种数值计算类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
+* 支持数据分桶统计
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), WebHook, 飞书机器人)
 * 消息支持多种格式(text, markdown)
 * 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
@@ -98,7 +99,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 依赖环境
 * JDK 1.8
 
-需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.6.1-SNAPSHOT.zip" download>frostmourne-monitor-0.6.1-SNAPSHOT.zip</a> ;然后根据自己的
+需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.6.2-SNAPSHOT.zip" download>frostmourne-monitor-0.6.2-SNAPSHOT.zip</a> ;然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
 
 ```bash
@@ -199,28 +200,34 @@ yarn dev
 * ~~增加项目代码规范说明文档~~ [code_format](./doc/wiki/code_format.md) [2022-04-23]
 * ~~elasticsearch数据源https支持pkcs12证书~~ [issue#71](https://github.com/AutohomeCorp/frostmourne/issues/71) [2022-04-25]
 * ~~优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件，打包自动管理node和yarn使用特定版本~~ [2022-04-25]
-* ~~改进消息静默功能：对报警事件数据和静默时间内的事件数据对比，如果相似度很高就静默，如果和静默时间内事件相似度不高仍然报警。这样可以避免漏报同时防止报警消息过多。~~ [2022-05-04]
-* 解决elasticsearch8数据查询报错的问题
-* 数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
-* 数据预览前端增加参数校验提示
+* ~~解决查询elasticsearch索引字段查询报错的问题~~ [2022-04-27]
+* ~~数据预览前端增加参数校验提示~~ [2022-04-28]
+* ~~数据源增加Elasticsearch8支持~~ [issue#73](https://github.com/AutohomeCorp/frostmourne/issues/73) [2022-05-02]
+* ~~Elasticsearch数据配置支持数据分桶，分桶类型支持：1. 按字段值分组，相当于ES里的Terms Aggregation~~ [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) - [SQL](./doc/mysql-schema/2022-05-03/change.sql)  [2022-05-04]
+* ~~Elasticsearch数据配置支持数据分桶，分桶类型支持：2. 按时间分组,相当于ES里的DateHistogramAggregation~~ [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) [2022-05-04]
+* ~~改进消息静默功能：对报警事件数据和静默时间内的事件数据对比，如果相似度很高就静默，如果和静默时间内事件相似度不高仍然报警。这样可以避免漏报同时防止报警消息过多。~~  [2022-05-04]
+* 解决邮箱报警不支持ssl的问题
 * 增加ping监控报警,一个监控最多监控10个ping。
+* 发布0.6.2-RELEASE，开始0.7版本开发
 * msyql, influxdb, clickhouse监控增加表达式监控规则
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * Elasticsearch监控数值实现环比监控
+* 短信报警方式实现，默认用阿里云短信实现
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
 * 增加邮箱在线配置页面功能
 * 增加消息内容长度配置，超过长度配置部分将被截掉
-* 解决邮箱报警不支持ssl的问题
 * 增加本项目内程序日志采集至mysql并提供查询页面，方便排查问题和监控
 * 员工换组增加是否迁移监控至新组的选项，如果勾选将该员工创建的监控也转移至新组
 * 增加报警组支持
+* 增加监控转组功能
 * Elasticsearch数据名增加traceid字段配置，可以配置跳转链接。例如: 配置skywalking的链接将跳转到skywalking对应的调用链
 * 增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持
 * 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
+* 增加[tidb](https://github.com/pingcap/tidb)数据监控报警
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面
@@ -243,6 +250,18 @@ yarn dev
 * 3-sigma离群点检测报警规则
 * 加入时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
 * 总结项目用到的知识点
+
+## 1.0-RELEASE核心Feature后续计划
+
+* elasticsearch主流版本6,7,8支持
+* 静默功能优化
+* prometheus数据监控支持
+* 报警升级功能
+* msyql, influxdb, clickhouse监控增加表达式监控规则
+* ping命令监控
+* 增加本项目内程序日志采集至mysql并提供查询页面，方便排查问题和监控
+* elasticearch数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
+* Elasticsearch监控数值实现环比监控
 
 ## Contributors
 
