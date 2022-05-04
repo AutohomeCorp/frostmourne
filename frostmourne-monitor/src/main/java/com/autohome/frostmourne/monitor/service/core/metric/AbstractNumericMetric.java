@@ -23,6 +23,7 @@ public abstract class AbstractNumericMetric implements IMetric {
         Map<String, Object> result = new HashMap<>();
         MetricData elasticsearchMetric = pullMetricData(start, end, metricContract, ruleSettings);
         result.put("NUMBER", elasticsearchMetric.getMetricValue());
+        result.put("BUCKETS", elasticsearchMetric.getBuckets());
         if (elasticsearchMetric.getLatestDocument() != null) {
             result.putAll(elasticsearchMetric.getLatestDocument());
         }

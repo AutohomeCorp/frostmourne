@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.service.core.domain;
 
+import java.util.List;
 import java.util.Map;
 
 public class MetricData {
@@ -9,6 +10,8 @@ public class MetricData {
     private Map<String, Object> latestDocument;
 
     private Map<String, String> context;
+
+    private List<BucketInfo> buckets;
 
     public Object getMetricValue() {
         return metricValue;
@@ -32,5 +35,13 @@ public class MetricData {
 
     public void setContext(Map<String, String> context) {
         this.context = context;
+    }
+
+    public List<BucketInfo> getBuckets() {
+        return buckets;
+    }
+
+    public void setBuckets(List<BucketInfo> buckets) {
+        this.buckets = buckets;
     }
 }

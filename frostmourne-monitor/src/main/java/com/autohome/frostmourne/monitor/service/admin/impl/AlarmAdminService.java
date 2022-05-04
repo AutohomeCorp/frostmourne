@@ -48,6 +48,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             put("ring_than", "percentage");
             put("same_time", "percentage");
             put("object", "expression");
+            put("bucket_numeric", "bucket_numeric");
         }
     };
 
@@ -175,6 +176,8 @@ public class AlarmAdminService implements IAlarmAdminService {
         metricContract.setDataNameId(metric.getDataNameId());
         metricContract.setAlarmId(alarmId);
         metricContract.setPostData(metric.getPostData());
+        metricContract.setBucketType(metric.getBucketType());
+        metricContract.setBucketField(metric.getBucketField());
         metricContract.setProperties(JacksonUtil.deSerialize(metric.getProperties(), new TypeReference<Map<String, Object>>() {}));
         if (metric.getDataSourceId() != null && metric.getDataSourceId() > 0) {
             Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(metric.getDataSourceId());
@@ -400,6 +403,8 @@ public class AlarmAdminService implements IAlarmAdminService {
         metric.setPostData(metricContract.getPostData());
         metric.setProperties(JacksonUtil.serialize(metricContract.getProperties()));
         metric.setCreateAt(new Date());
+        metric.setBucketType(metricContract.getBucketType());
+        metric.setBucketField(metricContract.getBucketField());
         metricRepository.insert(metric);
     }
 

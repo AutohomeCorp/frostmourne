@@ -1,4 +1,4 @@
-# 0.6.1-SNAPSHOT(开发中)
+# 0.6.2-SNAPSHOT(开发中)
 
 ### Feature
 
@@ -8,7 +8,9 @@
 * 移除xxl-job依赖，内置实现分布式调度，减小部署难度 - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
 * elasticsearch数据源https支持pkcs12证书 [issue#71](https://github.com/AutohomeCorp/frostmourne/issues/71) [2022-04-25]
 * 数据预览前端增加参数校验提示 [2022-04-28]
-* 数据源增加Elasticsearch8支持 [2022-05-02]
+* 数据源增加Elasticsearch8支持 [issue#73](https://github.com/AutohomeCorp/frostmourne/issues/73) [2022-05-02]
+* [0.6.2]Elasticsearch数据配置支持数据分桶，分桶类型支持：1. 按字段值分组，相当于ES里的Terms Aggregation. [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) - [SQL](./doc/mysql-schema/2022-05-03/change.sql) [2022-05-04]
+* [0.6.2]Elasticsearch数据配置支持数据分桶，分桶类型支持：2. 按时间分组,相当于ES里的DateHistogramAggregation. [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) [2022-05-04]
 
 ### Bugfix
 
@@ -19,6 +21,7 @@
 * mysql: rule表增加消息模板内容类型字段：alert_template_type - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15]
 * mysql: user_info表增加密码字段password - [SQL](./doc/mysql-schema/2022-04-10/change.sql) [2022-04-10]
 * mysql: 增加数据库分布式锁表job_lock，alarm表增加两个字段：trigger_last_time, trigger_next_time - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
+* [0.6.2]mysql: metric表增加字段bucket_type，bucket_field - [SQL](./doc/mysql-schema/2022-05-03/change.sql) [2022-05-04]
 
 ### Document
 

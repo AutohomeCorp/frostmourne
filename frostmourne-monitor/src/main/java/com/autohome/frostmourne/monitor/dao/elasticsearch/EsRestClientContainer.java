@@ -11,6 +11,7 @@ import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.model.contract.ElasticsearchDataResult;
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.model.contract.StatItem;
+import com.autohome.frostmourne.monitor.service.core.domain.BucketInfo;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import com.google.common.base.Splitter;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
@@ -37,6 +38,7 @@ import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramAggre
 import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
 import org.elasticsearch.search.aggregations.bucket.histogram.ExtendedBounds;
 import org.elasticsearch.search.aggregations.bucket.histogram.Histogram;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.metrics.avg.Avg;
 import org.elasticsearch.search.aggregations.metrics.cardinality.Cardinality;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
@@ -225,6 +227,7 @@ public class EsRestClientContainer extends AbstractElasticClientContainer {
         searchSourceBuilder.trackTotalHits(true);
         searchSourceBuilder.query(boolQueryBuilder).from(0).size(1).sort(metricContract.getDataNameContract().getTimestampField(), SortOrder.DESC);
         attachAggregation(metricContract, searchSourceBuilder);
+        attachBucket(start, end, metricContract, searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
         searchRequest.indicesOptions(DEFAULT_INDICE_OPTIONS);
         SearchResponse searchResponse = null;
@@ -252,6 +255,8 @@ public class EsRestClientContainer extends AbstractElasticClientContainer {
             Double numericValue = findAggregationValue(metricContract, searchResponse);
             elasticsearchMetric.setMetricValue(numericValue);
         }
+        List<BucketInfo> bucketInfos = findBucketValue(metricContract, searchResponse);
+        elasticsearchMetric.setBuckets(bucketInfos);
         return elasticsearchMetric;
     }
 
@@ -295,6 +300,61 @@ public class EsRestClientContainer extends AbstractElasticClientContainer {
         }
 
         return dataResult;
+    }
+
+    private void attachBucket(DateTime start, DateTime end, MetricContract metricContract, SearchSourceBuilder searchSourceBuilder) {
+        String bucketType = metricContract.getBucketType();
+        String bucketField = metricContract.getBucketField();
+        if(Strings.isNullOrEmpty(bucketType) || Strings.isNullOrEmpty(bucketField)) {
+            return;
+        }
+
+        if("none".equalsIgnoreCase(bucketType)) {
+            return;
+        }
+        if(bucketType.equalsIgnoreCase("terms")) {
+            searchSourceBuilder.aggregation(AggregationBuilders
+                    .terms("terms")
+                    .size(50)
+                    .field(bucketField));
+        } else if (bucketType.equalsIgnoreCase("date_histogram")) {
+            searchSourceBuilder.aggregation(AggregationBuilders
+                    .dateHistogram("date_histogram")
+                    .timeZone(DateTimeZone.getDefault())
+                    .extendedBounds(new ExtendedBounds(start.getMillis(), end.getMillis()))
+                    .field(bucketField)
+                    .interval(Long.parseLong(metricContract.getProperties().getOrDefault("dateHistogramInterval", "3600000").toString()))
+                    .format("yyyy-MM-dd'T'HH:mm:ssZ"));
+        } else {
+            throw new RuntimeException("unknown bucket type: " + bucketType);
+        }
+    }
+
+    private List<BucketInfo> findBucketValue(MetricContract metricContract, SearchResponse searchResponse) {
+        String bucketType = metricContract.getBucketType();
+        if(Strings.isNullOrEmpty(bucketType) || "none".equalsIgnoreCase(bucketType)) {
+            return new ArrayList<>();
+        }
+        List<BucketInfo> bucketInfos = new ArrayList<>();
+        if(bucketType.equalsIgnoreCase("terms")) {
+            Terms terms = searchResponse.getAggregations().get("terms");
+            for (Terms.Bucket bucket : terms.getBuckets()) {
+                BucketInfo bucketInfo = new BucketInfo();
+                bucketInfo.setKey(bucket.getKeyAsString());
+                bucketInfo.setValue(bucket.getDocCount());
+                bucketInfos.add(bucketInfo);
+            }
+        } else if(bucketType.equalsIgnoreCase("date_histogram")) {
+            Histogram dateHistogram = searchResponse.getAggregations().get("date_histogram");
+            for (Histogram.Bucket bucket : dateHistogram.getBuckets()) {
+                BucketInfo bucketInfo = new BucketInfo();
+                bucketInfo.setKey(bucket.getKeyAsString());
+                bucketInfo.setValue(bucket.getDocCount());
+                bucketInfos.add(bucketInfo);
+            }
+        }
+
+        return bucketInfos;
     }
 
     private void attachAggregation(MetricContract metricContract, SearchSourceBuilder searchSourceBuilder) {

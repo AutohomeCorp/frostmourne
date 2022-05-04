@@ -12,13 +12,17 @@ import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.AverageAggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.CardinalityAggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.DateHistogramAggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.DateHistogramBucket;
 import co.elastic.clients.elasticsearch._types.aggregations.ExtendedStatsAggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.FieldDateMath;
+import co.elastic.clients.elasticsearch._types.aggregations.LongTermsBucket;
 import co.elastic.clients.elasticsearch._types.aggregations.MaxAggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.MinAggregation;
 import co.elastic.clients.elasticsearch._types.aggregations.PercentilesAggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
 import co.elastic.clients.elasticsearch._types.aggregations.SumAggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.TermsAggregation;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryStringQuery;
@@ -28,6 +32,7 @@ import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.model.contract.StatItem;
+import com.autohome.frostmourne.monitor.service.core.domain.BucketInfo;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import org.elasticsearch.client.RestClientBuilder;
@@ -154,8 +159,7 @@ public class Elasticsearch8ClientContainer extends AbstractElasticClientContaine
                                         .timeZone(DateTimeZone.getDefault().getID())
                                         .format("yyyy-MM-dd'T'HH:mm:ssZ")
                                         .fixedInterval(f -> f.time(intervalInSeconds + "s"))
-                                        .extendedBounds(e -> e
-                                                .min(FieldDateMath.of(f -> f.value((double)start.getMillis())))
+                                        .extendedBounds(e -> e.min(FieldDateMath.of(f -> f.value((double)start.getMillis())))
                                                 .max(FieldDateMath.of(f -> f.value((double)end.getMillis()))))
                                 )
                         );
@@ -236,6 +240,7 @@ public class Elasticsearch8ClientContainer extends AbstractElasticClientContaine
         Query query = BoolQuery.of(q -> q.must(queryStringQuery, timeRangeQuery))._toQuery();
         String[] indices = findIndices(metricContract.getDataNameContract(), start, end);
         Aggregation aggregation = attachAggregation(metricContract);
+        Aggregation bucket = attachBucket(start, end, metricContract);
         SearchResponse<Map> response = client.search(b -> {
             b.trackTotalHits(x -> x.enabled(true))
                     .trackScores(false)
@@ -247,6 +252,9 @@ public class Elasticsearch8ClientContainer extends AbstractElasticClientContaine
                     .query(query);
             if(aggregation != null) {
                 b.aggregations("metric", aggregation);
+            }
+            if(bucket != null) {
+                b.aggregations("bucket", bucket);
             }
             return b;
         }, Map.class);
@@ -268,7 +276,58 @@ public class Elasticsearch8ClientContainer extends AbstractElasticClientContaine
             double value = findAggregationValue(metricContract, aggregate);
             metricData.setMetricValue(value);
         }
+        Aggregate bucketAggregate = response.aggregations().get("bucket");
+        metricData.setBuckets(findBucketValue(metricContract, bucketAggregate));
         return metricData;
+    }
+
+    private Aggregation attachBucket(DateTime start, DateTime end, MetricContract metricContract) {
+        String bucketType = metricContract.getBucketType();
+        String bucketField = metricContract.getBucketField();
+        if(Strings.isNullOrEmpty(bucketType) || Strings.isNullOrEmpty(bucketField)) {
+            return null;
+        }
+        if(bucketType.equalsIgnoreCase("terms")) {
+            return TermsAggregation.of(t -> t.field(bucketField).size(50))._toAggregation();
+        }
+        if(bucketType.equalsIgnoreCase("date_histogram")) {
+            Long intervalInMillis = Long.parseLong(metricContract.getProperties().getOrDefault("dateHistogramInterval", "3600000").toString());
+            Long intervalInSeconds = intervalInMillis / 1000;
+            return DateHistogramAggregation.of(d -> d
+                    .field(bucketField)
+                    .timeZone(DateTimeZone.getDefault().getID())
+                    .format("yyyy-MM-dd'T'HH:mm:ssZ")
+                    .fixedInterval(f -> f.time(intervalInSeconds + "s"))
+                    .extendedBounds(e -> e.min(FieldDateMath.of(f -> f.value((double)start.getMillis())))
+                            .max(FieldDateMath.of(f -> f.value((double)end.getMillis())))))._toAggregation();
+        }
+        return null;
+    }
+
+    private List<BucketInfo> findBucketValue(MetricContract metricContract, Aggregate aggregate) {
+        String bucketType = metricContract.getBucketType();
+        if(Strings.isNullOrEmpty(bucketType) || "none".equalsIgnoreCase(bucketType)) {
+            return new ArrayList<>();
+        }
+        List<BucketInfo> bucketInfos = new ArrayList<>();
+        if(bucketType.equalsIgnoreCase("terms")) {
+            if(aggregate.isSterms()) {
+                for (StringTermsBucket stringTermsBucket : aggregate.sterms().buckets().array()) {
+                    BucketInfo bucketInfo = new BucketInfo();
+                    bucketInfo.setKey(stringTermsBucket.key());
+                    bucketInfo.setValue(stringTermsBucket.docCount());
+                    bucketInfos.add(bucketInfo);
+                }
+            }
+        } else if(bucketType.equalsIgnoreCase("date_histogram")) {
+            for(DateHistogramBucket bucket : aggregate.dateHistogram().buckets().array()) {
+                BucketInfo bucketInfo = new BucketInfo();
+                bucketInfo.setKey(bucket.keyAsString());
+                bucketInfo.setValue(bucket.docCount());
+                bucketInfos.add(bucketInfo);
+            }
+        }
+        return bucketInfos;
     }
 
     private Aggregation attachAggregation(MetricContract metricContract) {
