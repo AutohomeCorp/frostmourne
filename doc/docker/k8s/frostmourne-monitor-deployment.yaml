@@ -25,7 +25,7 @@ spec:
             - name: datasource_frostmourne_url
               value: jdbc:mysql://${mysql.host}/frostmourne?useSSL=false&verifyServerCertificate=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
             - name: datasource_frostmourne_username
-              value: 
+              value:
             - name: datasource_frostmourne_password
               value:
 
@@ -35,7 +35,7 @@ spec:
             - name: alarmlog_reserve_days
               value: "30"
             - name: frostmourne_monitor_address  # 配置用于生成日志查询地址和调度触发监控改运行
-              value: 
+              value:
             - name: initial_password
               value:
 
@@ -57,13 +57,13 @@ spec:
 
             # email（可选）
             - name: email.sender
-              value: 
+              value:
             - name: email.sender-password
-              value: 
+              value:
             - name: email.smtp-auth
               value: "true"
             - name: email.smtp-host
-              value: 
+              value:
             - name: email.smtp-port
               value:
 
@@ -75,7 +75,7 @@ spec:
             - name: wechat.secret
               value:
 
-          image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.6.2
+          image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.7
           name: frostmourne-monitor
           imagePullPolicy: Always
           resources:
