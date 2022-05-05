@@ -18,7 +18,7 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 ## 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多种数据源(Elasticsearch, InfluxDB, Mysql, ClickHouse)支持
+* 多种数据源(Elasticsearch, InfluxDB, Mysql, TiDb, ClickHouse)支持
 * 多种数值计算类型监控(count,min,max,avg,sum,unique count,percentiles,standard deviation)
 * 支持数据分桶统计
 * 多种报警消息发送方式(email,短信,钉钉(机器人),企业微信(机器人), WebHook, 飞书机器人)
@@ -185,26 +185,7 @@ yarn dev
 
 目前已知的规划有:
 
-* ~~发布0.5-RELEASE~~ [2022-04-04]
-* ~~将发送消息功能从spi移到monitor~~ [2022-04-05]
-* ~~移除spi模块，随着monitor功能完善，spi的存在已经成为鸡肋，移除掉可以降低调试和部署难度~~[2022-04-05]
-* ~~增加0.5升级0.6的说明文档~~ [upgrade-0.6.md](./doc/wiki/upgrade-0.6.md) [2022-04-07]
-* ~~rule表增加消息模板内容类型字段：alert_template_type~~ - [SQL](./doc/mysql-schema/2022-04-14/change.sql) [2022-04-15]
-* ~~报警消息格式增加类型: text, markdown选项~~ [2022-04-15]
-* ~~mysql: user_info表增加密码字段password~~ - [SQL](./doc/mysql-schema/2022-04-10/change.sql) [2022-04-10]
-* ~~增加用户密码设置功能，方便没有部署ldap的团队使用。配置了ldap的将优先使用ldap认证。~~ [2022-04-10]
-* ~~mysql: 增加数据库分布式锁表job_lock，alarm表增加两个字段：trigger_last_time, trigger_next_time~~ - [SQL](./doc/mysql-schema/2022-04-17/change.sql) [2022-04-18]
-* ~~移除xxl-job依赖，内置实现分布式调度，减小部署难度~~ [2022-04-18]
-* ~~增加0.6升级0.6.1的说明文档~~ [upgrade-0.6.1.md](./doc/wiki/upgrade-0.6.1.md) [2022-04-19]
-* ~~增加k8s环境部署说明~~ [2022-04-21]
-* ~~增加项目代码规范说明文档~~ [code_format](./doc/wiki/code_format.md) [2022-04-23]
-* ~~elasticsearch数据源https支持pkcs12证书~~ [issue#71](https://github.com/AutohomeCorp/frostmourne/issues/71) [2022-04-25]
-* ~~优化frostmourne-vue模块，支持较新版本node和npm支持; 引入frontend-maven-plugin插件，打包自动管理node和yarn使用特定版本~~ [2022-04-25]
-* ~~解决查询elasticsearch索引字段查询报错的问题~~ [2022-04-27]
-* ~~数据预览前端增加参数校验提示~~ [2022-04-28]
-* ~~数据源增加Elasticsearch8支持~~ [issue#73](https://github.com/AutohomeCorp/frostmourne/issues/73) [2022-05-02]
-* ~~Elasticsearch数据配置支持数据分桶，分桶类型支持：1. 按字段值分组，相当于ES里的Terms Aggregation~~ [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) - [SQL](./doc/mysql-schema/2022-05-03/change.sql)  [2022-05-04]
-* ~~Elasticsearch数据配置支持数据分桶，分桶类型支持：2. 按时间分组,相当于ES里的DateHistogramAggregation~~ [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) [2022-05-04]
+* ~~发布0.6.2-RELEASE~~ [2022-05-05]
 * 解决邮箱报警不支持ssl的问题
 * 增加ping监控报警,一个监控最多监控10个ping。
 * 发布0.6.2-RELEASE，开始0.7版本开发
@@ -226,7 +207,6 @@ yarn dev
 * 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
-* 增加[tidb](https://github.com/pingcap/tidb)数据监控报警
 * 改进消息静默功能：对报警事件数据和静默时间内的事件数据对比，如果相似度很高就静默，如果和静默时间内事件相似度不高仍然报警。这样可以避免漏报同时防止报警消息过多。
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
