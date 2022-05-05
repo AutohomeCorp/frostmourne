@@ -246,7 +246,6 @@
                   <el-checkbox-button label="email">Email</el-checkbox-button>
                   <el-checkbox-button label="sms">短信</el-checkbox-button>
                   <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
-
                 </el-checkbox-group>
               </el-form-item>
             </el-col>
