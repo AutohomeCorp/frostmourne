@@ -100,7 +100,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 * JDK 1.8
 * Mysql 5.7.8+
 
-需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-7-SNAPSHOT.zip" download>frostmourne-monitor-0.6.2-SNAPSHOT.zip</a> ;然后根据自己的
+需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.7-SNAPSHOT.zip" download>frostmourne-monitor-0.7-SNAPSHOT.zip</a> ;然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
 
 ```bash
