@@ -186,9 +186,10 @@ yarn dev
 目前已知的规划有:
 
 * ~~发布0.6.2-RELEASE~~ [2022-05-05]
+* 改进消息静默功能：对报警事件数据和静默时间内的事件数据对比，如果相似度很高就静默，如果和静默时间内事件相似度不高仍然报警。这样可以避免漏报同时防止报警消息过多。
 * 解决邮箱报警不支持ssl的问题
 * 增加ping监控报警,一个监控最多监控10个ping。
-* 发布0.6.2-RELEASE，开始0.7版本开发
+* doc: 增加已注册公司图标列表
 * msyql, influxdb, clickhouse监控增加表达式监控规则
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * Elasticsearch监控数值实现环比监控
@@ -207,7 +208,6 @@ yarn dev
 * 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
-* 改进消息静默功能：对报警事件数据和静默时间内的事件数据对比，如果相似度很高就静默，如果和静默时间内事件相似度不高仍然报警。这样可以避免漏报同时防止报警消息过多。
 * influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加influxDB数据查询页面
 * influxdb数据监控增加短链接，跳转到influxdb数据查询页面
