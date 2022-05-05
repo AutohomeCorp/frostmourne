@@ -1,7 +1,7 @@
 package com.autohome.frostmourne.monitor.model.account;
 
 /**
- * 团队信息
+ * team info
  *
  * @author Aping
  * @since 2022/3/28 13:22

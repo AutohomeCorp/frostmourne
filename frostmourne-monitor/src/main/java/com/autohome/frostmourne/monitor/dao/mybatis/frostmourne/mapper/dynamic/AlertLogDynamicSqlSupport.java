@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
+import com.autohome.frostmourne.monitor.model.enums.AlertType;
 import java.sql.JDBCType;
 import java.util.Date;
 import org.mybatis.dynamic.sql.SqlColumn;
@@ -46,7 +47,7 @@ public final class AlertLogDynamicSqlSupport {
     /**
      * 消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)
      */
-    public static final SqlColumn<String> alertType = alertLog.alertType;
+    public static final SqlColumn<AlertType> alertType = alertLog.alertType;
 
     /**
      * 创建时间
@@ -73,7 +74,7 @@ public final class AlertLogDynamicSqlSupport {
 
         public final SqlColumn<String> sendStatus = column("send_status", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> alertType = column("alert_type", JDBCType.VARCHAR);
+        public final SqlColumn<AlertType> alertType = column("alert_type", JDBCType.VARCHAR);
 
         public final SqlColumn<Date> createAt = column("create_at", JDBCType.TIMESTAMP);
 

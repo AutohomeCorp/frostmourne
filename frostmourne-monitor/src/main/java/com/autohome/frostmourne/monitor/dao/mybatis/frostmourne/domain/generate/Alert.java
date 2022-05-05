@@ -69,6 +69,11 @@ public class Alert implements Serializable {
      */
     private String feishuRobotHook;
 
+    /**
+     * 静默判断表达式
+     */
+    private String silenceExpression;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -167,6 +172,14 @@ public class Alert implements Serializable {
         this.feishuRobotHook = feishuRobotHook == null ? null : feishuRobotHook.trim();
     }
 
+    public String getSilenceExpression() {
+        return silenceExpression;
+    }
+
+    public void setSilenceExpression(String silenceExpression) {
+        this.silenceExpression = silenceExpression == null ? null : silenceExpression.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -190,7 +203,8 @@ public class Alert implements Serializable {
             && (this.getDingRobotHook() == null ? other.getDingRobotHook() == null : this.getDingRobotHook().equals(other.getDingRobotHook()))
             && (this.getHttpPostUrl() == null ? other.getHttpPostUrl() == null : this.getHttpPostUrl().equals(other.getHttpPostUrl()))
             && (this.getWechatRobotHook() == null ? other.getWechatRobotHook() == null : this.getWechatRobotHook().equals(other.getWechatRobotHook()))
-            && (this.getFeishuRobotHook() == null ? other.getFeishuRobotHook() == null : this.getFeishuRobotHook().equals(other.getFeishuRobotHook()));
+            && (this.getFeishuRobotHook() == null ? other.getFeishuRobotHook() == null : this.getFeishuRobotHook().equals(other.getFeishuRobotHook()))
+            && (this.getSilenceExpression() == null ? other.getSilenceExpression() == null : this.getSilenceExpression().equals(other.getSilenceExpression()));
     }
 
     @Override
@@ -209,6 +223,7 @@ public class Alert implements Serializable {
         result = prime * result + ((getHttpPostUrl() == null) ? 0 : getHttpPostUrl().hashCode());
         result = prime * result + ((getWechatRobotHook() == null) ? 0 : getWechatRobotHook().hashCode());
         result = prime * result + ((getFeishuRobotHook() == null) ? 0 : getFeishuRobotHook().hashCode());
+        result = prime * result + ((getSilenceExpression() == null) ? 0 : getSilenceExpression().hashCode());
         return result;
     }
 }

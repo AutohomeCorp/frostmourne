@@ -1,8 +1,20 @@
 package com.autohome.frostmourne.monitor.model.enums;
 
-public class AlertType {
+/**
+ * alert type enum
+ *
+ * @author Aping
+ * @since 2022/5/3 13:56
+ */
+public enum AlertType {
 
-    public static final String PROBLEM = "PROBLEM";
+    /**
+     * alert problem
+     */
+    PROBLEM,
 
-    public static final String RECOVER = "RECOVER";
+    /**
+     * alert recover
+     */
+    RECOVER
 }

@@ -32,7 +32,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface AlertDynamicMapper {
-    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, ways, silence, creator, createAt, allowSmsFrom, allowSmsTo, dingRobotHook, httpPostUrl, wechatRobotHook, feishuRobotHook);
+    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, ways, silence, creator, createAt, allowSmsFrom, allowSmsTo, dingRobotHook, httpPostUrl, wechatRobotHook, feishuRobotHook, silenceExpression);
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
@@ -61,7 +61,8 @@ public interface AlertDynamicMapper {
         @Result(column="ding_robot_hook", property="dingRobotHook", jdbcType=JdbcType.VARCHAR),
         @Result(column="http_post_url", property="httpPostUrl", jdbcType=JdbcType.VARCHAR),
         @Result(column="wechat_robot_hook", property="wechatRobotHook", jdbcType=JdbcType.VARCHAR),
-        @Result(column="feishu_robot_hook", property="feishuRobotHook", jdbcType=JdbcType.VARCHAR)
+        @Result(column="feishu_robot_hook", property="feishuRobotHook", jdbcType=JdbcType.VARCHAR),
+        @Result(column="silence_expression", property="silenceExpression", jdbcType=JdbcType.VARCHAR)
     })
     List<Alert> selectMany(SelectStatementProvider selectStatement);
 
@@ -95,6 +96,7 @@ public interface AlertDynamicMapper {
             .map(httpPostUrl).toProperty("httpPostUrl")
             .map(wechatRobotHook).toProperty("wechatRobotHook")
             .map(feishuRobotHook).toProperty("feishuRobotHook")
+            .map(silenceExpression).toProperty("silenceExpression")
         );
     }
 
@@ -111,6 +113,7 @@ public interface AlertDynamicMapper {
             .map(httpPostUrl).toPropertyWhenPresent("httpPostUrl", record::getHttpPostUrl)
             .map(wechatRobotHook).toPropertyWhenPresent("wechatRobotHook", record::getWechatRobotHook)
             .map(feishuRobotHook).toPropertyWhenPresent("feishuRobotHook", record::getFeishuRobotHook)
+            .map(silenceExpression).toPropertyWhenPresent("silenceExpression", record::getSilenceExpression)
         );
     }
 
@@ -147,7 +150,8 @@ public interface AlertDynamicMapper {
                 .set(dingRobotHook).equalTo(record::getDingRobotHook)
                 .set(httpPostUrl).equalTo(record::getHttpPostUrl)
                 .set(wechatRobotHook).equalTo(record::getWechatRobotHook)
-                .set(feishuRobotHook).equalTo(record::getFeishuRobotHook);
+                .set(feishuRobotHook).equalTo(record::getFeishuRobotHook)
+                .set(silenceExpression).equalTo(record::getSilenceExpression);
     }
 
     static UpdateDSL<UpdateModel> updateSelectiveColumns(Alert record, UpdateDSL<UpdateModel> dsl) {
@@ -161,7 +165,8 @@ public interface AlertDynamicMapper {
                 .set(dingRobotHook).equalToWhenPresent(record::getDingRobotHook)
                 .set(httpPostUrl).equalToWhenPresent(record::getHttpPostUrl)
                 .set(wechatRobotHook).equalToWhenPresent(record::getWechatRobotHook)
-                .set(feishuRobotHook).equalToWhenPresent(record::getFeishuRobotHook);
+                .set(feishuRobotHook).equalToWhenPresent(record::getFeishuRobotHook)
+                .set(silenceExpression).equalToWhenPresent(record::getSilenceExpression);
     }
 
     default int updateByPrimaryKey(Alert record) {
@@ -177,6 +182,7 @@ public interface AlertDynamicMapper {
             .set(httpPostUrl).equalTo(record::getHttpPostUrl)
             .set(wechatRobotHook).equalTo(record::getWechatRobotHook)
             .set(feishuRobotHook).equalTo(record::getFeishuRobotHook)
+            .set(silenceExpression).equalTo(record::getSilenceExpression)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -194,6 +200,7 @@ public interface AlertDynamicMapper {
             .set(httpPostUrl).equalToWhenPresent(record::getHttpPostUrl)
             .set(wechatRobotHook).equalToWhenPresent(record::getWechatRobotHook)
             .set(feishuRobotHook).equalToWhenPresent(record::getFeishuRobotHook)
+            .set(silenceExpression).equalToWhenPresent(record::getSilenceExpression)
             .where(id, isEqualTo(record::getId))
         );
     }
