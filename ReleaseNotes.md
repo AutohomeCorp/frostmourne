@@ -3,6 +3,10 @@
 ### Feature
 
 * 发布0.6.2-RELEASE [2022-05-05]
+* 静默优化，支持字段判断表达式 [2022-05-05]
+
+### Mysql
+* alert表新增silence_expression字段，新增alert_event表 - [SQL](./doc/mysql-schema/2022-05-02/change.sql)[2022-05-05]
 
 # 0.6.2-RELEASE
 
