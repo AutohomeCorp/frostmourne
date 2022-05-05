@@ -68,6 +68,11 @@ public final class AlertDynamicSqlSupport {
      */
     public static final SqlColumn<String> feishuRobotHook = alert.feishuRobotHook;
 
+    /**
+     * 静默判断表达式
+     */
+    public static final SqlColumn<String> silenceExpression = alert.silenceExpression;
+
     public static final class Alert extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
@@ -92,6 +97,8 @@ public final class AlertDynamicSqlSupport {
         public final SqlColumn<String> wechatRobotHook = column("wechat_robot_hook", JDBCType.VARCHAR);
 
         public final SqlColumn<String> feishuRobotHook = column("feishu_robot_hook", JDBCType.VARCHAR);
+
+        public final SqlColumn<String> silenceExpression = column("silence_expression", JDBCType.VARCHAR);
 
         public Alert() {
             super("alert");

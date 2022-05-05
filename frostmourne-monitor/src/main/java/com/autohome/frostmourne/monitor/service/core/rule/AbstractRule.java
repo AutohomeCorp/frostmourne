@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.service.core.rule;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,11 +8,15 @@ import org.joda.time.DateTime;
 
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.model.constant.ContextConstant;
+import com.autohome.frostmourne.monitor.model.constant.GlobalConstant;
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.model.contract.RuleContract;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.template.ITemplateService;
+import com.autohome.frostmourne.monitor.tool.JacksonUtils;
+import com.autohome.frostmourne.monitor.tool.MD5Utils;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public abstract class AbstractRule implements IRule {
 
@@ -24,6 +29,9 @@ public abstract class AbstractRule implements IRule {
     public Map<String, Object> context(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract, MetricContract metricContract, IMetric metric) {
         alarmProcessLogger.trace("start pull metric");
         Map<String, Object> metricData = metric.pullMetric(metricContract, ruleContract.getSettings());
+
+        alertEventMd5(alarmProcessLogger, metricData);
+
         Map<String, Object> context = new HashMap<>(metricData);
         if (ruleContract.getSettings() != null) {
             context.putAll(ruleContract.getSettings());
@@ -37,6 +45,23 @@ public abstract class AbstractRule implements IRule {
         alarmProcessLogger.trace("env = %s", JacksonUtil.serialize(context));
         alarmProcessLogger.setContext(context);
         return context;
+    }
+
+    private void alertEventMd5(AlarmProcessLogger alarmProcessLogger, Map<String, Object> metricData) {
+        String silenceExpression = alarmProcessLogger.getAlarmContract().getAlertContract().getSilenceExpression();
+        String expressionKeys =
+            silenceExpression.replaceAll("&&", "").replaceAll("\\|\\|", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll(" +", " ").trim();
+        String[] keys = expressionKeys.split(" ");
+
+        Map<String, String> eventMd5 = new HashMap<>();
+        JsonNode metricDataJson = JacksonUtils.transferToJsonNode(metricData);
+        Arrays.stream(keys).forEach(key -> {
+            String path = "/" + key.replaceAll("\\.", "/");
+            String value = metricDataJson.at(path).toString();
+            eventMd5.put(key, MD5Utils.md5Hex(value, GlobalConstant.ENCODE));
+        });
+        // set event_md5 for saving AlertEvent
+        alarmProcessLogger.setEventMd5(eventMd5);
     }
 
     @Override

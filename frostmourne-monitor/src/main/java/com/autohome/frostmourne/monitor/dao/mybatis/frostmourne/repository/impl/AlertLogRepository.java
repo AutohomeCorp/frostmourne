@@ -13,6 +13,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlertLogDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlertLogDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
+import com.autohome.frostmourne.monitor.model.enums.AlertType;
 import com.autohome.frostmourne.monitor.tool.MybatisTool;
 import org.springframework.stereotype.Repository;
 
@@ -54,7 +55,7 @@ public class AlertLogRepository implements IAlertLogRepository {
 
     @Override
     public List<AlertLog> find(Date startTime, Date endTime, Long executeId, Long alarmId, String recipient, String way, String sendStatus, String inSilence,
-        String alertType) {
+        AlertType alertType) {
         return alertLogDynamicMapper.select(query -> {
             query.where().and(AlertLogDynamicSqlSupport.createAt, isBetween(startTime).and(endTime).when((d1, d2) -> d1 != null && d2 != null))
                 .and(AlertLogDynamicSqlSupport.executeId, isEqualTo(executeId).when(MybatisTool::notNullAndZero))
@@ -63,14 +64,14 @@ public class AlertLogRepository implements IAlertLogRepository {
                 .and(AlertLogDynamicSqlSupport.way, isEqualTo(way).when(MybatisTool::notNullAndEmpty))
                 .and(AlertLogDynamicSqlSupport.sendStatus, isEqualTo(sendStatus).when(MybatisTool::notNullAndEmpty))
                 .and(AlertLogDynamicSqlSupport.inSilence, isEqualTo(inSilence).when(MybatisTool::notNullAndEmpty))
-                .and(AlertLogDynamicSqlSupport.alertType, isEqualTo(alertType).when(MybatisTool::notNullAndEmpty))
+                .and(AlertLogDynamicSqlSupport.alertType, isEqualTo(alertType).when(MybatisTool::notNull))
                 .orderBy(AlertLogDynamicSqlSupport.createAt.descending());
             return query;
         });
     }
 
     @Override
-    public Optional<AlertLog> selectLatest(Long alarmId, String alertType, String inSilence) {
+    public Optional<AlertLog> selectLatest(Long alarmId, AlertType alertType, String inSilence) {
         return alertLogDynamicMapper.selectOne(
             query -> query.where().and(AlertLogDynamicSqlSupport.alarmId, isEqualTo(alarmId)).and(AlertLogDynamicSqlSupport.alertType, isEqualTo(alertType))
                 .and(AlertLogDynamicSqlSupport.inSilence, isEqualTo(inSilence)).orderBy(AlertLogDynamicSqlSupport.createAt.descending()).limit(1));

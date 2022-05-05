@@ -3,25 +3,24 @@ package com.autohome.frostmourne.monitor.service.core.execute;
 import java.util.Map;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
+import com.autohome.frostmourne.monitor.model.constant.GlobalConstant;
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
 import org.joda.time.DateTime;
 
 public class AlarmProcessLogger {
 
-    private static final String LINE = System.getProperty("line.separator");
-
     private final StringBuilder trace = new StringBuilder();
 
     private ExecuteStatus executeStatus;
-
-    private Long alarmId;
 
     private AlarmContract alarmContract;
 
     private Boolean isAlert;
 
     private String alertMessage;
+
+    private Map<String, String> eventMd5;
 
     private Map<String, Object> context;
 
@@ -31,20 +30,37 @@ public class AlarmProcessLogger {
 
     private AlarmLog alarmLog;
 
-    public Long getAlarmId() {
-        return alarmId;
+    public void trace(String message) {
+        this.trace.append(DateTime.now().toString("[yyyy-MM-dd HH:mm:ss]")).append(" ").append(message).append(GlobalConstant.LINE_SEPARATOR);
     }
 
-    public void setAlarmId(Long alarmId) {
-        this.alarmId = alarmId;
+    public void trace(String format, Object... args) {
+        String message = String.format(format, args);
+        trace(message);
     }
 
-    public Map<String, Object> getContext() {
-        return context;
+    public String traceInfo() {
+        return this.trace.toString();
     }
 
-    public void setContext(Map<String, Object> context) {
-        this.context = context;
+    public StringBuilder getTrace() {
+        return trace;
+    }
+
+    public ExecuteStatus getExecuteStatus() {
+        return executeStatus;
+    }
+
+    public void setExecuteStatus(ExecuteStatus executeStatus) {
+        this.executeStatus = executeStatus;
+    }
+
+    public AlarmContract getAlarmContract() {
+        return alarmContract;
+    }
+
+    public void setAlarmContract(AlarmContract alarmContract) {
+        this.alarmContract = alarmContract;
     }
 
     public Boolean getAlert() {
@@ -63,12 +79,20 @@ public class AlarmProcessLogger {
         this.alertMessage = alertMessage;
     }
 
-    public ExecuteStatus getExecuteStatus() {
-        return executeStatus;
+    public Map<String, String> getEventMd5() {
+        return eventMd5;
     }
 
-    public void setExecuteStatus(ExecuteStatus executeStatus) {
-        this.executeStatus = executeStatus;
+    public void setEventMd5(Map<String, String> eventMd5) {
+        this.eventMd5 = eventMd5;
+    }
+
+    public Map<String, Object> getContext() {
+        return context;
+    }
+
+    public void setContext(Map<String, Object> context) {
+        this.context = context;
     }
 
     public DateTime getStart() {
@@ -87,36 +111,11 @@ public class AlarmProcessLogger {
         this.end = end;
     }
 
-    public AlarmContract getAlarmContract() {
-        return alarmContract;
-    }
-
-    public void setAlarmContract(AlarmContract alarmContract) {
-        this.alarmContract = alarmContract;
-    }
-
     public AlarmLog getAlarmLog() {
         return alarmLog;
     }
 
     public void setAlarmLog(AlarmLog alarmLog) {
         this.alarmLog = alarmLog;
-    }
-
-    public void trace(String message) {
-        this.trace.append(currentTimeString()).append(" ").append(message).append(LINE);
-    }
-
-    public void trace(String format, Object... args) {
-        String message = String.format(format, args);
-        trace(message);
-    }
-
-    public String traceInfo() {
-        return this.trace.toString();
-    }
-
-    private String currentTimeString() {
-        return DateTime.now().toString("[yyyy-MM-dd HH:mm:ss]");
     }
 }

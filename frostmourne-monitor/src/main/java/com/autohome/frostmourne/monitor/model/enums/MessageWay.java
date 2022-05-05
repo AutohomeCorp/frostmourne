@@ -1,7 +1,7 @@
 package com.autohome.frostmourne.monitor.model.enums;
 
 /**
- * 消息渠道
+ * message channel
  *
  * @author Aping
  * @since 2022/3/28 12:00
@@ -9,37 +9,37 @@ package com.autohome.frostmourne.monitor.model.enums;
 public enum MessageWay {
 
     /**
-     * 邮件
+     * email
      */
     EMAIL,
 
     /**
-     * 短信
+     * sms
      */
     SMS,
 
     /**
-     * 企业微信消息
+     * wechat
      */
     WECHAT,
 
     /**
-     * 企业微信机器人
+     * wechat robot
      */
     WECHAT_ROBOT,
 
     /**
-     * 钉钉机器人
+     * dingding
      */
     DING_DING,
 
     /**
-     * 钉钉机器人
+     * dingding robot
      */
     DING_ROBOT,
 
     /**
-     * 飞书机器人
+     * feishu robot
      */
     FEI_SHU_ROBOT,
 
