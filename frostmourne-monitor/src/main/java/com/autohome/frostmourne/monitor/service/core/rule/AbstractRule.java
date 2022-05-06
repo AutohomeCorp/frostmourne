@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
@@ -49,6 +50,9 @@ public abstract class AbstractRule implements IRule {
 
     private void alertEventMd5(AlarmProcessLogger alarmProcessLogger, Map<String, Object> metricData) {
         String silenceExpression = alarmProcessLogger.getAlarmContract().getAlertContract().getSilenceExpression();
+        if (StringUtils.isBlank(silenceExpression)){
+            return;
+        }
         String expressionKeys =
             silenceExpression.replaceAll("&&", "").replaceAll("\\|\\|", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll(" +", " ").trim();
         String[] keys = expressionKeys.split(" ");
