@@ -283,7 +283,7 @@ The project is licensed under the [MIT](LICENSE).
 有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
 
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-qq.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-contact.png" />
 
 
 ## 项目事记
