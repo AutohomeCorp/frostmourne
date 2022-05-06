@@ -150,7 +150,7 @@
           <el-form-item label="判断类型:" prop="metricContract.metricType">
             <el-select v-model="form.metricContract.metricType" @change="metricTypeChangeHandler">
               <el-option v-if="dataSourceType !== 'http'" label="数值比较" value="numeric" />
-              <el-option v-if="dataSourceType === 'http'" label="Javascript表达式" value="object" />
+              <el-option v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse'" label="Javascript表达式" value="object" />
               <!--<el-option label="环比" value="ring_than"/>-->
               <el-option v-if="dataSourceType !== 'http'" label="同比" value="same_time" />
               <el-option v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType !== 'none'" label="分桶数值比较" value="bucket_numeric" />

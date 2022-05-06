@@ -187,12 +187,11 @@ yarn dev
 
 * ~~发布0.6.2-RELEASE~~ [2022-05-05]
 * ~~改进消息静默功能：添加静默判断表达式，对报警事件数据和静默时间内的事件数据指定字段对比。这样可以避免漏报同时防止报警消息过多。~~  [2022-05-05]
+* ~~mysql, clickhouse监控增加表达式监控规则~~ [2022-05-06]
+* Elasticsearch监控数值实现环比监控
 * 解决邮箱报警不支持ssl的问题
 * 增加ping监控报警,一个监控最多监控10个ping。
-* doc: 增加已注册公司图标列表
-* mysql, influxdb, clickhouse监控增加表达式监控规则
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
-* Elasticsearch监控数值实现环比监控
 * 短信报警方式实现，默认用阿里云短信实现
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
@@ -237,7 +236,7 @@ yarn dev
 * 静默功能优化
 * prometheus数据监控支持
 * 报警升级功能
-* msyql, influxdb, clickhouse监控增加表达式监控规则
+* msyql, clickhouse监控增加表达式监控规则
 * ping命令监控
 * 增加本项目内程序日志采集至mysql并提供查询页面，方便排查问题和监控
 * elasticearch数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
@@ -281,7 +280,7 @@ The project is licensed under the [MIT](LICENSE).
 有问题或需要帮助请提issue或者加下边的微信群或QQ群，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
 
-* 进群请修改昵称格式：**个人昵称-公司名称**
+* 进群请修改昵称格式：**个人姓名或昵称-公司名称**
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-contact.png" />
 
