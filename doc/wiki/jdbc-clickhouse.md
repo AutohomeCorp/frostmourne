@@ -24,6 +24,8 @@
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/clickhouse-alarm.png" />
 
+#### Clickhouse-报警规则-数值比较
+
 * 查询语句如下，表示查询某表的数据
 
     ```sql
@@ -41,6 +43,18 @@
 
 > 注意不要在查询语句里添加时间查询条件，因为时间需要在报警规则里设置，由程序自动附加上去   
 > 查询语句必须包含```where```   
+
+#### Clickhouse-报警规则-表达式规则
+
+* 查询语句如下
+
+```sql
+SELECT * FROM alarm_log WHERE create_at > ADDDATE(now(), INTERVAL '-3' DAY) ORDER BY id DESC
+```
+
+任意可执行查询语句均可，可以各种join都上，你随意。
+
+> 注意表达式规则不需要配置查询时间段，所以需要你自己在语句里利用数据库自带的时间函数做时间限制
 
 #### 报警规则填写
 
