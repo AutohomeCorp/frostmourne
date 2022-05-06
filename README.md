@@ -100,7 +100,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 * JDK 1.8
 * Mysql 5.7.8+
 
-需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.6.2-SNAPSHOT.zip" download>frostmourne-monitor-0.6.2-SNAPSHOT.zip</a> ;然后根据自己的
+需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.7-SNAPSHOT.zip" download>frostmourne-monitor-0.7-SNAPSHOT.zip</a> ;然后根据自己的
 环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
 
 ```bash
@@ -271,7 +271,7 @@ The project is licensed under the [MIT](LICENSE).
 
 * 从后续规划里选择合适的任务提交PR
 * 对文档进行必要补充
-* 部署本项目使用起来并通过[issue#17](https://github.com/AutohomeCorp/frostmourne/issues/17)告知
+* 部署本项目使用起来并通过 [github](https://github.com/AutohomeCorp/frostmourne/issues/17) 或 [gitee](https://gitee.com/tim_guai/frostmourne/issues/I560YJ) 告知
 * 帮忙扩散推广
 * 在issue提出你的宝贵建议
 * 加入交流群，解答交流问题。群内会不定时发布项目更新说明
@@ -280,10 +280,10 @@ The project is licensed under the [MIT](LICENSE).
 
 ## 联系我们
 
-有问题或需要帮助请提issue或者加入QQ群: 1082617505，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
+有问题或需要帮助请提issue或者加下边的微信群或QQ群，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
 
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-qq.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-contact.png" />
 
 
 ## 项目事记

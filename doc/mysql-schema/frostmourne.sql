@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS alert
     alarm_id           BIGINT       NOT NULL COMMENT '监控ID',
     ways               VARCHAR(500) NOT NULL COMMENT '报警方式(sms,dingding,email,http_post,wechat)',
     silence            BIGINT       NOT NULL COMMENT '静默时间，单位：分钟',
-    silence_expression VARCHAR(512) NULL COMMENT '静默判断表达式'
+    silence_expression VARCHAR(512) NULL COMMENT '静默判断表达式',
     creator            VARCHAR(200) NOT NULL COMMENT '创建人',
     create_at          DATETIME     NOT NULL COMMENT '创建时间',
     allow_sms_from     INTEGER      NULL COMMENT '短信允许发送开始时间，[0,23]',
