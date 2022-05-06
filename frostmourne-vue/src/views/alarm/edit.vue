@@ -372,7 +372,7 @@ export default {
   },
   data () {
     const validatorSilenceExpression = (rule, value, callback) => {
-      if (value !== '') {
+      if (value !== null && value !== '') {
         if (value.includes('（') || value.includes('）')) {
           callback(new Error('请使用英文括号'))
         }
