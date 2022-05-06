@@ -304,10 +304,10 @@ The project is licensed under the [MIT](LICENSE).
 
 <table>
 <tr>
-<td><img src="./doc/img/user/autohome.jpeg" alt="汽车之家"></td>
-<td><img src="./doc/img/user/izuiyou.jpg" alt="最后APP"></td>
-<td><img src="./doc/img/user/jiajiayue.jpeg" alt="家家悦"></td>
-<td><img src="./doc/img/user/sungrow.jpeg" alt="阳光电源"></td>
+<td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/autohome.jpeg" alt="汽车之家"></td>
+<td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/izuiyou.jpg" alt="最右APP"></td>
+<td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/jiajiayue.jpeg" alt="家家悦"></td>
+<td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/sungrow.jpeg" alt="阳光电源"></td>
 </tr>
 </table>
 
