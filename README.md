@@ -2,9 +2,7 @@
 
 ## 介绍
 
-frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助开发监控应用日志，现主要用于监控Elasticsearch数据。
-关于内部日志系统的设计实现感兴趣的话，请移步文章: <a href="./doc/wiki/design.md" target="_blank">之家经销商技术部基于Elasticsearch的日志系统设计与实现</a> 可以认为frostmoure是监控部分的实现。
-如果你现在使用Elastic stack(ELK)建立起了日志系统，却苦恼于没有一个配套日志监控系统，也许它能帮到你。
+frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助开发监控应用日志，现主要用于监控Elasticsearch数据。如果你现在使用Elastic stack(ELK)建立起了日志系统，却苦恼于没有一个配套日志监控系统，也许它能帮到你。
 
 ### 项目初衷
 
@@ -283,6 +281,8 @@ The project is licensed under the [MIT](LICENSE).
 有问题或需要帮助请提issue或者加下边的微信群或QQ群，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
 
+* 进群请修改昵称格式：**个人昵称-公司名称**
+
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-contact.png" />
 
 
@@ -297,6 +297,19 @@ The project is licensed under the [MIT](LICENSE).
 * 2020-08-23: 上gitee推荐
 * 2020-08-27: gitee star破百
 * 2020-10-12: github star破百
+
+## 已注册使用者
+
+通过 [github](https://github.com/AutohomeCorp/frostmourne/issues/17) 或 [gitee](https://gitee.com/tim_guai/frostmourne/issues/I560YJ) 登记的使用者
+
+<table>
+<tr>
+<td><img src="./doc/img/user/autohome.jpeg" alt="汽车之家"></td>
+<td><img src="./doc/img/user/izuiyou.jpg" alt="最后APP"></td>
+<td><img src="./doc/img/user/jiajiayue.jpeg" alt="家家悦"></td>
+<td><img src="./doc/img/user/sungrow.jpeg" alt="阳光电源"></td>
+</tr>
+</table>
 
 
 ## Stargazers over time
