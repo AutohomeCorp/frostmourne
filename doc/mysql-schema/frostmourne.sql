@@ -450,4 +450,4 @@ VALUES ('admin', 'admin', 'admin', now());
 INSERT INTO `job_lock` ( `lock_name`) VALUES ( 'schedule_lock');
 
 INSERT INTO `alert_template`(`template_name`, `template_type`, `template_union_code`, `content`, `creator`, `create_at`, `modifier`, `modify_at`)
-VALUES ('bucket','COMMON','','<#list VERIFIED_BUCKETS as bucket>\n${bucket.key}数量${bucket.value}超过${THRESHOLD};\n</#list>','admin',now(),'admin',now());
+VALUES ('分桶统计通用','COMMON','','<#list VERIFIED_BUCKETS as bucket>\n${bucket.key}数量${bucket.value}超过阈值${THRESHOLD};\n</#list>','admin',now(),'admin',now());

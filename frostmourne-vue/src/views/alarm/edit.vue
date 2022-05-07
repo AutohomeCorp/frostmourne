@@ -149,11 +149,12 @@
         <el-tab-pane label="报警规则">
           <el-form-item label="判断类型:" prop="metricContract.metricType">
             <el-select v-model="form.metricContract.metricType" @change="metricTypeChangeHandler">
-              <el-option v-if="dataSourceType !== 'http'" label="数值比较" value="numeric" />
+              <el-option v-if="dataSourceType !== 'http' && dataSourceType !== 'ping'" label="数值比较" value="numeric" />
               <el-option v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse'" label="Javascript表达式" value="object" />
               <!--<el-option label="环比" value="ring_than"/>-->
-              <el-option v-if="dataSourceType !== 'http'" label="同比" value="same_time" />
+              <el-option v-if="dataSourceType !== 'http' && dataSourceType !== 'ping'" label="同比" value="same_time" />
               <el-option v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType !== 'none'" label="分桶数值比较" value="bucket_numeric" />
+              <el-option v-if="dataSourceType !== 'ping'" label="ping" value="ping" />
             </el-select>
           </el-form-item>
           <el-row>
@@ -691,7 +692,10 @@ export default {
           if (response.result.metricContract.dataName === 'http') {
             this.dataValue.push('http')
             this.dataSourceType = 'http'
-          } else {
+          } else if(response.result.metricContract.dataName === 'ping') {
+              this.dataValue.push('ping')
+              this.dataSourceType = 'ping'
+          } else if(response.result.metricContract.dataSourceContract !== null) {
             this.dataValue.push(response.result.metricContract.dataSourceContract.datasourceType)
             this.dataValue.push(response.result.metricContract.dataSourceContract.id)
             this.dataValue.push(response.result.metricContract.dataName)
@@ -717,6 +721,13 @@ export default {
         this.form.metricContract.dataName = 'http'
         this.form.metricContract.metricType = 'object'
         this.form.ruleContract.ruleType = 'expression'
+        this.initAlertTemplateOptions()
+        return
+      } else if(this.dataSourceType === 'ping') {
+        this.form.metricContract.dataSourceId = 0
+        this.form.metricContract.dataName = 'ping'
+        this.form.metricContract.metricType = 'ping'
+        this.form.ruleContract.ruleType = 'ping'
         this.initAlertTemplateOptions()
         return
       } else if (this.dataSourceType === 'elasticsearch') {
@@ -802,6 +813,9 @@ export default {
         }
         this.dataOptions.push({
           value: 'http', label: 'http'
+        })
+        this.dataOptions.push({
+          value: 'ping', label: 'ping'
         })
       })
     },

@@ -25,7 +25,7 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 * 分布式调度实现，每个监控都是独立调度，互不影响
 * 报警消息附带日志查询短链接，直达报警原因
 * 数值同比监控
-* HTTP数据监控, js表达式判断是否报警
+* HTTP数据监控, js表达式判断是否报警; PING连通监控
 * UI功能，简单易用(监控管理，测试，另存。执行日志，历史消息)。
 * Elasticsearch数据查询,分享,下载
 * 报警消息抑制功能，防止消息轰炸
@@ -49,6 +49,7 @@ iotdb, loki等)纳入监控范畴，需要做的东西还有很多，需要更�
 * <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
 * <a href="./doc/wiki/jdbc-mysql.md" target="_blank">Mysql数据监控指南</a>
 * <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">Clickhouse数据监控指南</a>
+* <a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a>
 * <a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
 * <a href="./doc/wiki/template.md" target="_blank">消息模板配置</a>
 * <a href="./doc/wiki/ways.md" target="_blank">报警发送</a>
@@ -94,6 +95,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 ```
 
 #### 二、zip包部署方式
+
 依赖环境
 * JDK 1.8
 * Mysql 5.7.8+
@@ -188,9 +190,11 @@ yarn dev
 * ~~发布0.6.2-RELEASE~~ [2022-05-05]
 * ~~改进消息静默功能：添加静默判断表达式，对报警事件数据和静默时间内的事件数据指定字段对比。这样可以避免漏报同时防止报警消息过多。~~  [2022-05-05]
 * ~~mysql, clickhouse监控增加表达式监控规则~~ [2022-05-06]
+* ~~增加ping监控报警~~ [2022-05-07]
 * Elasticsearch监控数值实现环比监控
+* 增加本项目内程序日志采集至mysql并提供查询页面，方便排查问题和监控
 * 解决邮箱报警不支持ssl的问题
-* 增加ping监控报警,一个监控最多监控10个ping。
+* elasticsearch分桶统计增加方差，标准差，离散系数，最大值，最小值，平均值计算
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
 * 增加邮箱在线配置页面功能
@@ -198,7 +202,6 @@ yarn dev
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
 * 增加邮箱在线配置页面功能
 * 增加消息内容长度配置，超过长度配置部分将被截掉
-* 增加本项目内程序日志采集至mysql并提供查询页面，方便排查问题和监控
 * 员工换组增加是否迁移监控至新组的选项，如果勾选将该员工创建的监控也转移至新组
 * 增加报警组支持
 * 增加监控转组功能
@@ -227,7 +230,7 @@ yarn dev
 * 增加frostmourne程序日志格式采集方案
 * 增加frostmourne程序日志查询和分析功能
 * 3-sigma离群点检测报警规则
-* 加入时序数据异常检测算法规则(需要实验可行性，欢迎有相关经验的同僚联系)
+* 加入时序数据异常检测算法规则(需要实验可行性 [基于时间序列的异常检测](https://blog.rexking6.top/2018/11/05/%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E7%9A%84%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/))
 * 总结项目用到的知识点
 
 ## 1.0-RELEASE核心Feature后续计划

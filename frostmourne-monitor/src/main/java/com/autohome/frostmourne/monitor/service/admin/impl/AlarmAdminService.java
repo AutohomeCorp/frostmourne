@@ -1,18 +1,14 @@
 package com.autohome.frostmourne.monitor.service.admin.impl;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alert;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataName;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Metric;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Recipient;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Rule;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.RuleProperty;
 import org.apache.logging.log4j.core.util.CronExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +22,29 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.*;
-import com.autohome.frostmourne.monitor.model.contract.*;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alert;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataName;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Metric;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Recipient;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Rule;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.RuleProperty;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRecipientRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRulePropertyRepository;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRuleRepository;
+import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
+import com.autohome.frostmourne.monitor.model.contract.AlertContract;
+import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
+import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
+import com.autohome.frostmourne.monitor.model.contract.MetricContract;
+import com.autohome.frostmourne.monitor.model.contract.RuleContract;
+import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSimpleContract;
 import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
 import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
@@ -49,6 +66,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             put("same_time", "percentage");
             put("object", "expression");
             put("bucket_numeric", "bucket_numeric");
+            put("ping", "ping");
         }
     };
 
@@ -415,21 +433,26 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmContract.setAlarmType(alarmContract.getMetricContract().getDataName());
         String ruleType = metricRuleMap.get(alarmContract.getMetricContract().getMetricType());
         alarmContract.getRuleContract().setRuleType(ruleType);
-
-        if (!alarmContract.getMetricContract().getDataName().equalsIgnoreCase("http")) {
-            Optional<DataName> optionalDataName = dataNameRepository.findByName(alarmContract.getMetricContract().getDataName());
-            if (!optionalDataName.isPresent()) {
-                throw new ProtocolException(1290, "dataName not exist. " + alarmContract.getMetricContract().getDataName());
-            }
-            DataName dataName = optionalDataName.get();
-            alarmContract.getMetricContract().setDataNameId(dataName.getId());
-            alarmContract.getMetricContract().setDataNameContract(DataAdminService.toDataNameContract(dataName));
-            alarmContract.getMetricContract().setDataSourceId(dataName.getDataSourceId());
-
-            Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(dataName.getDataSourceId());
-            DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)
-                .orElseThrow(() -> new ProtocolException(1900, "dataSource not exist. id: " + dataName.getDataSourceId()));
-            alarmContract.getMetricContract().setDataSourceContract(dataSourceContract);
+        if (alarmContract.getMetricContract().getDataName().equalsIgnoreCase("http")) {
+            return;
         }
+        if (alarmContract.getMetricContract().getDataName().equalsIgnoreCase("ping")) {
+            return;
+        }
+
+        Optional<DataName> optionalDataName = dataNameRepository.findByName(alarmContract.getMetricContract().getDataName());
+        if (!optionalDataName.isPresent()) {
+            throw new ProtocolException(1290, "dataName not exist. " + alarmContract.getMetricContract().getDataName());
+        }
+        DataName dataName = optionalDataName.get();
+        alarmContract.getMetricContract().setDataNameId(dataName.getId());
+        alarmContract.getMetricContract().setDataNameContract(DataAdminService.toDataNameContract(dataName));
+        alarmContract.getMetricContract().setDataSourceId(dataName.getDataSourceId());
+
+        Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(dataName.getDataSourceId());
+        DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)
+            .orElseThrow(() -> new ProtocolException(1900, "dataSource not exist. id: " + dataName.getDataSourceId()));
+        alarmContract.getMetricContract().setDataSourceContract(dataSourceContract);
+
     }
 }
