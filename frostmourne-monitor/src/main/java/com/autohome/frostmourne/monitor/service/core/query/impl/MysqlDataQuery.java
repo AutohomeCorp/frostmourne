@@ -56,6 +56,21 @@ public class MysqlDataQuery implements IMysqlDataQuery {
         return result;
     }
 
+    @Override
+    public MetricData querySql(MetricContract metricContract) {
+        MetricData result = new MetricData();
+        long count = collectResult(metricContract, metricContract.getQueryString(), null);
+        result.setMetricValue(count);
+        String querySql = "select * from ("+ metricContract.getQueryString() + ") t limit 1";
+        List<Map<String, Object>> collectResult = jdbcDao.query(metricContract.getDataNameContract(),
+                metricContract.getDataSourceContract(), querySql, null);
+        if(collectResult != null && collectResult.size() > 0) {
+            Map<String, Object> lastDocument = collectResult.get(0);
+            result.setLatestDocument(lastDocument);
+        }
+        return result;
+    }
+
     /**
      * 格式化日期类型参数
      *
