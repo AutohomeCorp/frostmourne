@@ -1,12 +1,16 @@
 package com.autohome.frostmourne.monitor.service.admin.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataName;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -16,10 +20,16 @@ import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchInfo;
 import com.autohome.frostmourne.monitor.dao.elasticsearch.ElasticsearchSourceManager;
 import com.autohome.frostmourne.monitor.dao.jdbc.IDataSourceJdbcManager;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataName;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
-import com.autohome.frostmourne.monitor.model.contract.*;
+import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
+import com.autohome.frostmourne.monitor.model.contract.DataOption;
+import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
+import com.autohome.frostmourne.monitor.model.contract.DataSourceOption;
+import com.autohome.frostmourne.monitor.model.contract.TreeDataOption;
 import com.autohome.frostmourne.monitor.service.admin.IDataAdminService;
 import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
 import com.autohome.frostmourne.monitor.transform.DataSourceTransformer;
@@ -151,6 +161,7 @@ public class DataAdminService implements IDataAdminService {
         List<TreeDataOption> options = new ArrayList<>(dataOptions);
         // HTTP
         options.add(new TreeDataOption("http", "http"));
+        options.add(new TreeDataOption("ping", "ping"));
         return options;
     }
 

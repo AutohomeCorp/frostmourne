@@ -24,6 +24,9 @@ public class MetricService implements IMetricService {
     @Resource
     private HttpMetric httpMetric;
 
+    @Resource
+    private PingMetric pingMetric;
+
     @Override
     public IMetric findMetric(String dataSourceType, String metricType) {
         // TODO 改为枚举
@@ -35,6 +38,9 @@ public class MetricService implements IMetricService {
         }
         if ("http".equalsIgnoreCase(dataSourceType)) {
             return httpMetric;
+        }
+        if ("ping".equalsIgnoreCase(dataSourceType)) {
+            return pingMetric;
         }
         if ("influxdb".equalsIgnoreCase(dataSourceType)) {
             if (!influxdbMetricMap.containsKey(metricType)) {
