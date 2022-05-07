@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.service.core.metric.jdbc.ClickhouseObjectMetric;
+import com.autohome.frostmourne.monitor.service.core.metric.jdbc.MysqlObjectMetric;
 import com.autohome.frostmourne.monitor.service.core.rule.BucketNumbericRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,12 +37,21 @@ public class CoreConfig {
 
     @Autowired
     private MysqlNumericMetric mysqlNumericMetric;
+
     @Autowired
     private MysqlSameTimeMetric mysqlSameTimeMetric;
+
+    @Autowired
+    private MysqlObjectMetric mysqlObjectMetric;
+
     @Autowired
     private ClickhouseNumericMetric clickhouseNumericMetric;
+
     @Autowired
     private ClickhouseSameTimeMetric clickhouseSameTimeMetric;
+
+    @Autowired
+    private ClickhouseObjectMetric clickhouseObjectMetric;
 
     @Bean
     public Map<String, IRule> ruleMap() {
@@ -110,6 +121,7 @@ public class CoreConfig {
         Map<String, IMetric> metricMap = new HashMap<>();
         metricMap.put("numeric", mysqlNumericMetric);
         metricMap.put("same_time", mysqlSameTimeMetric);
+        metricMap.put("object", mysqlObjectMetric);
         return metricMap;
     }
 
@@ -118,6 +130,7 @@ public class CoreConfig {
         Map<String, IMetric> metricMap = new HashMap<>();
         metricMap.put("numeric", clickhouseNumericMetric);
         metricMap.put("same_time", clickhouseSameTimeMetric);
+        metricMap.put("object", clickhouseObjectMetric);
         return metricMap;
     }
 

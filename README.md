@@ -2,9 +2,7 @@
 
 ## 介绍
 
-frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助开发监控应用日志，现主要用于监控Elasticsearch数据。
-关于内部日志系统的设计实现感兴趣的话，请移步文章: <a href="./doc/wiki/design.md" target="_blank">之家经销商技术部基于Elasticsearch的日志系统设计与实现</a> 可以认为frostmoure是监控部分的实现。
-如果你现在使用Elastic stack(ELK)建立起了日志系统，却苦恼于没有一个配套日志监控系统，也许它能帮到你。
+frostmourne(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助开发监控应用日志，现主要用于监控Elasticsearch数据。如果你现在使用Elastic stack(ELK)建立起了日志系统，却苦恼于没有一个配套日志监控系统，也许它能帮到你。
 
 ### 项目初衷
 
@@ -189,12 +187,11 @@ yarn dev
 
 * ~~发布0.6.2-RELEASE~~ [2022-05-05]
 * ~~改进消息静默功能：添加静默判断表达式，对报警事件数据和静默时间内的事件数据指定字段对比。这样可以避免漏报同时防止报警消息过多。~~  [2022-05-05]
+* ~~mysql, clickhouse监控增加表达式监控规则~~ [2022-05-06]
+* Elasticsearch监控数值实现环比监控
 * 解决邮箱报警不支持ssl的问题
 * 增加ping监控报警,一个监控最多监控10个ping。
-* doc: 增加已注册公司图标列表
-* mysql, influxdb, clickhouse监控增加表达式监控规则
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
-* Elasticsearch监控数值实现环比监控
 * 短信报警方式实现，默认用阿里云短信实现
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
@@ -239,7 +236,7 @@ yarn dev
 * 静默功能优化
 * prometheus数据监控支持
 * 报警升级功能
-* msyql, influxdb, clickhouse监控增加表达式监控规则
+* msyql, clickhouse监控增加表达式监控规则
 * ping命令监控
 * 增加本项目内程序日志采集至mysql并提供查询页面，方便排查问题和监控
 * elasticearch数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation
@@ -283,6 +280,8 @@ The project is licensed under the [MIT](LICENSE).
 有问题或需要帮助请提issue或者加下边的微信群或QQ群，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。 也欢迎对项目感兴趣的同僚加群沟通。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
 
+* 进群请修改昵称格式：**个人姓名或昵称-公司名称**
+
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-contact.png" />
 
 
@@ -297,6 +296,19 @@ The project is licensed under the [MIT](LICENSE).
 * 2020-08-23: 上gitee推荐
 * 2020-08-27: gitee star破百
 * 2020-10-12: github star破百
+
+## 已注册使用者
+
+通过 [github](https://github.com/AutohomeCorp/frostmourne/issues/17) 或 [gitee](https://gitee.com/tim_guai/frostmourne/issues/I560YJ) 登记的使用者
+
+<table>
+<tr>
+<td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/autohome.jpeg" alt="汽车之家"></td>
+<td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/izuiyou.jpg" alt="最右APP"></td>
+<td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/jiajiayue.jpeg" alt="家家悦"></td>
+<td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/sungrow.jpeg" alt="阳光电源"></td>
+</tr>
+</table>
 
 
 ## Stargazers over time
