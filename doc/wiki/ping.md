@@ -4,7 +4,7 @@
 
 ### 数据配置
 
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/ping-metric.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/wiki/img/ping-metric.png" />
 
 其中查询语句填入需要检测的ip地址或者域名，多个用英文逗号分割，如:
 
@@ -14,7 +14,7 @@
 
 ### ping规则配置
 
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/ping-rule.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/wiki/img/ping-rule.png" />
 
 规则直接就是ping就行
 
@@ -22,7 +22,7 @@
 
 点击预览，数据如下：
 
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/ping-rule.png" />
+<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/wiki/img/ping-data.png" />
 
 可用变量说明如下：
 
@@ -41,4 +41,11 @@ FAIL_SERVERS | String | 检测失败的服务列表串，英文逗号分割 | PI
 
 ```
 服务器：${FAIL_SERVERS} 测试Ping失败，请关注
+```
+
+报警消息如下：
+
+```
+[2022-05-07 20:14:31] [问题] [通知]
+服务器：192.168.1.1 测试Ping失败，请关注
 ```
