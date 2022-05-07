@@ -31,23 +31,19 @@ public class GenerateShortLinkService implements IGenerateShortLinkService {
     @Override
     public String generate(AlarmProcessLogger alarmProcessLogger) {
         AlarmContract alarmContract = alarmProcessLogger.getAlarmContract();
-        String dataName = alarmContract.getMetricContract().getDataName();
-        if ("http".equalsIgnoreCase(dataName)) {
+        if (alarmContract.getMetricContract().getDataNameContract() == null) {
             return null;
         }
         String datasourceType = alarmContract.getMetricContract().getDataNameContract().getDatasourceType();
-        if ("influxdb".equalsIgnoreCase(datasourceType)) {
+        if (Strings.isNullOrEmpty(datasourceType) || !"elasticsearch".equalsIgnoreCase(datasourceType)) {
             return null;
         }
 
-        if ("elasticsearch".equalsIgnoreCase(datasourceType)) {
-            Map<String, Object> metricProperties = alarmContract.getMetricContract().getProperties();
-            if (metricProperties != null && metricProperties.containsKey("dataLink") && metricProperties.get("dataLink") != null
-                && !Strings.isNullOrEmpty(metricProperties.get("dataLink").toString())) {
-                return metricProperties.get("dataLink").toString();
-            }
+        Map<String, Object> metricProperties = alarmContract.getMetricContract().getProperties();
+        if (metricProperties != null && metricProperties.containsKey("dataLink") && metricProperties.get("dataLink") != null
+            && !Strings.isNullOrEmpty(metricProperties.get("dataLink").toString())) {
+            return metricProperties.get("dataLink").toString();
         }
-
         String url = null;
         List<String> queryParameters = new ArrayList<>();
         try {

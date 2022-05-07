@@ -5,9 +5,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.service.core.metric.PingMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.jdbc.ClickhouseObjectMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.jdbc.MysqlObjectMetric;
 import com.autohome.frostmourne.monitor.service.core.rule.BucketNumbericRule;
+import com.autohome.frostmourne.monitor.service.core.rule.PingRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,6 +62,7 @@ public class CoreConfig {
         ruleMap.put("expression", expressionRule());
         ruleMap.put("percentage", percentageRule());
         ruleMap.put("bucket_numeric", bucketNumbericRule());
+        ruleMap.put("ping", pingRule());
 
         return ruleMap;
     }
@@ -84,6 +87,11 @@ public class CoreConfig {
         return new BucketNumbericRule(templateService);
     }
 
+    @Bean
+    public PingRule pingRule() {
+        return new PingRule(templateService);
+    }
+
     @Bean(name = "elasticsearchMetricMap")
     public Map<String, IMetric> elasticsearchMetricMap() {
         Map<String, IMetric> metricMap = new HashMap<>();
@@ -106,6 +114,11 @@ public class CoreConfig {
     @Bean
     public HttpMetric httpMetric() {
         return new HttpMetric();
+    }
+
+    @Bean
+    public PingMetric pingMetric() {
+        return new PingMetric();
     }
 
     @Bean(name = "influxdbMetricMap")
