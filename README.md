@@ -29,17 +29,17 @@ iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更�
 # ✨ 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多种数据源(`Elasticsearch, InfluxDB, MySQL/TiDb, Clickhouse`)支持
-* 多种数值计算类型监控(`count, min, max, avg, sum, unique count, percentiles, standard deviation`)
-* 支持数据分桶统计
-* 多种报警消息发送方式(钉钉(机器人)、企业微信(机器人)、飞书机器人、email、短信、HTTP)
-* 消息支持多种格式(`text, markdown`)
-* 灵活的报警消息freemarker模板定制，支持变量；消息模板管理
+* 多种数据源：`Elasticsearch, InfluxDB, MySQL/TiDb, Clickhouse`
+* 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`
+* 数据分桶统计
+* 报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
+* 支持消息格式：`text, markdown`
+* 灵活的报警消息`Freemarker`模板定制，支持变量占位符；消息模板管理
 * 分布式调度实现，每个监控都是独立调度，互不影响
 * 报警消息附带日志查询短链接，直达报警原因
 * 数值同比监控
 * `HTTP`数据监控, `Javascript`表达式判断是否报警; `PING`连通监控
-* UI功能，简单易用(监控管理、测试、另存、执行日志和历史消息)
+* 前端简单易用：监控管理、测试、另存、执行日志和历史消息
 * `Elasticsearch`数据查询、分享和下载
 * 报警消息抑制功能，防止消息轰炸
 * 自带账号，团队，部门信息管理模块，也可自己实现内部对接
@@ -76,8 +76,7 @@ iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更�
 
 # 📦 快速启动
 
-提供docker-compose方式，让你更快运行起来便于更好理解项目作用。
-详细请看文档：<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
+提供`docker-compose`方式，让你更快运行起来便于更好理解项目作用。详细请看文档：<a href="./doc/wiki/quick-start.md" target="_blank">Quick-Start</a>
 
 
 # 🧰 部署
