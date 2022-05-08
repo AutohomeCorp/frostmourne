@@ -1,8 +1,8 @@
-## Elasticsearch数据监控指南
+## `Elasticsearch`数据监控指南
 
-下面以程序日志错误监控为例子，说明创建一个elasticsearch监控的过程
+下面以程序日志错误监控为例子，说明创建一个`Elasticsearch`监控的过程
 
-### 1. 添加elasticsearch数据源
+### 1. 添加`Elasticsearch`数据源
 
 打开页面：数据管理->数据源，点击新增按钮，弹出窗口，填写字段并保存。
 
@@ -14,14 +14,14 @@
 > * 注意服务地址端口不能缺省，就算是80端口也需要加上, 而且不能带scheme(http, https)
 > * es开启http-ssl认证时，需要上传`.p12`扩展名ssl证书以及证书密码，如：`elastic-certificates.p12`
 
-### 2. 添加elasticsearch数据名
+### 2. 添加`Elasticsearch`数据名
 
-打开页面：数据管理->数据名，点击新增按钮，弹出窗口，填写字段并保存。
+打开页面：数据管理 -> 数据名，点击新增按钮，弹出窗口，填写字段并保存。
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/add-dataname.png" />
 
-数据名在elasticsearch场景可以理解为索引模式，之所以不直接用索引，是因为项目计划不只支持elasticsearch，还会
-支持influxdb等其它数据源类型。索引后缀如果不是标准的时间模式或者单位小于天的时间模式，可以用*号。
+数据名在`Elasticsearch`场景可以理解为索引模式，之所以不直接用索引，是因为项目计划不只支持`Elasticsearch`，还会
+支持`influxdb`等其它数据源类型。索引后缀如果不是标准的时间模式或者单位小于天的时间模式，可以用`*`号。
 
 **其中显示字段可以配置数据查询页面列表表头显示的字段和顺序**
 
@@ -32,12 +32,12 @@
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/es.png" />
 
-query string查询语句语法不清楚的，可以参考文档: <a href="./query-string.md" target="_blank">query string简易教程</a>，查询页面主要
+`query string`查询语句语法不清楚的，可以参考文档: <a href="./query-string.md" target="_blank">query string简易教程</a>，查询页面主要
 小特性列表
 
 * 查询语句输入框会有历史查询记忆功能，用起来很方便。
 * 数据表格第一列是一个展开箭头，可以展开数据查看完整的日志内容。
-* 数据可以下载，文件格式为csv，限制在10w条以内
+* 数据可以下载，文件格式为`csv`，限制在10w条以内
 * 点击分享按钮，查询还可以以短链接的形式分享给其他人
 * 如果你想用当前查询语句创建监控，直接点击添加监控按钮，就会直接带到监控创建页面
 
@@ -49,13 +49,13 @@ query string查询语句语法不清楚的，可以参考文档: <a href="./quer
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/edit.png" />
 
-查询语句如下，表示查询项目dbtree的错误日志
+查询语句如下，表示查询项目`dbtree`的错误日志
 
 ```
 Team: dealer.arch AND Project: dbtree AND Level: ERROR
 ```
 
-本项目elasticsearch查询语句使用的是query string语句，并非DSL query, 这里提供了一个<a href="./query-string.md" target="_blank">简易教程</a>供不会的同学快速
+本项目`elasticsearch`查询语句使用的是`query string`语句，并非DSL query, 这里提供了一个<a href="./query-string.md" target="_blank">简易教程</a>供不会的同学快速
 入门，英文水平可以的同学最好是看<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax" target="_blank">官方文档</a>
 
 #### 报警规则填写

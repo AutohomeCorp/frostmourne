@@ -1,15 +1,15 @@
 ## markdown消息模板配置
 
-在0.6版本后，消息模版在支持 [freemarker语法](./doc/wiki/template.md) 的基础上，钉钉机器人、企业微信机器人渠道实现了markdown格式
+在`0.6`版本后，消息模版在支持 [freemarker语法](./doc/wiki/template.md) 的基础上，钉钉机器人、企业微信机器人渠道实现了`markdown`格式
 
-在消息模版配置tab页面新增消息类型（text、markdown）的选择，默认是text，如图
+在消息模版配置tab页面新增消息类型（`text、markdown`）的选择，默认是`text`，如图
 ![img.png](./img/template_markdown_select.png)
 
 
 ## 由于各个渠道的接口不同，这里不同渠道分别描述
 
 ### 企业微信机器人
-企业微信webhook使用markdown类型时，消息完全开放自定义，不会再添加固定title，可以在内容里自行添加title。企业微信webhook目前支持的markdown语法是如下的子集：
+企业微信`webhook`使用`markdown`类型时，消息完全开放自定义，不会再添加固定`title`，可以在内容里自行添加`title`。企业微信`webhook`目前支持的`markdown`语法是如下的子集：
 ```
 标题 （支持1至6级标题，注意#与文字中间要有空格）
 # 标题一
@@ -43,10 +43,10 @@
 ![img.png](./img/markdown_wechat_robot.png)
 
 ### 钉钉机器人
-钉钉机器人webhook使用markdown类型时，由于接口title为必传字段，所以会默认固定title，规则为：
+钉钉机器人`webhook`使用`markdown`类型时，由于接口`title`为必传字段，所以会默认固定`title`，规则为：
 > [${frostmourne_message_title}][id:${ALARM_ID}]${ALARM_NAME}
 
-目前钉钉机器人webhook目前只支持Markdown语法的子集，支持的元素如下
+目前钉钉机器人`webhook`目前只支持`Markdown`语法的子集，支持的元素如下
 
 ```
 标题
