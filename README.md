@@ -19,17 +19,17 @@
 
 ### 项目初衷
 
-在用ELK建立起日志系统之后，我们发现应用日志监控这块除了`ElastAlert`之外，没有其他方案。我们初期使用`ElastAlert`来解决日志监控的问题，
+在用`ELK`建立起日志系统之后，我们发现应用日志监控这块除了`ElastAlert`之外，没有其他方案。我们初期使用`ElastAlert`来解决日志监控的问题，
 但是随着配置的增加，不仅管理成本和使用成本较高，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
-但是项目并不仅限于`Elasticsearch`数据，还有`HTTP`数据监控，`InfluxDB`数据监控，`MySQL`数据监控, `ClickHouse`数据监控，后面还会加入更多的常用数据源(如：`prometheus, skywalking,
+但是项目并不仅限于`Elasticsearch`数据，还有`HTTP`数据监控，`InfluxDB`数据监控，`MySQL`数据监控, `Clickhouse`数据监控，后面还会加入更多的常用数据源(如：`prometheus, skywalking,
 iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
 
 # ✨ 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多种数据源(`Elasticsearch, InfluxDB, MySQL/TiDb, ClickHouse`)支持
+* 多种数据源(`Elasticsearch, InfluxDB, MySQL/TiDb, Clickhouse`)支持
 * 多种数值计算类型监控(`count, min, max, avg, sum, unique count, percentiles, standard deviation`)
 * 支持数据分桶统计
 * 多种报警消息发送方式(钉钉(机器人)、企业微信(机器人)、飞书机器人、email、短信、HTTP)
@@ -38,7 +38,7 @@ iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更�
 * 分布式调度实现，每个监控都是独立调度，互不影响
 * 报警消息附带日志查询短链接，直达报警原因
 * 数值同比监控
-* `HTTP`数据监控, `javascript`表达式判断是否报警; `PING`连通监控
+* `HTTP`数据监控, `Javascript`表达式判断是否报警; `PING`连通监控
 * UI功能，简单易用(监控管理、测试、另存、执行日志和历史消息)
 * `Elasticsearch`数据查询、分享和下载
 * 报警消息抑制功能，防止消息轰炸
@@ -55,7 +55,7 @@ iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更�
 
 * <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
 * <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
-* <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
+* <a href="./doc/wiki/InfluxDB.md" target="_blank">InfluxDB数据监控指南</a>
 * <a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a>
 * <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">Clickhouse数据监控指南</a>
 * <a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a>
@@ -109,8 +109,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 * `JDK 1.8`
 * `MySQL 5.7.8+`
 
-需要将zip包解压，zip包下载地址：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.7-SNAPSHOT.zip" download>frostmourne-monitor-0.7-SNAPSHOT.zip</a> ;然后根据自己的
-环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
+下载链接：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.7-SNAPSHOT.zip" download>frostmourne-monitor-0.7-SNAPSHOT.zip</a> ，解压后然后根据自己的环境修改应用配置文件`application.properties`文件和环境变量配置文件`env`，然后执行如下命令启动：
 
 ```bash
 ./scripts/startup.sh
@@ -137,7 +136,7 @@ mvn -U clean package -DskipTests=true
 前端项目`frostmourne-vue`会自动把资源构建到`frostmourne-monitor`的`resources/dist`下，所以你只需要部署`frostmourne-monitor`即可。
 
 `frostmourne-monitor`已经配置了`assembly`打包，`target`目录下会生成`zip`包，你只需要将`zip`包解压，然后根据自己的
-环境修改应用配置文件application.properties文件和环境变量配置文件env，然后执行如下命令启动：
+环境修改应用配置文件`application.properties`文件和环境变量配置文件env，然后执行如下命令启动：
 
 ```bash
 ./scripts/startup.sh
@@ -159,7 +158,7 @@ mvn -U clean package -DskipTests=true
 * `MySQL 5.7.8+`
 * `Elasticsearch 6.3.2+`
 
-启动frostmourne-monitor项目, 启动参数增加：
+启动`frostmourne-monitor`项目, 启动参数增加：
 
 ```
 -Dmysql.host=localhost -Dmysql.user=root -Dmysql.password=example -Dlog.console.level=INFO
@@ -213,9 +212,9 @@ yarn dev
 * 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
-* influxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
-* 增加influxDB数据查询页面
-* influxdb数据监控增加短链接，跳转到influxdb数据查询页面
+* InfluxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
+* 增加InfluxDB数据查询页面
+* InfluxDB数据监控增加短链接，跳转到InfluxDB数据查询页面
 * 监控列表增加"执行日志"操作按钮，点击跳转到对应监控执行日志列表页
 * 增加时序数据历史数据比较规则
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
@@ -239,7 +238,7 @@ yarn dev
 ### 1.0-RELEASE核心Feature后续计划
 * ~~elasticsearch主流版本6,7,8支持~~
 * ~~静默功能优化~~
-* ~~msyql, clickhouse监控增加表达式监控规则~~
+* ~~msyql, Clickhouse监控增加表达式监控规则~~
 * ~~ping命令监控~~
 * ~~elasticearch数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation~~
 * prometheus数据监控支持
@@ -265,19 +264,19 @@ yarn dev
 
 如果你觉得这个项目对你有所帮助想有所回馈，非常欢迎参与贡献。可以通过如下方式：
 
-* 从后续规划里选择合适的任务提交PR
+* 从后续规划里选择合适的任务提交`PR`
 * 对文档进行必要补充
 * 部署本项目使用起来并通过 [github](https://github.com/AutohomeCorp/frostmourne/issues/17) 或 [gitee](https://gitee.com/tim_guai/frostmourne/issues/I560YJ) 告知
 * 帮忙扩散推广
-* 在issue提出你的宝贵建议
+* 在 [issue](https://github.com/AutohomeCorp/frostmourne/issues) 提出你的宝贵建议
 * 加入交流群，解答交流问题。群内会不定时发布项目更新说明
 * 开源不易，需要鼓励
 * [代码规范说明](./doc/wiki/code_format.md)
 
 # 💬 联系我们
 
-有问题需要帮助或者交流可以添加下边的微信群或QQ群，请优先选择提issue，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。也欢迎对项目感兴趣的同僚加群交流。
-特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提issue。
+有问题需要帮助或者交流可以添加下边的微信群或QQ群，请优先选择提 [issue](https://github.com/AutohomeCorp/frostmourne/issues) ，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。也欢迎对项目感兴趣的同僚加群交流。
+特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提 [issue](https://github.com/AutohomeCorp/frostmourne/issues) 。
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-contact.jpg" />
 
@@ -285,7 +284,7 @@ yarn dev
 
 * 2019-12-16: 发布`github`
 * 2020-06-14: 发布`gitee`
-* 2020-07-02: 合并第一个PR
+* 2020-07-02: 合并第一个`PR`
 * 2020-07-04: 被`elastic`中文社区收录 [Elastic日报988期](https://elasticsearch.cn/article/14018)
 * 2020-07-13: github项目设置为私有，丢失82个`star`，29个`fork`
 * 2020-07-15: 重新公开`github`
