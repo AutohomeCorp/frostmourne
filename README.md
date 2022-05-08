@@ -201,6 +201,7 @@ yarn dev
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
 * 增加邮箱在线配置页面功能
+* pom优化
 * 增加消息内容长度配置，超过长度配置部分将被截掉
 * 员工换组增加是否迁移监控至新组的选项，如果勾选将该员工创建的监控也转移至新组
 * 增加报警组支持
@@ -310,6 +311,7 @@ The project is licensed under the [MIT](LICENSE).
 <td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/izuiyou.jpg" alt="最右APP"></td>
 <td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/jiajiayue.jpeg" alt="家家悦"></td>
 <td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/sungrow.jpeg" alt="阳光电源"></td>
+<td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/etcp.jpeg" alt="ETCP"></td>
 </tr>
 </table>
 
