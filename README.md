@@ -46,9 +46,9 @@ iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更�
 * 集成`LDAP`登录认证
 * 权限控制，数据隔离，各团队互不影响
 
-#### 企业微信机器人报警截图展示： （<a href="./doc/wiki/feature_image.md" target="_blank">查看完整功能截图展示</a>）
+    #### 企业微信机器人报警截图展示： （<a href="./doc/wiki/feature_image.md" target="_blank">查看完整功能截图展示</a>）
 
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/wiki/img/markdown_wechat_robot.png" />
+    <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/wiki/img/markdown_wechat_robot.png" />
 
 
 # 📚 功能使用指南
