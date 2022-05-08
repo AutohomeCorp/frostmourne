@@ -82,14 +82,14 @@ iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更�
 
 # 🧰 部署
 
-#### 预备环境准备：MySQL数据库表创建
+#### 预备环境准备：`MySQL`数据库表创建
 > Frostmourne所有表的创建语句都在 [frostmourne.sql](./doc/mysql-schema/frostmourne.sql) 文件中。
 
 数据库密码默认使用明文，没有加密策略。如果你需要对密码进行加密，请参考druid官方文档：[druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
 
 
-#### 一、k8s部署方式
-k8s部署参考以下三个配置文件
+#### 一、`k8s`部署方式
+`k8s`部署参考以下三个配置文件
 
 * [frostmourne-monitor-namespace.yaml](./doc/docker/k8s/frostmourne-monitor-namespace.yaml)
 * [frostmourne-monitor-deployment.yaml](./doc/docker/k8s/frostmourne-monitor-deployment.yaml)
@@ -103,7 +103,7 @@ kubectl applt -f frostmourne-monitor-deployment.yaml
 kubectl apply -f frostmourne-monitor-service.yaml
 ```
 
-#### 二、zip包部署方式
+#### 二、`zip`包部署方式
 
 依赖环境
 * `JDK 1.8`
@@ -309,6 +309,6 @@ yarn dev
 
 
 
-#⭐️ Stargazers over time
+# ⭐️ Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/AutohomeCorp/frostmourne.svg)](https://starchart.cc/AutohomeCorp/frostmourne)
