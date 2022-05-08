@@ -12,9 +12,9 @@
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/dataname.png" />
 
-对于elasticsearch数据源来说，数据名等同于索引的概念
+对于`Elasticsearch`数据源来说，数据名等同于索引的概念
 
-* elasticsearch数据查询
+* `Elasticsearch`数据查询
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/es.png" />
 
@@ -24,13 +24,13 @@
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/edit.png" />
 
-* HTTP数据监控
+* `HTTP`数据监控
 
-以监控Elasticsearch集群健康状态为例。
+以监控`Elasticsearch`集群健康状态为例。
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/http_metric.png" />
 
-检测条件为：集群状态字段status不为green，或者集群节点数量不等于11
+检测条件为：集群状态字段`status`不为`green`，或者集群节点数量不等于11
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/http_rule.png" />
 

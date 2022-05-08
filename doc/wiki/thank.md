@@ -1,0 +1,10 @@
+# 👍 致谢
+- [`springboot`](https://github.com/spring-projects/spring-boot)
+- [`vue`](https://cn.vuejs.org/index.html)
+- [`vue-admin-template`](https://github.com/PanJiaChen/vue-admin-template)
+- [`xxl-job`](https://github.com/xuxueli/xxl-job)
+- [`element ui`](https://element.eleme.cn/#/zh-CN)
+- [`45短网址`](https://45dwz.cn/)
+- [`jjwt`](https://github.com/jwtk/jjwt)
+- [`mybatis-dynamic-sql`](https://github.com/mybatis/mybatis-dynamic-sql)
+- [`JetBrains`](https://www.jetbrains.com/)

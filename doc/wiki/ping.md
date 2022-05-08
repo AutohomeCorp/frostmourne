@@ -1,4 +1,4 @@
-## Ping监控指南
+## `Ping`监控指南
 
 用于测试域名或者服务器的连通性
 
@@ -6,7 +6,7 @@
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/wiki/img/ping-metric.png" />
 
-其中查询语句填入需要检测的ip地址或者域名，多个用英文逗号分割，如:
+其中查询语句填入需要检测的`ip`地址或者域名，多个用英文逗号分割，如:
 
 ```
 127.0.0.1, 192.168.1.1
@@ -16,7 +16,7 @@
 
 <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/wiki/img/ping-rule.png" />
 
-规则直接就是ping就行
+规则直接就是`ping`就行
 
 ### 预览数据
 

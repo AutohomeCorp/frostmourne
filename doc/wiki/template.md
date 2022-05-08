@@ -1,10 +1,10 @@
 ## 消息模板配置
 
 
-> 在0.6版本后，部分消息渠道支持markdown格式，详细使用方法请参考文档 [markdown格式消息](./template_markdown.md)
+> 在`0.6`版本后，部分消息渠道支持`markdown`格式，详细使用方法请参考文档 [markdown格式消息](./template_markdown.md)
 
 
-消息模板使用的语法是freemarker，具体用法参考freemarker官方文档。可用的变量分两部分。一部分是报警规则设置，一部分是查询出来的数据。不同规则可使用的变量如下表格。
+消息模板使用的语法是`Freemarker`，具体用法参考`Freemarker`官方文档。可用的变量分两部分。一部分是报警规则设置，一部分是查询出来的数据。不同规则可使用的变量如下表格。
 
  字段名  | 类型     | 说明  | 适用的判断类型
 -------- |----------| ------- | -----
@@ -86,27 +86,27 @@ HttpCode: ${code}
 ```
 
 这里用我们内部使用的例子供大家参考使用，具体模板内容，你需要自己根据数据格式定制。如果你想使用我们的日志格式，请参考
-另外一个开源项目: autolog4j[https://github.com/AutohomeCorp/autolog4j]
+另外一个开源项目: `autolog4j`[https://github.com/AutohomeCorp/autolog4j]
 
 ## Q: 报警字段值太长，如何处理？
 
-freemarker提供了字符串截取的操作，例如:
+`Freemarker`提供了字符串截取的操作，例如:
 
 ```
 ${userName?truncate(16)}
 ```
 
-如果userName长度超过16，将被截取。更多使用方法请参考[freemarker文档](https://freemarker.apache.org/docs/ref_builtins_string.html#ref_builtin_truncate);
+如果`userName`长度超过16，将被截取。更多使用方法请参考[freemarker文档](https://freemarker.apache.org/docs/ref_builtins_string.html#ref_builtin_truncate);
 
 ## Q: 如何设置报警消息头？
 
-默认报警消息title是: 霜之哀伤监控平台。可以配置config_map表config_key为AlertTitle的行的config_value值来设置自定义报警消息头。例如：
+默认报警消息`title`是: 霜之哀伤监控平台。可以配置`config_map`表`config_key`为`AlertTitle`的行的`config_value`值来设置自定义报警消息头。例如：
 
 ```sql
 INSERT INTO config_map(config_key, config_value, creator, create_at, modifier, modify_at)
 VALUES('AlertTitle', '霜之哀伤监控平台', 'admin', now(), 'admin', now());
 ```
 
-同一个config_key禁止配置多条，对config_key建了唯一索引。
+同一个`config_key`禁止配置多条，对`config_key`建了唯一索引。
 
 注意如果你的报警机器人依赖报警消息头作为关键词，请记得同时改机器人配置，否则会导致机器人消息无法发送。
