@@ -101,3 +101,7 @@ ${Project}最近${TIME_WINDOW}分钟内有异常日志${NUMBER}条。最近一�
 * 通用模板。不属于任何数据，都可以用，比如同比消息模板。
 * 数据模板。属于一种数据名，只有在选择这个数据名的时候才可以选用，比如程序错误日志消息模板
 
+### 案例
+
+* [Skywalking-Logging数据监控](./showcase/skywalking_es_log.md)
+
