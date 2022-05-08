@@ -191,6 +191,7 @@ yarn dev
 * ~~改进消息静默功能：添加静默判断表达式，对报警事件数据和静默时间内的事件数据指定字段对比。这样可以避免漏报同时防止报警消息过多。~~  [2022-05-05]
 * ~~MySQL, clickhouse监控增加表达式监控规则~~ [2022-05-06]
 * ~~增加ping监控报警~~ [2022-05-07]
+* 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * Elasticsearch监控数值实现环比监控
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * 解决邮箱报警不支持ssl的问题
@@ -208,7 +209,6 @@ yarn dev
 * 增加监控转组功能
 * Elasticsearch数据名增加traceid字段配置，可以配置跳转链接。例如: 配置skywalking的链接将跳转到skywalking对应的调用链
 * 增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持
-* 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
 * InfluxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
@@ -241,6 +241,7 @@ yarn dev
 * ~~ping命令监控~~
 * ~~elasticearch数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation~~
 * prometheus数据监控支持
+* 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
 * 报警升级功能
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch监控数值实现环比监控
@@ -248,7 +249,7 @@ yarn dev
 
 # 🗓 [发版历史](./ReleaseNotes.md)
 
-# 👍 [致谢](./thank.md)
+# 👍 [致谢](./doc/wiki/thank.md)
 
 
 # 👷 Contributors
