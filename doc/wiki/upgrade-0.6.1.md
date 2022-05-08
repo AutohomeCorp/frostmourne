@@ -1,14 +1,14 @@
 ## 升级到0.6.1说明
 
-0.6.1版本引入了重大feature，移除xxl-job内置实现分布式调度。
+`0.6.1`版本引入了重大`feature`，移除`xxl-job`内置实现分布式调度。
 
 * 移除xxl-job依赖
 
-内置实现了分布式调度(抄的xxl-job)，功能没有变化，只是去掉xxl-job依赖。
+内置实现了分布式调度(借鉴`xxl-job`实现)，功能没有变化，只是去掉`xxl-job`依赖。
 
 ### 变更内容
 
-删除monitor中xxl-job如下相关配置：
+删除`monitor`中`xxl-job`如下相关配置：
 
 ```
 xxl.job.mock=false
@@ -28,11 +28,11 @@ xxl.job.executor.logretentiondays=${xxljob_executor_logretentiondays:7}
 xxl.job.alarm.email=${xxljob_alarm_email}
 ```
 
-如果xxl-job服务只是用于本项目，那么这个xxl-job可以下掉。
+如果`xxl-job`服务只是用于本项目，那么这个`xxl-job`可以下掉。
 
-### docker-compose配置修改内容
+### `docker-compose`配置修改内容
 
-删除xxl-job服务，去掉frostmourne-monitor中xxl-job相关配置，和depends_on。镜像tag改为0.6.1
+删除`xxl-job`服务，去掉`frostmourne-monitor`中`xxl-job`相关配置，和`depends_on`。镜像tag改为`0.6.1`
 
 ### mysql表结构变更
 

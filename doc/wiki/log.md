@@ -37,9 +37,9 @@
 
 这个日志格式设计具有如下特点: 
 
-* 异常消息(ExceptionMessage)和自定义消息(CustomMessage)分离
-* 异常类型(ExceptionType),异常堆栈(StackTrace)，异常消息(ExceptionMessage)相互分离
-* 扩展了Web相关字段。域名(Host)， url主干(UriStem)等
+* 异常消息(`ExceptionMessage`)和自定义消息(`CustomMessage`)分离
+* 异常类型(`ExceptionType`),异常堆栈(`StackTrace`)，异常消息(`ExceptionMessage`)相互分离
+* 扩展了`Web`相关字段。域名(`Host`)， url主干(`UriStem`)等
 
 这些设计都是为了后面方便日志搜索和监控报警。  
 
@@ -53,12 +53,12 @@ logger.error("my message, " + ex.toString, ex);
 
 ## 规范化实现
 
-我们团队统一使用的是slf4j + log4j2来打日志，log4j2本身提供了非常友好的插件扩展，
-这样我们就可以扩展一个自己的Layout出来，将日志格式规范内化到Layout里，这样使用者
-只需要应用我们的Layout，无需关心日志格式，打出来就是规范的日志格式，这样推广就会
+我们团队统一使用的是`slf4j + log4j2`来打日志，`log4j2`本身提供了非常友好的插件扩展，
+这样我们就可以扩展一个自己的`Layout`出来，将日志格式规范内化到`Layout`里，这样使用者
+只需要应用我们的`Layout`，无需关心日志格式，打出来就是规范的日志格式，这样推广就会
 简单很多，而且还可以方便的扩展字段，顺便解决掉异常消息和堆栈丢失的问题。
 
-我们扩展的Layout实现类名为: Autolog4jCsvLayout, 以下配置就可以实现日志规范化。
+我们扩展的`Layout`实现类名为: `Autolog4jCsvLayout`, 以下配置就可以实现日志规范化。
 
 ```xml
 <RollingFile name="ProgramError" ignoreExceptions="false"
@@ -82,7 +82,7 @@ logger.error("my message, " + ex.toString, ex);
 </RollingFile>
 ```
 
-这里将错误日志和INFO日志分开写入。另外我们发现log4j2的日志级别过滤器很难理解，所以实现了一种直接枚举日志级别的过滤器(EnumFilter)，简单好懂。
+这里将错误日志和`INFO`日志分开写入。另外我们发现`log4j2`的日志级别过滤器很难理解，所以实现了一种直接枚举日志级别的过滤器(`EnumFilter`)，简单好懂。
 解决了异常信息堆栈丢失的问题，大家就可以开心的使用如下方式打日志:
 
 ```java
@@ -108,6 +108,6 @@ Caused by: org.springframework.beans.factory.BeanNotOfRequiredTypeException: Bea
 "	"b83539ac4a40de0d"
 ```
 
-目前，我们已经把日志扩展类库开源，希望对别人也有所帮助。github地址: <a href="https://github.com/AutohomeCorp/autolog4j" target="_blank">autolog4j</a>  
+目前，我们已经把日志扩展类库开源，希望对别人也有所帮助。`github`地址: <a href="https://github.com/AutohomeCorp/autolog4j" target="_blank">autolog4j</a>  
 
-另外日志规范只是日志建设的第一步，我们还开源了基于Elasticsearch数据的开源日志监控系统, 欢迎使用。 github地址: <a href="https://github.com/AutohomeCorp/frostmourne" target="_blank">frostmourne(霜之哀伤)</a>  
+另外日志规范只是日志建设的第一步，我们还开源了基于`Elasticsearch`数据的开源日志监控系统, 欢迎使用。 `github`地址: <a href="https://github.com/AutohomeCorp/frostmourne" target="_blank">frostmourne(霜之哀伤)</a>  
