@@ -277,7 +277,7 @@ yarn dev
 有问题需要帮助或者交流可以添加下边的微信群或QQ群，请优先选择提 [issue](https://github.com/AutohomeCorp/frostmourne/issues) ，便于问题的讨论和记录追踪，也方便有类似问题的伙伴搜索解决。也欢迎对项目感兴趣的同僚加群交流。
 特别提一下：关于文档觉得哪里写的不通畅，不好理解，或者有哪方面缺失，都欢迎提 [issue](https://github.com/AutohomeCorp/frostmourne/issues) 。
 
-<img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-contact.jpg" />
+# <div align="center"><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/frostmourne-contact.jpg" /></div>
 
 # 📌 项目事记
 
