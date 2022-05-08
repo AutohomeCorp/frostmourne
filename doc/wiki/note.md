@@ -11,4 +11,4 @@
 ```
 frostmourne.monitor.address=http://${frostmourne-monitor-address}
 ```
-frostmourne.monitor.address配置用于生成日志查询地址和调度触发监控改运行。
+`frostmourne.monitor.address`配置用于生成日志查询地址和调度触发监控改运行。

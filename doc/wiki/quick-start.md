@@ -2,8 +2,8 @@
 
 ### 第一步：数据库准备
 
-依赖数据库frostmourne，语句[frostmourne.sql](../mysql-schema/frostmourne.sql)
-如果你已经有自己的测试库，你可以在自己的测试库中执行；如果没有，可以用mysql-docker启动一个，下面是一个mysql的docker-compose例子供参考使用：
+依赖数据库`frostmourne`，语句 [frostmourne.sql](../mysql-schema/frostmourne.sql)
+如果你已经有自己的测试库，你可以在自己的测试库中执行；如果没有，可以用`mysql-docker`启动一个，下面是一个`MySQL`的`docker-compose`例子供参考使用：
 
 ```yaml
 version: '3.1'
@@ -25,27 +25,27 @@ volumes:
 
 ```
 
-直接将内容保存为docker-compose.yml文件存到本地目录mysql中，进入目录执行如下命令就可以启动一个mysql实例
+直接将内容保存为`docker-compose.yml`文件存到本地目录`MySQL`中，进入目录执行如下命令就可以启动一个`MySQL`实例
 
 ```bash
 docker-compose up
 ```
 
-更多有关mysql-docker的内容请参考[官方地址](https://hub.docker.com/_/mysql)
+更多有关`mysql-docker`的内容请参考[官方地址](https://hub.docker.com/_/mysql)
 
 ### 第二步：配置参数
 
-请将本项目的[docker-compose.yml](../docker/docker-compose.yml)文件保存到本地目录frostmourne中，看情况修改其中的数据库连接。
-默认是我本地环境，我用的是docker for windows，容器之间通过host.docker.internal来访问主机，如果你和我环境一样，就不用任何改动。
+请将本项目的 [docker-compose.yml](../docker/docker-compose.yml) 文件保存到本地目录`frostmourne`中，看情况修改其中的数据库连接。
+默认是我本地环境，我用的是`docker for windows`，容器之间通过`host.docker.internal`来访问主机，如果你和我环境一样，就不用任何改动。
 
-如果你是自己的另外mysql实例，请将host.docker.internal修改为你的mysql服务地址，并同时修改mysql用户和密码。
+如果你是自己的另外`MySQL`实例，请将`host.docker.internal`修改为你的`MySQL`服务地址，并同时修改`MySQL`用户和密码。
 
-> 镜像服务说明：由于dockerhub推送镜像太难受，所以用阿里云的镜像管理代替，dockerhub也会更新，但是由于经常失败，可能不会那么及时。所以尽可能
-使用阿里云。dockerhub的镜像地址为：frostmourne2020/frostmourne:tag
+> 镜像服务说明：由于`dockerhub`推送镜像太难受，所以用阿里云的镜像管理代替，`dockerhub`也会更新，但是由于经常失败，可能不会那么及时。所以尽可能
+使用阿里云。`dockerhub`的镜像地址为：`frostmourne2020/frostmourne:tag`
 
 ### 第三步：启动
 
-进入第二步的frostmourne目录，执行如下命令
+进入第二步的`frostmourne`目录，执行如下命令
 
 ```yaml
 docker-compose up
@@ -57,7 +57,7 @@ docker-compose up
 /opt/frostmourne/frostmourne-monitor/logs
 ```
 
-启动成功后。frostmounre-monitor地址为： http://localhost:10054 ;
+启动成功后，`frostmounre-monitor`地址为： http://localhost:10054 ;
 
 
 

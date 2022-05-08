@@ -2,13 +2,13 @@
 
 0.6版本引入了破坏性的修改。
 
-* (1) 将spi移除，相关功能转移至monitor，原因是随着monitor功能完善，spi显得很鸡肋了，移除spi可以降低部署难度。
+* (1) 将`spi`移除，相关功能转移至`monitor`，原因是随着`monitor`功能完善，`spi`显得很鸡肋了，移除`spi`可以降低部署难度。
 
-功能没有变化。全部修改内容只需要将原来配置在spi中的配置移动monitor即可。
+功能没有变化。全部修改内容只需要将原来配置在`spi`中的配置移至`monitor`即可。
 
 ### 变更内容：
 
-将如下配置从spi移至monitor
+将如下配置从`spi`移至`monitor`
 
 ```
 your.email.smtp.host=
@@ -22,15 +22,15 @@ your.wechat.agentid=
 your.wechat.secret=
 ```
 
-移除spi相关配置：
+移除`spi`相关配置：
 
 ```
 frostmourne.spi.service-addr=
 ```
 
-下线spi服务
+下线`spi`服务
 
-### docker-compose配置修改内容
+### `docker-compose`配置修改内容
 
 增加如下部分
 
@@ -50,6 +50,6 @@ services:
       wechat.secret:
 ```
 
-删除spi服务所有配置，并移除frostmourne-monitor对frostmourne-spi的depends_on配置。
+删除`spi`服务所有配置，并移除`frostmourne-monitor`对`frostmourne-spi`的`depends_on`配置。
 
 
