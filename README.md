@@ -266,7 +266,7 @@ yarn dev
 
 * 从后续规划里选择合适的任务提交`PR`
 * 对文档进行必要补充
-* 部署本项目使用起来并通过 [github](https://github.com/AutohomeCorp/frostmourne/issues/17) 或 [gitee](https://gitee.com/tim_guai/frostmourne/issues/I560YJ) 告知
+* 部署本项目使用起来并通过 [`github`](https://github.com/AutohomeCorp/frostmourne/issues/17) 或 [`gitee`](https://gitee.com/tim_guai/frostmourne/issues/I560YJ) 告知
 * 帮忙扩散推广
 * 在 [issue](https://github.com/AutohomeCorp/frostmourne/issues) 提出你的宝贵建议
 * 加入交流群，解答交流问题。群内会不定时发布项目更新说明

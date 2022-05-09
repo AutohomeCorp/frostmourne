@@ -15,13 +15,17 @@ import com.autohome.frostmourne.monitor.model.contract.RuleContract;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.template.ITemplateService;
-import com.autohome.frostmourne.monitor.tool.JacksonUtils;
 import com.autohome.frostmourne.monitor.tool.MD5Utils;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.Option;
 
 public abstract class AbstractRule implements IRule {
 
     private final ITemplateService templateService;
+
+    public final Configuration jsonPathConfiguration =
+        Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL).addOptions(Option.SUPPRESS_EXCEPTIONS);
 
     public AbstractRule(ITemplateService templateService) {
         this.templateService = templateService;
@@ -50,18 +54,19 @@ public abstract class AbstractRule implements IRule {
 
     private void alertEventMd5(AlarmProcessLogger alarmProcessLogger, Map<String, Object> metricData) {
         String silenceExpression = alarmProcessLogger.getAlarmContract().getAlertContract().getSilenceExpression();
-        if (StringUtils.isBlank(silenceExpression)){
+        if (StringUtils.isBlank(silenceExpression)) {
             return;
         }
         String expressionKeys =
             silenceExpression.replaceAll("&&", "").replaceAll("\\|\\|", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll(" +", " ").trim();
         String[] keys = expressionKeys.split(" ");
 
-        Map<String, String> eventMd5 = new HashMap<>();
-        JsonNode metricDataJson = JacksonUtils.transferToJsonNode(metricData);
+        Map<String, String> eventMd5 = new HashMap<>(keys.length);
         Arrays.stream(keys).forEach(key -> {
-            String path = "/" + key.replaceAll("\\.", "/");
-            String value = metricDataJson.at(path).toString();
+            // json-path
+            Object result = JsonPath.using(jsonPathConfiguration).parse(metricData).read(key);
+
+            String value = result == null ? "" : JacksonUtil.serialize(result);
             eventMd5.put(key, MD5Utils.md5Hex(value, GlobalConstant.ENCODE));
         });
         // set event_md5 for saving AlertEvent
