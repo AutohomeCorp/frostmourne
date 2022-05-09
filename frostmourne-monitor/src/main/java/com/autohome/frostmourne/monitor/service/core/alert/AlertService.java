@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.autohome.frostmourne.core.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertEvent;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertLog;
@@ -33,7 +34,6 @@ import com.autohome.frostmourne.monitor.service.core.domain.ConfigMapKeys;
 import com.autohome.frostmourne.monitor.service.core.execute.AlarmProcessLogger;
 import com.autohome.frostmourne.monitor.service.message.MessageService;
 import com.autohome.frostmourne.monitor.tool.ExpressionParser;
-import com.autohome.frostmourne.monitor.tool.JacksonUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
@@ -135,7 +135,7 @@ public class AlertService implements IAlertService {
         alertEvent.setAlarmId(alarmProcessLogger.getAlarmContract().getId());
         alertEvent.setAlertType(alertType);
         alertEvent.setInSilence(inSilence);
-        alertEvent.setEventMd5(JacksonUtils.toJson(alarmProcessLogger.getEventMd5()));
+        alertEvent.setEventMd5(JacksonUtil.serialize(alarmProcessLogger.getEventMd5()));
         alertEvent.setCreateAt(LocalDateTime.now());
         alertEventRepository.insert(alertEvent);
     }
@@ -252,18 +252,20 @@ public class AlertService implements IAlertService {
         LocalDateTime now = LocalDateTime.now();
         // query all alert_event where create at now-silence to now
         List<AlertEvent> alertEventList =
-                alertEventRepository.selectAllByTime(alarmProcessLogger.getAlarmContract().getId(), false, AlertType.PROBLEM, now.minusMinutes(silence), now);
+            alertEventRepository.selectAllByTime(alarmProcessLogger.getAlarmContract().getId(), false, AlertType.PROBLEM, now.minusMinutes(silence), now);
 
         if (StringUtils.isBlank(alarmProcessLogger.getAlarmContract().getAlertContract().getSilenceExpression())) {
             return !CollectionUtils.isEmpty(alertEventList);
         } else {
+            // if any equals false,
             Optional<AlertEvent> optional = alertEventList.stream().filter(alertEvent -> {
                 // if event md5 is blank，should not silence
                 if (StringUtils.isBlank(alertEvent.getEventMd5())) {
                     return false;
                 }
-                Map<String, String> oldEventMd5 = JacksonUtils.toObj(alertEvent.getEventMd5(), new TypeReference<HashMap<String, String>>() {});
-                return ExpressionParser.calculate(alarmProcessLogger.getAlarmContract().getAlertContract().getSilenceExpression(), alarmProcessLogger.getEventMd5(), oldEventMd5);
+                Map<String, String> oldEventMd5 = JacksonUtil.deSerialize(alertEvent.getEventMd5(), new TypeReference<HashMap<String, String>>() {});
+                return ExpressionParser.calculate(alarmProcessLogger.getAlarmContract().getAlertContract().getSilenceExpression(),
+                    alarmProcessLogger.getEventMd5(), oldEventMd5);
             }).findAny();
             return optional.isPresent();
         }
