@@ -281,10 +281,11 @@
                 <span slot="label">
                   <el-tooltip class="item" effect="light" placement="right-start">
                     <div slot="content">
-                      说明：支持多个数据字段比对，可使用逻辑运算符 '&&'，'||' 和 '()'<br /><br />
+                      说明：字段取值参考json-path语法规则，多个数据判断支持使用逻辑运算符 '&&'，'||' 和 '()'<br /><br />
                       举例：<br />
-                      &nbsp;&nbsp;&nbsp;&nbsp;1、日志链路和日志堆栈字段有一个值相同则静默：TraceId || StackTrace<br />
-                      &nbsp;&nbsp;&nbsp;&nbsp;2、数据字段A和数据字段B的值都相同则静默：A && B<br /><br />
+                      &nbsp;&nbsp;&nbsp;&nbsp;1、日志链路和日志堆栈字段有一个值相同则静默：$.TraceId || $.StackTrace<br />
+                      &nbsp;&nbsp;&nbsp;&nbsp;2、数据字段A和数据字段B的值都相同则静默：$.A && $.B<br /><br />
+                      &nbsp;&nbsp;&nbsp;&nbsp;3、如果字段A是个数组，取其下标2的字段：$.A[2]<br /><br />
                       注：非必填，为空则默认静默时间内只会报警一次<br />
                     </div>
                     <i class="el-icon-question"></i>

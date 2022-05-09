@@ -66,18 +66,22 @@ public class ExpressionParser {
     public static boolean calculate(String expression, Map<String, String> eventMd5, Map<String, String> oldEventMd5) {
         Stack<String> stack = new Stack<>();
         ArrayList<String> tokens = generateReversePolish(getTokens(expression));
-        for (String token : tokens) {
-            // 如果是操作符则入栈
-            if (!OPERATOR_MAP.containsKey(token)) {
-                stack.push(token);
-            } else {
-                String right = equalsMd5(stack.pop(), eventMd5, oldEventMd5);
-                String left = equalsMd5(stack.pop(), eventMd5, oldEventMd5);
-                stack.push(operate(left, right, token).toString());
+        if (tokens.size() == 1){
+            stack.push( equalsMd5(tokens.get(0), eventMd5, oldEventMd5));
+        }else {
+            for (String token : tokens) {
+                // 如果是操作符则入栈
+                if (!OPERATOR_MAP.containsKey(token)) {
+                    stack.push(token);
+                } else {
+                    String right = equalsMd5(stack.pop(), eventMd5, oldEventMd5);
+                    String left = equalsMd5(stack.pop(), eventMd5, oldEventMd5);
+                    stack.push(operate(left, right, token).toString());
+                }
             }
         }
         if (stack.size() == 1) {
-            return TRUE.equals(equalsMd5(stack.pop(), eventMd5, oldEventMd5));
+            return TRUE.equals(stack.pop());
         }
         return false;
     }
@@ -184,6 +188,6 @@ public class ExpressionParser {
         oldMetricData.put("b", "b");
         oldMetricData.put("c", "diff");
 
-        System.out.println(calculate("a", metricData, oldMetricData));
+        System.out.println(calculate("b && c", metricData, oldMetricData));
     }
 }
