@@ -154,7 +154,7 @@
               <!--<el-option label="环比" value="ring_than"/>-->
               <el-option v-if="dataSourceType !== 'http' && dataSourceType !== 'ping'" label="同比" value="same_time" />
               <el-option v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType !== 'none'" label="分桶数值比较" value="bucket_numeric" />
-              <el-option v-if="dataSourceType !== 'ping'" label="ping" value="ping" />
+              <el-option v-if="dataSourceType === 'ping'" label="ping" value="ping" />
             </el-select>
           </el-form-item>
           <el-row>
