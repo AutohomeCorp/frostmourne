@@ -281,7 +281,7 @@
                 <span slot="label">
                   <el-tooltip class="item" effect="light" placement="right-start">
                     <div slot="content">
-                      说明：字段取值参考json-path语法规则，多个数据判断支持使用逻辑运算符 '&&'，'||' 和 '()'<br /><br />
+                      说明：字段取值参考json-path语法规则，多个字段判断支持使用逻辑运算符 '&&'，'||' 和 '()'<br /><br />
                       举例：<br />
                       &nbsp;&nbsp;&nbsp;&nbsp;1、日志链路和日志堆栈字段有一个值相同则静默：$.TraceId || $.StackTrace<br />
                       &nbsp;&nbsp;&nbsp;&nbsp;2、数据字段A和数据字段B的值都相同则静默：$.A && $.B<br /><br />
@@ -293,7 +293,7 @@
                   静默判断:
                 </span>
                 <el-input v-model="form.alertContract.silenceExpression"
-                          placeholder="指定字段进行值相同判断，多个字段支持 '&&'，'||' 和 '()' 逻辑语法" />
+                          placeholder="字段取值参考json-path语法规则，多个字段判断支持使用逻辑运算符 '&&'，'||' 和 '()'" />
               </el-form-item>
             </el-col>
           </el-row>
