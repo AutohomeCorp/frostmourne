@@ -6,6 +6,7 @@
         <el-option label="influxdb" value="influxdb" />
         <el-option label="mysql" value="mysql" />
         <el-option label="clickhouse" value="clickhouse" />
+        <el-option label="skywalking" value="skywalking" />
       </el-select>
       <el-select v-model="form.dataSourceId" placeholder="选择数据源" clearable class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
@@ -58,6 +59,7 @@
             <el-option label="influxdb" value="influxdb" />
             <el-option label="mysql" value="mysql" />
             <el-option label="clickhouse" value="clickhouse" />
+            <el-option label="skywalking" value="skywalking" />
           </el-select>
         </el-form-item>
         <el-form-item label="名称" :label-width="formLabelWidth" prop="dataName">
@@ -86,28 +88,32 @@
 
         <el-form-item v-if="editData.datasourceType === 'elasticsearch'" label="显示字段" :label-width="formLabelWidth">
           <el-tag
-            :key="tag"
             v-for="tag in esFieldTags.dynamicTags"
+            :key="tag"
             closable
             :disable-transitions="false"
             @close="handleClose(tag)">
-            {{tag}}
+            {{ tag }}
           </el-tag>
           <el-input
-            class="input-new-tag"
             v-if="esFieldTags.inputVisible"
-            v-model="esFieldTags.inputValue"
             ref="saveTagInput"
+            v-model="esFieldTags.inputValue"
+            class="input-new-tag"
             size="mini"
             @keyup.enter.native="handleInputConfirm"
-            @blur="handleInputConfirm"
-          >
-          </el-input>
+            @blur="handleInputConfirm" />
           <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加</el-button>
         </el-form-item>
 
         <el-form-item v-if="editData.datasourceType === 'influxdb'" label="Database" :label-width="formLabelWidth">
           <el-input v-model="editData.settings.database" autocomplete="off" />
+        </el-form-item>
+        <el-form-item v-if="editData.datasourceType === 'skywalking'" label="模块" :label-width="formLabelWidth">
+          <el-select v-model="editData.settings.skywalkingDataCategory">
+            <el-option label="Logging" value="logging" />
+            <el-option label="Alarms" value="alarms" />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -214,12 +220,11 @@ export default {
         this.editData.dataSourceId = row.dataSourceId
         this.editData.settings = row.settings
         this.disableTypeSelect = true
-        if(row.settings.headFields) {
+        if (row.settings.headFields) {
           this.esFieldTags.dynamicTags = row.settings.headFields.split(',')
         } else {
           this.esFieldTags.dynamicTags = []
         }
-        
       } else {
         this.disableEdit = false
         this.editData = {
@@ -294,24 +299,24 @@ export default {
     showEditDataTimestampField () {
       return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql' || this.editData.datasourceType === 'clickhouse'
     },
-    handleClose(tag) {
-        this.esFieldTags.dynamicTags.splice(this.esFieldTags.dynamicTags.indexOf(tag), 1);
+    handleClose (tag) {
+      this.esFieldTags.dynamicTags.splice(this.esFieldTags.dynamicTags.indexOf(tag), 1)
     },
 
-    showInput() {
-      this.esFieldTags.inputVisible = true;
+    showInput () {
+      this.esFieldTags.inputVisible = true
       this.$nextTick(_ => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
+        this.$refs.saveTagInput.$refs.input.focus()
+      })
     },
 
-    handleInputConfirm() {
-      let inputValue = this.esFieldTags.inputValue;
+    handleInputConfirm () {
+      const inputValue = this.esFieldTags.inputValue
       if (inputValue) {
-        this.esFieldTags.dynamicTags.push(inputValue);
+        this.esFieldTags.dynamicTags.push(inputValue)
       }
-      this.esFieldTags.inputVisible = false;
-      this.esFieldTags.inputValue = '';
+      this.esFieldTags.inputVisible = false
+      this.esFieldTags.inputValue = ''
     }
   }
 }

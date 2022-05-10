@@ -9,7 +9,7 @@ public class MetricData {
 
     private Map<String, Object> latestDocument;
 
-    private Map<String, String> context;
+    private Map<String, Object> context;
 
     private List<BucketInfo> buckets;
 
@@ -29,11 +29,11 @@ public class MetricData {
         this.latestDocument = latestDocument;
     }
 
-    public Map<String, String> getContext() {
+    public Map<String, Object> getContext() {
         return context;
     }
 
-    public void setContext(Map<String, String> context) {
+    public void setContext(Map<String, Object> context) {
         this.context = context;
     }
 

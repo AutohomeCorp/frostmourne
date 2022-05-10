@@ -348,7 +348,7 @@
       </el-form-item>
     </el-form>
 
-    <el-dialog title="响应数据" :visible.sync="previewResponseDialogVisible">
+    <el-dialog title="响应数据" :visible.sync="previewResponseDialogVisible" style="word-break: normal">
       <div>
         <vue-json-pretty :data="previewResponseData" />
       </div>
@@ -693,10 +693,10 @@ export default {
           if (response.result.metricContract.dataName === 'http') {
             this.dataValue.push('http')
             this.dataSourceType = 'http'
-          } else if(response.result.metricContract.dataName === 'ping') {
-              this.dataValue.push('ping')
-              this.dataSourceType = 'ping'
-          } else if(response.result.metricContract.dataSourceContract !== null) {
+          } else if (response.result.metricContract.dataName === 'ping') {
+            this.dataValue.push('ping')
+            this.dataSourceType = 'ping'
+          } else if (response.result.metricContract.dataSourceContract !== null) {
             this.dataValue.push(response.result.metricContract.dataSourceContract.datasourceType)
             this.dataValue.push(response.result.metricContract.dataSourceContract.id)
             this.dataValue.push(response.result.metricContract.dataName)
@@ -724,7 +724,7 @@ export default {
         this.form.ruleContract.ruleType = 'expression'
         this.initAlertTemplateOptions()
         return
-      } else if(this.dataSourceType === 'ping') {
+      } else if (this.dataSourceType === 'ping') {
         this.form.metricContract.dataSourceId = 0
         this.form.metricContract.dataName = 'ping'
         this.form.metricContract.metricType = 'ping'
@@ -931,6 +931,10 @@ export default {
 <style scoped>
 .line {
   text-align: center;
+}
+
+.vjs-key {
+  word-break: normal;
 }
 </style>
 

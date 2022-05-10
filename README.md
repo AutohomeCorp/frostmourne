@@ -23,13 +23,13 @@
 但是随着配置的增加，不仅管理成本和使用成本较高，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
-但是项目并不仅限于`Elasticsearch`数据，还有`HTTP`数据监控，`InfluxDB`数据监控，`MySQL`数据监控, `Clickhouse`数据监控，后面还会加入更多的常用数据源(如：`prometheus, skywalking,
+但是项目并不仅限于`Elasticsearch`数据，还支持`HTTP`数据监控，`InfluxDB`数据监控，`MySQL`数据监控, `Clickhouse`, `SkyWalking`数据监控，后面还会加入更多的常用数据源(如：`prometheus,
 iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
 
 # ✨ 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多种数据源支持：`Elasticsearch, InfluxDB, MySQL/TiDb, Clickhouse`
+* 多种数据源支持：`Elasticsearch, SkyWalking, InfluxDB, MySQL/TiDb, Clickhouse`
 * 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`
 * 数据分桶统计
 * 报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
@@ -55,9 +55,10 @@ iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更�
 
 * <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
 * <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
-* <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
+* <a href="./doc/wiki/skywalking.md" target="_blank">SkyWalking数据监控指南</a>
 * <a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a>
 * <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">Clickhouse数据监控指南</a>
+* <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
 * <a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a>
 * <a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
 * <a href="./doc/wiki/template.md" target="_blank">消息模板配置</a>
@@ -188,16 +189,20 @@ yarn dev
 # ⚙️ 后续规划
 
 * ~~发布0.6.2-RELEASE~~ [2022-05-05]
-* ~~改进消息静默功能：添加静默判断表达式，对报警事件数据和静默时间内的事件数据指定字段对比。这样可以避免漏报同时防止报警消息过多。~~  [2022-05-05]
-* ~~MySQL, clickhouse监控增加表达式监控规则~~ [2022-05-06]
-* ~~增加ping监控报警~~ [2022-05-07]
-* 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
+* ~~【0.7】改进消息静默功能：添加静默判断表达式，对报警事件数据和静默时间内的事件数据指定字段对比。这样可以避免漏报同时防止报警消息过多。~~  [2022-05-05]
+* ~~【0.7】MySQL, clickhouse监控增加表达式监控规则~~ [2022-05-06]
+* ~~【0.7】增加ping监控报警~~ [2022-05-07]
+* ~~【0.7】增加[skywalking](https://github.com/apache/skywalking)日志数据监控~~ [2022-05-09]
+* ~~【0.7】增加[skywalking](https://github.com/apache/skywalking)报警数据监控~~ [2022-05-10]
+* ~~【0.7】增加SkyWalking数据监控使用指南~~ [skywalking.md](./doc/wiki/skywalking.md) [2022-05-10]
 * Elasticsearch监控数值实现环比监控
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * 解决邮箱报警不支持ssl的问题
 * elasticsearch分桶统计增加方差，标准差，离散系数，最大值，最小值，平均值计算
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
+* 增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持
+* 增加[loki](https://github.com/grafana/loki)数据监控报警
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
@@ -208,9 +213,7 @@ yarn dev
 * 增加报警组支持
 * 增加监控转组功能
 * Elasticsearch数据名增加traceid字段配置，可以配置跳转链接。例如: 配置skywalking的链接将跳转到skywalking对应的调用链
-* 增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
-* 增加[loki](https://github.com/grafana/loki)数据监控报警
 * InfluxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加InfluxDB数据查询页面
 * InfluxDB数据监控增加短链接，跳转到InfluxDB数据查询页面

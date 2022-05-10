@@ -1,0 +1,235 @@
+{
+  "data": {
+    "getAlarm": {
+      "items": [
+        {
+          "key": "YWdlbnQ6OmFwcA==.1",
+          "message": "Alarm caused by Rule service_resp_time_rule",
+          "startTime": 1652154203379,
+          "scope": "Service",
+          "tags": [],
+          "events": [
+            {
+              "uuid": "1558cdd9-bf1d-42e2-8e2e-9c12f873d51e",
+              "source": {
+                "service": "agent::app",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153903380,
+              "endTime": 1652154203380
+            },
+            {
+              "uuid": "446d2ccc-0d4c-4810-b6fe-11d90179106c",
+              "source": {
+                "service": "agent::app",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153543380,
+              "endTime": 1652153843380
+            }
+          ]
+        },
+        {
+          "key": "YWdlbnQ6OmdhdGV3YXk=.1",
+          "message": "Alarm caused by Rule service_resp_time_rule",
+          "startTime": 1652154083379,
+          "scope": "Service",
+          "tags": [],
+          "events": [
+            {
+              "uuid": "4c195d89-0230-4864-b9ad-3a6b4859ffcc",
+              "source": {
+                "service": "agent::gateway",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153783380,
+              "endTime": 1652154083380
+            }
+          ]
+        },
+        {
+          "key": "YWdlbnQ6OnNvbmdz.1",
+          "message": "Alarm caused by Rule service_resp_time_rule",
+          "startTime": 1652154080704,
+          "scope": "Service",
+          "tags": [],
+          "events": [
+            {
+              "uuid": "2b1106b0-2071-4b20-ac2c-44af86b4c598",
+              "source": {
+                "service": "agent::songs",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153780704,
+              "endTime": 1652154080704
+            }
+          ]
+        },
+        {
+          "key": "YWdlbnQ6OnJlY29tbWVuZGF0aW9u.1",
+          "message": "Alarm caused by Rule service_resp_time_rule",
+          "startTime": 1652154080704,
+          "scope": "Service",
+          "tags": [],
+          "events": [
+            {
+              "uuid": "bd892885-54f4-43e7-a7a8-4cba56799d87",
+              "source": {
+                "service": "agent::recommendation",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153780704,
+              "endTime": 1652154080704
+            }
+          ]
+        },
+        {
+          "key": "YWdlbnQ6OmFwcA==.1",
+          "message": "Alarm caused by Rule service_resp_time_rule",
+          "startTime": 1652153843379,
+          "scope": "Service",
+          "tags": [],
+          "events": [
+            {
+              "uuid": "1558cdd9-bf1d-42e2-8e2e-9c12f873d51e",
+              "source": {
+                "service": "agent::app",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153903380,
+              "endTime": 1652154203380
+            },
+            {
+              "uuid": "446d2ccc-0d4c-4810-b6fe-11d90179106c",
+              "source": {
+                "service": "agent::app",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153543380,
+              "endTime": 1652153843380
+            }
+          ]
+        },
+        {
+          "key": "YWdlbnQ6OmdhdGV3YXk=.1",
+          "message": "Alarm caused by Rule service_resp_time_rule",
+          "startTime": 1652153483379,
+          "scope": "Service",
+          "tags": [],
+          "events": [
+            {
+              "uuid": "4c195d89-0230-4864-b9ad-3a6b4859ffcc",
+              "source": {
+                "service": "agent::gateway",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153783380,
+              "endTime": 1652154083380
+            }
+          ]
+        },
+        {
+          "key": "YWdlbnQ6OmFwcA==.1",
+          "message": "Alarm caused by Rule service_resp_time_rule",
+          "startTime": 1652153483379,
+          "scope": "Service",
+          "tags": [],
+          "events": [
+            {
+              "uuid": "1558cdd9-bf1d-42e2-8e2e-9c12f873d51e",
+              "source": {
+                "service": "agent::app",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153903380,
+              "endTime": 1652154203380
+            },
+            {
+              "uuid": "446d2ccc-0d4c-4810-b6fe-11d90179106c",
+              "source": {
+                "service": "agent::app",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153543380,
+              "endTime": 1652153843380
+            }
+          ]
+        },
+        {
+          "key": "YWdlbnQ6OnNvbmdz.1",
+          "message": "Alarm caused by Rule service_resp_time_rule",
+          "startTime": 1652153480704,
+          "scope": "Service",
+          "tags": [],
+          "events": [
+            {
+              "uuid": "2b1106b0-2071-4b20-ac2c-44af86b4c598",
+              "source": {
+                "service": "agent::songs",
+                "serviceInstance": "",
+                "endpoint": ""
+              },
+              "name": "Alarm",
+              "type": "Error",
+              "message": "Alarm caused by Rule service_resp_time_rule",
+              "parameters": null,
+              "startTime": 1652153780704,
+              "endTime": 1652154080704
+            }
+          ]
+        }
+      ],
+      "total": 8
+    }
+  }
+}
