@@ -4,6 +4,8 @@
 
 <img src="../img/skywalking/skywalking-datasource.png"/>
 
+这里以SkyWalking官方的 [Live demo](http://demo.skywalking.apache.org/) 服务为例子。
+
 ### 2. 添加skywalking-logging数据名。如下图
 
 <img src="../img/skywalking/skywalking-logging-dataname.png"/>
