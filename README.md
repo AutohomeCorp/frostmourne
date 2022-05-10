@@ -29,7 +29,7 @@ iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更�
 # ✨ 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多种数据源：`Elasticsearch, InfluxDB, MySQL/TiDb, Clickhouse`
+* 多种数据源支持：`Elasticsearch, InfluxDB, MySQL/TiDb, Clickhouse`
 * 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`
 * 数据分桶统计
 * 报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
@@ -55,7 +55,7 @@ iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更�
 
 * <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
 * <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
-* <a href="./doc/wiki/InfluxDB.md" target="_blank">InfluxDB数据监控指南</a>
+* <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
 * <a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a>
 * <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">Clickhouse数据监控指南</a>
 * <a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a>
