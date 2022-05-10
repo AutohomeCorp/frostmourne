@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import com.autohome.frostmourne.monitor.service.core.metric.PingMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.jdbc.ClickhouseObjectMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.jdbc.MysqlObjectMetric;
+import com.autohome.frostmourne.monitor.service.core.metric.skywalking.SkywalkingNumericMetric;
 import com.autohome.frostmourne.monitor.service.core.rule.BucketNumbericRule;
 import com.autohome.frostmourne.monitor.service.core.rule.PingRule;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,6 +146,19 @@ public class CoreConfig {
         metricMap.put("same_time", clickhouseSameTimeMetric);
         metricMap.put("object", clickhouseObjectMetric);
         return metricMap;
+    }
+
+    @Bean(name = "skywalkingMetricMap")
+    public Map<String, IMetric> skywalkingMetricMap() {
+        Map<String, IMetric> metricMap = new HashMap<>();
+        metricMap.put("numeric", skywalkingNumericMetric());
+        metricMap.put("same_time", skywalkingNumericMetric());
+        return metricMap;
+    }
+
+    @Bean
+    public SkywalkingNumericMetric skywalkingNumericMetric() {
+        return new SkywalkingNumericMetric();
     }
 
 }
