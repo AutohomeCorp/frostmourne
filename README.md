@@ -32,7 +32,7 @@
 
 * 只需要写一条数据查询就可以轻松搞定监控
 * 多种数据源支持：`Elasticsearch, HTTP, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse, PING`
-* 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`; Elasticsearch数据支持分桶
+* 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`; `Elasticsearch`数据支持分桶
 * 报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
 * 支持消息格式：`text, markdown`
 * 灵活的报警消息`Freemarker`模板定制，支持变量占位符；消息模板管理
