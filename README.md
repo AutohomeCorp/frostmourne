@@ -26,7 +26,7 @@
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
 但是项目并不仅限于`Elasticsearch`数据，还支持`HTTP`, `PING`数据监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`数据监控，后面还会加入更多的常用数据源
-(如：`iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
+(如：`IoTDB`, `Loki`, `MongoDB` `Redis`, `Oracle`, `SqlServer`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
 
 # ✨ 主要功能
 
@@ -208,6 +208,7 @@ yarn dev
 * 短信报警方式实现，默认用阿里云短信实现
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
 * 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
+* 增加[redis](https://github.com/redis/redis)数据监控报警
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
