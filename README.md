@@ -8,6 +8,7 @@
 <a href="https://github.com/AutohomeCorp/frostmourne/issues"><img src="https://img.shields.io/github/issues/AutohomeCorp/frostmourne" alt="GitHub issues"></a>
 <a href="https://openjdk.java.net/"><img src="https://img.shields.io/badge/Java-8-blue?logo=java&logoColor=white" alt="JDK support"></a>
 <a href="https://github.com/AutohomeCorp/frostmourne/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/svelte.svg" alt="LICENSE"></a>
+<a href="https://github.com/AutohomeCorp/frostmourne"><img src="https://img.shields.io/github/downloads/AutohomeCorp/frostmourne/total.svg" alt="Downloads"></a>
 </p>
 
 [Github地址](https://github.com/AutohomeCorp/frostmourne) | [Gitee地址](https://gitee.com/tim_guai/frostmourne)
@@ -200,12 +201,14 @@ yarn dev
 * ~~【0.7】增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持~~ [2022-05-12]
 * ~~【0.7】bugfix: 解决http消息模板不加载的问题~~ [2022-05-12]
 * ~~【0.7】Document: 增加Prometheus数据监控使用指南~~ [prometheus.md](./doc/wiki/prometheus.md) [2022-05-12]
+* 发布0.7-RELEASE, 进入0.8-SNAPSHOT开发版
 * Elasticsearch监控数值实现环比监控
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * 解决邮箱报警不支持ssl的问题
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
+* 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
@@ -245,8 +248,10 @@ yarn dev
 * ~~msyql, Clickhouse监控增加表达式监控规则~~
 * ~~ping命令监控~~
 * ~~elasticearch数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation~~
-* ~~增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持~~
+* ~~增加[skywalking](https://github.com/apache/skywalking)Log数据监控报警支持~~
+* ~~增加[skywalking](https://github.com/apache/skywalking)Alarm数据监控报警支持~~
 * ~~增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持~~
+* 增加[skywalking](https://github.com/apache/skywalking)Database layer数据监控报警支持~~
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
 * 报警升级功能
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
