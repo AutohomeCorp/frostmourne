@@ -10,6 +10,7 @@ import com.autohome.frostmourne.monitor.dao.skywalking.daomain.QueryLogsResponse
 import com.autohome.frostmourne.monitor.dao.skywalking.daomain.SkywalkingAlarmQueryCondition;
 import com.autohome.frostmourne.monitor.dao.skywalking.daomain.SkywalkingAlarms;
 import com.autohome.frostmourne.monitor.dao.skywalking.daomain.SkywalkingQuery;
+import com.autohome.frostmourne.monitor.tool.AuthTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -51,7 +52,7 @@ public class SkywalkingDao implements ISkywalkingDao {
         headers.setContentType(type);
         headers.add("Accept", MediaType.APPLICATION_JSON.toString());
         if (!Strings.isNullOrEmpty(user)) {
-            headers.add("Authorization", basicHeaderValue(user, password));
+            headers.add("Authorization", AuthTool.basicAuthValue(user, password));
         }
         String json = SkywalkingQuery.toLogsQuery(condition);
         HttpEntity<String> request = new HttpEntity<>(json, headers);
@@ -72,7 +73,7 @@ public class SkywalkingDao implements ISkywalkingDao {
         headers.setContentType(type);
         headers.add("Accept", MediaType.APPLICATION_JSON.toString());
         if (!Strings.isNullOrEmpty(user)) {
-            headers.add("Authorization", basicHeaderValue(user, password));
+            headers.add("Authorization", AuthTool.basicAuthValue(user, password));
         }
         String json = SkywalkingQuery.toAlarmsQuery(condition);
         HttpEntity<String> request = new HttpEntity<>(json, headers);
@@ -84,11 +85,5 @@ public class SkywalkingDao implements ISkywalkingDao {
         String responseJson = messageResponseEntity.getBody();
         GetAlarmsResponse getAlarmsResponse = JacksonUtil.deSerialize(responseJson, GetAlarmsResponse.class);
         return getAlarmsResponse.getData().getGetAlarm();
-    }
-
-    private String basicHeaderValue(String user, String password) {
-        String plainCreds = String.format("%s:%s", user, password);
-        String base64Creds = Base64.getEncoder().encodeToString(plainCreds.getBytes(StandardCharsets.UTF_8));
-        return "Basic " + base64Creds;
     }
 }

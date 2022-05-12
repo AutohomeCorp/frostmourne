@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import com.autohome.frostmourne.monitor.service.core.metric.PingMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.jdbc.ClickhouseObjectMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.jdbc.MysqlObjectMetric;
+import com.autohome.frostmourne.monitor.service.core.metric.prometheus.PrometheusObjectMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.skywalking.SkywalkingNumericMetric;
 import com.autohome.frostmourne.monitor.service.core.rule.BucketNumbericRule;
 import com.autohome.frostmourne.monitor.service.core.rule.PingRule;
@@ -159,6 +160,19 @@ public class CoreConfig {
     @Bean
     public SkywalkingNumericMetric skywalkingNumericMetric() {
         return new SkywalkingNumericMetric();
+    }
+
+    @Bean(name = "prometheusMetricMap")
+    public Map<String, IMetric> prometheusMetricMap() {
+        Map<String, IMetric> metricMap = new HashMap<>();
+        metricMap.put("object", prometheusObjectMetric());
+
+        return metricMap;
+    }
+
+    @Bean
+    public PrometheusObjectMetric prometheusObjectMetric() {
+        return new PrometheusObjectMetric();
     }
 
 }

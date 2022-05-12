@@ -8,6 +8,11 @@
 * 【0.7】增加ping监控报警 [2022-05-07]
 * 【0.7】增加[skywalking](https://github.com/apache/skywalking)日志数据监控 [2022-05-09]
 * 【0.7】增加[skywalking](https://github.com/apache/skywalking)报警数据监控 [2022-05-10]
+* 【0.7】增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持 [2022-05-12]
+
+### Bugfix:
+
+* 【0.7】bugfix: 解决http消息模板不加载的问题 [2022-05-12]
 
 ### Mysql
 
@@ -15,7 +20,8 @@
 
 ### Document
 
-* 【0.7】增加SkyWalking数据监控使用指南 [skywalking.md](./doc/wiki/skywalking.md)
+* 【0.7】增加SkyWalking数据监控使用指南 [skywalking.md](./doc/wiki/skywalking.md) [2022-05-10]
+* 【0.7】增加Prometheus数据监控使用指南 [prometheus.md](./doc/wiki/prometheus.md) [2022-05-12]
 
 # 0.6.2-RELEASE
 
