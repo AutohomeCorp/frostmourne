@@ -25,6 +25,9 @@ public class MetricService implements IMetricService {
     private Map<String, IMetric> skywalkingMetricMap;
 
     @Resource
+    private Map<String, IMetric> prometheusMetricMap;
+
+    @Resource
     private HttpMetric httpMetric;
 
     @Resource
@@ -63,11 +66,17 @@ public class MetricService implements IMetricService {
             }
             return clickhouseMetricMap.get(metricType);
         }
-        if("skywalking".equalsIgnoreCase(dataSourceType)) {
-            if(!skywalkingMetricMap.containsKey(metricType)) {
+        if ("skywalking".equalsIgnoreCase(dataSourceType)) {
+            if (!skywalkingMetricMap.containsKey(metricType)) {
                 throw new IllegalArgumentException("not supported skywalking metricType: " + metricType);
             }
             return skywalkingMetricMap.get(metricType);
+        }
+        if ("prometheus".equalsIgnoreCase(dataSourceType)) {
+            if (!prometheusMetricMap.containsKey(metricType)) {
+                throw new IllegalArgumentException("not supported prometheus metricType: " + metricType);
+            }
+            return prometheusMetricMap.get(metricType);
         }
 
         throw new IllegalArgumentException(String.format("unknown dataSourceType:  %s, metricType: %s", dataSourceType, metricType));

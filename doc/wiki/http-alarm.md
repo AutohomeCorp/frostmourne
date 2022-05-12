@@ -61,7 +61,7 @@ status == "yellow" || status == "red" || number_of_nodes != 5
 * [利用HTTP监控prometheus数据举例](./http-prometheus.md)
 * [用HTTP监控复杂Elasticsearch Aggregation数据](./http-elasticsearch.md)
 
-`InfluxDb`也有自带`HTTP`服务，同样可以使用`HTTP`来实现`InfluxDB`数据监控，非常方便，自己试试吧。
+`InfluxDb, Loki`也有自带`HTTP`服务，同样可以使用`HTTP`来实现`InfluxDB, Loki`数据监控，非常方便，自己试试吧。
 
 ### 自定义`HTTP`监控
 

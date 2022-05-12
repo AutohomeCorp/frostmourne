@@ -3,10 +3,11 @@
     <div class="filter-container">
       <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item" @change="formSourceTypeChangeHandler">
         <el-option label="elasticsearch" value="elasticsearch" />
+        <el-option label="prometheus" value="prometheus" />
+        <el-option label="skywalking" value="skywalking" />
         <el-option label="influxdb" value="influxdb" />
         <el-option label="mysql" value="mysql" />
         <el-option label="clickhouse" value="clickhouse" />
-        <el-option label="skywalking" value="skywalking" />
       </el-select>
       <el-select v-model="form.dataSourceId" placeholder="选择数据源" clearable class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
@@ -56,10 +57,11 @@
             class="filter-item"
             @change="dialogSourceTypeChangeHandler">
             <el-option label="elasticsearch" value="elasticsearch" />
+            <el-option label="prometheus" value="prometheus" />
+            <el-option label="skywalking" value="skywalking" />
             <el-option label="influxdb" value="influxdb" />
             <el-option label="mysql" value="mysql" />
             <el-option label="clickhouse" value="clickhouse" />
-            <el-option label="skywalking" value="skywalking" />
           </el-select>
         </el-form-item>
         <el-form-item label="名称" :label-width="formLabelWidth" prop="dataName">
@@ -113,6 +115,11 @@
           <el-select v-model="editData.settings.skywalkingDataCategory">
             <el-option label="Logging" value="logging" />
             <el-option label="Alarms" value="alarms" />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="editData.datasourceType === 'prometheus'" label="Endpoint" :label-width="formLabelWidth">
+          <el-select v-model="editData.settings.prometheusEndpoint">
+            <el-option label="/api/v1/query" value="/api/v1/query" />
           </el-select>
         </el-form-item>
       </el-form>

@@ -13,24 +13,34 @@ public abstract class AbstractNumericMetric implements IMetric {
     public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings);
 
     public Integer findTimeWindowInMinutes(Map<String, String> ruleSettings) {
+        if (!ruleSettings.containsKey("TIME_WINDOW")) {
+            return null;
+        }
         return Integer.parseInt(ruleSettings.get("TIME_WINDOW"));
     }
 
     @Override
     public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) {
         DateTime end = DateTime.now();
-        DateTime start = end.minusMinutes(findTimeWindowInMinutes(ruleSettings));
+        DateTime start = null;
+        Integer minutes = findTimeWindowInMinutes(ruleSettings);
+        if (minutes != null) {
+            start = end.minusMinutes(findTimeWindowInMinutes(ruleSettings));
+        }
         Map<String, Object> result = new HashMap<>();
-        MetricData elasticsearchMetric = pullMetricData(start, end, metricContract, ruleSettings);
-        result.put("NUMBER", elasticsearchMetric.getMetricValue());
-        result.put("BUCKETS", elasticsearchMetric.getBuckets());
-        if (elasticsearchMetric.getLatestDocument() != null) {
-            result.putAll(elasticsearchMetric.getLatestDocument());
+        MetricData metricData = pullMetricData(start, end, metricContract, ruleSettings);
+        result.put("NUMBER", metricData.getMetricValue());
+        result.put("BUCKETS", metricData.getBuckets());
+        if (metricData.getLatestDocument() != null) {
+            result.putAll(metricData.getLatestDocument());
         }
         Map<String, String> dataNameProperties = metricContract.getDataNameContract().getSettings();
         result.putAll(dataNameProperties);
-        result.put("startTime", start.toDateTimeISO().toString());
+        if (start != null) {
+            result.put("startTime", start.toDateTimeISO().toString());
+        }
         result.put("endTime", end.toDateTimeISO().toString());
+        result.put("QUERY_STRING", metricContract.getQueryString());
         return result;
     }
 }

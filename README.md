@@ -15,7 +15,8 @@
 
 # 📖 介绍
 
-`Frostmourne`(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助开发监控应用日志，现主要用于监控`Elasticsearch`数据。如果你现在使用`Elastic stack(ELK)`建立起了日志系统，却苦恼于没有一个配套日志监控系统，也许它能帮到你。
+`Frostmourne`(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助开发监控应用日志，现主要用于监控`Elasticsearch`数据。如果你现在使用`Elastic stack(ELK)`建立起了日志系统，
+却苦恼于没有一个配套日志监控系统，也许它能帮到你。
 
 ### 项目初衷
 
@@ -23,13 +24,13 @@
 但是随着配置的增加，不仅管理成本和使用成本较高，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
-但是项目并不仅限于`Elasticsearch`数据，还支持`HTTP`数据监控，`InfluxDB`数据监控，`MySQL`数据监控, `Clickhouse`, `SkyWalking`数据监控，后面还会加入更多的常用数据源(如：`prometheus,
-iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
+但是项目并不仅限于`Elasticsearch`数据，还支持`HTTP`数据监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`数据监控，后面还会加入更多的常用数据源
+(如：`iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
 
 # ✨ 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多种数据源支持：`Elasticsearch, SkyWalking, InfluxDB, MySQL/TiDb, Clickhouse`
+* 多种数据源支持：`Elasticsearch, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse`
 * 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`
 * 数据分桶统计
 * 报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
@@ -55,6 +56,7 @@ iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更�
 
 * <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
 * <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
+* <a href="./doc/wiki/prometheus.md" target="_blank">Prometheus数据监控指南</a>
 * <a href="./doc/wiki/skywalking.md" target="_blank">SkyWalking数据监控指南</a>
 * <a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a>
 * <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">Clickhouse数据监控指南</a>
@@ -195,13 +197,14 @@ yarn dev
 * ~~【0.7】增加[skywalking](https://github.com/apache/skywalking)日志数据监控~~ [2022-05-09]
 * ~~【0.7】增加[skywalking](https://github.com/apache/skywalking)报警数据监控~~ [2022-05-10]
 * ~~【0.7】增加SkyWalking数据监控使用指南~~ [skywalking.md](./doc/wiki/skywalking.md) [2022-05-10]
+* ~~【0.7】增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持~~ [2022-05-12]
+* ~~【0.7】bugfix: 解决http消息模板不加载的问题~~ [2022-05-12]
+* ~~【0.7】Document: 增加Prometheus数据监控使用指南~~ [prometheus.md](./doc/wiki/prometheus.md) [2022-05-12]
 * Elasticsearch监控数值实现环比监控
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * 解决邮箱报警不支持ssl的问题
-* elasticsearch分桶统计增加方差，标准差，离散系数，最大值，最小值，平均值计算
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
-* 增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
@@ -213,7 +216,6 @@ yarn dev
 * 增加报警组支持
 * 增加监控转组功能
 * Elasticsearch数据名增加traceid字段配置，可以配置跳转链接。例如: 配置skywalking的链接将跳转到skywalking对应的调用链
-* 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
 * InfluxDB数据查询除了返回数值，另外返回最新一个point详细数据用于报警消息模板
 * 增加InfluxDB数据查询页面
 * InfluxDB数据监控增加短链接，跳转到InfluxDB数据查询页面
@@ -227,8 +229,7 @@ yarn dev
 * 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
 * 数据源增加连接测试功能
-* 增加监控模板功能：可以创建多个变量，变量名用于填写监控模板，保存时将变量名替换为变量值，
-基于监控模板创建监控只需要填写变量值即可，基于模板一次可以创建多个监控。
+* 引入对象迭代器，迭代器代表从数据源中得到一个List数据列表，或者自定义输入；用于动态生成监控查询语句，例如: Level: ERROR AND Project: ${ITEM_VALUE}；达到数据遍历监控的效果；
 * 国际化
 * 发布1.0-RELEASE
 * 增加frostmourne程序日志格式采集方案
@@ -238,13 +239,15 @@ yarn dev
 * 总结项目用到的知识点
 
 ### 1.0-RELEASE核心Feature后续计划
+
 * ~~elasticsearch主流版本6,7,8支持~~
 * ~~静默功能优化~~
 * ~~msyql, Clickhouse监控增加表达式监控规则~~
 * ~~ping命令监控~~
 * ~~elasticearch数据配置支持数据分桶，分桶类型支持两种：1. 按字段值分组，相当于ES里的Terms Aggregation; 2. 按时间分组,相当于ES里的DateHistogramAggregation~~
-* prometheus数据监控支持
-* 增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持
+* ~~增加[skywalking](https://github.com/apache/skywalking)数据监控报警支持~~
+* ~~增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持~~
+* 增加[loki](https://github.com/grafana/loki)数据监控报警
 * 报警升级功能
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch监控数值实现环比监控
