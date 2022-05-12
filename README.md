@@ -25,15 +25,14 @@
 但是随着配置的增加，不仅管理成本和使用成本较高，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
 
-但是项目并不仅限于`Elasticsearch`数据，还支持`HTTP`数据监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`数据监控，后面还会加入更多的常用数据源
+但是项目并不仅限于`Elasticsearch`数据，还支持`HTTP`, `PING`数据监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`数据监控，后面还会加入更多的常用数据源
 (如：`iotdb, loki`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
 
 # ✨ 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多种数据源支持：`Elasticsearch, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse`
-* 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`
-* 数据分桶统计
+* 多种数据源支持：`Elasticsearch, HTTP, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse, PING`
+* 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`; Elasticsearch数据支持分桶
 * 报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
 * 支持消息格式：`text, markdown`
 * 灵活的报警消息`Freemarker`模板定制，支持变量占位符；消息模板管理
