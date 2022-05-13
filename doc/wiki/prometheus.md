@@ -19,7 +19,7 @@
 查询语句举例：
 
 ```
-access_evaluation_duration_count
+access_evaluation_duration_count{job="grafana"} == 0
 ```
 
 填报警规则，如下图
@@ -29,10 +29,10 @@ access_evaluation_duration_count
 判断表达式举例:
 
 ```
-NUMBER == 0
+NUMBER > 0
 ```
 
-其中NUMBER取值为prometheus返回数据的第一个value；
+`NUMBER`取值为`prometheus`返回的符合查询条件的metric数量，相当于`data.result.length`；可以用于判断表达式；查询错误是NUMBER值为-1；
 
 ### 4 数据预览
 
@@ -40,7 +40,7 @@ NUMBER == 0
 
 ```json
 {
-	"NUMBER": "0",
+	"NUMBER": "1",
 	"data": {
 		"resultType": "vector",
 		"result": [
@@ -61,7 +61,7 @@ NUMBER == 0
 	"prometheusEndpoint": "/api/v1/query",
 	"headFields": "",
 	"endTime": "2022-05-12T18:39:51.542+08:00",
-	"EXPRESSION": "NUMBER == 0",
+	"EXPRESSION": "NUMBER > 0",
 	"status": "success"
 }
 ```
