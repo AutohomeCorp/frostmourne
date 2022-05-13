@@ -252,6 +252,9 @@
                 <excludes>
                     <exclude>generatorConfig.xml</exclude>
                     <exclude>mybatis-generator-config.properties</exclude>
+                    <exclude>skywalking/query-alarms.json</exclude>
+                    <exclude>skywalking/query-logs.json</exclude>
+                    <exclude>skywalking/response-alarms.json</exclude>
                 </excludes>
             </resource>
         </resources>

@@ -23,6 +23,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Splitter;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.SqlCriterion;
+import org.mybatis.dynamic.sql.render.RenderingStrategy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -66,12 +67,15 @@ public class AlertTemplateRepository implements IAlertTemplateRepository {
                     .collect(Collectors.toList());
         }
         PageHelper.startPage(form.getPageIndex(), form.getPageSize());
-        List<AlertTemplate> records = alertTemplateDynamicMapper.select(query -> query.where()
-            .and(AlertTemplateDynamicSqlSupport.templateName,
-                isLike(form.getTemplateName()).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
-            .and(AlertTemplateDynamicSqlSupport.templateType, isEqualTo(form.getTemplateType()).when(MybatisTool::notNullAndEmpty))
-            .and(AlertTemplateDynamicSqlSupport.templateType, isNotNull().when(() -> false), templateTypeConditions)
-            .orderBy(AlertTemplateDynamicSqlSupport.createAt.descending()));
+        List<AlertTemplate> records = alertTemplateDynamicMapper.select(query -> {
+            query.where()
+                .and(AlertTemplateDynamicSqlSupport.templateName,
+                    isLike(form.getTemplateName()).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
+                .and(AlertTemplateDynamicSqlSupport.templateType, isEqualTo(form.getTemplateType()).when(MybatisTool::notNullAndEmpty))
+                .and(AlertTemplateDynamicSqlSupport.templateType, isNotNull().when(() -> false), templateTypeConditions)
+                .orderBy(AlertTemplateDynamicSqlSupport.createAt.descending());
+            return query;
+        });
         return new PageInfo<>(records);
     }
 

@@ -64,7 +64,7 @@
           <el-row>
             <el-col :span="6">
               <el-form-item label="数据:" prop="metricContract.dataName">
-                <el-cascader v-model="dataValue" width="100" size="medium" :show-all-levels="false" :options="dataOptions" @change="dataChange" />
+                <el-cascader v-model="dataValue" size="medium" :show-all-levels="false" :options="dataOptions" @change="dataChange" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -149,10 +149,10 @@
         <el-tab-pane label="报警规则">
           <el-form-item label="判断类型:" prop="metricContract.metricType">
             <el-select v-model="form.metricContract.metricType" @change="metricTypeChangeHandler">
-              <el-option v-if="dataSourceType !== 'http' && dataSourceType !== 'ping'" label="数值比较" value="numeric" />
-              <el-option v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse'" label="Javascript表达式" value="object" />
+              <el-option v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus'" label="数值比较" value="numeric" />
+              <el-option v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse' || dataSourceType === 'prometheus'" label="Javascript表达式" value="object" />
               <!--<el-option label="环比" value="ring_than"/>-->
-              <el-option v-if="dataSourceType !== 'http' && dataSourceType !== 'ping'" label="同比" value="same_time" />
+              <el-option v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus'" label="同比" value="same_time" />
               <el-option v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType !== 'none'" label="分桶数值比较" value="bucket_numeric" />
               <el-option v-if="dataSourceType === 'ping'" label="ping" value="ping" />
             </el-select>
@@ -353,7 +353,7 @@
       </el-form-item>
     </el-form>
 
-    <el-dialog title="响应数据" :visible.sync="previewResponseDialogVisible">
+    <el-dialog title="响应数据" :visible.sync="previewResponseDialogVisible" style="word-break: normal">
       <div>
         <vue-json-pretty :data="previewResponseData" />
       </div>
@@ -852,7 +852,7 @@ export default {
       }
       var dataName = this.form.metricContract.dataName
       if (dataName != null && dataName !== '') {
-        condition.templateTypeUnionCodes.push('dataName|' + dataName)
+        condition.templateTypeUnionCodes.push('DATA_NAME|' + dataName)
       }
       alerttemplateApi.findAlertTemplate(condition)
         .then(response => {
@@ -938,6 +938,10 @@ export default {
 <style scoped>
 .line {
   text-align: center;
+}
+
+.vjs-key {
+  word-break: normal;
 }
 </style>
 
