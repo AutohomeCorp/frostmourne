@@ -1,5 +1,7 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
+import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
 import java.sql.JDBCType;
 import java.util.Date;
 import org.mybatis.dynamic.sql.SqlColumn;
@@ -36,17 +38,22 @@ public final class AlarmLogDynamicSqlSupport {
     /**
      * 执行结果(SUCCESS,ERROR)
      */
-    public static final SqlColumn<String> executeResult = alarmLog.executeResult;
+    public static final SqlColumn<ExecuteStatus> executeResult = alarmLog.executeResult;
 
     /**
      * NONE,TRUE,FALSE
      */
-    public static final SqlColumn<String> verifyResult = alarmLog.verifyResult;
+    public static final SqlColumn<VerifyResult> verifyResult = alarmLog.verifyResult;
 
     /**
      * 创建时间
      */
     public static final SqlColumn<Date> createAt = alarmLog.createAt;
+
+    /**
+     * 是否报警
+     */
+    public static final SqlColumn<Boolean> alert = alarmLog.alert;
 
     /**
      * 日志消息
@@ -64,11 +71,13 @@ public final class AlarmLogDynamicSqlSupport {
 
         public final SqlColumn<Integer> cost = column("cost", JDBCType.INTEGER);
 
-        public final SqlColumn<String> executeResult = column("execute_result", JDBCType.VARCHAR);
+        public final SqlColumn<ExecuteStatus> executeResult = column("execute_result", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> verifyResult = column("verify_result", JDBCType.VARCHAR);
+        public final SqlColumn<VerifyResult> verifyResult = column("verify_result", JDBCType.VARCHAR);
 
         public final SqlColumn<Date> createAt = column("create_at", JDBCType.TIMESTAMP);
+
+        public final SqlColumn<Boolean> alert = column("alert", JDBCType.TINYINT);
 
         public final SqlColumn<String> message = column("message", JDBCType.LONGVARCHAR);
 

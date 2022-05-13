@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.service.core.execute;
 
+import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
 import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -21,15 +22,12 @@ public class AlarmExecutor {
 
     private final IMetric metric;
 
-    private final IGenerateShortLinkService generateShortLinkService;
-
     private final AlarmProcessLogger alarmProcessLogger;
 
-    public AlarmExecutor(AlarmContract alarmContract, IRule rule, IMetric metric, IGenerateShortLinkService generateShortLinkService) {
+    public AlarmExecutor(AlarmContract alarmContract, IRule rule, IMetric metric) {
         this.alarmContract = alarmContract;
         this.rule = rule;
         this.metric = metric;
-        this.generateShortLinkService = generateShortLinkService;
         this.alarmProcessLogger = new AlarmProcessLogger();
     }
 
@@ -47,35 +45,14 @@ public class AlarmExecutor {
 
     private ExecuteStatus doRule() {
         try {
-            boolean isAlert = this.rule.verify(this.alarmProcessLogger, alarmContract.getRuleContract(), alarmContract.getMetricContract(), metric);
-            this.alarmProcessLogger.setAlert(isAlert);
-            this.alarmProcessLogger.trace("isAlert: " + isAlert);
-            if (isAlert) {
-                String completeMessage = completeAlertMessage();
-                alarmProcessLogger.setAlertMessage(completeMessage);
-                alarmProcessLogger.trace("alertMessage: \r\n" + completeMessage);
-            }
+            boolean verifyResult = this.rule.verify(this.alarmProcessLogger, alarmContract.getRuleContract(), alarmContract.getMetricContract(), metric);
+            this.alarmProcessLogger.setVerifyResult(verifyResult ? VerifyResult.TRUE : VerifyResult.FALSE);
             return ExecuteStatus.SUCCESS;
         } catch (Exception ex) {
             LOGGER.error("error when doRule", ex);
             alarmProcessLogger.trace("error: " + ex.getMessage());
             return ExecuteStatus.ERROR;
         }
-    }
-
-    private String completeAlertMessage() {
-        StringBuilder messageBuilder = new StringBuilder(alarmContract.getRuleContract().getAlertTemplate());
-        // 链接前置，支持自定义链接占位符替换
-        String shortLink = generateShortLinkService.generate(alarmProcessLogger);
-        if (!Strings.isNullOrEmpty(shortLink)) {
-            if (AlertTemplateType.MARKDOWN.equals(alarmContract.getRuleContract().getAlertTemplateType())) {
-                messageBuilder.append("\n\n").append("[查看全部](").append(shortLink).append(")");
-            } else {
-                messageBuilder.append("\n\n").append("详细请看: ").append(shortLink);
-            }
-        }
-
-        return this.rule.alertMessage(messageBuilder.toString(), this.alarmProcessLogger.getContext());
     }
 
 }

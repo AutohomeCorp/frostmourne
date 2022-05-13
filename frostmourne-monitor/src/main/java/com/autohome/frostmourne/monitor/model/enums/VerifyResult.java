@@ -1,8 +1,13 @@
 package com.autohome.frostmourne.monitor.model.enums;
 
-public class VerifyResult {
+public enum VerifyResult {
+    /**
+     * 满足规则判断
+     */
+    TRUE,
 
-    public static final String TRUE = "TRUE";
-    public static final String FALSE = "FALSE";
-    public static final String NONE = "NONE";
+    /**
+     * 不满足规则判断
+     */
+    FALSE
 }

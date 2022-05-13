@@ -1,5 +1,7 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate;
 
+import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -37,17 +39,22 @@ public class AlarmLog implements Serializable {
     /**
      * 执行结果(SUCCESS,ERROR)
      */
-    private String executeResult;
+    private ExecuteStatus executeResult;
 
     /**
      * NONE,TRUE,FALSE
      */
-    private String verifyResult;
+    private VerifyResult verifyResult;
 
     /**
      * 创建时间
      */
     private Date createAt;
+
+    /**
+     * 是否报警
+     */
+    private Boolean alert;
 
     /**
      * 日志消息
@@ -96,20 +103,20 @@ public class AlarmLog implements Serializable {
         this.cost = cost;
     }
 
-    public String getExecuteResult() {
+    public ExecuteStatus getExecuteResult() {
         return executeResult;
     }
 
-    public void setExecuteResult(String executeResult) {
-        this.executeResult = executeResult == null ? null : executeResult.trim();
+    public void setExecuteResult(ExecuteStatus executeResult) {
+        this.executeResult = executeResult;
     }
 
-    public String getVerifyResult() {
+    public VerifyResult getVerifyResult() {
         return verifyResult;
     }
 
-    public void setVerifyResult(String verifyResult) {
-        this.verifyResult = verifyResult == null ? null : verifyResult.trim();
+    public void setVerifyResult(VerifyResult verifyResult) {
+        this.verifyResult = verifyResult;
     }
 
     public Date getCreateAt() {
@@ -118,6 +125,14 @@ public class AlarmLog implements Serializable {
 
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
+    }
+
+    public Boolean getAlert() {
+        return alert;
+    }
+
+    public void setAlert(Boolean alert) {
+        this.alert = alert;
     }
 
     public String getMessage() {
@@ -148,6 +163,7 @@ public class AlarmLog implements Serializable {
             && (this.getExecuteResult() == null ? other.getExecuteResult() == null : this.getExecuteResult().equals(other.getExecuteResult()))
             && (this.getVerifyResult() == null ? other.getVerifyResult() == null : this.getVerifyResult().equals(other.getVerifyResult()))
             && (this.getCreateAt() == null ? other.getCreateAt() == null : this.getCreateAt().equals(other.getCreateAt()))
+            && (this.getAlert() == null ? other.getAlert() == null : this.getAlert().equals(other.getAlert()))
             && (this.getMessage() == null ? other.getMessage() == null : this.getMessage().equals(other.getMessage()));
     }
 
@@ -163,6 +179,7 @@ public class AlarmLog implements Serializable {
         result = prime * result + ((getExecuteResult() == null) ? 0 : getExecuteResult().hashCode());
         result = prime * result + ((getVerifyResult() == null) ? 0 : getVerifyResult().hashCode());
         result = prime * result + ((getCreateAt() == null) ? 0 : getCreateAt().hashCode());
+        result = prime * result + ((getAlert() == null) ? 0 : getAlert().hashCode());
         result = prime * result + ((getMessage() == null) ? 0 : getMessage().hashCode());
         return result;
     }
