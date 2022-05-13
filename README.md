@@ -111,7 +111,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 * `JDK 1.8`
 * `MySQL 5.7.8+`
 
-下载链接：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.7-SNAPSHOT.zip" download>frostmourne-monitor-0.7-SNAPSHOT.zip</a> ，解压后然后根据自己的环境修改应用配置文件`application.properties`文件和环境变量配置文件`env`，然后执行如下命令启动：
+下载链接：<a href="https://github.com/AutohomeCorp/frostmourne/raw/master/doc/wiki/zip/frostmourne-monitor-0.7.1-SNAPSHOT.zip" download>frostmourne-monitor-0.7.1-SNAPSHOT.zip</a> ，解压后然后根据自己的环境修改应用配置文件`application.properties`文件和环境变量配置文件`env`，然后执行如下命令启动：
 
 ```bash
 ./scripts/startup.sh
@@ -200,7 +200,8 @@ yarn dev
 * ~~【0.7】增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持~~ [2022-05-12]
 * ~~【0.7】bugfix: 解决http消息模板不加载的问题~~ [2022-05-12]
 * ~~【0.7】Document: 增加Prometheus数据监控使用指南~~ [prometheus.md](./doc/wiki/prometheus.md) [2022-05-12]
-* 发布0.7-RELEASE, 进入0.8-SNAPSHOT开发版
+* ~~【0.7.1】增加判断规则：持续n次满足规则时报警~~ [2022-05-13]
+* 发布0.7.1-RELEASE, 进入0.8-SNAPSHOT开发版
 * Elasticsearch监控数值实现环比监控
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * 解决邮箱报警不支持ssl的问题

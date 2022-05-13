@@ -9,7 +9,7 @@
 * 【0.7】增加[skywalking](https://github.com/apache/skywalking)日志数据监控 [2022-05-09]
 * 【0.7】增加[skywalking](https://github.com/apache/skywalking)报警数据监控 [2022-05-10]
 * 【0.7】增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持 [2022-05-12]
-* 【0.7】增加判断规则：持续n次满足规则时报警 [2022-05-13]
+* 【0.7.1】增加判断规则：持续n次满足规则时报警 [2022-05-13]
 
 ### Bugfix:
 
@@ -18,7 +18,7 @@
 ### Mysql
 
 * 【0.7】alert表新增silence_expression字段，新增alert_event表 - [SQL](./doc/mysql-schema/2022-05-02/change.sql)[2022-05-05]
-* 【0.7】alarm_log表新增alert字段 - [SQL](./doc/mysql-schema/2022-05-10/change.sql)[2022-05-13]
+* 【0.7.1】alarm_log表新增alert字段 - [SQL](./doc/mysql-schema/2022-05-10/change.sql)[2022-05-13]
 
 
 ### Document
