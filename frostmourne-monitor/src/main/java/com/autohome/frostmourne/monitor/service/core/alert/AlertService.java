@@ -237,7 +237,7 @@ public class AlertService implements IAlertService {
 
     private boolean needRecover(Optional<AlarmLog> latestAlarmLog, AlarmProcessLogger alarmProcessLogger) {
         // if not alert, check if send recover message
-        if (latestAlarmLog.isPresent() && latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.TRUE)) {
+        if (latestAlarmLog.isPresent() && latestAlarmLog.get().getVerifyResult().equals(VerifyResult.TRUE)) {
             // this is recover message
             return RecoverNoticeStatus.OPEN.name().equalsIgnoreCase(alarmProcessLogger.getAlarmContract().getRecoverNoticeStatus());
         }
@@ -295,7 +295,7 @@ public class AlertService implements IAlertService {
     }
 
     private void processProblem(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, Optional<AlarmLog> latestAlarmLog) {
-        if (!latestAlarmLog.isPresent() || latestAlarmLog.get().getVerifyResult().equalsIgnoreCase(VerifyResult.FALSE)) {
+        if (!latestAlarmLog.isPresent() || latestAlarmLog.get().getVerifyResult().equals(VerifyResult.FALSE)) {
             sendAlert(alarmProcessLogger, recipients, AlertType.PROBLEM);
             return;
         }
@@ -315,10 +315,10 @@ public class AlertService implements IAlertService {
         alarmLog.setCreateAt(new Date());
         alarmLog.setExeStart(alarmProcessLogger.getStart().toDate());
         alarmLog.setExeEnd(alarmProcessLogger.getEnd().toDate());
-        alarmLog.setExecuteResult(alarmProcessLogger.getExecuteStatus().getName());
+        alarmLog.setExecuteResult(alarmProcessLogger.getExecuteStatus());
+        alarmLog.setVerifyResult(alarmProcessLogger.getVerifyResult());
+        alarmLog.setAlert(alarmProcessLogger.getAlert());
         alarmLog.setMessage(alarmProcessLogger.traceInfo());
-        Boolean alert = alarmProcessLogger.getAlert();
-        alarmLog.setVerifyResult(alert != null && alert ? VerifyResult.TRUE : VerifyResult.FALSE);
         alarmLogRepository.insert(alarmLog);
         alarmProcessLogger.setAlarmLog(alarmLog);
     }

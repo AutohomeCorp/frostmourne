@@ -6,6 +6,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.
 import com.autohome.frostmourne.monitor.model.constant.GlobalConstant;
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
 import org.joda.time.DateTime;
 
 public class AlarmProcessLogger {
@@ -15,6 +16,8 @@ public class AlarmProcessLogger {
     private ExecuteStatus executeStatus;
 
     private AlarmContract alarmContract;
+
+    private VerifyResult verifyResult;
 
     private Boolean isAlert;
 
@@ -61,6 +64,14 @@ public class AlarmProcessLogger {
 
     public void setAlarmContract(AlarmContract alarmContract) {
         this.alarmContract = alarmContract;
+    }
+
+    public VerifyResult getVerifyResult() {
+        return verifyResult;
+    }
+
+    public void setVerifyResult(VerifyResult verifyResult) {
+        this.verifyResult = verifyResult;
     }
 
     public Boolean getAlert() {

@@ -160,7 +160,7 @@
           <el-row>
             <el-form-item v-if="form.metricContract.metricType === 'numeric' || form.metricContract.metricType === 'bucket_numeric'" label="判断规则:">
               最近
-              <el-input-number v-model="form.ruleContract.settings.TIME_WINDOW" size="small" :min="1" label="间隔分钟" />分钟；指标数值
+              <el-input-number v-model="form.ruleContract.settings.TIME_WINDOW" size="small" :min="1" label="间隔分钟" /> 分钟内，指标数值
               <el-select v-model="form.ruleContract.settings.OPERATOR" size="small" style="width:100px" placeholder="比较类型">
                 <el-option label=">=" value="GTE" />
                 <el-option label="<=" value="LTE" />
@@ -178,18 +178,18 @@
               <el-option label="日" value="day" />
               <el-option label="小时" value="hour" />
               <el-option label="分钟" value="minute" />
-            </el-select>环比
+            </el-select> 环比
             <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
               <el-option label="增加" value="increase" />
               <el-option label="减少" value="decrease" />
-            </el-select>百分之
+            </el-select> 百分之
             <el-input v-model="form.ruleContract.settings.PERCENT_THRESHOLD" style="width: 150px" />
           </el-form-item>
           <el-form-item v-if="form.metricContract.metricType === 'same_time'" label="判断规则:">
             <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
               <el-option label="小时" value="hour" />
               <el-option label="天" value="day" />
-            </el-select>同比
+            </el-select> 同比
             <el-select v-model="form.ruleContract.settings.REFERENCE_TYPE_LIST">
               <el-option label="昨天" value="day" />
               <el-option label="上周" value="week" />
@@ -200,8 +200,8 @@
               <el-option label="增加" value="increase" />
               <el-option label="减少" value="decrease" />
               <el-option label="增加或减少" value="both" />
-            </el-select>超过百分之
-            <el-input v-model="form.ruleContract.settings.PERCENTAGE_THRESHOLD" style="width: 150px" />并且差值(当前值 - 对比值)
+            </el-select> 超过百分之
+            <el-input v-model="form.ruleContract.settings.PERCENTAGE_THRESHOLD" style="width: 150px" /> 并且差值(当前值 - 对比值)
             <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
               <el-option label="绝对值>=" value="ABS_GTE" />
               <el-option label="绝对值<=" value="ABS_LTE" />
@@ -210,7 +210,12 @@
             </el-select>
             <el-input v-model="form.ruleContract.settings.DIFF_VALUE_THRESHOLD" style="width: 100px" />
           </el-form-item>
-
+          <el-row>
+            <el-form-item label="报警条件:">
+              持续
+              <el-input-number v-model="form.ruleContract.settings.ALERT_CONDITION" size="small" :precision="0" :min="1" label="报警条件" /> 次满足规则时开始报警
+            </el-form-item>
+          </el-row>
         </el-tab-pane>
         <el-tab-pane label="消息模板">
           <el-form-item>
@@ -281,7 +286,7 @@
                 <span slot="label">
                   <el-tooltip class="item" effect="light" placement="right-start">
                     <div slot="content">
-                      说明：字段取值参考json-path语法规则，多个字段判断支持使用逻辑运算符 '&&'，'||' 和 '()'<br /><br />
+                      说明：字段取值参考JsonPath语法规则，多个字段判断支持使用逻辑运算符 '&&'，'||' 和 '()'<br /><br />
                       举例：<br />
                       &nbsp;&nbsp;&nbsp;&nbsp;1、日志链路和日志堆栈字段有一个值相同则静默：$.TraceId || $.StackTrace<br />
                       &nbsp;&nbsp;&nbsp;&nbsp;2、数据字段A和数据字段B的值都相同则静默：$.A && $.B<br /><br />
@@ -293,7 +298,7 @@
                   静默判断:
                 </span>
                 <el-input v-model="form.alertContract.silenceExpression"
-                          placeholder="字段取值参考json-path语法规则，多个字段判断支持使用逻辑运算符 '&&'，'||' 和 '()'" />
+                          placeholder="字段取值参考JsonPath语法规则，多个字段判断支持使用逻辑运算符 '&&'，'||' 和 '()'" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -438,7 +443,9 @@ export default {
             '异常类型: ${ExceptionType}\r\n' +
             '自定义信息: ${CustomMessage}\r\n' +
             '异常信息: ${ExceptionMessage}',
-          settings: {}
+          settings: {
+            ALERT_CONDITION: 1
+          }
         },
         alertContract: {
           ways: [],

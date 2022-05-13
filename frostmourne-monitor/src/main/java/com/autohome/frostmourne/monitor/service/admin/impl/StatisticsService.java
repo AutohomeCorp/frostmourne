@@ -51,7 +51,7 @@ public class StatisticsService implements IStatisticsService {
 
     @Override
     public List<AggregationDate> aggregationAlarm(Date startTime, Date endTime) {
-        return alarmLogExtendMapper.aggregation(startTime, endTime, VerifyResult.TRUE);
+        return alarmLogExtendMapper.aggregation(startTime, endTime, VerifyResult.TRUE.name());
     }
 
     @Override
