@@ -59,7 +59,7 @@
 * <a href="./doc/wiki/prometheus.md" target="_blank">Prometheus数据监控指南</a>
 * <a href="./doc/wiki/skywalking.md" target="_blank">SkyWalking数据监控指南</a>
 * <a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a>
-* <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">Clickhouse数据监控指南</a>
+* <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">ClickHouse数据监控指南</a>
 * <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
 * <a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a>
 * <a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
@@ -231,7 +231,6 @@ yarn dev
 * 监控列表增加一个开关选项，只显示我的监控
 * 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
-* 数据源增加连接测试功能
 * 引入对象迭代器，迭代器代表从数据源中得到一个List数据列表，或者自定义输入；用于动态生成监控查询语句，例如: Level: ERROR AND Project: ${ITEM_VALUE}；达到数据遍历监控的效果；
 * 国际化
 * 发布1.0-RELEASE
@@ -251,7 +250,7 @@ yarn dev
 * ~~增加[skywalking](https://github.com/apache/skywalking)Log数据监控报警支持~~
 * ~~增加[skywalking](https://github.com/apache/skywalking)Alarm数据监控报警支持~~
 * ~~增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持~~
-* 增加[skywalking](https://github.com/apache/skywalking)Database layer数据监控报警支持~~
+* 增加 [skywalking](https://github.com/apache/skywalking) Database Layer 数据监控报警支持~~
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
 * 报警升级功能
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
