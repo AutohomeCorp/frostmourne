@@ -32,7 +32,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface AlarmLogDynamicMapper {
-    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, exeStart, exeEnd, cost, executeResult, verifyResult, createAt, message);
+    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, exeStart, exeEnd, cost, executeResult, verifyResult, createAt, alert, message);
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
@@ -58,6 +58,7 @@ public interface AlarmLogDynamicMapper {
         @Result(column="execute_result", property="executeResult", jdbcType=JdbcType.VARCHAR),
         @Result(column="verify_result", property="verifyResult", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="alert", property="alert", jdbcType=JdbcType.TINYINT),
         @Result(column="message", property="message", jdbcType=JdbcType.LONGVARCHAR)
     })
     List<AlarmLog> selectMany(SelectStatementProvider selectStatement);
@@ -88,6 +89,7 @@ public interface AlarmLogDynamicMapper {
             .map(executeResult).toProperty("executeResult")
             .map(verifyResult).toProperty("verifyResult")
             .map(createAt).toProperty("createAt")
+            .map(alert).toProperty("alert")
             .map(message).toProperty("message")
         );
     }
@@ -101,6 +103,7 @@ public interface AlarmLogDynamicMapper {
             .map(executeResult).toPropertyWhenPresent("executeResult", record::getExecuteResult)
             .map(verifyResult).toPropertyWhenPresent("verifyResult", record::getVerifyResult)
             .map(createAt).toPropertyWhenPresent("createAt", record::getCreateAt)
+            .map(alert).toPropertyWhenPresent("alert", record::getAlert)
             .map(message).toPropertyWhenPresent("message", record::getMessage)
         );
     }
@@ -135,6 +138,7 @@ public interface AlarmLogDynamicMapper {
                 .set(executeResult).equalTo(record::getExecuteResult)
                 .set(verifyResult).equalTo(record::getVerifyResult)
                 .set(createAt).equalTo(record::getCreateAt)
+                .set(alert).equalTo(record::getAlert)
                 .set(message).equalTo(record::getMessage);
     }
 
@@ -146,6 +150,7 @@ public interface AlarmLogDynamicMapper {
                 .set(executeResult).equalToWhenPresent(record::getExecuteResult)
                 .set(verifyResult).equalToWhenPresent(record::getVerifyResult)
                 .set(createAt).equalToWhenPresent(record::getCreateAt)
+                .set(alert).equalToWhenPresent(record::getAlert)
                 .set(message).equalToWhenPresent(record::getMessage);
     }
 
@@ -158,6 +163,7 @@ public interface AlarmLogDynamicMapper {
             .set(executeResult).equalTo(record::getExecuteResult)
             .set(verifyResult).equalTo(record::getVerifyResult)
             .set(createAt).equalTo(record::getCreateAt)
+            .set(alert).equalTo(record::getAlert)
             .set(message).equalTo(record::getMessage)
             .where(id, isEqualTo(record::getId))
         );
@@ -172,6 +178,7 @@ public interface AlarmLogDynamicMapper {
             .set(executeResult).equalToWhenPresent(record::getExecuteResult)
             .set(verifyResult).equalToWhenPresent(record::getVerifyResult)
             .set(createAt).equalToWhenPresent(record::getCreateAt)
+            .set(alert).equalToWhenPresent(record::getAlert)
             .set(message).equalToWhenPresent(record::getMessage)
             .where(id, isEqualTo(record::getId))
         );

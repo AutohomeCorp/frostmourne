@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertLog;
 import com.autohome.frostmourne.monitor.model.enums.AlertType;
+import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
 import org.springframework.stereotype.Service;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
@@ -27,10 +29,10 @@ public class LogService implements ILogService {
     private IAlertLogRepository alertLogRepository;
 
     @Override
-    public PagerContract<AlarmLog> findAlarmLog(int pageIndex, int pageSize, Date startTime, Date endTime, Long alarmId, String verifyResult,
-        String executeResult) {
+    public PagerContract<AlarmLog> findAlarmLog(int pageIndex, int pageSize, Date startTime, Date endTime, Long alarmId, VerifyResult verifyResult,
+        ExecuteStatus executeResult, Boolean alert) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
-        List<AlarmLog> list = alarmLogRepository.find(startTime, endTime, alarmId, verifyResult, executeResult);
+        List<AlarmLog> list = alarmLogRepository.find(startTime, endTime, alarmId, verifyResult, executeResult, alert);
         return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int)page.getTotal());
     }
 

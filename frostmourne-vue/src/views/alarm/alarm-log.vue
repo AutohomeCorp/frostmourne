@@ -17,8 +17,8 @@
             <el-form-item label="是否报警:">
               <el-select v-model="form.verifyResult" placeholder="是否报警">
                 <el-option label="全部" value="" />
-                <el-option label="TRUE" value="TRUE" />
-                <el-option label="FALSE" value="FALSE" />
+                <el-option label="是" value="ture" />
+                <el-option label="否" value="false" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -28,8 +28,17 @@
             <el-form-item label="执行结果:">
               <el-select v-model="form.executeResult" placeholder="执行结果">
                 <el-option label="全部" value="" />
-                <el-option label="SUCCESS" value="SUCCESS" />
-                <el-option label="ERROR" value="ERROR" />
+                <el-option label="成功" value="SUCCESS" />
+                <el-option label="异常" value="ERROR" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="规则判断:">
+              <el-select v-model="form.alert" placeholder="规则判断">
+                <el-option label="全部" value="" />
+                <el-option label="满足" value="TRUE" />
+                <el-option label="未满足" value="FALSE" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -55,8 +64,21 @@
           <span>{{ scope.row.exeEnd|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="executeResult" label="执行结果" align="center" />
-      <el-table-column prop="verifyResult" label="是否报警" align="center" />
+      <el-table-column prop="executeResult" label="执行结果" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.executeResult === 'SUCCESS' ? "完成" : "异常" }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="verifyResult" label="规则判断" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.verifyResult === 'TRUE' ? "满足" : "未满足" }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="alert" label="是否报警" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.alert ? "是" : "否" }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="210" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" @click="showMessage(scope.row)">详细>></el-button>
@@ -148,6 +170,7 @@ export default {
         endTime: null,
         verifyResult: null,
         executeResult: null,
+        alert: null,
         pageIndex: 1,
         pageSize: 10
       }
