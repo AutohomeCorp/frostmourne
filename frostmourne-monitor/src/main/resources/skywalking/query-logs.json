@@ -1,0 +1,36 @@
+{
+  "query": "query queryLogs($condition: LogQueryCondition) {\n    queryLogs(condition: $condition) {\n        logs {\n          serviceName\n          serviceId\n          serviceInstanceName\n          serviceInstanceId\n          endpointName\n          endpointId\n          traceId\n          timestamp\n          contentType\n          content\n          tags {\n            key\n            value\n          }\n        }\n        total\n    }}",
+  "variables": {
+    "condition": {
+      "serviceId": "bWFuYWdlLmFwaS5pY3NhcHAuY29ycGF1dG9ob21lLmNvbQ==.1",
+      "keywordsOfContent": [
+        "a",
+        "b"
+      ],
+      "excludingKeywordsOfContent": [
+        "c",
+        "d"
+      ],
+      "tags": [
+        {
+          "key": "level",
+          "value": "info"
+        },
+        {
+          "key": "a",
+          "value": "b"
+        }
+      ],
+      "paging": {
+        "pageNum": 1,
+        "pageSize": 22,
+        "needTotal": true
+      },
+      "queryDuration": {
+        "start": "2022-05-07 001529",
+        "end": "2022-05-08 001529",
+        "step": "SECOND"
+      }
+    }
+  }
+}

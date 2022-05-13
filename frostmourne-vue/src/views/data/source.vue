@@ -3,6 +3,8 @@
     <div class="filter-container">
       <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item">
         <el-option label="elasticsearch" value="elasticsearch" />
+        <el-option label="prometheus" value="prometheus" />
+        <el-option label="skywalking" value="skywalking" />
         <el-option label="influxdb" value="influxdb" />
         <el-option label="mysql" value="mysql" />
         <el-option label="clickhouse" value="clickhouse" />
@@ -45,6 +47,8 @@
         <el-form-item label="类型" :label-width="formLabelWidth">
           <el-select v-model="editData.datasourceType" :disabled="disableTypeSelect" placeholder="数据源类型">
             <el-option label="elasticsearch" value="elasticsearch" />
+            <el-option label="prometheus" value="prometheus" />
+            <el-option label="skywalking" value="skywalking" />
             <el-option label="influxdb" value="influxdb" />
             <el-option label="mysql" value="mysql" />
             <el-option label="clickhouse" value="clickhouse" />
@@ -251,7 +255,8 @@ export default {
     },
     editDataShowUsername () {
       return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql' ||
-       this.editData.datasourceType === 'clickhouse' || this.editData.datasourceType === 'influxdb'
+       this.editData.datasourceType === 'clickhouse' || this.editData.datasourceType === 'influxdb' ||
+       this.editData.datasourceType === 'skywalking' || this.editData.datasourceType === 'prometheus'
     },
     editDataShowPassword () {
       return this.editDataShowUsername()

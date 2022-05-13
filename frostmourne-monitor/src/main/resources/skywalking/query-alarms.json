@@ -1,0 +1,23 @@
+{
+  "query": "query queryAlarms($keyword: String, $scope: Scope, $duration:Duration!, $tags:[AlarmTag], $paging: Pagination!) {\n    getAlarm(keyword: $keyword, scope: $scope, duration: $duration, paging: $paging, tags: $tags) {\n      items: msgs {\n        key: id\n        message\n        startTime\n        scope\n        tags {\n          key\n          value\n        }\n        events {\n          uuid\n          source {\n            service serviceInstance endpoint\n          }\n          name\n          type\n          message\n          parameters {\n            key\n            value\n          }\n          startTime\n          endTime\n        }\n      }\n      total\n    }}",
+  "variables": {
+    "duration": {
+      "start": "2022-05-10 0331",
+      "end": "2022-05-10 0346",
+      "step": "MINUTE"
+    },
+    "paging": {
+      "pageNum": 1,
+      "pageSize": 20,
+      "needTotal": true
+    },
+    "tags": [
+      {
+        "key": "a",
+        "value": "b"
+      }
+    ],
+    "scope": "Service",
+    "keyword": "rulea"
+  }
+}

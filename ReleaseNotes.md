@@ -3,13 +3,25 @@
 ### Feature
 
 * 发布0.6.2-RELEASE [2022-05-05]
-* 静默优化，支持字段判断表达式 [2022-05-05]
-* mysql, clickhouse监控增加表达式监控规则 [2022-05-06]
-* 增加ping监控报警 [2022-05-07]
+* 【0.7】静默优化，支持字段判断表达式 [2022-05-05]
+* 【0.7】mysql, clickhouse监控增加表达式监控规则 [2022-05-06]
+* 【0.7】增加ping监控报警 [2022-05-07]
+* 【0.7】增加[skywalking](https://github.com/apache/skywalking)日志数据监控 [2022-05-09]
+* 【0.7】增加[skywalking](https://github.com/apache/skywalking)报警数据监控 [2022-05-10]
+* 【0.7】增加[prometheus](https://github.com/prometheus/prometheus)数据监控报警支持 [2022-05-12]
+
+### Bugfix:
+
+* 【0.7】bugfix: 解决http消息模板不加载的问题 [2022-05-12]
 
 ### Mysql
 
-* alert表新增silence_expression字段，新增alert_event表 - [SQL](./doc/mysql-schema/2022-05-02/change.sql)[2022-05-05]
+* 【0.7】alert表新增silence_expression字段，新增alert_event表 - [SQL](./doc/mysql-schema/2022-05-02/change.sql)[2022-05-05]
+
+### Document
+
+* 【0.7】增加SkyWalking数据监控使用指南 [skywalking.md](./doc/wiki/skywalking.md) [2022-05-10]
+* 【0.7】增加Prometheus数据监控使用指南 [prometheus.md](./doc/wiki/prometheus.md) [2022-05-12]
 
 # 0.6.2-RELEASE
 
