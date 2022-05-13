@@ -1,9 +1,15 @@
 package com.autohome.frostmourne.monitor.service.core.execute;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
+import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
+import org.elasticsearch.common.Strings;
 import org.springframework.stereotype.Service;
 
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
@@ -33,6 +39,9 @@ public class AlarmService implements IAlarmService {
     @Resource
     private IGenerateShortLinkService generateShortLinkService;
 
+    @Resource
+    private IAlarmLogRepository alarmLogRepository;
+
     @Override
     public AlarmProcessLogger run(Long alarmId, boolean test) {
         AlarmContract alarmContract = this.alarmAdminService.findById(alarmId);
@@ -55,8 +64,19 @@ public class AlarmService implements IAlarmService {
             dataSourceType = alarmContract.getMetricContract().getDataName();
         }
         IMetric metric = this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetricType());
-        AlarmExecutor alarmExecutor = new AlarmExecutor(alarmContract, rule, metric, generateShortLinkService);
+        AlarmExecutor alarmExecutor = new AlarmExecutor(alarmContract, rule, metric);
         AlarmProcessLogger alarmProcessLogger = alarmExecutor.execute();
+
+        // judge alert
+        boolean isAlert = VerifyResult.TRUE.equals(alarmProcessLogger.getVerifyResult()) && judgeAlert(alarmProcessLogger);
+        alarmProcessLogger.setAlert(isAlert);
+        alarmProcessLogger.trace("isAlert: " + isAlert);
+        if (isAlert) {
+            String completeMessage = completeAlertMessage(alarmContract, alarmProcessLogger, rule);
+            alarmProcessLogger.setAlertMessage(completeMessage);
+            alarmProcessLogger.trace("alertMessage: \r\n" + completeMessage);
+        }
+
         if (!test) {
             updateAlarmLastExecuteInfo(alarmContract.getId(), alarmProcessLogger.getStart().toDate(), alarmProcessLogger.getExecuteStatus());
             if (alarmProcessLogger.getExecuteStatus() == ExecuteStatus.ERROR) {
@@ -69,8 +89,33 @@ public class AlarmService implements IAlarmService {
                 alarmProcessLogger.trace("test alarm, not send");
             }
         }
-
         return alarmProcessLogger;
+    }
+
+    private boolean judgeAlert(AlarmProcessLogger alarmProcessLogger) {
+        String alertCondition = alarmProcessLogger.getAlarmContract().getRuleContract().getSettings().get("ALERT_CONDITION");
+        if (alertCondition == null || Integer.parseInt(alertCondition) <= 1) {
+            return true;
+        }
+
+        List<AlarmLog> alarmLogList = alarmLogRepository.selectRecently(Integer.parseInt(alertCondition) - 1);
+
+        return alarmLogList.stream().noneMatch(alarmLog -> VerifyResult.FALSE.equals(alarmLog.getVerifyResult()));
+    }
+
+    private String completeAlertMessage(AlarmContract alarmContract, AlarmProcessLogger alarmProcessLogger, IRule rule) {
+        StringBuilder messageBuilder = new StringBuilder(alarmContract.getRuleContract().getAlertTemplate());
+        // 链接前置，支持自定义链接占位符替换
+        String shortLink = generateShortLinkService.generate(alarmProcessLogger);
+        if (!Strings.isNullOrEmpty(shortLink)) {
+            if (AlertTemplateType.MARKDOWN.equals(alarmContract.getRuleContract().getAlertTemplateType())) {
+                messageBuilder.append("\n\n").append("[查看全部](").append(shortLink).append(")");
+            } else {
+                messageBuilder.append("\n\n").append("详细请看: ").append(shortLink);
+            }
+        }
+
+        return rule.alertMessage(messageBuilder.toString(), alarmProcessLogger.getContext());
     }
 
     private void updateAlarmLastExecuteInfo(Long alarmId, Date executeTime, ExecuteStatus status) {

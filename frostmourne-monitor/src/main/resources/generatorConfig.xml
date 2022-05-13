@@ -56,6 +56,11 @@
         <table tableName="alarm_log" mapperName="AlarmLogDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="execute_result"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.ExecuteStatus"/>
+            <columnOverride column="verify_result"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.VerifyResult"/>
+            <columnOverride column="alert" javaType="java.lang.Boolean"/>
         </table>
         <table tableName="alert" mapperName="AlertDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
@@ -92,7 +97,8 @@
         <table tableName="rule" mapperName="RuleDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
-            <columnOverride column="alert_template_type" javaType="com.autohome.frostmourne.monitor.model.enums.AlertTemplateType"/>
+            <columnOverride column="alert_template_type"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.AlertTemplateType"/>
         </table>
         <table tableName="rule_property" mapperName="RulePropertyDynamicMapper">
             <property name="useActualColumnNames" value="false"/>

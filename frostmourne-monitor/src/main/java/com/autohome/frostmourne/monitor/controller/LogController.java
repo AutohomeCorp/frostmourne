@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,9 +29,9 @@ public class LogController {
     @RequestMapping(value = "/findAlarmLog", method = RequestMethod.GET)
     public Protocol<PagerContract<AlarmLog>> findAlarmLog(@RequestParam(value = "pageIndex") int pageIndex, @RequestParam(value = "pageSize") int pageSize,
         @RequestParam(value = "startTime", required = false) Date startTime, @RequestParam(value = "endTime", required = false) Date endTime,
-        @RequestParam(value = "alarmId", required = false) Long alarmId, @RequestParam(value = "verifyResult", required = false) String verifyResult,
-        @RequestParam(value = "executeResult", required = false) String executeResult) {
-        PagerContract<AlarmLog> pagerContract = logService.findAlarmLog(pageIndex, pageSize, startTime, endTime, alarmId, verifyResult, executeResult);
+        @RequestParam(value = "alarmId", required = false) Long alarmId, @RequestParam(value = "alert", required = false) VerifyResult verifyResult,
+        @RequestParam(value = "executeResult", required = false) ExecuteStatus executeResult, @RequestParam(value = "alert", required = false) Boolean alert) {
+        PagerContract<AlarmLog> pagerContract = logService.findAlarmLog(pageIndex, pageSize, startTime, endTime, alarmId, verifyResult, executeResult, alert);
         return new Protocol<>(pagerContract);
     }
 
