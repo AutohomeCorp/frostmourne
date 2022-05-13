@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.autohome</groupId>
     <artifactId>frostmourne</artifactId>
-    <version>0.7.1-SNAPSHOT</version>
+    <version>0.7.1-RELEASE</version>
     <packaging>pom</packaging>
     <name>frostmourne</name>
     <description>frostmourne for Spring Boot</description>
