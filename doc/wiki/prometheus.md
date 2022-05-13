@@ -32,7 +32,7 @@ access_evaluation_duration_count{job="grafana"} == 0
 NUMBER > 0
 ```
 
-`NUMBER`取值为`prometheus`返回的符合查询条件的metric数量，相当于`data.result.length`；可以用于判断表达式；查询错误是NUMBER值为-1；
+`NUMBER`取值为`prometheus`返回的符合查询条件的metric数量，相当于`data.result.length`；可以用于判断表达式；查询错误是`NUMBER`值为`-1`；
 
 ### 4 数据预览
 
