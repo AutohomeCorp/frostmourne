@@ -1,4 +1,8 @@
-# 0.7-SNAPSHOT(开发中)
+# 0.8-SNAPSHOT
+
+* 【0.8】 发布0.7.1-RELEASE, 进入0.8-SNAPSHOT开发版
+
+# 0.7.1-RELEASE
 
 ### Feature
 
