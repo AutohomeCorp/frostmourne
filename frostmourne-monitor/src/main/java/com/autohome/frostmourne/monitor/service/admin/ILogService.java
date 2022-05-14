@@ -8,7 +8,6 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.
 import com.autohome.frostmourne.monitor.model.enums.AlertType;
 import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
 import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public interface ILogService {
 
