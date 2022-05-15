@@ -69,10 +69,10 @@
       <el-table-column prop="id" label="ID" width="80" align="center" />
       <el-table-column prop="alarmId" label="监控id" align="center" />
       <el-table-column prop="executeId" label="执行id" align="center" />
-      <el-table-column prop="way" label="报警方式" align="center" :formatter = "alertWayFormat" />
-      <el-table-column prop="inSilence" label="静默状态" align="center" :formatter = "silenceFormat" />
-      <el-table-column prop="sendStatus" label="发送状态" align="center" :formatter = "sendStatusFormat" />
-      <el-table-column prop="alertType" label="消息类型" align="center" :formatter = "alertTypeFormat" />
+      <el-table-column prop="way" label="报警方式" align="center" :formatter="alertWayFormat" />
+      <el-table-column prop="inSilence" label="静默状态" align="center" :formatter="silenceFormat" />
+      <el-table-column prop="sendStatus" label="发送状态" align="center" :formatter="sendStatusFormat" />
+      <el-table-column prop="alertType" label="消息类型" align="center" :formatter="alertTypeFormat" />
       <el-table-column prop="createAt" label="发送时间" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.createAt | timeFormat }}</span>
@@ -93,7 +93,6 @@
         </el-col>
       </el-row>
     </div>
-
     <el-dialog title="消息内容" :visible.sync="dialogVisible" width="35%">
       <pre style="overflow: auto; word-wrap: break-word" v-text="currentMessage" />
       <div slot="footer" class="dialog-footer">
@@ -234,59 +233,59 @@ export default {
           dangerouslyUseHTMLString: true
         })*/
     },
-    alertWayFormat(date){
-      if(date.way === 'EMAIL'){
+    alertWayFormat (date) {
+      if (date.way === 'EMAIL') {
         return '邮件'
       }
-      if(date.way === 'SMS'){
+      if (date.way === 'SMS') {
         return '短信'
       }
-      if(date.way === 'WECHAT'){
+      if (date.way === 'WECHAT') {
         return '企业微信'
       }
-      if(date.way === 'WECHAT_ROBOT'){
+      if (date.way === 'WECHAT_ROBOT') {
         return '企业微信机器人'
       }
-      if(date.way === 'DING_DING'){
+      if (date.way === 'DING_DING') {
         return '钉钉'
       }
-      if(date.way === 'DING_ROBOT'){
+      if (date.way === 'DING_ROBOT') {
         return '钉钉机器人'
       }
-      if(date.way === 'FEI_SHU_ROBOT'){
+      if (date.way === 'FEI_SHU_ROBOT') {
         return '飞书机器人'
       }
-      if(date.way === 'HTTP_POST'){
+      if (date.way === 'HTTP_POST') {
         return 'HTTP_POST'
       }
     },
-    silenceFormat(date){
-      if(date.inSilence === 'YES'){
+    silenceFormat (date) {
+      if (date.inSilence === 'YES') {
         return '已静默'
       }
-      if(date.inSilence === 'NO'){
+      if (date.inSilence === 'NO') {
         return '未静默'
       }
     },
-    sendStatusFormat(date){
-      if(date.sendStatus === 'SUCCESS'){
+    sendStatusFormat (date) {
+      if (date.sendStatus === 'SUCCESS') {
         return '成功'
       }
-      if(date.sendStatus === 'FAIL'){
+      if (date.sendStatus === 'FAIL') {
         return '失败'
       }
-      if(date.sendStatus === 'NONE'){
+      if (date.sendStatus === 'NONE') {
         return '未发送'
       }
     },
-    alertTypeFormat(date){
-      if(date.alertType === 'PROBLEM'){
+    alertTypeFormat (date) {
+      if (date.alertType === 'PROBLEM') {
         return '报警'
       }
-      if(date.alertType === 'UPGRADE'){
+      if (date.alertType === 'UPGRADE') {
         return '报警升级'
       }
-      if(date.alertType === 'RECOVER'){
+      if (date.alertType === 'RECOVER') {
         return '报警恢复'
       }
     }
