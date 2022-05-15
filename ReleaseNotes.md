@@ -1,6 +1,10 @@
 # 0.8-SNAPSHOT
 
 * 【0.8】 发布0.7.1-RELEASE, 进入0.8-SNAPSHOT开发版
+* 【0.8】 报警升级功能 - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
+### Mysql
+
+* 【0.8】alert_event表新增upgrade字段; recipient新增recipient字段; 新增alert_upgrade表 - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
 
 # 0.7.1-RELEASE
 

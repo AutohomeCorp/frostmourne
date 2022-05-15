@@ -232,7 +232,7 @@ yarn dev
 
 ### 1.0-RELEASE核心Feature后续计划
 
-* 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持~~
+* 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
 * 增加 [loki](https://github.com/grafana/loki) 数据监控报警
 * 报警升级功能
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
