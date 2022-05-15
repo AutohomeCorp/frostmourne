@@ -3,13 +3,15 @@ package com.autohome.frostmourne.monitor.model.contract;
 import java.util.Date;
 import java.util.List;
 
+import com.autohome.frostmourne.monitor.model.enums.TemplateType;
+
 public class AlertTemplateContract {
 
     private Long id;
 
     private String templateName;
 
-    private String templateType;
+    private TemplateType templateType;
 
     private String templateUnionCode;
 
@@ -43,11 +45,11 @@ public class AlertTemplateContract {
         this.templateName = templateName;
     }
 
-    public String getTemplateType() {
+    public TemplateType getTemplateType() {
         return templateType;
     }
 
-    public void setTemplateType(String templateType) {
+    public void setTemplateType(TemplateType templateType) {
         this.templateType = templateType;
     }
 

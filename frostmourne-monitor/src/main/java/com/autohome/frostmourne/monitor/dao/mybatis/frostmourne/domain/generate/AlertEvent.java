@@ -36,6 +36,11 @@ public class AlertEvent implements Serializable {
     private LocalDateTime createAt;
 
     /**
+     * 报警升级
+     */
+    private Boolean upgrade;
+
+    /**
      * 摘要md5
      */
     private String eventMd5;
@@ -82,6 +87,14 @@ public class AlertEvent implements Serializable {
         this.createAt = createAt;
     }
 
+    public Boolean getUpgrade() {
+        return upgrade;
+    }
+
+    public void setUpgrade(Boolean upgrade) {
+        this.upgrade = upgrade;
+    }
+
     public String getEventMd5() {
         return eventMd5;
     }
@@ -107,6 +120,7 @@ public class AlertEvent implements Serializable {
             && (this.getAlertType() == null ? other.getAlertType() == null : this.getAlertType().equals(other.getAlertType()))
             && (this.getInSilence() == null ? other.getInSilence() == null : this.getInSilence().equals(other.getInSilence()))
             && (this.getCreateAt() == null ? other.getCreateAt() == null : this.getCreateAt().equals(other.getCreateAt()))
+            && (this.getUpgrade() == null ? other.getUpgrade() == null : this.getUpgrade().equals(other.getUpgrade()))
             && (this.getEventMd5() == null ? other.getEventMd5() == null : this.getEventMd5().equals(other.getEventMd5()));
     }
 
@@ -119,6 +133,7 @@ public class AlertEvent implements Serializable {
         result = prime * result + ((getAlertType() == null) ? 0 : getAlertType().hashCode());
         result = prime * result + ((getInSilence() == null) ? 0 : getInSilence().hashCode());
         result = prime * result + ((getCreateAt() == null) ? 0 : getCreateAt().hashCode());
+        result = prime * result + ((getUpgrade() == null) ? 0 : getUpgrade().hashCode());
         result = prime * result + ((getEventMd5() == null) ? 0 : getEventMd5().hashCode());
         return result;
     }

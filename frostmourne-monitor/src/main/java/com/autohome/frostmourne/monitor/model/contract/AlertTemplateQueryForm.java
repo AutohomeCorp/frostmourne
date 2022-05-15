@@ -1,12 +1,14 @@
 package com.autohome.frostmourne.monitor.model.contract;
 
+import com.autohome.frostmourne.monitor.model.enums.TemplateType;
+
 import java.util.List;
 
 public class AlertTemplateQueryForm {
 
     private String templateName;
 
-    private String templateType;
+    private TemplateType templateType;
 
     /**
      * 模板类型和关联码组合，templateType|templateUnionCode
@@ -25,11 +27,11 @@ public class AlertTemplateQueryForm {
         this.templateName = templateName;
     }
 
-    public String getTemplateType() {
+    public TemplateType getTemplateType() {
         return templateType;
     }
 
-    public void setTemplateType(String templateType) {
+    public void setTemplateType(TemplateType templateType) {
         this.templateType = templateType;
     }
 

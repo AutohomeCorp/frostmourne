@@ -1,5 +1,10 @@
 package com.autohome.frostmourne.monitor.model.contract;
 
+import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
+import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.enums.RecoverNoticeStatus;
+import com.autohome.frostmourne.monitor.model.enums.RiskLevel;
+
 import java.util.Date;
 
 public class AlarmContract {
@@ -14,9 +19,9 @@ public class AlarmContract {
 
     private String ownerKey;
 
-    private String status;
+    private AlarmStatus status;
 
-    private String executeResult;
+    private ExecuteStatus executeResult;
 
     private Date executeAt;
 
@@ -28,9 +33,9 @@ public class AlarmContract {
 
     private String teamName;
 
-    private String riskLevel;
+    private RiskLevel riskLevel;
 
-    private String recoverNoticeStatus;
+    private RecoverNoticeStatus recoverNoticeStatus;
 
     private MetricContract metricContract;
 
@@ -39,6 +44,8 @@ public class AlarmContract {
     private AlertContract alertContract;
 
     private ServiceInfoSimpleContract serviceInfo;
+
+    private AlertUpgradeContract alertUpgradeContract;
 
     public Long getId() {
         return id;
@@ -80,19 +87,19 @@ public class AlarmContract {
         this.ownerKey = ownerKey;
     }
 
-    public String getStatus() {
+    public AlarmStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AlarmStatus status) {
         this.status = status;
     }
 
-    public String getExecuteResult() {
+    public ExecuteStatus getExecuteResult() {
         return executeResult;
     }
 
-    public void setExecuteResult(String executeResult) {
+    public void setExecuteResult(ExecuteStatus executeResult) {
         this.executeResult = executeResult;
     }
 
@@ -136,19 +143,19 @@ public class AlarmContract {
         this.teamName = teamName;
     }
 
-    public String getRiskLevel() {
+    public RiskLevel getRiskLevel() {
         return riskLevel;
     }
 
-    public void setRiskLevel(String riskLevel) {
+    public void setRiskLevel(RiskLevel riskLevel) {
         this.riskLevel = riskLevel;
     }
 
-    public String getRecoverNoticeStatus() {
+    public RecoverNoticeStatus getRecoverNoticeStatus() {
         return recoverNoticeStatus;
     }
 
-    public void setRecoverNoticeStatus(String recoverNoticeStatus) {
+    public void setRecoverNoticeStatus(RecoverNoticeStatus recoverNoticeStatus) {
         this.recoverNoticeStatus = recoverNoticeStatus;
     }
 
@@ -182,5 +189,13 @@ public class AlarmContract {
 
     public void setServiceInfo(ServiceInfoSimpleContract serviceInfo) {
         this.serviceInfo = serviceInfo;
+    }
+
+    public AlertUpgradeContract getAlertUpgradeContract() {
+        return alertUpgradeContract;
+    }
+
+    public void setAlertUpgradeContract(AlertUpgradeContract alertUpgradeContract) {
+        this.alertUpgradeContract = alertUpgradeContract;
     }
 }

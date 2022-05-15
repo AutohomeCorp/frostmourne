@@ -268,10 +268,10 @@
           <el-form-item v-if="form.alertContract.ways.includes('wechat')" label="微信机器人:">
             <el-input v-model="form.alertContract.wechatRobotHook" size="small" placeholder="选填" />
           </el-form-item>
-          <el-form-item v-if="form.alertContract.ways.includes('http_post')" label="HTTP地址:">
+          <el-form-item v-if="form.alertContract.ways.includes('http_post')" prop="alertContract.httpPostUrl" label="HTTP地址:">
             <el-input v-model="form.alertContract.httpPostUrl" size="small" placeholder="必填" />
           </el-form-item>
-          <el-form-item v-if="form.alertContract.ways.includes('feishu')" label="飞书机器人:">
+          <el-form-item v-if="form.alertContract.ways.includes('feishu')" prop="alertContract.feishuRobotHook" label="飞书机器人:">
             <el-input v-model="form.alertContract.feishuRobotHook" size="small" placeholder="必填" />
           </el-form-item>
           <el-row>
@@ -289,7 +289,7 @@
                       说明：字段取值参考JsonPath语法规则，多个字段判断支持使用逻辑运算符 '&&'，'||' 和 '()'<br /><br />
                       举例：<br />
                       &nbsp;&nbsp;&nbsp;&nbsp;1、日志链路和日志堆栈字段有一个值相同则静默：$.TraceId || $.StackTrace<br />
-                      &nbsp;&nbsp;&nbsp;&nbsp;2、数据字段A和数据字段B的值都相同则静默：$.A && $.B<br /><br />
+                      &nbsp;&nbsp;&nbsp;&nbsp;2、数据字段A和数据字段B的值都相同则静默：$.A && $.B<br />
                       &nbsp;&nbsp;&nbsp;&nbsp;3、如果字段A是个数组，取其下标2的字段：$.A[2]<br /><br />
                       注：非必填，为空则默认静默时间内只会报警一次<br />
                     </div>
@@ -307,6 +307,39 @@
                        placeholder="支持关键词模糊搜索" :remote-method="findRecipient" :loading="loading">
               <el-option v-for="item in recipientList" :key="item.account" :label="item.account" :value="item.account" />
             </el-select>
+          </el-form-item>
+        </el-tab-pane>
+        <el-tab-pane label="报警升级">
+          <el-form-item label="升级开关:">
+            <el-switch v-model="form.alertUpgradeContract.status" active-value="OPEN" active-text="开启"
+                       inactive-value="CLOSE" inactive-text="关闭" />
+          </el-form-item>
+          <el-form-item label="升级规则:" prop="alertUpgradeContract.timesToUpgrade">
+            持续报警
+            <el-input-number v-model="form.alertUpgradeContract.timesToUpgrade" size="small" :precision="0" :min="2" label="升级规则" />
+            次时升级
+          </el-form-item>
+          <el-form-item label="报警方式:" prop="alertUpgradeContract.ways">
+            <el-checkbox-group v-model="form.alertUpgradeContract.ways" size="small">
+              <el-checkbox-button label="dingding">钉钉</el-checkbox-button>
+              <el-checkbox-button label="feishu">飞书</el-checkbox-button>
+              <el-checkbox-button label="wechat">企业微信</el-checkbox-button>
+              <el-checkbox-button label="email">Email</el-checkbox-button>
+              <el-checkbox-button label="sms">短信</el-checkbox-button>
+              <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item v-if="form.alertUpgradeContract.ways != null && form.alertUpgradeContract.ways.includes('dingding')" label="钉钉机器人:">
+            <el-input v-model="form.alertUpgradeContract.dingRobotHook" size="small" placeholder="选填" />
+          </el-form-item>
+          <el-form-item v-if="form.alertUpgradeContract.ways != null && form.alertUpgradeContract.ways.includes('wechat')" label="微信机器人:">
+            <el-input v-model="form.alertUpgradeContract.wechatRobotHook" size="small" placeholder="选填" />
+          </el-form-item>
+          <el-form-item v-if="form.alertUpgradeContract.ways != null && form.alertUpgradeContract.ways.includes('http_post')" prop="alertUpgradeContract.httpPostUrl" label="HTTP地址:">
+            <el-input v-model="form.alertUpgradeContract.httpPostUrl" size="small" placeholder="必填" />
+          </el-form-item>
+          <el-form-item v-if="form.alertUpgradeContract.ways != null && form.alertUpgradeContract.ways.includes('feishu')" prop="alertUpgradeContract.feishuRobotHook" label="飞书机器人:">
+            <el-input v-model="form.alertUpgradeContract.feishuRobotHook" size="small" placeholder="必填" />
           </el-form-item>
         </el-tab-pane>
       </el-tabs>
@@ -396,6 +429,50 @@ export default {
       }
       callback()
     }
+    const validatorAlertUpgrade = (rule, value, callback) => {
+      if (this.form.alertUpgradeContract.status === 'OPEN') {
+        if (value === undefined) {
+          callback(new Error('请设置规则'))
+        }
+      }
+      callback()
+    }
+    const validatorAlertUpgradeWays = (rule, value, callback) => {
+      if (this.form.alertUpgradeContract.status === 'OPEN') {
+        if (value === undefined || value.length === 0) {
+          callback(new Error('请至少选择一种报警方式'))
+        }
+      }
+      callback()
+    }
+    const validatorAlertFeishuRobotHook = (rule, value, callback) => {
+      if (this.form.alertContract.ways.includes('feishu') && (this.form.alertContract.feishuRobotHook === undefined || this.form.alertContract.feishuRobotHook.trim() === '')) {
+        callback(new Error('飞书机器人地址不能为空'))
+      }
+      callback()
+    }
+    const validatorAlertHttpPostUrl = (rule, value, callback) => {
+      if (this.form.alertContract.ways.includes('http_post') && (this.form.alertContract.httpPostUrl === undefined || this.form.alertContract.httpPostUrl.trim() === '')) {
+        callback(new Error('HTTP地址不能为空'))
+      }
+      callback()
+    }
+    const validatorAlertUpgradeFeishuRobotHook = (rule, value, callback) => {
+      if (this.form.alertUpgradeContract.status === 'OPEN') {
+        if (this.form.alertUpgradeContract.ways.includes('feishu') && (this.form.alertUpgradeContract.feishuRobotHook === undefined || this.form.alertContract.feishuRobotHook.trim() === '')) {
+          callback(new Error('飞书机器人地址不能为空'))
+        }
+      }
+      callback()
+    }
+    const validatorAlertUpgradeHttpPostUrl = (rule, value, callback) => {
+      if (this.form.alertUpgradeContract.status === 'OPEN') {
+        if (this.form.alertUpgradeContract.ways.includes('http_post') && (this.form.alertUpgradeContract.httpPostUrl === undefined || this.form.alertContract.httpPostUrl.trim() === '')) {
+          callback(new Error('HTTP地址不能为空'))
+        }
+      }
+      callback()
+    }
     return {
       referer: null,
       intervalCron: '',
@@ -453,6 +530,11 @@ export default {
           silence: 60,
           silenceExpression: ''
         },
+        alertUpgradeContract: {
+          status: 'CLOSE',
+          timesToUpgrade: 5,
+          ways: []
+        },
         serviceInfo: {
           id: 0
         }
@@ -491,6 +573,24 @@ export default {
         ],
         'alertContract.recipients': [
           { type: 'array', required: true, message: '请配置报警接收人', trigger: 'blur' }
+        ],
+        'alertUpgradeContract.timesToUpgrade': [
+          { validator: validatorAlertUpgrade, trigger: 'blur' }
+        ],
+        'alertContract.feishuRobotHook': [
+          { type: 'array', validator: validatorAlertFeishuRobotHook, trigger: 'blur' }
+        ],
+        'alertContract.httpPostUrl': [
+          { type: 'array', validator: validatorAlertHttpPostUrl, trigger: 'blur' }
+        ],
+        'alertUpgradeContract.ways': [
+          { type: 'array', validator: validatorAlertUpgradeWays, trigger: 'blur' }
+        ],
+        'alertUpgradeContract.feishuRobotHook': [
+          { type: 'array', validator: validatorAlertUpgradeFeishuRobotHook, trigger: 'blur' }
+        ],
+        'alertUpgradeContract.httpPostUrl': [
+          { type: 'array', validator: validatorAlertUpgradeHttpPostUrl, trigger: 'blur' }
         ],
         cron: [
           { required: true, message: '请输入cron表达式', trigger: 'blur' }
@@ -561,19 +661,9 @@ export default {
         onClose: () => this.goBack()
       })
     },
-    validateInput () {
-      if (this.form.alertContract.ways.includes('feishu') && (this.form.alertContract.feishuRobotHook === null || this.form.alertContract.feishuRobotHook === '')) {
-        this.$message({ type: 'warn', message: '飞书机器人地址不能为空' })
-        return false
-      }
-      return true
-    },
     onSubmit () {
       this.$refs['form'].validate((validate) => {
         if (validate) {
-          if (!this.validateInput()) {
-            return false
-          }
           this.disableSave = false
           this.copyToProperties()
 

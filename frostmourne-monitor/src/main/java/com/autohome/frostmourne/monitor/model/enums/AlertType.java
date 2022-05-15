@@ -16,5 +16,10 @@ public enum AlertType {
     /**
      * alert recover
      */
-    RECOVER
+    RECOVER,
+
+    /**
+     * alert upgrade
+     */
+    UPGRADE
 }

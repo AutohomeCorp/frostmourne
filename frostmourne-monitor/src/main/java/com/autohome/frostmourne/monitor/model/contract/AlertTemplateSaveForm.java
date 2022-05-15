@@ -1,6 +1,6 @@
 package com.autohome.frostmourne.monitor.model.contract;
 
-import com.autohome.frostmourne.monitor.model.enums.AlertTemplateEnums.TemplateType;
+import com.autohome.frostmourne.monitor.model.enums.TemplateType;
 
 public class AlertTemplateSaveForm {
 

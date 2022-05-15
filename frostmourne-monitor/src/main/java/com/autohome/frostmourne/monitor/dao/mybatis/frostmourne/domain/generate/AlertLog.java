@@ -1,6 +1,8 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate;
 
 import com.autohome.frostmourne.monitor.model.enums.AlertType;
+import com.autohome.frostmourne.monitor.model.enums.SendStatus;
+import com.autohome.frostmourne.monitor.model.enums.SilenceStatus;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -38,12 +40,12 @@ public class AlertLog implements Serializable {
     /**
      * 是否在静默期(YES,NO)
      */
-    private String inSilence;
+    private SilenceStatus inSilence;
 
     /**
      * 发送状态(NONE,SUCCESS,FAIL,FORBID)
      */
-    private String sendStatus;
+    private SendStatus sendStatus;
 
     /**
      * 消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)
@@ -102,20 +104,20 @@ public class AlertLog implements Serializable {
         this.recipient = recipient == null ? null : recipient.trim();
     }
 
-    public String getInSilence() {
+    public SilenceStatus getInSilence() {
         return inSilence;
     }
 
-    public void setInSilence(String inSilence) {
-        this.inSilence = inSilence == null ? null : inSilence.trim();
+    public void setInSilence(SilenceStatus inSilence) {
+        this.inSilence = inSilence;
     }
 
-    public String getSendStatus() {
+    public SendStatus getSendStatus() {
         return sendStatus;
     }
 
-    public void setSendStatus(String sendStatus) {
-        this.sendStatus = sendStatus == null ? null : sendStatus.trim();
+    public void setSendStatus(SendStatus sendStatus) {
+        this.sendStatus = sendStatus;
     }
 
     public AlertType getAlertType() {

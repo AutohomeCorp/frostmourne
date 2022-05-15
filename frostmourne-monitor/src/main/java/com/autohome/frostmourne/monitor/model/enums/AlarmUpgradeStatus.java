@@ -1,8 +1,8 @@
 package com.autohome.frostmourne.monitor.model.enums;
 
-public enum SilenceStatus {
+public enum AlarmUpgradeStatus {
 
-    YES,
+    OPEN,
 
-    NO
+    CLOSE
 }

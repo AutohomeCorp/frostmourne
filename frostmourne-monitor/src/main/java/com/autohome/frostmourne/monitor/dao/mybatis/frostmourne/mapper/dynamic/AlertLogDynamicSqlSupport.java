@@ -1,6 +1,8 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
 import com.autohome.frostmourne.monitor.model.enums.AlertType;
+import com.autohome.frostmourne.monitor.model.enums.SendStatus;
+import com.autohome.frostmourne.monitor.model.enums.SilenceStatus;
 import java.sql.JDBCType;
 import java.util.Date;
 import org.mybatis.dynamic.sql.SqlColumn;
@@ -37,12 +39,12 @@ public final class AlertLogDynamicSqlSupport {
     /**
      * 是否在静默期(YES,NO)
      */
-    public static final SqlColumn<String> inSilence = alertLog.inSilence;
+    public static final SqlColumn<SilenceStatus> inSilence = alertLog.inSilence;
 
     /**
      * 发送状态(NONE,SUCCESS,FAIL,FORBID)
      */
-    public static final SqlColumn<String> sendStatus = alertLog.sendStatus;
+    public static final SqlColumn<SendStatus> sendStatus = alertLog.sendStatus;
 
     /**
      * 消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)
@@ -70,9 +72,9 @@ public final class AlertLogDynamicSqlSupport {
 
         public final SqlColumn<String> recipient = column("recipient", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> inSilence = column("in_silence", JDBCType.VARCHAR);
+        public final SqlColumn<SilenceStatus> inSilence = column("in_silence", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> sendStatus = column("send_status", JDBCType.VARCHAR);
+        public final SqlColumn<SendStatus> sendStatus = column("send_status", JDBCType.VARCHAR);
 
         public final SqlColumn<AlertType> alertType = column("alert_type", JDBCType.VARCHAR);
 
