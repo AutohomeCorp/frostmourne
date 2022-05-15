@@ -1,14 +1,13 @@
 package com.autohome.frostmourne.monitor.service.admin.impl;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.model.enums.RecipientType;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.core.util.CronExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,30 +21,11 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.core.contract.ProtocolException;
 import com.autohome.frostmourne.core.jackson.JacksonUtil;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alert;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataName;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Metric;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Recipient;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Rule;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.RuleProperty;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertRepository;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IMetricRepository;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRecipientRepository;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRulePropertyRepository;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRuleRepository;
-import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
-import com.autohome.frostmourne.monitor.model.contract.AlertContract;
-import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
-import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
-import com.autohome.frostmourne.monitor.model.contract.MetricContract;
-import com.autohome.frostmourne.monitor.model.contract.RuleContract;
-import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSimpleContract;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.*;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.*;
+import com.autohome.frostmourne.monitor.model.contract.*;
 import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
+import com.autohome.frostmourne.monitor.model.enums.AlarmUpgradeStatus;
 import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.core.service.IServiceInfoService;
@@ -81,6 +61,9 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     @Resource
     private IAlertRepository alertRepository;
+
+    @Resource
+    private IAlertUpgradeRepository alertUpgradeRepository;
 
     @Resource
     private IRulePropertyRepository rulePropertyRepository;
@@ -251,9 +234,29 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertContract.setCreateAt(alert.getCreateAt());
         alertContract.setFeishuRobotHook(alert.getFeishuRobotHook());
 
-        List<Recipient> recipientList = this.recipientRepository.findByAlarm(alarmId);
-        alertContract.setRecipients(recipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
+        List<Recipient> alertRecipientList = this.recipientRepository.findByAlarmAndType(alarmId, RecipientType.ALERT);
+        alertContract.setRecipients(alertRecipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
         alarmContract.setAlertContract(alertContract);
+
+        AlertUpgradeContract alertUpgradeContract = new AlertUpgradeContract();
+        // default values for old version
+        alertUpgradeContract.setStatus(AlarmUpgradeStatus.CLOSE);
+        alertUpgradeContract.setWays(new ArrayList<>());
+        AlertUpgrade alertUpgrade = alertUpgradeRepository.findOneByAlarmId(alarmId);
+        if (alertUpgrade != null) {
+            alertUpgradeContract.setStatus(alertUpgrade.getStatus());
+            alertUpgradeContract.setTimesToUpgrade(alertUpgrade.getTimesToUpgrade());
+            if (StringUtils.isNotBlank(alertUpgrade.getWays())) {
+                alertUpgradeContract.setWays(Splitter.on(",").splitToList(alertUpgrade.getWays()));
+            }
+            List<Recipient> alertUpgradeRecipientList = this.recipientRepository.findByAlarmAndType(alarmId, RecipientType.ALERT_UPGRADE);
+            alertUpgradeContract.setRecipients(alertUpgradeRecipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
+            alertUpgradeContract.setDingRobotHook(alertUpgrade.getDingRobotHook());
+            alertUpgradeContract.setHttpPostUrl(alertUpgrade.getHttpPostUrl());
+            alertUpgradeContract.setWechatRobotHook(alertUpgrade.getWechatRobotHook());
+            alertUpgradeContract.setFeishuRobotHook(alertUpgrade.getFeishuRobotHook());
+        }
+        alarmContract.setAlertUpgradeContract(alertUpgradeContract);
 
         if (Optional.ofNullable(alarm.getServiceId()).orElse(0L) > 0L) {
             alarmContract.setServiceInfo(serviceInfoService.getSimpleContract(alarm.getServiceId()).orElse(null));
@@ -262,16 +265,16 @@ public class AlarmAdminService implements IAlarmAdminService {
     }
 
     @Override
-    public PagerContract<Alarm> find(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serviceId) {
+    public PagerContract<Alarm> find(int pageIndex, int pageSize, Long alarmId, String name, String teamName, AlarmStatus status, Long serviceId) {
         return alarmRepository.findPage(pageIndex, pageSize, alarmId, name, teamName, status, serviceId);
     }
 
     @Override
     public void updateAlarmLastExecuteInfo(Long alarmId, Date executeTime, ExecuteStatus status) {
-        alarmRepository.updateAlarmLastExecuteInfo(alarmId, executeTime, status.getName());
+        alarmRepository.updateAlarmLastExecuteInfo(alarmId, executeTime, status);
     }
 
-    private boolean updateStatus(Long alarmId, String status) {
+    private boolean updateStatus(Long alarmId, AlarmStatus status) {
         return alarmRepository.updateStatus(alarmId, status) > 0;
     }
 
@@ -287,9 +290,38 @@ public class AlarmAdminService implements IAlarmAdminService {
         }
         Long alarmId = alarm.getId();
         saveAlert(alarmContract.getAlertContract(), alarmId, isNewAlarm, alarmContract.getOperator());
+        saveAlertUpgrade(alarmContract.getAlertUpgradeContract(), alarmId, isNewAlarm, alarmContract.getOperator());
         Long ruleId = saveRule(alarmContract.getRuleContract(), alarmId, isNewAlarm, alarmContract.getOperator());
         saveMetric(alarmContract.getMetricContract(), alarmId, ruleId, isNewAlarm, alarmContract.getOperator());
+    }
 
+    private void saveAlertUpgrade(AlertUpgradeContract alertUpgradeContract, Long alarmId, boolean isNewAlarm, String operator) {
+        if (!isNewAlarm) {
+            alertUpgradeRepository.deleteByAlarmId(alarmId);
+            recipientRepository.deleteByAlarmAndType(alarmId, RecipientType.ALERT_UPGRADE);
+        }
+        AlertUpgrade alertUpgrade = new AlertUpgrade();
+        alertUpgrade.setAlarmId(alarmId);
+        alertUpgrade.setStatus(alertUpgradeContract.getStatus());
+        alertUpgrade.setTimesToUpgrade(alertUpgradeContract.getTimesToUpgrade());
+        alertUpgrade.setWays(String.join(",", alertUpgradeContract.getWays()));
+        alertUpgrade.setDingRobotHook(alertUpgradeContract.getDingRobotHook());
+        alertUpgrade.setHttpPostUrl(alertUpgradeContract.getHttpPostUrl());
+        alertUpgrade.setWechatRobotHook(alertUpgradeContract.getWechatRobotHook());
+        alertUpgrade.setFeishuRobotHook(alertUpgradeContract.getFeishuRobotHook());
+        alertUpgrade.setCreator(operator);
+        alertUpgrade.setCreateAt(LocalDateTime.now());
+        alertUpgradeRepository.insert(alertUpgrade);
+
+        for (String recipient : alertUpgradeContract.getRecipients()) {
+            Recipient alertRecipient = new Recipient();
+            alertRecipient.setAlarmId(alarmId);
+            alertRecipient.setAlertId(alertUpgrade.getId());
+            alertRecipient.setType(RecipientType.ALERT_UPGRADE);
+            alertRecipient.setAccount(recipient);
+            alertRecipient.setCreateAt(new Date());
+            recipientRepository.insert(alertRecipient);
+        }
     }
 
     private Alarm addAlarm(AlarmContract alarmContract) {
@@ -310,7 +342,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarm.setCreateAt(now);
         alarm.setModifyAt(now);
         alarm.setJobId(0L);
-        alarm.setExecuteResult(ExecuteStatus.WAITING.getName());
+        alarm.setExecuteResult(ExecuteStatus.WAITING);
         alarm.setServiceId(Optional.ofNullable(alarmContract.getServiceInfo()).map(ServiceInfoSimpleContract::getId).orElse(null));
         alarm.setTriggerLastTime(0L);
         alarm.setTriggerNextTime(0L);
@@ -345,7 +377,7 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     private void saveAlert(AlertContract contract, Long alarmId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
-            recipientRepository.deleteByAlarm(alarmId);
+            recipientRepository.deleteByAlarmAndType(alarmId, RecipientType.ALERT);
             alertRepository.deleteByAlarm(alarmId);
         }
         Alert alert = new Alert();
@@ -368,6 +400,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             alertRecipient.setAlarmId(alarmId);
             alertRecipient.setAlertId(alert.getId());
             alertRecipient.setAccount(recipient);
+            alertRecipient.setType(RecipientType.ALERT);
             alertRecipient.setCreateAt(new Date());
             recipientRepository.insert(alertRecipient);
         }

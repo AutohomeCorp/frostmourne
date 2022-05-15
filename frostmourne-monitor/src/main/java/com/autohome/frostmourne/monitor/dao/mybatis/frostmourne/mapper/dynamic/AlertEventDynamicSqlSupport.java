@@ -35,6 +35,11 @@ public final class AlertEventDynamicSqlSupport {
     public static final SqlColumn<LocalDateTime> createAt = alertEvent.createAt;
 
     /**
+     * 报警升级
+     */
+    public static final SqlColumn<Boolean> upgrade = alertEvent.upgrade;
+
+    /**
      * 摘要md5
      */
     public static final SqlColumn<String> eventMd5 = alertEvent.eventMd5;
@@ -49,6 +54,8 @@ public final class AlertEventDynamicSqlSupport {
         public final SqlColumn<Boolean> inSilence = column("in_silence", JDBCType.TINYINT);
 
         public final SqlColumn<LocalDateTime> createAt = column("create_at", JDBCType.TIMESTAMP);
+
+        public final SqlColumn<Boolean> upgrade = column("upgrade", JDBCType.TINYINT);
 
         public final SqlColumn<String> eventMd5 = column("event_md5", JDBCType.LONGVARCHAR);
 

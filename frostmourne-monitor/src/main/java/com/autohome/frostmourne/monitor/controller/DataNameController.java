@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import org.springframework.web.bind.annotation.*;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
@@ -40,13 +41,13 @@ public class DataNameController {
 
     @RequestMapping(value = "/findDataSource", method = RequestMethod.GET)
     public Protocol<PagerContract<DataSourceContract>> findDataSource(@RequestParam(value = "pageIndex") int pageIndex,
-        @RequestParam(value = "pageSize") int pageSize, @RequestParam(value = "datasourceType", required = false) String datasourceType) {
+        @RequestParam(value = "pageSize") int pageSize, @RequestParam(value = "datasourceType", required = false) DataSourceType datasourceType) {
         PagerContract<DataSourceContract> pagerContract = dataAdminService.findDatasource(pageIndex, pageSize, datasourceType);
         return new Protocol<>(pagerContract);
     }
 
     @RequestMapping(value = "/findDataSourceByType", method = RequestMethod.GET)
-    public Protocol<List<DataSource>> findDataSourceByType(@RequestParam(value = "datasourceType") String datasourceType) {
+    public Protocol<List<DataSource>> findDataSourceByType(@RequestParam(value = "datasourceType") DataSourceType datasourceType) {
         List<DataSource> dataSources = this.dataAdminService.findDataSourceByType(datasourceType);
         return new Protocol<>(dataSources);
     }
@@ -69,14 +70,14 @@ public class DataNameController {
 
     @RequestMapping(value = "/findDataName", method = RequestMethod.GET)
     public Protocol<PagerContract<DataNameContract>> findDataName(@RequestParam(value = "pageIndex") int pageIndex,
-        @RequestParam(value = "pageSize") int pageSize, @RequestParam(value = "datasourceType", required = false) String datasourceType,
+        @RequestParam(value = "pageSize") int pageSize, @RequestParam(value = "datasourceType", required = false) DataSourceType datasourceType,
         @RequestParam(value = "datasourceId", required = false) Long datasourceId, @RequestParam(value = "nameHint", required = false) String nameHint) {
         PagerContract<DataNameContract> pagerContract = dataAdminService.findDataName(pageIndex, pageSize, datasourceType, datasourceId);
         return new Protocol<>(pagerContract);
     }
 
     @RequestMapping(value = "/findDataNameByType", method = RequestMethod.GET)
-    public Protocol<List<DataNameContract>> findDataNameByType(@RequestParam(value = "datasourceType") String datasourceType) {
+    public Protocol<List<DataNameContract>> findDataNameByType(@RequestParam(value = "datasourceType") DataSourceType datasourceType) {
         return new Protocol<>(dataAdminService.findDataNameByType(datasourceType));
     }
 

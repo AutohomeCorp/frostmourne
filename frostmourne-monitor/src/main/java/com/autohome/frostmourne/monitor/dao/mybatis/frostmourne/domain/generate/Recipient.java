@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate;
 
+import com.autohome.frostmourne.monitor.model.enums.RecipientType;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -33,6 +34,11 @@ public class Recipient implements Serializable {
      * 创建时间
      */
     private Date createAt;
+
+    /**
+     * 归属于 ALERT:报警, ALERT_UPGRADE:报警升级
+     */
+    private RecipientType type;
 
     private static final long serialVersionUID = 1L;
 
@@ -76,6 +82,14 @@ public class Recipient implements Serializable {
         this.createAt = createAt;
     }
 
+    public RecipientType getType() {
+        return type;
+    }
+
+    public void setType(RecipientType type) {
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -92,7 +106,8 @@ public class Recipient implements Serializable {
             && (this.getAlarmId() == null ? other.getAlarmId() == null : this.getAlarmId().equals(other.getAlarmId()))
             && (this.getAlertId() == null ? other.getAlertId() == null : this.getAlertId().equals(other.getAlertId()))
             && (this.getAccount() == null ? other.getAccount() == null : this.getAccount().equals(other.getAccount()))
-            && (this.getCreateAt() == null ? other.getCreateAt() == null : this.getCreateAt().equals(other.getCreateAt()));
+            && (this.getCreateAt() == null ? other.getCreateAt() == null : this.getCreateAt().equals(other.getCreateAt()))
+            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()));
     }
 
     @Override
@@ -104,6 +119,7 @@ public class Recipient implements Serializable {
         result = prime * result + ((getAlertId() == null) ? 0 : getAlertId().hashCode());
         result = prime * result + ((getAccount() == null) ? 0 : getAccount().hashCode());
         result = prime * result + ((getCreateAt() == null) ? 0 : getCreateAt().hashCode());
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         return result;
     }
 }

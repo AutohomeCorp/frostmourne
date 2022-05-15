@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.model.enums.SendStatus;
 import org.springframework.stereotype.Service;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.AggregationDate;
@@ -56,11 +57,11 @@ public class StatisticsService implements IStatisticsService {
 
     @Override
     public long alertCount(Date startTime, Date endTime, String recipient) {
-        return alertLogRepository.count(startTime, endTime, "SUCCESS", recipient);
+        return alertLogRepository.count(startTime, endTime, SendStatus.SUCCESS, recipient);
     }
 
     @Override
     public List<AggregationDate> aggregationAlert(Date startTime, Date endTime, String recipient) {
-        return alertLogExtendMapper.aggregation(startTime, endTime, "SUCCESS", recipient);
+        return alertLogExtendMapper.aggregation(startTime, endTime, SendStatus.SUCCESS.name(), recipient);
     }
 }

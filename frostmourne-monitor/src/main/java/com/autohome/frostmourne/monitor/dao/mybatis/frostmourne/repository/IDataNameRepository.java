@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataName;
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 
 public interface IDataNameRepository {
 
@@ -23,5 +24,5 @@ public interface IDataNameRepository {
 
     List<DataName> findByNames(List<String> dataNames);
 
-    List<DataName> find(String datasourceType, Long datasourceId);
+    List<DataName> find(DataSourceType datasourceType, Long datasourceId);
 }

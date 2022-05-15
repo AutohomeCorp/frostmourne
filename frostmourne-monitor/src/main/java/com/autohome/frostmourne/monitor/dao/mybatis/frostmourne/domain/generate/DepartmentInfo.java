@@ -113,7 +113,7 @@ public class DepartmentInfo implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        DepartmentInfo other = (DepartmentInfo)that;
+        DepartmentInfo other = (DepartmentInfo) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getDepartmentName() == null ? other.getDepartmentName() == null : this.getDepartmentName().equals(other.getDepartmentName()))
             && (this.getFullName() == null ? other.getFullName() == null : this.getFullName().equals(other.getFullName()))

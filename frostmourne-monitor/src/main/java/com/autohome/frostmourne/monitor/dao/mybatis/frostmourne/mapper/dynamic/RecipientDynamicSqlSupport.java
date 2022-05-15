@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
+import com.autohome.frostmourne.monitor.model.enums.RecipientType;
 import java.sql.JDBCType;
 import java.util.Date;
 import org.mybatis.dynamic.sql.SqlColumn;
@@ -33,6 +34,11 @@ public final class RecipientDynamicSqlSupport {
      */
     public static final SqlColumn<Date> createAt = recipient.createAt;
 
+    /**
+     * 归属于 ALERT:报警, ALERT_UPGRADE:报警升级
+     */
+    public static final SqlColumn<RecipientType> type = recipient.type;
+
     public static final class Recipient extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
@@ -43,6 +49,8 @@ public final class RecipientDynamicSqlSupport {
         public final SqlColumn<String> account = column("account", JDBCType.VARCHAR);
 
         public final SqlColumn<Date> createAt = column("create_at", JDBCType.TIMESTAMP);
+
+        public final SqlColumn<RecipientType> type = column("type", JDBCType.VARCHAR);
 
         public Recipient() {
             super("recipient");

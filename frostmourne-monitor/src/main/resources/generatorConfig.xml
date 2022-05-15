@@ -52,6 +52,14 @@
         <table tableName="alarm" mapperName="AlarmDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="execute_result"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.ExecuteStatus"/>
+            <columnOverride column="status"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.AlarmStatus"/>
+            <columnOverride column="recover_notice_status"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.RecoverNoticeStatus"/>
+            <columnOverride column="risk_level"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.RiskLevel"/>
         </table>
         <table tableName="alarm_log" mapperName="AlarmLogDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
@@ -70,21 +78,34 @@
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
             <columnOverride column="alert_type" javaType="com.autohome.frostmourne.monitor.model.enums.AlertType"/>
+            <columnOverride column="in_silence" javaType="com.autohome.frostmourne.monitor.model.enums.SilenceStatus"/>
+            <columnOverride column="send_status" javaType="com.autohome.frostmourne.monitor.model.enums.SendStatus"/>
+        </table>
+        <table tableName="alert_upgrade" mapperName="AlertUpgradeDynamicMapper">
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="status" javaType="com.autohome.frostmourne.monitor.model.enums.AlarmUpgradeStatus"/>
+            <columnOverride column="create_at" javaType="java.time.LocalDateTime"/>
         </table>
         <table tableName="alert_event" mapperName="AlertEventDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
             <columnOverride column="alert_type" javaType="com.autohome.frostmourne.monitor.model.enums.AlertType"/>
             <columnOverride column="in_silence" javaType="java.lang.Boolean"/>
+            <columnOverride column="upgrade" javaType="java.lang.Boolean"/>
             <columnOverride column="create_at" javaType="java.time.LocalDateTime"/>
         </table>
         <table tableName="data_name" mapperName="DataNameDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="datasource_type"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.DataSourceType"/>
         </table>
         <table tableName="data_source" mapperName="DataSourceDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="datasource_type"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.DataSourceType"/>
         </table>
         <table tableName="metric" mapperName="MetricDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
@@ -93,6 +114,8 @@
         <table tableName="recipient" mapperName="RecipientDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="type"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.RecipientType"/>
         </table>
         <table tableName="rule" mapperName="RuleDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
@@ -119,6 +142,8 @@
         <table tableName="alert_template" mapperName="AlertTemplateDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="template_type"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.TemplateType"/>
         </table>
         <table tableName="user_role" mapperName="UserRoleDynamicMapper">
             <property name="useActualColumnNames" value="false"/>

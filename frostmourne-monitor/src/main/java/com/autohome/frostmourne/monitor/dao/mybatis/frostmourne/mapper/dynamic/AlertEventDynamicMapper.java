@@ -32,7 +32,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface AlertEventDynamicMapper {
-    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, alertType, inSilence, createAt, eventMd5);
+    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, alertType, inSilence, createAt, upgrade, eventMd5);
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
@@ -55,6 +55,7 @@ public interface AlertEventDynamicMapper {
         @Result(column="alert_type", property="alertType", jdbcType=JdbcType.VARCHAR),
         @Result(column="in_silence", property="inSilence", jdbcType=JdbcType.TINYINT),
         @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="upgrade", property="upgrade", jdbcType=JdbcType.TINYINT),
         @Result(column="event_md5", property="eventMd5", jdbcType=JdbcType.LONGVARCHAR)
     })
     List<AlertEvent> selectMany(SelectStatementProvider selectStatement);
@@ -82,6 +83,7 @@ public interface AlertEventDynamicMapper {
             .map(alertType).toProperty("alertType")
             .map(inSilence).toProperty("inSilence")
             .map(createAt).toProperty("createAt")
+            .map(upgrade).toProperty("upgrade")
             .map(eventMd5).toProperty("eventMd5")
         );
     }
@@ -92,6 +94,7 @@ public interface AlertEventDynamicMapper {
             .map(alertType).toPropertyWhenPresent("alertType", record::getAlertType)
             .map(inSilence).toPropertyWhenPresent("inSilence", record::getInSilence)
             .map(createAt).toPropertyWhenPresent("createAt", record::getCreateAt)
+            .map(upgrade).toPropertyWhenPresent("upgrade", record::getUpgrade)
             .map(eventMd5).toPropertyWhenPresent("eventMd5", record::getEventMd5)
         );
     }
@@ -123,6 +126,7 @@ public interface AlertEventDynamicMapper {
                 .set(alertType).equalTo(record::getAlertType)
                 .set(inSilence).equalTo(record::getInSilence)
                 .set(createAt).equalTo(record::getCreateAt)
+                .set(upgrade).equalTo(record::getUpgrade)
                 .set(eventMd5).equalTo(record::getEventMd5);
     }
 
@@ -131,6 +135,7 @@ public interface AlertEventDynamicMapper {
                 .set(alertType).equalToWhenPresent(record::getAlertType)
                 .set(inSilence).equalToWhenPresent(record::getInSilence)
                 .set(createAt).equalToWhenPresent(record::getCreateAt)
+                .set(upgrade).equalToWhenPresent(record::getUpgrade)
                 .set(eventMd5).equalToWhenPresent(record::getEventMd5);
     }
 
@@ -140,6 +145,7 @@ public interface AlertEventDynamicMapper {
             .set(alertType).equalTo(record::getAlertType)
             .set(inSilence).equalTo(record::getInSilence)
             .set(createAt).equalTo(record::getCreateAt)
+            .set(upgrade).equalTo(record::getUpgrade)
             .set(eventMd5).equalTo(record::getEventMd5)
             .where(id, isEqualTo(record::getId))
         );
@@ -151,6 +157,7 @@ public interface AlertEventDynamicMapper {
             .set(alertType).equalToWhenPresent(record::getAlertType)
             .set(inSilence).equalToWhenPresent(record::getInSilence)
             .set(createAt).equalToWhenPresent(record::getCreateAt)
+            .set(upgrade).equalToWhenPresent(record::getUpgrade)
             .set(eventMd5).equalToWhenPresent(record::getEventMd5)
             .where(id, isEqualTo(record::getId))
         );

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import org.springframework.web.bind.annotation.*;
 
 import com.autohome.frostmourne.core.contract.Protocol;
@@ -44,11 +45,11 @@ public class AlarmController {
     @RequestMapping(value = "/previewData", method = RequestMethod.POST)
     public Protocol<Map<String, Object>> httpTest(@RequestBody AlarmContract alarmContract) {
         alarmAdminService.padAlarm(alarmContract);
-        String dataSourceType;
+        DataSourceType dataSourceType;
         if (alarmContract.getMetricContract().getDataNameId() != null && alarmContract.getMetricContract().getDataNameId() > 0) {
             dataSourceType = alarmContract.getMetricContract().getDataSourceContract().getDatasourceType();
         } else {
-            dataSourceType = alarmContract.getMetricContract().getDataName();
+            dataSourceType = DataSourceType.valueOf(alarmContract.getMetricContract().getDataName());
         }
         IMetric metric = this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetricType());
         Map<String, Object> result = metric.pullMetric(alarmContract.getMetricContract(), alarmContract.getRuleContract().getSettings());

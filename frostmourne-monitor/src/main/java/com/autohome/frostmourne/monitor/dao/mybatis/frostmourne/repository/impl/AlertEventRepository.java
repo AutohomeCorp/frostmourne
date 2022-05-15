@@ -36,7 +36,6 @@ public class AlertEventRepository implements IAlertEventRepository {
 
     @Override
     public List<AlertEvent> selectAllByTime(Long alarmId, Boolean inSilence, AlertType alertType, LocalDateTime startTime, LocalDateTime endTime) {
-
         return alertEventDynamicMapper.select(query -> {
             query.where().and(AlertEventDynamicSqlSupport.createAt, isBetween(startTime).and(endTime).when((d1, d2) -> d1 != null && d2 != null))
                 .and(AlertEventDynamicSqlSupport.alarmId, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
@@ -45,6 +44,5 @@ public class AlertEventRepository implements IAlertEventRepository {
                 .orderBy(AlertEventDynamicSqlSupport.createAt.descending());
             return query;
         });
-
     }
 }

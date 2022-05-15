@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -54,6 +55,7 @@ public class DataAdminService implements IDataAdminService {
     @Resource
     private IDataSourceJdbcManager dataSourceJdbcManager;
 
+    @Override
     public DataSourceContract findDatasourceById(Long id) {
         Optional<DataSource> optionalDataSource = dataSourceRepository.selectByPrimaryKey(id);
         return optionalDataSource.map(DataSourceTransformer::model2Contract).orElse(null);
@@ -72,12 +74,12 @@ public class DataAdminService implements IDataAdminService {
         }
         if (dataSourceContract.getId() != null && dataSourceContract.getId() > 0) {
             dataSource.setId(dataSourceContract.getId());
-            if ("elasticsearch".equalsIgnoreCase(dataSource.getDatasourceType())) {
+            if (DataSourceType.elasticsearch.equals(dataSource.getDatasourceType())) {
                 boolean reloadResult = elasticsearchSourceManager.reloadEsRestClientContainer(new ElasticsearchInfo(dataSourceContract));
                 if (!reloadResult) {
                     return false;
                 }
-            } else if ("mysql".equalsIgnoreCase(dataSource.getDatasourceType()) || "clickhouse".equalsIgnoreCase(dataSource.getDatasourceType())) {
+            } else if (DataSourceType.mysql.equals(dataSource.getDatasourceType()) || DataSourceType.clickhouse.equals(dataSource.getDatasourceType())) {
                 boolean reloadResult = dataSourceJdbcManager.putDataSource(dataSourceContract);
                 if (!reloadResult) {
                     return false;
@@ -101,7 +103,7 @@ public class DataAdminService implements IDataAdminService {
     }
 
     @Override
-    public PagerContract<DataSourceContract> findDatasource(int pageIndex, int pageSize, String datasourceType) {
+    public PagerContract<DataSourceContract> findDatasource(int pageIndex, int pageSize, DataSourceType datasourceType) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<DataSource> list = this.dataSourceRepository.find(datasourceType);
         return new PagerContract<>(list.stream().map(DataSourceTransformer::model2Contract).collect(Collectors.toList()), page.getPageSize(), page.getPageNum(),
@@ -109,7 +111,7 @@ public class DataAdminService implements IDataAdminService {
     }
 
     @Override
-    public List<DataSource> findDataSourceByType(String datasourceType) {
+    public List<DataSource> findDataSourceByType(DataSourceType datasourceType) {
         return this.dataSourceRepository.find(datasourceType);
     }
 
@@ -135,12 +137,12 @@ public class DataAdminService implements IDataAdminService {
             dataSourceOption.setDataSource(dataSource);
             dataSourceOption.setDataNameContractList(dataNameList.stream().filter(dataName -> dataName.getDataSourceId().equals(dataSource.getId()))
                 .map(DataAdminService::toDataNameContract).collect(Collectors.toList()));
-            if (dataOptionMap.containsKey(dataSource.getDatasourceType())) {
-                dataOptionMap.get(dataSource.getDatasourceType()).add(dataSourceOption);
+            if (dataOptionMap.containsKey(dataSource.getDatasourceType().name())) {
+                dataOptionMap.get(dataSource.getDatasourceType().name()).add(dataSourceOption);
             } else {
                 List<DataSourceOption> dataSourceOptionList = new ArrayList<>();
                 dataSourceOptionList.add(dataSourceOption);
-                dataOptionMap.put(dataSource.getDatasourceType(), dataSourceOptionList);
+                dataOptionMap.put(dataSource.getDatasourceType().name(), dataSourceOptionList);
             }
         }
 
@@ -229,7 +231,7 @@ public class DataAdminService implements IDataAdminService {
     }
 
     @Override
-    public PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, String datasourceType, Long datasourceId) {
+    public PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, DataSourceType datasourceType, Long datasourceId) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<DataName> list = this.dataNameRepository.find(datasourceType, datasourceId);
         return new PagerContract<>(list.stream().map(DataAdminService::toDataNameContract).collect(Collectors.toList()), page.getPageSize(), page.getPageNum(),
@@ -237,7 +239,7 @@ public class DataAdminService implements IDataAdminService {
     }
 
     @Override
-    public List<DataNameContract> findDataNameByType(String datasourceType) {
+    public List<DataNameContract> findDataNameByType(DataSourceType datasourceType) {
         List<DataName> list = this.dataNameRepository.find(datasourceType, null);
         return list.stream().map(DataAdminService::toDataNameContract).collect(Collectors.toList());
     }

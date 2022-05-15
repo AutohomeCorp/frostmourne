@@ -17,9 +17,9 @@
             <el-form-item label="发送状态:">
               <el-select v-model="form.sendStatus" placeholder="发送状态">
                 <el-option label="全部" value="" />
-                <el-option label="SUCCESS" value="SUCCESS" />
-                <el-option label="FAIL" value="FAIL" />
-                <el-option label="NONE" value="NONE" />
+                <el-option label="成功" value="SUCCESS" />
+                <el-option label="失败" value="FAIL" />
+                <el-option label="未发送" value="NONE" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -34,10 +34,13 @@
             <el-form-item label="报警方式:">
               <el-select v-model="form.way" placeholder="报警方式">
                 <el-option label="全部" value="" />
-                <el-option label="钉钉" value="dingding" />
-                <el-option label="短信" value="sms" />
-                <el-option label="邮件" value="email" />
-                <el-option label="企业微信" value="wechat" />
+                <el-option label="钉钉" value="DING_DING" />
+                <el-option label="钉钉机器人" value="DING_ROBOT" />
+                <el-option label="企业微信" value="WECHAT" />
+                <el-option label="企业微信机器人" value="WECHAT_ROBOT" />
+                <el-option label="飞书机器人" value="FEI_SHU_ROBOT" />
+                <el-option label="短信" value="SMS" />
+                <el-option label="邮件" value="EMAIL" />
                 <el-option label="HTTP" value="http_post" />
               </el-select>
             </el-form-item>
@@ -46,8 +49,9 @@
             <el-form-item label="消息类型:">
               <el-select v-model="form.alertType" placeholder="消息类型">
                 <el-option label="全部" value="" />
-                <el-option label="问题" value="PROBLEM" />
-                <el-option label="恢复" value="RECOVER" />
+                <el-option label="报警" value="PROBLEM" />
+                <el-option label="报警恢复" value="RECOVER" />
+                <el-option label="报警升级" value="UPGRADE" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -65,10 +69,10 @@
       <el-table-column prop="id" label="ID" width="80" align="center" />
       <el-table-column prop="alarmId" label="监控id" align="center" />
       <el-table-column prop="executeId" label="执行id" align="center" />
-      <el-table-column prop="way" label="报警方式" align="center" />
-      <el-table-column prop="inSilence" label="静默状态" align="center" />
-      <el-table-column prop="sendStatus" label="发送状态" align="center" />
-      <el-table-column prop="alertType" label="消息类型" align="center" />
+      <el-table-column prop="way" label="报警方式" align="center" :formatter="alertWayFormat" />
+      <el-table-column prop="inSilence" label="静默状态" align="center" :formatter="silenceFormat" />
+      <el-table-column prop="sendStatus" label="发送状态" align="center" :formatter="sendStatusFormat" />
+      <el-table-column prop="alertType" label="消息类型" align="center" :formatter="alertTypeFormat" />
       <el-table-column prop="createAt" label="发送时间" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.createAt | timeFormat }}</span>
@@ -89,7 +93,6 @@
         </el-col>
       </el-row>
     </div>
-
     <el-dialog title="消息内容" :visible.sync="dialogVisible" width="35%">
       <pre style="overflow: auto; word-wrap: break-word" v-text="currentMessage" />
       <div slot="footer" class="dialog-footer">
@@ -229,6 +232,62 @@ export default {
       /* this.$alert('<pre>' + row.content + '</pre>', '消息内容',{
           dangerouslyUseHTMLString: true
         })*/
+    },
+    alertWayFormat (date) {
+      if (date.way === 'EMAIL') {
+        return '邮件'
+      }
+      if (date.way === 'SMS') {
+        return '短信'
+      }
+      if (date.way === 'WECHAT') {
+        return '企业微信'
+      }
+      if (date.way === 'WECHAT_ROBOT') {
+        return '企业微信机器人'
+      }
+      if (date.way === 'DING_DING') {
+        return '钉钉'
+      }
+      if (date.way === 'DING_ROBOT') {
+        return '钉钉机器人'
+      }
+      if (date.way === 'FEI_SHU_ROBOT') {
+        return '飞书机器人'
+      }
+      if (date.way === 'HTTP_POST') {
+        return 'HTTP_POST'
+      }
+    },
+    silenceFormat (date) {
+      if (date.inSilence === 'YES') {
+        return '已静默'
+      }
+      if (date.inSilence === 'NO') {
+        return '未静默'
+      }
+    },
+    sendStatusFormat (date) {
+      if (date.sendStatus === 'SUCCESS') {
+        return '成功'
+      }
+      if (date.sendStatus === 'FAIL') {
+        return '失败'
+      }
+      if (date.sendStatus === 'NONE') {
+        return '未发送'
+      }
+    },
+    alertTypeFormat (date) {
+      if (date.alertType === 'PROBLEM') {
+        return '报警'
+      }
+      if (date.alertType === 'UPGRADE') {
+        return '报警升级'
+      }
+      if (date.alertType === 'RECOVER') {
+        return '报警恢复'
+      }
     }
   }
 }

@@ -14,6 +14,8 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.A
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlertLogDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
 import com.autohome.frostmourne.monitor.model.enums.AlertType;
+import com.autohome.frostmourne.monitor.model.enums.SendStatus;
+import com.autohome.frostmourne.monitor.model.enums.SilenceStatus;
 import com.autohome.frostmourne.monitor.tool.MybatisTool;
 import org.springframework.stereotype.Repository;
 
@@ -54,16 +56,16 @@ public class AlertLogRepository implements IAlertLogRepository {
     }
 
     @Override
-    public List<AlertLog> find(Date startTime, Date endTime, Long executeId, Long alarmId, String recipient, String way, String sendStatus, String inSilence,
-        AlertType alertType) {
+    public List<AlertLog> find(Date startTime, Date endTime, Long executeId, Long alarmId, String recipient, String way, SendStatus sendStatus,
+        SilenceStatus inSilence, AlertType alertType) {
         return alertLogDynamicMapper.select(query -> {
             query.where().and(AlertLogDynamicSqlSupport.createAt, isBetween(startTime).and(endTime).when((d1, d2) -> d1 != null && d2 != null))
                 .and(AlertLogDynamicSqlSupport.executeId, isEqualTo(executeId).when(MybatisTool::notNullAndZero))
                 .and(AlertLogDynamicSqlSupport.alarmId, isEqualTo(alarmId).when(MybatisTool::notNullAndZero))
                 .and(AlertLogDynamicSqlSupport.recipient, isEqualTo(recipient).when(MybatisTool::notNullAndEmpty))
                 .and(AlertLogDynamicSqlSupport.way, isEqualTo(way).when(MybatisTool::notNullAndEmpty))
-                .and(AlertLogDynamicSqlSupport.sendStatus, isEqualTo(sendStatus).when(MybatisTool::notNullAndEmpty))
-                .and(AlertLogDynamicSqlSupport.inSilence, isEqualTo(inSilence).when(MybatisTool::notNullAndEmpty))
+                .and(AlertLogDynamicSqlSupport.sendStatus, isEqualTo(sendStatus).when(MybatisTool::notNull))
+                .and(AlertLogDynamicSqlSupport.inSilence, isEqualTo(inSilence).when(MybatisTool::notNull))
                 .and(AlertLogDynamicSqlSupport.alertType, isEqualTo(alertType).when(MybatisTool::notNull))
                 .orderBy(AlertLogDynamicSqlSupport.createAt.descending());
             return query;
@@ -71,16 +73,16 @@ public class AlertLogRepository implements IAlertLogRepository {
     }
 
     @Override
-    public Optional<AlertLog> selectLatest(Long alarmId, AlertType alertType, String inSilence) {
+    public Optional<AlertLog> selectLatest(Long alarmId, AlertType alertType, SilenceStatus inSilence) {
         return alertLogDynamicMapper.selectOne(
             query -> query.where().and(AlertLogDynamicSqlSupport.alarmId, isEqualTo(alarmId)).and(AlertLogDynamicSqlSupport.alertType, isEqualTo(alertType))
                 .and(AlertLogDynamicSqlSupport.inSilence, isEqualTo(inSilence)).orderBy(AlertLogDynamicSqlSupport.createAt.descending()).limit(1));
     }
 
     @Override
-    public long count(Date startTime, Date endTime, String sendStatus, String recipient) {
+    public long count(Date startTime, Date endTime, SendStatus sendStatus, String recipient) {
         return alertLogDynamicMapper.count(query -> query.where().and(AlertLogDynamicSqlSupport.createAt, isBetween(startTime).and(endTime))
-            .and(AlertLogDynamicSqlSupport.sendStatus, isEqualTo(sendStatus).when(MybatisTool::notNullAndEmpty))
+            .and(AlertLogDynamicSqlSupport.sendStatus, isEqualTo(sendStatus).when(MybatisTool::notNull))
             .and(AlertLogDynamicSqlSupport.recipient, isEqualTo(recipient)));
     }
 }
