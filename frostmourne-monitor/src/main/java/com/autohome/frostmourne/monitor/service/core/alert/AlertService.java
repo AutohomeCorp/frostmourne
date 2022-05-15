@@ -21,7 +21,6 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.ConfigMap;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertLogRepository;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertUpgradeRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IConfigMapRepository;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl.AlertEventRepository;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
@@ -51,9 +50,6 @@ public class AlertService implements IAlertService {
 
     @Resource
     private IAlertLogRepository alertLogRepository;
-
-    @Resource
-    private IAlertUpgradeRepository alertUpgradeRepository;
 
     @Resource
     private IAccountService accountService;
@@ -135,6 +131,12 @@ public class AlertService implements IAlertService {
         AlertUpgradeContract alertUpgradeContract = alarmProcessLogger.getAlarmContract().getAlertUpgradeContract();
         boolean upgrade = judgeAlertUpgrade(alertType, alertUpgradeContract);
         if (upgrade) {
+            List<AccountInfo> alertUpgradeAccountInfo =
+                recipients(alertUpgradeContract.getRecipients(), alarmProcessLogger.getAlarmContract().getServiceInfo());
+            if (alertUpgradeAccountInfo.size() == 0) {
+                LOGGER.error("no upgrade recipients, alarmId: " + alarmProcessLogger.getAlarmContract().getId());
+            }
+            alarmMessageBO.setRecipients(alertUpgradeAccountInfo);
             alarmMessageBO
                 .setWays(generateWays(alertUpgradeContract.getWays(), alertUpgradeContract.getWechatRobotHook(), alertUpgradeContract.getDingRobotHook()));
             alarmMessageBO.setDingHook(alertUpgradeContract.getDingRobotHook());
@@ -142,8 +144,8 @@ public class AlertService implements IAlertService {
             alarmMessageBO.setWechatHook(alertUpgradeContract.getWechatRobotHook());
             alarmMessageBO.setFeiShuHook(alertUpgradeContract.getFeishuRobotHook());
             messageService.send(alarmMessageBO);
-            saveAlertLog(AlertType.UPGRADE, alarmMessageBO.getResultList(), recipients, alarmProcessLogger.getAlarmContract().getId(), alertContent,
-                alarmProcessLogger.getAlarmLog().getId());
+            saveAlertLog(AlertType.UPGRADE, alarmMessageBO.getResultList(), alertUpgradeAccountInfo, alarmProcessLogger.getAlarmContract().getId(),
+                alertContent, alarmProcessLogger.getAlarmLog().getId());
         }
 
         // save alert event

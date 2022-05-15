@@ -114,6 +114,8 @@
         <table tableName="recipient" mapperName="RecipientDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <columnOverride column="type"
+                            javaType="com.autohome.frostmourne.monitor.model.enums.RecipientType"/>
         </table>
         <table tableName="rule" mapperName="RuleDynamicMapper">
             <property name="useActualColumnNames" value="false"/>
