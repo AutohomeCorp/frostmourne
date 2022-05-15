@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
+import com.autohome.frostmourne.monitor.model.enums.TemplateType;
 import java.sql.JDBCType;
 import java.util.Date;
 import org.mybatis.dynamic.sql.SqlColumn;
@@ -21,7 +22,7 @@ public final class AlertTemplateDynamicSqlSupport {
     /**
      * 模板类型
      */
-    public static final SqlColumn<String> templateType = alertTemplate.templateType;
+    public static final SqlColumn<TemplateType> templateType = alertTemplate.templateType;
 
     /**
      * 模板类型关联code，根据不同模板类型关联不同的源
@@ -58,7 +59,7 @@ public final class AlertTemplateDynamicSqlSupport {
 
         public final SqlColumn<String> templateName = column("template_name", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> templateType = column("template_type", JDBCType.VARCHAR);
+        public final SqlColumn<TemplateType> templateType = column("template_type", JDBCType.VARCHAR);
 
         public final SqlColumn<String> templateUnionCode = column("template_union_code", JDBCType.VARCHAR);
 

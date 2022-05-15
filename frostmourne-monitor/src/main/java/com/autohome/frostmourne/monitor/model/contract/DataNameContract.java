@@ -1,5 +1,7 @@
 package com.autohome.frostmourne.monitor.model.contract;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -13,7 +15,7 @@ public class DataNameContract {
 
     private Long dataSourceId;
 
-    private String datasourceType;
+    private DataSourceType datasourceType;
 
     private String timestampField;
 
@@ -59,11 +61,11 @@ public class DataNameContract {
         this.dataSourceId = dataSourceId;
     }
 
-    public String getDatasourceType() {
+    public DataSourceType getDatasourceType() {
         return datasourceType;
     }
 
-    public void setDatasourceType(String datasourceType) {
+    public void setDatasourceType(DataSourceType datasourceType) {
         this.datasourceType = datasourceType;
     }
 

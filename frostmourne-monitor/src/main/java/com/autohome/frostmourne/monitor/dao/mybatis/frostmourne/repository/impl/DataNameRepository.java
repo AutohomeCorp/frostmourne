@@ -11,6 +11,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DataNameDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DataNameDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataNameRepository;
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import com.autohome.frostmourne.monitor.tool.MybatisTool;
 import org.springframework.stereotype.Repository;
 
@@ -62,9 +63,9 @@ public class DataNameRepository implements IDataNameRepository {
     }
 
     @Override
-    public List<DataName> find(String datasourceType, Long datasourceId) {
+    public List<DataName> find(DataSourceType datasourceType, Long datasourceId) {
         return dataNameDynamicMapper
-            .select(query -> query.where().and(DataNameDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
+            .select(query -> query.where().and(DataNameDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNull))
                 .and(DataNameDynamicSqlSupport.dataSourceId, isEqualTo(datasourceId).when(MybatisTool::notNullAndZero))
                 .orderBy(DataNameDynamicSqlSupport.createAt.descending()));
     }

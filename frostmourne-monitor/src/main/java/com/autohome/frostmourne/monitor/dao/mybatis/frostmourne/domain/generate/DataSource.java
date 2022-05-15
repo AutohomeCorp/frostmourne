@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,17 +23,12 @@ public class DataSource implements Serializable {
     /**
      * 数据源类型。(Elasticsearch, Influxdb)
      */
-    private String datasourceType;
+    private DataSourceType datasourceType;
 
     /**
      * 数据源服务地址
      */
     private String serviceAddress;
-
-    /**
-     * 附加属性。json格式
-     */
-    private String properties;
 
     /**
      * 创建人
@@ -54,6 +50,11 @@ public class DataSource implements Serializable {
      */
     private Date modifyAt;
 
+    /**
+     * 附加属性。json格式
+     */
+    private String properties;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -72,12 +73,12 @@ public class DataSource implements Serializable {
         this.datasourceName = datasourceName == null ? null : datasourceName.trim();
     }
 
-    public String getDatasourceType() {
+    public DataSourceType getDatasourceType() {
         return datasourceType;
     }
 
-    public void setDatasourceType(String datasourceType) {
-        this.datasourceType = datasourceType == null ? null : datasourceType.trim();
+    public void setDatasourceType(DataSourceType datasourceType) {
+        this.datasourceType = datasourceType;
     }
 
     public String getServiceAddress() {
@@ -86,14 +87,6 @@ public class DataSource implements Serializable {
 
     public void setServiceAddress(String serviceAddress) {
         this.serviceAddress = serviceAddress == null ? null : serviceAddress.trim();
-    }
-
-    public String getProperties() {
-        return properties;
-    }
-
-    public void setProperties(String properties) {
-        this.properties = properties == null ? null : properties.trim();
     }
 
     public String getCreator() {
@@ -128,6 +121,14 @@ public class DataSource implements Serializable {
         this.modifyAt = modifyAt;
     }
 
+    public String getProperties() {
+        return properties;
+    }
+
+    public void setProperties(String properties) {
+        this.properties = properties == null ? null : properties.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -144,11 +145,11 @@ public class DataSource implements Serializable {
             && (this.getDatasourceName() == null ? other.getDatasourceName() == null : this.getDatasourceName().equals(other.getDatasourceName()))
             && (this.getDatasourceType() == null ? other.getDatasourceType() == null : this.getDatasourceType().equals(other.getDatasourceType()))
             && (this.getServiceAddress() == null ? other.getServiceAddress() == null : this.getServiceAddress().equals(other.getServiceAddress()))
-            && (this.getProperties() == null ? other.getProperties() == null : this.getProperties().equals(other.getProperties()))
             && (this.getCreator() == null ? other.getCreator() == null : this.getCreator().equals(other.getCreator()))
             && (this.getCreateAt() == null ? other.getCreateAt() == null : this.getCreateAt().equals(other.getCreateAt()))
             && (this.getModifier() == null ? other.getModifier() == null : this.getModifier().equals(other.getModifier()))
-            && (this.getModifyAt() == null ? other.getModifyAt() == null : this.getModifyAt().equals(other.getModifyAt()));
+            && (this.getModifyAt() == null ? other.getModifyAt() == null : this.getModifyAt().equals(other.getModifyAt()))
+            && (this.getProperties() == null ? other.getProperties() == null : this.getProperties().equals(other.getProperties()));
     }
 
     @Override
@@ -159,11 +160,11 @@ public class DataSource implements Serializable {
         result = prime * result + ((getDatasourceName() == null) ? 0 : getDatasourceName().hashCode());
         result = prime * result + ((getDatasourceType() == null) ? 0 : getDatasourceType().hashCode());
         result = prime * result + ((getServiceAddress() == null) ? 0 : getServiceAddress().hashCode());
-        result = prime * result + ((getProperties() == null) ? 0 : getProperties().hashCode());
         result = prime * result + ((getCreator() == null) ? 0 : getCreator().hashCode());
         result = prime * result + ((getCreateAt() == null) ? 0 : getCreateAt().hashCode());
         result = prime * result + ((getModifier() == null) ? 0 : getModifier().hashCode());
         result = prime * result + ((getModifyAt() == null) ? 0 : getModifyAt().hashCode());
+        result = prime * result + ((getProperties() == null) ? 0 : getProperties().hashCode());
         return result;
     }
 }

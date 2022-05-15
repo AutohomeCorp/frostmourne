@@ -5,6 +5,7 @@ import java.util.Date;
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
+import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
 import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
 
 public interface IAlarmAdminService {
@@ -19,7 +20,7 @@ public interface IAlarmAdminService {
 
     AlarmContract findById(Long alarmId);
 
-    PagerContract<Alarm> find(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serviceId);
+    PagerContract<Alarm> find(int pageIndex, int pageSize, Long alarmId, String name, String teamName, AlarmStatus status, Long serviceId);
 
     void updateAlarmLastExecuteInfo(Long alarmId, Date executeTime, ExecuteStatus status);
 

@@ -1,5 +1,9 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate;
 
+import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
+import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.enums.RecoverNoticeStatus;
+import com.autohome.frostmourne.monitor.model.enums.RiskLevel;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -37,12 +41,12 @@ public class Alarm implements Serializable {
     /**
      * 开关状态（OPEN,CLOSE）
      */
-    private String status;
+    private AlarmStatus status;
 
     /**
      * 最近一次执行结果
      */
-    private String executeResult;
+    private ExecuteStatus executeResult;
 
     /**
      * 最近一次执行时间
@@ -87,7 +91,7 @@ public class Alarm implements Serializable {
     /**
      * 风险等级。info: 提示；important: 重要；emergency: 紧急； crash: 我崩了
      */
-    private String riskLevel;
+    private RiskLevel riskLevel;
 
     /**
      * 服务ID
@@ -97,7 +101,7 @@ public class Alarm implements Serializable {
     /**
      * 恢复通知开关（OPEN,CLOSE）
      */
-    private String recoverNoticeStatus;
+    private RecoverNoticeStatus recoverNoticeStatus;
 
     /**
      * 上次调度时间
@@ -151,20 +155,20 @@ public class Alarm implements Serializable {
         this.ownerKey = ownerKey == null ? null : ownerKey.trim();
     }
 
-    public String getStatus() {
+    public AlarmStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setStatus(AlarmStatus status) {
+        this.status = status;
     }
 
-    public String getExecuteResult() {
+    public ExecuteStatus getExecuteResult() {
         return executeResult;
     }
 
-    public void setExecuteResult(String executeResult) {
-        this.executeResult = executeResult == null ? null : executeResult.trim();
+    public void setExecuteResult(ExecuteStatus executeResult) {
+        this.executeResult = executeResult;
     }
 
     public Date getExecuteAt() {
@@ -231,12 +235,12 @@ public class Alarm implements Serializable {
         this.teamName = teamName == null ? null : teamName.trim();
     }
 
-    public String getRiskLevel() {
+    public RiskLevel getRiskLevel() {
         return riskLevel;
     }
 
-    public void setRiskLevel(String riskLevel) {
-        this.riskLevel = riskLevel == null ? null : riskLevel.trim();
+    public void setRiskLevel(RiskLevel riskLevel) {
+        this.riskLevel = riskLevel;
     }
 
     public Long getServiceId() {
@@ -247,12 +251,12 @@ public class Alarm implements Serializable {
         this.serviceId = serviceId;
     }
 
-    public String getRecoverNoticeStatus() {
+    public RecoverNoticeStatus getRecoverNoticeStatus() {
         return recoverNoticeStatus;
     }
 
-    public void setRecoverNoticeStatus(String recoverNoticeStatus) {
-        this.recoverNoticeStatus = recoverNoticeStatus == null ? null : recoverNoticeStatus.trim();
+    public void setRecoverNoticeStatus(RecoverNoticeStatus recoverNoticeStatus) {
+        this.recoverNoticeStatus = recoverNoticeStatus;
     }
 
     public Long getTriggerLastTime() {

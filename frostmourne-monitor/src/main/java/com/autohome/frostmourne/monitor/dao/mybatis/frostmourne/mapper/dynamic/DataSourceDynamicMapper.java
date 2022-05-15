@@ -32,7 +32,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface DataSourceDynamicMapper {
-    BasicColumn[] selectList = BasicColumn.columnList(id, datasourceName, datasourceType, serviceAddress, properties, creator, createAt, modifier, modifyAt);
+    BasicColumn[] selectList = BasicColumn.columnList(id, datasourceName, datasourceType, serviceAddress, creator, createAt, modifier, modifyAt, properties);
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
@@ -54,11 +54,11 @@ public interface DataSourceDynamicMapper {
         @Result(column="datasource_name", property="datasourceName", jdbcType=JdbcType.VARCHAR),
         @Result(column="datasource_type", property="datasourceType", jdbcType=JdbcType.VARCHAR),
         @Result(column="service_address", property="serviceAddress", jdbcType=JdbcType.VARCHAR),
-        @Result(column="properties", property="properties", jdbcType=JdbcType.VARCHAR),
         @Result(column="creator", property="creator", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="modifier", property="modifier", jdbcType=JdbcType.VARCHAR),
-        @Result(column="modify_at", property="modifyAt", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="modify_at", property="modifyAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="properties", property="properties", jdbcType=JdbcType.LONGVARCHAR)
     })
     List<DataSource> selectMany(SelectStatementProvider selectStatement);
 
@@ -84,11 +84,11 @@ public interface DataSourceDynamicMapper {
             c.map(datasourceName).toProperty("datasourceName")
             .map(datasourceType).toProperty("datasourceType")
             .map(serviceAddress).toProperty("serviceAddress")
-            .map(properties).toProperty("properties")
             .map(creator).toProperty("creator")
             .map(createAt).toProperty("createAt")
             .map(modifier).toProperty("modifier")
             .map(modifyAt).toProperty("modifyAt")
+            .map(properties).toProperty("properties")
         );
     }
 
@@ -97,11 +97,11 @@ public interface DataSourceDynamicMapper {
             c.map(datasourceName).toPropertyWhenPresent("datasourceName", record::getDatasourceName)
             .map(datasourceType).toPropertyWhenPresent("datasourceType", record::getDatasourceType)
             .map(serviceAddress).toPropertyWhenPresent("serviceAddress", record::getServiceAddress)
-            .map(properties).toPropertyWhenPresent("properties", record::getProperties)
             .map(creator).toPropertyWhenPresent("creator", record::getCreator)
             .map(createAt).toPropertyWhenPresent("createAt", record::getCreateAt)
             .map(modifier).toPropertyWhenPresent("modifier", record::getModifier)
             .map(modifyAt).toPropertyWhenPresent("modifyAt", record::getModifyAt)
+            .map(properties).toPropertyWhenPresent("properties", record::getProperties)
         );
     }
 
@@ -131,22 +131,22 @@ public interface DataSourceDynamicMapper {
         return dsl.set(datasourceName).equalTo(record::getDatasourceName)
                 .set(datasourceType).equalTo(record::getDatasourceType)
                 .set(serviceAddress).equalTo(record::getServiceAddress)
-                .set(properties).equalTo(record::getProperties)
                 .set(creator).equalTo(record::getCreator)
                 .set(createAt).equalTo(record::getCreateAt)
                 .set(modifier).equalTo(record::getModifier)
-                .set(modifyAt).equalTo(record::getModifyAt);
+                .set(modifyAt).equalTo(record::getModifyAt)
+                .set(properties).equalTo(record::getProperties);
     }
 
     static UpdateDSL<UpdateModel> updateSelectiveColumns(DataSource record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(datasourceName).equalToWhenPresent(record::getDatasourceName)
                 .set(datasourceType).equalToWhenPresent(record::getDatasourceType)
                 .set(serviceAddress).equalToWhenPresent(record::getServiceAddress)
-                .set(properties).equalToWhenPresent(record::getProperties)
                 .set(creator).equalToWhenPresent(record::getCreator)
                 .set(createAt).equalToWhenPresent(record::getCreateAt)
                 .set(modifier).equalToWhenPresent(record::getModifier)
-                .set(modifyAt).equalToWhenPresent(record::getModifyAt);
+                .set(modifyAt).equalToWhenPresent(record::getModifyAt)
+                .set(properties).equalToWhenPresent(record::getProperties);
     }
 
     default int updateByPrimaryKey(DataSource record) {
@@ -154,11 +154,11 @@ public interface DataSourceDynamicMapper {
             c.set(datasourceName).equalTo(record::getDatasourceName)
             .set(datasourceType).equalTo(record::getDatasourceType)
             .set(serviceAddress).equalTo(record::getServiceAddress)
-            .set(properties).equalTo(record::getProperties)
             .set(creator).equalTo(record::getCreator)
             .set(createAt).equalTo(record::getCreateAt)
             .set(modifier).equalTo(record::getModifier)
             .set(modifyAt).equalTo(record::getModifyAt)
+            .set(properties).equalTo(record::getProperties)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -168,11 +168,11 @@ public interface DataSourceDynamicMapper {
             c.set(datasourceName).equalToWhenPresent(record::getDatasourceName)
             .set(datasourceType).equalToWhenPresent(record::getDatasourceType)
             .set(serviceAddress).equalToWhenPresent(record::getServiceAddress)
-            .set(properties).equalToWhenPresent(record::getProperties)
             .set(creator).equalToWhenPresent(record::getCreator)
             .set(createAt).equalToWhenPresent(record::getCreateAt)
             .set(modifier).equalToWhenPresent(record::getModifier)
             .set(modifyAt).equalToWhenPresent(record::getModifyAt)
+            .set(properties).equalToWhenPresent(record::getProperties)
             .where(id, isEqualTo(record::getId))
         );
     }

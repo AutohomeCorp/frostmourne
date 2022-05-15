@@ -12,6 +12,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DataSourceDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.DataSourceDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IDataSourceRepository;
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import com.autohome.frostmourne.monitor.tool.MybatisTool;
 import org.springframework.stereotype.Repository;
 
@@ -52,9 +53,9 @@ public class DataSourceRepository implements IDataSourceRepository {
     }
 
     @Override
-    public List<DataSource> find(String datasourceType) {
+    public List<DataSource> find(DataSourceType datasourceType) {
         return dataSourceDynamicMapper
-            .select(query -> query.where().and(DataSourceDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNullAndEmpty))
+            .select(query -> query.where().and(DataSourceDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNull))
                 .orderBy(DataSourceDynamicSqlSupport.createAt.descending()));
     }
 

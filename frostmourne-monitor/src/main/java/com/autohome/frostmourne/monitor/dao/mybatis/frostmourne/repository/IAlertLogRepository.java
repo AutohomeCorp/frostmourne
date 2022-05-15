@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertLog;
 import com.autohome.frostmourne.monitor.model.enums.AlertType;
+import com.autohome.frostmourne.monitor.model.enums.SendStatus;
+import com.autohome.frostmourne.monitor.model.enums.SilenceStatus;
 
 public interface IAlertLogRepository {
 
@@ -21,10 +23,10 @@ public interface IAlertLogRepository {
 
     int updateByPrimaryKey(AlertLog record);
 
-    List<AlertLog> find(Date startTime, Date endTime, Long executeId, Long alarmId, String recipient, String way, String sendStatus, String inSilence,
-        AlertType alertType);
+    List<AlertLog> find(Date startTime, Date endTime, Long executeId, Long alarmId, String recipient, String way, SendStatus sendStatus, SilenceStatus inSilence,
+                        AlertType alertType);
 
-    Optional<AlertLog> selectLatest(Long alarmId, AlertType alertType, String inSilence);
+    Optional<AlertLog> selectLatest(Long alarmId, AlertType alertType, SilenceStatus inSilence);
 
-    long count(Date startTime, Date endTime, String sendStatus, String recipient);
+    long count(Date startTime, Date endTime, SendStatus sendStatus, String recipient);
 }

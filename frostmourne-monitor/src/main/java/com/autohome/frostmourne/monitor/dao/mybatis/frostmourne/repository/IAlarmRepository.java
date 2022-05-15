@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
+import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
+import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
 
 public interface IAlarmRepository {
 
@@ -19,11 +21,11 @@ public interface IAlarmRepository {
 
     int updateByPrimaryKey(Alarm record);
 
-    int updateStatus(Long alarmId, String status);
+    int updateStatus(Long alarmId, AlarmStatus status);
 
-    PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serviceId);
+    PagerContract<Alarm> findPage(int pageIndex, int pageSize, Long alarmId, String name, String teamName, AlarmStatus status, Long serviceId);
 
-    void updateAlarmLastExecuteInfo(Long alarmId, Date executeTime, String executeResult);
+    void updateAlarmLastExecuteInfo(Long alarmId, Date executeTime, ExecuteStatus executeResult);
 
     int updateJobId(Long alarmId, Long jobId);
 

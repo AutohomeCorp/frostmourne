@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate;
 
+import com.autohome.frostmourne.monitor.model.enums.TemplateType;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ public class AlertTemplate implements Serializable {
     /**
      * 模板类型
      */
-    private String templateType;
+    private TemplateType templateType;
 
     /**
      * 模板类型关联code，根据不同模板类型关联不同的源
@@ -72,12 +73,12 @@ public class AlertTemplate implements Serializable {
         this.templateName = templateName == null ? null : templateName.trim();
     }
 
-    public String getTemplateType() {
+    public TemplateType getTemplateType() {
         return templateType;
     }
 
-    public void setTemplateType(String templateType) {
-        this.templateType = templateType == null ? null : templateType.trim();
+    public void setTemplateType(TemplateType templateType) {
+        this.templateType = templateType;
     }
 
     public String getTemplateUnionCode() {

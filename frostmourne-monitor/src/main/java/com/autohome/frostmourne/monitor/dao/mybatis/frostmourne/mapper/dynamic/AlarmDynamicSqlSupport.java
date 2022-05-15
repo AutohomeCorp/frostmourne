@@ -1,5 +1,9 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
+import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
+import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.enums.RecoverNoticeStatus;
+import com.autohome.frostmourne.monitor.model.enums.RiskLevel;
 import java.sql.JDBCType;
 import java.util.Date;
 import org.mybatis.dynamic.sql.SqlColumn;
@@ -36,12 +40,12 @@ public final class AlarmDynamicSqlSupport {
     /**
      * 开关状态（OPEN,CLOSE）
      */
-    public static final SqlColumn<String> status = alarm.status;
+    public static final SqlColumn<AlarmStatus> status = alarm.status;
 
     /**
      * 最近一次执行结果
      */
-    public static final SqlColumn<String> executeResult = alarm.executeResult;
+    public static final SqlColumn<ExecuteStatus> executeResult = alarm.executeResult;
 
     /**
      * 最近一次执行时间
@@ -86,7 +90,7 @@ public final class AlarmDynamicSqlSupport {
     /**
      * 风险等级。info: 提示；important: 重要；emergency: 紧急； crash: 我崩了
      */
-    public static final SqlColumn<String> riskLevel = alarm.riskLevel;
+    public static final SqlColumn<RiskLevel> riskLevel = alarm.riskLevel;
 
     /**
      * 服务ID
@@ -96,7 +100,7 @@ public final class AlarmDynamicSqlSupport {
     /**
      * 恢复通知开关（OPEN,CLOSE）
      */
-    public static final SqlColumn<String> recoverNoticeStatus = alarm.recoverNoticeStatus;
+    public static final SqlColumn<RecoverNoticeStatus> recoverNoticeStatus = alarm.recoverNoticeStatus;
 
     /**
      * 上次调度时间
@@ -119,9 +123,9 @@ public final class AlarmDynamicSqlSupport {
 
         public final SqlColumn<String> ownerKey = column("owner_key", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> status = column("status", JDBCType.VARCHAR);
+        public final SqlColumn<AlarmStatus> status = column("status", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> executeResult = column("execute_result", JDBCType.VARCHAR);
+        public final SqlColumn<ExecuteStatus> executeResult = column("execute_result", JDBCType.VARCHAR);
 
         public final SqlColumn<Date> executeAt = column("execute_at", JDBCType.TIMESTAMP);
 
@@ -139,11 +143,11 @@ public final class AlarmDynamicSqlSupport {
 
         public final SqlColumn<String> teamName = column("team_name", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> riskLevel = column("risk_level", JDBCType.VARCHAR);
+        public final SqlColumn<RiskLevel> riskLevel = column("risk_level", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> serviceId = column("service_id", JDBCType.BIGINT);
 
-        public final SqlColumn<String> recoverNoticeStatus = column("recover_notice_status", JDBCType.VARCHAR);
+        public final SqlColumn<RecoverNoticeStatus> recoverNoticeStatus = column("recover_notice_status", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> triggerLastTime = column("trigger_last_time", JDBCType.BIGINT);
 

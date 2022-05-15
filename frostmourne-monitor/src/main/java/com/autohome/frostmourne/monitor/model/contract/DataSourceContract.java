@@ -3,13 +3,15 @@ package com.autohome.frostmourne.monitor.model.contract;
 import java.util.Date;
 import java.util.Map;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
+
 public class DataSourceContract {
 
     private Long id;
 
     private String datasourceName;
 
-    private String datasourceType;
+    private DataSourceType datasourceType;
 
     private String serviceAddress;
 
@@ -39,11 +41,11 @@ public class DataSourceContract {
         this.datasourceName = datasourceName;
     }
 
-    public String getDatasourceType() {
+    public DataSourceType getDatasourceType() {
         return datasourceType;
     }
 
-    public void setDatasourceType(String datasourceType) {
+    public void setDatasourceType(DataSourceType datasourceType) {
         this.datasourceType = datasourceType;
     }
 

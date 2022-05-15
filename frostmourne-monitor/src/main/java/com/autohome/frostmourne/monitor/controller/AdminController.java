@@ -3,6 +3,7 @@ package com.autohome.frostmourne.monitor.controller;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
+import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.autohome.frostmourne.core.contract.PagerContract;
@@ -61,7 +62,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Protocol<PagerContract<Alarm>> list(int pageIndex, int pageSize, Long alarmId, String name, String teamName, String status, Long serviceId) {
+    public Protocol<PagerContract<Alarm>> list(int pageIndex, int pageSize, Long alarmId, String name, String teamName, AlarmStatus status, Long serviceId) {
         PagerContract<Alarm> pagerContract = this.alarmAdminService.find(pageIndex, pageSize, alarmId, name, teamName, status, serviceId);
         return new Protocol<>(pagerContract);
     }

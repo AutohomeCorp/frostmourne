@@ -5,15 +5,16 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
-import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
-import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
-import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import org.elasticsearch.common.Strings;
 import org.springframework.stereotype.Service;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
+import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
 import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
+import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.service.core.alert.IAlertService;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
@@ -57,11 +58,11 @@ public class AlarmService implements IAlarmService {
     @Override
     public AlarmProcessLogger run(AlarmContract alarmContract, boolean test) {
         IRule rule = this.ruleService.findRule(alarmContract.getRuleContract().getRuleType());
-        String dataSourceType;
+        DataSourceType dataSourceType;
         if (alarmContract.getMetricContract().getDataNameId() != null && alarmContract.getMetricContract().getDataNameId() > 0) {
             dataSourceType = alarmContract.getMetricContract().getDataSourceContract().getDatasourceType();
         } else {
-            dataSourceType = alarmContract.getMetricContract().getDataName();
+            dataSourceType = DataSourceType.valueOf(alarmContract.getMetricContract().getDataName());
         }
         IMetric metric = this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetricType());
         AlarmExecutor alarmExecutor = new AlarmExecutor(alarmContract, rule, metric);
@@ -100,7 +101,8 @@ public class AlarmService implements IAlarmService {
 
         List<AlarmLog> alarmLogList = alarmLogRepository.selectRecently(Integer.parseInt(alertCondition) - 1);
 
-        return alarmLogList.stream().noneMatch(alarmLog -> VerifyResult.FALSE.equals(alarmLog.getVerifyResult()));
+        return alarmLogList.size() == Integer.parseInt(alertCondition) - 1
+            && alarmLogList.stream().noneMatch(alarmLog -> VerifyResult.FALSE.equals(alarmLog.getVerifyResult()));
     }
 
     private String completeAlertMessage(AlarmContract alarmContract, AlarmProcessLogger alarmProcessLogger, IRule rule) {

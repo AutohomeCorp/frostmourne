@@ -17,6 +17,7 @@ import com.autohome.frostmourne.monitor.model.contract.AlertTemplateQueryForm;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlertTemplateDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlertTemplateDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertTemplateRepository;
+import com.autohome.frostmourne.monitor.model.enums.TemplateType;
 import com.autohome.frostmourne.monitor.tool.MybatisTool;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -58,20 +59,20 @@ public class AlertTemplateRepository implements IAlertTemplateRepository {
         if (CollectionUtils.isEmpty(form.getTemplateTypeUnionCodes())) {
             templateTypeConditions = Collections.emptyList();
         } else {
-            templateTypeConditions =
-                form.getTemplateTypeUnionCodes().stream().filter(value -> !StringUtils.isEmpty(value)).map(SPLITTER_TEMPLATE_TYPE_UNION_CODE::splitToList)
-                    .map(list -> SqlBuilder.or(AlertTemplateDynamicSqlSupport.templateType, isEqualTo(list.get(0)).when(MybatisTool::notNullAndEmpty),
-                        and(AlertTemplateDynamicSqlSupport.templateUnionCode,
-                            isIn(list.size() > 1 ? SPLITTER_TEMPLATE_UNION_CODE.splitToList(list.get(1)) : Collections.emptyList())
-                                .then(s -> s.filter(MybatisTool::notNullAndEmpty)))))
-                    .collect(Collectors.toList());
+            templateTypeConditions = form.getTemplateTypeUnionCodes().stream().filter(value -> !StringUtils.isEmpty(value))
+                .map(SPLITTER_TEMPLATE_TYPE_UNION_CODE::splitToList)
+                .map(list -> SqlBuilder.or(AlertTemplateDynamicSqlSupport.templateType, isEqualTo(TemplateType.valueOf(list.get(0))).when(MybatisTool::notNull),
+                    and(AlertTemplateDynamicSqlSupport.templateUnionCode,
+                        isIn(list.size() > 1 ? SPLITTER_TEMPLATE_UNION_CODE.splitToList(list.get(1)) : Collections.emptyList())
+                            .then(s -> s.filter(MybatisTool::notNullAndEmpty)))))
+                .collect(Collectors.toList());
         }
         PageHelper.startPage(form.getPageIndex(), form.getPageSize());
         List<AlertTemplate> records = alertTemplateDynamicMapper.select(query -> {
             query.where()
                 .and(AlertTemplateDynamicSqlSupport.templateName,
                     isLike(form.getTemplateName()).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
-                .and(AlertTemplateDynamicSqlSupport.templateType, isEqualTo(form.getTemplateType()).when(MybatisTool::notNullAndEmpty))
+                .and(AlertTemplateDynamicSqlSupport.templateType, isEqualTo(form.getTemplateType()).when(MybatisTool::notNull))
                 .and(AlertTemplateDynamicSqlSupport.templateType, isNotNull().when(() -> false), templateTypeConditions)
                 .orderBy(AlertTemplateDynamicSqlSupport.createAt.descending());
             return query;
