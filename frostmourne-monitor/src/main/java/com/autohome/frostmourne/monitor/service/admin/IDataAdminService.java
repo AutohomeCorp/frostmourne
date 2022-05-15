@@ -9,6 +9,7 @@ import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.model.contract.DataOption;
 import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.model.contract.TreeDataOption;
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 
 public interface IDataAdminService {
 
@@ -22,13 +23,13 @@ public interface IDataAdminService {
 
     boolean removeDataName(Long datanameId);
 
-    PagerContract<DataSourceContract> findDatasource(int pageIndex, int pageSize, String datasourceType);
+    PagerContract<DataSourceContract> findDatasource(int pageIndex, int pageSize, DataSourceType datasourceType);
 
-    List<DataSource> findDataSourceByType(String datasourceType);
+    List<DataSource> findDataSourceByType(DataSourceType datasourceType);
 
     Map<Long, DataSource> mapDataSourceByIds(List<Long> dataSourceIds);
 
-    PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, String datasourceType, Long datasourceId);
+    PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, DataSourceType datasourceType, Long datasourceId);
 
     List<DataOption> dataOptions();
 
@@ -38,5 +39,5 @@ public interface IDataAdminService {
 
     Map<String, DataNameContract> mapDataNameByNames(List<String> names);
 
-    List<DataNameContract> findDataNameByType(String datasourceType);
+    List<DataNameContract> findDataNameByType(DataSourceType datasourceType);
 }

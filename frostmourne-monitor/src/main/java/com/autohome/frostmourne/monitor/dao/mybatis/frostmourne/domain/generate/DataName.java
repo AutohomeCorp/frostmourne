@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -32,7 +33,7 @@ public class DataName implements Serializable {
     /**
      * 数据源类型。(Elasticsearch, Influxdb)
      */
-    private String datasourceType;
+    private DataSourceType datasourceType;
 
     /**
      * 时间字段名
@@ -98,12 +99,12 @@ public class DataName implements Serializable {
         this.dataSourceId = dataSourceId;
     }
 
-    public String getDatasourceType() {
+    public DataSourceType getDatasourceType() {
         return datasourceType;
     }
 
-    public void setDatasourceType(String datasourceType) {
-        this.datasourceType = datasourceType == null ? null : datasourceType.trim();
+    public void setDatasourceType(DataSourceType datasourceType) {
+        this.datasourceType = datasourceType;
     }
 
     public String getTimestampField() {

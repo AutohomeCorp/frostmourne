@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Recipient;
+import com.autohome.frostmourne.monitor.model.enums.RecipientType;
 
 public interface IRecipientRepository {
 
@@ -21,5 +22,7 @@ public interface IRecipientRepository {
 
     int deleteByAlarm(Long alarmId);
 
-    List<Recipient> findByAlarm(Long alarmId);
+    int deleteByAlarmAndType(Long alarmId, RecipientType type);
+
+    List<Recipient> findByAlarmAndType(Long alarmId, RecipientType type);
 }

@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sql.DataSource;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,7 +96,7 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
 
     private DruidDataSource createDataSource(DataSourceContract dataSourceContract) throws SQLException {
         DruidDataSource dataSource = new DruidDataSource();
-        if ("clickhouse".equalsIgnoreCase(dataSourceContract.getDatasourceType())) {
+        if (DataSourceType.clickhouse.equals(dataSourceContract.getDatasourceType())) {
             dataSource.setDriverClassName(DataSourceJdbcType.CLICKHOUSE.getDriverClassName());
         } else {
             dataSource.setDriverClassName(DataSourceJdbcType.MYSQL.getDriverClassName());

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * metric
+ * 监控指标配置
  *
  * @author mybatis-generator
  */

@@ -1,5 +1,6 @@
 package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import java.sql.JDBCType;
 import java.util.Date;
 import org.mybatis.dynamic.sql.SqlColumn;
@@ -26,7 +27,7 @@ public final class DataNameDynamicSqlSupport {
     /**
      * 数据源类型。(Elasticsearch, Influxdb)
      */
-    public static final SqlColumn<String> datasourceType = dataName.datasourceType;
+    public static final SqlColumn<DataSourceType> datasourceType = dataName.datasourceType;
 
     /**
      * 时间字段名
@@ -67,7 +68,7 @@ public final class DataNameDynamicSqlSupport {
 
         public final SqlColumn<Long> dataSourceId = column("data_source_id", JDBCType.BIGINT);
 
-        public final SqlColumn<String> datasourceType = column("datasource_type", JDBCType.VARCHAR);
+        public final SqlColumn<DataSourceType> datasourceType = column("datasource_type", JDBCType.VARCHAR);
 
         public final SqlColumn<String> timestampField = column("timestamp_field", JDBCType.VARCHAR);
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 
 public interface IDataSourceRepository {
 
@@ -19,7 +20,7 @@ public interface IDataSourceRepository {
 
     int updateByPrimaryKey(DataSource record);
 
-    List<DataSource> find(String datasourceType);
+    List<DataSource> find(DataSourceType datasourceType);
 
     List<DataSource> findByIdList(List<Long> idList);
 }

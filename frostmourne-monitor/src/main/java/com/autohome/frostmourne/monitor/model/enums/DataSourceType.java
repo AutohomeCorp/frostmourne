@@ -1,10 +1,20 @@
 package com.autohome.frostmourne.monitor.model.enums;
 
-public class DataSourceType {
+public enum DataSourceType {
 
-    public static final String ELASTICSEARCH = "elasticsearch";
+    elasticsearch,
 
-    public static final String INFLUXDB = "influxdb";
+    influxdb,
 
-    public static final String HTTP = "http";
+    http,
+
+    mysql,
+
+    clickhouse,
+
+    skywalking,
+
+    ping,
+
+    prometheus
 }
