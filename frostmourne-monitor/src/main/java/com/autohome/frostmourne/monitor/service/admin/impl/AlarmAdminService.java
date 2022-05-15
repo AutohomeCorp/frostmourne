@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.model.enums.RecipientType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.core.util.CronExpression;
 import org.slf4j.Logger;
@@ -233,8 +234,8 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertContract.setCreateAt(alert.getCreateAt());
         alertContract.setFeishuRobotHook(alert.getFeishuRobotHook());
 
-        List<Recipient> recipientList = this.recipientRepository.findByAlarm(alarmId);
-        alertContract.setRecipients(recipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
+        List<Recipient> alertRecipientList = this.recipientRepository.findByAlarmAndType(alarmId, RecipientType.ALERT);
+        alertContract.setRecipients(alertRecipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
         alarmContract.setAlertContract(alertContract);
 
         AlertUpgradeContract alertUpgradeContract = new AlertUpgradeContract();
@@ -248,6 +249,8 @@ public class AlarmAdminService implements IAlarmAdminService {
             if (StringUtils.isNotBlank(alertUpgrade.getWays())) {
                 alertUpgradeContract.setWays(Splitter.on(",").splitToList(alertUpgrade.getWays()));
             }
+            List<Recipient> alertUpgradeRecipientList = this.recipientRepository.findByAlarmAndType(alarmId, RecipientType.ALERT_UPGRADE);
+            alertUpgradeContract.setRecipients(alertUpgradeRecipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
             alertUpgradeContract.setDingRobotHook(alertUpgrade.getDingRobotHook());
             alertUpgradeContract.setHttpPostUrl(alertUpgrade.getHttpPostUrl());
             alertUpgradeContract.setWechatRobotHook(alertUpgrade.getWechatRobotHook());
@@ -295,6 +298,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     private void saveAlertUpgrade(AlertUpgradeContract alertUpgradeContract, Long alarmId, boolean isNewAlarm, String operator) {
         if (!isNewAlarm) {
             alertUpgradeRepository.deleteByAlarmId(alarmId);
+            recipientRepository.deleteByAlarmAndType(alarmId, RecipientType.ALERT_UPGRADE);
         }
         AlertUpgrade alertUpgrade = new AlertUpgrade();
         alertUpgrade.setAlarmId(alarmId);
@@ -308,6 +312,16 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertUpgrade.setCreator(operator);
         alertUpgrade.setCreateAt(LocalDateTime.now());
         alertUpgradeRepository.insert(alertUpgrade);
+
+        for (String recipient : alertUpgradeContract.getRecipients()) {
+            Recipient alertRecipient = new Recipient();
+            alertRecipient.setAlarmId(alarmId);
+            alertRecipient.setAlertId(alertUpgrade.getId());
+            alertRecipient.setType(RecipientType.ALERT_UPGRADE);
+            alertRecipient.setAccount(recipient);
+            alertRecipient.setCreateAt(new Date());
+            recipientRepository.insert(alertRecipient);
+        }
     }
 
     private Alarm addAlarm(AlarmContract alarmContract) {
@@ -363,7 +377,7 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     private void saveAlert(AlertContract contract, Long alarmId, boolean isNewAlarm, String account) {
         if (!isNewAlarm) {
-            recipientRepository.deleteByAlarm(alarmId);
+            recipientRepository.deleteByAlarmAndType(alarmId, RecipientType.ALERT);
             alertRepository.deleteByAlarm(alarmId);
         }
         Alert alert = new Alert();
@@ -386,6 +400,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             alertRecipient.setAlarmId(alarmId);
             alertRecipient.setAlertId(alert.getId());
             alertRecipient.setAccount(recipient);
+            alertRecipient.setType(RecipientType.ALERT);
             alertRecipient.setCreateAt(new Date());
             recipientRepository.insert(alertRecipient);
         }

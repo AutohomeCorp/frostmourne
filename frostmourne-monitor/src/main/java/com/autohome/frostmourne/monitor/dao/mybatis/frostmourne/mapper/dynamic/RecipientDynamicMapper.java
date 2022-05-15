@@ -32,7 +32,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface RecipientDynamicMapper {
-    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, alertId, account, createAt);
+    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, alertId, account, createAt, type);
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
@@ -54,7 +54,8 @@ public interface RecipientDynamicMapper {
         @Result(column="alarm_id", property="alarmId", jdbcType=JdbcType.BIGINT),
         @Result(column="alert_id", property="alertId", jdbcType=JdbcType.BIGINT),
         @Result(column="account", property="account", jdbcType=JdbcType.VARCHAR),
-        @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="type", property="type", jdbcType=JdbcType.VARCHAR)
     })
     List<Recipient> selectMany(SelectStatementProvider selectStatement);
 
@@ -81,6 +82,7 @@ public interface RecipientDynamicMapper {
             .map(alertId).toProperty("alertId")
             .map(account).toProperty("account")
             .map(createAt).toProperty("createAt")
+            .map(type).toProperty("type")
         );
     }
 
@@ -90,6 +92,7 @@ public interface RecipientDynamicMapper {
             .map(alertId).toPropertyWhenPresent("alertId", record::getAlertId)
             .map(account).toPropertyWhenPresent("account", record::getAccount)
             .map(createAt).toPropertyWhenPresent("createAt", record::getCreateAt)
+            .map(type).toPropertyWhenPresent("type", record::getType)
         );
     }
 
@@ -119,14 +122,16 @@ public interface RecipientDynamicMapper {
         return dsl.set(alarmId).equalTo(record::getAlarmId)
                 .set(alertId).equalTo(record::getAlertId)
                 .set(account).equalTo(record::getAccount)
-                .set(createAt).equalTo(record::getCreateAt);
+                .set(createAt).equalTo(record::getCreateAt)
+                .set(type).equalTo(record::getType);
     }
 
     static UpdateDSL<UpdateModel> updateSelectiveColumns(Recipient record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(alarmId).equalToWhenPresent(record::getAlarmId)
                 .set(alertId).equalToWhenPresent(record::getAlertId)
                 .set(account).equalToWhenPresent(record::getAccount)
-                .set(createAt).equalToWhenPresent(record::getCreateAt);
+                .set(createAt).equalToWhenPresent(record::getCreateAt)
+                .set(type).equalToWhenPresent(record::getType);
     }
 
     default int updateByPrimaryKey(Recipient record) {
@@ -135,6 +140,7 @@ public interface RecipientDynamicMapper {
             .set(alertId).equalTo(record::getAlertId)
             .set(account).equalTo(record::getAccount)
             .set(createAt).equalTo(record::getCreateAt)
+            .set(type).equalTo(record::getType)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -145,6 +151,7 @@ public interface RecipientDynamicMapper {
             .set(alertId).equalToWhenPresent(record::getAlertId)
             .set(account).equalToWhenPresent(record::getAccount)
             .set(createAt).equalToWhenPresent(record::getCreateAt)
+            .set(type).equalToWhenPresent(record::getType)
             .where(id, isEqualTo(record::getId))
         );
     }

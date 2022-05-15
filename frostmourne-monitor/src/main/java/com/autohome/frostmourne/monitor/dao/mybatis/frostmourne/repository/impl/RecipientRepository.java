@@ -11,6 +11,8 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.RecipientDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.RecipientDynamicSqlSupport;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IRecipientRepository;
+import com.autohome.frostmourne.monitor.model.enums.RecipientType;
+import com.autohome.frostmourne.monitor.tool.MybatisTool;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -55,7 +57,14 @@ public class RecipientRepository implements IRecipientRepository {
     }
 
     @Override
-    public List<Recipient> findByAlarm(Long alarmId) {
-        return recipientDynamicMapper.select(query -> query.where().and(RecipientDynamicSqlSupport.alarmId, isEqualTo(alarmId)));
+    public int deleteByAlarmAndType(Long alarmId, RecipientType type) {
+        return recipientDynamicMapper.delete(query -> query.where().and(RecipientDynamicSqlSupport.alarmId, isEqualTo(alarmId))
+            .and(RecipientDynamicSqlSupport.type, isEqualTo(type).when(MybatisTool::notNull)));
+    }
+
+    @Override
+    public List<Recipient> findByAlarmAndType(Long alarmId, RecipientType type) {
+        return recipientDynamicMapper.select(query -> query.where().and(RecipientDynamicSqlSupport.alarmId, isEqualTo(alarmId))
+            .and(RecipientDynamicSqlSupport.type, isEqualTo(type).when(MybatisTool::notNull)));
     }
 }

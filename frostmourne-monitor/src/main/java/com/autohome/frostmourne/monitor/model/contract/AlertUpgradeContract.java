@@ -47,6 +47,8 @@ public class AlertUpgradeContract {
      */
     private String feishuRobotHook;
 
+    private List<String> recipients;
+
     public AlarmUpgradeStatus getStatus() {
         return status;
     }
@@ -101,5 +103,13 @@ public class AlertUpgradeContract {
 
     public void setFeishuRobotHook(String feishuRobotHook) {
         this.feishuRobotHook = feishuRobotHook;
+    }
+
+    public List<String> getRecipients() {
+        return recipients;
+    }
+
+    public void setRecipients(List<String> recipients) {
+        this.recipients = recipients;
     }
 }
