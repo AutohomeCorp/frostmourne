@@ -45,4 +45,10 @@ public class LogController {
             logService.findAlertLog(pageIndex, pageSize, startTime, endTime, executeId, alarmId, account, way, sendStatus, inSilence, alertType);
         return new Protocol<>(pagerContract);
     }
+
+    @RequestMapping(value = "log4j", method = RequestMethod.POST)
+    public Protocol log4j(String content) {
+
+        return new Protocol();
+    }
 }

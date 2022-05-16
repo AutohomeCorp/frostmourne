@@ -16,16 +16,16 @@
 
 # 📖 介绍
 
-`Frostmourne`(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助开发监控应用日志，现主要用于监控`Elasticsearch`数据。如果你现在使用`Elastic stack(ELK)`建立起了日志系统，
-却苦恼于没有一个配套日志监控系统，也许它能帮到你。
+`Frostmourne`(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助监控几乎所有数据库(包括`Elasticsearch`, `Prometheus`, `SkyWalking`, `MySql` 等等)数据。如果你已经建立起了日志系统，
+指标体系，却苦恼于没有一个配套监控系统，也许它能帮到你。
 
 ### 项目初衷
 
 在用`ELK`建立起日志系统之后，我们发现应用日志监控这块除了`ElastAlert`之外，没有其他方案。我们初期使用`ElastAlert`来解决日志监控的问题，
 但是随着配置的增加，不仅管理成本和使用成本较高，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
-来解决日志监控的问题。如果你面临和我们同样的问题，不妨一试。
+来解决日志监控的问题。
 
-但是项目并不仅限于`Elasticsearch`数据，还支持`HTTP`, `PING`数据监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`数据监控，后面还会加入更多的常用数据源
+项目并不局限于`Elasticsearch`数据，还支持`HTTP`, `PING`数据监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`数据监控，后面还会加入更多的常用数据源
 (如：`IoTDB`, `Loki`, `MongoDB` `Redis`, `Oracle`, `SqlServer`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
 
 # ✨ 主要功能
@@ -191,6 +191,7 @@ yarn dev
 # ⚙️ 后续规划
 
 * ~~发布0.7.1-RELEASE, 进入0.8-SNAPSHOT开发版~~ [2022-05-13]
+* 【0.8】 报警升级功能 - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
 * Elasticsearch监控数值实现环比监控
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * 解决邮箱报警不支持ssl的问题

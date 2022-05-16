@@ -2,15 +2,27 @@ package com.autohome.frostmourne.core;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
+import com.sun.mail.util.MailSSLSocketFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +49,17 @@ public class EmailHelper {
                     return new PasswordAuthentication(mailConfig.getSender(), mailConfig.getSenderPassword());
                 }
             };
+        }
+        if ("true".equalsIgnoreCase(mailConfig.getSslEnable())) {
+            properties.put("mail.smtp.ssl.enable", "true");
+            properties.put("mail.smtp.socketFactory.port", "465");
+            try {
+                MailSSLSocketFactory mailSSLSocketFactory = new MailSSLSocketFactory();
+                mailSSLSocketFactory.setTrustAllHosts(true);
+                properties.put("mail.smtp.socketFactory.class", mailSSLSocketFactory);
+            } catch (GeneralSecurityException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         Session session = Session.getDefaultInstance(properties, authenticator);
 

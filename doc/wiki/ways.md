@@ -14,11 +14,11 @@
 在配置中将邮件发送人相关配置填写正确即可
 
 ```
-email.smtp.host=${your.email.smtp.host}
-email.smtp.port=${your.email.smtp.port}
-email.smtp.auth=${your.email.smtp.auth}
-email.sender=${your.email.sender}
-email.sender.password=${your.email.sender.password}
+email.smtp-host=${your.email.smtp.host:}
+email.smtp-port=${your.email.smtp.port:}
+email.smtp-auth=${your.email.smtp.auth:true}
+email.sender=${your.email.sender:}
+email.sender-password=${your.email.sender.password:}
 ```
 
 * 企业微信消息发送

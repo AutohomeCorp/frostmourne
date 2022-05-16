@@ -15,7 +15,7 @@ public class MailConfig {
 
     private String senderPassword;
 
-    private String tlsEnable;
+    private String sslEnable;
 
     public String getSmtpHost() {
         return smtpHost;
@@ -57,19 +57,19 @@ public class MailConfig {
         this.senderPassword = senderPassword;
     }
 
-    public String getTlsEnable() {
-        return tlsEnable;
+    public String getSslEnable() {
+        return sslEnable;
     }
 
-    public void setTlsEnable(String tlsEnable) {
-        this.tlsEnable = tlsEnable;
+    public void setSslEnable(String sslEnable) {
+        this.sslEnable = sslEnable;
     }
 
-    public MailConfig(String smtpHost, String smtpPort, String smtpAuth, String tlsEnable, String sender, String senderPassword) {
+    public MailConfig(String smtpHost, String smtpPort, String smtpAuth, String sslEnable, String sender, String senderPassword) {
         this.smtpHost = smtpHost;
         this.smtpPort = smtpPort;
         this.smtpAuth = smtpAuth;
-        this.tlsEnable = tlsEnable;
+        this.sslEnable = sslEnable;
         this.sender = sender;
         this.senderPassword = senderPassword;
     }

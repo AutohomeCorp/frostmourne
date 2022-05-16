@@ -33,7 +33,7 @@
         <javaModelGenerator targetPackage="${project.domain.class.package}"
                             targetProject="${project.domain.class.path}">
             <property name="enableSubPackages" value="true"/>
-            <property name="trimStrings" value="true"/>
+            <property name="trimStrings" value="false"/>
         </javaModelGenerator>
 
         <!--生成映射文件存放位置-->

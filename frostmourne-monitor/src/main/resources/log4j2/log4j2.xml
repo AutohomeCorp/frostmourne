@@ -36,6 +36,10 @@
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingFile>
+        <!--<Http name="ProgramErrorHttp" url="https://localhost:10054/log/log4j/">
+            <Autolog4jCsvLayout charset="UTF-8" department="${sys:department}" team="${sys:team}" project="${sys:project}" />
+            <EnumFilter allowLevels="WARN,ERROR,FATAL" />
+        </Http>-->
         <RollingFile name="ProgramRun" ignoreExceptions="false"
                      fileName="${sys:logs.dir}/monitor_run.log"
                      filePattern="${sys:logs.dir}/monitor_run.log_%d{yyyy-MM-dd}">

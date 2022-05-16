@@ -176,7 +176,7 @@ public class Metric implements Serializable {
     }
 
     public void setPostData(String postData) {
-        this.postData = postData == null ? null : postData.trim();
+        this.postData = postData;
     }
 
     public String getProperties() {
