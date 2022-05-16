@@ -192,9 +192,9 @@ yarn dev
 
 * ~~发布0.7.1-RELEASE, 进入0.8-SNAPSHOT开发版~~ [2022-05-13]
 * ~~【0.8】 报警升级功能~~ - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
+* ~~解决邮箱报警不支持ssl的问题~~ [2022-05-15]
 * Elasticsearch监控数值实现环比监控
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
-* 解决邮箱报警不支持ssl的问题
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
 * 增加[loki](https://github.com/grafana/loki)数据监控报警
@@ -298,7 +298,6 @@ yarn dev
 <td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/etcp.jpg" alt="ETCP"></td>
 </tr>
 </table>
-
 
 
 
