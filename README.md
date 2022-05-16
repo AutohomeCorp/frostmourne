@@ -191,7 +191,7 @@ yarn dev
 # ⚙️ 后续规划
 
 * ~~发布0.7.1-RELEASE, 进入0.8-SNAPSHOT开发版~~ [2022-05-13]
-* 【0.8】 报警升级功能 - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
+* ~~【0.8】 报警升级功能~~ - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
 * Elasticsearch监控数值实现环比监控
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * 解决邮箱报警不支持ssl的问题
