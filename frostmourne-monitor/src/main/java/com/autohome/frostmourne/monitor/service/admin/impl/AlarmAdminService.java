@@ -33,6 +33,7 @@ import com.autohome.frostmourne.monitor.transform.DataNameTransformer;
 import com.autohome.frostmourne.monitor.transform.DataSourceTransformer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Splitter;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class AlarmAdminService implements IAlarmAdminService {
@@ -313,14 +314,16 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertUpgrade.setCreateAt(LocalDateTime.now());
         alertUpgradeRepository.insert(alertUpgrade);
 
-        for (String recipient : alertUpgradeContract.getRecipients()) {
-            Recipient alertRecipient = new Recipient();
-            alertRecipient.setAlarmId(alarmId);
-            alertRecipient.setAlertId(alertUpgrade.getId());
-            alertRecipient.setType(RecipientType.ALERT_UPGRADE);
-            alertRecipient.setAccount(recipient);
-            alertRecipient.setCreateAt(new Date());
-            recipientRepository.insert(alertRecipient);
+        if (!CollectionUtils.isEmpty(alertUpgradeContract.getRecipients())){
+            for (String recipient : alertUpgradeContract.getRecipients()) {
+                Recipient alertRecipient = new Recipient();
+                alertRecipient.setAlarmId(alarmId);
+                alertRecipient.setAlertId(alertUpgrade.getId());
+                alertRecipient.setType(RecipientType.ALERT_UPGRADE);
+                alertRecipient.setAccount(recipient);
+                alertRecipient.setCreateAt(new Date());
+                recipientRepository.insert(alertRecipient);
+            }
         }
     }
 
