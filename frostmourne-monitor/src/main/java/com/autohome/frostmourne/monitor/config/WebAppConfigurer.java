@@ -47,6 +47,7 @@ public class WebAppConfigurer implements WebMvcConfigurer {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/dist/static/", "classpath:/static/").resourceChain(true);
         registry.addResourceHandler("/dist/**").addResourceLocations("classpath:/dist/").resourceChain(true);
         registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/dist/favicon.ico").resourceChain(true);
+        registry.addResourceHandler("/logo_sword.png").addResourceLocations("classpath:/dist/logo_sword.png").resourceChain(true);
     }
 
     @Override

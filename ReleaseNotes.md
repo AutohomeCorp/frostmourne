@@ -6,6 +6,10 @@
 * 【0.8】解决邮箱报警不支持ssl的问题 [2022-05-15]
 * 【0.8】增加报警升级功能 [2022-05-15]
 
+### BugFix
+
+* 【0.8】解决logo不显示的问题 [2022-05-17]
+
 ### Mysql
 
 * 【0.8】alert_event表新增upgrade字段; recipient新增recipient字段; 新增alert_upgrade表 - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
