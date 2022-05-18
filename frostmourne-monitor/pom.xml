@@ -28,7 +28,7 @@
     <dependencies>
         <dependency>
             <groupId>com.autohome</groupId>
-            <artifactId>frostmourne-core</artifactId>
+            <artifactId>frostmourne-common</artifactId>
         </dependency>
 
         <dependency>
@@ -271,7 +271,7 @@
                     </dependency>
                     <dependency>
                         <groupId>com.autohome</groupId>
-                        <artifactId>frostmourne-core</artifactId>
+                        <artifactId>frostmourne-common</artifactId>
                         <version>${project.version}</version>
                     </dependency>
                 </dependencies>

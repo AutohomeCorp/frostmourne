@@ -2,7 +2,7 @@ package com.autohome.frostmourne.monitor.dao.prometheus.impl;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.dao.prometheus.IPrometheusDao;
 import com.autohome.frostmourne.monitor.dao.prometheus.domain.MetricValue;
 import com.autohome.frostmourne.monitor.dao.prometheus.domain.PrometheusResponse;

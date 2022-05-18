@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.dao.skywalking.daomain;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.common.jackson.JacksonUtil;
 
 /**
  * description

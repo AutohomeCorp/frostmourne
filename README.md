@@ -42,7 +42,7 @@
 * `HTTP`数据监控, `Javascript`表达式判断是否报警; `PING`连通监控
 * 前端简单易用：监控管理、测试、另存、执行日志和历史消息
 * `Elasticsearch`数据查询、分享和下载
-* 报警消息抑制功能，防止消息轰炸
+* 报警消息抑制功能，防止消息轰炸；也有报警升级功能，避免故障相关方长时间得不到通知。
 * 自带账号，团队，部门信息管理模块，也可自己实现内部对接
 * 集成`LDAP`登录认证
 * 权限控制，数据隔离，各团队互不影响
@@ -193,13 +193,14 @@ yarn dev
 * ~~发布0.7.1-RELEASE, 进入0.8-SNAPSHOT开发版~~ [2022-05-13]
 * ~~【0.8】 报警升级功能~~ - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
 * ~~【0.8】解决邮箱报警不支持ssl的问题~~ [2022-05-15]
+* ~~【0.8】frostmourne-core改名为frostmourne-common~~ [2022-05-18]
 * Elasticsearch监控数值实现环比监控
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
-* 增加[loki](https://github.com/grafana/loki)数据监控报警
-* 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
-* 增加[redis](https://github.com/redis/redis)数据监控报警
+* 增加 [loki](https://github.com/grafana/loki) 数据监控报警
+* 增加 [iotdb](https://github.com/apache/iotdb) 数据监控报警
+* 增加 [redis](https://github.com/redis/redis) 数据监控报警
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
@@ -225,8 +226,6 @@ yarn dev
 * 引入对象迭代器，迭代器代表从数据源中得到一个List数据列表，或者自定义输入；用于动态生成监控查询语句，例如: Level: ERROR AND Project: ${ITEM_VALUE}；达到数据遍历监控的效果；
 * 国际化
 * 发布1.0-RELEASE
-* 增加frostmourne程序日志格式采集方案
-* 增加frostmourne程序日志查询和分析功能
 * 3-sigma离群点检测报警规则
 * 加入时序数据异常检测算法规则(需要实验可行性 [基于时间序列的异常检测](https://blog.rexking6.top/2018/11/05/%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E7%9A%84%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/))
 * 总结项目用到的知识点
@@ -298,7 +297,6 @@ yarn dev
 <td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/etcp.jpg" alt="ETCP"></td>
 </tr>
 </table>
-
 
 
 

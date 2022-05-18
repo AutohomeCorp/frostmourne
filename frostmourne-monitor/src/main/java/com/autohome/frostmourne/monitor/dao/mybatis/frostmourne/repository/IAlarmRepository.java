@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
 import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
 import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;

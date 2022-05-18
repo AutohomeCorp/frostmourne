@@ -1,6 +1,6 @@
 package com.autohome.frostmourne.monitor.service.account;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.UserInfo;
 import com.autohome.frostmourne.monitor.model.contract.UserContract;
 

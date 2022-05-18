@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.autohome.frostmourne.core.EmailHelper;
+import com.autohome.frostmourne.common.EmailHelper;
 import com.autohome.frostmourne.monitor.config.properties.MailConfigProperties;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;

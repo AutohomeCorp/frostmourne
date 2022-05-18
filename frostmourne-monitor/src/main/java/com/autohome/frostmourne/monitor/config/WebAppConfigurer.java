@@ -14,7 +14,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.servlet.config.annotation.*;
 
-import com.autohome.frostmourne.core.jackson.JacksonObjectMapper;
+import com.autohome.frostmourne.common.jackson.JacksonObjectMapper;
 import com.autohome.frostmourne.monitor.controller.interceptor.PermissionInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

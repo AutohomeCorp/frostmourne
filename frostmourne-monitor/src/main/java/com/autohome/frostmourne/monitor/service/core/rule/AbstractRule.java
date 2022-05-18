@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.model.constant.ContextConstant;
 import com.autohome.frostmourne.monitor.model.constant.GlobalConstant;
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;

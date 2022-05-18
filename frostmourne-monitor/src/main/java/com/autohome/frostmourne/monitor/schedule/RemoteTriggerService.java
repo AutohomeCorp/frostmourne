@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.common.contract.Protocol;
+import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.google.common.collect.ImmutableMap;
 
 @Service

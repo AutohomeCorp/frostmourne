@@ -14,6 +14,10 @@
 
 * 【0.8】alert_event表新增upgrade字段; recipient新增recipient字段; 新增alert_upgrade表 - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
 
+### Others
+
+* 【0.8】frostmourne-core改名为frostmourne-common [2022-05-18]
+
 # 0.7.1-RELEASE
 
 ### Feature

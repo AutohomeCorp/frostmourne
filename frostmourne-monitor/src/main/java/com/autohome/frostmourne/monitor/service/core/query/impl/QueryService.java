@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
-import com.autohome.frostmourne.core.contract.ProtocolException;
+import com.autohome.frostmourne.common.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.model.contract.ElasticsearchDataResult;

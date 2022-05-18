@@ -1,8 +1,5 @@
 package com.autohome.frostmourne.monitor.dao.skywalking.impl;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.dao.skywalking.daomain.GetAlarmsResponse;
@@ -21,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.dao.skywalking.ISkywalkingDao;
 import com.autohome.frostmourne.monitor.dao.skywalking.daomain.SkywalkingLogQueryCondition;
 import com.autohome.frostmourne.monitor.dao.skywalking.daomain.SkywalkingLogs;

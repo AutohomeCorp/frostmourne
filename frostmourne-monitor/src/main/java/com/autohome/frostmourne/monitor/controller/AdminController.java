@@ -6,8 +6,8 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.
 import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
 import org.springframework.web.bind.annotation.*;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.core.contract.Protocol;
+import com.autohome.frostmourne.common.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.Protocol;
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;

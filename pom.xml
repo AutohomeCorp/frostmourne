@@ -17,7 +17,7 @@
 
     <modules>
         <module>frostmourne-vue</module>
-        <module>frostmourne-core</module>
+        <module>frostmourne-common</module>
         <module>frostmourne-monitor</module>
     </modules>
 
@@ -43,7 +43,7 @@
             </dependency>
             <dependency>
                 <groupId>com.autohome</groupId>
-                <artifactId>frostmourne-core</artifactId>
+                <artifactId>frostmourne-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

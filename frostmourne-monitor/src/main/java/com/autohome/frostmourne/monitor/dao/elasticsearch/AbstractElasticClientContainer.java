@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 import javax.net.ssl.SSLContext;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.model.contract.ElasticsearchDataResult;
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;

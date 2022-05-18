@@ -6,8 +6,8 @@ import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.core.contract.Protocol;
+import com.autohome.frostmourne.common.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.Protocol;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoContract;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoQueryForm;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSaveForm;

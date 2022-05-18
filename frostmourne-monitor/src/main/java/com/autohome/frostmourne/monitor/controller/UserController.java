@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.core.contract.ProtocolException;
+import com.autohome.frostmourne.common.contract.Protocol;
+import com.autohome.frostmourne.common.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.controller.annotation.PermissionLimit;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.model.account.Team;
