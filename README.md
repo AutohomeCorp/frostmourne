@@ -52,25 +52,6 @@
     <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/wiki/img/markdown_wechat_robot.png" />
 
 
-# 📚 功能使用指南
-
-* <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
-* <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
-* <a href="./doc/wiki/prometheus.md" target="_blank">Prometheus数据监控指南</a>
-* <a href="./doc/wiki/skywalking.md" target="_blank">SkyWalking数据监控指南</a>
-* <a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a>
-* <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">ClickHouse数据监控指南</a>
-* <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
-* <a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a>
-* <a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
-* <a href="./doc/wiki/template.md" target="_blank">消息模板配置</a>
-* <a href="./doc/wiki/ways.md" target="_blank">报警发送</a>
-* <a href="./doc/wiki/supress.md" target="_blank">报警抑制</a>
-* <a href="./doc/wiki/auth.md" target="_blank">用户管理和登录认证</a>
-* <a href="./doc/wiki/note.md" target="_blank">注意事项</a>
-* <a href="./doc/wiki/other.md" target="_blank">其他</a>
-
-
 # 💻 在线demo
 
 为了更快的理解本项目的作用，提供了一个接口全`mock`的静态站点供大家预览功能: <a href="https://frostmourne-demo.github.io/">在线demo</a>
@@ -149,6 +130,24 @@ mvn -U clean package -DskipTests=true
 ```bash
 ./scripts/shutdown.sh
 ```
+
+# 📚 功能使用指南
+
+* <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
+* <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
+* <a href="./doc/wiki/prometheus.md" target="_blank">Prometheus数据监控指南</a>
+* <a href="./doc/wiki/skywalking.md" target="_blank">SkyWalking数据监控指南</a>
+* <a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a>
+* <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">ClickHouse数据监控指南</a>
+* <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
+* <a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a>
+* <a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
+* <a href="./doc/wiki/template.md" target="_blank">消息模板配置</a>
+* <a href="./doc/wiki/ways.md" target="_blank">报警发送</a>
+* <a href="./doc/wiki/supress.md" target="_blank">报警抑制</a>
+* <a href="./doc/wiki/auth.md" target="_blank">用户管理和登录认证</a>
+* <a href="./doc/wiki/note.md" target="_blank">注意事项</a>
+* <a href="./doc/wiki/other.md" target="_blank">其他</a>
 
 # 🛠 开发调试
 
