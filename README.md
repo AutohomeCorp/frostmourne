@@ -153,21 +153,33 @@ mvn -U clean package -DskipTests=true
 
 # 📚 功能使用指南
 
-* <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
-* <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
-* <a href="./doc/wiki/prometheus.md" target="_blank">Prometheus数据监控指南</a>
-* <a href="./doc/wiki/skywalking.md" target="_blank">SkyWalking数据监控指南</a>
-* <a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a>
-* <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">ClickHouse数据监控指南</a>
-* <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
-* <a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a>
-* <a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
-* <a href="./doc/wiki/template.md" target="_blank">消息模板配置</a>
-* <a href="./doc/wiki/ways.md" target="_blank">报警发送</a>
-* <a href="./doc/wiki/supress.md" target="_blank">报警抑制</a>
-* <a href="./doc/wiki/auth.md" target="_blank">用户管理和登录认证</a>
-* <a href="./doc/wiki/note.md" target="_blank">注意事项</a>
-* <a href="./doc/wiki/other.md" target="_blank">其他</a>
+<table>
+<tr>
+<td><a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a></td>
+<td><a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a></td>
+<td><a href="./doc/wiki/prometheus.md" target="_blank">Prometheus数据监控指南</a></td>
+</tr>
+<tr>
+<td><a href="./doc/wiki/skywalking.md" target="_blank">SkyWalking数据监控指南</a></td>
+<td><a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a></td>
+<td><a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">ClickHouse数据监控指南</a></td>
+</tr>
+<tr>
+<td><a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a></td>
+<td><a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a></td>
+<td><a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a></td>
+</tr>
+<tr>
+<td><a href="./doc/wiki/template.md" target="_blank">消息模板配置</a></td>
+<td><a href="./doc/wiki/ways.md" target="_blank">报警发送</a></td>
+<td><a href="./doc/wiki/supress.md" target="_blank">报警抑制</a></td>
+</tr>
+<tr>
+<td><a href="./doc/wiki/auth.md" target="_blank">用户管理和登录认证</a></td>
+<td><a href="./doc/wiki/note.md" target="_blank">注意事项</a></td>
+<td><a href="./doc/wiki/other.md" target="_blank">其他</a></td>
+</tr>
+</table>
 
 # 🛠 开发调试
 
