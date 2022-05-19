@@ -51,6 +51,26 @@
 
     <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/wiki/img/markdown_wechat_robot.png" />
 
+<!-- TOC -->
+
+## 目录
+
+- [介绍](#-介绍)
+- [主要功能](#-主要功能)
+- [在线demo](#-在线demo)
+- [快速启动](#-快速启动)
+- [部署](#-部署)
+  - [环境准备](#预备环境准备mysql数据库表创建)
+  - [k8s部署方式](#一k8s部署方式)
+  - [zip包部署方式](#二zip包部署方式)
+  - [自构建部署方式](#三自构建部署方式)
+- [功能使用指南](#-功能使用指南)
+- [开发调试](#-开发调试)
+- [后续规划](#后续规划)
+- [发版历史](./ReleaseNotes.md)
+- [Contributors](#-contributors)
+
+<!-- /TOC -->
 
 # 💻 在线demo
 
@@ -187,7 +207,7 @@ yarn dev
 
 
 
-# ⚙️ 后续规划
+# ⚙后续规划
 
 * ~~发布0.7.1-RELEASE, 进入0.8-SNAPSHOT开发版~~ [2022-05-13]
 * ~~【0.8】 报警升级功能~~ - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
@@ -231,12 +251,11 @@ yarn dev
 
 ### 1.0-RELEASE核心Feature后续计划
 
-* 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
-* 增加 [loki](https://github.com/grafana/loki) 数据监控报警
-* 报警升级功能
-* 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch监控数值实现环比监控
-
+* 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
+* 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
+* 增加 [iotdb](https://github.com/apache/iotdb) 数据监控报警
+* 增加 [loki](https://github.com/grafana/loki) 数据监控报警
 
 # 🗓 [发版历史](./ReleaseNotes.md)
 
