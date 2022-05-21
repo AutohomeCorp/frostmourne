@@ -88,7 +88,7 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
 
     private void closeDataSource(DruidDataSource dataSource) {
         try {
-            dataSource.clone();
+            dataSource.close();
         } catch (Exception e) {
             log.error("DataSourceJdbcManager.closeDataSource failed: {}", e.getMessage(), e);
         }
