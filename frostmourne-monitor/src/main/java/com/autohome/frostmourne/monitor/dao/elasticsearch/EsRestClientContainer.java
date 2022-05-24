@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
-import com.autohome.frostmourne.core.contract.ProtocolException;
+import com.autohome.frostmourne.common.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.model.contract.ElasticsearchDataResult;
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;

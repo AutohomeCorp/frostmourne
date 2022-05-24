@@ -12,7 +12,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IServiceInfoRepository;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoContract;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoQueryForm;

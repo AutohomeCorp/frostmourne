@@ -11,7 +11,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;
 import com.autohome.frostmourne.monitor.model.message.AlarmMessageBO;
 import com.autohome.frostmourne.monitor.model.message.MessageResult;

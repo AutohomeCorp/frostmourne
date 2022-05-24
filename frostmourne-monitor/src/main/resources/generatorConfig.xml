@@ -16,7 +16,7 @@
         <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
 
         <!-- 注释配置: 简化注解 -->
-        <commentGenerator type="com.autohome.frostmourne.core.mybatis.BarnCommentGenerator"/>
+        <commentGenerator type="com.autohome.frostmourne.common.mybatis.BarnCommentGenerator"/>
 
         <!-- 数据库连接配置 -->
         <jdbcConnection driverClass="${jdbc.driverClass}" connectionURL="${jdbc.connectionURL}"
@@ -177,7 +177,7 @@
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
 
         &lt;!&ndash; 注释配置: 简化注解 &ndash;&gt;
-        <commentGenerator type="com.autohome.frostmourne.core.mybatis.BarnCommentGenerator"/>
+        <commentGenerator type="com.autohome.frostmourne.common.mybatis.BarnCommentGenerator"/>
 
         &lt;!&ndash; 数据库连接配置 &ndash;&gt;
         <jdbcConnection driverClass="${jdbc.driverClass}" connectionURL="${jdbc.connectionURL}"

@@ -3,7 +3,7 @@ package com.autohome.frostmourne.monitor.service.admin;
 import java.util.List;
 import java.util.Map;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
 import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.model.contract.DataOption;

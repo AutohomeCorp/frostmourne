@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.core.contract.ProtocolException;
+import com.autohome.frostmourne.common.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.model.account.Team;
 import com.autohome.frostmourne.monitor.model.contract.UserContract;

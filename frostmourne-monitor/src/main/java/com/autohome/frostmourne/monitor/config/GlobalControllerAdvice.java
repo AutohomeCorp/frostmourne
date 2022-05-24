@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.autohome.frostmourne.core.contract.Protocol;
-import com.autohome.frostmourne.core.contract.ProtocolException;
+import com.autohome.frostmourne.common.contract.Protocol;
+import com.autohome.frostmourne.common.contract.ProtocolException;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {

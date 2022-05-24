@@ -17,13 +17,7 @@
 # 📖 介绍
 
 `Frostmourne`(霜之哀伤)是汽车之家经销商技术部监控系统的开源版本，用于帮助监控几乎所有数据库(包括`Elasticsearch`, `Prometheus`, `SkyWalking`, `MySql` 等等)数据。如果你已经建立起了日志系统，
-指标体系，却苦恼于没有一个配套监控系统，也许它能帮到你。
-
-### 项目初衷
-
-在用`ELK`建立起日志系统之后，我们发现应用日志监控这块除了`ElastAlert`之外，没有其他方案。我们初期使用`ElastAlert`来解决日志监控的问题，
-但是随着配置的增加，不仅管理成本和使用成本较高，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
-来解决日志监控的问题。
+指标体系，却苦恼于没有一个配套监控系统，也许它能帮到你。  
 
 项目并不局限于`Elasticsearch`数据，还支持`HTTP`, `PING`数据监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`数据监控，后面还会加入更多的常用数据源
 (如：`IoTDB`, `Loki`, `MongoDB` `Redis`, `Oracle`, `SqlServer`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
@@ -42,7 +36,7 @@
 * `HTTP`数据监控, `Javascript`表达式判断是否报警; `PING`连通监控
 * 前端简单易用：监控管理、测试、另存、执行日志和历史消息
 * `Elasticsearch`数据查询、分享和下载
-* 报警消息抑制功能，防止消息轰炸
+* 报警消息抑制功能，防止消息轰炸；也有报警升级功能，避免故障相关方长时间得不到通知。
 * 自带账号，团队，部门信息管理模块，也可自己实现内部对接
 * 集成`LDAP`登录认证
 * 权限控制，数据隔离，各团队互不影响
@@ -51,25 +45,26 @@
 
     <img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/wiki/img/markdown_wechat_robot.png" />
 
+<!-- TOC -->
 
-# 📚 功能使用指南
+## 目录
 
-* <a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a>
-* <a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a>
-* <a href="./doc/wiki/prometheus.md" target="_blank">Prometheus数据监控指南</a>
-* <a href="./doc/wiki/skywalking.md" target="_blank">SkyWalking数据监控指南</a>
-* <a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a>
-* <a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">ClickHouse数据监控指南</a>
-* <a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a>
-* <a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a>
-* <a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a>
-* <a href="./doc/wiki/template.md" target="_blank">消息模板配置</a>
-* <a href="./doc/wiki/ways.md" target="_blank">报警发送</a>
-* <a href="./doc/wiki/supress.md" target="_blank">报警抑制</a>
-* <a href="./doc/wiki/auth.md" target="_blank">用户管理和登录认证</a>
-* <a href="./doc/wiki/note.md" target="_blank">注意事项</a>
-* <a href="./doc/wiki/other.md" target="_blank">其他</a>
+- [介绍](#-介绍)
+- [主要功能](#-主要功能)
+- [在线demo](#-在线demo)
+- [快速启动](#-快速启动)
+- [部署](#-部署)
+  - [环境准备](#预备环境准备mysql数据库表创建)
+  - [k8s部署方式](#一k8s部署方式)
+  - [zip包部署方式](#二zip包部署方式)
+  - [自构建部署方式](#三自构建部署方式)
+- [功能使用指南](#-功能使用指南)
+- [开发调试](#-开发调试)
+- [后续规划](#后续规划)
+- [发版历史](./ReleaseNotes.md)
+- [Contributors](#-contributors)
 
+<!-- /TOC -->
 
 # 💻 在线demo
 
@@ -150,6 +145,36 @@ mvn -U clean package -DskipTests=true
 ./scripts/shutdown.sh
 ```
 
+# 📚 功能使用指南
+
+<table>
+<tr>
+<td><a href="./doc/wiki/es.md" target="_blank">Elasticsearch数据监控指南</a></td>
+<td><a href="./doc/wiki/http-alarm.md" target="_blank">HTTP监控使用说明</a></td>
+<td><a href="./doc/wiki/prometheus.md" target="_blank">Prometheus数据监控指南</a></td>
+</tr>
+<tr>
+<td><a href="./doc/wiki/skywalking.md" target="_blank">SkyWalking数据监控指南</a></td>
+<td><a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a></td>
+<td><a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">ClickHouse数据监控指南</a></td>
+</tr>
+<tr>
+<td><a href="./doc/wiki/influxdb.md" target="_blank">InfluxDB数据监控指南</a></td>
+<td><a href="./doc/wiki/ping.md" target="_blank">PING监控指南</a></td>
+<td><a href="./doc/wiki/same-time-compare.md" target="_blank">数值同比监控使用指南</a></td>
+</tr>
+<tr>
+<td><a href="./doc/wiki/template.md" target="_blank">消息模板配置</a></td>
+<td><a href="./doc/wiki/ways.md" target="_blank">报警发送</a></td>
+<td><a href="./doc/wiki/supress.md" target="_blank">报警抑制</a></td>
+</tr>
+<tr>
+<td><a href="./doc/wiki/auth.md" target="_blank">用户管理和登录认证</a></td>
+<td><a href="./doc/wiki/note.md" target="_blank">注意事项</a></td>
+<td><a href="./doc/wiki/other.md" target="_blank">其他</a></td>
+</tr>
+</table>
+
 # 🛠 开发调试
 
 调试环境要求
@@ -188,18 +213,19 @@ yarn dev
 
 
 
-# ⚙️ 后续规划
+# ⚙后续规划
 
 * ~~发布0.7.1-RELEASE, 进入0.8-SNAPSHOT开发版~~ [2022-05-13]
 * ~~【0.8】 报警升级功能~~ - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
-* ~~解决邮箱报警不支持ssl的问题~~ [2022-05-15]
+* ~~【0.8】解决邮箱报警不支持ssl的问题~~ [2022-05-15]
+* ~~【0.8】frostmourne-core改名为frostmourne-common~~ [2022-05-18]
 * Elasticsearch监控数值实现环比监控
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
-* 增加[loki](https://github.com/grafana/loki)数据监控报警
-* 增加[iotdb](https://github.com/apache/iotdb)数据监控报警
-* 增加[redis](https://github.com/redis/redis)数据监控报警
+* 增加 [loki](https://github.com/grafana/loki) 数据监控报警
+* 增加 [iotdb](https://github.com/apache/iotdb) 数据监控报警
+* 增加 [redis](https://github.com/redis/redis) 数据监控报警
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
@@ -225,20 +251,17 @@ yarn dev
 * 引入对象迭代器，迭代器代表从数据源中得到一个List数据列表，或者自定义输入；用于动态生成监控查询语句，例如: Level: ERROR AND Project: ${ITEM_VALUE}；达到数据遍历监控的效果；
 * 国际化
 * 发布1.0-RELEASE
-* 增加frostmourne程序日志格式采集方案
-* 增加frostmourne程序日志查询和分析功能
 * 3-sigma离群点检测报警规则
 * 加入时序数据异常检测算法规则(需要实验可行性 [基于时间序列的异常检测](https://blog.rexking6.top/2018/11/05/%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E7%9A%84%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/))
 * 总结项目用到的知识点
 
 ### 1.0-RELEASE核心Feature后续计划
 
-* 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
-* 增加 [loki](https://github.com/grafana/loki) 数据监控报警
-* 报警升级功能
-* 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch监控数值实现环比监控
-
+* 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
+* 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
+* 增加 [iotdb](https://github.com/apache/iotdb) 数据监控报警
+* 增加 [loki](https://github.com/grafana/loki) 数据监控报警
 
 # 🗓 [发版历史](./ReleaseNotes.md)
 
@@ -298,7 +321,6 @@ yarn dev
 <td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/etcp.jpg" alt="ETCP"></td>
 </tr>
 </table>
-
 
 
 

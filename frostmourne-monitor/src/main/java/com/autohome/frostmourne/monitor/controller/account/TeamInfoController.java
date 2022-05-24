@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.TeamInfo;
 import org.springframework.web.bind.annotation.*;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.core.contract.Protocol;
+import com.autohome.frostmourne.common.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.Protocol;
 import com.autohome.frostmourne.monitor.service.account.ITeamInfoService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
 

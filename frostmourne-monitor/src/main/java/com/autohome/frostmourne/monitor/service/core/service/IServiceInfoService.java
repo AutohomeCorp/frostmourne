@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.PagerContract;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoContract;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoQueryForm;
 import com.autohome.frostmourne.monitor.model.contract.ServiceInfoSaveForm;

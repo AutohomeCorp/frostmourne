@@ -1,6 +1,6 @@
 package com.autohome.frostmourne.monitor.controller;
 
-import com.autohome.frostmourne.core.contract.Protocol;
+import com.autohome.frostmourne.common.contract.Protocol;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

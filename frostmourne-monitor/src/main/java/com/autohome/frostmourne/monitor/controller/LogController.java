@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.core.contract.Protocol;
+import com.autohome.frostmourne.common.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.Protocol;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertLog;
 import com.autohome.frostmourne.monitor.service.admin.ILogService;

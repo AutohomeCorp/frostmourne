@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
-import com.autohome.frostmourne.core.contract.ProtocolException;
+import com.autohome.frostmourne.common.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertTemplateRepository;
 import com.autohome.frostmourne.monitor.model.contract.*;
 import com.autohome.frostmourne.monitor.model.enums.TemplateType;

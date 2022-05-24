@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.AlarmDynamicSqlSupport;

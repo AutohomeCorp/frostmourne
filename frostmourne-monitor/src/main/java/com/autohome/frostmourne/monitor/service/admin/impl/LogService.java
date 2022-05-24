@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.autohome.frostmourne.core.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlarmLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.AlertLog;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmLogRepository;

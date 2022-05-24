@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
 import com.autohome.frostmourne.monitor.model.enums.MessageWay;

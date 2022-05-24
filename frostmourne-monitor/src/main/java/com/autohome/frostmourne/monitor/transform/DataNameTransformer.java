@@ -2,7 +2,7 @@ package com.autohome.frostmourne.monitor.transform;
 
 import java.util.Map;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataName;
 import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
 import com.fasterxml.jackson.core.type.TypeReference;

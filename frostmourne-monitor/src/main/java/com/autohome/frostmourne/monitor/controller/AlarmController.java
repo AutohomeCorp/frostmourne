@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import org.springframework.web.bind.annotation.*;
 
-import com.autohome.frostmourne.core.contract.Protocol;
+import com.autohome.frostmourne.common.contract.Protocol;
 import com.autohome.frostmourne.monitor.controller.annotation.PermissionLimit;
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;

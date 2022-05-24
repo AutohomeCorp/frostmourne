@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.autohome.frostmourne.core.jackson.JacksonUtil;
+import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.dao.prometheus.IPrometheusDao;
 import com.autohome.frostmourne.monitor.dao.prometheus.domain.MetricValue;
 import com.autohome.frostmourne.monitor.dao.prometheus.domain.PrometheusData;
