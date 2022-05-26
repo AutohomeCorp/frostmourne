@@ -310,7 +310,7 @@ public class AlertService implements IAlertService {
     }
 
     private void processProblem(AlarmProcessLogger alarmProcessLogger, List<AccountInfo> recipients, Optional<AlarmLog> latestAlarmLog) {
-        if (!latestAlarmLog.isPresent() || latestAlarmLog.get().getVerifyResult().equals(VerifyResult.FALSE)) {
+        if (!latestAlarmLog.isPresent()) {
             sendAlert(alarmProcessLogger, recipients, AlertType.PROBLEM);
             return;
         }
