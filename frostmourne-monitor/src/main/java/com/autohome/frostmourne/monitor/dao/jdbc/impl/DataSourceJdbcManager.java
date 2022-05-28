@@ -104,7 +104,10 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
         dataSource.setUrl(dataSourceContract.getServiceAddress());
         dataSource.setUsername(dataSourceContract.getSettings().get("username"));
         dataSource.setPassword(dataSourceContract.getSettings().get("password"));
-        dataSource.setTestWhileIdle(false);
+        dataSource.setTestWhileIdle(true);
+        dataSource.setTestOnBorrow(true);
+        dataSource.setTestOnReturn(true);
+        dataSource.setValidationQuery("SELECT 1");
         // 密码默认是明文
         dataSource.getConnectProperties().setProperty("config.decrypt", "false");
         // 初始化连接
