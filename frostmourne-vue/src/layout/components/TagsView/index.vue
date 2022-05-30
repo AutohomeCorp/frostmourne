@@ -11,8 +11,8 @@
         class="tags-view-item"
         @click.middle.native="closeSelectedTag(tag)"
         @contextmenu.prevent.native="openMenu(tag,$event)">
-        {{ tag.title }}
-        <span v-if="!tag.meta.affix" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
+        {{ generateRouteTitle(tag.title) }}
+        <span v-if="!tag.meta.affix" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)"></span>
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
@@ -27,6 +27,7 @@
 <script>
 import ScrollPane from './ScrollPane'
 import path from 'path'
+import { generateRouteTitle } from '@/utils/i18n'
 
 export default {
   components: { ScrollPane },
@@ -65,6 +66,7 @@ export default {
     this.addTags()
   },
   methods: {
+    generateRouteTitle,
     isActive (route) {
       return route.path === this.$route.path
     },

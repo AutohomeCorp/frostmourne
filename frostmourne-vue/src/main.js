@@ -2,7 +2,7 @@ import '@/icons' // icon
 import '@/permission' // permission control
 import '@/styles/index.scss' // global css
 import ElementUI from 'element-ui'
-import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
+import i18n from './lang' // internationalization
 import 'element-ui/lib/theme-chalk/index.css'
 import moment from 'moment'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === 'mock') {
 }
 
 // set ElementUI lang to EN
-Vue.use(ElementUI, { locale })
+Vue.use(ElementUI, { i18n: (key, value) => i18n.t(key, value) })
 
 Vue.config.productionTip = false
 
@@ -35,5 +35,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: h => h(App)
 })

@@ -13,8 +13,8 @@
                  :remote-method="loadServiceOptions" :loading="serviceOptionsLoading" @change="onServiceInfoChange">
         <el-option v-for="item in ServiceOptions" :key="item.id" :label="item.serviceName" :value="item.id" />
       </el-select>
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
-      <el-button class="filter-item" icon="el-icon-edit" @click="goEdit(null)">添加报警</el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="onSubmit">{{ $t('buttons.search') }}</el-button>
+      <el-button class="filter-item" icon="el-icon-edit" @click="goEdit(null)">{{ $t('alarm.list.add') }}</el-button>
     </div>
 
     <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
@@ -46,9 +46,9 @@
       </el-table-column>
       <el-table-column label="操作" width="300" align="center" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" icon="el-icon-edit" @click="goEdit(scope.row.id)">编辑</el-button>
-          <el-button size="mini" icon="el-icon-edit" @click="run(scope.row.id)">运行</el-button>
-          <el-button size="mini" icon="el-icon-edit" @click="remove(scope.row.id)">删除</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="goEdit(scope.row.id)">{{ $t('buttons.edit') }}</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="run(scope.row.id)">{{ $t('buttons.run') }}</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="remove(scope.row.id)">{{ $t('buttons.delete') }}</el-button>
         </template>
       </el-table-column>
     </el-table>

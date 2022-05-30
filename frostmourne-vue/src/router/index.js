@@ -51,7 +51,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/alarm/list.view',
     name: 'alarm',
-    meta: { title: '监控管理', icon: 'component' },
+    meta: { title: 'AlarmManager', icon: 'component' },
     children: alarmRoutes
   },
   {
