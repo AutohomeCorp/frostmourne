@@ -163,7 +163,7 @@
               <el-option
                   v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse' || dataSourceType === 'prometheus'"
                   label="Javascript表达式" value="object"/>
-              <!--<el-option label="环比" value="ring_than"/>-->
+              <el-option v-if="dataSourceType === 'elasticsearch'" label="环比" value="ring_compare"/>
               <el-option
                   v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus'"
                   label="同比" value="same_time"/>
@@ -191,7 +191,7 @@
           <el-form-item v-if="form.metricContract.metricType === 'object'" label="判断表达式:">
             <el-input v-model="form.ruleContract.settings.EXPRESSION" type="textarea"/>
           </el-form-item>
-          <el-form-item v-if="form.metricContract.metricType === 'ring_than'" label="判断规则:">
+          <el-form-item v-if="form.metricContract.metricType === 'ring_compare'" label="判断规则:">
             <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
               <el-option label="周" value="week"/>
               <el-option label="日" value="day"/>
@@ -199,12 +199,21 @@
               <el-option label="分钟" value="minute"/>
             </el-select>
             环比
-            <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
+            <el-select v-model="form.ruleContract.settings.COMPARE_TYPE">
               <el-option label="增加" value="increase"/>
               <el-option label="减少" value="decrease"/>
+              <el-option label="增加或减少" value="both"/>
             </el-select>
-            百分之
-            <el-input v-model="form.ruleContract.settings.PERCENT_THRESHOLD" style="width: 150px"/>
+            超过百分之
+            <el-input v-model="form.ruleContract.settings.PERCENTAGE_THRESHOLD" style="width: 150px"/>
+            并且差值(当前值 - 对比值)
+            <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
+              <el-option label="绝对值>=" value="ABS_GTE"/>
+              <el-option label="绝对值<=" value="ABS_LTE"/>
+              <el-option label=">=" value="GTE"/>
+              <el-option label="<=" value="LTE"/>
+            </el-select>
+            <el-input v-model="form.ruleContract.settings.DIFF_VALUE_THRESHOLD" style="width: 100px"/>
           </el-form-item>
           <el-form-item v-if="form.metricContract.metricType === 'same_time'" label="判断规则:">
             <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">

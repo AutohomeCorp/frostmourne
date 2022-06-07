@@ -106,7 +106,7 @@ public class AlertTemplateService implements IAlertTemplateService {
     }
 
     private void fillTemplateTypeTreeCommonExtend2Contracts(List<AlertTemplateContract> contracts) {
-        contracts.stream().filter(item -> TemplateType.COMMON.name().equals(item.getTemplateType())).forEach(item -> {
+        contracts.stream().filter(item -> TemplateType.COMMON.equals(item.getTemplateType())).forEach(item -> {
             item.setTemplateTypeTreeValues(Collections.singletonList(TemplateType.COMMON.name()));
             item.setTemplateTypeTreeLabels(Collections.singletonList(TemplateType.COMMON.getDisplayName()));
         });
@@ -115,7 +115,7 @@ public class AlertTemplateService implements IAlertTemplateService {
     private void fillTemplateTypeTreeDataNameExtend2Contracts(List<AlertTemplateContract> contracts) {
         // 关联数据名
         List<AlertTemplateContract> dataNameContracts =
-            contracts.stream().filter(item -> TemplateType.DATA_NAME.name().equals(item.getTemplateType())).collect(Collectors.toList());
+            contracts.stream().filter(item -> TemplateType.DATA_NAME.equals(item.getTemplateType())).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(dataNameContracts)) {
             return;
         }

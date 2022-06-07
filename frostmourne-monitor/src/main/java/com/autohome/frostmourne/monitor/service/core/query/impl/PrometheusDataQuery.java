@@ -41,7 +41,7 @@ public class PrometheusDataQuery implements IPrometheusDataQuery {
                 metricData.setMetricValue("-1");
                 LOGGER.error("error when query prometheus, metric: {}", JacksonUtil.serialize(metricContract));
             }
-            metricData.setLatestDocument(JacksonUtil.mapper().convertValue(prometheusResponse, new TypeReference<Map<String, Object>>() {}));
+            metricData.setLatestDocument(JacksonUtil.toMap(prometheusResponse));
             return metricData;
         }
 

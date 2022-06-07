@@ -6,16 +6,19 @@
 * 【0.8】邮箱报警支持ssl [2022-05-15]
 * 【0.8】增加报警升级功能 [2022-05-15]
 * 【0.8】增加国际化支持 [2022-05-28]
+* 【0.8】mysql, clickhouse表达式规则增加TOP 50条记录数据TOP_N_DOCUMENTS [2022-05-31]
+* 【0.8】Elasticsearch监控数值实现环比监控 [2022-06-07]
 
 ### BugFix
 
 * 【0.8】解决logo不显示的问题 [2022-05-17]
 * 【0.8】解决关闭数据库连接错误调用clone方法的问题 [gitee#I58JI1](https://gitee.com/tim_guai/frostmourne/issues/I58JI1) [2022-05-21]
-* 【0.8】优化druid连接参数，修复连接超时后无法执行sql的问题
+* 【0.8】优化druid连接参数，修复连接超时后无法执行sql的问题 [2022-05-27]
+* 【0.8】解决消息模板列表模板类型不显示的问题 [2022-06-07]
 
 ### Mysql
 
-* 【0.8】alert_event表新增upgrade字段; recipient新增recipient字段; 新增alert_upgrade表 - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
+* 【0.8】alert_event表新增upgrade字段; recipient新增recipient字段; 新增alert_upgrade表 - [SQL](./doc/mysql-schema/2022-05-15/change.sql) [2022-05-15]
 
 ### Others
 
@@ -60,8 +63,8 @@
 * elasticsearch数据源https支持pkcs12证书 [issue#71](https://github.com/AutohomeCorp/frostmourne/issues/71) [2022-04-25]
 * 数据预览前端增加参数校验提示 [2022-04-28]
 * 数据源增加Elasticsearch8支持 [issue#73](https://github.com/AutohomeCorp/frostmourne/issues/73) [2022-05-02]
-* [0.6.2] Elasticsearch数据配置支持数据分桶，分桶类型支持：1. 按字段值分组，相当于ES里的Terms Aggregation. [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) - [SQL](./doc/mysql-schema/2022-05-03/change.sql) [2022-05-04]
-* [0.6.2] Elasticsearch数据配置支持数据分桶，分桶类型支持：2. 按时间分组,相当于ES里的DateHistogramAggregation. [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) [2022-05-04]
+* 【0.6.2】 Elasticsearch数据配置支持数据分桶，分桶类型支持：1. 按字段值分组，相当于ES里的Terms Aggregation. [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) - [SQL](./doc/mysql-schema/2022-05-03/change.sql) [2022-05-04]
+* 【0.6.2】 Elasticsearch数据配置支持数据分桶，分桶类型支持：2. 按时间分组,相当于ES里的DateHistogramAggregation. [issue#56](https://github.com/AutohomeCorp/frostmourne/issues/56) [issue#29](https://github.com/AutohomeCorp/frostmourne/issues/29) [2022-05-04]
 
 ### Bugfix
 

@@ -13,6 +13,8 @@ public class MetricData {
 
     private List<BucketInfo> buckets;
 
+    private List<Map<String, Object>> topNDocuments;
+
     public Object getMetricValue() {
         return metricValue;
     }
@@ -43,5 +45,13 @@ public class MetricData {
 
     public void setBuckets(List<BucketInfo> buckets) {
         this.buckets = buckets;
+    }
+
+    public List<Map<String, Object>> getTopNDocuments() {
+        return topNDocuments;
+    }
+
+    public void setTopNDocuments(List<Map<String, Object>> topNDocuments) {
+        this.topNDocuments = topNDocuments;
     }
 }

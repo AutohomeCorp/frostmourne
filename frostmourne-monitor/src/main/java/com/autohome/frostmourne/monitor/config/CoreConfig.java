@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.service.core.metric.PingMetric;
+import com.autohome.frostmourne.monitor.service.core.metric.elasticsearch.ElasticsearchRingMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.jdbc.ClickhouseObjectMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.jdbc.MysqlObjectMetric;
 import com.autohome.frostmourne.monitor.service.core.metric.prometheus.PrometheusObjectMetric;
@@ -100,6 +101,7 @@ public class CoreConfig {
         metricMap.put("numeric", elasticsearchNumericMetric());
         metricMap.put("same_time", elasticsearchSameTimeMetric());
         metricMap.put("bucket_numeric", elasticsearchNumericMetric());
+        metricMap.put("ring_compare", elasticsearchRingMetric());
         return metricMap;
     }
 
@@ -111,6 +113,11 @@ public class CoreConfig {
     @Bean
     public ElasticsearchSameTimeMetric elasticsearchSameTimeMetric() {
         return new ElasticsearchSameTimeMetric();
+    }
+
+    @Bean
+    public ElasticsearchRingMetric elasticsearchRingMetric() {
+        return new ElasticsearchRingMetric();
     }
 
     @Bean

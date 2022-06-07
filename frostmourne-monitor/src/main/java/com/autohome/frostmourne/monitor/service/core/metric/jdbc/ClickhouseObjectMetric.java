@@ -30,6 +30,9 @@ public class ClickhouseObjectMetric implements IMetric {
         if (metricData.getLatestDocument() != null) {
             result.putAll(metricData.getLatestDocument());
         }
+        if (metricData.getTopNDocuments() != null) {
+            result.put("TOP_N_DOCUMENTS", metricData.getTopNDocuments());
+        }
         Map<String, String> dataNameProperties = metricContract.getDataNameContract().getSettings();
         result.putAll(dataNameProperties);
         return result;

@@ -3,6 +3,7 @@ package com.autohome.frostmourne.common.jackson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -81,5 +82,9 @@ public class JacksonUtil {
 
     public static ObjectMapper mapper() {
         return COMMON_DEFINE_OBJECT_MAPPER;
+    }
+
+    public static Map<String, Object> toMap(Object obj) {
+        return mapper().convertValue(obj, new TypeReference<Map<String, Object>>() {});
     }
 }

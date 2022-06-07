@@ -61,12 +61,13 @@ public class MysqlDataQuery implements IMysqlDataQuery {
         MetricData result = new MetricData();
         long count = collectResult(metricContract, metricContract.getQueryString(), null);
         result.setMetricValue(count);
-        String querySql = "select * from ("+ metricContract.getQueryString() + ") t limit 1";
+        String querySql = "select * from ("+ metricContract.getQueryString() + ") t limit 50";
         List<Map<String, Object>> collectResult = jdbcDao.query(metricContract.getDataNameContract(),
                 metricContract.getDataSourceContract(), querySql, null);
         if(collectResult != null && collectResult.size() > 0) {
             Map<String, Object> lastDocument = collectResult.get(0);
             result.setLatestDocument(lastDocument);
+            result.setTopNDocuments(collectResult);
         }
         return result;
     }

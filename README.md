@@ -33,8 +33,8 @@
 * 只需要写一条数据查询就可以轻松搞定监控
 * 多种数据源支持：`Elasticsearch, HTTP, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse, PING`
 * 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`; `Elasticsearch`数据支持分桶
-* 报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
-* 支持消息格式：`text, markdown`
+* 多种报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
+* 多种消息格式：`text, markdown`
 * 灵活的报警消息`Freemarker`模板定制，支持变量占位符；消息模板管理
 * 分布式调度实现，每个监控都是独立调度，互不影响
 * 报警消息附带日志查询短链接，直达报警原因
@@ -179,6 +179,9 @@ mvn -U clean package -DskipTests=true
 <td><a href="./doc/wiki/note.md" target="_blank">注意事项</a></td>
 <td><a href="./doc/wiki/other.md" target="_blank">其他</a></td>
 </tr>
+<tr>
+<td><a href="./doc/wiki/ring-compare.md" target="_blank">数值环比监控使用指南</a></td>
+</tr>
 </table>
 
 # 🛠 开发调试
@@ -226,12 +229,15 @@ yarn dev
 * ~~【0.8】解决邮箱报警不支持ssl的问题~~ [2022-05-15]
 * ~~【0.8】frostmourne-core改名为frostmourne-common~~ [2022-05-18]
 * ~~【0.8】增加国际化支持~~ [2022-05-28]
-* Elasticsearch监控数值实现环比监控
+* ~~【0.8】mysql, clickhouse表达式规则增加TOP 50条记录数据TOP_N_DOCUMENTS~~ [2022-05-31]
+* ~~【0.8】Elasticsearch监控数值实现环比监控~~ [2022-06-07]
+* ~~【0.8】bugfix: 解决消息模板列表模板类型不显示的问题~~ [2022-06-07]
+* 增加 [iotdb](https://github.com/apache/iotdb) 数据监控报警
+* 发布0.8-RELEASE, 进入0.9开发
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
 * 增加 [loki](https://github.com/grafana/loki) 数据监控报警
-* 增加 [iotdb](https://github.com/apache/iotdb) 数据监控报警
 * 增加 [redis](https://github.com/redis/redis) 数据监控报警
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
@@ -264,10 +270,9 @@ yarn dev
 
 ### 1.0-RELEASE核心Feature后续计划
 
-* Elasticsearch监控数值实现环比监控
+* 增加 [iotdb](https://github.com/apache/iotdb) 数据监控报警
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
-* 增加 [iotdb](https://github.com/apache/iotdb) 数据监控报警
 * 增加 [loki](https://github.com/grafana/loki) 数据监控报警
 
 # 🗓 [发版历史](./ReleaseNotes.md)
