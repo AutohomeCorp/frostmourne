@@ -29,7 +29,7 @@
 假设离当前时间点最近的自然小时的数值为current, 前一自然小时的数值为reference。那么报警的触发条件是
 
 ```
-(current - reference) * 100 / refercence >= 20 && |current - reference| >= 1000
+(current - reference) * 100 / refercence >= 1 && |current - reference| >= 100
 ```
 
 使用环比来比较相邻时间周期数据的变化；
