@@ -25,13 +25,13 @@
 但是随着配置的增加，不仅管理成本和使用成本较高，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。
 
-项目并不局限于`Elasticsearch`数据，还支持`HTTP`, `PING`数据监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`数据监控，后面还会加入更多的常用数据源
-(如：`IoTDB`, `Loki`, `MongoDB` `Redis`, `Oracle`, `SqlServer`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
+项目并不局限于`Elasticsearch`数据，还支持`HTTP`, `PING`数据监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`, `IoTDB`数据监控，后面还会加入更多的常用数据源
+(如：`Loki`, `MongoDB` `Redis`, `Oracle`, `SqlServer`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
 
 # ✨ 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多种数据源支持：`Elasticsearch, HTTP, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse, PING`
+* 多种数据源支持：`Elasticsearch, HTTP, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse, PING, IotDB`
 * 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`; `Elasticsearch`数据支持分桶
 * 多种报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
 * 多种消息格式：`text, markdown`
@@ -225,16 +225,6 @@ yarn dev
 
 # ⚙后续规划
 
-* ~~发布0.7.1-RELEASE, 进入0.8-SNAPSHOT开发版~~ [2022-05-13]
-* ~~【0.8】 报警升级功能~~ - [SQL](./doc/mysql-schema/2022-05-15/change.sql)[2022-05-15]
-* ~~【0.8】解决邮箱报警不支持ssl的问题~~ [2022-05-15]
-* ~~【0.8】frostmourne-core改名为frostmourne-common~~ [2022-05-18]
-* ~~【0.8】增加国际化支持~~ [2022-05-28]
-* ~~【0.8】mysql, clickhouse表达式规则增加TOP 50条记录数据TOP_N_DOCUMENTS~~ [2022-05-31]
-* ~~【0.8】Elasticsearch数值实现环比监控~~ [2022-06-07]
-* ~~【0.8】bugfix: 解决消息模板列表模板类型不显示的问题~~ [2022-06-07]
-* ~~【0.8】influxdb数值实现环比监控~~ [2022-06-09]
-* ~~【0.8】增加 [iotdb](https://github.com/apache/iotdb) 数据监控报警~~ [2022-06-09]
 * 发布0.8-RELEASE, 进入0.9开发
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana

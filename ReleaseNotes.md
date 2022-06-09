@@ -1,4 +1,10 @@
-# 0.8-SNAPSHOT
+# 0.9-SNAPSHOT
+
+### Feature
+
+* 发布0.8-RELEASE, 进入0.9-SNAPSHOT开发
+
+# 0.8-RELEASE
 
 ### Feature
 
