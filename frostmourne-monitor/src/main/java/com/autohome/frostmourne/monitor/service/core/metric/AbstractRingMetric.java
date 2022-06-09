@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
+import com.autohome.frostmourne.monitor.model.enums.MetricEnumType;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import com.autohome.frostmourne.monitor.service.core.domain.ReferenceBag;
 import com.autohome.frostmourne.monitor.tool.MathUtils;
 import org.joda.time.DateTime;
 
-public abstract class AbstractRingMetric implements IMetric {
+public abstract class AbstractRingMetric extends AbstractBaseMetric {
 
     public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings);
 
@@ -33,6 +34,11 @@ public abstract class AbstractRingMetric implements IMetric {
         referenceDataList.add(referenceBag);
         resultMap.put("REFERENCE_LIST", referenceDataList);
         return resultMap;
+    }
+
+    @Override
+    public MetricEnumType metricType() {
+        return MetricEnumType.ring_compare;
     }
 
     /**

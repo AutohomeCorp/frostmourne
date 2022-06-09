@@ -7,7 +7,9 @@
 * 【0.8】增加报警升级功能 [2022-05-15]
 * 【0.8】增加国际化支持 [2022-05-28]
 * 【0.8】mysql, clickhouse表达式规则增加TOP 50条记录数据TOP_N_DOCUMENTS [2022-05-31]
-* 【0.8】Elasticsearch监控数值实现环比监控 [2022-06-07]
+* 【0.8】Elasticsearch数值实现环比监控 [2022-06-07]
+* 【0.8】influxdb数值实现环比监控 [2022-06-09]
+* 【0.8】增加 [iotdb](https://github.com/apache/iotdb) 数据监控报警 [2022-06-09]
 
 ### BugFix
 
@@ -23,6 +25,7 @@
 ### Others
 
 * 【0.8】frostmourne-core改名为frostmourne-common [2022-05-18]
+* 【0.8】metric注入逻辑重构，去掉metric map构造改成自动注入 [2022-06-09]
 
 # 0.7.1-RELEASE
 

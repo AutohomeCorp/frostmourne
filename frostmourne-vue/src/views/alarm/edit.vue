@@ -158,14 +158,14 @@
           <el-form-item label="判断类型:" prop="metricContract.metricType">
             <el-select v-model="form.metricContract.metricType" @change="metricTypeChangeHandler">
               <el-option
-                  v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus'"
+                  v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus' && dataSourceType !== 'iotdb'"
                   label="数值比较" value="numeric"/>
               <el-option
-                  v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse' || dataSourceType === 'prometheus'"
+                  v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse' || dataSourceType === 'prometheus' || dataSourceType === 'iotdb'"
                   label="Javascript表达式" value="object"/>
-              <el-option v-if="dataSourceType === 'elasticsearch'" label="环比" value="ring_compare"/>
+              <el-option v-if="dataSourceType === 'elasticsearch' || dataSourceType === 'influxdb'" label="环比" value="ring_compare"/>
               <el-option
-                  v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus'"
+                  v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus' && dataSourceType !== 'iotdb'"
                   label="同比" value="same_time"/>
               <el-option v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType !== 'none'"
                          label="分桶数值比较" value="bucket_numeric"/>

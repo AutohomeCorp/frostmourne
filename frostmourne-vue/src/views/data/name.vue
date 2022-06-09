@@ -8,6 +8,7 @@
         <el-option label="influxdb" value="influxdb" />
         <el-option label="mysql" value="mysql" />
         <el-option label="clickhouse" value="clickhouse" />
+        <el-option label="iotdb" value="iotdb" />
       </el-select>
       <el-select v-model="form.dataSourceId" placeholder="选择数据源" clearable class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
@@ -62,6 +63,7 @@
             <el-option label="influxdb" value="influxdb" />
             <el-option label="mysql" value="mysql" />
             <el-option label="clickhouse" value="clickhouse" />
+            <el-option label="iotdb" value="iotdb" />
           </el-select>
         </el-form-item>
         <el-form-item label="名称" :label-width="formLabelWidth" prop="dataName">
@@ -120,6 +122,11 @@
         <el-form-item v-if="editData.datasourceType === 'prometheus'" label="Endpoint" :label-width="formLabelWidth">
           <el-select v-model="editData.settings.prometheusEndpoint">
             <el-option label="/api/v1/query" value="/api/v1/query" />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="editData.datasourceType === 'iotdb'" label="Endpoint" :label-width="formLabelWidth">
+          <el-select v-model="editData.settings.iotdbEndpoint">
+            <el-option label="/rest/v1/query" value="/rest/v1/query" />
           </el-select>
         </el-form-item>
       </el-form>

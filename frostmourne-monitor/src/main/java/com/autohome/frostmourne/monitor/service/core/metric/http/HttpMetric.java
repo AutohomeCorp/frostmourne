@@ -1,4 +1,4 @@
-package com.autohome.frostmourne.monitor.service.core.metric;
+package com.autohome.frostmourne.monitor.service.core.metric.http;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,13 +7,18 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
+import com.autohome.frostmourne.monitor.model.enums.MetricEnumType;
+import com.autohome.frostmourne.monitor.service.core.metric.AbstractBaseMetric;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 
 import okhttp3.*;
+import org.springframework.stereotype.Service;
 
-public class HttpMetric implements IMetric {
+@Service
+public class HttpMetric extends AbstractBaseMetric {
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
@@ -66,6 +71,16 @@ public class HttpMetric implements IMetric {
         }
 
         return result;
+    }
+
+    @Override
+    public MetricEnumType metricType() {
+        return MetricEnumType.object;
+    }
+
+    @Override
+    public boolean matchDataSourceType(String dataSourceType) {
+        return dataSourceType.equalsIgnoreCase(DataSourceType.http.name());
     }
 
     private boolean isJson(ResponseBody responseBody) {

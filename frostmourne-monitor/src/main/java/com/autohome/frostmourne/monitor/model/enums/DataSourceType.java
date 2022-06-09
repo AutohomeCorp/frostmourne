@@ -16,5 +16,7 @@ public enum DataSourceType {
 
     ping,
 
-    prometheus
+    prometheus,
+
+    iotdb
 }

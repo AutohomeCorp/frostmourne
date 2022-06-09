@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.service.core.metric.jdbc;
 
 import java.util.Map;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,11 @@ public class MysqlSameTimeMetric extends AbstractSameTimeMetric {
     @Override
     public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) {
         return mysqlDataQuery.queryMetricValue(start, end, metricContract);
+    }
+
+    @Override
+    public boolean matchDataSourceType(String dataSourceType) {
+        return dataSourceType.equalsIgnoreCase(DataSourceType.mysql.name());
     }
 
 }

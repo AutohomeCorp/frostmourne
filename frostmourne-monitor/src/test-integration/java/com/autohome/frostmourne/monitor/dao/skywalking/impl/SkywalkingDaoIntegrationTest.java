@@ -46,8 +46,8 @@ class SkywalkingDaoIntegrationTest {
         condition.setPaging(pagination);
 
         SkywalkingDuration duration = new SkywalkingDuration();
-        duration.setStart("2022-05-07 1701");
-        duration.setEnd("2022-05-07 1716");
+        duration.setStart("2022-06-08 1701");
+        duration.setEnd("2022-06-07 1716");
         duration.setStep(SkywalkingStep.MINUTE);
         condition.setQueryDuration(duration);
 

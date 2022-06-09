@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.service.core.metric.jdbc;
 
 import java.util.Map;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,4 +23,8 @@ public class ClickhouseNumericMetric extends AbstractNumericMetric {
         return dataQuery.queryMetricValue(start, end, metricContract);
     }
 
+    @Override
+    public boolean matchDataSourceType(String dataSourceType) {
+        return dataSourceType.equalsIgnoreCase(DataSourceType.clickhouse.name());
+    }
 }

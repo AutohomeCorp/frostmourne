@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.autohome.frostmourne.monitor.model.enums.MetricEnumType;
 import com.autohome.frostmourne.monitor.tool.MathUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import com.autohome.frostmourne.monitor.service.core.domain.ReferenceBag;
 import com.google.common.base.Splitter;
 
-public abstract class AbstractSameTimeMetric implements IMetric {
+public abstract class AbstractSameTimeMetric extends AbstractBaseMetric {
 
     public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings);
 
@@ -127,8 +128,13 @@ public abstract class AbstractSameTimeMetric implements IMetric {
         return resultMap;
     }
 
+    @Override
+    public MetricEnumType metricType() {
+        return MetricEnumType.same_time;
+    }
+
     private ReferenceBag calculateReference(DateTime start, DateTime end, String referenceType, MetricContract metricContract, Double current,
-        Map<String, String> ruleSettings) throws IOException {
+                                            Map<String, String> ruleSettings) throws IOException {
         ReferenceBag referenceBag = new ReferenceBag();
         referenceBag.setReferenceType(referenceType);
         DateTime referenceStart;

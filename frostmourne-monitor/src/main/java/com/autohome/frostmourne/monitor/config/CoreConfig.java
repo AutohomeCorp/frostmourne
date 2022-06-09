@@ -5,29 +5,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.service.core.metric.PingMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.elasticsearch.ElasticsearchRingMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.jdbc.ClickhouseObjectMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.jdbc.MysqlObjectMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.prometheus.PrometheusObjectMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.skywalking.SkywalkingNumericMetric;
 import com.autohome.frostmourne.monitor.service.core.rule.BucketNumbericRule;
 import com.autohome.frostmourne.monitor.service.core.rule.PingRule;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.autohome.frostmourne.monitor.service.core.metric.HttpMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.elasticsearch.ElasticsearchNumericMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.elasticsearch.ElasticsearchSameTimeMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.influxdb.InfluxdbNumericMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.influxdb.InfluxdbSameTimeMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.jdbc.ClickhouseNumericMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.jdbc.ClickhouseSameTimeMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.jdbc.MysqlNumericMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.jdbc.MysqlSameTimeMetric;
-import com.autohome.frostmourne.monitor.service.core.query.IInfluxdbDataQuery;
 import com.autohome.frostmourne.monitor.service.core.rule.ExpressionRule;
 import com.autohome.frostmourne.monitor.service.core.rule.IRule;
 import com.autohome.frostmourne.monitor.service.core.rule.NumericRule;
@@ -39,24 +21,6 @@ public class CoreConfig {
 
     @Resource
     private ITemplateService templateService;
-
-    @Autowired
-    private MysqlNumericMetric mysqlNumericMetric;
-
-    @Autowired
-    private MysqlSameTimeMetric mysqlSameTimeMetric;
-
-    @Autowired
-    private MysqlObjectMetric mysqlObjectMetric;
-
-    @Autowired
-    private ClickhouseNumericMetric clickhouseNumericMetric;
-
-    @Autowired
-    private ClickhouseSameTimeMetric clickhouseSameTimeMetric;
-
-    @Autowired
-    private ClickhouseObjectMetric clickhouseObjectMetric;
 
     @Bean
     public Map<String, IRule> ruleMap() {
@@ -93,93 +57,6 @@ public class CoreConfig {
     @Bean
     public PingRule pingRule() {
         return new PingRule(templateService);
-    }
-
-    @Bean(name = "elasticsearchMetricMap")
-    public Map<String, IMetric> elasticsearchMetricMap() {
-        Map<String, IMetric> metricMap = new HashMap<>();
-        metricMap.put("numeric", elasticsearchNumericMetric());
-        metricMap.put("same_time", elasticsearchSameTimeMetric());
-        metricMap.put("bucket_numeric", elasticsearchNumericMetric());
-        metricMap.put("ring_compare", elasticsearchRingMetric());
-        return metricMap;
-    }
-
-    @Bean
-    public ElasticsearchNumericMetric elasticsearchNumericMetric() {
-        return new ElasticsearchNumericMetric();
-    }
-
-    @Bean
-    public ElasticsearchSameTimeMetric elasticsearchSameTimeMetric() {
-        return new ElasticsearchSameTimeMetric();
-    }
-
-    @Bean
-    public ElasticsearchRingMetric elasticsearchRingMetric() {
-        return new ElasticsearchRingMetric();
-    }
-
-    @Bean
-    public HttpMetric httpMetric() {
-        return new HttpMetric();
-    }
-
-    @Bean
-    public PingMetric pingMetric() {
-        return new PingMetric();
-    }
-
-    @Bean(name = "influxdbMetricMap")
-    public Map<String, IMetric> influxdbMetricMap(IInfluxdbDataQuery influxdbDataQuery) {
-        Map<String, IMetric> metricMap = new HashMap<>();
-        metricMap.put("numeric", new InfluxdbNumericMetric(influxdbDataQuery));
-        metricMap.put("same_time", new InfluxdbSameTimeMetric(influxdbDataQuery));
-        return metricMap;
-    }
-
-    @Bean(name = "mysqlMetricMap")
-    public Map<String, IMetric> mysqlMetricMap() {
-        Map<String, IMetric> metricMap = new HashMap<>();
-        metricMap.put("numeric", mysqlNumericMetric);
-        metricMap.put("same_time", mysqlSameTimeMetric);
-        metricMap.put("object", mysqlObjectMetric);
-        return metricMap;
-    }
-
-    @Bean(name = "clickhouseMetricMap")
-    public Map<String, IMetric> clickhouseMetricMap() {
-        Map<String, IMetric> metricMap = new HashMap<>();
-        metricMap.put("numeric", clickhouseNumericMetric);
-        metricMap.put("same_time", clickhouseSameTimeMetric);
-        metricMap.put("object", clickhouseObjectMetric);
-        return metricMap;
-    }
-
-    @Bean(name = "skywalkingMetricMap")
-    public Map<String, IMetric> skywalkingMetricMap() {
-        Map<String, IMetric> metricMap = new HashMap<>();
-        metricMap.put("numeric", skywalkingNumericMetric());
-        metricMap.put("same_time", skywalkingNumericMetric());
-        return metricMap;
-    }
-
-    @Bean
-    public SkywalkingNumericMetric skywalkingNumericMetric() {
-        return new SkywalkingNumericMetric();
-    }
-
-    @Bean(name = "prometheusMetricMap")
-    public Map<String, IMetric> prometheusMetricMap() {
-        Map<String, IMetric> metricMap = new HashMap<>();
-        metricMap.put("object", prometheusObjectMetric());
-
-        return metricMap;
-    }
-
-    @Bean
-    public PrometheusObjectMetric prometheusObjectMetric() {
-        return new PrometheusObjectMetric();
     }
 
 }

@@ -3,12 +3,13 @@ package com.autohome.frostmourne.monitor.service.core.metric;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.autohome.frostmourne.monitor.model.enums.MetricEnumType;
 import org.joda.time.DateTime;
 
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 
-public abstract class AbstractNumericMetric implements IMetric {
+public abstract class AbstractNumericMetric extends AbstractBaseMetric {
 
     public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings);
 
@@ -42,5 +43,10 @@ public abstract class AbstractNumericMetric implements IMetric {
         result.put("endTime", end.toDateTimeISO().toString());
         result.put("QUERY_STRING", metricContract.getQueryString());
         return result;
+    }
+
+    @Override
+    public MetricEnumType metricType() {
+        return MetricEnumType.numeric;
     }
 }
