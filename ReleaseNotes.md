@@ -7,7 +7,7 @@
 
 ### Document
 
-* 【0.9】增加telnet短空监控使用指南 [telnet.md](./doc/wiki/telnet.md) [2022-06-09]
+* 【0.9】增加telnet端口监控使用指南 [telnet.md](./doc/wiki/telnet.md) [2022-06-09]
 
 # 0.8-RELEASE
 
