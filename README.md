@@ -25,13 +25,13 @@
 但是随着配置的增加，不仅管理成本和使用成本较高，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。
 
-项目并不局限于`Elasticsearch`数据，还支持`HTTP`, `PING`数据监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`, `IoTDB`数据监控，后面还会加入更多的常用数据源
+项目并不局限于`Elasticsearch`数据，还支持`HTTP`, `PING`, `Telnet`监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`, `IoTDB`数据监控，后面还会加入更多的常用数据源
 (如：`Loki`, `MongoDB` `Redis`, `Oracle`, `SqlServer`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
 
 # ✨ 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多种数据源支持：`Elasticsearch, HTTP, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse, PING, IotDB`
+* 多种数据源支持：`Elasticsearch, HTTP, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse, PING, IotDB, Telnet`
 * 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`; `Elasticsearch`数据支持分桶
 * 多种报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
 * 多种消息格式：`text, markdown`
@@ -39,7 +39,7 @@
 * 分布式调度实现，每个监控都是独立调度，互不影响
 * 报警消息附带日志查询短链接，直达报警原因
 * 数值同比，环比监控
-* `HTTP`数据监控, `Javascript`表达式判断是否报警; `PING`连通监控
+* `HTTP`数据监控, `Javascript`表达式判断是否报警; `PING`连通监控, `Telnet`端口连通监控
 * 前端简单易用：监控管理、测试、另存、执行日志和历史消息
 * `Elasticsearch`数据查询、分享和下载
 * 报警消息抑制功能，防止消息轰炸；也有报警升级功能，避免故障相关方长时间得不到通知。
@@ -182,6 +182,7 @@ mvn -U clean package -DskipTests=true
 <tr>
 <td><a href="./doc/wiki/ring-compare.md" target="_blank">数值环比监控使用指南</a></td>
 <td><a href="./doc/wiki/iotdb.md" target="_blank">iotdb数据监控使用指南</a></td>
+<td><a href="./doc/wiki/telnet.md" target="_blank">telnet端口连通监控指南</a></td>
 </tr>
 </table>
 
@@ -225,15 +226,15 @@ yarn dev
 
 # ⚙后续规划
 
-* 发布0.8-RELEASE, 进入0.9开发
+* ~~【0.9】发布0.8-RELEASE, 进入0.9开发~~ [2022-06-09]
+* ~~【0.9】增加telnet端口连通监控~~ [2022-06-09]
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
+* 增加 [SqlServer] 数据监控报警
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
-* 增加telnet端口连通监控
 * 页面展示文字支持英文切换
 * 增加 [loki](https://github.com/grafana/loki) 数据监控报警
 * 增加 [redis](https://github.com/redis/redis) 数据监控报警
-* 增加 [SqlServer] 数据监控报警
 * 数据源列表页面增加数据源图标列，方便区分
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
@@ -266,6 +267,7 @@ yarn dev
 
 ### 1.0-RELEASE核心Feature后续计划
 
+* 增加 [SqlServer] 数据监控报警
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
 * 增加 [loki](https://github.com/grafana/loki) 数据监控报警

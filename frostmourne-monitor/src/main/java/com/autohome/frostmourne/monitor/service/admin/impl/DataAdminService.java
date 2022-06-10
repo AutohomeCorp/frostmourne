@@ -164,6 +164,7 @@ public class DataAdminService implements IDataAdminService {
         // HTTP
         options.add(new TreeDataOption("http", "http"));
         options.add(new TreeDataOption("ping", "ping"));
+        options.add(new TreeDataOption("telnet", "telnet"));
         return options;
     }
 

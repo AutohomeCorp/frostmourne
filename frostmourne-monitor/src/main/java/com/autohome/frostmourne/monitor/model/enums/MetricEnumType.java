@@ -12,5 +12,7 @@ public enum MetricEnumType {
 
     object,
 
-    ping
+    ping,
+
+    telnet
 }

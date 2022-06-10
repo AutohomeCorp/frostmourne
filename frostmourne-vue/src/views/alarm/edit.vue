@@ -158,18 +158,19 @@
           <el-form-item label="判断类型:" prop="metricContract.metricType">
             <el-select v-model="form.metricContract.metricType" @change="metricTypeChangeHandler">
               <el-option
-                  v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus' && dataSourceType !== 'iotdb'"
+                  v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus' && dataSourceType !== 'iotdb' && dataSourceType !== 'telnet'"
                   label="数值比较" value="numeric"/>
               <el-option
                   v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse' || dataSourceType === 'prometheus' || dataSourceType === 'iotdb'"
                   label="Javascript表达式" value="object"/>
               <el-option v-if="dataSourceType === 'elasticsearch' || dataSourceType === 'influxdb'" label="环比" value="ring_compare"/>
               <el-option
-                  v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus' && dataSourceType !== 'iotdb'"
+                  v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus' && dataSourceType !== 'iotdb' && dataSourceType !== 'telnet'"
                   label="同比" value="same_time"/>
               <el-option v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType !== 'none'"
                          label="分桶数值比较" value="bucket_numeric"/>
               <el-option v-if="dataSourceType === 'ping'" label="ping" value="ping"/>
+              <el-option v-if="dataSourceType === 'telnet'" label="telnet" value="telnet"/>
             </el-select>
           </el-form-item>
           <el-row>
@@ -861,6 +862,9 @@ export default {
             } else if (response.result.metricContract.dataName === 'ping') {
               this.dataValue.push('ping')
               this.dataSourceType = 'ping'
+            } else if (response.result.metricContract.dataName === 'telnet') {
+              this.dataValue.push('telnet')
+              this.dataSourceType = 'telnet'
             } else if (response.result.metricContract.dataSourceContract !== null) {
               this.dataValue.push(response.result.metricContract.dataSourceContract.datasourceType)
               this.dataValue.push(response.result.metricContract.dataSourceContract.id)
@@ -896,6 +900,13 @@ export default {
         this.form.ruleContract.ruleType = 'ping'
         this.initAlertTemplateOptions()
         return
+      } else if (this.dataSourceType === 'telnet') {
+          this.form.metricContract.dataSourceId = 0
+          this.form.metricContract.dataName = 'telnet'
+          this.form.metricContract.metricType = 'telnet'
+          this.form.ruleContract.ruleType = 'ping'
+          this.initAlertTemplateOptions()
+          return
       } else if (this.dataSourceType === 'elasticsearch') {
         dataQueryApi.elasticsearchFields({dataName: value[2]}).then(response => {
           if (response.returncode === 0 && response.result) {
@@ -983,6 +994,9 @@ export default {
         this.dataOptions.push({
           value: 'ping', label: 'ping'
         })
+      this.dataOptions.push({
+          value: 'telnet', label: 'telnet'
+      })
       })
     },
     handleHttpTest() {

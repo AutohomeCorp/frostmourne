@@ -18,5 +18,7 @@ public enum DataSourceType {
 
     prometheus,
 
-    iotdb
+    iotdb,
+
+    telnet
 }

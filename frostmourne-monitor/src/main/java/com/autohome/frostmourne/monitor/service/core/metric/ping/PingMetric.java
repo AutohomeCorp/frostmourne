@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import com.autohome.frostmourne.monitor.model.enums.MetricEnumType;
 import com.autohome.frostmourne.monitor.service.core.metric.AbstractBaseMetric;
+import com.autohome.frostmourne.monitor.service.core.metric.AbstractPingMetric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,29 +20,9 @@ import com.google.common.base.Splitter;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PingMetric extends AbstractBaseMetric {
+public class PingMetric extends AbstractPingMetric {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PingMetric.class);
-
-    @Override
-    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("SERVERS", metricContract.getQueryString());
-        List<String> serverList = Splitter.on(',').splitToList(metricContract.getQueryString()).stream().map(String::trim).collect(Collectors.toList());
-        result.put("TOTAL", serverList.size());
-        result.put("SERVER_LIST", serverList);
-        List<String> unReachableServers = new ArrayList<>();
-        for (String server : serverList) {
-            boolean reachable = ping(server);
-            if (!reachable) {
-                unReachableServers.add(server);
-            }
-        }
-        result.put("FAIL_SERVER_LIST", unReachableServers);
-        result.put("FAIL_SERVERS", String.join(",", unReachableServers));
-        result.put("FAIL_COUNT", unReachableServers.size());
-        return result;
-    }
 
     @Override
     public MetricEnumType metricType() {
@@ -53,7 +34,8 @@ public class PingMetric extends AbstractBaseMetric {
         return dataSourceType.equalsIgnoreCase(DataSourceType.ping.name());
     }
 
-    private boolean ping(String server) {
+    @Override
+    public boolean ping(String server) {
         try {
             InetAddress geek = InetAddress.getByName(server);
             return geek.isReachable(1000);

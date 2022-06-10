@@ -48,6 +48,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             put("object", "expression");
             put("bucket_numeric", "bucket_numeric");
             put("ping", "ping");
+            put("telnet", "ping");
         }
     };
 
@@ -473,6 +474,10 @@ public class AlarmAdminService implements IAlarmAdminService {
             return;
         }
         if (alarmContract.getMetricContract().getDataName().equalsIgnoreCase("ping")) {
+            return;
+        }
+
+        if (alarmContract.getMetricContract().getDataName().equalsIgnoreCase("telnet")) {
             return;
         }
 
