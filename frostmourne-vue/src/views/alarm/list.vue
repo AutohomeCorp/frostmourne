@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="form.alarmId" placeholder="输入id" clearable style="width: 150px;" class="filter-item" />
-      <el-input v-model="form.name" clearable placeholder="输入名称,支持模糊查询" style="width: 300px;" class="filter-item" />
-      <el-select v-model="form.status" placeholder="监控状态" clearable class="filter-item" @change="onStatusChange">
+      <el-input v-model="form.alarmId" :placeholder="$t('alarm.list.input_id')" clearable style="width: 150px;" class="filter-item" />
+      <el-input v-model="form.name" clearable :placeholder="$t('alarm.list.input_name')" style="width: 300px;" class="filter-item" />
+      <el-select v-model="form.status" :placeholder="$t('alarm.list.input_status')" clearable class="filter-item" @change="onStatusChange">
         <el-option v-for="item in alarmStatus" :key="item.value" :label="item.text" :value="item.value" />
       </el-select>
-      <el-select v-model="form.teamName" placeholder="选择团队" style="width: 200px" class="filter-item" @change="teamChangeHanlder">
+      <el-select v-model="form.teamName" placeholder="choose team" style="width: 200px" class="filter-item" @change="teamChangeHanlder">
         <el-option v-for="item in teamList" :key="item.name" :label="item.fullName" :value="item.name" />
       </el-select>
-      <el-select v-model="form.serviceId" filterable remote reserve-keyword clearable placeholder="请选择服务" class="filter-item"
+      <el-select v-model="form.serviceId" filterable remote reserve-keyword clearable :placeholder="$t('alarm.list.input_service')" class="filter-item"
                  :remote-method="loadServiceOptions" :loading="serviceOptionsLoading" @change="onServiceInfoChange">
         <el-option v-for="item in ServiceOptions" :key="item.id" :label="item.serviceName" :value="item.id" />
       </el-select>
@@ -19,32 +19,32 @@
 
     <el-table v-loading="listLoading" :data="list" :header-cell-style="{'text-align':'center'}" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="80" align="center" />
-      <el-table-column prop="alarmName" label="监控名称" align="left" />
-      <el-table-column prop="alarmType" label="监控类型" width="160" align="center" />
-      <el-table-column prop="cron" label="cron" width="120" align="center" />
-      <el-table-column prop="status" label="是否开启" width="100" align="center">
+      <el-table-column prop="alarmName" :label="$t('alarm.list.header_alarm_name')" align="left" />
+      <el-table-column prop="alarmType" :label="$t('alarm.list.header_alarm_type')" width="160" align="center" />
+      <el-table-column prop="cron" label="Cron" width="120" align="center" />
+      <el-table-column prop="status" :label="$t('alarm.list.header_is_open')" width="100" align="center">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.status" active-value="OPEN" inactive-value="CLOSE" @change="changeStatus(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="最后执行结果" width="110" class-name="status-col" align="center">
+      <el-table-column :label="$t('alarm.list.header_last_execute_result')" width="110" class-name="status-col" align="center">
         <template slot-scope="scope">
           <el-tag size="medium" :type="scope.row.executeResult|executeResultFilter">{{ scope.row.executeResult }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="executeAt" label="最后执行时间" width="160" align="center">
+      <el-table-column prop="executeAt" :label="$t('alarm.list.header_last_execute_time')" width="160" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.executeAt|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ownerKey" label="所属对象" width="160" align="center" />
-      <el-table-column prop="modifier" label="最后修改人" width="160" align="center" />
-      <el-table-column prop="modifyAt" label="最后修改时间" width="160" align="center">
+      <el-table-column prop="ownerKey" :label="$t('alarm.list.header_owner_object')" width="160" align="center" />
+      <el-table-column prop="modifier" :label="$t('alarm.list.header_modifier')" width="160" align="center" />
+      <el-table-column prop="modifyAt" :label="$t('alarm.list.header_last_modify_time')" width="160" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.modifyAt|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="300" align="center" fixed="right">
+      <el-table-column :label="$t('alarm.list.header_action')" width="300" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" icon="el-icon-edit" @click="goEdit(scope.row.id)">{{ $t('buttons.edit') }}</el-button>
           <el-button size="mini" icon="el-icon-edit" @click="run(scope.row.id)">{{ $t('buttons.run') }}</el-button>
@@ -107,9 +107,9 @@ export default {
         pageSize: 10
       },
       alarmStatus: [
-        { value: '', text: '监控状态' },
-        { value: 'OPEN', text: '开启' },
-        { value: 'CLOSE', text: '关闭' }
+        { value: '', text: this.$t('alarm.list.input_status') },
+        { value: 'OPEN', text: this.$t('alarm.list.input_status_open') },
+        { value: 'CLOSE', text: this.$t('alarm.list.input_status_close') }
       ],
       teamList: [],
       serviceOptionsLoading: false,
@@ -153,7 +153,7 @@ export default {
       this.fetchData()
     },
     changeStatus (alarm) {
-      const message = `id=${alarm.id} 监控报警${alarm.status}成功！`
+      const message = `id=${alarm.id} Success ${alarm.status}！`
       if (alarm.status === 'OPEN') {
         adminApi.open(alarm.id).then(response => this.$message({ type: 'success', message: message, duration: 2000 }))
       } else {

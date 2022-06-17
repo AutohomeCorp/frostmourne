@@ -6,7 +6,7 @@
           <svg-icon icon-class="documentation" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">监控数量</div>
+          <div class="card-panel-text">{{ $t('dashboard.alarm_count') }}</div>
           <count-to :start-val="0" :end-val="data.taskCount" :duration="1600" class="card-panel-num" />
         </div>
       </div>
@@ -17,7 +17,7 @@
           <svg-icon icon-class="skill" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">调度次数</div>
+          <div class="card-panel-text">{{ $t('dashboard.schedule_count')}}</div>
           <count-to :start-val="0" :end-val="data.executeCount" :duration="1000" class="card-panel-num" />
         </div>
       </div>
@@ -28,7 +28,7 @@
           <svg-icon icon-class="bug" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">报警次数</div>
+          <div class="card-panel-text">{{ $t('dashboard.alert_count') }}</div>
           <count-to :start-val="0" :end-val="data.alarmCount" :duration="1200" class="card-panel-num" />
         </div>
       </div>
@@ -39,7 +39,7 @@
           <svg-icon icon-class="message" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">消息数量</div>
+          <div class="card-panel-text">{{$t('dashboard.message_count') }}</div>
           <count-to :start-val="0" :end-val="data.alertCount" :duration="1100" class="card-panel-num" />
         </div>
       </div>

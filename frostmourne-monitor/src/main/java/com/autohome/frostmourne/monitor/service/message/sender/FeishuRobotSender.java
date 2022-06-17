@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
  */
 @Component
 public class FeishuRobotSender extends MessageSenderChain {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(FeishuRobotSender.class);
 
     @Resource

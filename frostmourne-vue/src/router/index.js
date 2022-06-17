@@ -59,13 +59,13 @@ export const constantRoutes = [
     component: Layout,
     name: 'query',
     redirect: '/query/elasticsearch.view',
-    meta: { title: '数据查询', icon: 'chart' },
+    meta: { title: 'Query', icon: 'chart' },
     children: [
       {
         path: 'elasticsearch.view',
         name: 'elasticsearch',
         component: () => import('@/views/query/elasticsearch.vue'),
-        meta: { title: '数据查询', icon: 'chart' }
+        meta: { title: 'DataQuery', icon: 'chart' }
       }
     ]
   },
@@ -85,7 +85,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/data/source.view',
     name: 'data',
-    meta: { title: '数据管理', icon: 'excel', roles: ['admin'] },
+    meta: { title: 'DataManager', icon: 'excel', roles: ['admin'] },
     children: dataRoutes
   },
   {
@@ -93,7 +93,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/account/user-info.view',
     name: 'account',
-    meta: { title: '账号管理', icon: 'people', roles: ['admin'] },
+    meta: { title: 'AccountManager', icon: 'people', roles: ['admin'] },
     children: accountRoutes
   },
   {

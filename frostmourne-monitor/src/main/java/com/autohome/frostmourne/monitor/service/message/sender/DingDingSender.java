@@ -24,7 +24,6 @@ public class DingDingSender extends MessageSenderChain {
         MessageResult messageResult = new MessageResult(myWay(), false);
         // TODO
 
-        messageResult.setSuccess(true);
         alarmMessageBO.getResultList().add(messageResult);
     }
 

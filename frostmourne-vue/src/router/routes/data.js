@@ -3,13 +3,13 @@ const dataRoutes = [
     path: 'source.view',
     name: 'source-list',
     component: () => import('@/views/data/source.vue'),
-    meta: { title: '数据源' }
+    meta: { title: 'DataSource' }
   },
   {
     path: 'name.view',
     name: 'name-list',
     component: () => import('@/views/data/name.vue'),
-    meta: { title: '数据名' }
+    meta: { title: 'DataName' }
   }
 ]
 export default dataRoutes

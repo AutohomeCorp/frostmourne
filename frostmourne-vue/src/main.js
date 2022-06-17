@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'mock') {
   mockXHR()
 }
 
-// set ElementUI lang to EN
+// set ElementUI 
 Vue.use(ElementUI, { i18n: (key, value) => i18n.t(key, value) })
 
 Vue.config.productionTip = false

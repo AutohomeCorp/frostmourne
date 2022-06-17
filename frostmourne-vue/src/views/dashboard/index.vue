@@ -35,7 +35,7 @@ export default {
         alertCount: 0
       },
       chartData: {
-        title: '最近七天报警次数',
+        title: this.$t('latest_30_day_alarm_count'),
         xAxisData: [],
         lineData: []
       }
@@ -64,9 +64,9 @@ export default {
     },
     setChartData (type, result) {
       if (type === 'alarm') {
-        this.chartData.title = '最近30天报警次数'
+        this.chartData.title = this.$t('dashboard.latest_30_day_alert_count')
       } else {
-        this.chartData.title = '最近30天消息次数'
+        this.chartData.title = this.$t('dashboard.latest_30_day_message_count')
       }
 
       this.fillDate(result)
