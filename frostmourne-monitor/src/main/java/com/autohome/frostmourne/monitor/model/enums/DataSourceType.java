@@ -20,5 +20,7 @@ public enum DataSourceType {
 
     iotdb,
 
-    telnet
+    telnet,
+
+    sqlserver
 }

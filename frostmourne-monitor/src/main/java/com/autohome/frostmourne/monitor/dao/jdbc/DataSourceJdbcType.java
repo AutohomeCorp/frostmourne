@@ -6,10 +6,21 @@ public enum DataSourceJdbcType {
      * Mysql
      */
     MYSQL("com.mysql.cj.jdbc.Driver"),
+    
     /**
      * ClickHouse
      */
-    CLICKHOUSE("ru.yandex.clickhouse.ClickHouseDriver");
+    CLICKHOUSE("ru.yandex.clickhouse.ClickHouseDriver"),
+
+    /**
+     * SQL Server
+     */
+    SQLSERVER("com.microsoft.sqlserver.jdbc.SQLServerDriver"),
+
+    /**
+     * Oracle
+     */
+    ORACLE("oracle.jdbc.driver.OracleDriver");
 
     private String driverClassName;
 

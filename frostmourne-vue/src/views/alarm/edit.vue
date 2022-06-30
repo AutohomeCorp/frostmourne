@@ -26,7 +26,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('alarm.edit.label_risk') + ':'">
-                <el-select v-model="form.riskLevel" size="small" style="width:100px" :placeholder="$t('alarm.edit.label_risk')">
+                <el-select v-model="form.riskLevel" style="width:100px" :placeholder="$t('alarm.edit.label_risk')">
                   <el-option :label="$t('alarm.edit.label_info')" value="info"/>
                   <el-option :label="$t('alarm.edit.label_important')" value="important"/>
                   <el-option :label="$t('alarm.edit.label_emergency')" value="emergency"/>
@@ -120,23 +120,23 @@
             <el-col :span="6">
               <el-form-item
                   v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType === 'date_histogram'"
-                  label="时间统计间隔:">
+                  :label="$t('alarm.edit.label_time_interval') + ':'">
                 <el-select v-model="form.metricContract.properties.dateHistogramInterval">
-                  <el-option label="小时" value="3600000"/>
-                  <el-option label="天" value="86400000"/>
-                  <el-option label="分钟" value="60000"/>
-                  <el-option label="30分钟" value="1800000"/>
-                  <el-option label="5分钟" value="300000"/>
-                  <el-option label="周" value="604800000"/>
+                  <el-option :label="$t('alarm.edit.label_hour')" value="3600000"/>
+                  <el-option :label="$t('alarm.edit.label_day')" value="86400000"/>
+                  <el-option :label="$t('alarm.edit.label_minute')" value="60000"/>
+                  <el-option :label="$t('alarm.edit.label_half_hour')" value="1800000"/>
+                  <el-option :label="$t('alarm.edit.label_five_minute')" value="300000"/>
+                  <el-option :label="$t('alarm.edit.label_week')" value="604800000"/>
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
 
-          <el-form-item label="查询语句:" prop="metricContract.queryString">
+          <el-form-item :label="$t('alarm.edit.label_query') + ':'" prop="metricContract.queryString">
             <el-input v-model="form.metricContract.queryString" type="textarea" rows="3"/>
           </el-form-item>
-          <el-form-item v-if="dataSourceType === 'http'" label="HTTP头:">
+          <el-form-item v-if="dataSourceType === 'http'" :label="$t('alarm.edit.label_http_header') + ':'">
             <template v-if="httpHeaders.length === 0">
               <el-button type="primary" @click="addHeader">+</el-button>
             </template>
@@ -150,25 +150,25 @@
               </el-row>
             </template>
           </el-form-item>
-          <el-form-item v-if="dataSourceType === 'http'" label="POST数据:">
+          <el-form-item v-if="dataSourceType === 'http'" :label="$t('alarm.edit.label_post_data') + ':'">
             <el-input v-model="form.metricContract.postData" type="textarea"/>
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane label="报警规则">
-          <el-form-item label="判断类型:" prop="metricContract.metricType">
+        <el-tab-pane :label="$t('alarm.edit.label_alarm_rule')">
+          <el-form-item :label="$t('alarm.edit.label_judge_type') + ':'" prop="metricContract.metricType">
             <el-select v-model="form.metricContract.metricType" @change="metricTypeChangeHandler">
               <el-option
                   v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus' && dataSourceType !== 'iotdb' && dataSourceType !== 'telnet'"
-                  label="数值比较" value="numeric"/>
+                  :label="$t('alarm.edit.label_number_compare')" value="numeric"/>
               <el-option
                   v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse' || dataSourceType === 'prometheus' || dataSourceType === 'iotdb'"
-                  label="Javascript表达式" value="object"/>
-              <el-option v-if="dataSourceType === 'elasticsearch' || dataSourceType === 'influxdb'" label="环比" value="ring_compare"/>
+                  :label="$t('alarm.edit.label_javascript_expression')" value="object"/>
+              <el-option v-if="dataSourceType === 'elasticsearch' || dataSourceType === 'influxdb'" :label="$t('alarm.edit.label_ring_compare')" value="ring_compare"/>
               <el-option
                   v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus' && dataSourceType !== 'iotdb' && dataSourceType !== 'telnet'"
-                  label="同比" value="same_time"/>
+                  :label="$t('alarm.edit.label_same_time_compare')" value="same_time"/>
               <el-option v-if="dataSourceType === 'elasticsearch' && form.metricContract.bucketType !== 'none'"
-                         label="分桶数值比较" value="bucket_numeric"/>
+                         :label="$t('alarm.edit.label_bucket_number_compare')" value="bucket_numeric"/>
               <el-option v-if="dataSourceType === 'ping'" label="ping" value="ping"/>
               <el-option v-if="dataSourceType === 'telnet'" label="telnet" value="telnet"/>
             </el-select>
@@ -176,36 +176,36 @@
           <el-row>
             <el-form-item
                 v-if="form.metricContract.metricType === 'numeric' || form.metricContract.metricType === 'bucket_numeric'"
-                label="判断规则:">
-              最近
-              <el-input-number v-model="form.ruleContract.settings.TIME_WINDOW" size="small" :min="1" label="间隔分钟"/>
-              分钟内，指标数值
+                :label=" $t('alarm.edit.label_judge_rule') + ':'">
+              {{ $t('alarm.edit.label_recent') }}
+              <el-input-number v-model="form.ruleContract.settings.TIME_WINDOW" size="small" :min="1" label="minute"/>
+              {{ $t('alarm.edit.text_minutes_metric_value') }}
               <el-select v-model="form.ruleContract.settings.OPERATOR" size="small" style="width:100px"
-                         placeholder="比较类型">
+                         :placeholder="$t('alarm.edit.label_compare_operation')">
                 <el-option label=">=" value="GTE"/>
                 <el-option label="<=" value="LTE"/>
                 <el-option label="==" value="EQUAL"/>
               </el-select>
-              <el-input-number v-model="form.ruleContract.settings.THRESHOLD" :precision="2" size="small" label="阈值"/>
+              <el-input-number v-model="form.ruleContract.settings.THRESHOLD" :precision="2" size="small" :label="$t('alarm.edit.label_threshold')"/>
             </el-form-item>
           </el-row>
-          <el-form-item v-if="form.metricContract.metricType === 'object'" label="判断表达式:">
+          <el-form-item v-if="form.metricContract.metricType === 'object'" :label="$t('alarm.edit.label_expression') + ':'">
             <el-input v-model="form.ruleContract.settings.EXPRESSION" type="textarea"/>
           </el-form-item>
-          <el-form-item v-if="form.metricContract.metricType === 'ring_compare'" label="判断规则:">
+          <el-form-item v-if="form.metricContract.metricType === 'ring_compare'" :label="$t('alarm.edit.label_judge_rule') + ':'">
             <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
-              <el-option label="周" value="week"/>
-              <el-option label="日" value="day"/>
-              <el-option label="小时" value="hour"/>
-              <el-option label="分钟" value="minute"/>
+              <el-option :label="$t('alarm.edit.label_week')" value="week"/>
+              <el-option :label="$t('alarm.edit.label_day')" value="day"/>
+              <el-option :label="$t('alarm.edit.label_hour')" value="hour"/>
+              <el-option :label="$t('alarm.edit.label_minute')" value="minute"/>
             </el-select>
-            环比
+            {{ $t('alarm.edit.label_ring_compare') }}
             <el-select v-model="form.ruleContract.settings.COMPARE_TYPE">
-              <el-option label="增加" value="increase"/>
-              <el-option label="减少" value="decrease"/>
-              <el-option label="增加或减少" value="both"/>
+              <el-option :label="$t('alarm.edit.label_increase')" value="increase"/>
+              <el-option :label="$t('alarm.edit.label_decrease')" value="decrease"/>
+              <el-option :label="$t('alarm.edit.label_increase_or_decrease')" value="both"/>
             </el-select>
-            超过百分之
+            {{ $t('alarm.edit.text_greater_percent') }}
             <el-input v-model="form.ruleContract.settings.PERCENTAGE_THRESHOLD" style="width: 150px"/>
             并且差值(当前值 - 对比值)
             <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">

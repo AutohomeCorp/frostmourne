@@ -98,8 +98,10 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
         DruidDataSource dataSource = new DruidDataSource();
         if (DataSourceType.clickhouse.equals(dataSourceContract.getDatasourceType())) {
             dataSource.setDriverClassName(DataSourceJdbcType.CLICKHOUSE.getDriverClassName());
-        } else {
+        } else if (DataSourceType.mysql.equals(dataSourceContract.getDatasourceType())) {
             dataSource.setDriverClassName(DataSourceJdbcType.MYSQL.getDriverClassName());
+        } else if (DataSourceType.sqlserver.equals(dataSourceContract.getDatasourceType())) {
+            dataSource.setDriverClassName(DataSourceJdbcType.SQLSERVER.getDriverClassName());
         }
         dataSource.setUrl(dataSourceContract.getServiceAddress());
         dataSource.setUsername(dataSourceContract.getSettings().get("username"));

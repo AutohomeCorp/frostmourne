@@ -25,13 +25,13 @@
 但是随着配置的增加，不仅管理成本和使用成本较高，稳定性方面也不能让我们满意，所以为了更好的易用性，稳定性，我们决定自己做一套简单的监控系统，
 来解决日志监控的问题。
 
-项目并不局限于`Elasticsearch`数据，还支持`HTTP`, `PING`, `Telnet`监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`, `IoTDB`数据监控，后面还会加入更多的常用数据源
-(如：`Loki`, `MongoDB` `Redis`, `Oracle`, `SqlServer`等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
+项目并不局限于`Elasticsearch`数据，还支持`HTTP`, `PING`, `Telnet`监控，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`, `IoTDB`, `SqlServer`数据监控，
+后面还会加入更多的常用数据源(如：`Loki`, `MongoDB` `Redis`, `Oracle` 等)纳入监控范畴，需要做的东西还有很多，需要更多相关开发加入进来，欢迎联系我们，一起做大做强。
 
 # ✨ 主要功能
 
 * 只需要写一条数据查询就可以轻松搞定监控
-* 多种数据源支持：`Elasticsearch, HTTP, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse, PING, IotDB, Telnet`
+* 多种数据源支持：`Elasticsearch, HTTP, SkyWalking, Prometheus, InfluxDB, MySQL/TiDb, ClickHouse, SqlServer, PING, IotDB, Telnet`
 * 数值计算类型监控：`count, min, max, avg, sum, unique count, percentiles, standard deviation`; `Elasticsearch`数据支持分桶
 * 多种报警消息发送方式：钉钉(机器人)、企业微信(机器人)、飞书机器人、Email、短信、HTTP
 * 多种消息格式：`text, markdown`
@@ -229,8 +229,8 @@ yarn dev
 * ~~【0.9】发布0.8-RELEASE, 进入0.9开发~~ [2022-06-09]
 * ~~【0.9】增加telnet端口连通监控~~ [2022-06-09]
 * ~~【0.9】修复飞书消息发送两条的问题~~ [2022-06-17]
+* ~~【0.9】增加SqlServer数据监控报警~~ [2022-06-30]
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
-* 增加 [SqlServer] 数据监控报警
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
 * 页面展示文字支持英文切换
@@ -264,7 +264,6 @@ yarn dev
 
 ### 1.0-RELEASE核心Feature后续计划
 
-* 增加 [SqlServer] 数据监控报警
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
 * 增加 [loki](https://github.com/grafana/loki) 数据监控报警

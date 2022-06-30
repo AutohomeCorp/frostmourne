@@ -9,6 +9,7 @@
         <el-option label="mysql" value="mysql" />
         <el-option label="clickhouse" value="clickhouse" />
         <el-option label="iotdb" value="iotdb" />
+        <el-option label="sqlserver" value="sqlserver" />
       </el-select>
       <el-select v-model="form.dataSourceId" placeholder="选择数据源" clearable class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
@@ -64,6 +65,7 @@
             <el-option label="mysql" value="mysql" />
             <el-option label="clickhouse" value="clickhouse" />
             <el-option label="iotdb" value="iotdb" />
+            <el-option label="sqlserver" value="sqlserver" />
           </el-select>
         </el-form-item>
         <el-form-item label="名称" :label-width="formLabelWidth" prop="dataName">
@@ -311,7 +313,8 @@ export default {
       })
     },
     showEditDataTimestampField () {
-      return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql' || this.editData.datasourceType === 'clickhouse'
+      return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql' || 
+      this.editData.datasourceType === 'clickhouse' || this.editData.datasourceType === 'sqlserver'
     },
     handleClose (tag) {
       this.esFieldTags.dynamicTags.splice(this.esFieldTags.dynamicTags.indexOf(tag), 1)

@@ -9,6 +9,7 @@
         <el-option label="mysql" value="mysql" />
         <el-option label="clickhouse" value="clickhouse" />
         <el-option label="iotdb" value="iotdb" />
+        <el-option label="sqlserver" value="sqlserver" />
       </el-select>
       <!-- <el-input v-model="form.datasourceName" placeholder="名称" style="width: 300px;" class="filter-item" /> -->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
@@ -54,6 +55,7 @@
             <el-option label="mysql" value="mysql" />
             <el-option label="clickhouse" value="clickhouse" />
             <el-option label="iotdb" value="iotdb" />
+            <el-option label="sqlserver" value="sqlserver" />
           </el-select>
         </el-form-item>
         <el-form-item label="名称" :label-width="formLabelWidth">
@@ -258,7 +260,8 @@ export default {
     editDataShowUsername () {
       return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql' ||
        this.editData.datasourceType === 'clickhouse' || this.editData.datasourceType === 'influxdb' ||
-       this.editData.datasourceType === 'skywalking' || this.editData.datasourceType === 'prometheus' || this.editData.datasourceType === 'iotdb'
+       this.editData.datasourceType === 'skywalking' || this.editData.datasourceType === 'prometheus' || 
+       this.editData.datasourceType === 'iotdb' || this.editData.datasourceType === 'sqlserver'
     },
     editDataShowPassword () {
       return this.editDataShowUsername()
