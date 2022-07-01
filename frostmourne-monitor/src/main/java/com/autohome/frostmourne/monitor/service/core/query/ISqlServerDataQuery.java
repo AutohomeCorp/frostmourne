@@ -8,5 +8,5 @@ public interface ISqlServerDataQuery {
 
     MetricData queryMetricValue(DateTime start, DateTime end, MetricContract metricContract);
 
-
+    MetricData querySql(MetricContract metricContract);
 }

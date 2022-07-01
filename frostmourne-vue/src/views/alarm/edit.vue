@@ -161,7 +161,8 @@
                   v-if="dataSourceType !== 'http' && dataSourceType !== 'ping' && dataSourceType !== 'prometheus' && dataSourceType !== 'iotdb' && dataSourceType !== 'telnet'"
                   :label="$t('alarm.edit.label_number_compare')" value="numeric"/>
               <el-option
-                  v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse' || dataSourceType === 'prometheus' || dataSourceType === 'iotdb'"
+                  v-if="dataSourceType === 'http' || dataSourceType === 'mysql' || dataSourceType === 'clickhouse' || dataSourceType === 'prometheus' || 
+                  dataSourceType === 'iotdb' || dataSourceType === 'sqlserver'"
                   :label="$t('alarm.edit.label_javascript_expression')" value="object"/>
               <el-option v-if="dataSourceType === 'elasticsearch' || dataSourceType === 'influxdb'" :label="$t('alarm.edit.label_ring_compare')" value="ring_compare"/>
               <el-option

@@ -55,6 +55,22 @@ public class SqlServerDataQuery implements ISqlServerDataQuery {
         return result;
     }
 
+    @Override
+    public MetricData querySql(MetricContract metricContract) {
+        MetricData result = new MetricData();
+        long count = collectResult(metricContract, metricContract.getQueryString(), null);
+        result.setMetricValue(count);
+        String querySql = "select top 50 * from ("+ metricContract.getQueryString() + ") t";
+        List<Map<String, Object>> collectResult = jdbcDao.query(metricContract.getDataNameContract(),
+                metricContract.getDataSourceContract(), querySql, null);
+        if(collectResult != null && collectResult.size() > 0) {
+            Map<String, Object> lastDocument = collectResult.get(0);
+            result.setLatestDocument(lastDocument);
+            result.setTopNDocuments(collectResult);
+        }
+        return result;
+    }
+
     /**
      * 格式化日期类型参数
      *

@@ -12,7 +12,6 @@ import org.joda.time.DateTime;
 
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
-import com.autohome.frostmourne.monitor.service.core.metric.AbstractSameTimeMetric;
 import com.autohome.frostmourne.monitor.service.core.query.IElasticsearchDataQuery;
 import org.springframework.stereotype.Service;
 
