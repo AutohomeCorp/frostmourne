@@ -111,8 +111,8 @@ public class SkywalkingDataQuery implements ISkywalkingDataQuery {
         } else {
             throw new IllegalArgumentException("unknown step: " + step);
         }
-        duration.setStart(start.toDateTime(DateTimeZone.UTC).toString(format));
-        duration.setEnd(end.toDateTime(DateTimeZone.UTC).toString(format));
+        duration.setStart(start.toDateTime(DateTimeZone.getDefault()).toString(format));
+        duration.setEnd(end.toDateTime(DateTimeZone.getDefault()).toString(format));
         return duration;
     }
 }
