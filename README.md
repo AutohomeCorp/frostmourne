@@ -233,7 +233,7 @@ yarn dev
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
-* 页面展示文字支持英文切换
+* 完成英语国际化
 * 增加 [loki](https://github.com/grafana/loki) 数据监控报警
 * 数据源列表页面增加数据源图标列，方便区分
 * 增加邮箱在线配置页面功能
@@ -252,6 +252,7 @@ yarn dev
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)
 * 更多报警方式补充（欢迎PR）
 * 后端接口增加数据校验并返回合适的提示信息
+* 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
 * 监控列表增加一个开关选项，只显示我的监控
 * 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
@@ -264,8 +265,8 @@ yarn dev
 
 ### 1.0-RELEASE核心Feature后续计划
 
+* 完成英语国际化
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
-* 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
 * 增加 [loki](https://github.com/grafana/loki) 数据监控报警
 
 # 🗓 [发版历史](./ReleaseNotes.md)
@@ -291,7 +292,7 @@ yarn dev
 * 帮忙扩散推广
 * 在 [`issue`](https://github.com/AutohomeCorp/frostmourne/issues) 提出你的宝贵建议
 * 加入交流群，解答交流问题。群内会不定时发布项目更新说明
-* 开源不易，需要鼓励
+* 开源不易，感谢您的一键三连鼓励
 * [代码规范说明](./doc/wiki/code_format.md)
 
 # 💬 联系我们
