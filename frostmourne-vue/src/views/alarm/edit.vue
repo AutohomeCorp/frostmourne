@@ -208,122 +208,121 @@
             </el-select>
             {{ $t('alarm.edit.text_greater_percent') }}
             <el-input v-model="form.ruleContract.settings.PERCENTAGE_THRESHOLD" style="width: 150px"/>
-            并且差值(当前值 - 对比值)
+            {{ $t('text_and_diff') }}
             <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
-              <el-option label="绝对值>=" value="ABS_GTE"/>
-              <el-option label="绝对值<=" value="ABS_LTE"/>
+              <el-option :label="$t('label_absolute') + ' >='" value="ABS_GTE"/>
+              <el-option :label="$t('label_absolute') + ' <='" value="ABS_LTE"/>
               <el-option label=">=" value="GTE"/>
               <el-option label="<=" value="LTE"/>
             </el-select>
             <el-input v-model="form.ruleContract.settings.DIFF_VALUE_THRESHOLD" style="width: 100px"/>
           </el-form-item>
-          <el-form-item v-if="form.metricContract.metricType === 'same_time'" label="判断规则:">
+          <el-form-item v-if="form.metricContract.metricType === 'same_time'" label="$t('alarm.edit.label_judge_rule') + ':'">
             <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
-              <el-option label="小时" value="hour"/>
-              <el-option label="天" value="day"/>
+              <el-option :label="$t('alarm.edit.label_hour')" value="hour"/>
+              <el-option :label="$t('alarm.edit.label_day')" value="day"/>
             </el-select>
-            同比
+            {{ $t('alarm.edit.label_same_time_compare') }}
             <el-select v-model="form.ruleContract.settings.REFERENCE_TYPE_LIST">
-              <el-option label="昨天" value="day"/>
-              <el-option label="上周" value="week"/>
-              <el-option label="上月" value="month"/>
-              <el-option label="昨天和上周" value="day,week"/>
+              <el-option :label="$t('alarm.edit.label_yesterday')" value="day"/>
+              <el-option :label="$t('alarm.edit.label_last_week')" value="week"/>
+              <el-option :label="$t('alarm.edit.label_last_month')" value="month"/>
+              <el-option :label="$t('alarm.edit.label_yesterday_and_last_week')" value="day,week"/>
             </el-select>
             <el-select v-model="form.ruleContract.settings.COMPARE_TYPE">
-              <el-option label="增加" value="increase"/>
-              <el-option label="减少" value="decrease"/>
-              <el-option label="增加或减少" value="both"/>
+              <el-option :label="$t('alarm.edit.label_increase')" value="increase"/>
+              <el-option :label="$t('alarm.edit.label_decrease')" value="decrease"/>
+              <el-option :label="$t('alarm.edit.label_increase_or_decrease')" value="both"/>
             </el-select>
-            超过百分之
+            {{ $t('alarm.edit.text_greater_percent') }}
             <el-input v-model="form.ruleContract.settings.PERCENTAGE_THRESHOLD" style="width: 150px"/>
-            并且差值(当前值 - 对比值)
+            {{ $t('text_and_diff') }}
             <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
-              <el-option label="绝对值>=" value="ABS_GTE"/>
-              <el-option label="绝对值<=" value="ABS_LTE"/>
+              <el-option :label="$t('label_absolute') + '>='" value="ABS_GTE"/>
+              <el-option :label="$t('label_absolute') + '<='" value="ABS_LTE"/>
               <el-option label=">=" value="GTE"/>
               <el-option label="<=" value="LTE"/>
             </el-select>
             <el-input v-model="form.ruleContract.settings.DIFF_VALUE_THRESHOLD" style="width: 100px"/>
           </el-form-item>
           <el-row>
-            <el-form-item label="报警条件:">
-              持续
-              <el-input-number v-model="form.ruleContract.settings.ALERT_CONDITION" size="small" :precision="0" :min="1"
-                               label="报警条件"/>
-              次满足规则时开始报警
+            <el-form-item :label="$t('alarm.edit.label_alert_condition') + ':'">
+              {{ $t('alarm.edit.text_continuous') }}
+              <el-input-number v-model="form.ruleContract.settings.ALERT_CONDITION" size="small" :precision="0" :min="1"/>
+              {{ $t('alarm.edit.text_times_meet_rule_begin_alert') }}
             </el-form-item>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane label="消息模板">
+        <el-tab-pane :label="$t('alarm.edit.label_message_template')">
           <el-form-item>
             <el-select v-model.number="alertTemplateId" filterable placeholder="请选择"
                        @change="changeAlertTemplateOptions()">
               <el-option v-for="item in alertTemplateOptions"
                          :key="item.id" :label="item.templateName" :value="item.id"/>
             </el-select>
-            <el-button type="primary" :disabled="alertTemplateOption==null" @click="importAlertTemplate">导入模板
+            <el-button type="primary" :disabled="alertTemplateOption==null" @click="importAlertTemplate">{{ $t('alarm.edit.text_import_template') }}
             </el-button>
           </el-form-item>
-          <el-form-item label="消息类型:" prop="ruleContract.alertTemplateType">
+          <el-form-item :label="$t('alarm.edit.label_message_type') + ':'" prop="ruleContract.alertTemplateType">
             <el-select v-model="form.ruleContract.alertTemplateType" @change="alertTemplateTypeChangeHandler">
               <el-option label="text" value="TEXT"/>
               <el-option label="markdown" value="MARKDOWN"/>
             </el-select>
           </el-form-item>
-          <el-form-item label="消息模板:" prop="ruleContract.alertTemplate">
+          <el-form-item :label="$t('alarm.edit.label_template_content') + ':'" prop="ruleContract.alertTemplate">
             <el-input v-model="form.ruleContract.alertTemplate" type="textarea" rows="5"/>
           </el-form-item>
-          <el-form-item label="自定义链接:">
-            <el-input v-model="form.metricContract.properties.dataLink" placeholder="选填，自定义链接不使用短链接"/>
+          <el-form-item :label="$t('alarm.edit.label_custom_link') + ':'">
+            <el-input v-model="form.metricContract.properties.dataLink" placeholder="optional"/>
           </el-form-item>
         </el-tab-pane>
       </el-tabs>
-      <el-button type="primary" @click="onPreview">预览数据</el-button>
+      <el-button type="primary" @click="onPreview">{{ $t('alarm.edit.text_preview_data') }}</el-button>
       <el-tabs>
-        <el-tab-pane label="报警发送">
+        <el-tab-pane :label="$t('alarm.edit.label_message_deliver')">
           <el-row>
             <el-col :span="8">
-              <el-form-item label="报警方式:" prop="alertContract.ways">
+              <el-form-item :label="$t('alarm.edit.label_message_way') + ':'" prop="alertContract.ways">
                 <el-checkbox-group v-model="form.alertContract.ways" size="small">
-                  <el-checkbox-button label="dingding">钉钉</el-checkbox-button>
-                  <el-checkbox-button label="feishu">飞书</el-checkbox-button>
-                  <el-checkbox-button label="wechat">企业微信</el-checkbox-button>
+                  <el-checkbox-button label="dingding">{{ $t('alarm.edit.text_dingding') }}</el-checkbox-button>
+                  <el-checkbox-button label="feishu">{{ $t('alarm.edit.text_feishu') }}</el-checkbox-button>
+                  <el-checkbox-button label="wechat">{{ $t('alarm.edit.text_wechat') }}</el-checkbox-button>
                   <el-checkbox-button label="email">Email</el-checkbox-button>
-                  <el-checkbox-button label="sms">短信</el-checkbox-button>
+                  <el-checkbox-button label="sms">{{ $t('alarm.edit.text_sms') }}</el-checkbox-button>
                   <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
                 </el-checkbox-group>
               </el-form-item>
             </el-col>
             <el-col :span="16">
-              <el-form-item label="恢复通知:">
-                <el-switch v-model="form.recoverNoticeStatus" active-value="OPEN" active-text="开启"
-                           inactive-value="CLOSE" inactive-text="关闭"/>
+              <el-form-item :label="$t('alarm.edit.label_recover_notice') + ':'">
+                <el-switch v-model="form.recoverNoticeStatus" active-value="OPEN" :active-text="$t('alarm.edit.label_status_open')"
+                           inactive-value="CLOSE" :inactive-text="$t('alarm.edit.label_status_close')"/>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item v-if="form.alertContract.ways.includes('dingding')" label="钉钉机器人:">
-            <el-input v-model="form.alertContract.dingRobotHook" size="small" placeholder="选填"/>
+          <el-form-item v-if="form.alertContract.ways.includes('dingding')" :label="$t('alarm.edit.label_dingtalk_robot') + ':'">
+            <el-input v-model="form.alertContract.dingRobotHook" size="small" placeholder="required"/>
           </el-form-item>
-          <el-form-item v-if="form.alertContract.ways.includes('wechat')" label="微信机器人:">
-            <el-input v-model="form.alertContract.wechatRobotHook" size="small" placeholder="选填"/>
+          <el-form-item v-if="form.alertContract.ways.includes('wechat')" :label="$t('alarm.edit.label_wechat_robot') + ':'">
+            <el-input v-model="form.alertContract.wechatRobotHook" size="small" placeholder="optional"/>
           </el-form-item>
           <el-form-item v-if="form.alertContract.ways.includes('http_post')" prop="alertContract.httpPostUrl"
-                        label="HTTP地址:">
-            <el-input v-model="form.alertContract.httpPostUrl" size="small" placeholder="必填"/>
+                        :label="$t('alarm.edit.label_http_addr') + ':'">
+            <el-input v-model="form.alertContract.httpPostUrl" size="small" placeholder="required"/>
           </el-form-item>
           <el-form-item v-if="form.alertContract.ways.includes('feishu')" prop="alertContract.feishuRobotHook"
-                        label="飞书机器人:">
-            <el-input v-model="form.alertContract.feishuRobotHook" size="small" placeholder="必填"/>
+                        :label="$t('alarm.edit.label_feishu_robot') + ':'">
+            <el-input v-model="form.alertContract.feishuRobotHook" size="small" placeholder="required"/>
           </el-form-item>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="静默时间:">
-                <el-input-number v-model="form.alertContract.silence" size="small" :min="0" label="静默时间"/>
-                分钟
+              <el-form-item :label="$t('alarm.edit.label_silence_time') + ':'">
+                <el-input-number v-model="form.alertContract.silence" size="small" :min="0" :label="$t('alarm.edit.label_silence_time')"/>
+                {{ $t('alarm.edit.label_minute') }}
               </el-form-item>
             </el-col>
             <el-col :span="16">
-              <el-form-item label="静默判断:" prop="alertContract.silenceExpression">
+              <el-form-item :label="$t('alarm.edit.label_silence_rule') + ':'" prop="alertContract.silenceExpression">
                 <span slot="label">
                   <el-tooltip class="item" effect="light" placement="right-start">
                     <div slot="content">
@@ -343,57 +342,57 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="报警接收人:" prop="alertContract.recipients">
+          <el-form-item :label="$t('alarm.edit.label_message_receiver') + ':'" prop="alertContract.recipients">
             <el-select v-model="form.alertContract.recipients" style="width:100%;" multiple filterable remote
-                       placeholder="支持关键词模糊搜索" :remote-method="findRecipient" :loading="loading">
+                        :remote-method="findRecipient" :loading="loading">
               <el-option v-for="item in recipientList" :key="item.account" :label="item.account" :value="item.account"/>
             </el-select>
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane label="报警升级">
-          <el-form-item label="升级开关:">
-            <el-switch v-model="form.alertUpgradeContract.status" active-value="OPEN" active-text="开启"
-                       inactive-value="CLOSE" inactive-text="关闭"/>
+        <el-tab-pane :label="$t('alarm.edit.label_alarm_upgrade')">
+          <el-form-item :label="$t('alarm.edit.label_alarm_upgrade_switch') + ':'">
+            <el-switch v-model="form.alertUpgradeContract.status" active-value="OPEN" :active-text="$t('alarm.edit.label_status_open')"
+                       inactive-value="CLOSE" :inactive-text="$t('alarm.edit.label_status_close')"/>
           </el-form-item>
-          <el-form-item label="升级规则:" prop="alertUpgradeContract.timesToUpgrade">
-            持续报警
+          <el-form-item :label="$t('alarm.edit.label_upgrade_rule') + ':'" prop="alertUpgradeContract.timesToUpgrade">
+            {{ $t('alarm.edit.text_continuous_alert') }}
             <el-input-number v-model="form.alertUpgradeContract.timesToUpgrade" size="small" :precision="0" :min="2"
-                             label="升级规则"/>
-            次时升级
+                             :label="$t('alarm.edit.label_upgrade_rule')"/>
+            {{ $t('alarm.edit.text_times_then_upgrade') }}
           </el-form-item>
-          <el-form-item label="报警方式:" prop="alertUpgradeContract.ways">
+          <el-form-item :label="$t('alarm.edit.label_message_way') + ':'" prop="alertUpgradeContract.ways">
             <el-checkbox-group v-model="form.alertUpgradeContract.ways" size="small">
-              <el-checkbox-button label="dingding">钉钉</el-checkbox-button>
-              <el-checkbox-button label="feishu">飞书</el-checkbox-button>
-              <el-checkbox-button label="wechat">企业微信</el-checkbox-button>
+              <el-checkbox-button label="dingding">{{ $t('alarm.edit.text_dingding') }}</el-checkbox-button>
+              <el-checkbox-button label="feishu">{{ $t('alarm.edit.text_feishu') }}</el-checkbox-button>
+              <el-checkbox-button label="wechat">{{ $t('alarm.edit.text_wechat') }}</el-checkbox-button>
               <el-checkbox-button label="email">Email</el-checkbox-button>
-              <el-checkbox-button label="sms">短信</el-checkbox-button>
+              <el-checkbox-button label="sms">{{ $t('alarm.edit.text_sms') }}</el-checkbox-button>
               <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item
               v-if="form.alertUpgradeContract.ways != null && form.alertUpgradeContract.ways.includes('dingding')"
-              label="钉钉机器人:">
-            <el-input v-model="form.alertUpgradeContract.dingRobotHook" size="small" placeholder="选填"/>
+              :label="$t('alarm.edit.label_dingtalk_robot') + ':'">
+            <el-input v-model="form.alertUpgradeContract.dingRobotHook" size="small" placeholder="required"/>
           </el-form-item>
           <el-form-item
               v-if="form.alertUpgradeContract.ways != null && form.alertUpgradeContract.ways.includes('wechat')"
-              label="微信机器人:">
-            <el-input v-model="form.alertUpgradeContract.wechatRobotHook" size="small" placeholder="选填"/>
+              :label="$t('alarm.edit.label_wechat_robot') + ':'">
+            <el-input v-model="form.alertUpgradeContract.wechatRobotHook" size="small" placeholder="optional"/>
           </el-form-item>
           <el-form-item
               v-if="form.alertUpgradeContract.ways != null && form.alertUpgradeContract.ways.includes('http_post')"
-              prop="alertUpgradeContract.httpPostUrl" label="HTTP地址:">
-            <el-input v-model="form.alertUpgradeContract.httpPostUrl" size="small" placeholder="必填"/>
+              prop="alertUpgradeContract.httpPostUrl" :label="$t('alarm.edit.label_http_addr') + ':'">
+            <el-input v-model="form.alertUpgradeContract.httpPostUrl" size="small" placeholder="required"/>
           </el-form-item>
           <el-form-item
               v-if="form.alertUpgradeContract.ways != null && form.alertUpgradeContract.ways.includes('feishu')"
-              prop="alertUpgradeContract.feishuRobotHook" label="飞书机器人:">
-            <el-input v-model="form.alertUpgradeContract.feishuRobotHook" size="small" placeholder="必填"/>
+              prop="alertUpgradeContract.feishuRobotHook" :label="$t('alarm.edit.label_feishu_robot') + ':'">
+            <el-input v-model="form.alertUpgradeContract.feishuRobotHook" size="small" placeholder="required"/>
           </el-form-item>
-          <el-form-item label="报警接收人:" prop="alertUpgradeContract.recipients">
+          <el-form-item :label="$t('alarm.edit.label_message_receiver') + ':'" prop="alertUpgradeContract.recipients">
             <el-select v-model="form.alertUpgradeContract.recipients" style="width:100%;" multiple filterable remote
-                       placeholder="支持关键词模糊搜索" :remote-method="findRecipient" :loading="loading">
+                        :remote-method="findRecipient" :loading="loading">
               <el-option v-for="item in recipientList" :key="item.account" :label="item.account" :value="item.account"/>
             </el-select>
           </el-form-item>
@@ -401,48 +400,48 @@
       </el-tabs>
 
       <el-tabs>
-        <el-tab-pane label="调度配置">
+        <el-tab-pane :label="$t('alarm.edit.label_schedule_config')">
           <el-row>
             <el-col :span="8">
-              <el-form-item label="每隔:">
+              <el-form-item :label="$t('alarm.edit.label_every') + ':'">
                 <el-select v-model="intervalCron" @change="intervalChangeHandler">
-                  <el-option label="1分钟" value="0/1 * * * ?"/>
-                  <el-option label="2分钟" value="0/2 * * * ?"/>
-                  <el-option label="3分钟" value="0/3 * * * ?"/>
-                  <el-option label="5分钟" value="0/5 * * * ?"/>
-                  <el-option label="10分钟" value="0/10 * * * ?"/>
-                  <el-option label="15分钟" value="0/15 * * * ?"/>
-                  <el-option label="30分钟" value="0/30 * * * ?"/>
-                  <el-option label="1小时" value="0 0/1 * * ?"/>
-                  <el-option label="2小时" value="0 0/2 * * ?"/>
-                  <el-option label="6小时" value="0 0/6 * * ?"/>
+                  <el-option :label="'1 ' + $t('alarm.edit.label_minute')" value="0/1 * * * ?"/>
+                  <el-option :label="'2 ' + $t('alarm.edit.label_minute')" value="0/2 * * * ?"/>
+                  <el-option :label="'3 ' + $t('alarm.edit.label_minute')" value="0/3 * * * ?"/>
+                  <el-option :label="'5 ' + $t('alarm.edit.label_minute')" value="0/5 * * * ?"/>
+                  <el-option :label="'10 ' + $t('alarm.edit.label_minute')" value="0/10 * * * ?"/>
+                  <el-option :label="'15 ' + $t('alarm.edit.label_minute')" value="0/15 * * * ?"/>
+                  <el-option :label="'30 ' + $t('alarm.edit.label_minute')" value="0/30 * * * ?"/>
+                  <el-option :label="'1 ' + $t('alarm.edit.label_hour')" value="0 0/1 * * ?"/>
+                  <el-option :label="'2 ' + $t('alarm.edit.label_hour')" value="0 0/2 * * ?"/>
+                  <el-option :label="'6 ' + $t('alarm.edit.label_hour')" value="0 0/6 * * ?"/>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="3">或者</el-col>
+            <el-col :span="3">{{ $t('alarm.edit.text_or') }}</el-col>
             <el-col :span="8">
-              <el-form-item label="每天:">
+              <el-form-item :label="$t('alarm.edit.label_each_day') + ':'">
                 <el-select v-model="dayCron" @change="dayCronChangeHandler">
                   <el-option v-for="item in dayCronOptions" :key="item.value" :label="item.label" :value="item.value"/>
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="cron表达式:" prop="cron">
+          <el-form-item :label="$t('alarm.edit.label_cron_expression') + ':'" prop="cron">
             <el-input v-model="form.cron"/>
           </el-form-item>
         </el-tab-pane>
       </el-tabs>
 
       <el-form-item style="margin-top: 20px;">
-        <el-button type="primary" :disabled="disableSave" @click="onSubmit">保存</el-button>
-        <el-button type="primary" @click="onTest">测试</el-button>
-        <el-button v-if="enableSaveAnother" type="primary" @click="onSaveAnother">另存</el-button>
-        <el-button @click="onCancel">取消</el-button>
+        <el-button type="primary" :disabled="disableSave" @click="onSubmit">{{ $t('buttons.save') }}</el-button>
+        <el-button type="primary" @click="onTest">{{ $t('buttons.test') }}</el-button>
+        <el-button v-if="enableSaveAnother" type="primary" @click="onSaveAnother">{{ $t('buttons.save_another') }}</el-button>
+        <el-button @click="onCancel">{{ $t('buttons.cancel') }}</el-button>
       </el-form-item>
     </el-form>
 
-    <el-dialog title="响应数据" :visible.sync="previewResponseDialogVisible" style="word-break: normal">
+    <el-dialog :title="$t('alarm.edit.title_response_data')" :visible.sync="previewResponseDialogVisible" style="word-break: normal">
       <div>
         <vue-json-pretty :data="previewResponseData"/>
       </div>
