@@ -17,7 +17,7 @@
 # 📖 Introduction
 
 `Frostmourne` is an open source version of the Autohome Dealer Tech monitoring system to help monitor almost all database data (including `Elasticsearch`, `Prometheus`, `SkyWalking`, `MySql`, etc.) . If you have established a logging system,
-Indicator system, but worry about not having a supporting monitoring system, maybe it can help you.
+metric system, but worry about not having a supporting monitoring system, maybe it can help you.
 
 ### Purpose
 
@@ -25,13 +25,9 @@ After building a logging system with `ELK`, we found that there is no other solu
 However, with the increase of configuration, not only the management cost and usage cost are high, but also the stability cannot satisfy us. Therefore, for better ease of use and stability, we decided to build a simple monitoring system by ourselves.
 to solve the problem of log monitoring.
 
-The project is not limited to `Elasticsearch` data, but also supports `HTTP`, `PING`, `Telnet` monitoring, `Prometheus`, `SkyWalking`, `InfluxDB`, `MySQL`, 
-`ClickHouse`, `IoTDB`, ` SqlServer` data monitoring, Later, more common data sources (such as `Loki`, `MongoDB` `Redis`, `Oracle`, etc.) will be added to the monitoring category. 
-There are still many things that need to be done, and more related development needs to be added. Welcome Contact us to grow bigger and stronger together.
-
-The project can monitor not only `Elasticsearch` data, but also support `HTTP`, `PING`, `Telnet`，`Prometheus`, `SkyWalking`, `InfluxDB`，`MySQL`, `ClickHouse`, `IoTDB`, `SqlServer`
-data monitor, and we plan support more databases (like: `Loki`, `MongoDB` `Redis`, `Oracle` and so on) in the future, a lot of work to do, if you want to make contribution
-feel free to PR, let's make the project more powerful together.
+The project is not limited to `Elasticsearch` data, but also supports `HTTP`, `PING`, `Telnet` monitoring, `Prometheus`, `SkyWalking`, `InfluxDB`, `MySQL`,
+`ClickHouse`, `IoTDB`, ` SqlServer` data monitoring, Later, more common data sources (such as `Loki`, `MongoDB` `Redis`, `Oracle`, etc.) will be added to the monitoring category.
+There are still many things that need to be done, and more related development needs to be added. Welcome to join us to make the project more powerful.
 
 # ✨ Features
 
