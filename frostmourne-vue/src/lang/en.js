@@ -150,6 +150,20 @@ export default {
       input_service: 'Please choose service',
 
       title_response_data: 'Response Data'
+    },
+    alarmLog: {
+      label_alarm_id: 'Alarm Id',
+      label_execute_time: 'Execute Time',
+      label_start_date: 'Start Date',
+      label_end_date: 'End Date',
+      label_is_alert: 'Alert',
+      label_all: 'all',
+      label_yes: 'yes',
+      label_no: 'no',
+      label_execute_result: 'execute result',
+      label_success: 'success',
+      label_exception: 'exception',
+      label_alert_condition: 'Alert Condition'
     }
   },
   dashboard: {

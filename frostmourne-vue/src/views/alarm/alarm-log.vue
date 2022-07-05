@@ -4,39 +4,40 @@
       <el-form ref="form" :model="form" label-width="100px" label-position="center">
         <el-row :gutter="5">
           <el-col :span="8">
-            <el-form-item label="监控id:">
+            <el-form-item :label="$t('alarm.alarmLog.label_alarm_id') + ':'">
               <el-input v-model="form.alarmId" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="执行时间:">
-              <el-date-picker v-model="datePickValue" type="datetimerange" :picker-options="pickerOptions" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right" :default-time="['00:00:00', '23:59:59']" @change="dateChangeHandler" />
+            <el-form-item :label="$t('alarm.alarmLog.label_execute_time') + ':'">
+              <el-date-picker v-model="datePickValue" type="datetimerange" :picker-options="pickerOptions" range-separator="To" :start-placeholder="$t('alarm.alarmLog.label_start_date')" 
+              :end-placeholder="$t('alarm.alarmLog.label_end_date')" align="right" :default-time="['00:00:00', '23:59:59']" @change="dateChangeHandler" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="是否报警:">
-              <el-select v-model="form.verifyResult" placeholder="是否报警">
-                <el-option label="全部" value="" />
-                <el-option label="是" value="ture" />
-                <el-option label="否" value="false" />
+            <el-form-item :label="$t('alarm.alarmLog.label_is_alert') + ':'">
+              <el-select v-model="form.verifyResult" :placeholder="$t('alarm.alarmLog.label_is_alert')">
+                <el-option :label="$t('alarm.alarmLog.label_all')" value="" />
+                <el-option :label="$t('alarm.alarmLog.label_yes')" value="ture" />
+                <el-option :label="$t('alarm.alarmLog.label_no')" value="false" />
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="5">
           <el-col :span="8">
-            <el-form-item label="执行结果:">
-              <el-select v-model="form.executeResult" placeholder="执行结果">
-                <el-option label="全部" value="" />
-                <el-option label="成功" value="SUCCESS" />
-                <el-option label="异常" value="ERROR" />
+            <el-form-item :label="$t('alarm.alarmLog.label_execute_result') + ':'">
+              <el-select v-model="form.executeResult" :placeholder="$t('alarm.alarmLog.label_execute_result')">
+                <el-option :label="$t('alarm.alarmLog.label_all')" value="" />
+                <el-option :label="$t('alarm.alarmLog.label_success')" value="SUCCESS" />
+                <el-option :label="$t('alarm.alarmLog.label_exception')" value="ERROR" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="规则判断:">
-              <el-select v-model="form.alert" placeholder="规则判断">
-                <el-option label="全部" value="" />
+            <el-form-item :label="$t('alarm.alarmLog.label_alert_condition') + ':'">
+              <el-select v-model="form.alert" :placeholder="$t('alarm.alarmLog.label_alert_condition')">
+                <el-option :label="$t('alarm.alarmLog.label_all')" value="" />
                 <el-option label="满足" value="TRUE" />
                 <el-option label="未满足" value="FALSE" />
               </el-select>

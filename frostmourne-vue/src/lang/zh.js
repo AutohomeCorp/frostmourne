@@ -151,6 +151,20 @@ export default {
       input_service: '请选择服务',
 
       title_response_data: '响应数据'
+    },
+    alarmLog: {
+      label_alarm_id: '监控id',
+      label_execute_time: '执行时间',
+      label_start_date: '开始日期',
+      label_end_date: '结束日期',
+      label_is_alert: '是否报警',
+      label_all: '全部',
+      label_yes: '是',
+      label_no: '否',
+      label_execute_result: '执行结果',
+      label_success: '成功',
+      label_exception: '异常',
+      label_alert_condition: '规则判断'
     }
   },
   dashboard: {
