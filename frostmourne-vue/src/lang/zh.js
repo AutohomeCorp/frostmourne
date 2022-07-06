@@ -147,6 +147,9 @@ export default {
       text_continuous_alert: '持续报警',
       text_times_then_upgrade: '次时升级',
       text_or: '或者',
+      text_clock: '点',
+      text_silence_rule: '静默判断',
+      text_choose_service: '选择服务',
 
       input_service: '请选择服务',
 
@@ -164,7 +167,19 @@ export default {
       label_execute_result: '执行结果',
       label_success: '成功',
       label_exception: '异常',
-      label_alert_condition: '规则判断'
+      label_alert_condition: '规则判断',
+      label_meet: '满足',
+      label_not_meet: '未满足',
+      label_cost_millisecond: '耗时(毫秒)',
+      label_action: '操作',
+
+      text_detail_arrow: '详细>>',
+      text_today: '今天',
+      text_yesterday: '昨天',
+      text_the_day_before_yesterday: '前天',
+      text_latest_three_days: '最近三天',
+      text_latest_seven_days: '最近一周',
+      text_latest_30_days: '最近30天'
     }
   },
   dashboard: {

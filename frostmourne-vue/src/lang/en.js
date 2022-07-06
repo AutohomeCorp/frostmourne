@@ -123,17 +123,17 @@ export default {
       label_feishu_robot: 'feishu robot',
       label_silence_time: 'silence time',
       label_silence_rule: 'silence rule',
-      label_message_receiver: 'message receiver',
+      label_message_receiver: 'receivers',
       label_alarm_upgrade: 'Alarm Upgrade',
       label_alarm_upgrade_switch: 'upgrade switch',
       label_upgrade_rule: 'upgrade rule',
       label_schedule_config: 'Schedule Config',
       label_every: 'every',
       label_each_day: 'each day',
-      label_cron_expression: 'cron expression',
+      label_cron_expression: 'cron',
 
       text_minutes_metric_value: 'minutes, metric value',
-      text_greater_percent: 'greater percent',
+      text_greater_percent: 'greater than percent',
       text_and_diff: 'and the difference(current - reference)',
       text_continuous: 'continuous',
       text_times_meet_rule_begin_alert: 'times meet the rule then alert',
@@ -146,6 +146,9 @@ export default {
       text_continuous_alert: 'continuous alert',
       text_times_then_upgrade: 'times then upgrade',
       text_or: 'or',
+      text_clock: 'clock',
+      text_silence_rule: 'silence rule',
+      text_choose_service: 'choose service',
 
       input_service: 'Please choose service',
 
@@ -163,7 +166,19 @@ export default {
       label_execute_result: 'execute result',
       label_success: 'success',
       label_exception: 'exception',
-      label_alert_condition: 'Alert Condition'
+      label_alert_condition: 'Alert Condition',
+      label_meet: 'meet',
+      label_not_meet: 'not meet',
+      label_cost_millisecond: 'cost(millis)',
+      label_action: '操作',
+
+      text_detail_arrow: 'detail >>',
+      text_today: 'today',
+      text_yesterday: 'yesterday',
+      text_the_day_before_yesterday: 'yesterday yesterday',
+      text_latest_three_days: 'latest 3 days',
+      text_latest_seven_days: 'latest 7 days',
+      text_latest_30_days: 'latest 30 days'
     }
   },
   dashboard: {

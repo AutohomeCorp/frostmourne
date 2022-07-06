@@ -208,16 +208,16 @@
             </el-select>
             {{ $t('alarm.edit.text_greater_percent') }}
             <el-input v-model="form.ruleContract.settings.PERCENTAGE_THRESHOLD" style="width: 150px"/>
-            {{ $t('text_and_diff') }}
+            {{ $t('alarm.edit.text_and_diff') }}
             <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
-              <el-option :label="$t('label_absolute') + ' >='" value="ABS_GTE"/>
-              <el-option :label="$t('label_absolute') + ' <='" value="ABS_LTE"/>
+              <el-option :label="$t('alarm.edit.label_absolute') + ' >='" value="ABS_GTE"/>
+              <el-option :label="$t('alarm.edit.label_absolute') + ' <='" value="ABS_LTE"/>
               <el-option label=">=" value="GTE"/>
               <el-option label="<=" value="LTE"/>
             </el-select>
             <el-input v-model="form.ruleContract.settings.DIFF_VALUE_THRESHOLD" style="width: 100px"/>
           </el-form-item>
-          <el-form-item v-if="form.metricContract.metricType === 'same_time'" label="$t('alarm.edit.label_judge_rule') + ':'">
+          <el-form-item v-if="form.metricContract.metricType === 'same_time'" :label="$t('alarm.edit.label_judge_rule') + ':'">
             <el-select v-model="form.ruleContract.settings.PERIOD_UNIT">
               <el-option :label="$t('alarm.edit.label_hour')" value="hour"/>
               <el-option :label="$t('alarm.edit.label_day')" value="day"/>
@@ -236,10 +236,10 @@
             </el-select>
             {{ $t('alarm.edit.text_greater_percent') }}
             <el-input v-model="form.ruleContract.settings.PERCENTAGE_THRESHOLD" style="width: 150px"/>
-            {{ $t('text_and_diff') }}
+            {{ $t('alarm.edit.text_and_diff') }}
             <el-select v-model="form.ruleContract.settings.DIFF_COMPARE_TYPE">
-              <el-option :label="$t('label_absolute') + '>='" value="ABS_GTE"/>
-              <el-option :label="$t('label_absolute') + '<='" value="ABS_LTE"/>
+              <el-option :label="$t('alarm.edit.label_absolute') + '>='" value="ABS_GTE"/>
+              <el-option :label="$t('alarm.edit.label_absolute') + '<='" value="ABS_LTE"/>
               <el-option label=">=" value="GTE"/>
               <el-option label="<=" value="LTE"/>
             </el-select>
@@ -335,7 +335,7 @@
                     </div>
                     <i class="el-icon-question"></i>
                   </el-tooltip>
-                  静默判断:
+                  {{ $t('alarm.edit.text_silence_rule') }}:
                 </span>
                 <el-input v-model="form.alertContract.silenceExpression"
                           placeholder="字段取值参考JsonPath语法规则，多个字段判断支持使用逻辑运算符 '&&'，'||' 和 '()'"/>
@@ -956,7 +956,7 @@ export default {
     },
     initDayCronOptions() {
       for (var i = 0; i < 24; i++) {
-        this.dayCronOptions.push({label: i + '点', value: '0 0 ' + i + ' * * ?'})
+        this.dayCronOptions.push({label: i + ' ' + this.$t('alarm.edit.text_clock'), value: '0 0 ' + i + ' * * ?'})
       }
     },
     dayCronChangeHandler(selectedValue) {
@@ -1072,7 +1072,7 @@ export default {
             this.serviceOptions = response.result.list || []
             this.serviceOptions.unshift({
               id: 0,
-              serviceName: '选择服务'
+              serviceName: this.$t('alarm.edit.text_choose_service')
             })
             this.serviceOptionsLoading = false
           })

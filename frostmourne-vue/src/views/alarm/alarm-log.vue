@@ -38,14 +38,14 @@
             <el-form-item :label="$t('alarm.alarmLog.label_alert_condition') + ':'">
               <el-select v-model="form.alert" :placeholder="$t('alarm.alarmLog.label_alert_condition')">
                 <el-option :label="$t('alarm.alarmLog.label_all')" value="" />
-                <el-option label="满足" value="TRUE" />
-                <el-option label="未满足" value="FALSE" />
+                <el-option :label="$t('alarm.alarmLog.label_meet')" value="TRUE" />
+                <el-option :label="$t('alarm.alarmLog.label_not_meet')" value="FALSE" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item>
-              <el-button type="primary" @click="onSubmit">查询</el-button>
+              <el-button type="primary" @click="onSubmit">{{ $t('buttons.search') }}</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -53,36 +53,36 @@
     </div>
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="80" align="center" />
-      <el-table-column prop="alarmId" label="监控id" align="center" />
-      <el-table-column prop="cost" label="耗时(毫秒)" align="center" />
-      <el-table-column prop="exeStart" label="开始时间" align="center">
+      <el-table-column prop="alarmId" :label="$t('alarm.alarmLog.label_alarm_id')" align="center" />
+      <el-table-column prop="cost" :label="$t('alarm.alarmLog.label_cost_millisecond')" align="center" />
+      <el-table-column prop="exeStart" :label="$t('alarm.alarmLog.label_start_date')" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.exeStart|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="exeEnd" label="结束时间" align="center">
+      <el-table-column prop="exeEnd" :label="$t('alarm.alarmLog.label_end_date')" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.exeEnd|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="executeResult" label="执行结果" align="center">
+      <el-table-column prop="executeResult" :label="$t('alarm.alarmLog.label_execute_result')" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.executeResult === 'SUCCESS' ? "完成" : "异常" }}</span>
+          <span>{{ scope.row.executeResult === 'SUCCESS' ? $t('alarm.alarmLog.label_success') : $t('alarm.alarmLog.label_exception') }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="verifyResult" label="规则判断" align="center">
+      <el-table-column prop="verifyResult" :label="$t('alarm.alarmLog.label_alert_condition')" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.verifyResult === 'TRUE' ? "满足" : "未满足" }}</span>
+          <span>{{ scope.row.verifyResult === 'TRUE' ? $t('alarm.alarmLog.label_meet') : $t('alarm.alarmLog.label_not_meet') }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="alert" label="是否报警" align="center">
+      <el-table-column prop="alert" :label="$t('alarm.alarmLog.label_is_alert')" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.alert ? "是" : "否" }}</span>
+          <span>{{ scope.row.alert ? $t('alarm.alarmLog.label_yes') : $t('alarm.alarmLog.label_no') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="210" align="center" fixed="right">
+      <el-table-column :label="$t('alarm.alarmLog.label_action')" width="210" align="center" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" @click="showMessage(scope.row)">详细>></el-button>
+          <el-button size="mini" @click="showMessage(scope.row)">{{ $t('alarm.alarmLog.text_detail_arrow') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -113,7 +113,7 @@ export default {
     return {
       pickerOptions: {
         shortcuts: [{
-          text: '今天',
+          text: this.$t('alarm.alarmLog.text_today'),
           onClick (picker) {
             const startMoment = moment().startOf('day')
             const endMoment = moment().endOf('day')
@@ -121,7 +121,7 @@ export default {
           }
         },
         {
-          text: '昨天',
+          text: this.$t('alarm.alarmLog.text_yesterday'),
           onClick (picker) {
             const end = moment().startOf('day').toDate()
             const start = moment().startOf('day').subtract(1, 'day').toDate()
@@ -129,7 +129,7 @@ export default {
           }
         },
         {
-          text: '前天',
+          text: this.$t('alarm.alarmLog.text_the_day_before_yesterday'),
           onClick (picker) {
             const end = moment().startOf('day').subtract(1, 'day').toDate()
             const start = moment().startOf('day').subtract(2, 'day').toDate()
@@ -137,7 +137,7 @@ export default {
           }
         },
         {
-          text: '最近三天',
+          text: this.$t('alarm.alarmLog.text_latest_three_days'),
           onClick (picker) {
             const end = moment().endOf('day').toDate()
             const start = moment().startOf('day').subtract(3, 'day').toDate()
@@ -145,7 +145,7 @@ export default {
           }
         },
         {
-          text: '最近一周',
+          text: this.$t('alarm.alarmLog.text_latest_seven_days'),
           onClick (picker) {
             const end = moment().endOf('day').toDate()
             const start = moment().startOf('day').subtract(7, 'day').toDate()
@@ -153,7 +153,7 @@ export default {
           }
         },
         {
-          text: '最近一月',
+          text: this.$t('alarm.alarmLog.text_latest_30_days'),
           onClick (picker) {
             const end = moment().endOf('day').toDate()
             const start = moment().startOf('day').subtract(30, 'day').toDate()
