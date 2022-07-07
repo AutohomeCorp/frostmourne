@@ -11,7 +11,7 @@
 <a href="https://github.com/AutohomeCorp/frostmourne"><img src="https://img.shields.io/github/downloads/AutohomeCorp/frostmourne/total.svg" alt="Downloads"></a>
 </p>
 
-[Github地址](https://github.com/AutohomeCorp/frostmourne) | [Gitee地址](https://gitee.com/tim_guai/frostmourne) | [中文](./READEME.md) | [English](./README_en.md)
+[Github地址](https://github.com/AutohomeCorp/frostmourne) | [Gitee地址](https://gitee.com/tim_guai/frostmourne) | [中文](./README.md) | [English](./README_en.md)
 
 
 # 📖 介绍
