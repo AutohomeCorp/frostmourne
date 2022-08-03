@@ -67,7 +67,6 @@ public class AlarmController {
         return new Protocol<>(result);
     }
 
-    @PermissionLimit(limit = false)
     @RequestMapping(value = "/nextTriggerTime", method = RequestMethod.GET)
     public Protocol<List<String>> getNextTriggerTime(String cron) {
         List<String> result = new ArrayList<>();

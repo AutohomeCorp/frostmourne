@@ -38,6 +38,7 @@ export default {
   alarm: {
     list: {
       add: 'Add Alarm',
+      
       input_id: 'input id',
       input_name: 'input name, support vague search',
       input_status: 'status',

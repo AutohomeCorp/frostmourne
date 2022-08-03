@@ -4,7 +4,7 @@ const baseUrl = '/api/monitor-api/alarm'
 const URL = {
   run: baseUrl + '/run',
   test: baseUrl + '/test',
-  nextTriggerTime: baseUrl + '/nextTriggerTime'
+  triggerTime: baseUrl + '/nextTriggerTime'
 }
 const alarmApi = {
   run (alarmId) {
@@ -22,7 +22,7 @@ const alarmApi = {
     return query.json(baseUrl + '/previewData', alarmContract)
   },
   nextTriggerTime (alarmCron) {
-    return query.get(URL.nextTriggerTime, {
+    return query.get(URL.triggerTime, {
       cron: alarmCron
     })
   }

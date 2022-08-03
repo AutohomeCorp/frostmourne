@@ -168,9 +168,7 @@ export default {
     },
     nextTriggerTime(alarm) {
       alarmApi.nextTriggerTime(alarm.cron).then(response => {
-        console.log(response)
         const content = response.result
-        console.log(content)
         this.triggerNextTimes = content.join('<br>')
       })
     },

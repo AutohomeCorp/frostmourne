@@ -39,6 +39,7 @@ export default {
   alarm: {
     list: {
       add: '添加报警',
+
       input_id: '输入id',
       input_name: '输入名称,支持模糊查询',
       input_status: '监控状态',
