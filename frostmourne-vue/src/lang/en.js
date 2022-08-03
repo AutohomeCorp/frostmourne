@@ -50,6 +50,7 @@ export default {
       header_is_open: 'IsOpen',
       header_last_execute_result: 'Last Execute',
       header_last_execute_time: 'Last Execute Time',
+      header_next_trigger_time: 'Next Trigger Time',
       header_owner_object: 'Owner Object',
       header_modifier: 'modifier',
       header_last_modify_time: 'Last Modify Time',

@@ -37,6 +37,19 @@
           <span>{{ scope.row.executeAt|timeFormat }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="$t('alarm.list.header_next_trigger_time')" width="160" align="center">
+        <template slot-scope="scope">
+          <el-popover
+            placement="bottom"
+            width="300"
+            @show="nextTriggerTime(scope.row)"
+          >
+            <h5 v-html="triggerNextTimes" />
+            <el-button slot="reference" size="small">查看</el-button>
+          </el-popover>
+        </template>
+      </el-table-column>
+
       <el-table-column prop="ownerKey" :label="$t('alarm.list.header_owner_object')" width="160" align="center" />
       <el-table-column prop="modifier" :label="$t('alarm.list.header_modifier')" width="160" align="center" />
       <el-table-column prop="modifyAt" :label="$t('alarm.list.header_last_modify_time')" width="160" align="center">
@@ -111,6 +124,7 @@ export default {
         { value: 'OPEN', text: this.$t('alarm.list.input_status_open') },
         { value: 'CLOSE', text: this.$t('alarm.list.input_status_close') }
       ],
+      triggerNextTimes: '',
       teamList: [],
       serviceOptionsLoading: false,
       ServiceOptions: []
@@ -151,6 +165,14 @@ export default {
     onServiceInfoChange () {
       this.form.pageIndex = 1
       this.fetchData()
+    },
+    nextTriggerTime(alarm) {
+      alarmApi.nextTriggerTime(alarm.cron).then(response => {
+        console.log(response)
+        const content = response.result
+        console.log(content)
+        this.triggerNextTimes = content.join('<br>')
+      })
     },
     changeStatus (alarm) {
       const message = `id=${alarm.id} Success ${alarm.status}！`

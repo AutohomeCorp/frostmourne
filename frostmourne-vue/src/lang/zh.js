@@ -51,6 +51,7 @@ export default {
       header_is_open: '是否开启',
       header_last_execute_result: '最后执行结果',
       header_last_execute_time: '最后执行时间',
+      header_next_trigger_time: '下次触发时间',
       header_owner_object: '所属对象',
       header_modifier: '最后修改人',
       header_last_modify_time: '最后修改时间',
