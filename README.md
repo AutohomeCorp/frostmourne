@@ -6,7 +6,7 @@
 <a href="https://github.com/AutohomeCorp/frostmourne/fork"><img src="https://img.shields.io/github/forks/AutohomeCorp/frostmourne" alt="GitHub Forks"></a>
 <a href="https://github.com/AutohomeCorp/frostmourne/graphs/contributors"><img src="https://img.shields.io/github/contributors/AutohomeCorp/frostmourne" alt="GitHub Contributors"></a>
 <a href="https://github.com/AutohomeCorp/frostmourne/issues"><img src="https://img.shields.io/github/issues/AutohomeCorp/frostmourne" alt="GitHub issues"></a>
-<a href="https://openjdk.java.net/"><img src="https://img.shields.io/badge/Java-8-blue?logo=java&logoColor=white" alt="JDK support"></a>
+<a href="https://openjdk.java.net/"><img src="https://img.shields.io/badge/Java-8,11,13-blue?logo=java&logoColor=white" alt="JDK support"></a>
 <a href="https://github.com/AutohomeCorp/frostmourne/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/svelte.svg" alt="LICENSE"></a>
 <a href="https://github.com/AutohomeCorp/frostmourne"><img src="https://img.shields.io/github/downloads/AutohomeCorp/frostmourne/total.svg" alt="Downloads"></a>
 </p>
@@ -109,7 +109,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 #### 二、`zip`包部署方式
 
 依赖环境
-* `JDK 1.8`
+* `JDK 1.8 ~ 14`
 * `MySQL 5.7.8+`
 
 最新的Release版本zip包，请到 [releases](https://github.com/AutohomeCorp/frostmourne/releases) 中下载，解压后然后根据自己的环境修改应用配置文件`application.properties`文件和环境变量配置文件`env`，然后执行如下命令启动：
@@ -127,7 +127,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 #### 三、自构建部署方式
 
 依赖环境
-* `JDK 1.8`
+* `JDK 1.8 ~ 14`
 * `Maven 3.2.x+`
 * `MySQL 5.7.8+`
 
@@ -190,7 +190,7 @@ mvn -U clean package -DskipTests=true
 
 调试环境要求
 
-* `JDK 1.8`
+* `JDK 1.8 ~ 14`
 * `Node 16.14.2 (推荐)`
 * `Yarn 1.22.10 (推荐) 或 Npm 8.7.0`
 * `MySQL 5.7.8+`
