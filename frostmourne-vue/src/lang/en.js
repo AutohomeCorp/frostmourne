@@ -5,6 +5,7 @@ export default {
     search: 'search',
     add: 'add',
     run: 'run',
+    onceRun: 'onetime',
     export: 'export',
     edit: 'edit',
     delete: 'delete',
@@ -12,7 +13,8 @@ export default {
     confirm: 'confirm',
     save: 'save',
     test: 'test',
-    save_another: 'save another'
+    save_another: 'save another',
+    view: 'view'
   },
   route: {
     Dashboard: 'Dashboard',

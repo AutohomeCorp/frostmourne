@@ -45,7 +45,7 @@
             @show="nextTriggerTime(scope.row)"
           >
             <h5 v-html="triggerNextTimes" />
-            <el-button slot="reference" size="small">查看</el-button>
+            <el-button slot="reference" size="small">{{ $t('buttons.view') }}</el-button>
           </el-popover>
         </template>
       </el-table-column>
@@ -60,7 +60,7 @@
       <el-table-column :label="$t('alarm.list.header_action')" width="300" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" icon="el-icon-edit" @click="goEdit(scope.row.id)">{{ $t('buttons.edit') }}</el-button>
-          <el-button size="mini" icon="el-icon-edit" @click="run(scope.row.id)">{{ $t('buttons.run') }}</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="run(scope.row.id)">{{ $t('buttons.onceRun') }}</el-button>
           <el-button size="mini" icon="el-icon-edit" @click="remove(scope.row.id)">{{ $t('buttons.delete') }}</el-button>
         </template>
       </el-table-column>
