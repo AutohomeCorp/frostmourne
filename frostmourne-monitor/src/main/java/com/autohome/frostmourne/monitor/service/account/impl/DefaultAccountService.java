@@ -23,7 +23,7 @@ import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
 @Service
 public class DefaultAccountService implements IAccountService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(DefaultAccountService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAccountService.class);
 
     @Resource
     private IUserInfoService userInfoService;

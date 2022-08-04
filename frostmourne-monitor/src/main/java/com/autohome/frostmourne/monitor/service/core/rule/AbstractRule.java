@@ -27,7 +27,7 @@ public abstract class AbstractRule implements IRule {
     public final Configuration jsonPathConfiguration =
         Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL).addOptions(Option.SUPPRESS_EXCEPTIONS);
 
-    public AbstractRule(ITemplateService templateService) {
+    protected AbstractRule(ITemplateService templateService) {
         this.templateService = templateService;
     }
 

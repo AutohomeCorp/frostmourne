@@ -13,11 +13,11 @@ import com.autohome.frostmourne.common.jackson.JacksonUtil;
 
 public class ElasticsearchSourceManager {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ElasticsearchSourceManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ElasticsearchSourceManager.class);
 
     private ConcurrentHashMap<String, AbstractElasticClientContainer> containerMap;
 
-    private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
     public void init() {
         this.containerMap = new ConcurrentHashMap<>();

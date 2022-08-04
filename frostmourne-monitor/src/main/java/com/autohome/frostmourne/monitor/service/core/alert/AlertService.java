@@ -40,7 +40,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 @Service
 public class AlertService implements IAlertService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(AlertService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlertService.class);
 
     @Value("${frostmourne.message.title}")
     private String messageTitle;

@@ -29,7 +29,7 @@ import okhttp3.OkHttpClient;
 @Configuration
 public class BeanConfig {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(BeanConfig.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BeanConfig.class);
 
     @Value("${initial.password}")
     private String initialPassword;

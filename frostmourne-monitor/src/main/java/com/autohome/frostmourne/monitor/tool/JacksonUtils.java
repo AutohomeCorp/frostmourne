@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 public class JacksonUtils {
 
-    private final static String OBJECT_MAPPER_BEAN_ID = "objectMapper";
+    private static final String OBJECT_MAPPER_BEAN_ID = "objectMapper";
 
     private static final String MSG_FOR_SERIALIZE_CLASS = "serialize for class [%s] failed: [%s]";
 

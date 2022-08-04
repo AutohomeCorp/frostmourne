@@ -18,7 +18,7 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IShor
 @Controller
 public class IndexController {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
     @Resource
     private IShortLinkRepository shortLinkRepository;
