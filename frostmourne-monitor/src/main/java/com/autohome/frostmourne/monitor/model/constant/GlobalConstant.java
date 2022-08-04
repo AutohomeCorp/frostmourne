@@ -8,7 +8,7 @@ package com.autohome.frostmourne.monitor.model.constant;
  */
 public class GlobalConstant {
 
-    public final static String LINE_SEPARATOR = System.getProperty("line.separator");
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     public static final String ENCODE = "UTF-8";
 

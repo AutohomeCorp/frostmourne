@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 public class JwtTokenTest {
 
-    private final static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     @Test
     public void generateTokenTest() {

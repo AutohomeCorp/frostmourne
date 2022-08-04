@@ -11,7 +11,7 @@ import com.autohome.frostmourne.monitor.service.account.IAuthService;
 
 public class LdapAuthService implements IAuthService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(LdapAuthService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LdapAuthService.class);
 
     private final LdapTemplate ldapTemplate;
 

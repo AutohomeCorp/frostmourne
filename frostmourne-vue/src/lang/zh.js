@@ -6,6 +6,7 @@ export default {
     search: '查询',
     add: '添加',
     run: '运行',
+    onceRun: '执行一次',
     export: '导出',
     edit: '编辑',
     delete: '删除',
@@ -14,6 +15,7 @@ export default {
     save: '保存',
     test: '测试',
     save_another: '另存',
+    view: '查看'
   },
   route: {
     Dashboard: '首页',

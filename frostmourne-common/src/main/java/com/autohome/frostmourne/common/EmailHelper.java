@@ -30,7 +30,7 @@ import com.autohome.frostmourne.common.contract.MailConfig;
 
 public class EmailHelper {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(EmailHelper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailHelper.class);
 
     public static boolean send(MailConfig mailConfig, List<String> to, String subject, String content, String contentType, List<MimeBodyPart> attachments) {
         Properties properties = new Properties();

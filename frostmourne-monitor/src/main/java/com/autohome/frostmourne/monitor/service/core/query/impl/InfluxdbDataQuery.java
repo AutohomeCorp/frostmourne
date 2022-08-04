@@ -17,7 +17,7 @@ import com.autohome.frostmourne.monitor.service.core.query.IInfluxdbDataQuery;
 @Service
 public class InfluxdbDataQuery implements IInfluxdbDataQuery {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(InfluxdbDataQuery.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InfluxdbDataQuery.class);
 
     @Resource
     private IInfluxdbDao influxdbDao;

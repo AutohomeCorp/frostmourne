@@ -27,7 +27,7 @@ import com.github.pagehelper.PageHelper;
 @Repository
 public class AlarmRepository implements IAlarmRepository {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(AlarmRepository.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlarmRepository.class);
 
     @Resource
     private AlarmDynamicMapper alarmDynamicMapper;
