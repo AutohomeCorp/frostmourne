@@ -3,11 +3,10 @@ package com.autohome.frostmourne.monitor.tool;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.autohome.frostmourne.monitor.model.constant.GlobalConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
@@ -63,7 +62,7 @@ public class JacksonUtils {
      */
     public static byte[] toJsonBytes(Object obj) {
         try {
-            return mapper.writeValueAsString(obj).getBytes(Charset.forName(GlobalConstant.ENCODE));
+            return mapper.writeValueAsString(obj).getBytes(StandardCharsets.UTF_8);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(String.format(MSG_FOR_SERIALIZE_CLASS, obj.getClass().getName(), e.getMessage()), e);
         }
@@ -80,7 +79,7 @@ public class JacksonUtils {
      */
     public static <T> T toObj(byte[] json, Class<T> cls) {
         try {
-            return toObj(StringUtils.toEncodedString(json, Charset.forName(GlobalConstant.ENCODE)), cls);
+            return toObj(StringUtils.toEncodedString(json, StandardCharsets.UTF_8), cls);
         } catch (Exception e) {
             throw new RuntimeException(String.format(MSG_FOR_DESERIALIZE_CLASS, cls.getName(), e.getMessage()), e);
         }
@@ -97,7 +96,7 @@ public class JacksonUtils {
      */
     public static <T> T toObj(byte[] json, Type cls) {
         try {
-            return toObj(StringUtils.toEncodedString(json, Charset.forName(GlobalConstant.ENCODE)), cls);
+            return toObj(StringUtils.toEncodedString(json, StandardCharsets.UTF_8), cls);
         } catch (Exception e) {
             throw new RuntimeException(String.format(MSG_FOR_DESERIALIZE_CLASS, cls.getClass().getName(), e.getMessage()), e);
         }
@@ -131,7 +130,7 @@ public class JacksonUtils {
      */
     public static <T> T toObj(byte[] json, TypeReference<T> typeReference) {
         try {
-            return toObj(StringUtils.toEncodedString(json, Charset.forName(GlobalConstant.ENCODE)), typeReference);
+            return toObj(StringUtils.toEncodedString(json, StandardCharsets.UTF_8), typeReference);
         } catch (Exception e) {
             throw new RuntimeException(String.format(MSG_FOR_DESERIALIZE_CLASS, typeReference.getClass().getName(), e.getMessage()), e);
         }
