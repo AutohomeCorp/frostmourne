@@ -109,7 +109,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 #### 二、`zip`包部署方式
 
 依赖环境
-* `JDK 1.8 ~ 14`
+* `JDK 1.8`
 * `MySQL 5.7.8+`
 
 最新的Release版本zip包，请到 [releases](https://github.com/AutohomeCorp/frostmourne/releases) 中下载，解压后然后根据自己的环境修改应用配置文件`application.properties`文件和环境变量配置文件`env`，然后执行如下命令启动：
@@ -127,7 +127,7 @@ kubectl apply -f frostmourne-monitor-service.yaml
 #### 三、自构建部署方式
 
 依赖环境
-* `JDK 1.8 ~ 14`
+* `JDK 1.8`
 * `Maven 3.2.x+`
 * `MySQL 5.7.8+`
 
@@ -190,7 +190,7 @@ mvn -U clean package -DskipTests=true
 
 调试环境要求
 
-* `JDK 1.8 ~ 14`
+* `JDK 8 ~ 14`
 * `Node 16.14.2 (推荐)`
 * `Yarn 1.22.10 (推荐) 或 Npm 8.7.0`
 * `MySQL 5.7.8+`
@@ -230,6 +230,8 @@ yarn dev
 * ~~【0.9】增加telnet端口连通监控~~ [2022-06-09]
 * ~~【0.9】修复飞书消息发送两条的问题~~ [2022-06-17]
 * ~~【0.9】增加SqlServer数据监控报警~~ [2022-06-30]
+* ~~【0.9】监控列表增加监控调度时间查看~~ [2022-08-04]
+* ~~【0.9】优化启动脚本，支持java11, java13~~ [2022-08-04]
 * prometheus增加/api/v1/query_range查询支持
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
