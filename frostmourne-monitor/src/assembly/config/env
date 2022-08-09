@@ -6,3 +6,4 @@ LOG_CONSOLE_LEVEL=OFF
 ## Adjust server port if necessary
 SERVER_PORT=10054
 PROFILE=dev
+JAVA_OPTS="-Xms1200m -Xmx1200m -Xss1024K -XX:PermSize=128m -XX:MaxPermSize=256m -Dfile.encoding=utf-8"
