@@ -1,4 +1,5 @@
 #!/bin/bash
+source /etc/profile
 SERVICE_NAME=frostmourne-monitor
 
 SCRIPTS_DIR=$(cd "$(dirname "$0")";pwd)
