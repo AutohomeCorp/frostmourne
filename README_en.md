@@ -183,7 +183,7 @@ The frontend module `frostmourne-vue` will copy static resource to `frostmourne-
 
 Requirements
 
-* `JDK 1.8`
+* `JDK 8 ~ 14`
 * `Node 16.14.2 (recommand)`
 * `Yarn 1.22.10 (recommand) or Npm 8.7.0`
 * `MySQL 5.7.8+`
@@ -216,6 +216,8 @@ Contact us if you got problems.
 * ~~【0.9】增加telnet端口连通监控~~ [2022-06-09]
 * ~~【0.9】修复飞书消息发送两条的问题~~ [2022-06-17]
 * ~~【0.9】增加SqlServer数据监控报警~~ [2022-06-30]
+* ~~【0.9】监控列表增加监控调度时间查看~~ [2022-08-04]
+* ~~【0.9】优化启动脚本，支持java11, java13~~ [2022-08-04]
 * prometheus增加/api/v1/query_range查询支持
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
