@@ -28,9 +28,9 @@ public class DataNameController {
         String account = AuthTool.currentUser().getAccount();
         boolean result = dataAdminService.saveDataSource(account, dataSource);
         if (result) {
-            return new Protocol(0, "保存成功");
+            return new Protocol<>(0, "保存成功");
         }
-        return new Protocol(101, "保存失败, 请检查地址和认证信息是否正确");
+        return new Protocol<>(101, "保存失败, 请检查地址和认证信息是否正确");
     }
 
     @RequestMapping(value = "/removeDataSource", method = RequestMethod.POST)
@@ -40,8 +40,10 @@ public class DataNameController {
     }
 
     @RequestMapping(value = "/findDataSource", method = RequestMethod.GET)
-    public Protocol<PagerContract<DataSourceContract>> findDataSource(@RequestParam(value = "pageIndex") int pageIndex,
-        @RequestParam(value = "pageSize") int pageSize, @RequestParam(value = "datasourceType", required = false) DataSourceType datasourceType) {
+    public Protocol<PagerContract<DataSourceContract>> findDataSource(
+            @RequestParam(value = "pageIndex") int pageIndex,
+            @RequestParam(value = "pageSize") int pageSize,
+            @RequestParam(value = "datasourceType", required = false) DataSourceType datasourceType) {
         PagerContract<DataSourceContract> pagerContract = dataAdminService.findDatasource(pageIndex, pageSize, datasourceType);
         return new Protocol<>(pagerContract);
     }
@@ -57,9 +59,9 @@ public class DataNameController {
         String account = AuthTool.currentUser().getAccount();
         boolean result = dataAdminService.saveDataName(account, dataNameContract);
         if (result) {
-            return new Protocol(0, "保存成功");
+            return new Protocol<>(0, "保存成功");
         }
-        return new Protocol(101, "保存失败");
+        return new Protocol<>(101, "保存失败");
     }
 
     @RequestMapping(value = "/removeDataName", method = RequestMethod.POST)
@@ -69,9 +71,12 @@ public class DataNameController {
     }
 
     @RequestMapping(value = "/findDataName", method = RequestMethod.GET)
-    public Protocol<PagerContract<DataNameContract>> findDataName(@RequestParam(value = "pageIndex") int pageIndex,
-        @RequestParam(value = "pageSize") int pageSize, @RequestParam(value = "datasourceType", required = false) DataSourceType datasourceType,
-        @RequestParam(value = "datasourceId", required = false) Long datasourceId, @RequestParam(value = "nameHint", required = false) String nameHint) {
+    public Protocol<PagerContract<DataNameContract>> findDataName(
+            @RequestParam(value = "pageIndex") int pageIndex,
+            @RequestParam(value = "pageSize") int pageSize,
+            @RequestParam(value = "datasourceType", required = false) DataSourceType datasourceType,
+            @RequestParam(value = "datasourceId", required = false) Long datasourceId,
+            @RequestParam(value = "nameHint", required = false) String nameHint) {
         PagerContract<DataNameContract> pagerContract = dataAdminService.findDataName(pageIndex, pageSize, datasourceType, datasourceId);
         return new Protocol<>(pagerContract);
     }
