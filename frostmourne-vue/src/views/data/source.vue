@@ -1,15 +1,16 @@
 <template>
   <div class="app-container">
+
     <div class="filter-container">
       <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item">
-        <el-option label="elasticsearch" value="elasticsearch" />
-        <el-option label="prometheus" value="prometheus" />
-        <el-option label="skywalking" value="skywalking" />
-        <el-option label="influxdb" value="influxdb" />
-        <el-option label="mysql" value="mysql" />
-        <el-option label="clickhouse" value="clickhouse" />
-        <el-option label="iotdb" value="iotdb" />
-        <el-option label="sqlserver" value="sqlserver" />
+        <el-option
+              v-for="item in datasources"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+              <span style="float: left; padding-right: 5px;"> <svg-icon :icon-class="item.icon"/></span>
+              <span style="float: center">{{ item.value }}</span>
+        </el-option>
       </el-select>
       <!-- <el-input v-model="form.datasourceName" placeholder="名称" style="width: 300px;" class="filter-item" /> -->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
@@ -19,7 +20,11 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="60" align="center" />
       <el-table-column prop="datasourceName" label="名称" align="center" />
-      <el-table-column prop="datasourceType" label="类型" align="center" />
+      <el-table-column prop="datasourceType" label="类型" align="center" >
+        <template slot-scope="scope">
+          <svg-icon :icon-class="scope.row.datasourceType" class-name="icon_large" /> {{ scope.row.datasourceType }}
+        </template>
+      </el-table-column>
       <el-table-column prop="serviceAddress" label="服务地址" align="center" />
       <el-table-column prop="modifyAt" label="最近修改时间" align="center">
         <template slot-scope="scope">
@@ -30,7 +35,7 @@
       <el-table-column label="操作" width="210" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" icon="el-icon-edit" @click="edit(scope.row)">编辑</el-button>
-          <el-button size="mini" icon="el-icon-edit" @click="remove(scope.row)">删除</el-button>
+          <el-button size="mini" icon="el-icon-delete" @click="remove(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -48,14 +53,14 @@
       <el-form :model="editData">
         <el-form-item label="类型" :label-width="formLabelWidth">
           <el-select v-model="editData.datasourceType" :disabled="disableTypeSelect" placeholder="数据源类型">
-            <el-option label="elasticsearch" value="elasticsearch" />
-            <el-option label="prometheus" value="prometheus" />
-            <el-option label="skywalking" value="skywalking" />
-            <el-option label="influxdb" value="influxdb" />
-            <el-option label="mysql" value="mysql" />
-            <el-option label="clickhouse" value="clickhouse" />
-            <el-option label="iotdb" value="iotdb" />
-            <el-option label="sqlserver" value="sqlserver" />
+            <el-option
+              v-for="item in datasources"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+              <span style="float: left; padding-right: 5px;"> <svg-icon :icon-class="item.icon"/></span>
+              <span style="float: center">{{ item.value }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="名称" :label-width="formLabelWidth">
@@ -116,6 +121,7 @@
 <script>
 import dataApi from '@/api/data.js'
 import { formatJsonDate } from '@/utils/datetime.js'
+import { loadDatasourceIcons } from '@/utils/datasource.js'
 
 export default {
   filters: {
@@ -134,6 +140,7 @@ export default {
         datasourceName: '',
         datasourceType: ''
       },
+      datasources: loadDatasourceIcons(),
       editData: {
         id: 0,
         datasourceName: '',
@@ -269,3 +276,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .icon_large {
+    width: 20px;
+    height: 20px;
+  }
+</style>

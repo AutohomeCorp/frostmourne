@@ -2,14 +2,14 @@
   <div class="app-container">
     <div class="filter-container">
       <el-select v-model="form.datasourceType" placeholder="选择数据类型" clearable style="width: 190px" class="filter-item" @change="formSourceTypeChangeHandler">
-        <el-option label="elasticsearch" value="elasticsearch" />
-        <el-option label="prometheus" value="prometheus" />
-        <el-option label="skywalking" value="skywalking" />
-        <el-option label="influxdb" value="influxdb" />
-        <el-option label="mysql" value="mysql" />
-        <el-option label="clickhouse" value="clickhouse" />
-        <el-option label="iotdb" value="iotdb" />
-        <el-option label="sqlserver" value="sqlserver" />
+        <el-option
+              v-for="item in datasources"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+              <span style="float: left; padding-right: 5px;"> <svg-icon :icon-class="item.icon"/></span>
+              <span style="float: center">{{ item.value }}</span>
+        </el-option>
       </el-select>
       <el-select v-model="form.dataSourceId" placeholder="选择数据源" clearable class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
@@ -22,7 +22,11 @@
       <el-table-column prop="id" label="ID" width="60" align="center" />
       <el-table-column prop="dataName" label="名称" align="center" />
       <el-table-column prop="displayName" label="说明" align="center" />
-      <el-table-column prop="datasourceType" label="类型" align="center" />
+      <el-table-column prop="datasourceType" label="类型" align="center">
+        <template slot-scope="scope">
+          <svg-icon :icon-class="scope.row.datasourceType" class-name="icon_large" /> {{ scope.row.datasourceType }}
+        </template>
+      </el-table-column>
       <el-table-column prop="timestampField" label="时间字段" align="center" />
       <el-table-column prop="modifyAt" label="最近修改" align="center">
         <template slot-scope="scope">
@@ -33,7 +37,7 @@
       <el-table-column label="操作" width="210" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" icon="el-icon-edit" @click="edit(scope.row)">编辑</el-button>
-          <el-button size="mini" icon="el-icon-edit" @click="remove(scope.row)">删除</el-button>
+          <el-button size="mini" icon="el-icon-delete" @click="remove(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -58,14 +62,14 @@
             style="width: 190px"
             class="filter-item"
             @change="dialogSourceTypeChangeHandler">
-            <el-option label="elasticsearch" value="elasticsearch" />
-            <el-option label="prometheus" value="prometheus" />
-            <el-option label="skywalking" value="skywalking" />
-            <el-option label="influxdb" value="influxdb" />
-            <el-option label="mysql" value="mysql" />
-            <el-option label="clickhouse" value="clickhouse" />
-            <el-option label="iotdb" value="iotdb" />
-            <el-option label="sqlserver" value="sqlserver" />
+            <el-option
+              v-for="item in datasources"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+              <span style="float: left; padding-right: 5px;"> <svg-icon :icon-class="item.icon"/></span>
+              <span style="float: center">{{ item.value }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="名称" :label-width="formLabelWidth" prop="dataName">
@@ -143,6 +147,7 @@
 <script>
 import dataApi from '@/api/data.js'
 import { formatJsonDate } from '@/utils/datetime.js'
+import { loadDatasourceIcons } from '@/utils/datasource.js'
 
 export default {
   filters: {
@@ -172,6 +177,7 @@ export default {
         timestampField: null,
         settings: {}
       },
+      datasources: loadDatasourceIcons(),
       dialogDatasourceList: [],
       formLabelWidth: '80px',
       dialogFormVisible: false,
@@ -342,5 +348,10 @@ export default {
 <style>
 .filter-container {
   padding-bottom: 10px;
+}
+
+.icon_large {
+  width: 20px;
+  height: 20px;
 }
 </style>
