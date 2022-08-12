@@ -15,7 +15,8 @@ export default {
     save: '保存',
     test: '测试',
     save_another: '另存',
-    view: '查看'
+    view: '查看',
+    logs: '日志'
   },
   route: {
     Dashboard: '首页',

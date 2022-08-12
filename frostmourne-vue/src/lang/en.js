@@ -14,7 +14,8 @@ export default {
     save: 'save',
     test: 'test',
     save_another: 'save another',
-    view: 'view'
+    view: 'view',
+    logs: 'logs'
   },
   route: {
     Dashboard: 'Dashboard',
