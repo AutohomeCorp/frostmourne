@@ -53,14 +53,14 @@
     </div>
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="80" align="center" />
-      <el-table-column prop="alarmId" :label="$t('alarm.alarmLog.label_alarm_id')" align="center" />
+      <el-table-column prop="alarmId" :label="$t('alarm.alarmLog.label_alarm_id')" width="80" align="center" />
       <el-table-column prop="cost" :label="$t('alarm.alarmLog.label_cost_millisecond')" align="center" />
-      <el-table-column prop="exeStart" :label="$t('alarm.alarmLog.label_start_date')" align="center">
+      <el-table-column prop="exeStart" :label="$t('alarm.alarmLog.label_start_date')" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.exeStart|timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="exeEnd" :label="$t('alarm.alarmLog.label_end_date')" align="center">
+      <el-table-column prop="exeEnd" :label="$t('alarm.alarmLog.label_end_date')" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.exeEnd|timeFormat }}</span>
         </template>
@@ -161,12 +161,13 @@ export default {
           }
         }]
       },
+      id: this.$route.query.id,
       datePickValue: [],
       list: null,
       rowcount: 0,
       listLoading: true,
       form: {
-        alarmId: null,
+        alarmId: this.$route.query.id,
         startTime: null,
         endTime: null,
         verifyResult: null,
