@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.dao.jdbc.impl;
 
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
@@ -110,6 +111,7 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
         dataSource.setTestOnBorrow(true);
         dataSource.setTestOnReturn(true);
         dataSource.setValidationQuery("SELECT 1");
+        dataSource.setTimeBetweenConnectErrorMillis(TimeUnit.SECONDS.toMillis(10L));
         // 密码默认是明文
         dataSource.getConnectProperties().setProperty("config.decrypt", "false");
         // 初始化连接
