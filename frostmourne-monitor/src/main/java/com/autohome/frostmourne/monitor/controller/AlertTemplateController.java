@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.autohome.frostmourne.common.contract.PagerContract;
@@ -18,13 +19,14 @@ import com.autohome.frostmourne.monitor.tool.AuthTool;
 
 @RestController
 @RequestMapping(value = {"/alerttemplate", "/api/monitor-api/alerttemplate"})
+@Validated
 public class AlertTemplateController {
 
     @Resource
     private IAlertTemplateService alertTemplateService;
 
     @PostMapping("/save")
-    public Protocol<Object> save(@RequestBody AlertTemplateSaveForm form) {
+    public Protocol<Object> save(@RequestBody @Validated AlertTemplateSaveForm form) {
         String account = AuthTool.currentUser().getAccount();
         alertTemplateService.save(form, account);
         return new Protocol<>(0, "成功");

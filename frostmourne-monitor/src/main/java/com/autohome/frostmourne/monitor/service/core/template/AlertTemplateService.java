@@ -10,10 +10,8 @@ import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import com.autohome.frostmourne.common.contract.PagerContract;
-import com.autohome.frostmourne.common.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlertTemplateRepository;
 import com.autohome.frostmourne.monitor.model.contract.*;
 import com.autohome.frostmourne.monitor.model.enums.TemplateType;
@@ -34,52 +32,21 @@ public class AlertTemplateService implements IAlertTemplateService {
 
     @Override
     public void save(AlertTemplateSaveForm form, String account) {
-        this.checkSaveParam(form, account);
-        AlertTemplate record = AlertTemplateTransformer.saveForm2Model(form);
-        record.setModifier(account);
-        if (record.getId() == null || record.getId() == 0L) {
+        AlertTemplate alertTemplate = AlertTemplateTransformer.saveForm2Model(form);
+        alertTemplate.setModifier(account);
+        if (alertTemplate.getId() == null || alertTemplate.getId() == 0L) {
             // 新增
-            record.setCreator(account);
-            alertTemplateRepository.insertSelective(record);
+            alertTemplate.setCreator(account);
+            alertTemplateRepository.insertSelective(alertTemplate);
         } else {
-            alertTemplateRepository.updateByPrimaryKeySelective(record);
+            alertTemplateRepository.updateByPrimaryKeySelective(alertTemplate);
         }
-    }
-
-    private void checkSaveParam(AlertTemplateSaveForm form, String account) {
-        // TODO 根据验证框架修改
-        if (Objects.nonNull(form.getId()) && form.getId() < 0L) {
-            throw new ProtocolException(-1, "id无效");
-        }
-        if (StringUtils.isEmpty(form.getTemplateName())) {
-            throw new ProtocolException(-1, "模板名称不能为空");
-        } else if (form.getTemplateName().length() > 50) {
-            throw new ProtocolException(-1, "模板名称长度不能超过50");
-        }
-
-        if (Objects.isNull(form.getTemplateType())) {
-            throw new ProtocolException(-1, "模板类型不能为空");
-        } else if (form.getTemplateType() != TemplateType.COMMON) {
-            // 非通用，必须关联
-            if (StringUtils.isEmpty(form.getTemplateUnionCode())) {
-                throw new ProtocolException(-1, "关联码不能为空");
-            } else if (form.getContent().length() > 200) {
-                throw new ProtocolException(-1, "关联码长度不能超过200");
-            }
-        }
-
-        if (StringUtils.isEmpty(form.getContent())) {
-            throw new ProtocolException(-1, "模板内容不能为空");
-        } else if (form.getContent().length() > 5000) {
-            throw new ProtocolException(-1, "模板内容长度不能超过5000");
-        }
-
     }
 
     @Override
     public Optional<AlertTemplateContract> getContract(Long id) {
-        return alertTemplateRepository.getById(id).map(record -> {
-            AlertTemplateContract contract = AlertTemplateTransformer.model2Contract(record);
+        return alertTemplateRepository.getById(id).map(r -> {
+            AlertTemplateContract contract = AlertTemplateTransformer.model2Contract(r);
             this.fillExtend2Contracts(Collections.singletonList(contract));
             return contract;
         });

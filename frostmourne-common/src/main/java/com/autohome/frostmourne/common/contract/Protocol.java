@@ -10,6 +10,14 @@ public class Protocol<T> implements Serializable {
     private String message;
     private T result;
 
+    public static <T> Protocol<T> fail(int code, String message) {
+        return new Protocol<>(code, message);
+    }
+
+    public static <T> Protocol<T> fail(String message) {
+        return fail(400, message);
+    }
+
     public int getReturncode() {
         return returncode;
     }
