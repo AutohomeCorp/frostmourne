@@ -1018,9 +1018,8 @@ export default {
       this.alertTemplateId = null
       this.alertTemplateOption = null
       var condition = {
-        templateTypeUnionCodes: ['COMMON'],
         pageIndex: 1,
-        pageSize: 1000
+        pageSize: 500
       }
       var dataName = this.form.metricContract.dataName
       if (dataName != null && dataName !== '') {

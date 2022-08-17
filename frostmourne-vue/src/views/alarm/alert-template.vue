@@ -238,16 +238,10 @@ export default {
       this.itemData.templateUnionCode = this.getFormTemplateUnionCode()
       this.$refs.alertTemplateForm.validate((valid) => {
         if (valid) {
-          this.$confirm('是否确定保存?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'info'
-          }).then(() => {
-            alerttemplateApi.saveAlertTemplate(this.itemData).then(response => {
-              this.dialogEditVisible = false
-              this.fetchData()
-            })
-          }).catch(e => e)
+          alerttemplateApi.saveAlertTemplate(this.itemData).then(response => {
+            this.dialogEditVisible = false
+            this.fetchData()
+          })
         } else {
           return false
         }
