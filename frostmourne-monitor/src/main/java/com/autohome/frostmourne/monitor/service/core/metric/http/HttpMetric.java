@@ -3,6 +3,7 @@ package com.autohome.frostmourne.monitor.service.core.metric.http;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Resource;
 
@@ -47,19 +48,22 @@ public class HttpMetric extends AbstractBaseMetric {
                 Long end = System.currentTimeMillis();
                 result.put("HTTP_COST", end - start);
                 result.put("HTTP_STATUS", response.code());
-                // TODO 判空
-                String responseBodyString = responseBody.string();
-                String format = request.url().queryParameter("format");
-                if (isJson(responseBody) || (!Strings.isNullOrEmpty(format) && "json".equalsIgnoreCase(format))) {
-                    if (responseBodyString.startsWith("[")) {
-                        List<Object> list = mapper.readValue(responseBodyString, new TypeReference<List<Object>>() {});
-                        result.put("ResponseBody", list);
-                    } else {
-                        Map<String, Object> map = mapper.readValue(responseBodyString, new TypeReference<Map<String, Object>>() {});
-                        result.putAll(map);
-                    }
+                if (Objects.isNull(responseBody)) {
+                    result.put("ResponseBody", null);
                 } else {
-                    result.put("ResponseBody", responseBodyString);
+                    String responseBodyString = responseBody.string();
+                    String format = request.url().queryParameter("format");
+                    if (isJson(responseBody) || (!Strings.isNullOrEmpty(format) && "json".equalsIgnoreCase(format))) {
+                        if (responseBodyString.startsWith("[")) {
+                            List<Object> list = mapper.readValue(responseBodyString, new TypeReference<List<Object>>() {});
+                            result.put("ResponseBody", list);
+                        } else {
+                            Map<String, Object> map = mapper.readValue(responseBodyString, new TypeReference<Map<String, Object>>() {});
+                            result.putAll(map);
+                        }
+                    } else {
+                        result.put("ResponseBody", responseBodyString);
+                    }
                 }
             }
         } catch (Exception ex) {
