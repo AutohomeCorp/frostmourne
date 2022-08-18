@@ -8,12 +8,22 @@ package com.autohome.frostmourne.monitor.model.constant;
  */
 public class ContextConstant {
 
-    public final static String ALERT_SILENCE = "ALERT_SILENCE";
+    public static final String ALERT_SILENCE = "ALERT_SILENCE";
 
-    public final static String CURRENT_TIME = "CURRENT_TIME";
+    public static final String CURRENT_TIME = "CURRENT_TIME";
 
-    public final static String ALARM_ID = "ALARM_ID";
+    public static final String ALARM_ID = "ALARM_ID";
 
-    public final static String ALARM_NAME = "ALARM_NAME";
+    public static final String ALARM_NAME = "ALARM_NAME";
+
+    /**
+     * 度量执行状态字段
+     */
+    public static final String METRIC_EXEC_STATUS_FIELD = "EXEC_STATUS";
+
+    /**
+     * 度量执行异常字段
+     */
+    public static final String METRIC_EXEC_ERR_FIELD = "EXEC_ERR";
 
 }

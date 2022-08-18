@@ -2,12 +2,13 @@ package com.autohome.frostmourne.monitor.service.core.metric;
 
 import java.util.Map;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.model.enums.MetricEnumType;
 
 public interface IMetric {
 
-    Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings);
+    Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException;
 
     MetricEnumType metricType();
 

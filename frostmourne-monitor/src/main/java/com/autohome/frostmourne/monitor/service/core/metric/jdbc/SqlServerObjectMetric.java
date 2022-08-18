@@ -3,6 +3,7 @@ package com.autohome.frostmourne.monitor.service.core.metric.jdbc;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.service.core.query.ISqlServerDataQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class SqlServerObjectMetric extends AbstractObjectMetric {
     protected ISqlServerDataQuery sqlServerDataQuery;
 
     @Override
-    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) {
+    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException {
         Map<String, Object> result = new HashMap<>();
         MetricData metricData = sqlServerDataQuery.querySql(metricContract);
         result.put("NUMBER", metricData.getMetricValue());

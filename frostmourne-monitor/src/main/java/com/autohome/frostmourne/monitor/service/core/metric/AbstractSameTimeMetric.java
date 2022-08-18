@@ -1,16 +1,14 @@
 package com.autohome.frostmourne.monitor.service.core.metric;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.model.enums.MetricEnumType;
 import com.autohome.frostmourne.monitor.tool.MathUtils;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
@@ -19,9 +17,7 @@ import com.google.common.base.Splitter;
 
 public abstract class AbstractSameTimeMetric extends AbstractBaseMetric {
 
-    public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings);
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSameTimeMetric.class);
+    public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException;
 
     /**
      * 获取间隔单位；HOUR: 小时；DAY: 天
@@ -99,7 +95,7 @@ public abstract class AbstractSameTimeMetric extends AbstractBaseMetric {
     }
 
     @Override
-    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) {
+    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException {
         Map<String, Object> resultMap = new HashMap<>();
         String periodUnit = findPeriodUnit(ruleSettings);
         DateTime now = DateTime.now();
@@ -121,7 +117,7 @@ public abstract class AbstractSameTimeMetric extends AbstractBaseMetric {
                 referenceDataList.add(referenceBag);
             }
             resultMap.put("REFERENCE_LIST", referenceDataList);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             throw new RuntimeException("error when calculateReference", ex);
         }
 
@@ -134,7 +130,7 @@ public abstract class AbstractSameTimeMetric extends AbstractBaseMetric {
     }
 
     private ReferenceBag calculateReference(DateTime start, DateTime end, String referenceType, MetricContract metricContract, Double current,
-                                            Map<String, String> ruleSettings) throws IOException {
+        Map<String, String> ruleSettings) throws DataQueryException {
         ReferenceBag referenceBag = new ReferenceBag();
         referenceBag.setReferenceType(referenceType);
         DateTime referenceStart;

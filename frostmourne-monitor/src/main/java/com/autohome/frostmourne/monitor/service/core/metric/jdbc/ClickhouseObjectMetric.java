@@ -3,11 +3,11 @@ package com.autohome.frostmourne.monitor.service.core.metric.jdbc;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import com.autohome.frostmourne.monitor.service.core.metric.AbstractObjectMetric;
-import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.query.IClickhouseDataQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class ClickhouseObjectMetric extends AbstractObjectMetric {
     private IClickhouseDataQuery dataQuery;
 
     @Override
-    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) {
+    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException {
         Map<String, Object> result = new HashMap<>();
         MetricData metricData = dataQuery.querySql(metricContract);
         result.put("NUMBER", metricData.getMetricValue());

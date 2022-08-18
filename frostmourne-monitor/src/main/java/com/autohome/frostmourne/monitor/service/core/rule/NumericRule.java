@@ -17,6 +17,8 @@ public class NumericRule extends AbstractRule {
     @Override
     public boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract, MetricContract metricContract, IMetric metric) {
         Map<String, Object> context = context(alarmProcessLogger, ruleContract, metricContract, metric);
+        checkMetricRunState(context);
+
         Double threshold = findThreshold(ruleContract);
         Double number = findNumber(context);
         String operator = findOperation(ruleContract);

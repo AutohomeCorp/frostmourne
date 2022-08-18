@@ -3,6 +3,7 @@ package com.autohome.frostmourne.monitor.service.core.metric;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.model.enums.MetricEnumType;
 import org.joda.time.DateTime;
 
@@ -11,7 +12,7 @@ import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 
 public abstract class AbstractNumericMetric extends AbstractBaseMetric {
 
-    public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings);
+    public abstract MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException;
 
     public Integer findTimeWindowInMinutes(Map<String, String> ruleSettings) {
         if (!ruleSettings.containsKey("TIME_WINDOW")) {
@@ -21,7 +22,7 @@ public abstract class AbstractNumericMetric extends AbstractBaseMetric {
     }
 
     @Override
-    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) {
+    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException {
         DateTime end = DateTime.now();
         DateTime start = null;
         Integer minutes = findTimeWindowInMinutes(ruleSettings);

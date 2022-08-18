@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
@@ -20,6 +21,9 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 
+import static com.autohome.frostmourne.monitor.model.constant.ContextConstant.METRIC_EXEC_ERR_FIELD;
+import static com.autohome.frostmourne.monitor.model.constant.ContextConstant.METRIC_EXEC_STATUS_FIELD;
+
 public abstract class AbstractRule implements IRule {
 
     private final ITemplateService templateService;
@@ -33,7 +37,14 @@ public abstract class AbstractRule implements IRule {
 
     public Map<String, Object> context(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract, MetricContract metricContract, IMetric metric) {
         alarmProcessLogger.trace("start pull metric");
-        Map<String, Object> metricData = metric.pullMetric(metricContract, ruleContract.getSettings());
+        Map<String, Object> metricData = new HashMap<>();
+        try {
+            metricData = metric.pullMetric(metricContract, ruleContract.getSettings());
+        } catch (DataQueryException e) {
+            metricData.put(METRIC_EXEC_STATUS_FIELD, 500);
+            metricData.put(METRIC_EXEC_ERR_FIELD, e.getMessage());
+            return metricData;
+        }
 
         alertEventMd5(alarmProcessLogger, metricData);
 

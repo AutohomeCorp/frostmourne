@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.service.core.metric.jdbc;
 
 import java.util.Map;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ClickhouseSameTimeMetric extends AbstractSameTimeMetric {
     private IClickhouseDataQuery dataQuery;
 
     @Override
-    public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) {
+    public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException {
         return dataQuery.queryMetricValue(start, end, metricContract);
     }
 
