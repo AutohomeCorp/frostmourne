@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.service.core.metric.jdbc;
 
 import java.util.Map;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.service.core.query.impl.SqlServerDataQuery;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class SqlServerNumericMetric extends AbstractNumericMetric {
     protected SqlServerDataQuery sqlServerDataQuery;
 
     @Override
-    public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) {
+    public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException {
         return sqlServerDataQuery.queryMetricValue(start, end, metricContract);
     }
 

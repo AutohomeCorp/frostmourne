@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import com.autohome.frostmourne.monitor.schedule.CronExpression;
 import com.autohome.frostmourne.monitor.tool.LocalDateTimeUtils;
@@ -60,7 +61,13 @@ public class AlarmController {
             dataSourceType = DataSourceType.valueOf(alarmContract.getMetricContract().getDataName());
         }
         IMetric metric = this.metricService.findMetric(dataSourceType, alarmContract.getMetricContract().getMetricType());
-        Map<String, Object> result = metric.pullMetric(alarmContract.getMetricContract(), alarmContract.getRuleContract().getSettings());
+        Map<String, Object> result = null;
+        try {
+            result = metric.pullMetric(alarmContract.getMetricContract(), alarmContract.getRuleContract().getSettings());
+        } catch (DataQueryException e) {
+            return Protocol.fail(e.getMessage());
+        }
+
         if (alarmContract.getRuleContract().getSettings() != null) {
             result.putAll(alarmContract.getRuleContract().getSettings());
         }

@@ -17,6 +17,8 @@ public class PingRule extends AbstractRule {
     @Override
     public boolean verify(AlarmProcessLogger alarmProcessLogger, RuleContract ruleContract, MetricContract metricContract, IMetric metric) {
         Map<String, Object> context = context(alarmProcessLogger, ruleContract, metricContract, metric);
+        checkMetricRunState(context);
+
         Integer failCount = (Integer)context.get("FAIL_COUNT");
         return failCount > 0;
     }

@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.service.core.metric.jdbc;
 
 import java.util.Map;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
@@ -18,7 +19,7 @@ public class SqlServerSameTimeMetric extends AbstractSameTimeMetric {
     private ISqlServerDataQuery sqlServerDataQuery;
 
     @Override
-    public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) {
+    public MetricData pullMetricData(DateTime start, DateTime end, MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException {
         return sqlServerDataQuery.queryMetricValue(start, end, metricContract);
     }
 

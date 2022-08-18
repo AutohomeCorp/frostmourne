@@ -3,6 +3,7 @@ package com.autohome.frostmourne.monitor.service.core.metric.jdbc;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import com.autohome.frostmourne.monitor.service.core.metric.AbstractObjectMetric;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class MysqlObjectMetric extends AbstractObjectMetric {
     protected IMysqlDataQuery mysqlDataQuery;
 
     @Override
-    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) {
+    public Map<String, Object> pullMetric(MetricContract metricContract, Map<String, String> ruleSettings) throws DataQueryException {
         Map<String, Object> result = new HashMap<>();
         MetricData metricData = mysqlDataQuery.querySql(metricContract);
         result.put("NUMBER", metricData.getMetricValue());
