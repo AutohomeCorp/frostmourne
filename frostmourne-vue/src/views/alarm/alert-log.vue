@@ -93,7 +93,7 @@
         </el-col>
       </el-row>
     </div>
-    <el-dialog title="消息内容" :visible.sync="dialogVisible" width="35%">
+    <el-dialog title="消息内容" :visible.sync="dialogVisible" width="60%">
       <pre style="overflow: auto; word-wrap: break-word" v-text="currentMessage" />
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">关 闭</el-button>

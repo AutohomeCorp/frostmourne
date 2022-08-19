@@ -18,9 +18,10 @@ import com.autohome.frostmourne.monitor.service.core.template.ITemplateService;
  * @author kechangqing
  * @since 2022/5/3 22:31
  */
-public class BucketNumbericRule extends AbstractRule {
+@SuppressWarnings("unchecked")
+public class BucketNumericRule extends AbstractRule {
 
-    public BucketNumbericRule(ITemplateService templateService) {
+    public BucketNumericRule(ITemplateService templateService) {
         super(templateService);
     }
 
@@ -46,21 +47,21 @@ public class BucketNumbericRule extends AbstractRule {
 
     private List<BucketInfo> findBuckets(Map<String, Object> context) {
         if(!context.containsKey("BUCKETS")) {
-            throw new RuntimeException("BucketNumbericRule缺少Buckets数据");
+            throw new RuntimeException("BucketNumericRule缺少Buckets数据");
         }
         return (List<BucketInfo>) context.get("BUCKETS");
     }
 
     private Double findThreshold(RuleContract ruleContract) {
         if (!ruleContract.getSettings().containsKey("THRESHOLD")) {
-            throw new RuntimeException("BucketNumbericRule中THRESHOLD属性不存在。");
+            throw new RuntimeException("BucketNumericRule中THRESHOLD属性不存在。");
         }
         return Double.parseDouble(ruleContract.getSettings().get("THRESHOLD"));
     }
 
     private String findOperation(RuleContract ruleContract) {
         if (!ruleContract.getSettings().containsKey("OPERATOR")) {
-            throw new RuntimeException("BucketNumbericRule中OPERATOR属性不存在。");
+            throw new RuntimeException("BucketNumericRule中OPERATOR属性不存在。");
         }
         return ruleContract.getSettings().get("OPERATOR");
     }

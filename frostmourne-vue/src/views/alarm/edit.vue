@@ -457,6 +457,7 @@ import dataApi from '@/api/data.js'
 import alerttemplateApi from '@/api/alert-template.js'
 import serviceinfoApi from '@/api/service-info.js'
 import dataQueryApi from '@/api/data-query.js'
+import validator from 'validator';
 
 import VueJsonPretty from 'vue-json-pretty'
 import 'vue-json-pretty/lib/styles.css'
@@ -507,8 +508,10 @@ export default {
       callback()
     }
     const validatorAlertHttpPostUrl = (rule, value, callback) => {
-      if (this.form.alertContract.ways.includes('http_post') && (this.form.alertContract.httpPostUrl === undefined || this.form.alertContract.httpPostUrl.trim() === '')) {
-        callback(new Error('HTTP地址不能为空'))
+	const url = this.form.alertContract.httpPostUrl
+      if (this.form.alertContract.ways.includes('http_post') 
+	  && !validator.isURL(this.form.alertContract.httpPostUrl)) {
+        callback(new Error('HTTP URL格式异常'))
       }
       callback()
     }
@@ -522,8 +525,9 @@ export default {
     }
     const validatorAlertUpgradeHttpPostUrl = (rule, value, callback) => {
       if (this.form.alertUpgradeContract.status === 'OPEN') {
-        if (this.form.alertUpgradeContract.ways.includes('http_post') && (this.form.alertUpgradeContract.httpPostUrl === undefined || this.form.alertContract.httpPostUrl.trim() === '')) {
-          callback(new Error('HTTP地址不能为空'))
+        if (this.form.alertUpgradeContract.ways.includes('http_post') 
+            && !validator.isURL(this.form.alertUpgradeContract.httpPostUrl)) {
+          callback(new Error('HTTP URL格式异常'))
         }
       }
       callback()

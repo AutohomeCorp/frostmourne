@@ -1,16 +1,15 @@
 package com.autohome.frostmourne.monitor.service.core.execute;
 
 import com.autohome.frostmourne.monitor.model.enums.VerifyResult;
-import org.elasticsearch.common.Strings;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
-import com.autohome.frostmourne.monitor.model.enums.AlertTemplateType;
 import com.autohome.frostmourne.monitor.model.enums.ExecuteStatus;
 import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.rule.IRule;
+
 
 public class AlarmExecutor {
 
