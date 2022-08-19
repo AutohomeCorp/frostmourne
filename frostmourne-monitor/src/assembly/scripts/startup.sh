@@ -21,6 +21,7 @@ fi
 LOG_FOLDER=$LOG_DIR
 
 export JAVA_HOME
+export TZ
 export MODE
 export PROFILE
 export LOG_FOLDER
