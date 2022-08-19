@@ -1,4 +1,5 @@
 MODE=service
+TZ=Asia/Shanghai
 JAVA_HOME=/usr/local/java/jdk1.8.0_05
 #PID_FOLDER=.
 #LOG_DIR=logs
