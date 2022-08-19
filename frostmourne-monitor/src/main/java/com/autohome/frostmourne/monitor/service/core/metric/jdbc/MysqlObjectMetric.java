@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
-import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.query.IMysqlDataQuery;
 
 @Service
