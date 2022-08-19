@@ -1,5 +1,7 @@
 <template>
   <div class="app-container">
+
+    <!-- alarm log search form -->
     <div class="block">
       <el-form ref="form" :model="form" label-width="100px" label-position="center">
         <el-row :gutter="5">
@@ -51,6 +53,9 @@
         </el-row>
       </el-form>
     </div>
+    <!-- alarm log search form -->
+
+    <!-- alarm log list -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column prop="id" label="ID" width="80" align="center" />
       <el-table-column prop="alarmId" :label="$t('alarm.alarmLog.label_alarm_id')" width="80" align="center" />
@@ -86,6 +91,8 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- alarm log list -->
+
     <div class="block mt-paginate">
       <el-row>
         <el-col :span="8" :offset="6">
