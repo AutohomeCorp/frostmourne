@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.autohome.frostmourne.monitor.service.core.rule.BucketNumbericRule;
+import com.autohome.frostmourne.monitor.service.core.rule.BucketNumericRule;
 import com.autohome.frostmourne.monitor.service.core.rule.PingRule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,7 @@ public class CoreConfig {
         ruleMap.put("numeric", numericRule());
         ruleMap.put("expression", expressionRule());
         ruleMap.put("percentage", percentageRule());
-        ruleMap.put("bucket_numeric", bucketNumbericRule());
+        ruleMap.put("bucket_numeric", bucketNumericRule());
         ruleMap.put("ping", pingRule());
 
         return ruleMap;
@@ -50,8 +50,8 @@ public class CoreConfig {
     }
 
     @Bean
-    public BucketNumbericRule bucketNumbericRule() {
-        return new BucketNumbericRule(templateService);
+    public BucketNumericRule bucketNumericRule() {
+        return new BucketNumericRule(templateService);
     }
 
     @Bean
