@@ -1,7 +1,5 @@
 package com.autohome.frostmourne.monitor.service.core.query.impl;
 
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
@@ -12,17 +10,16 @@ import org.springframework.stereotype.Service;
 import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.dao.prometheus.IPrometheusDao;
 import com.autohome.frostmourne.monitor.dao.prometheus.domain.MetricValue;
-import com.autohome.frostmourne.monitor.dao.prometheus.domain.PrometheusData;
 import com.autohome.frostmourne.monitor.dao.prometheus.domain.PrometheusResponse;
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import com.autohome.frostmourne.monitor.service.core.query.IPrometheusDataQuery;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 
 @Service
 public class PrometheusDataQuery implements IPrometheusDataQuery {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PrometheusData.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrometheusDataQuery.class);
 
     @Resource
     private IPrometheusDao prometheusDao;

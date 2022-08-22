@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
  * @author Aping
  * @since 2022/3/28 12:52
  */
-
 @Component
 @ConfigurationProperties(prefix = "email")
 public class MailConfigProperties {

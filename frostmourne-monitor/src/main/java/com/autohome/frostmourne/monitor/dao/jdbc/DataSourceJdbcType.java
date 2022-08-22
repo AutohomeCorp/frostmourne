@@ -22,7 +22,7 @@ public enum DataSourceJdbcType {
      */
     ORACLE("oracle.jdbc.driver.OracleDriver");
 
-    private String driverClassName;
+    private final String driverClassName;
 
     DataSourceJdbcType(String driverClassName) {
         this.driverClassName = driverClassName;

@@ -18,7 +18,7 @@ public class TelnetMetric extends AbstractPingMetric {
     public boolean ping(String server) {
         List<String> ipAndPort = Splitter.on(':').splitToList(server);
         String ip = ipAndPort.get(0);
-        Integer port = Integer.parseInt(ipAndPort.get(1));
+        int port = Integer.parseInt(ipAndPort.get(1));
         try (Socket socket = new Socket()) {
             socket.connect(new InetSocketAddress(ip, port));
             return socket.isConnected();

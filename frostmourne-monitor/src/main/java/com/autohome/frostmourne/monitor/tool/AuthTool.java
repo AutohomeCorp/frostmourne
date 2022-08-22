@@ -11,7 +11,7 @@ import com.autohome.frostmourne.monitor.model.account.AccountInfo;
 
 public class AuthTool {
 
-    public final static String USER_ATTR = "frostmourne_user";
+    public static final String USER_ATTR = "frostmourne_user";
 
     public static HttpServletRequest currentRequest() {
         ServletRequestAttributes attr = (ServletRequestAttributes)RequestContextHolder.currentRequestAttributes();
