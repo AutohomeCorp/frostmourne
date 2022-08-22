@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
  * @date 2020-08-01
  */
 @ControllerAdvice
-public class GlobalControllerAdiviceController {
+public class GlobalControllerAdviceController {
 
     @InitBinder
     public void dataBind(WebDataBinder binder) {

@@ -11,6 +11,8 @@ import com.autohome.frostmourne.monitor.service.core.metric.IMetric;
 import com.autohome.frostmourne.monitor.service.core.template.ITemplateService;
 import com.google.common.base.Strings;
 
+
+@SuppressWarnings("unchecked")
 public class PercentageRule extends AbstractRule {
 
     public PercentageRule(ITemplateService templateService) {

@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
+
 @Repository
 public class PrometheusDao implements IPrometheusDao {
 
@@ -44,7 +45,6 @@ public class PrometheusDao implements IPrometheusDao {
             throw new RuntimeException("error when query prometheus");
         }
         String responseJson = messageResponseEntity.getBody();
-        PrometheusResponse<MetricValue> prometheusResponse = JacksonUtil.deSerialize(responseJson, new TypeReference<PrometheusResponse<MetricValue>>() {});
-        return prometheusResponse;
+        return JacksonUtil.deSerialize(responseJson, new TypeReference<PrometheusResponse<MetricValue>>() {});
     }
 }

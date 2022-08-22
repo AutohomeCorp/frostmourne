@@ -71,7 +71,7 @@ public class BeanConfig {
 
     @Bean
     public IAuthService authService() {
-        if (!Strings.isNullOrEmpty(ldapUrls) && ldapEnabled) {
+        if (!Strings.isNullOrEmpty(ldapUrls) && Boolean.TRUE.equals(ldapEnabled)) {
             LOGGER.info("apply ldap auth");
             return new LdapAuthService(searchFilter, ldapTemplate, initialPassword);
         }

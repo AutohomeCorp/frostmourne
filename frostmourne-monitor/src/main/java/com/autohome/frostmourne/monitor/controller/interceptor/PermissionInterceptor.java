@@ -17,11 +17,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+@SuppressWarnings("rawtypes")
 @Component
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
-
-    /*@Resource
-    private LoginService loginService;*/
 
     @Resource
     private JwtToken jwtToken;
@@ -61,7 +59,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
     }
 
     private void notLoginResponse(HttpServletResponse response) throws IOException {
-        Protocol protocol = new Protocol();
+        Protocol protocol = new Protocol<>();
         protocol.setReturncode(50008);
         protocol.setMessage("not login request");
         response.setContentType("application/json;charset=utf-8");
@@ -70,7 +68,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
     }
 
     private void wrongTokenResponse(HttpServletResponse response) throws IOException {
-        Protocol protocol = new Protocol();
+        Protocol protocol = new Protocol<>();
         protocol.setReturncode(50012);
         protocol.setMessage("wrong token");
         response.setContentType("application/json;charset=utf-8");
