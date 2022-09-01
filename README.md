@@ -330,6 +330,7 @@ yarn dev
 <td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/jiajiayue.jpg" alt="家家悦"></td>
 <td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/sungrow.jpg" alt="阳光电源"></td>
 <td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/etcp.jpg" alt="ETCP"></td>
+<td><img src="https://raw.githubusercontent.com/AutohomeCorp/frostmourne/master/doc/img/user/lingoace.png" alt="LingoAce"></td>
 </tr>
 </table>
 
