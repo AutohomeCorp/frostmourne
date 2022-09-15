@@ -71,7 +71,7 @@ public final class DataSourceDynamicSqlSupport {
 
         public final SqlColumn<Date> modifyAt = column("modify_at", JDBCType.TIMESTAMP);
 
-        public final SqlColumn<String> properties = column("properties", JDBCType.LONGVARCHAR);
+        public final SqlColumn<String> properties = column("properties", JDBCType.LONGVARCHAR, "com.autohome.frostmourne.monitor.handler.CryptoTypeHandler");
 
         public DataSource() {
             super("data_source");

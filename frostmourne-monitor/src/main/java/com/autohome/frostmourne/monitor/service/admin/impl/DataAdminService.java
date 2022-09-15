@@ -11,7 +11,10 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.config.properties.EncryptProperties;
 import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
+import com.autohome.frostmourne.monitor.model.vo.DataSourceVO;
+import com.autohome.frostmourne.monitor.tool.AESUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -69,9 +72,15 @@ public class DataAdminService implements IDataAdminService {
         dataSource.setModifier(account);
         dataSource.setServiceAddress(dataSourceContract.getServiceAddress());
         dataSource.setModifyAt(new Date());
+
         if (dataSourceContract.getSettings() != null && dataSourceContract.getSettings().size() > 0) {
+            // 解密操作
+            Map<String, String> settings = handleEncryptSetting(dataSourceContract);
+            // 更新settings
+            dataSourceContract.setSettings(settings);
             dataSource.setProperties(JacksonUtil.serialize(dataSourceContract.getSettings()));
         }
+
         if (dataSourceContract.getId() != null && dataSourceContract.getId() > 0) {
             dataSource.setId(dataSourceContract.getId());
             if (DataSourceType.elasticsearch.equals(dataSource.getDatasourceType())) {
@@ -90,7 +99,6 @@ public class DataAdminService implements IDataAdminService {
         dataSource.setCreator(account);
         dataSource.setCreateAt(new Date());
         return dataSourceRepository.insert(dataSource) > 0;
-
     }
 
     @Override
@@ -134,7 +142,12 @@ public class DataAdminService implements IDataAdminService {
         Map<String, List<DataSourceOption>> dataOptionMap = new HashMap<>();
         for (DataSource dataSource : dataSourceList) {
             DataSourceOption dataSourceOption = new DataSourceOption();
-            dataSourceOption.setDataSource(dataSource);
+            DataSourceVO dataSourceVO = DataSourceVO.builder()
+                    .id(dataSource.getId())
+                    .datasourceName(dataSource.getDatasourceName())
+                    .datasourceType(dataSource.getDatasourceType())
+                    .build();
+            dataSourceOption.setDataSourceVO(dataSourceVO);
             dataSourceOption.setDataNameContractList(dataNameList.stream().filter(dataName -> dataName.getDataSourceId().equals(dataSource.getId()))
                 .map(DataAdminService::toDataNameContract).collect(Collectors.toList()));
             if (dataOptionMap.containsKey(dataSource.getDatasourceType().name())) {
@@ -184,7 +197,7 @@ public class DataAdminService implements IDataAdminService {
             return Collections.emptyList();
         }
         return items.stream().map(item -> {
-            TreeDataOption option = new TreeDataOption(String.valueOf(item.getDataSource().getId()), item.getDataSource().getDatasourceName());
+            TreeDataOption option = new TreeDataOption(String.valueOf(item.getDataSourceVO().getId()), item.getDataSourceVO().getDatasourceName());
             option.setChildren(this.parseTreeDataOptionByDataNameContracts(item.getDataNameContractList()));
             return option;
         }).collect(Collectors.toList());
@@ -275,5 +288,23 @@ public class DataAdminService implements IDataAdminService {
         dataNameContract.setSettings(JacksonUtil.deSerialize(dataName.getProperties(), new TypeReference<Map<String, String>>() {}));
 
         return dataNameContract;
+    }
+
+    private Map<String, String> handleEncryptSetting(DataSourceContract dataSourceContract) {
+        Map<String, String> settings = dataSourceContract.getSettings();
+        List<String> sensitiveFields = EncryptProperties.getInstance().getSensitiveFields();
+        if (!CollectionUtils.isEmpty(sensitiveFields)) {
+            sensitiveFields.forEach(field -> {
+                if (settings.containsKey(field)) {
+                    // 判断是否是加密数据, 并更新原键值
+                    String decrypt = AESUtils.decrypt(settings.get(field));
+                    if (decrypt != null) {
+                        settings.put(field, decrypt);
+                    }
+                }
+            });
+        }
+        return settings;
+
     }
 }
