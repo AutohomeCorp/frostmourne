@@ -977,8 +977,8 @@ export default {
           }
           for (var j = 0; j < remoteOptions[i].dataSourceOptionList.length; j++) {
             var dataSource = {
-              label: remoteOptions[i].dataSourceOptionList[j].dataSource.datasourceName,
-              value: remoteOptions[i].dataSourceOptionList[j].dataSource.id,
+              label: remoteOptions[i].dataSourceOptionList[j].dataSourceVO.datasourceName,
+              value: remoteOptions[i].dataSourceOptionList[j].dataSourceVO.id,
               children: []
             }
 

@@ -3,26 +3,14 @@ package com.autohome.frostmourne.monitor.model.contract;
 import java.util.List;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
+import com.autohome.frostmourne.monitor.model.vo.DataSourceVO;
+import lombok.Data;
 
+@Data
 public class DataSourceOption {
 
-    private DataSource dataSource;
+    private DataSourceVO dataSourceVO;
 
     private List<DataNameContract> dataNameContractList;
 
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public List<DataNameContract> getDataNameContractList() {
-        return dataNameContractList;
-    }
-
-    public void setDataNameContractList(List<DataNameContract> dataNameContractList) {
-        this.dataNameContractList = dataNameContractList;
-    }
 }
