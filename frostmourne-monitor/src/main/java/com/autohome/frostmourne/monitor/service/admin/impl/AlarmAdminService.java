@@ -467,25 +467,19 @@ public class AlarmAdminService implements IAlarmAdminService {
 
     @Override
     public void padAlarm(AlarmContract alarmContract) {
-        alarmContract.setAlarmType(alarmContract.getMetricContract().getDataName());
+        String dataNameStr = alarmContract.getMetricContract().getDataName();
+        alarmContract.setAlarmType(dataNameStr);
         String ruleType = metricRuleMap.get(alarmContract.getMetricContract().getMetricType());
         alarmContract.getRuleContract().setRuleType(ruleType);
-        if (alarmContract.getMetricContract().getDataName().equalsIgnoreCase("http")) {
-            return;
-        }
-        if (alarmContract.getMetricContract().getDataName().equalsIgnoreCase("ping")) {
+
+        if (dataNameStr.equalsIgnoreCase("http")
+                || dataNameStr.equalsIgnoreCase("ping")
+                || dataNameStr.equalsIgnoreCase("telnet")) {
             return;
         }
 
-        if (alarmContract.getMetricContract().getDataName().equalsIgnoreCase("telnet")) {
-            return;
-        }
-
-        Optional<DataName> optionalDataName = dataNameRepository.findByName(alarmContract.getMetricContract().getDataName());
-        if (!optionalDataName.isPresent()) {
-            throw new ProtocolException(1290, "dataName not exist. " + alarmContract.getMetricContract().getDataName());
-        }
-        DataName dataName = optionalDataName.get();
+        Optional<DataName> optionalDataName = dataNameRepository.findByName(dataNameStr);
+        DataName dataName = optionalDataName.orElseThrow(() -> new ProtocolException(1290, "dataName not exist. " + dataNameStr));
         alarmContract.getMetricContract().setDataNameId(dataName.getId());
         alarmContract.getMetricContract().setDataNameContract(DataAdminService.toDataNameContract(dataName));
         alarmContract.getMetricContract().setDataSourceId(dataName.getDataSourceId());
@@ -494,6 +488,5 @@ public class AlarmAdminService implements IAlarmAdminService {
         DataSourceContract dataSourceContract = optionalDataSource.map(DataSourceTransformer::model2Contract)
             .orElseThrow(() -> new ProtocolException(1900, "dataSource not exist. id: " + dataName.getDataSourceId()));
         alarmContract.getMetricContract().setDataSourceContract(dataSourceContract);
-
     }
 }
