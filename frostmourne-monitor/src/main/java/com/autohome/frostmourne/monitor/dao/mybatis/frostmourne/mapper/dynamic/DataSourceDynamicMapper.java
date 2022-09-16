@@ -6,6 +6,8 @@ import static org.mybatis.dynamic.sql.SqlBuilder.*;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.DataSource;
 import java.util.List;
 import java.util.Optional;
+
+import com.autohome.frostmourne.monitor.handler.CryptoTypeHandler;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -58,7 +60,7 @@ public interface DataSourceDynamicMapper {
         @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="modifier", property="modifier", jdbcType=JdbcType.VARCHAR),
         @Result(column="modify_at", property="modifyAt", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="properties", property="properties", jdbcType=JdbcType.LONGVARCHAR)
+        @Result(column="properties", property="properties", jdbcType=JdbcType.LONGVARCHAR, typeHandler = CryptoTypeHandler.class)
     })
     List<DataSource> selectMany(SelectStatementProvider selectStatement);
 

@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
 import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
+import com.autohome.frostmourne.monitor.tool.AESUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.autohome.frostmourne.common.contract.PagerContract;
@@ -11,6 +12,9 @@ import com.autohome.frostmourne.common.contract.Protocol;
 import com.autohome.frostmourne.monitor.model.contract.AlarmContract;
 import com.autohome.frostmourne.monitor.service.admin.IAlarmAdminService;
 import com.autohome.frostmourne.monitor.tool.AuthTool;
+
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = {"/admin", "/api/monitor-api/admin"})
@@ -58,6 +62,13 @@ public class AdminController {
         if (alarmContract == null) {
             return new Protocol<>(404, "监控不存在");
         }
+
+        // 敏感信息加密
+        Map<String, String> settings = alarmContract.getMetricContract().getDataSourceContract().getSettings();
+        if (Objects.nonNull(settings)) {
+            AESUtils.encryptMappingSensitive(settings);
+            alarmContract.getMetricContract().getDataSourceContract().setSettings(settings);
+        }
         return new Protocol<>(alarmContract);
     }
 
@@ -66,4 +77,5 @@ public class AdminController {
         PagerContract<Alarm> pagerContract = this.alarmAdminService.find(pageIndex, pageSize, alarmId, name, teamName, status, serviceId);
         return new Protocol<>(pagerContract);
     }
+
 }

@@ -1,5 +1,7 @@
 package com.autohome.frostmourne.monitor.dao.jdbc;
 
+import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
+
 public enum DataSourceJdbcType {
 
     /**
@@ -30,6 +32,10 @@ public enum DataSourceJdbcType {
 
     public String getDriverClassName() {
         return driverClassName;
+    }
+
+    public static DataSourceJdbcType fromDataSourceType(DataSourceType dataSourceType) {
+        return DataSourceJdbcType.valueOf(dataSourceType.name().toUpperCase());
     }
 
 }

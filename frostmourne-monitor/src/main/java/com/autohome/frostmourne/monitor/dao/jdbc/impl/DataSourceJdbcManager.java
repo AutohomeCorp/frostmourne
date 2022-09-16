@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
-import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,13 +96,7 @@ public class DataSourceJdbcManager implements IDataSourceJdbcManager {
 
     private DruidDataSource createDataSource(DataSourceContract dataSourceContract) throws SQLException {
         DruidDataSource dataSource = new DruidDataSource();
-        if (DataSourceType.clickhouse.equals(dataSourceContract.getDatasourceType())) {
-            dataSource.setDriverClassName(DataSourceJdbcType.CLICKHOUSE.getDriverClassName());
-        } else if (DataSourceType.mysql.equals(dataSourceContract.getDatasourceType())) {
-            dataSource.setDriverClassName(DataSourceJdbcType.MYSQL.getDriverClassName());
-        } else if (DataSourceType.sqlserver.equals(dataSourceContract.getDatasourceType())) {
-            dataSource.setDriverClassName(DataSourceJdbcType.SQLSERVER.getDriverClassName());
-        }
+        dataSource.setDriverClassName(DataSourceJdbcType.fromDataSourceType(dataSourceContract.getDatasourceType()).getDriverClassName());
         dataSource.setUrl(dataSourceContract.getServiceAddress());
         dataSource.setUsername(dataSourceContract.getSettings().get("username"));
         dataSource.setPassword(dataSourceContract.getSettings().get("password"));

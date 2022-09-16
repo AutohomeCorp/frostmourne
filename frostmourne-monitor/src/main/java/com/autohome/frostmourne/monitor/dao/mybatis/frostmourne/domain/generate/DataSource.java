@@ -167,4 +167,19 @@ public class DataSource implements Serializable {
         result = prime * result + ((getProperties() == null) ? 0 : getProperties().hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "DataSource{" +
+                "id=" + id +
+                ", datasourceName='" + datasourceName + '\'' +
+                ", datasourceType=" + datasourceType +
+                ", serviceAddress='" + serviceAddress + '\'' +
+                ", creator='" + creator + '\'' +
+                ", createAt=" + createAt +
+                ", modifier='" + modifier + '\'' +
+                ", modifyAt=" + modifyAt +
+                ", properties='" + properties + '\'' +
+                '}';
+    }
 }

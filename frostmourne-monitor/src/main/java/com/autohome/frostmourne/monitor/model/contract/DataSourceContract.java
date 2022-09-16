@@ -96,4 +96,19 @@ public class DataSourceContract {
     public void setModifyAt(Date modifyAt) {
         this.modifyAt = modifyAt;
     }
+
+    @Override
+    public String toString() {
+        return "DataSourceContract{" +
+                "id=" + id +
+                ", datasourceName='" + datasourceName + '\'' +
+                ", datasourceType=" + datasourceType +
+                ", serviceAddress='" + serviceAddress + '\'' +
+                ", settings=" + settings +
+                ", creator='" + creator + '\'' +
+                ", createAt=" + createAt +
+                ", modifier='" + modifier + '\'' +
+                ", modifyAt=" + modifyAt +
+                '}';
+    }
 }
