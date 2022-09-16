@@ -4,6 +4,7 @@ import com.autohome.frostmourne.monitor.config.properties.EncryptProperties;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -11,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.List;
+import java.util.Map;
 
 /**
  * AES utils
@@ -74,6 +77,17 @@ public final class AESUtils {
             return Base64.encodeBase64String(result);
         } else {
             return new String(result, StandardCharsets.UTF_8);
+        }
+    }
+
+    public static void encryptMappingSensitive(Map<String, String> settings) {
+        try {
+            List<String> sensitiveFields = EncryptProperties.getInstance().getSensitiveFields();
+            if (!CollectionUtils.isEmpty(sensitiveFields)) {
+                sensitiveFields.forEach(field -> settings.computeIfPresent(field, (k, v) -> encrypt(v)));
+            }
+        } catch (Exception e) {
+            LOGGER.error("encryptMappingSensitive error", e);
         }
     }
 

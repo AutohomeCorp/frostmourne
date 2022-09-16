@@ -146,10 +146,7 @@ public class AlarmAdminService implements IAlarmAdminService {
     public AlarmContract findById(Long alarmId) {
         AlarmContract alarmContract = new AlarmContract();
         Optional<Alarm> optionalAlarm = alarmRepository.selectByPrimaryKey(alarmId);
-        if (!optionalAlarm.isPresent()) {
-            return null;
-        }
-        Alarm alarm = optionalAlarm.get();
+        Alarm alarm = optionalAlarm.orElseThrow(() -> new ProtocolException(404, String.format("The alarm[id=%s] not exists", alarmId)));
         alarmContract.setId(alarmId);
         alarmContract.setStatus(alarm.getStatus());
         alarmContract.setOwnerKey(alarm.getOwnerKey());

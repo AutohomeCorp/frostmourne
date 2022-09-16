@@ -48,7 +48,7 @@ public class DataSourceTransformer {
             }
             // 加密敏感字段
             if (encrypt) {
-                handleEncryptSettings(settings);
+                AESUtils.encryptMappingSensitive(settings);
             }
             dataSourceContract.setSettings(settings);
         } else {
@@ -61,10 +61,4 @@ public class DataSourceTransformer {
         return dataSourceContract;
     }
 
-    private static void handleEncryptSettings(Map<String, String> settings) {
-        List<String> sensitiveFields = EncryptProperties.getInstance().getSensitiveFields();
-        if (!CollectionUtils.isEmpty(sensitiveFields)) {
-            sensitiveFields.forEach(field -> settings.computeIfPresent(field, (k, v) -> AESUtils.encrypt(v)));
-        }
-    }
 }
