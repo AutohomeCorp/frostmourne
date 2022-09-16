@@ -21,6 +21,17 @@ public class DataSourceTransformer {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceTransformer.class);
 
     public static DataSourceContract model2Contract(DataSource dataSource) {
+        return model2Contract(dataSource, false);
+    }
+
+    /**
+     * Encrypt DataSource sensitive fields, like username, password.
+     *
+     * @param dataSource dataSource entity
+     * @param encrypt whether to encrypt
+     * @return {@link DataSourceContract}
+     */
+    public static DataSourceContract model2Contract(DataSource dataSource, boolean encrypt) {
         DataSourceContract dataSourceContract = new DataSourceContract();
         dataSourceContract.setDatasourceName(dataSource.getDatasourceName());
         dataSourceContract.setDatasourceType(dataSource.getDatasourceType());
@@ -36,7 +47,9 @@ public class DataSourceTransformer {
                 LOGGER.error("dataSource properties json parse error, datasource: {}", dataSource, e);
             }
             // 加密敏感字段
-            handleEncryptSettings(settings);
+            if (encrypt) {
+                handleEncryptSettings(settings);
+            }
             dataSourceContract.setSettings(settings);
         } else {
             dataSourceContract.setSettings(new HashMap<>());

@@ -114,8 +114,11 @@ public class DataAdminService implements IDataAdminService {
     public PagerContract<DataSourceContract> findDatasource(int pageIndex, int pageSize, DataSourceType datasourceType) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<DataSource> list = this.dataSourceRepository.find(datasourceType);
-        return new PagerContract<>(list.stream().map(DataSourceTransformer::model2Contract).collect(Collectors.toList()), page.getPageSize(), page.getPageNum(),
-            (int)page.getTotal());
+        return new PagerContract<>(
+                list.stream()
+                        .map(i -> DataSourceTransformer.model2Contract(i, true))
+                        .collect(Collectors.toList()),
+                page.getPageSize(), page.getPageNum(), (int)page.getTotal());
     }
 
     @Override
