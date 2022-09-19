@@ -1,3 +1,9 @@
+# 1.0-SNAPSHOT
+
+### Feature
+
+* 【1.0】发布0.9-RELEASE, 开始1.0-SNAPSHOT开发 [2022-09-19]
+
 # 0.9-RELEASE
 
 ### Feature

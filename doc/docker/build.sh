@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker rmi local/frostmourne:0.9
-docker build -t local/frostmourne:0.9 -f Dockerfile .
+docker rmi local/frostmourne:1.0
+docker build -t local/frostmourne:1.0 -f Dockerfile .

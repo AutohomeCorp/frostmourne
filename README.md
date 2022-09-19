@@ -226,6 +226,7 @@ yarn dev
 
 # ⚙后续规划
 
+* ~~【1.0】发布0.9-RELEASE, 开始1.0-SNAPSHOT开发~~ [2022-09-19]
 * prometheus增加/api/v1/query_range查询支持
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
