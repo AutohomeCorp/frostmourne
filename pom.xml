@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.autohome</groupId>
     <artifactId>frostmourne</artifactId>
-    <version>0.9-SNAPSHOT</version>
+    <version>0.9-RELEASE</version>
     <packaging>pom</packaging>
     <name>frostmourne</name>
     <description>frostmourne for Spring Boot</description>
@@ -82,9 +82,11 @@
 
     <!-- 公共依赖 -->
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -98,7 +100,7 @@
     </build>
 
     <repositories>
-        <repository>
+        <!--<repository>
             <id>spring</id>
             <url>https://maven.aliyun.com/repository/spring</url>
             <releases>
@@ -107,6 +109,11 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </repository>-->
+        <repository>
+            <id>central-repos</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
         </repository>
         <repository>
             <id>central</id>
