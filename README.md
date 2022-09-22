@@ -226,43 +226,29 @@ yarn dev
 
 # ⚙后续规划
 
-* ~~【0.9】发布0.8-RELEASE, 进入0.9开发~~ [2022-06-09]
-* ~~【0.9】增加telnet端口连通监控~~ [2022-06-09]
-* ~~【0.9】修复飞书消息发送两条的问题~~ [2022-06-17]
-* ~~【0.9】增加SqlServer数据监控报警~~ [2022-06-30]
-* ~~【0.9】监控列表增加监控调度时间查看~~ [2022-08-04]
-* ~~【0.9】优化启动脚本，支持java11, java13~~ [2022-08-04]
-* ~~【0.9】告警列表组件新增日志查询~~ [2022-08-13]
-* ~~【0.9】数据源及数据名页面数据类型新增icon~~ [2022-08-13]
+* ~~【1.0】发布0.9-RELEASE, 开始1.0-SNAPSHOT开发~~ [2022-09-19]
 * prometheus增加/api/v1/query_range查询支持
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
 * 完成英语国际化
 * 增加 [loki](https://github.com/grafana/loki) 数据监控报警
-* 数据源列表页面增加数据源图标列，方便区分
 * 增加邮箱在线配置页面功能
 * 增加企业微信在线配置页面功能
 * 将短链接id以16进制格式展示，解决id数字很大的时候较长的问题
-* 增加邮箱在线配置页面功能
 * pom优化
-* 增加消息内容长度配置，超过长度配置部分将被截掉
 * 员工换组增加是否迁移监控至新组的选项，如果勾选将该员工创建的监控也转移至新组
 * 增加报警组支持
 * 增加监控转组功能
 * Elasticsearch数据名增加traceid字段配置，可以配置跳转链接。例如: 配置skywalking的链接将跳转到skywalking对应的调用链
-* 监控列表增加"执行日志"操作按钮，点击跳转到对应监控执行日志列表页
 * 增加时序数据历史数据比较规则
 * 监控增加报警消息允许发送时间段设置，非允许发送时间段内消息将只记录不发送，发送状态为FORBID
 * 增加企业钉钉发消息默认实现(本地没有环境，需要帮助，欢迎PR，或者提供示例代码，先行谢过)
 * 更多报警方式补充（欢迎PR）
-* 后端接口增加数据校验并返回合适的提示信息
 * 增加 [skywalking](https://github.com/apache/skywalking) `Database Layer` 数据监控报警支持
 * 监控列表增加一个开关选项，只显示我的监控
-* 监控调度配置后显示预计调度时间
 * Elasticsearch数据名配置时自动提示索引名称
 * 引入对象迭代器，迭代器代表从数据源中得到一个List数据列表，或者自定义输入；用于动态生成监控查询语句，例如: Level: ERROR AND Project: ${ITEM_VALUE}；达到数据遍历监控的效果；
-* 国际化
 * 发布1.0-RELEASE
 * 3-sigma离群点检测报警规则
 * 加入时序数据异常检测算法规则(需要实验可行性 [基于时间序列的异常检测](https://blog.rexking6.top/2018/11/05/%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E7%9A%84%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/))
@@ -282,7 +268,7 @@ yarn dev
 # 👷 Contributors
 
 [@menong-chen](https://github.com/menong-chen) [@fox2zz](https://github.com/fox2zz) [@xyzj91](https://github.com/xyzj91)
-[@wxmclub](https://github.com/wxmclub) [@Aping](https://github.com/wuaping)
+[@wxmclub](https://github.com/wxmclub) [@Aping](https://github.com/wuaping)  [@limbo](https://github.com/limboinf) 
 
 [![GitHub Contributors](https://contrib.rocks/image?repo=AutohomeCorp/frostmourne)](https://github.com/AutohomeCorp/frostmourne/graphs/contributors)
 
