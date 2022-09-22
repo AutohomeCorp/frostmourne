@@ -75,7 +75,7 @@ spec:
             - name: wechat.secret
               value:
 
-          image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.9
+          image: registry.cn-hangzhou.aliyuncs.com/kechangqing/frostmourne:0.9.1
           name: frostmourne-monitor
           imagePullPolicy: Always
           resources:

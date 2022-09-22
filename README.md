@@ -227,7 +227,8 @@ yarn dev
 # ⚙后续规划
 
 * ~~【1.0】发布0.9-RELEASE, 开始1.0-SNAPSHOT开发~~ [2022-09-19]
-* prometheus增加/api/v1/query_range查询支持
+* ~~【0.9.1】~~发布0.9.1-RELEASE修复 http, telent 等无数据源的类型，获取 数据源 settings 报空指针问题 [2022-09-22]~~
+* prometheus增加/api/v1/query_range查询支持~~
 * 增加本项目内程序日志采集至MySQL并提供查询页面，方便排查问题和监控
 * Elasticsearch数据名增加kibana链接配置，在数据查询页面增加kibana地址跳转链接，方便将数据查询切换至kibana
 * 短信报警方式实现，默认用阿里云短信实现
@@ -283,7 +284,7 @@ yarn dev
 * 帮忙扩散推广
 * 在 [`issue`](https://github.com/AutohomeCorp/frostmourne/issues) 提出你的宝贵建议
 * 加入交流群，解答交流问题。群内会不定时发布项目更新说明
-* 开源不易，感谢您的一键三连鼓励
+* 开源不易，star鼓励
 * [代码规范说明](./doc/wiki/code_format.md)
 
 # 💬 联系我们

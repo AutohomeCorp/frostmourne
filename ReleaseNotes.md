@@ -4,6 +4,12 @@
 
 * 【1.0】发布0.9-RELEASE, 开始1.0-SNAPSHOT开发 [2022-09-19]
 
+# 0.9.1-RELEASE
+
+### Bugfix
+
+* 修复 http, telent 等无数据源的类型，获取 数据源 settings 报空指针问题
+
 # 0.9-RELEASE
 
 ### Feature
