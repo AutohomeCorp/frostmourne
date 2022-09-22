@@ -3,6 +3,7 @@ package com.autohome.frostmourne.monitor.controller;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.Alarm;
+import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
 import com.autohome.frostmourne.monitor.model.enums.AlarmStatus;
 import com.autohome.frostmourne.monitor.tool.AESUtils;
 import org.springframework.web.bind.annotation.*;
@@ -64,8 +65,9 @@ public class AdminController {
         }
 
         // 敏感信息加密
-        Map<String, String> settings = alarmContract.getMetricContract().getDataSourceContract().getSettings();
-        if (Objects.nonNull(settings)) {
+        DataSourceContract dataSourceContract = alarmContract.getMetricContract().getDataSourceContract();
+        if (Objects.nonNull(dataSourceContract) && Objects.nonNull(dataSourceContract.getSettings())) {
+            Map<String, String> settings = dataSourceContract.getSettings();
             AESUtils.encryptMappingSensitive(settings);
             alarmContract.getMetricContract().getDataSourceContract().setSettings(settings);
         }
