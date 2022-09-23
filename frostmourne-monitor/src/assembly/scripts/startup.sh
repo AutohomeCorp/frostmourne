@@ -56,7 +56,7 @@ fi
 
 cd `dirname $0`/..
 
-for i in `ls $SERVICE_NAME-*.jar 2>/dev/null`
+for i in `ls -t $SERVICE_NAME-*.jar 2>/dev/null`
 do
     if [[ ! $i == *"-sources.jar" ]]
     then
@@ -67,7 +67,7 @@ done
 
 if [[ ! -f PATH_TO_JAR && -d current ]]; then
     cd current
-    for i in `ls $SERVICE_NAME-*.jar 2>/dev/null`
+    for i in `ls -t $SERVICE_NAME-*.jar 2>/dev/null`
     do
         if [[ ! $i == *"-sources.jar" ]]
         then
