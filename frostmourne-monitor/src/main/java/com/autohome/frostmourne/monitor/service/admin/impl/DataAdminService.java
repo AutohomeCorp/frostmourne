@@ -141,7 +141,7 @@ public class DataAdminService implements IDataAdminService {
     @Override
     public List<DataOption> dataOptions() {
         List<DataSource> dataSourceList = this.dataSourceRepository.find(null);
-        List<DataName> dataNameList = this.dataNameRepository.find(null, null);
+        List<DataName> dataNameList = this.dataNameRepository.find(null, null, null);
         Map<String, List<DataSourceOption>> dataOptionMap = new HashMap<>();
         for (DataSource dataSource : dataSourceList) {
             DataSourceOption dataSourceOption = new DataSourceOption();
@@ -248,16 +248,16 @@ public class DataAdminService implements IDataAdminService {
     }
 
     @Override
-    public PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, DataSourceType datasourceType, Long datasourceId) {
+    public PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, DataSourceType datasourceType, Long datasourceId, String nameHint) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
-        List<DataName> list = this.dataNameRepository.find(datasourceType, datasourceId);
+        List<DataName> list = this.dataNameRepository.find(datasourceType, datasourceId, nameHint);
         return new PagerContract<>(list.stream().map(DataAdminService::toDataNameContract).collect(Collectors.toList()), page.getPageSize(), page.getPageNum(),
             (int)page.getTotal());
     }
 
     @Override
     public List<DataNameContract> findDataNameByType(DataSourceType datasourceType) {
-        List<DataName> list = this.dataNameRepository.find(datasourceType, null);
+        List<DataName> list = this.dataNameRepository.find(datasourceType, null, null);
         return list.stream().map(DataAdminService::toDataNameContract).collect(Collectors.toList());
     }
 

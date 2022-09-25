@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.impl
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isIn;
+import static org.mybatis.dynamic.sql.SqlBuilder.isLike;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,10 +64,11 @@ public class DataNameRepository implements IDataNameRepository {
     }
 
     @Override
-    public List<DataName> find(DataSourceType datasourceType, Long datasourceId) {
+    public List<DataName> find(DataSourceType datasourceType, Long datasourceId, String nameHint) {
         return dataNameDynamicMapper
             .select(query -> query.where().and(DataNameDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNull))
                 .and(DataNameDynamicSqlSupport.dataSourceId, isEqualTo(datasourceId).when(MybatisTool::notNullAndZero))
+                    .and(DataNameDynamicSqlSupport.dataName.dataName, isLike(nameHint).when(MybatisTool::notNullAndEmpty).then(MybatisTool::rightVagueMatch))
                 .orderBy(DataNameDynamicSqlSupport.createAt.descending()));
     }
 }

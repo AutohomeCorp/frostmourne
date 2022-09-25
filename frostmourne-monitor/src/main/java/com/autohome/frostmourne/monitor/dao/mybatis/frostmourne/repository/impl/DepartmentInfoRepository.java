@@ -43,8 +43,8 @@ public class DepartmentInfoRepository implements IDepartmentInfoRepository {
     public PagerContract<DepartmentInfo> findPage(int pageIndex, int pageSize, Long id, String departmentName) {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<DepartmentInfo> list = departmentInfoDynamicMapper.select(query -> {
-            query.where().and(DepartmentInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull)).and(DepartmentInfoDynamicSqlSupport.departmentName,
-                isLike(departmentName).when(Objects::nonNull).then(s -> s + "%s"));
+            query.where().and(DepartmentInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull))
+                    .and(DepartmentInfoDynamicSqlSupport.departmentName, isLike(departmentName).when(Objects::nonNull).then(s -> s + "%s"));
             return query.orderBy(DepartmentInfoDynamicSqlSupport.id.descending());
         });
         return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int)page.getTotal());

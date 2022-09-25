@@ -77,7 +77,7 @@ public class DataNameController {
             @RequestParam(value = "datasourceType", required = false) DataSourceType datasourceType,
             @RequestParam(value = "datasourceId", required = false) Long datasourceId,
             @RequestParam(value = "nameHint", required = false) String nameHint) {
-        PagerContract<DataNameContract> pagerContract = dataAdminService.findDataName(pageIndex, pageSize, datasourceType, datasourceId);
+        PagerContract<DataNameContract> pagerContract = dataAdminService.findDataName(pageIndex, pageSize, datasourceType, datasourceId, nameHint);
         return new Protocol<>(pagerContract);
     }
 

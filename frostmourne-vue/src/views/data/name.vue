@@ -14,6 +14,7 @@
       <el-select v-model="form.dataSourceId" placeholder="选择数据源" clearable class="filter-item">
         <el-option v-for="item in formDatasourceList" :key="item.datasourceName" :label="item.datasourceName" :value="item.id" />
       </el-select>
+      <el-input v-model="form.nameHint" clearable placeholder="数据名称支持模糊查询" style="width: 300px;" class="filter-item" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="search">查询</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="edit(null)">新增</el-button>
     </div>
@@ -166,7 +167,8 @@ export default {
         pageSize: 10,
         dataName: '',
         datasourceType: '',
-        dataSourceId: null
+        dataSourceId: null,
+        nameHint: ''
       },
       editData: {
         id: 0,
@@ -209,7 +211,7 @@ export default {
   methods: {
     fetchData () {
       this.listLoading = true
-      dataApi.findDataName(this.form.pageIndex, this.form.pageSize, this.form.datasourceType, this.form.dataSourceId)
+      dataApi.findDataName(this.form.pageIndex, this.form.pageSize, this.form.datasourceType, this.form.dataSourceId, this.form.nameHint)
         .then(response => {
           this.list = response.result.list || []
           this.rowcount = response.result.rowcount
@@ -319,7 +321,7 @@ export default {
       })
     },
     showEditDataTimestampField () {
-      return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql' || 
+      return this.editData.datasourceType === 'elasticsearch' || this.editData.datasourceType === 'mysql' ||
       this.editData.datasourceType === 'clickhouse' || this.editData.datasourceType === 'sqlserver'
     },
     handleClose (tag) {

@@ -29,7 +29,8 @@ public interface IDataAdminService {
 
     Map<Long, DataSource> mapDataSourceByIds(List<Long> dataSourceIds);
 
-    PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, DataSourceType datasourceType, Long datasourceId);
+    PagerContract<DataNameContract> findDataName(int pageIndex, int pageSize, DataSourceType datasourceType,
+                                                 Long datasourceId, String nameHint);
 
     List<DataOption> dataOptions();
 

@@ -33,12 +33,13 @@ const dataApi = {
     return query.post(baseUrl + '/removeDataName', { id: id })
   },
 
-  findDataName (pageIndex, pageSize, datasourceType, datasourceId) {
+  findDataName (pageIndex, pageSize, datasourceType, datasourceId, nameHint) {
     return query.get(baseUrl + '/findDataName', {
       pageIndex: pageIndex,
       pageSize: pageSize,
       datasourceType: datasourceType,
-      datasourceId: datasourceId
+      datasourceId: datasourceId,
+      nameHint: nameHint
     })
   },
 

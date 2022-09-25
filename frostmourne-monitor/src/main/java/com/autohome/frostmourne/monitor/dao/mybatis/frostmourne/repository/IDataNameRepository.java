@@ -24,5 +24,5 @@ public interface IDataNameRepository {
 
     List<DataName> findByNames(List<String> dataNames);
 
-    List<DataName> find(DataSourceType datasourceType, Long datasourceId);
+    List<DataName> find(DataSourceType datasourceType, Long datasourceId, String nameHint);
 }
