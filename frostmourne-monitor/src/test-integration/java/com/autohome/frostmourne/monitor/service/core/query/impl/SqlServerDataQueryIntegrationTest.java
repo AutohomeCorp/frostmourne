@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.IntegrationTest;
 import com.autohome.frostmourne.monitor.model.contract.DataNameContract;
 import com.autohome.frostmourne.monitor.model.contract.DataSourceContract;
@@ -19,7 +20,7 @@ class SqlServerDataQueryIntegrationTest extends IntegrationTest {
     private SqlServerDataQuery sqlServerDataQuery;
 
     @Test
-    public void metricDataTest() {
+    public void metricDataTest() throws DataQueryException {
         MetricContract metricContract = new MetricContract();
         metricContract.setQueryString("select * from t");
         DataNameContract dataNameContract = new DataNameContract();

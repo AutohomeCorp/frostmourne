@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.service.core.query.impl;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.prometheus.domain.MetricValues;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import com.autohome.frostmourne.monitor.dao.prometheus.domain.PrometheusResponse
 import com.autohome.frostmourne.monitor.model.contract.MetricContract;
 import com.autohome.frostmourne.monitor.service.core.domain.MetricData;
 import com.autohome.frostmourne.monitor.service.core.query.IPrometheusDataQuery;
-
 
 @Service
 public class PrometheusDataQuery implements IPrometheusDataQuery {
@@ -30,15 +30,27 @@ public class PrometheusDataQuery implements IPrometheusDataQuery {
         String password = metricContract.getDataSourceContract().getSettings().get("password");
         String addr = metricContract.getDataSourceContract().getServiceAddress();
         MetricData metricData = new MetricData();
-        if (prometheusEndpoint.equalsIgnoreCase("/api/v1/query")) {
+        if ("/api/v1/query".equalsIgnoreCase(prometheusEndpoint)) {
             PrometheusResponse<MetricValue> prometheusResponse = prometheusDao.query(user, password, addr, metricContract.getQueryString());
-            if (prometheusResponse.getStatus().equalsIgnoreCase("success")) {
+            if ("success".equalsIgnoreCase(prometheusResponse.getStatus())) {
                 metricData.setMetricValue(prometheusResponse.getData().getResult().size());
             } else {
                 metricData.setMetricValue("-1");
                 LOGGER.error("error when query prometheus, metric: {}", JacksonUtil.serialize(metricContract));
             }
             metricData.setLatestDocument(JacksonUtil.toMap(prometheusResponse));
+            return metricData;
+        }
+
+        if ("/api/v1/query_range".equalsIgnoreCase(prometheusEndpoint)) {
+            PrometheusResponse<MetricValues> prometheusResponse = prometheusDao.queryRange(user, password, addr, metricContract.getQueryString());
+            metricData.setLatestDocument(JacksonUtil.toMap(prometheusResponse));
+            if ("success".equalsIgnoreCase(prometheusResponse.getStatus())) {
+                metricData.setMetricValue(prometheusResponse.getData().getResult().size());
+            } else {
+                metricData.setMetricValue("-1");
+                LOGGER.error("error when query prometheus, metric: {}", JacksonUtil.serialize(metricContract));
+            }
             return metricData;
         }
 

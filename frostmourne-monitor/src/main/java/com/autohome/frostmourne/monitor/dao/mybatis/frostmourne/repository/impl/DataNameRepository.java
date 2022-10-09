@@ -68,7 +68,7 @@ public class DataNameRepository implements IDataNameRepository {
         return dataNameDynamicMapper
             .select(query -> query.where().and(DataNameDynamicSqlSupport.datasourceType, isEqualTo(datasourceType).when(MybatisTool::notNull))
                 .and(DataNameDynamicSqlSupport.dataSourceId, isEqualTo(datasourceId).when(MybatisTool::notNullAndZero))
-                    .and(DataNameDynamicSqlSupport.dataName.dataName, isLike(nameHint).when(MybatisTool::notNullAndEmpty).then(MybatisTool::rightVagueMatch))
+                    .and(DataNameDynamicSqlSupport.dataName.dataName, isLike(nameHint).when(MybatisTool::notNullAndEmpty).then(MybatisTool::twoSideVagueMatch))
                 .orderBy(DataNameDynamicSqlSupport.createAt.descending()));
     }
 }

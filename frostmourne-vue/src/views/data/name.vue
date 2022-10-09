@@ -129,6 +129,7 @@
         <el-form-item v-if="editData.datasourceType === 'prometheus'" label="Endpoint" :label-width="formLabelWidth">
           <el-select v-model="editData.settings.prometheusEndpoint">
             <el-option label="/api/v1/query" value="/api/v1/query" />
+            <el-option label="/api/v1/query_range" value="/api/v1/query_range" />
           </el-select>
         </el-form-item>
         <el-form-item v-if="editData.datasourceType === 'iotdb'" label="Endpoint" :label-width="formLabelWidth">

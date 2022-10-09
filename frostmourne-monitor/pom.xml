@@ -23,6 +23,7 @@
         <feign-okhttp.version>10.1.0</feign-okhttp.version>
         <opencsv.version>2.3</opencsv.version>
         <clickhouse-jdbc.version>0.3.1</clickhouse-jdbc.version>
+        <mysql.version>8.0.28</mysql.version>
     </properties>
 
     <dependencies>
@@ -115,6 +116,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>

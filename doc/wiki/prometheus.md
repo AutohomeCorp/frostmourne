@@ -10,6 +10,8 @@
 
 <img src="../img/prometheus/prometheus-dataname-query.png"/>
 
+目前已经支持 `/api/v1/query` 和 `/api/v1/query_range`
+
 ### 3 报警规则
 
 选择上面创建的的数据名，填写查询语句，如下图：
@@ -20,6 +22,17 @@
 
 ```
 access_evaluation_duration_count{job="grafana"} == 0
+```
+
+如果endpoint为 `/api/v1/query_range` 查询语句举例如下：
+
+```json
+{
+  "query": "access_evaluation_duration_count",
+  "start": "now - 1d",
+  "end": "now",
+  "step": "1h"
+}
 ```
 
 填报警规则，如下图
