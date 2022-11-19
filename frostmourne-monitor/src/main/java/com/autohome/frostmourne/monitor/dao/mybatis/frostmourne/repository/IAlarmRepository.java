@@ -34,4 +34,8 @@ public interface IAlarmRepository {
     List<Alarm> querySchedule(Long maxNextTime, Long size);
 
     int scheduleUpdate(long alarmId, long triggerLastTime, long triggerNextTime);
+
+    void updateTeamName(String newName, String oldName);
+
+    void updateTeamNameByIdList(List<Long> alarmIdList, String newTeamName);
 }

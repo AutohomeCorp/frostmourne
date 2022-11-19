@@ -16,7 +16,8 @@ export default {
     test: '测试',
     save_another: '另存',
     view: '查看',
-    logs: '日志'
+    logs: '日志',
+    transferTeam: '转团队'
   },
   route: {
     Dashboard: '首页',

@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.TeamInfo;
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.IAlarmRepository;
 import org.springframework.stereotype.Service;
 
 import com.autohome.frostmourne.common.contract.PagerContract;
@@ -14,6 +15,7 @@ import com.autohome.frostmourne.common.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.repository.ITeamInfoRepository;
 import com.autohome.frostmourne.monitor.service.account.ITeamInfoService;
 import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TeamInfoService implements ITeamInfoService {
@@ -23,6 +25,9 @@ public class TeamInfoService implements ITeamInfoService {
 
     @Resource
     private IUserInfoService userInfoService;
+
+    @Resource
+    private IAlarmRepository alarmRepository;
 
     @Override
     public boolean insert(TeamInfo teamInfo, String account) {
@@ -44,10 +49,17 @@ public class TeamInfoService implements ITeamInfoService {
         return teamInfoRepository.delete(teamId);
     }
 
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public boolean update(TeamInfo teamInfo, String account) {
         teamInfo.setModifier(account);
         teamInfo.setModifyAt(new Date());
+        if (teamInfo.getId() != null && teamInfo.getId() > 0) {
+            Optional<TeamInfo> existTeam = teamInfoRepository.findById(teamInfo.getId());
+            if (existTeam.isPresent() && !existTeam.get().getTeamName().equals(teamInfo.getTeamName())) {
+                alarmRepository.updateTeamName(teamInfo.getTeamName(), existTeam.get().getTeamName());
+            }
+        }
         return teamInfoRepository.update(teamInfo);
     }
 

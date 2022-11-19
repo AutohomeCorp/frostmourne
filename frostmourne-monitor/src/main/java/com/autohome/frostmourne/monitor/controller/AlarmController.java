@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 
 import com.autohome.frostmourne.common.exception.DataQueryException;
 import com.autohome.frostmourne.monitor.model.enums.DataSourceType;
+import com.autohome.frostmourne.monitor.model.request.TransferToTeamRequest;
 import com.autohome.frostmourne.monitor.schedule.CronExpression;
 import com.autohome.frostmourne.monitor.tool.LocalDateTimeUtils;
 import org.springframework.http.HttpStatus;
@@ -92,5 +93,11 @@ public class AlarmController {
             return new Protocol<>(HttpStatus.BAD_REQUEST.value(), "Cron expression parse exception.");
         }
         return new Protocol<>(result);
+    }
+
+    @PostMapping(value = "/transferToTeam")
+    public Protocol<String> transferToTeam(@RequestBody TransferToTeamRequest transferToTeamRequest) {
+        this.alarmAdminService.updateTeamNameByIdList(transferToTeamRequest.getAlarmIdList(), transferToTeamRequest.getNewTeamName());
+        return new Protocol<>("ok");
     }
 }

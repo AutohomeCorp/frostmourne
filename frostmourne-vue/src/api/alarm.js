@@ -25,6 +25,9 @@ const alarmApi = {
     return query.get(URL.triggerTime, {
       cron: alarmCron
     })
+  },
+  transferToTeam(body) {
+    return query.json(baseUrl + '/transferToTeam', body)
   }
 }
 

@@ -63,6 +63,7 @@
           <el-button size="mini" icon="el-icon-refresh" @click="run(scope.row.id)">{{ $t('buttons.onceRun') }}</el-button>
           <el-button size="mini" icon="el-icon-search" @click="goLog(scope.row.id)">{{ $t('buttons.logs') }}</el-button>
           <el-button size="mini" icon="el-icon-delete" @click="remove(scope.row.id)">{{ $t('buttons.delete') }}</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="transferTeam(scope.row.id)">{{ $t('buttons.transferTeam') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -75,6 +76,20 @@
         </el-col>
       </el-row>
     </div>
+
+    <el-dialog title="转至团队" :visible.sync="dialogFormVisible" width="20%">
+      <el-form>
+        <el-form-item label="团队" :label-width="formLabelWidth">
+          <el-select v-model="newTeam" placeholder="选择" style="width: 200px" class="filter-item" @change="teamChangeHanlder">
+            <el-option v-for="item in teamList" :key="item.name" :label="item.fullName" :value="item.name" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="doTransferTeam">保 存</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -109,6 +124,7 @@ export default {
   },
   data () {
     return {
+      dialogFormVisible: false,
       list: null,
       rowcount: 0,
       listLoading: true,
@@ -128,7 +144,9 @@ export default {
       triggerNextTimes: '',
       teamList: [],
       serviceOptionsLoading: false,
-      ServiceOptions: []
+      ServiceOptions: [],
+      newTeam: '',
+      selectedAlarmId: null
     }
   },
   created () {
@@ -233,6 +251,20 @@ export default {
           this.serviceOptionsLoading = false
         })
         .catch(e => {})
+    },
+    transferTeam(id) {
+      this.selectedAlarmId = id
+      this.dialogFormVisible = true
+    },
+    doTransferTeam() {
+      var body = {
+        alarmIdList: [this.selectedAlarmId],
+        newTeamName: this.newTeam
+      }
+      alarmApi.transferToTeam(body).then(response => {
+        this.dialogFormVisible = false
+        this.fetchData()
+      })
     }
   }
 }

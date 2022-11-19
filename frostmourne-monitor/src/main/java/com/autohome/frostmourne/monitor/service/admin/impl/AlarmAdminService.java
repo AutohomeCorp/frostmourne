@@ -273,6 +273,11 @@ public class AlarmAdminService implements IAlarmAdminService {
         alarmRepository.updateAlarmLastExecuteInfo(alarmId, executeTime, status);
     }
 
+    @Override
+    public void updateTeamNameByIdList(List<Long> alarmIdList, String newTeamName) {
+        this.alarmRepository.updateTeamNameByIdList(alarmIdList, newTeamName);
+    }
+
     private boolean updateStatus(Long alarmId, AlarmStatus status) {
         return alarmRepository.updateStatus(alarmId, status) > 0;
     }

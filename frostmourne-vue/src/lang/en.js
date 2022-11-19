@@ -15,7 +15,8 @@ export default {
     test: 'test',
     save_another: 'save another',
     view: 'view',
-    logs: 'logs'
+    logs: 'logs',
+    transferTeam: 'transfer team'
   },
   route: {
     Dashboard: 'Dashboard',
@@ -41,7 +42,7 @@ export default {
   alarm: {
     list: {
       add: 'Add Alarm',
-      
+
       input_id: 'input id',
       input_name: 'input name, support vague search',
       input_status: 'status',

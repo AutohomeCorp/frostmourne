@@ -118,4 +118,18 @@ public class AlarmRepository implements IAlarmRepository {
         return alarmDynamicMapper.update(dsl -> dsl.set(AlarmDynamicSqlSupport.triggerLastTime).equalTo(triggerLastTime)
             .set(AlarmDynamicSqlSupport.triggerNextTime).equalTo(triggerNextTime).where(AlarmDynamicSqlSupport.id, isEqualTo(alarmId)));
     }
+
+    @Override
+    public void updateTeamName(String newName, String oldName) {
+        alarmDynamicMapper.update(dsl -> dsl.set(AlarmDynamicSqlSupport.teamName).equalTo(newName)
+                .where(AlarmDynamicSqlSupport.teamName, isEqualTo(oldName)));
+    }
+
+    @Override
+    public void updateTeamNameByIdList(List<Long> alarmIdList, String newTeamName) {
+        alarmDynamicMapper.update(dsl -> dsl.set(AlarmDynamicSqlSupport.teamName).equalTo(newTeamName)
+                .where(AlarmDynamicSqlSupport.id, isIn(alarmIdList)));
+    }
+
+
 }
