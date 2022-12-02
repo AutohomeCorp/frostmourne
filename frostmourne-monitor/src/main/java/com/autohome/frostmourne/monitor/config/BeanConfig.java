@@ -1,5 +1,7 @@
 package com.autohome.frostmourne.monitor.config;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.nio.charset.StandardCharsets;
 
 import javax.annotation.Resource;
@@ -23,8 +25,10 @@ import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
 import com.autohome.frostmourne.monitor.service.account.impl.DefaultAccountService;
 import com.autohome.frostmourne.monitor.service.account.impl.LdapAuthService;
 import com.autohome.frostmourne.monitor.service.account.impl.UserAuthService;
+import com.autohome.frostmourne.monitor.tool.ClientHttpRequestFactory;
 
 import okhttp3.OkHttpClient;
+
 
 @Configuration
 public class BeanConfig {
@@ -43,6 +47,21 @@ public class BeanConfig {
     @Value("${spring.lap.auth.searchFilter}")
     private String searchFilter;
 
+    @Value("${rest.proxy.enable:false}")
+    private Boolean restProxyEnable;
+
+    @Value("${rest.proxy.type:http}")
+    private String restProxyType;
+
+    @Value("${rest.proxy.hostname}")
+    private String restProxyHostname;
+
+    @Value("${rest.proxy.port}")
+    private Integer restProxyPort;
+
+    @Value("${rest.proxy.rule:}")
+    private String restProxyRule;
+
     @Resource
     private LdapTemplate ldapTemplate;
 
@@ -59,7 +78,16 @@ public class BeanConfig {
 
     @Bean
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate;
+        if(restProxyEnable) {
+            ClientHttpRequestFactory requestFactory = new ClientHttpRequestFactory();
+            Proxy.Type type = Proxy.Type.valueOf(restProxyType.toUpperCase());
+            Proxy proxy = new Proxy(type, new InetSocketAddress(restProxyHostname, restProxyPort));
+            requestFactory.setProxy(proxy, restProxyRule);
+            restTemplate = new RestTemplate(requestFactory);
+        }else{
+            restTemplate = new RestTemplate();
+        }
         restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
         return restTemplate;
     }
