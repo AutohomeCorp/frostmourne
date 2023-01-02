@@ -90,4 +90,9 @@ public class TeamInfoService implements ITeamInfoService {
     public Optional<TeamInfo> findById(Long teamId) {
         return teamInfoRepository.findById(teamId);
     }
+
+    @Override
+    public TeamInfo findFirstTeam() {
+        return teamInfoRepository.findFirstTeam();
+    }
 }

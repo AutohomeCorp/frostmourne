@@ -23,4 +23,6 @@ public interface ITeamInfoService {
     Optional<TeamInfo> findByName(String teamName);
 
     Optional<TeamInfo> findById(Long teamId);
+
+    TeamInfo findFirstTeam();
 }

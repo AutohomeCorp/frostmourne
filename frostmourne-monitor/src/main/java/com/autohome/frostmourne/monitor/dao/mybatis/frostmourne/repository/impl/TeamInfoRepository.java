@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import com.autohome.frostmourne.common.contract.PagerContract;
+import com.autohome.frostmourne.common.contract.ProtocolException;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.TeamInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.TeamInfoDynamicMapper;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.mapper.dynamic.TeamInfoDynamicSqlSupport;
@@ -43,10 +44,10 @@ public class TeamInfoRepository implements ITeamInfoRepository {
         Page page = PageHelper.startPage(pageIndex, pageSize);
         List<TeamInfo> list = teamInfoDynamicMapper.select(query -> {
             query.where().and(TeamInfoDynamicSqlSupport.id, isEqualTo(id).when(Objects::nonNull)).and(TeamInfoDynamicSqlSupport.teamName,
-                isLike(teamName).when(Objects::nonNull).then(s -> s + "%s"));
+                    isLike(teamName).when(Objects::nonNull).then(s -> s + "%s"));
             return query.orderBy(TeamInfoDynamicSqlSupport.id.descending());
         });
-        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int)page.getTotal());
+        return new PagerContract<>(list, page.getPageSize(), page.getPageNum(), (int) page.getTotal());
     }
 
     @Override
@@ -67,5 +68,15 @@ public class TeamInfoRepository implements ITeamInfoRepository {
     @Override
     public Optional<TeamInfo> findById(Long teamId) {
         return teamInfoDynamicMapper.selectByPrimaryKey(teamId);
+    }
+
+    @Override
+    public TeamInfo findFirstTeam() {
+        Optional<TeamInfo> optionalTeamInfo = teamInfoDynamicMapper.selectOne(query ->
+                query.where().orderBy(TeamInfoDynamicSqlSupport.id.descending()).limit(1));
+        if (!optionalTeamInfo.isPresent()) {
+            throw new ProtocolException(500, "查不到团队信息");
+        }
+        return optionalTeamInfo.get();
     }
 }

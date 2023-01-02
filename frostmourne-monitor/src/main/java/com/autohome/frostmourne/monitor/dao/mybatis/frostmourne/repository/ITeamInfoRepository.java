@@ -23,4 +23,6 @@ public interface ITeamInfoRepository {
     Optional<TeamInfo> findByName(String teamName);
 
     Optional<TeamInfo> findById(Long teamId);
+
+    TeamInfo findFirstTeam();
 }

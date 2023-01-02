@@ -5,7 +5,10 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.TeamInfo;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.UserInfo;
+import com.autohome.frostmourne.monitor.model.contract.LoginInfo;
+import com.autohome.frostmourne.monitor.service.account.ITeamInfoService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -25,6 +28,9 @@ public class UserInfoService implements IUserInfoService {
 
     @Resource
     private IUserRoleRepository userRoleRepository;
+
+    @Resource
+    private ITeamInfoService teamInfoService;
 
     @Override
     public boolean insert(UserContract contract) {
@@ -100,6 +106,23 @@ public class UserInfoService implements IUserInfoService {
     @Override
     public UserInfo findInfoByAccount(String account) {
         return userInfoRepository.findByAccount(account).orElse(null);
+    }
+
+    @Override
+    public void addByLoginInfo(LoginInfo loginInfo) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setAccount(loginInfo.getUsername());
+        userInfo.setFullName(loginInfo.getUsername());
+        userInfo.setModifier(loginInfo.getUsername());
+        userInfo.setCreator(loginInfo.getUsername());
+        userInfo.setModifyAt(new Date());
+        userInfo.setCreateAt(new Date());
+
+        TeamInfo teamInfo = teamInfoService.findFirstTeam();
+        userInfo.setTeamId(teamInfo.getId());
+
+        userInfoRepository.insert(userInfo);
+
     }
 
     private void appendRoles(List<UserContract> list) {

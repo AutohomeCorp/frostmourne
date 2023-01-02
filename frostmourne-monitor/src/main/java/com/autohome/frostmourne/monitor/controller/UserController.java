@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.autohome.frostmourne.monitor.service.account.IUserInfoService;
 import org.springframework.web.bind.annotation.*;
 
 import com.autohome.frostmourne.common.contract.Protocol;
@@ -31,6 +32,9 @@ public class UserController {
     @Resource
     private IAuthService authService;
 
+    @Resource
+    private IUserInfoService userInfoService;
+
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public Protocol<AccountInfo> info() {
         AccountInfo account = AuthTool.currentUser();
@@ -46,7 +50,8 @@ public class UserController {
         }
         Optional<AccountInfo> optionalAccountInfo = accountService.findByAccount(loginInfo.getUsername());
         if (!optionalAccountInfo.isPresent()) {
-            throw new ProtocolException(590, "用户不存在");
+            //默认自动添加用户基本信息
+            userInfoService.addByLoginInfo(loginInfo);
         }
         String token = jwtToken.generateToken(optionalAccountInfo.get());
         return new Protocol<>(token);

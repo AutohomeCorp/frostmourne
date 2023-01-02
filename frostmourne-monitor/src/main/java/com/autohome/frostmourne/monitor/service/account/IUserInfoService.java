@@ -2,6 +2,7 @@ package com.autohome.frostmourne.monitor.service.account;
 
 import com.autohome.frostmourne.common.contract.PagerContract;
 import com.autohome.frostmourne.monitor.dao.mybatis.frostmourne.domain.generate.UserInfo;
+import com.autohome.frostmourne.monitor.model.contract.LoginInfo;
 import com.autohome.frostmourne.monitor.model.contract.UserContract;
 
 public interface IUserInfoService {
@@ -19,5 +20,7 @@ public interface IUserInfoService {
     UserContract findByAccount(String account);
 
     UserInfo findInfoByAccount(String account);
+
+    void addByLoginInfo(LoginInfo loginInfo);
 
 }
