@@ -20,7 +20,7 @@
             <el-form-item :label="$t('alarm.alarmLog.label_is_alert') + ':'">
               <el-select v-model="form.verifyResult" :placeholder="$t('alarm.alarmLog.label_is_alert')">
                 <el-option :label="$t('alarm.alarmLog.label_all')" value="" />
-                <el-option :label="$t('alarm.alarmLog.label_yes')" value="ture" />
+                <el-option :label="$t('alarm.alarmLog.label_yes')" value="true" />
                 <el-option :label="$t('alarm.alarmLog.label_no')" value="false" />
               </el-select>
             </el-form-item>
