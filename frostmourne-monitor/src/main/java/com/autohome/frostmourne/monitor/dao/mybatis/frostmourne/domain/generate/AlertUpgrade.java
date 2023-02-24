@@ -65,6 +65,11 @@ public class AlertUpgrade implements Serializable {
      */
     private LocalDateTime createAt;
 
+    /**
+     * OneMessage机器人hook地址
+     */
+    private String oneMessageRobotHook;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -104,7 +109,7 @@ public class AlertUpgrade implements Serializable {
     }
 
     public void setWays(String ways) {
-        this.ways = ways == null ? null : ways.trim();
+        this.ways = ways;
     }
 
     public String getDingRobotHook() {
@@ -112,7 +117,7 @@ public class AlertUpgrade implements Serializable {
     }
 
     public void setDingRobotHook(String dingRobotHook) {
-        this.dingRobotHook = dingRobotHook == null ? null : dingRobotHook.trim();
+        this.dingRobotHook = dingRobotHook;
     }
 
     public String getHttpPostUrl() {
@@ -120,7 +125,7 @@ public class AlertUpgrade implements Serializable {
     }
 
     public void setHttpPostUrl(String httpPostUrl) {
-        this.httpPostUrl = httpPostUrl == null ? null : httpPostUrl.trim();
+        this.httpPostUrl = httpPostUrl;
     }
 
     public String getWechatRobotHook() {
@@ -128,7 +133,7 @@ public class AlertUpgrade implements Serializable {
     }
 
     public void setWechatRobotHook(String wechatRobotHook) {
-        this.wechatRobotHook = wechatRobotHook == null ? null : wechatRobotHook.trim();
+        this.wechatRobotHook = wechatRobotHook;
     }
 
     public String getFeishuRobotHook() {
@@ -136,7 +141,7 @@ public class AlertUpgrade implements Serializable {
     }
 
     public void setFeishuRobotHook(String feishuRobotHook) {
-        this.feishuRobotHook = feishuRobotHook == null ? null : feishuRobotHook.trim();
+        this.feishuRobotHook = feishuRobotHook;
     }
 
     public String getCreator() {
@@ -144,7 +149,7 @@ public class AlertUpgrade implements Serializable {
     }
 
     public void setCreator(String creator) {
-        this.creator = creator == null ? null : creator.trim();
+        this.creator = creator;
     }
 
     public LocalDateTime getCreateAt() {
@@ -153,6 +158,14 @@ public class AlertUpgrade implements Serializable {
 
     public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
+    }
+
+    public String getOneMessageRobotHook() {
+        return oneMessageRobotHook;
+    }
+
+    public void setOneMessageRobotHook(String oneMessageRobotHook) {
+        this.oneMessageRobotHook = oneMessageRobotHook;
     }
 
     @Override
@@ -177,7 +190,8 @@ public class AlertUpgrade implements Serializable {
             && (this.getWechatRobotHook() == null ? other.getWechatRobotHook() == null : this.getWechatRobotHook().equals(other.getWechatRobotHook()))
             && (this.getFeishuRobotHook() == null ? other.getFeishuRobotHook() == null : this.getFeishuRobotHook().equals(other.getFeishuRobotHook()))
             && (this.getCreator() == null ? other.getCreator() == null : this.getCreator().equals(other.getCreator()))
-            && (this.getCreateAt() == null ? other.getCreateAt() == null : this.getCreateAt().equals(other.getCreateAt()));
+            && (this.getCreateAt() == null ? other.getCreateAt() == null : this.getCreateAt().equals(other.getCreateAt()))
+            && (this.getOneMessageRobotHook() == null ? other.getOneMessageRobotHook() == null : this.getOneMessageRobotHook().equals(other.getOneMessageRobotHook()));
     }
 
     @Override
@@ -195,6 +209,7 @@ public class AlertUpgrade implements Serializable {
         result = prime * result + ((getFeishuRobotHook() == null) ? 0 : getFeishuRobotHook().hashCode());
         result = prime * result + ((getCreator() == null) ? 0 : getCreator().hashCode());
         result = prime * result + ((getCreateAt() == null) ? 0 : getCreateAt().hashCode());
+        result = prime * result + ((getOneMessageRobotHook() == null) ? 0 : getOneMessageRobotHook().hashCode());
         return result;
     }
 }

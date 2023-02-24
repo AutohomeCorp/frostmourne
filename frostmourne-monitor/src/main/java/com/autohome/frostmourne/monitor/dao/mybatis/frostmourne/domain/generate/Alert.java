@@ -30,6 +30,11 @@ public class Alert implements Serializable {
     private Long silence;
 
     /**
+     * 静默判断表达式
+     */
+    private String silenceExpression;
+
+    /**
      * 创建人
      */
     private String creator;
@@ -70,9 +75,9 @@ public class Alert implements Serializable {
     private String feishuRobotHook;
 
     /**
-     * 静默判断表达式
+     * OneMessage机器人hook地址
      */
-    private String silenceExpression;
+    private String oneMessageRobotHook;
 
     private static final long serialVersionUID = 1L;
 
@@ -97,7 +102,7 @@ public class Alert implements Serializable {
     }
 
     public void setWays(String ways) {
-        this.ways = ways == null ? null : ways.trim();
+        this.ways = ways;
     }
 
     public Long getSilence() {
@@ -108,12 +113,20 @@ public class Alert implements Serializable {
         this.silence = silence;
     }
 
+    public String getSilenceExpression() {
+        return silenceExpression;
+    }
+
+    public void setSilenceExpression(String silenceExpression) {
+        this.silenceExpression = silenceExpression;
+    }
+
     public String getCreator() {
         return creator;
     }
 
     public void setCreator(String creator) {
-        this.creator = creator == null ? null : creator.trim();
+        this.creator = creator;
     }
 
     public Date getCreateAt() {
@@ -145,7 +158,7 @@ public class Alert implements Serializable {
     }
 
     public void setDingRobotHook(String dingRobotHook) {
-        this.dingRobotHook = dingRobotHook == null ? null : dingRobotHook.trim();
+        this.dingRobotHook = dingRobotHook;
     }
 
     public String getHttpPostUrl() {
@@ -153,7 +166,7 @@ public class Alert implements Serializable {
     }
 
     public void setHttpPostUrl(String httpPostUrl) {
-        this.httpPostUrl = httpPostUrl == null ? null : httpPostUrl.trim();
+        this.httpPostUrl = httpPostUrl;
     }
 
     public String getWechatRobotHook() {
@@ -161,7 +174,7 @@ public class Alert implements Serializable {
     }
 
     public void setWechatRobotHook(String wechatRobotHook) {
-        this.wechatRobotHook = wechatRobotHook == null ? null : wechatRobotHook.trim();
+        this.wechatRobotHook = wechatRobotHook;
     }
 
     public String getFeishuRobotHook() {
@@ -169,15 +182,15 @@ public class Alert implements Serializable {
     }
 
     public void setFeishuRobotHook(String feishuRobotHook) {
-        this.feishuRobotHook = feishuRobotHook == null ? null : feishuRobotHook.trim();
+        this.feishuRobotHook = feishuRobotHook;
     }
 
-    public String getSilenceExpression() {
-        return silenceExpression;
+    public String getOneMessageRobotHook() {
+        return oneMessageRobotHook;
     }
 
-    public void setSilenceExpression(String silenceExpression) {
-        this.silenceExpression = silenceExpression == null ? null : silenceExpression.trim();
+    public void setOneMessageRobotHook(String oneMessageRobotHook) {
+        this.oneMessageRobotHook = oneMessageRobotHook;
     }
 
     @Override
@@ -196,6 +209,7 @@ public class Alert implements Serializable {
             && (this.getAlarmId() == null ? other.getAlarmId() == null : this.getAlarmId().equals(other.getAlarmId()))
             && (this.getWays() == null ? other.getWays() == null : this.getWays().equals(other.getWays()))
             && (this.getSilence() == null ? other.getSilence() == null : this.getSilence().equals(other.getSilence()))
+            && (this.getSilenceExpression() == null ? other.getSilenceExpression() == null : this.getSilenceExpression().equals(other.getSilenceExpression()))
             && (this.getCreator() == null ? other.getCreator() == null : this.getCreator().equals(other.getCreator()))
             && (this.getCreateAt() == null ? other.getCreateAt() == null : this.getCreateAt().equals(other.getCreateAt()))
             && (this.getAllowSmsFrom() == null ? other.getAllowSmsFrom() == null : this.getAllowSmsFrom().equals(other.getAllowSmsFrom()))
@@ -204,7 +218,7 @@ public class Alert implements Serializable {
             && (this.getHttpPostUrl() == null ? other.getHttpPostUrl() == null : this.getHttpPostUrl().equals(other.getHttpPostUrl()))
             && (this.getWechatRobotHook() == null ? other.getWechatRobotHook() == null : this.getWechatRobotHook().equals(other.getWechatRobotHook()))
             && (this.getFeishuRobotHook() == null ? other.getFeishuRobotHook() == null : this.getFeishuRobotHook().equals(other.getFeishuRobotHook()))
-            && (this.getSilenceExpression() == null ? other.getSilenceExpression() == null : this.getSilenceExpression().equals(other.getSilenceExpression()));
+            && (this.getOneMessageRobotHook() == null ? other.getOneMessageRobotHook() == null : this.getOneMessageRobotHook().equals(other.getOneMessageRobotHook()));
     }
 
     @Override
@@ -215,6 +229,7 @@ public class Alert implements Serializable {
         result = prime * result + ((getAlarmId() == null) ? 0 : getAlarmId().hashCode());
         result = prime * result + ((getWays() == null) ? 0 : getWays().hashCode());
         result = prime * result + ((getSilence() == null) ? 0 : getSilence().hashCode());
+        result = prime * result + ((getSilenceExpression() == null) ? 0 : getSilenceExpression().hashCode());
         result = prime * result + ((getCreator() == null) ? 0 : getCreator().hashCode());
         result = prime * result + ((getCreateAt() == null) ? 0 : getCreateAt().hashCode());
         result = prime * result + ((getAllowSmsFrom() == null) ? 0 : getAllowSmsFrom().hashCode());
@@ -223,7 +238,7 @@ public class Alert implements Serializable {
         result = prime * result + ((getHttpPostUrl() == null) ? 0 : getHttpPostUrl().hashCode());
         result = prime * result + ((getWechatRobotHook() == null) ? 0 : getWechatRobotHook().hashCode());
         result = prime * result + ((getFeishuRobotHook() == null) ? 0 : getFeishuRobotHook().hashCode());
-        result = prime * result + ((getSilenceExpression() == null) ? 0 : getSilenceExpression().hashCode());
+        result = prime * result + ((getOneMessageRobotHook() == null) ? 0 : getOneMessageRobotHook().hashCode());
         return result;
     }
 }

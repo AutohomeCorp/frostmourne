@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS alert
     ding_robot_hook    VARCHAR(500) NULL COMMENT '钉钉机器人hook地址',
     http_post_url      VARCHAR(500) COMMENT 'http post报警方式地址',
     wechat_robot_hook  VARCHAR(500) NULL COMMENT '企业微信机器人hook地址',
-    feishu_robot_hook  VARCHAR(500) NULL COMMENT '飞书机器人hook地址'
+    feishu_robot_hook  VARCHAR(500) NULL COMMENT '飞书机器人hook地址',
+    one_message_robot_hook VARCHAR(500) NULL COMMENT 'OneMessage机器人hook地址'
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -207,7 +208,7 @@ CREATE TABLE IF NOT EXISTS recipient
     id        BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '自增主键',
     alarm_id  BIGINT      NOT NULL COMMENT '监控ID',
     alert_id  BIGINT      NOT NULL COMMENT '报警ID',
-    account   VARCHAR(50) NOT NULL COMMENT '接收人账号不带邮箱后缀',
+    `account`   VARCHAR(50) NOT NULL COMMENT '接收人账号不带邮箱后缀',
     type      VARCHAR(32) NOT NULL DEFAULT 'ALERT' COMMENT '归属于 ALERT:报警, ALERT_UPGRADE:报警升级',
     create_at DATETIME    NOT NULL COMMENT '创建时间'
 )
@@ -428,7 +429,7 @@ CREATE TABLE IF NOT EXISTS alert_event
     alert_type VARCHAR(16) NOT NULL COMMENT '消息类型(问题报警: PROBLEM; 恢复通知: RECOVER)',
     in_silence TINYINT     NOT NULL COMMENT '是否在静默期',
     event_md5  JSON        NULL COMMENT '摘要md5',
-    upgrade    TINYINT     NOT NULL DEFAULT 0 COMMENT '报警升级',
+    `upgrade`    TINYINT     NOT NULL DEFAULT 0 COMMENT '报警升级',
     create_at  DATETIME    NOT NULL default CURRENT_TIMESTAMP COMMENT '创建时间',
     key idx_alarm_id (alarm_id),
     key idx_create_at (create_at)
@@ -443,13 +444,14 @@ CREATE TABLE IF NOT EXISTS alert_upgrade
 (
     id                BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '自增主键',
     alarm_id          BIGINT       NOT NULL COMMENT '监控ID',
-    status            VARCHAR(32)  NOT NULL COMMENT '状态开关 OPEN:打开  CLOSE:关闭',
+    `status`            VARCHAR(32)  NOT NULL COMMENT '状态开关 OPEN:打开  CLOSE:关闭',
     times_to_upgrade  INT          NULL COMMENT '连续报警n次后升级',
     ways              VARCHAR(512) NULL COMMENT '报警方式(sms,dingding,email,http_post,wechat)',
     ding_robot_hook   VARCHAR(512) NULL COMMENT '钉钉机器人hook地址',
     http_post_url     VARCHAR(512) NULL COMMENT 'http post报警方式地址',
     wechat_robot_hook VARCHAR(512) NULL COMMENT '企业微信机器人hook地址',
     feishu_robot_hook VARCHAR(512) NULL COMMENT '飞书机器人hook地址',
+    one_message_robot_hook VARCHAR(500) NULL COMMENT 'OneMessage机器人hook地址',
     creator           VARCHAR(128) NOT NULL COMMENT '创建人',
     create_at         DATETIME     NOT NULL default CURRENT_TIMESTAMP COMMENT '创建时间'
     )

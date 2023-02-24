@@ -70,7 +70,7 @@ public class DataSource implements Serializable {
     }
 
     public void setDatasourceName(String datasourceName) {
-        this.datasourceName = datasourceName == null ? null : datasourceName.trim();
+        this.datasourceName = datasourceName;
     }
 
     public DataSourceType getDatasourceType() {
@@ -86,7 +86,7 @@ public class DataSource implements Serializable {
     }
 
     public void setServiceAddress(String serviceAddress) {
-        this.serviceAddress = serviceAddress == null ? null : serviceAddress.trim();
+        this.serviceAddress = serviceAddress;
     }
 
     public String getCreator() {
@@ -94,7 +94,7 @@ public class DataSource implements Serializable {
     }
 
     public void setCreator(String creator) {
-        this.creator = creator == null ? null : creator.trim();
+        this.creator = creator;
     }
 
     public Date getCreateAt() {
@@ -110,7 +110,7 @@ public class DataSource implements Serializable {
     }
 
     public void setModifier(String modifier) {
-        this.modifier = modifier == null ? null : modifier.trim();
+        this.modifier = modifier;
     }
 
     public Date getModifyAt() {
@@ -126,7 +126,7 @@ public class DataSource implements Serializable {
     }
 
     public void setProperties(String properties) {
-        this.properties = properties == null ? null : properties.trim();
+        this.properties = properties;
     }
 
     @Override
@@ -166,20 +166,5 @@ public class DataSource implements Serializable {
         result = prime * result + ((getModifyAt() == null) ? 0 : getModifyAt().hashCode());
         result = prime * result + ((getProperties() == null) ? 0 : getProperties().hashCode());
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "DataSource{" +
-                "id=" + id +
-                ", datasourceName='" + datasourceName + '\'' +
-                ", datasourceType=" + datasourceType +
-                ", serviceAddress='" + serviceAddress + '\'' +
-                ", creator='" + creator + '\'' +
-                ", createAt=" + createAt +
-                ", modifier='" + modifier + '\'' +
-                ", modifyAt=" + modifyAt +
-                ", properties='" + properties + '\'' +
-                '}';
     }
 }

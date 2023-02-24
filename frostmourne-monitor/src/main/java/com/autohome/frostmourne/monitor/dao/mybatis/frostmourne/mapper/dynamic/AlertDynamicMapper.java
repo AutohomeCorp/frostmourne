@@ -32,7 +32,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface AlertDynamicMapper {
-    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, ways, silence, creator, createAt, allowSmsFrom, allowSmsTo, dingRobotHook, httpPostUrl, wechatRobotHook, feishuRobotHook, silenceExpression);
+    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, ways, silence, silenceExpression, creator, createAt, allowSmsFrom, allowSmsTo, dingRobotHook, httpPostUrl, wechatRobotHook, feishuRobotHook, oneMessageRobotHook);
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
@@ -54,6 +54,7 @@ public interface AlertDynamicMapper {
         @Result(column="alarm_id", property="alarmId", jdbcType=JdbcType.BIGINT),
         @Result(column="ways", property="ways", jdbcType=JdbcType.VARCHAR),
         @Result(column="silence", property="silence", jdbcType=JdbcType.BIGINT),
+        @Result(column="silence_expression", property="silenceExpression", jdbcType=JdbcType.VARCHAR),
         @Result(column="creator", property="creator", jdbcType=JdbcType.VARCHAR),
         @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="allow_sms_from", property="allowSmsFrom", jdbcType=JdbcType.INTEGER),
@@ -62,7 +63,7 @@ public interface AlertDynamicMapper {
         @Result(column="http_post_url", property="httpPostUrl", jdbcType=JdbcType.VARCHAR),
         @Result(column="wechat_robot_hook", property="wechatRobotHook", jdbcType=JdbcType.VARCHAR),
         @Result(column="feishu_robot_hook", property="feishuRobotHook", jdbcType=JdbcType.VARCHAR),
-        @Result(column="silence_expression", property="silenceExpression", jdbcType=JdbcType.VARCHAR)
+        @Result(column="one_message_robot_hook", property="oneMessageRobotHook", jdbcType=JdbcType.VARCHAR)
     })
     List<Alert> selectMany(SelectStatementProvider selectStatement);
 
@@ -88,6 +89,7 @@ public interface AlertDynamicMapper {
             c.map(alarmId).toProperty("alarmId")
             .map(ways).toProperty("ways")
             .map(silence).toProperty("silence")
+            .map(silenceExpression).toProperty("silenceExpression")
             .map(creator).toProperty("creator")
             .map(createAt).toProperty("createAt")
             .map(allowSmsFrom).toProperty("allowSmsFrom")
@@ -96,7 +98,7 @@ public interface AlertDynamicMapper {
             .map(httpPostUrl).toProperty("httpPostUrl")
             .map(wechatRobotHook).toProperty("wechatRobotHook")
             .map(feishuRobotHook).toProperty("feishuRobotHook")
-            .map(silenceExpression).toProperty("silenceExpression")
+            .map(oneMessageRobotHook).toProperty("oneMessageRobotHook")
         );
     }
 
@@ -105,6 +107,7 @@ public interface AlertDynamicMapper {
             c.map(alarmId).toPropertyWhenPresent("alarmId", record::getAlarmId)
             .map(ways).toPropertyWhenPresent("ways", record::getWays)
             .map(silence).toPropertyWhenPresent("silence", record::getSilence)
+            .map(silenceExpression).toPropertyWhenPresent("silenceExpression", record::getSilenceExpression)
             .map(creator).toPropertyWhenPresent("creator", record::getCreator)
             .map(createAt).toPropertyWhenPresent("createAt", record::getCreateAt)
             .map(allowSmsFrom).toPropertyWhenPresent("allowSmsFrom", record::getAllowSmsFrom)
@@ -113,7 +116,7 @@ public interface AlertDynamicMapper {
             .map(httpPostUrl).toPropertyWhenPresent("httpPostUrl", record::getHttpPostUrl)
             .map(wechatRobotHook).toPropertyWhenPresent("wechatRobotHook", record::getWechatRobotHook)
             .map(feishuRobotHook).toPropertyWhenPresent("feishuRobotHook", record::getFeishuRobotHook)
-            .map(silenceExpression).toPropertyWhenPresent("silenceExpression", record::getSilenceExpression)
+            .map(oneMessageRobotHook).toPropertyWhenPresent("oneMessageRobotHook", record::getOneMessageRobotHook)
         );
     }
 
@@ -143,6 +146,7 @@ public interface AlertDynamicMapper {
         return dsl.set(alarmId).equalTo(record::getAlarmId)
                 .set(ways).equalTo(record::getWays)
                 .set(silence).equalTo(record::getSilence)
+                .set(silenceExpression).equalTo(record::getSilenceExpression)
                 .set(creator).equalTo(record::getCreator)
                 .set(createAt).equalTo(record::getCreateAt)
                 .set(allowSmsFrom).equalTo(record::getAllowSmsFrom)
@@ -151,13 +155,14 @@ public interface AlertDynamicMapper {
                 .set(httpPostUrl).equalTo(record::getHttpPostUrl)
                 .set(wechatRobotHook).equalTo(record::getWechatRobotHook)
                 .set(feishuRobotHook).equalTo(record::getFeishuRobotHook)
-                .set(silenceExpression).equalTo(record::getSilenceExpression);
+                .set(oneMessageRobotHook).equalTo(record::getOneMessageRobotHook);
     }
 
     static UpdateDSL<UpdateModel> updateSelectiveColumns(Alert record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(alarmId).equalToWhenPresent(record::getAlarmId)
                 .set(ways).equalToWhenPresent(record::getWays)
                 .set(silence).equalToWhenPresent(record::getSilence)
+                .set(silenceExpression).equalToWhenPresent(record::getSilenceExpression)
                 .set(creator).equalToWhenPresent(record::getCreator)
                 .set(createAt).equalToWhenPresent(record::getCreateAt)
                 .set(allowSmsFrom).equalToWhenPresent(record::getAllowSmsFrom)
@@ -166,7 +171,7 @@ public interface AlertDynamicMapper {
                 .set(httpPostUrl).equalToWhenPresent(record::getHttpPostUrl)
                 .set(wechatRobotHook).equalToWhenPresent(record::getWechatRobotHook)
                 .set(feishuRobotHook).equalToWhenPresent(record::getFeishuRobotHook)
-                .set(silenceExpression).equalToWhenPresent(record::getSilenceExpression);
+                .set(oneMessageRobotHook).equalToWhenPresent(record::getOneMessageRobotHook);
     }
 
     default int updateByPrimaryKey(Alert record) {
@@ -174,6 +179,7 @@ public interface AlertDynamicMapper {
             c.set(alarmId).equalTo(record::getAlarmId)
             .set(ways).equalTo(record::getWays)
             .set(silence).equalTo(record::getSilence)
+            .set(silenceExpression).equalTo(record::getSilenceExpression)
             .set(creator).equalTo(record::getCreator)
             .set(createAt).equalTo(record::getCreateAt)
             .set(allowSmsFrom).equalTo(record::getAllowSmsFrom)
@@ -182,7 +188,7 @@ public interface AlertDynamicMapper {
             .set(httpPostUrl).equalTo(record::getHttpPostUrl)
             .set(wechatRobotHook).equalTo(record::getWechatRobotHook)
             .set(feishuRobotHook).equalTo(record::getFeishuRobotHook)
-            .set(silenceExpression).equalTo(record::getSilenceExpression)
+            .set(oneMessageRobotHook).equalTo(record::getOneMessageRobotHook)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -192,6 +198,7 @@ public interface AlertDynamicMapper {
             c.set(alarmId).equalToWhenPresent(record::getAlarmId)
             .set(ways).equalToWhenPresent(record::getWays)
             .set(silence).equalToWhenPresent(record::getSilence)
+            .set(silenceExpression).equalToWhenPresent(record::getSilenceExpression)
             .set(creator).equalToWhenPresent(record::getCreator)
             .set(createAt).equalToWhenPresent(record::getCreateAt)
             .set(allowSmsFrom).equalToWhenPresent(record::getAllowSmsFrom)
@@ -200,7 +207,7 @@ public interface AlertDynamicMapper {
             .set(httpPostUrl).equalToWhenPresent(record::getHttpPostUrl)
             .set(wechatRobotHook).equalToWhenPresent(record::getWechatRobotHook)
             .set(feishuRobotHook).equalToWhenPresent(record::getFeishuRobotHook)
-            .set(silenceExpression).equalToWhenPresent(record::getSilenceExpression)
+            .set(oneMessageRobotHook).equalToWhenPresent(record::getOneMessageRobotHook)
             .where(id, isEqualTo(record::getId))
         );
     }

@@ -232,6 +232,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertContract.setWechatRobotHook(alert.getWechatRobotHook());
         alertContract.setCreateAt(alert.getCreateAt());
         alertContract.setFeishuRobotHook(alert.getFeishuRobotHook());
+        alertContract.setOneMessageRobotHook(alert.getOneMessageRobotHook());
 
         List<Recipient> alertRecipientList = this.recipientRepository.findByAlarmAndType(alarmId, RecipientType.ALERT);
         alertContract.setRecipients(alertRecipientList.stream().map(Recipient::getAccount).collect(Collectors.toList()));
@@ -254,6 +255,7 @@ public class AlarmAdminService implements IAlarmAdminService {
             alertUpgradeContract.setHttpPostUrl(alertUpgrade.getHttpPostUrl());
             alertUpgradeContract.setWechatRobotHook(alertUpgrade.getWechatRobotHook());
             alertUpgradeContract.setFeishuRobotHook(alertUpgrade.getFeishuRobotHook());
+            alertUpgradeContract.setOneMessageRobotHook(alertUpgrade.getOneMessageRobotHook());
         }
         alarmContract.setAlertUpgradeContract(alertUpgradeContract);
 
@@ -313,6 +315,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alertUpgrade.setHttpPostUrl(alertUpgradeContract.getHttpPostUrl());
         alertUpgrade.setWechatRobotHook(alertUpgradeContract.getWechatRobotHook());
         alertUpgrade.setFeishuRobotHook(alertUpgradeContract.getFeishuRobotHook());
+        alertUpgrade.setOneMessageRobotHook(alertUpgradeContract.getOneMessageRobotHook());
         alertUpgrade.setCreator(operator);
         alertUpgrade.setCreateAt(LocalDateTime.now());
         alertUpgradeRepository.insert(alertUpgrade);
@@ -399,6 +402,7 @@ public class AlarmAdminService implements IAlarmAdminService {
         alert.setHttpPostUrl(contract.getHttpPostUrl());
         alert.setWechatRobotHook(contract.getWechatRobotHook());
         alert.setFeishuRobotHook(contract.getFeishuRobotHook());
+        alert.setOneMessageRobotHook(contract.getOneMessageRobotHook());
         alertRepository.insert(alert);
 
         for (String recipient : contract.getRecipients()) {

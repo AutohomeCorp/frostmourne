@@ -50,6 +50,7 @@ public class HttpPostSender extends MessageSenderChain {
             messageResult.setSuccess(result);
         } catch (Exception ex) {
             LOGGER.error("error when send http post, url: " + alarmMessageBO.getHttpPostEndpoint(), ex);
+            messageResult.setSuccess(false);
         }
         alarmMessageBO.getResultList().add(messageResult);
     }

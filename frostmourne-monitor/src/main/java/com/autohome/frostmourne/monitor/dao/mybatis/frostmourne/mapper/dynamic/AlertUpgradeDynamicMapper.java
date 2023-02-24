@@ -32,7 +32,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
 public interface AlertUpgradeDynamicMapper {
-    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, status, timesToUpgrade, ways, dingRobotHook, httpPostUrl, wechatRobotHook, feishuRobotHook, creator, createAt);
+    BasicColumn[] selectList = BasicColumn.columnList(id, alarmId, status, timesToUpgrade, ways, dingRobotHook, httpPostUrl, wechatRobotHook, feishuRobotHook, creator, createAt, oneMessageRobotHook);
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     long count(SelectStatementProvider selectStatement);
@@ -60,7 +60,8 @@ public interface AlertUpgradeDynamicMapper {
         @Result(column="wechat_robot_hook", property="wechatRobotHook", jdbcType=JdbcType.VARCHAR),
         @Result(column="feishu_robot_hook", property="feishuRobotHook", jdbcType=JdbcType.VARCHAR),
         @Result(column="creator", property="creator", jdbcType=JdbcType.VARCHAR),
-        @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP)
+        @Result(column="create_at", property="createAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="one_message_robot_hook", property="oneMessageRobotHook", jdbcType=JdbcType.VARCHAR)
     })
     List<AlertUpgrade> selectMany(SelectStatementProvider selectStatement);
 
@@ -93,6 +94,7 @@ public interface AlertUpgradeDynamicMapper {
             .map(feishuRobotHook).toProperty("feishuRobotHook")
             .map(creator).toProperty("creator")
             .map(createAt).toProperty("createAt")
+            .map(oneMessageRobotHook).toProperty("oneMessageRobotHook")
         );
     }
 
@@ -108,6 +110,7 @@ public interface AlertUpgradeDynamicMapper {
             .map(feishuRobotHook).toPropertyWhenPresent("feishuRobotHook", record::getFeishuRobotHook)
             .map(creator).toPropertyWhenPresent("creator", record::getCreator)
             .map(createAt).toPropertyWhenPresent("createAt", record::getCreateAt)
+            .map(oneMessageRobotHook).toPropertyWhenPresent("oneMessageRobotHook", record::getOneMessageRobotHook)
         );
     }
 
@@ -143,7 +146,8 @@ public interface AlertUpgradeDynamicMapper {
                 .set(wechatRobotHook).equalTo(record::getWechatRobotHook)
                 .set(feishuRobotHook).equalTo(record::getFeishuRobotHook)
                 .set(creator).equalTo(record::getCreator)
-                .set(createAt).equalTo(record::getCreateAt);
+                .set(createAt).equalTo(record::getCreateAt)
+                .set(oneMessageRobotHook).equalTo(record::getOneMessageRobotHook);
     }
 
     static UpdateDSL<UpdateModel> updateSelectiveColumns(AlertUpgrade record, UpdateDSL<UpdateModel> dsl) {
@@ -156,7 +160,8 @@ public interface AlertUpgradeDynamicMapper {
                 .set(wechatRobotHook).equalToWhenPresent(record::getWechatRobotHook)
                 .set(feishuRobotHook).equalToWhenPresent(record::getFeishuRobotHook)
                 .set(creator).equalToWhenPresent(record::getCreator)
-                .set(createAt).equalToWhenPresent(record::getCreateAt);
+                .set(createAt).equalToWhenPresent(record::getCreateAt)
+                .set(oneMessageRobotHook).equalToWhenPresent(record::getOneMessageRobotHook);
     }
 
     default int updateByPrimaryKey(AlertUpgrade record) {
@@ -171,6 +176,7 @@ public interface AlertUpgradeDynamicMapper {
             .set(feishuRobotHook).equalTo(record::getFeishuRobotHook)
             .set(creator).equalTo(record::getCreator)
             .set(createAt).equalTo(record::getCreateAt)
+            .set(oneMessageRobotHook).equalTo(record::getOneMessageRobotHook)
             .where(id, isEqualTo(record::getId))
         );
     }
@@ -187,6 +193,7 @@ public interface AlertUpgradeDynamicMapper {
             .set(feishuRobotHook).equalToWhenPresent(record::getFeishuRobotHook)
             .set(creator).equalToWhenPresent(record::getCreator)
             .set(createAt).equalToWhenPresent(record::getCreateAt)
+            .set(oneMessageRobotHook).equalToWhenPresent(record::getOneMessageRobotHook)
             .where(id, isEqualTo(record::getId))
         );
     }

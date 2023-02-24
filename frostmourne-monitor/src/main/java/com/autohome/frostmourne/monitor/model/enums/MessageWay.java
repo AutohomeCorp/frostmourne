@@ -46,6 +46,10 @@ public enum MessageWay {
     /**
      * http post
      */
-    HTTP_POST
+    HTTP_POST,
+    /**
+     * one message robot
+     */
+    ONE_MESSAGE_ROBOT
 
 }

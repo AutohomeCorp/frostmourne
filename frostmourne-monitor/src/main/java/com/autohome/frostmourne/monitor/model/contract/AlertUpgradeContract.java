@@ -47,6 +47,11 @@ public class AlertUpgradeContract {
      */
     private String feishuRobotHook;
 
+    /**
+     * One Message机器人hook地址
+     */
+    private String oneMessageRobotHook;
+
     private List<String> recipients;
 
     public AlarmUpgradeStatus getStatus() {
@@ -103,6 +108,14 @@ public class AlertUpgradeContract {
 
     public void setFeishuRobotHook(String feishuRobotHook) {
         this.feishuRobotHook = feishuRobotHook;
+    }
+
+    public String getOneMessageRobotHook() {
+        return oneMessageRobotHook;
+    }
+
+    public void setOneMessageRobotHook(String oneMessageRobotHook) {
+        this.oneMessageRobotHook = oneMessageRobotHook;
     }
 
     public List<String> getRecipients() {

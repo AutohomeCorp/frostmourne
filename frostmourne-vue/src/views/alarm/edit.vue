@@ -290,6 +290,7 @@
                   <el-checkbox-button label="email">Email</el-checkbox-button>
                   <el-checkbox-button label="sms">{{ $t('alarm.edit.text_sms') }}</el-checkbox-button>
                   <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
+                  <el-checkbox-button label="one_message">OneMessage</el-checkbox-button>
                 </el-checkbox-group>
               </el-form-item>
             </el-col>
@@ -313,6 +314,10 @@
           <el-form-item v-if="form.alertContract.ways.includes('feishu')" prop="alertContract.feishuRobotHook"
                         :label="$t('alarm.edit.label_feishu_robot') + ':'">
             <el-input v-model="form.alertContract.feishuRobotHook" size="small" placeholder="required"/>
+          </el-form-item>
+          <el-form-item v-if="form.alertContract.ways.includes('one_message')" prop="alertContract.oneMessageRobotHook"
+                        label="OneMessage Robot:">
+            <el-input v-model="form.alertContract.oneMessageRobotHook" size="small" placeholder="required"/>
           </el-form-item>
           <el-row>
             <el-col :span="8">
@@ -368,6 +373,7 @@
               <el-checkbox-button label="email">Email</el-checkbox-button>
               <el-checkbox-button label="sms">{{ $t('alarm.edit.text_sms') }}</el-checkbox-button>
               <el-checkbox-button label="http_post">HTTP</el-checkbox-button>
+              <el-checkbox-button label="one_message">OneMessage</el-checkbox-button>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item
@@ -389,6 +395,11 @@
               v-if="form.alertUpgradeContract.ways != null && form.alertUpgradeContract.ways.includes('feishu')"
               prop="alertUpgradeContract.feishuRobotHook" :label="$t('alarm.edit.label_feishu_robot') + ':'">
             <el-input v-model="form.alertUpgradeContract.feishuRobotHook" size="small" placeholder="required"/>
+          </el-form-item>
+          <el-form-item
+              v-if="form.alertUpgradeContract.ways != null && form.alertUpgradeContract.ways.includes('one_message')"
+              prop="alertUpgradeContract.oneMessageRobotHook" label="OneMessage Robot:">
+            <el-input v-model="form.alertUpgradeContract.oneMessageRobotHook" size="small" placeholder="required"/>
           </el-form-item>
           <el-form-item :label="$t('alarm.edit.label_message_receiver') + ':'" prop="alertUpgradeContract.recipients">
             <el-select v-model="form.alertUpgradeContract.recipients" style="width:100%;" multiple filterable remote

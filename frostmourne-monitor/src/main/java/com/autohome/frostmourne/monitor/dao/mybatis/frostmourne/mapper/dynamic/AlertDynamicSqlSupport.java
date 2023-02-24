@@ -29,6 +29,11 @@ public final class AlertDynamicSqlSupport {
     public static final SqlColumn<Long> silence = alert.silence;
 
     /**
+     * 静默判断表达式
+     */
+    public static final SqlColumn<String> silenceExpression = alert.silenceExpression;
+
+    /**
      * 创建人
      */
     public static final SqlColumn<String> creator = alert.creator;
@@ -69,9 +74,9 @@ public final class AlertDynamicSqlSupport {
     public static final SqlColumn<String> feishuRobotHook = alert.feishuRobotHook;
 
     /**
-     * 静默判断表达式
+     * OneMessage机器人hook地址
      */
-    public static final SqlColumn<String> silenceExpression = alert.silenceExpression;
+    public static final SqlColumn<String> oneMessageRobotHook = alert.oneMessageRobotHook;
 
     public static final class Alert extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
@@ -81,6 +86,8 @@ public final class AlertDynamicSqlSupport {
         public final SqlColumn<String> ways = column("ways", JDBCType.VARCHAR);
 
         public final SqlColumn<Long> silence = column("silence", JDBCType.BIGINT);
+
+        public final SqlColumn<String> silenceExpression = column("silence_expression", JDBCType.VARCHAR);
 
         public final SqlColumn<String> creator = column("creator", JDBCType.VARCHAR);
 
@@ -98,7 +105,7 @@ public final class AlertDynamicSqlSupport {
 
         public final SqlColumn<String> feishuRobotHook = column("feishu_robot_hook", JDBCType.VARCHAR);
 
-        public final SqlColumn<String> silenceExpression = column("silence_expression", JDBCType.VARCHAR);
+        public final SqlColumn<String> oneMessageRobotHook = column("one_message_robot_hook", JDBCType.VARCHAR);
 
         public Alert() {
             super("alert");

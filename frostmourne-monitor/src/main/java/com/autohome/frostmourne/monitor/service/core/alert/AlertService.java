@@ -91,7 +91,7 @@ public class AlertService implements IAlertService {
             alertContent = alarmProcessLogger.getAlertMessage();
             if (AlertType.RECOVER.equals(alertType)) {
                 AlertLog alertLog =
-                    this.alertLogRepository.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
+                        this.alertLogRepository.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
                 alertContent = "### [恢复] 请自己检查问题是否解决，上次报警内容如下\n" + alertLog.getContent();
             }
             alarmMessageBO.setContent(alertContent);
@@ -106,7 +106,7 @@ public class AlertService implements IAlertService {
                 alarmMessageBO.setContent(String.format("[%s] [问题] %s\n%s", timeString, risk, alarmProcessLogger.getAlertMessage()));
             } else if (AlertType.RECOVER.equals(alertType)) {
                 AlertLog alertLog =
-                    this.alertLogRepository.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
+                        this.alertLogRepository.selectLatest(alarmProcessLogger.getAlarmContract().getId(), AlertType.PROBLEM, SilenceStatus.NO).get();
                 alertContent = String.format("[%s] [恢复] %s请自己检查问题是否解决，上次报警内容如下\n%s", timeString, risk, alertLog.getContent());
                 alarmMessageBO.setContent(alertContent);
             }
@@ -114,38 +114,46 @@ public class AlertService implements IAlertService {
 
         alarmMessageBO.setAlertTemplateType(alarmProcessLogger.getAlarmContract().getRuleContract().getAlertTemplateType());
         alarmMessageBO.setTitle(String.format("[%s][id:%s]%s", Strings.isNullOrEmpty(messageTitle) ? alertTitle() : messageTitle,
-            alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
+                alarmProcessLogger.getAlarmContract().getId(), alarmProcessLogger.getAlarmContract().getAlarmName()));
         alarmMessageBO.setRecipients(recipients);
-        alarmMessageBO.setWays(generateWays(alertContract.getWays(), alertContract.getWechatRobotHook(), alertContract.getDingRobotHook()));
+        alarmMessageBO.setWays(generateWays(alertContract.getWays(), alertContract.getWechatRobotHook(), alertContract.getDingRobotHook(), alertContract.getOneMessageRobotHook()));
         alarmMessageBO.setDingHook(alertContract.getDingRobotHook());
         alarmMessageBO.setHttpPostEndpoint(alertContract.getHttpPostUrl());
         alarmMessageBO.setWechatHook(alertContract.getWechatRobotHook());
         alarmMessageBO.setFeiShuHook(alertContract.getFeishuRobotHook());
+        alarmMessageBO.setOneMessageHook(alertContract.getOneMessageRobotHook());
         alarmMessageBO.setContext(alarmProcessLogger.getContext());
 
         messageService.send(alarmMessageBO);
         saveAlertLog(alertType, alarmMessageBO.getResultList(), recipients, alarmProcessLogger.getAlarmContract().getId(), alertContent,
-            alarmProcessLogger.getAlarmLog().getId());
+                alarmProcessLogger.getAlarmLog().getId());
 
         // alert upgrade
         AlertUpgradeContract alertUpgradeContract = alarmProcessLogger.getAlarmContract().getAlertUpgradeContract();
         boolean upgrade = judgeAlertUpgrade(alertType, alertUpgradeContract);
         if (upgrade) {
             List<AccountInfo> alertUpgradeAccountInfo =
-                recipients(alertUpgradeContract.getRecipients(), alarmProcessLogger.getAlarmContract().getServiceInfo());
+                    recipients(alertUpgradeContract.getRecipients(), alarmProcessLogger.getAlarmContract().getServiceInfo());
             if (alertUpgradeAccountInfo.size() == 0) {
                 LOGGER.error("no upgrade recipients, alarmId: " + alarmProcessLogger.getAlarmContract().getId());
             }
-            alarmMessageBO.setRecipients(alertUpgradeAccountInfo);
-            alarmMessageBO
-                .setWays(generateWays(alertUpgradeContract.getWays(), alertUpgradeContract.getWechatRobotHook(), alertUpgradeContract.getDingRobotHook()));
-            alarmMessageBO.setDingHook(alertUpgradeContract.getDingRobotHook());
-            alarmMessageBO.setHttpPostEndpoint(alertUpgradeContract.getHttpPostUrl());
-            alarmMessageBO.setWechatHook(alertUpgradeContract.getWechatRobotHook());
-            alarmMessageBO.setFeiShuHook(alertUpgradeContract.getFeishuRobotHook());
-            messageService.send(alarmMessageBO);
-            saveAlertLog(AlertType.UPGRADE, alarmMessageBO.getResultList(), alertUpgradeAccountInfo, alarmProcessLogger.getAlarmContract().getId(),
-                alertContent, alarmProcessLogger.getAlarmLog().getId());
+            AlarmMessageBO upgradeAlarmMessageBO = new AlarmMessageBO();
+            upgradeAlarmMessageBO.setTitle(alarmMessageBO.getTitle());
+            upgradeAlarmMessageBO.setAlertTemplateType(alarmMessageBO.getAlertTemplateType());
+            upgradeAlarmMessageBO.setContent(alarmMessageBO.getContent());
+            upgradeAlarmMessageBO.setContext(alarmMessageBO.getContext());
+
+            upgradeAlarmMessageBO.setRecipients(alertUpgradeAccountInfo);
+            upgradeAlarmMessageBO.setWays(generateWays(alertUpgradeContract.getWays(), alertUpgradeContract.getWechatRobotHook(),
+                    alertUpgradeContract.getDingRobotHook(), alertUpgradeContract.getOneMessageRobotHook()));
+            upgradeAlarmMessageBO.setDingHook(alertUpgradeContract.getDingRobotHook());
+            upgradeAlarmMessageBO.setHttpPostEndpoint(alertUpgradeContract.getHttpPostUrl());
+            upgradeAlarmMessageBO.setWechatHook(alertUpgradeContract.getWechatRobotHook());
+            upgradeAlarmMessageBO.setFeiShuHook(alertUpgradeContract.getFeishuRobotHook());
+            upgradeAlarmMessageBO.setOneMessageHook(alertUpgradeContract.getOneMessageRobotHook());
+            messageService.send(upgradeAlarmMessageBO);
+            saveAlertLog(AlertType.UPGRADE, upgradeAlarmMessageBO.getResultList(), alertUpgradeAccountInfo, alarmProcessLogger.getAlarmContract().getId(),
+                    alertContent, alarmProcessLogger.getAlarmLog().getId());
         }
 
         // save alert event
@@ -174,7 +182,8 @@ public class AlertService implements IAlertService {
         alertEventRepository.insert(alertEvent);
     }
 
-    private List<MessageWay> generateWays(List<String> ways, String wechatRobotHook, String dingRobotHook) {
+    private List<MessageWay> generateWays(List<String> ways, String wechatRobotHook, String dingRobotHook,
+                                          String oneMessageRobot) {
         List<MessageWay> messageWays = new ArrayList<>();
         for (String way : ways) {
             if ("email".equalsIgnoreCase(way)) {
@@ -203,6 +212,11 @@ public class AlertService implements IAlertService {
             if ("http_post".equalsIgnoreCase(way)) {
                 messageWays.add(MessageWay.HTTP_POST);
             }
+            if ("one_message".equalsIgnoreCase(way)) {
+                if (!StringUtils.isBlank(oneMessageRobot)) {
+                    messageWays.add(MessageWay.ONE_MESSAGE_ROBOT);
+                }
+            }
         }
         if (messageWays.isEmpty()) {
             throw new IllegalArgumentException("require at least one message way");
@@ -223,7 +237,7 @@ public class AlertService implements IAlertService {
     }
 
     private void saveAlertLog(AlertType alertType, List<MessageResult> messageResults, List<AccountInfo> accountInfos, Long alarmId, String content,
-        Long executeId) {
+                              Long executeId) {
         for (MessageResult messageResult : messageResults) {
             for (AccountInfo accountInfo : accountInfos) {
                 AlertLog alertLog = new AlertLog();
@@ -267,7 +281,7 @@ public class AlertService implements IAlertService {
         LocalDateTime now = LocalDateTime.now();
         // query all alert_event where create at now-silence to now
         List<AlertEvent> alertEventList =
-            alertEventRepository.selectAllByTime(alarmProcessLogger.getAlarmContract().getId(), false, AlertType.PROBLEM, now.minusMinutes(silence), now);
+                alertEventRepository.selectAllByTime(alarmProcessLogger.getAlarmContract().getId(), false, AlertType.PROBLEM, now.minusMinutes(silence), now);
 
         if (StringUtils.isBlank(alarmProcessLogger.getAlarmContract().getAlertContract().getSilenceExpression())) {
             return !CollectionUtils.isEmpty(alertEventList);
@@ -278,9 +292,10 @@ public class AlertService implements IAlertService {
                 if (StringUtils.isBlank(alertEvent.getEventMd5())) {
                     return false;
                 }
-                Map<String, String> oldEventMd5 = JacksonUtil.deSerialize(alertEvent.getEventMd5(), new TypeReference<HashMap<String, String>>() {});
+                Map<String, String> oldEventMd5 = JacksonUtil.deSerialize(alertEvent.getEventMd5(), new TypeReference<HashMap<String, String>>() {
+                });
                 return ExpressionParser.calculate(alarmProcessLogger.getAlarmContract().getAlertContract().getSilenceExpression(),
-                    alarmProcessLogger.getEventMd5(), oldEventMd5);
+                        alarmProcessLogger.getEventMd5(), oldEventMd5);
             }).findAny();
             return optional.isPresent();
         }
@@ -326,7 +341,7 @@ public class AlertService implements IAlertService {
     public void alarmLog(AlarmProcessLogger alarmProcessLogger) {
         AlarmLog alarmLog = new AlarmLog();
         alarmLog.setAlarmId(alarmProcessLogger.getAlarmContract().getId());
-        alarmLog.setCost((int)(alarmProcessLogger.getEnd().getMillis() - alarmProcessLogger.getStart().getMillis()));
+        alarmLog.setCost((int) (alarmProcessLogger.getEnd().getMillis() - alarmProcessLogger.getStart().getMillis()));
         alarmLog.setCreateAt(new Date());
         alarmLog.setExeStart(alarmProcessLogger.getStart().toDate());
         alarmLog.setExeEnd(alarmProcessLogger.getEnd().toDate());

@@ -64,6 +64,11 @@ public final class AlertUpgradeDynamicSqlSupport {
      */
     public static final SqlColumn<LocalDateTime> createAt = alertUpgrade.createAt;
 
+    /**
+     * OneMessage机器人hook地址
+     */
+    public static final SqlColumn<String> oneMessageRobotHook = alertUpgrade.oneMessageRobotHook;
+
     public static final class AlertUpgrade extends SqlTable {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
@@ -86,6 +91,8 @@ public final class AlertUpgradeDynamicSqlSupport {
         public final SqlColumn<String> creator = column("creator", JDBCType.VARCHAR);
 
         public final SqlColumn<LocalDateTime> createAt = column("create_at", JDBCType.TIMESTAMP);
+
+        public final SqlColumn<String> oneMessageRobotHook = column("one_message_robot_hook", JDBCType.VARCHAR);
 
         public AlertUpgrade() {
             super("alert_upgrade");

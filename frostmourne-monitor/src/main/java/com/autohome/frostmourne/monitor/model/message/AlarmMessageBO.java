@@ -36,6 +36,8 @@ public class AlarmMessageBO {
 
     private String feiShuHook;
 
+    private String oneMessageHook;
+
     private List<MessageResult> resultList = new ArrayList<>();
 
     public String getTitle() {
@@ -116,6 +118,14 @@ public class AlarmMessageBO {
 
     public void setFeiShuHook(String feiShuHook) {
         this.feiShuHook = feiShuHook;
+    }
+
+    public String getOneMessageHook() {
+        return oneMessageHook;
+    }
+
+    public void setOneMessageHook(String oneMessageHook) {
+        this.oneMessageHook = oneMessageHook;
     }
 
     public List<MessageResult> getResultList() {
