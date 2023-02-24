@@ -8,6 +8,16 @@
 * 【1.0】增加监控转团队功能 [2022-11-19]
 * 【1.0】修复团队名称修改时，监控和组对不上的问题 [2022-11-19]
 * 【1.0】ldap用户验证通过，系统还不存在该用户时自动创建 [2023-01-02]
+* 【1.0】featrue:报警方式增加OneMessage机器人 - [SQL](./doc/mysql-schema/2023-02-24/change.sql) [2023-02-24]
+
+### BugFix
+
+* 【1.0】bugfix: 修复es8数据查询排序不生效的问题 [2023-02-23]
+* 【1.0】bugfix: 修复监控执行日志是否报警查询条件不生效的问题 [2023-02-23]
+
+### Mysql
+
+* 【1.0】表alert, alert_upgrade增加字段one_message_robot_hook - [SQL](./doc/mysql-schema/2023-02-24/change.sql) [2023-02-24]
 
 ### Other
 
