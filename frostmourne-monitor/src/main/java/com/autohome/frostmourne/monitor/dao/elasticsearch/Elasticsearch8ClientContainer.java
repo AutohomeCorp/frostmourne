@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import co.elastic.clients.elasticsearch._types.ExpandWildcard;
+import co.elastic.clients.elasticsearch._types.SortOptions;
+import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.Time;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
@@ -151,6 +153,23 @@ public class Elasticsearch8ClientContainer extends AbstractElasticClientContaine
                             .size(50)
                             .query(query)
                             .scroll(Time.of(t -> t.time("10m")));
+                    if(sortOrder.equalsIgnoreCase("asc")) {
+                        q.sort(SortOptions.of(
+                                s ->
+                                        s.field(b ->
+                                                b.field(dataNameContract.getTimestampField())
+                                                        .order(SortOrder.Asc)
+                                        )
+                        ));
+                    } else {
+                        q.sort(SortOptions.of(
+                                s ->
+                                        s.field(b ->
+                                                b.field(dataNameContract.getTimestampField())
+                                                        .order(SortOrder.Desc)
+                                        )
+                        ));
+                    }
                     if(intervalInSeconds != 0 && intervalInSeconds > 0) {
                         q.aggregations("dateHistogram", a -> a
                                 .dateHistogram(d -> d
@@ -163,6 +182,8 @@ public class Elasticsearch8ClientContainer extends AbstractElasticClientContaine
                                 )
                         );
                     }
+
+
                     return q;
                 }, Object.class);
             } else {

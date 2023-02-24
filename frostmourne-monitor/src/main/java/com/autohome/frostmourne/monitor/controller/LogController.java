@@ -27,7 +27,7 @@ public class LogController {
     @RequestMapping(value = "/findAlarmLog", method = RequestMethod.GET)
     public Protocol<PagerContract<AlarmLog>> findAlarmLog(@RequestParam(value = "pageIndex") int pageIndex, @RequestParam(value = "pageSize") int pageSize,
         @RequestParam(value = "startTime", required = false) Date startTime, @RequestParam(value = "endTime", required = false) Date endTime,
-        @RequestParam(value = "alarmId", required = false) Long alarmId, @RequestParam(value = "alert", required = false) VerifyResult verifyResult,
+        @RequestParam(value = "alarmId", required = false) Long alarmId, @RequestParam(value = "verifyResult", required = false) VerifyResult verifyResult,
         @RequestParam(value = "executeResult", required = false) ExecuteStatus executeResult, @RequestParam(value = "alert", required = false) Boolean alert) {
         PagerContract<AlarmLog> pagerContract = logService.findAlarmLog(pageIndex, pageSize, startTime, endTime, alarmId, verifyResult, executeResult, alert);
         return new Protocol<>(pagerContract);

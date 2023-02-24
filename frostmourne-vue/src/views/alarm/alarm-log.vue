@@ -12,7 +12,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item :label="$t('alarm.alarmLog.label_execute_time') + ':'">
-              <el-date-picker v-model="datePickValue" type="datetimerange" :picker-options="pickerOptions" range-separator="To" :start-placeholder="$t('alarm.alarmLog.label_start_date')" 
+              <el-date-picker v-model="datePickValue" type="datetimerange" :picker-options="pickerOptions" range-separator="To" :start-placeholder="$t('alarm.alarmLog.label_start_date')"
               :end-placeholder="$t('alarm.alarmLog.label_end_date')" align="right" :default-time="['00:00:00', '23:59:59']" @change="dateChangeHandler" />
             </el-form-item>
           </el-col>
@@ -20,8 +20,8 @@
             <el-form-item :label="$t('alarm.alarmLog.label_is_alert') + ':'">
               <el-select v-model="form.verifyResult" :placeholder="$t('alarm.alarmLog.label_is_alert')">
                 <el-option :label="$t('alarm.alarmLog.label_all')" value="" />
-                <el-option :label="$t('alarm.alarmLog.label_yes')" value="true" />
-                <el-option :label="$t('alarm.alarmLog.label_no')" value="false" />
+                <el-option :label="$t('alarm.alarmLog.label_yes')" value="TRUE" />
+                <el-option :label="$t('alarm.alarmLog.label_no')" value="FALSE" />
               </el-select>
             </el-form-item>
           </el-col>
