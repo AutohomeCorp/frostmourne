@@ -329,7 +329,7 @@ yarn dev
 </tr>
 <tr>
 <td><img src="https://www.ddky.com/images/logo_0120.png" alt="叮当快药"></td>
-<td><img src="https://www.aikucun.com/img/logo@2x.c1f45ead.png" alt="爱库存"></td>
+<td><img src="https://www.aikucun.com//img/logo-red@2x.f98115f3.png" alt="爱库存"></td>
 <td></td>
 <td></td>
 <td></td>
