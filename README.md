@@ -327,6 +327,14 @@ yarn dev
 <td><img src="https://gitee.com/tim_guai/frostmourne/raw/master/doc/img/user/etcp.jpg" alt="ETCP"></td>
 <td><img src="https://raw.githubusercontent.com/AutohomeCorp/frostmourne/master/doc/img/user/lingoace.png" alt="LingoAce"></td>
 </tr>
+<tr>
+<td><img src="https://www.ddky.com/images/logo_0120.png" alt="叮当快药"></td>
+<td><img src="https://www.aikucun.com/img/logo@2x.c1f45ead.png" alt="爱库存"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </table>
 
 
