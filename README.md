@@ -162,7 +162,7 @@ mvn -U clean package -DskipTests=true
 </tr>
 <tr>
 <td><a href="./doc/wiki/skywalking.md" target="_blank">SkyWalking数据监控指南</a></td>
-<td><a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL数据监控指南</a></td>
+<td><a href="./doc/wiki/jdbc-mysql.md" target="_blank">MySQL/TiDB数据监控指南</a></td>
 <td><a href="./doc/wiki/jdbc-clickhouse.md" target="_blank">ClickHouse数据监控指南</a></td>
 </tr>
 <tr>
