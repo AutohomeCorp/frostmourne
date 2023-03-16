@@ -170,7 +170,7 @@ public class Elasticsearch8ClientContainer extends AbstractElasticClientContaine
                                         )
                         ));
                     }
-                    if(intervalInSeconds != 0 && intervalInSeconds > 0) {
+                    if(intervalInSeconds != null && intervalInSeconds > 0) {
                         q.aggregations("dateHistogram", a -> a
                                 .dateHistogram(d -> d
                                         .field(dataNameContract.getTimestampField())
