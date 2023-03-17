@@ -182,8 +182,6 @@ public class Elasticsearch8ClientContainer extends AbstractElasticClientContaine
                                 )
                         );
                     }
-
-
                     return q;
                 }, Object.class);
             } else {
@@ -220,17 +218,8 @@ public class Elasticsearch8ClientContainer extends AbstractElasticClientContaine
             int size = source.keySet().size();
             if(dataResult.getFields() == null || size > dataResult.getFields().size()) {
                 dataResult.setFields(new ArrayList<>(source.keySet()));
-                if (headFieldList == null || headFieldList.size() == 0) {
-                    List<String> flatFields = findFields(source, null);
-                    dataResult.setFlatFields(flatFields);
-                    if (flatFields.size() > 7) {
-                        dataResult.setHeadFields(flatFields.subList(0, 6));
-                    } else {
-                        dataResult.setHeadFields(flatFields);
-                    }
-                } else {
-                    dataResult.setHeadFields(headFieldList);
-                }
+                List<String> flatFields = findFields(source, null);
+                AbstractElasticClientContainer.fillFields(headFieldList, dataResult, flatFields);
             }
         }
         dataResult.setLogs(logs);

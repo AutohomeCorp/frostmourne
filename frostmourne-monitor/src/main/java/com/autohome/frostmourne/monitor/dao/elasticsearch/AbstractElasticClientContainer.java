@@ -260,4 +260,17 @@ public abstract class AbstractElasticClientContainer {
         return fields;
     }
 
+    static void fillFields(List<String> headFieldList, ElasticsearchDataResult dataResult, List<String> flatFields) {
+        dataResult.setFlatFields(flatFields);
+        if (headFieldList == null || headFieldList.size() == 0) {
+            if (flatFields.size() > 7) {
+                dataResult.setHeadFields(flatFields.subList(0, 6));
+            } else {
+                dataResult.setHeadFields(flatFields);
+            }
+        } else {
+            dataResult.setHeadFields(headFieldList);
+        }
+    }
+
 }

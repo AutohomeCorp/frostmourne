@@ -271,18 +271,8 @@ public class EsRestClientContainer extends AbstractElasticClientContainer {
             int size = hit.getSourceAsMap().keySet().size();
             if (dataResult.getFields() == null || size > dataResult.getFields().size()) {
                 dataResult.setFields(new ArrayList<>(hit.getSourceAsMap().keySet()));
-                if (headFields == null || headFields.size() == 0) {
-                    List<String> flatFields = findFields(hit.getSourceAsMap(), null);
-                    dataResult.setFlatFields(flatFields);
-                    if (flatFields.size() > 7) {
-                        dataResult.setHeadFields(flatFields.subList(0, 6));
-                    } else {
-                        dataResult.setHeadFields(flatFields);
-                    }
-                } else {
-                    dataResult.setHeadFields(headFields);
-                }
-
+                List<String> flatFields = findFields(hit.getSourceAsMap(), null);
+                AbstractElasticClientContainer.fillFields(headFields, dataResult, flatFields);
             }
         }
         dataResult.setLogs(logs);
