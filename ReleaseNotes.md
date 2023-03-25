@@ -1,4 +1,10 @@
-# 1.0-SNAPSHOT
+# 1.1-SNAPSHOT
+
+### Feature
+
+* 【1.1】发布1.0-RELEASE
+
+# 1.0-RELEASE
 
 ### Feature
 
