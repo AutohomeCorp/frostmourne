@@ -117,6 +117,8 @@ public class EmailHelper {
         properties.put("mail.smtp.connectiontimeout", "2000");
         properties.setProperty("mail.user", sender);
         properties.setProperty("mail.password", senderPassword);
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
         Authenticator authenticator = null;
         if ("true".equalsIgnoreCase(smtpAuth)) {
             authenticator = new Authenticator() {
