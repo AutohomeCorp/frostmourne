@@ -44,7 +44,7 @@ public class EmailSender extends MessageSenderChain {
         List<String> emails = alarmMessageBO.getRecipients().stream().map(AccountInfo::getEmail).filter(StringUtils::isNotBlank).collect(Collectors.toList());
 
         boolean result = EmailHelper.sendText(mailConfig.getSmtpHost(), mailConfig.getSmtpPort(), mailConfig.getSmtpAuth(), mailConfig.getSender(),
-            mailConfig.getSenderPassword(), emails, alarmMessageBO.getTitle(), alarmMessageBO.getContent());
+            mailConfig.getSenderPassword(), emails, alarmMessageBO.getTitle(), alarmMessageBO.getContent(), mailConfig.getTlsEnable());
 
         messageResult.setSuccess(result);
         alarmMessageBO.getResultList().add(messageResult);
