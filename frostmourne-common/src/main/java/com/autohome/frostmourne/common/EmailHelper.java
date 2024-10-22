@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -105,10 +106,11 @@ public class EmailHelper {
      * @param content 邮件内容
      * @param contentType 邮件内容类型(text/html, text/plain)
      * @param attachments 附件
+     * @param isTls 是否TLS加密传输
      * @return 发送结果
      */
     public static boolean send(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword, List<String> to, String subject,
-        String content, String contentType, List<MimeBodyPart> attachments) {
+        String content, String contentType, List<MimeBodyPart> attachments, String isTls) {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", smtpHost);
         properties.put("mail.smtp.port", smtpPort);
@@ -117,8 +119,10 @@ public class EmailHelper {
         properties.put("mail.smtp.connectiontimeout", "2000");
         properties.setProperty("mail.user", sender);
         properties.setProperty("mail.password", senderPassword);
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        if (Objects.equals("true", isTls)) {
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        }
         Authenticator authenticator = null;
         if ("true".equalsIgnoreCase(smtpAuth)) {
             authenticator = new Authenticator() {
@@ -129,7 +133,6 @@ public class EmailHelper {
             };
         }
         Session session = Session.getDefaultInstance(properties, authenticator);
-
         MimeMessage message = new MimeMessage(session);
         try {
             message.setFrom(new InternetAddress(sender));
@@ -155,6 +158,7 @@ public class EmailHelper {
             Transport.send(message);
             return true;
         } catch (MessagingException ex) {
+            ex.printStackTrace();
             LOGGER.error("error when send email.", ex);
             return false;
         }
@@ -173,8 +177,8 @@ public class EmailHelper {
      * @return 发送结果
      */
     public static boolean sendHtml(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword, List<String> to, String subject,
-        String content) {
-        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content, "text/html;charset=utf-8", null);
+        String content, String isTls) {
+        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content, "text/html;charset=utf-8", null, isTls);
     }
 
     /**
@@ -190,8 +194,8 @@ public class EmailHelper {
      * @return 发送结果
      */
     public static boolean sendText(String smtpHost, String smtpPort, String smtpAuth, String sender, String senderPassword, List<String> to, String subject,
-        String content) {
-        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content, "text/plain;charset=utf-8", null);
+        String content, String isTls) {
+        return send(smtpHost, smtpPort, smtpAuth, sender, senderPassword, to, subject, content, "text/plain;charset=utf-8", null, isTls);
     }
 
     /**
