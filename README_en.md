@@ -76,9 +76,17 @@ There are still many things that need to be done, and more related development n
 
 # ⚠️ Security Risk Notice
 
-The HTTP data source monitoring feature allows users to configure custom HTTP request URLs. The system will actively initiate HTTP requests to those URLs on the server side, retrieve responses, and evaluate custom expressions to determine whether an alert should be triggered. This is a core feature by design, and SSRF (Server-Side Request Forgery) vulnerabilities are an unavoidable consequence.
+The HTTP data source monitoring feature allows users to configure custom HTTP request URLs. The system will actively initiate HTTP requests to those URLs on the server side, retrieve responses, and evaluate custom expressions to determine whether an alert should be triggered. This feature carries an inherent risk of SSRF (Server-Side Request Forgery) by design.
 
-> **This system is designed as an internal ops tool. It is strongly recommended to deploy it only within your corporate intranet and never expose it to the public internet, which effectively prevents malicious SSRF attacks.**
+> This system is designed as an internal ops tool. It is strongly recommended to deploy it only within your corporate intranet and never expose it to the public internet — this is the most fundamental and effective security baseline.
+
+**Notes and Recommendations**
+
+1. Intranet deployment is the baseline, but not an absolute guarantee: Be aware that even when deployed within an intranet, this feature could still be exploited by malicious users to access or probe other internal services. When deployed on cloud servers, pay special attention to configuration to prevent access to cloud platform metadata services.
+1. Follow the principle of least privilege: When configuring monitored URLs, be as precise and fixed as possible. Avoid using dynamic URLs that can be freely constructed by users.
+1. Recommended mitigation approaches: You can further improve security by configuring network firewall rules, using a proxy gateway, or applying network-level access controls on the host to restrict outbound request scope from this service.
+
+**Final reminder**: Security is a continuous process, not a one-time task. We will also provide further security hardening in future releases. Please assess the risks according to your security requirements and implement appropriate security controls.
 
 # 💻 Online demo
 
