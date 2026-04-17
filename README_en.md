@@ -56,6 +56,7 @@ There are still many things that need to be done, and more related development n
 
 ## Table of contents
 
+- [Security Risk Notice](#️-security-risk-notice)
 - [Introduction](#-Introduction)
 - [Features](#-features)
 - [Online demo](#-online-demo)
@@ -72,6 +73,12 @@ There are still many things that need to be done, and more related development n
 - [Contributors](#-contributors)
 
 <!-- /TOC -->
+
+# ⚠️ Security Risk Notice
+
+The HTTP data source monitoring feature allows users to configure custom HTTP request URLs. The system will actively initiate HTTP requests to those URLs on the server side, retrieve responses, and evaluate custom expressions to determine whether an alert should be triggered. This is a core feature by design, and SSRF (Server-Side Request Forgery) vulnerabilities are an unavoidable consequence.
+
+> **This system is designed as an internal ops tool. It is strongly recommended to deploy it only within your corporate intranet and never expose it to the public internet, which effectively prevents malicious SSRF attacks.**
 
 # 💻 Online demo
 
