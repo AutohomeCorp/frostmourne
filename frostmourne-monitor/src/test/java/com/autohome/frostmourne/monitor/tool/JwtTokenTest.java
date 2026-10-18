@@ -3,6 +3,7 @@ package com.autohome.frostmourne.monitor.tool;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
@@ -18,7 +19,7 @@ public class JwtTokenTest {
 
     @Test
     public void generateTokenTest() {
-        JwtToken jwtToken = new JwtToken();
+        JwtToken jwtToken = new JwtToken(Base64.getEncoder().encodeToString(key.getEncoded()));
         AccountInfo accountInfo = new AccountInfo();
         accountInfo.setAccount("admin");
         accountInfo.setTeamId(1L);
