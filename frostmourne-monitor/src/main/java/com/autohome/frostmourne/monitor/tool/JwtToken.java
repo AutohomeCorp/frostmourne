@@ -4,7 +4,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.autohome.frostmourne.common.jackson.JacksonUtil;
 import com.autohome.frostmourne.monitor.model.account.AccountInfo;
@@ -17,17 +19,24 @@ import io.jsonwebtoken.security.Keys;
 public class JwtToken {
     private static final Long EXPIRE = 1000 * 60 * 60 * 24L;
 
-    private static final Key KEY = Keys.hmacShaKeyFor("伏地魔,狗到天荒地老,狗出新高度".getBytes(StandardCharsets.UTF_8));
+    private final Key key;
 
     private static final String SALT = "别杀我，我是鲁班7号";
 
+    public JwtToken(@Value("${frostmourne.jwt.secret:}") String secret) {
+        if (!StringUtils.hasText(secret) || secret.getBytes(StandardCharsets.UTF_8).length < 32) {
+            throw new IllegalArgumentException("Configure frostmourne.jwt.secret (FROSTMOURNE_JWT_SECRET) with a unique random secret of at least 32 bytes");
+        }
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
     public String generateToken(AccountInfo accountInfo) {
         return Jwts.builder().claim("salt", SALT).claim("userinfo", JacksonUtil.serialize(accountInfo)).setSubject(accountInfo.getAccount())
-            .setExpiration(new Date(System.currentTimeMillis() + EXPIRE)).signWith(KEY).compact();
+            .setExpiration(new Date(System.currentTimeMillis() + EXPIRE)).signWith(key).compact();
     }
 
     public Claims parseToken(String token) {
-        return Jwts.parser().require("salt", SALT).setSigningKey(KEY).parseClaimsJws(token).getBody();
+        return Jwts.parser().require("salt", SALT).setSigningKey(key).parseClaimsJws(token).getBody();
     }
 
     public String parseAccount(String token) {

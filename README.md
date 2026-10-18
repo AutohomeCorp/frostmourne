@@ -101,6 +101,18 @@
 
 # 🧰 部署
 
+### JWT 签名密钥
+
+启动前必须通过环境变量 `FROSTMOURNE_JWT_SECRET` 或 Spring 配置项 `frostmourne.jwt.secret` 设置独立的随机签名密钥（至少 32 字节），例如：
+
+```bash
+export FROSTMOURNE_JWT_SECRET="$(openssl rand -base64 64 | tr -d '\n')"
+```
+
+密钥缺失、仅含空白或不足 32 字节时，应用拒绝启动。密钥只生成一次并安全保存，重启和多实例间复用。更换原有签名密钥后，已有 Token 将失效，用户需要重新登录。
+
+Docker 部署需将该变量显式传入容器，例如在 Compose 的 `environment` 中添加 `FROSTMOURNE_JWT_SECRET: ${FROSTMOURNE_JWT_SECRET:?Set FROSTMOURNE_JWT_SECRET}`；Kubernetes 部署建议通过 Secret 注入。请使用包含本次修复的构建。
+
 #### 预备环境准备：`MySQL`数据库表创建
 > Frostmourne所有表的创建语句都在 [frostmourne.sql](./doc/mysql-schema/frostmourne.sql) 文件中。
 
